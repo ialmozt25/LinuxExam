@@ -1,0 +1,67 @@
+[
+  {
+    "id": "fp_001",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "question": "Что означает разрешение 754 в восьмеричной системе для файла?",
+    "options": [
+      { "text": "Владелец: чтение/запись/исполнение, группа: чтение/исполнение, остальные: чтение", "correct": true },
+      { "text": "Владелец: чтение/запись, группа: чтение/исполнение, остальные: чтение", "correct": false },
+      { "text": "Владелец: чтение/запись/исполнение, группа: чтение/запись, остальные: без доступа", "correct": false },
+      { "text": "Владелец: выполнение, группа: чтение/запись, остальные: чтение", "correct": false }
+    ],
+    "explanation": "Цифра 7 = rwx (владелец), 5 = r-x (группа), 4 = r-- (остальные). Каждая цифра — сумма: чтение=4, запись=2, выполнение=1."
+  },
+  {
+    "id": "fp_002",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "question": "Какая команда установит setgid-бит на директорию /shared?",
+    "options": [
+      { "text": "chmod 2755 /shared", "correct": true },
+      { "text": "chmod 1755 /shared", "correct": false },
+      { "text": "chmod 4755 /shared", "correct": false },
+      { "text": "chmod 755 /shared +setgid", "correct": false }
+    ],
+    "explanation": "Setgid-бит обозначается префиксом 2 перед стандартными тремя цифрами. 2755 = setgid + rwxr-xr-x. Префикс 4 — setuid, 1 — sticky bit."
+  },
+  {
+    "id": "fm_001",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "question": "Какая команда рекурсивно скопирует директорию dir1 в dir2?",
+    "options": [
+      { "text": "cp -r dir1 dir2", "correct": true },
+      { "text": "cp dir1 dir2", "correct": false },
+      { "text": "copy -r dir1 dir2", "correct": false },
+      { "text": "mv -r dir1 dir2", "correct": false }
+    ],
+    "explanation": "Флаг -r (или -R) указывает команде cp копировать директорию рекурсивно — вместе со всем содержимым и поддиректориями."
+  },
+  {
+    "id": "fm_002",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "question": "Какой командой можно найти все файлы с расширением .conf в директории /etc?",
+    "options": [
+      { "text": "find /etc -name '*.conf'", "correct": true },
+      { "text": "find /etc -type d '*.conf'", "correct": false },
+      { "text": "search /etc '*.conf'", "correct": false },
+      { "text": "ls /etc/*.conf -recursive", "correct": false }
+    ],
+    "explanation": "Команда find с параметром -name выполняет поиск по имени. Шаблон '*.conf' должен быть в кавычках, чтобы оболочка не раскрыла его до передачи команде."
+  },
+  {
+    "id": "pm_001",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "question": "Сигнал SIGKILL имеет номер 9. Какое утверждение верно?",
+    "options": [
+      { "text": "Процесс не может перехватить или игнорировать SIGKILL — он завершается принудительно", "correct": true },
+      { "text": "Процесс может перехватить SIGKILL и корректно освободить ресурсы", "correct": false },
+      { "text": "SIGKILL отправляется по умолчанию командой kill без аргументов", "correct": false },
+      { "text": "SIGKILL эквивалентен SIGTERM — различий нет", "correct": false }
+    ],
+    "explanation": "SIGKILL (9) — это безусловное завершение на уровне ядра. В отличие от SIGTERM (15), процесс не может его перехватить, обработать или проигнорировать. Используйте как крайнюю меру."
+  }
+]
