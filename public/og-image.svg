@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <rect width="640" height="360" fill="#1E1E1E"/>
+  <text x="320" y="170" text-anchor="middle" font-family="Consolas,monospace" font-size="56" font-weight="700" fill="#FFFFFF">LinuxExam</text>
+  <text x="320" y="220" text-anchor="middle" font-family="Consolas,monospace" font-size="22" fill="#B0B0B0">Тренажёр RHCSA</text>
+  <text x="320" y="270" text-anchor="middle" font-family="Consolas,monospace" font-size="16" fill="#2196F3">$ rhcsa --start</text>
+</svg>
