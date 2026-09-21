@@ -29,3 +29,9 @@ scripts/
 test-results/
 playwright-report/
 blob-report/
+*.bak
+.tmp-*
+.vite/
+coverage/
+.wrangler/
+.bolt/
