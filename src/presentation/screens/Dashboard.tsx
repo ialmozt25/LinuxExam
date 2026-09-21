@@ -1,4 +1,4 @@
-import { useEffect, type CSSProperties } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { ShieldCheck, FolderOpen, Cpu } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
@@ -8,11 +8,7 @@ import { isTMA } from '@telegram-apps/sdk-react';
 import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { XpBar } from '@/presentation/components/XpBar';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
-
-// CSS fallback for browsers without dvh support (older Safari/Chrome).
-// Two declarations of minHeight cannot coexist in one object literal (TS1117),
-// so the vh fallback lives in its own object and is overridden by dvh via spread.
-const VIEWPORT_MIN_HEIGHT_FALLBACK: CSSProperties = { minHeight: '100vh' };
+import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 
 export default function Dashboard() {
   const questions = useQuizStore((s) => s.questions);
@@ -47,20 +43,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div
-      style={{
-        ...VIEWPORT_MIN_HEIGHT_FALLBACK,
-        minHeight: '100dvh',
-        background: COLORS.background,
-        color: COLORS.textPrimary,
-        paddingTop: SPACING.md,
-        paddingLeft: SPACING.md,
-        paddingRight: SPACING.md,
-        paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
-        maxWidth: LAYOUT.containerMaxWidth,
-        margin: '0 auto',
-      }}
-    >
+    <ScreenContainer>
       <h1 style={{ fontSize: 28, fontWeight: 700, margin: 0 }}>Тренажёр RHCSA</h1>
 
       <div
@@ -163,6 +146,6 @@ export default function Dashboard() {
           Продолжить
         </button>
       )}
-    </div>
+    </ScreenContainer>
   );
 }
