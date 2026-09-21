@@ -237,14 +237,30 @@ export default function Question() {
       >
         {currentQuestion.options.map((option, index) => {
           const isSelected = existingAnswer?.selectedIndex === index;
-          let backgroundColor: string = '#252525';
+          const isRevealedCorrect = hasAnswered && !isSelected && option.correct;
+
+          // Border WIDTH is constant (2px) in every state - selecting an option
+          // must never shift layout. Only color, background, box-shadow and
+          // opacity change. The 3px inset bar marks the user's own pick.
+          let backgroundColor = '#252525';
+          let borderColor = 'var(--border-subtle)';
+          let boxShadow = 'none';
+          let opacity = 1;
+
           if (hasAnswered && existingAnswer) {
             if (isSelected && existingAnswer.isCorrect) {
-              backgroundColor = COLORS.correct;
+              backgroundColor = 'rgba(76,175,80,0.15)';
+              borderColor = '#4CAF50';
+              boxShadow = 'inset 3px 0 0 #4CAF50';
             } else if (isSelected && !existingAnswer.isCorrect) {
-              backgroundColor = COLORS.wrong;
-            } else if (!isSelected && option.correct) {
-              backgroundColor = COLORS.surfaceHover;
+              backgroundColor = 'rgba(244,67,54,0.15)';
+              borderColor = '#F44336';
+              boxShadow = 'inset 3px 0 0 #F44336';
+            } else if (isRevealedCorrect) {
+              backgroundColor = 'transparent';
+              borderColor = '#4CAF50';
+            } else {
+              opacity = 0.55;
             }
           }
           const shouldPulse = hasAnswered && option.correct;
@@ -269,7 +285,8 @@ export default function Question() {
                   color: COLORS.textPrimary,
                   padding: SPACING.md,
                   borderRadius: '12px',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  border: `2px solid ${borderColor}`,
+                  boxShadow,
                   textAlign: 'left',
                   cursor: hasAnswered ? 'default' : 'pointer',
                   fontSize: 14,
@@ -279,7 +296,7 @@ export default function Question() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: SPACING.sm,
-                  opacity: 1,
+                  opacity: hasAnswered ? opacity : 1,
                   width: '100%',
                 }}
               >
@@ -336,7 +353,12 @@ export default function Question() {
             </div>
             <div
               ref={explanationRef}
-              style={{ fontSize: 14, color: COLORS.textPrimary, lineHeight: 1.5 }}
+              style={{
+                fontSize: 14,
+                color: COLORS.textPrimary,
+                lineHeight: 1.5,
+                paddingBottom: '32px',
+              }}
             >
               {currentQuestion.explanation}
             </div>
