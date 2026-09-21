@@ -21,7 +21,7 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    host: 'tg-mini-app.local',
+    host: 'localhost',
     https: true,
   },
 });
