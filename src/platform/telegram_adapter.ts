@@ -8,6 +8,7 @@ import {
   miniApp,
   initData,
   swipeBehavior,
+  shareURL,
 } from '@telegram-apps/sdk-react';
 
 /**
@@ -88,4 +89,30 @@ export function getRawInitData(): string {
   } catch {
     return '';
   }
+}
+
+/**
+ * Shares a result link.
+ *
+ * Inside Telegram this goes through the SDK's `shareURL` (Telegram Share Links),
+ * because `window.open` is blocked in the iOS Telegram WebView. Outside Telegram,
+ * or when the SDK method is unavailable, it falls back to opening the t.me share
+ * link in a new tab.
+ */
+export function shareResult(url: string, text: string): void {
+  if (isTMA()) {
+    try {
+      if (typeof shareURL === 'function' && shareURL.isAvailable?.() !== false) {
+        shareURL(url, text);
+        return;
+      }
+    } catch (e) {
+      console.warn('shareURL failed:', e);
+    }
+  }
+  window.open(
+    'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text),
+    '_blank',
+    'noopener,noreferrer'
+  );
 }

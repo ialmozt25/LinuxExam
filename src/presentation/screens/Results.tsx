@@ -1,5 +1,6 @@
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useQuizStore } from '@/store/quizStore';
+import { shareResult } from '@/platform/telegram_adapter';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 
@@ -219,8 +220,7 @@ export default function Results() {
             type="button"
             onClick={() => {
               const text = `Прошёл ${correct}/${answered} в Тренажёре RHCSA (${accuracy}%)`;
-              const url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
-              window.open(url, '_blank', 'noopener,noreferrer');
+              shareResult(shareUrl, text);
             }}
             style={{
               width: '100%',
