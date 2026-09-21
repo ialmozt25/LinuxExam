@@ -3,6 +3,7 @@ import { useQuizStore, FREE_QUESTION_LIMIT } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { defaultPaymentProvider } from '@/platform/payment_provider';
+import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 
 /**
  * PAYWALL BEHAVIOR (INTENDED - do not change):
@@ -46,19 +47,7 @@ export default function Paywall() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        background: COLORS.background,
-        color: COLORS.textPrimary,
-        padding: SPACING.md,
-        maxWidth: LAYOUT.containerMaxWidth,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
+    <ScreenContainer style={{ justifyContent: 'center' }}>
       <h2
         style={{
           fontSize: 22,
@@ -155,6 +144,6 @@ export default function Paywall() {
       </button>
 
       {/* TODO(payments): add "Оплатить Stars" secondary button in Step 5 */}
-    </div>
+    </ScreenContainer>
   );
 }
