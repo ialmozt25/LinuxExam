@@ -1,27 +1,27 @@
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { ShieldCheck, FolderOpen, Cpu } from 'lucide-react';
+import { ShieldCheck, FolderOpen, Cpu, Flame } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { isTMA } from '@telegram-apps/sdk-react';
-import { StreakBadge } from '@/presentation/components/StreakBadge';
-import { XpBar } from '@/presentation/components/XpBar';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 
 export default function Dashboard() {
   const questions = useQuizStore((s) => s.questions);
   const navigateTo = useQuizStore((s) => s.navigateTo);
+  const streak = useQuizStore((s) => s.streak);
+  const totalXp = useQuizStore((s) => s.totalXp);
 
   // CRITICAL: useShallow with PRIMITIVES ONLY.
   // getProgress() returns a new object each call. useShallow on the full
   // object still re-renders because the object reference changes.
   // Solution: return only primitives from the selector.
-  const { answered, completion } = useQuizStore(
+  const { answered } = useQuizStore(
     useShallow((s) => {
       const p = s.getProgress();
-      return { answered: p.answered, completion: p.completion };
+      return { answered: p.answered };
     })
   );
 
@@ -42,53 +42,127 @@ export default function Dashboard() {
     { key: 'process_management' as const, title: 'Управление процессами', Icon: Cpu },
   ];
 
+  const totalQuestions = questions.length;
+  const progressPercent = totalQuestions > 0 ? (answered / totalQuestions) * 100 : 0;
+  const level = Math.floor(totalXp / 100) + 1;
+  const xpPercent = totalXp % 100;
+
   return (
     <ScreenContainer>
-      <h1 style={{ fontSize: 28, fontWeight: 700, margin: 0 }}>Тренажёр RHCSA</h1>
-
+      {/* Status strip */}
       <div
+        id="status-strip"
         style={{
           display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          gap: SPACING.md,
-          marginTop: SPACING.sm,
+          paddingBottom: '12px',
+          borderBottom: '1px solid var(--border-subtle)',
+          fontSize: '13px',
+          color: 'var(--text-secondary)',
         }}
       >
-        <StreakBadge />
-        <XpBar />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Flame size={16} color="var(--warning)" aria-hidden="true" />
+          <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{streak}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>Уровень {level}</span>
+          <span
+            role="progressbar"
+            aria-valuenow={xpPercent}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label="Прогресс уровня"
+            style={{
+              display: 'inline-block',
+              width: '40px',
+              height: '4px',
+              background: 'var(--bg-surface)',
+              borderRadius: '2px',
+              overflow: 'hidden',
+            }}
+          >
+            <span
+              style={{
+                display: 'block',
+                width: `${xpPercent}%`,
+                height: '100%',
+                background: 'var(--accent)',
+                transition: 'width 0.3s ease',
+              }}
+            />
+          </span>
+        </div>
       </div>
-      <p style={{ fontSize: 14, color: COLORS.textSecondary, marginTop: SPACING.xs }}>
-        Подготовка к сертификации Linux
-      </p>
 
-      <div
-        role="progressbar"
-        aria-valuenow={completion}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label="Прогресс прохождения"
-        style={{
-          height: LAYOUT.progressBarHeight,
-          background: COLORS.surface,
-          borderRadius: LAYOUT.progressBarRadius,
-          marginTop: SPACING.lg,
-          overflow: 'hidden',
-        }}
-      >
+      {/* Title block */}
+      <div style={{ marginTop: '24px' }}>
+        <h1
+          style={{
+            fontSize: '28px',
+            fontWeight: 700,
+            letterSpacing: '-0.5px',
+            margin: 0,
+            color: 'var(--text-primary)',
+          }}
+        >
+          LinuxExam
+        </h1>
+        <p
+          style={{
+            fontSize: '14px',
+            color: 'var(--text-secondary)',
+            letterSpacing: '0.3px',
+            textTransform: 'uppercase',
+            margin: '4px 0 0 0',
+          }}
+        >
+          RHCSA · COMPTIA LINUX+
+        </p>
+      </div>
+
+      {/* Progress */}
+      <div style={{ marginTop: '24px' }}>
         <div
           style={{
-            width: `${completion}%`,
-            height: '100%',
-            background: COLORS.primary,
-            borderRadius: LAYOUT.progressBarRadius,
-            transition: 'width 0.3s ease',
+            display: 'flex',
+            justifyContent: 'space-between',
+            fontSize: '12px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+            color: 'var(--text-secondary)',
           }}
-        />
+        >
+          <span>Прогресс</span>
+          <span>
+            {answered} из {totalQuestions}
+          </span>
+        </div>
+        <div
+          role="progressbar"
+          aria-valuenow={progressPercent}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Прогресс теста"
+          style={{
+            marginTop: '8px',
+            height: '4px',
+            background: 'var(--bg-surface)',
+            borderRadius: '2px',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              width: `${progressPercent}%`,
+              height: '100%',
+              background: 'var(--accent)',
+              transition: 'width 0.3s ease',
+            }}
+          />
+        </div>
       </div>
-
-      <p style={{ fontSize: 12, color: COLORS.textSecondary, marginTop: SPACING.sm }}>
-        {`Пройдено ${answered} из ${questions.length} ${pluralizeQuestions(questions.length)}`}
-      </p>
 
       <div
         className="grid grid-cols-1 md:grid-cols-3"
