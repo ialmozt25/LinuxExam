@@ -118,7 +118,7 @@ export default function Dashboard() {
             margin: '4px 0 0 0',
           }}
         >
-          RHCSA · COMPTIA LINUX+
+          Подготовка к сертификации
         </p>
       </div>
 
@@ -220,6 +220,22 @@ export default function Dashboard() {
           Продолжить
         </button>
       )}
-    </ScreenContainer>
+      {/* Legal disclaimer — trademark safety (independent trainer notice) */}
+      <div
+        data-disclaimer="legal"
+        style={{
+          marginTop: 'var(--space-6)',
+          paddingTop: 'var(--space-3)',
+          borderTop: '1px solid var(--border-subtle)',
+          fontSize: 'var(--text-xs)',
+          color: 'var(--text-secondary)',
+          lineHeight: 1.5,
+        }}
+      >
+        LinuxExam — независимый тренажёр. Не аффилирован с Red Hat, Inc. и CompTIA.
+        RHCSA® — торговая марка Red Hat, Inc. CompTIA® и Linux+® — торговые марки CompTIA.
+        Вопросы оригинальные, основаны на публично доступных exam objectives.
+      </div>
+</ScreenContainer>
   );
 }
