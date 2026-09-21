@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
@@ -22,6 +22,7 @@ export default function Question() {
   const isPaywallVisible = useQuizStore((s) => s.isPaywallVisible);
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const reduceMotion = useReducedMotion();
+  const explanationRef = useRef<HTMLDivElement>(null);
 
   // Derived values are computed BEFORE the early returns below so the Telegram
   // hooks can be called unconditionally (rules of hooks require it).
@@ -55,6 +56,19 @@ export default function Question() {
       document.getElementById('root') ?? document.scrollingElement ?? document.documentElement;
     el.scrollTop = 0;
   }, [currentIndex]);
+
+  // Auto-scroll to the explanation once the current question has been answered.
+  useEffect(() => {
+    if (!existingAnswer) return;
+    const el = explanationRef.current;
+    // jsdom (tests) does not implement scrollIntoView — bail out instead of throwing.
+    if (!el || typeof el.scrollIntoView !== 'function') return;
+    // 200ms lets the explanation enter-animation start before scrolling.
+    const t = window.setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 200);
+    return () => window.clearTimeout(t);
+  }, [existingAnswer]);
 
   // Paywall state (Paywall renders its own ScreenContainer — wrapping here would
   // double the padding/safe-area insets, so this early return stays unwrapped).
@@ -279,7 +293,10 @@ export default function Question() {
             >
               {isCorrectAnswer ? 'Верно' : 'Неверно'}
             </div>
-            <div style={{ fontSize: 14, color: COLORS.textPrimary, lineHeight: 1.5 }}>
+            <div
+              ref={explanationRef}
+              style={{ fontSize: 14, color: COLORS.textPrimary, lineHeight: 1.5 }}
+            >
               {currentQuestion.explanation}
             </div>
           </motion.div>
