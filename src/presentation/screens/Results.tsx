@@ -15,7 +15,8 @@ export default function Results() {
 
   // Reset scroll when the results screen mounts.
   useEffect(() => {
-    const el = document.scrollingElement || document.documentElement;
+    const el =
+      document.getElementById('root') ?? document.scrollingElement ?? document.documentElement;
     el.scrollTop = 0;
   }, []);
 

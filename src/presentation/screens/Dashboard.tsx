@@ -35,7 +35,8 @@ export default function Dashboard() {
 
   // Reset scroll when the dashboard mounts.
   useEffect(() => {
-    const el = document.scrollingElement || document.documentElement;
+    const el =
+      document.getElementById('root') ?? document.scrollingElement ?? document.documentElement;
     el.scrollTop = 0;
   }, []);
 

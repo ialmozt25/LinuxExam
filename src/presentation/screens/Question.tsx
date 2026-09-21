@@ -49,10 +49,10 @@ export default function Question() {
 
   // Reset scroll when the question changes (must stay before any conditional return).
   useEffect(() => {
-    // Prefer document.scrollingElement (works in WebView), fallback to documentElement.
-    const el = document.scrollingElement || document.documentElement;
+    // #root is the sole scroll container (html/body are overflow:hidden), with fallbacks.
+    const el =
+      document.getElementById('root') ?? document.scrollingElement ?? document.documentElement;
     el.scrollTop = 0;
-    if (typeof window.scrollTo === 'function') window.scrollTo(0, 0);
   }, [currentIndex]);
 
   // Paywall state
