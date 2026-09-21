@@ -118,7 +118,7 @@ export default function Dashboard() {
             margin: '4px 0 0 0',
           }}
         >
-          Подготовка к сертификации
+          Подготовка к RHCSA за 15 минут в день
         </p>
       </div>
 
