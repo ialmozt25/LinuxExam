@@ -9,6 +9,7 @@ import { MotionButton } from '@/presentation/components/MotionButton';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/useTelegramBackButton';
 import { impact, notify } from '@/hooks/useTelegramHaptics';
+import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 
 export default function Question() {
   const currentQuestion = useQuizStore((s) => s.questions[s.currentIndex] ?? null);
@@ -55,7 +56,8 @@ export default function Question() {
     el.scrollTop = 0;
   }, [currentIndex]);
 
-  // Paywall state
+  // Paywall state (Paywall renders its own ScreenContainer — wrapping here would
+  // double the padding/safe-area insets, so this early return stays unwrapped).
   if (isPaywallVisible) {
     return <Paywall />;
   }
@@ -63,16 +65,7 @@ export default function Question() {
   // No question loaded
   if (!currentQuestion) {
     return (
-      <div
-        style={{
-          minHeight: '100dvh',
-          background: COLORS.background,
-          color: COLORS.textPrimary,
-          padding: SPACING.md,
-          maxWidth: LAYOUT.containerMaxWidth,
-          margin: '0 auto',
-        }}
-      >
+      <ScreenContainer>
         <p>Вопросы не загружены</p>
         <button
           type="button"
@@ -91,7 +84,7 @@ export default function Question() {
         >
           К темам
         </button>
-      </div>
+      </ScreenContainer>
     );
   }
 
@@ -107,19 +100,7 @@ export default function Question() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        background: COLORS.background,
-        color: COLORS.textPrimary,
-        paddingTop: SPACING.md,
-        paddingLeft: SPACING.md,
-        paddingRight: SPACING.md,
-        paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
-        maxWidth: LAYOUT.containerMaxWidth,
-        margin: '0 auto',
-      }}
-    >
+    <ScreenContainer>
       {/* Header */}
       <div
         style={{
@@ -336,6 +317,6 @@ export default function Question() {
           {isLastQuestion ? 'Завершить' : 'Следующий вопрос'} <ChevronRight size={20} />
         </button>
       )}
-    </div>
+    </ScreenContainer>
   );
 }
