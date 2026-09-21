@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('full quiz journey', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Тренажёр RHCSA')).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Продолжить' }).click();
 

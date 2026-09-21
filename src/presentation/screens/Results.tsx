@@ -220,7 +220,7 @@ export default function Results() {
           <button
             type="button"
             onClick={() => {
-              const text = `Прошёл ${correct}/${answered} в Тренажёре RHCSA (${accuracy}%)`;
+              const text = `Прошёл ${correct}/${answered} в LinuxExam (${accuracy}%)`;
               shareResult(shareUrl, text);
             }}
             style={{
