@@ -57,18 +57,59 @@ export default function Question() {
     el.scrollTop = 0;
   }, [currentIndex]);
 
-  // Auto-scroll to the explanation once the current question has been answered.
+  // Auto-scroll to the explanation once the current question is answered.
+  // Dependency key is selectedIndex — not the object — so it triggers
+  // only when a new answer appears for the current question.
+  const answerKey = existingAnswer?.selectedIndex ?? -1;
+
   useEffect(() => {
-    if (!existingAnswer) return;
+    if (answerKey < 0) return;
     const el = explanationRef.current;
-    // jsdom (tests) does not implement scrollIntoView — bail out instead of throwing.
-    if (!el || typeof el.scrollIntoView !== 'function') return;
-    // 200ms lets the explanation enter-animation start before scrolling.
+    if (!el) return;
+
+    const root = document.getElementById('root');
+    if (!root) return;
+    if (typeof root.scrollTo !== 'function') return;
+
+    // 350ms — explanation enter-animation (250ms) + buffer.
     const t = window.setTimeout(() => {
-      el.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }, 200);
+      try {
+        const elRect = el.getBoundingClientRect();
+        const rootRect = root.getBoundingClientRect();
+
+        // Absolute position of the explanation within the scrollable content.
+        const elTop = elRect.top - rootRect.top + root.scrollTop;
+        const elHeight = elRect.height;
+        const rootHeight = rootRect.height;
+
+        // Skip if already fully visible (with a 16px margin).
+        const alreadyVisible =
+          elTop >= root.scrollTop + 16 && elTop + elHeight <= root.scrollTop + rootHeight - 16;
+        if (alreadyVisible) return;
+
+        const padding = 24; // breathing room
+        let target: number;
+
+        if (elHeight + padding * 2 <= rootHeight) {
+          // Short explanation: center it vertically.
+          target = elTop - (rootHeight - elHeight) / 2;
+        } else {
+          // Tall explanation: align its top with padding.
+          target = elTop - padding;
+        }
+
+        // Clamp to the valid scroll range.
+        const maxScroll = Math.max(0, root.scrollHeight - rootHeight);
+        target = Math.max(0, Math.min(target, maxScroll));
+
+        root.scrollTo({ top: target, behavior: 'smooth' });
+      } catch {
+        // jsdom does not implement scrollTo — silent bail.
+      }
+    }, 350);
+
     return () => window.clearTimeout(t);
-  }, [existingAnswer]);
+  }, [answerKey]);
 
   // Paywall state (Paywall renders its own ScreenContainer — wrapping here would
   // double the padding/safe-area insets, so this early return stays unwrapped).
