@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useEffect, type CSSProperties } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { ShieldCheck, FolderOpen, Cpu } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
@@ -32,6 +32,12 @@ export default function Dashboard() {
   const isTelegram = isTMA();
 
   useTelegramMainButton('Продолжить', () => navigateTo('question'));
+
+  // Reset scroll when the dashboard mounts.
+  useEffect(() => {
+    const el = document.scrollingElement || document.documentElement;
+    el.scrollTop = 0;
+  }, []);
 
   const TOPICS = [
     { key: 'file_permissions' as const, title: 'Права доступа', Icon: ShieldCheck },

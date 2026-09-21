@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useQuizStore } from '@/store/quizStore';
 import { shareResult } from '@/platform/telegram_adapter';
@@ -11,6 +12,13 @@ export default function Results() {
   const resetProgress = useQuizStore((s) => s.resetProgress);
 
   const isTelegram = isTMA();
+
+  // Reset scroll when the results screen mounts.
+  useEffect(() => {
+    const el = document.scrollingElement || document.documentElement;
+    el.scrollTop = 0;
+  }, []);
+
   const shareUrl =
     typeof window !== 'undefined' && window.location.origin
       ? window.location.origin + window.location.pathname

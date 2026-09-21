@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
@@ -45,6 +46,14 @@ export default function Question() {
     impact('light');
     previousQuestion();
   }, currentIndex > 0);
+
+  // Reset scroll when the question changes (must stay before any conditional return).
+  useEffect(() => {
+    // Prefer document.scrollingElement (works in WebView), fallback to documentElement.
+    const el = document.scrollingElement || document.documentElement;
+    el.scrollTop = 0;
+    if (typeof window.scrollTo === 'function') window.scrollTo(0, 0);
+  }, [currentIndex]);
 
   // Paywall state
   if (isPaywallVisible) {
