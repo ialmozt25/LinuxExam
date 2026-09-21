@@ -39,6 +39,10 @@ interface QuizState {
   // Resume support
   isQuizInProgress: boolean;
 
+  // Exam mode. Only the gate is introduced here; COMMIT B adds the rest of
+  // the exam state (timing, question ids, answers, result).
+  examActive: boolean;
+
   loadQuestions: () => void;
   recordActivity: () => void;
   navigateTo: (screen: Screen) => void;
@@ -56,6 +60,7 @@ interface QuizState {
   resumeQuiz: () => void;
   startReviewQuiz: (ids: string[]) => void;
   answerReview: (questionId: string, selectedIndex: number) => void;
+  startRegularQuiz: () => void;
 }
 
 const questionRepo = new QuestionRepository();
@@ -77,6 +82,7 @@ export const useQuizStore = create<QuizState>()(
       reviewQuestionIds: null,
       reviewAnswers: [],
       isQuizInProgress: false,
+      examActive: false,
 
       loadQuestions: () => {
         set({ isLoading: true });
@@ -88,6 +94,15 @@ export const useQuizStore = create<QuizState>()(
       },
 
       navigateTo: (screen) => set({ currentScreen: screen }),
+
+      // Explicitly leaves review mode and returns to the regular stream.
+      // Deliberately does NOT touch answers, wrongQuestionIds or exam state.
+      startRegularQuiz: () =>
+        set({
+          reviewQuestionIds: null,
+          reviewAnswers: [],
+          currentIndex: 0,
+        }),
 
       recordActivity: () => {
         const today = new Date().toISOString().slice(0, 10);

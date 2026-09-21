@@ -17,6 +17,8 @@ export default function Dashboard() {
   const currentIndex = useQuizStore((s) => s.currentIndex);
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
   const resumeQuiz = useQuizStore((s) => s.resumeQuiz);
+  const examActive = useQuizStore((s) => s.examActive);
+  const startRegularQuiz = useQuizStore((s) => s.startRegularQuiz);
 
   // CRITICAL: useShallow with PRIMITIVES ONLY.
   // getProgress() returns a new object each call. useShallow on the full
@@ -248,10 +250,15 @@ export default function Dashboard() {
         })}
       </div>
 
-      {!isTelegram && (
+      {!examActive && !isTelegram && (
         <button
           type="button"
-          onClick={() => navigateTo('question')}
+          onClick={() => {
+            if (reviewQuestionIds) {
+              startRegularQuiz();
+            }
+            navigateTo('question');
+          }}
           style={{
             background: COLORS.primary,
             color: COLORS.textPrimary,
