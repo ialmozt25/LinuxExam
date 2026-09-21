@@ -25,8 +25,12 @@ interface QuizState {
   isLoading: boolean;
   isPaywallVisible: boolean;
   currentScreen: Screen;
+  streak: number;
+  lastActiveDate: string | null;
+  totalXp: number;
 
   loadQuestions: () => void;
+  recordActivity: () => void;
   navigateTo: (screen: Screen) => void;
   answerQuestion: (questionId: string, selectedIndex: number) => void;
   nextQuestion: () => void;
@@ -52,6 +56,9 @@ export const useQuizStore = create<QuizState>()(
       isLoading: false,
       isPaywallVisible: false,
       currentScreen: 'dashboard',
+      streak: 0,
+      lastActiveDate: null,
+      totalXp: 0,
 
       loadQuestions: () => {
         set({ isLoading: true });
@@ -63,6 +70,18 @@ export const useQuizStore = create<QuizState>()(
       },
 
       navigateTo: (screen) => set({ currentScreen: screen }),
+
+      recordActivity: () => {
+        const today = new Date().toISOString().slice(0, 10);
+        const { lastActiveDate, streak, totalXp } = get();
+        if (lastActiveDate === today) return;
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        set({
+          streak: lastActiveDate === yesterday ? streak + 1 : 1,
+          lastActiveDate: today,
+          totalXp: totalXp + 10,
+        });
+      },
 
       answerQuestion: (questionId, selectedIndex) => {
         if (!get().canAccessQuestion(get().currentIndex)) {
@@ -79,6 +98,7 @@ export const useQuizStore = create<QuizState>()(
             ? get().answers.map((a, i) => (i === existingIndex ? record : a))
             : [...get().answers, record];
         set({ answers });
+        get().recordActivity();
       },
 
       nextQuestion: () => {
@@ -135,14 +155,22 @@ export const useQuizStore = create<QuizState>()(
         answers: state.answers,
         currentIndex: state.currentIndex,
         isPro: state.isPro,
+        streak: state.streak,
+        lastActiveDate: state.lastActiveDate,
+        totalXp: state.totalXp,
       }),
-      version: 1,
+      version: 2,
       migrate: (persistedState, version) => {
-        const persisted = persistedState as Partial<QuizState>;
-        if (version === 0 || persisted.currentIndex === undefined) {
-          return { ...persisted, currentIndex: 0, isPro: false };
+        if (version < 2) {
+          return {
+            // defaults FIRST so they cannot overwrite existing values
+            streak: 0,
+            lastActiveDate: null,
+            totalXp: 0,
+            ...(persistedState as Partial<QuizState>),
+          } as Partial<QuizState>;
         }
-        return persisted;
+        return persistedState as Partial<QuizState>;
       },
     }
   )

@@ -26,3 +26,6 @@ src/data/questions.json.bak
 .tmp-verify/
 scripts/
 *.pre-step6-final
+test-results/
+playwright-report/
+blob-report/

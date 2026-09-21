@@ -1,7 +1,9 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import Paywall from '@/presentation/screens/Paywall';
+import { MotionButton } from '@/presentation/components/MotionButton';
 
 export default function Question() {
   const currentQuestion = useQuizStore((s) => s.questions[s.currentIndex] ?? null);
@@ -13,6 +15,7 @@ export default function Question() {
   const previousQuestion = useQuizStore((s) => s.previousQuestion);
   const isPaywallVisible = useQuizStore((s) => s.isPaywallVisible);
   const navigateTo = useQuizStore((s) => s.navigateTo);
+  const reduceMotion = useReducedMotion();
 
   // Paywall state
   if (isPaywallVisible) {
@@ -150,63 +153,77 @@ export default function Question() {
               backgroundColor = COLORS.surfaceHover;
             }
           }
+          const shouldPulse = hasAnswered && option.correct;
+
           return (
-            <button
+            <motion.div
               key={index}
-              type="button"
-              disabled={hasAnswered}
-              onClick={() => answerQuestion(currentQuestion.id, index)}
-              style={{
-                background: backgroundColor,
-                color: COLORS.textPrimary,
-                padding: SPACING.md,
-                borderRadius: LAYOUT.cardRadius,
-                border: 'none',
-                textAlign: 'left',
-                cursor: hasAnswered ? 'default' : 'pointer',
-                fontSize: 14,
-                lineHeight: 1.5,
-                fontFamily: 'inherit',
-                transition: 'background 0.2s',
-                display: 'flex',
-                alignItems: 'center',
-                gap: SPACING.sm,
-                opacity: 1,
-              }}
+              animate={shouldPulse && !reduceMotion ? { scale: [1, 1.05, 1] } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
             >
-              <span
+              <MotionButton
+                type="button"
+                disabled={hasAnswered}
+                aria-label={`Ответ ${String.fromCharCode(65 + index)}: ${option.text}`}
+                onClick={() => answerQuestion(currentQuestion.id, index)}
                 style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.1)',
+                  background: backgroundColor,
+                  color: COLORS.textPrimary,
+                  padding: SPACING.md,
+                  borderRadius: LAYOUT.cardRadius,
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: hasAnswered ? 'default' : 'pointer',
+                  fontSize: 14,
+                  lineHeight: 1.5,
+                  fontFamily: 'inherit',
+                  transition: 'background 0.2s',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 12,
-                  fontWeight: 600,
-                  flexShrink: 0,
+                  gap: SPACING.sm,
+                  opacity: 1,
+                  width: '100%',
                 }}
               >
-                {String.fromCharCode(65 + index)}
-              </span>
-              <span>{option.text}</span>
-            </button>
+                <span
+                  style={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    background: 'rgba(255,255,255,0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    flexShrink: 0,
+                  }}
+                >
+                  {String.fromCharCode(65 + index)}
+                </span>
+                <span>{option.text}</span>
+              </MotionButton>
+            </motion.div>
           );
         })}
       </div>
 
       {/* Explanation - only if answered */}
-      {hasAnswered && (
-        <div
-          style={{
-            marginTop: SPACING.lg,
-            padding: SPACING.md,
-            background: COLORS.surface,
-            borderRadius: LAYOUT.cardRadius,
-            borderLeft: `4px solid ${isCorrectAnswer ? COLORS.correct : COLORS.wrong}`,
-          }}
-        >
+      <AnimatePresence>
+        {hasAnswered && (
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              marginTop: SPACING.lg,
+              padding: SPACING.md,
+              background: COLORS.surface,
+              borderRadius: LAYOUT.cardRadius,
+              borderLeft: `4px solid ${isCorrectAnswer ? COLORS.correct : COLORS.wrong}`,
+            }}
+          >
           <div
             style={{
               fontSize: 12,
@@ -219,11 +236,12 @@ export default function Question() {
           >
             {isCorrectAnswer ? 'Верно' : 'Неверно'}
           </div>
-          <div style={{ fontSize: 14, color: COLORS.textPrimary, lineHeight: 1.5 }}>
-            {currentQuestion.explanation}
-          </div>
-        </div>
-      )}
+            <div style={{ fontSize: 14, color: COLORS.textPrimary, lineHeight: 1.5 }}>
+              {currentQuestion.explanation}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Next button */}
       <button

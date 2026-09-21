@@ -4,6 +4,8 @@ import { ShieldCheck, FolderOpen, Cpu } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
+import { StreakBadge } from '@/presentation/components/StreakBadge';
+import { XpBar } from '@/presentation/components/XpBar';
 
 // CSS fallback for browsers without dvh support (older Safari/Chrome).
 // Two declarations of minHeight cannot coexist in one object literal (TS1117),
@@ -44,6 +46,18 @@ export default function Dashboard() {
       }}
     >
       <h1 style={{ fontSize: 28, fontWeight: 700, margin: 0 }}>Тренажёр RHCSA</h1>
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: SPACING.md,
+          marginTop: SPACING.sm,
+        }}
+      >
+        <StreakBadge />
+        <XpBar />
+      </div>
       <p style={{ fontSize: 14, color: COLORS.textSecondary, marginTop: SPACING.xs }}>
         Подготовка к сертификации Linux
       </p>

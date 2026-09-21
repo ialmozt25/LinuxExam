@@ -4,8 +4,11 @@ import Dashboard from '@/presentation/screens/Dashboard';
 import Question from '@/presentation/screens/Question';
 import Results from '@/presentation/screens/Results';
 import { isTelegramWebApp, getTelegramUser } from '@/platform/telegram_adapter';
+import { useTelegramTheme } from '@/hooks/useTelegramTheme';
 
 function App() {
+  useTelegramTheme();
+
   const currentScreen = useQuizStore((s) => s.currentScreen);
   const loadQuestions = useQuizStore((s) => s.loadQuestions);
 
