@@ -22,3 +22,11 @@
 - Использовать `as`-касты для валидации JSON (нужна runtime-проверка)
 - Коммитить без предварительного `npm run typecheck`
 - Оставлять `console.warn` в production-коде
+
+## Test Infrastructure (added in UI/UX modernization)
+- Vitest 3.x (pinned for Vite 5 compatibility)
+- @testing-library/react + @testing-library/jest-dom
+- @types/jest-axe for a11y matchers
+- Playwright 1.x for E2E (chromium only)
+- motion@13 (imports from 'motion/react', NOT 'framer-motion')
+- Commands: npm run test:run, npm run test:e2e
