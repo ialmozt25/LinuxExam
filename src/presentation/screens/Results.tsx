@@ -56,7 +56,10 @@ export default function Results() {
         minHeight: '100dvh',
         background: COLORS.background,
         color: COLORS.textPrimary,
-        padding: SPACING.md,
+        paddingTop: SPACING.md,
+        paddingLeft: SPACING.md,
+        paddingRight: SPACING.md,
+        paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
         maxWidth: LAYOUT.containerMaxWidth,
         margin: '0 auto',
       }}

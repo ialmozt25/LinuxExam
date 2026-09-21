@@ -103,7 +103,10 @@ export default function Question() {
         minHeight: '100dvh',
         background: COLORS.background,
         color: COLORS.textPrimary,
-        padding: SPACING.md,
+        paddingTop: SPACING.md,
+        paddingLeft: SPACING.md,
+        paddingRight: SPACING.md,
+        paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
         maxWidth: LAYOUT.containerMaxWidth,
         margin: '0 auto',
       }}
@@ -112,7 +115,6 @@ export default function Question() {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'center',
           marginBottom: SPACING.lg,
         }}
@@ -129,26 +131,28 @@ export default function Question() {
               cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
               opacity: currentIndex === 0 ? 0.3 : 1,
               padding: SPACING.xs,
+              minWidth: '44px',
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'flex-start',
             }}
           >
             <ChevronLeft size={20} color={COLORS.textSecondary} />
           </button>
         )}
-        <div style={{ color: COLORS.textSecondary, fontSize: 14 }}>
+        <div style={{ color: COLORS.textSecondary, fontSize: 14, flex: 1, textAlign: 'center' }}>
           {`${currentIndex + 1} / ${totalQuestions}`}
         </div>
-        <div style={{ width: 28 }} aria-hidden="true" />
+        <div style={{ minWidth: '44px' }} aria-hidden="true" />
       </div>
 
       {/* Progress line */}
       <div
         style={{
-          height: LAYOUT.progressLineHeight,
-          background: COLORS.surface,
-          marginBottom: SPACING.xl,
-          borderRadius: LAYOUT.progressLineRadius,
+          height: '3px',
+          background: 'rgba(255,255,255,0.08)',
+          borderRadius: '2px',
+          marginBottom: SPACING.lg,
           overflow: 'hidden',
         }}
       >
@@ -157,13 +161,22 @@ export default function Question() {
             width: `${progressPercent}%`,
             height: '100%',
             background: COLORS.primary,
+            boxShadow: '0 0 8px rgba(33,150,243,0.5)',
             transition: 'width 0.3s ease',
           }}
         />
       </div>
 
       {/* Question */}
-      <h2 style={{ fontSize: 18, fontWeight: 600, lineHeight: 1.4, margin: 0 }}>
+      <h2
+        style={{
+          fontSize: '19px',
+          fontWeight: 600,
+          lineHeight: '1.45',
+          margin: 0,
+          marginBottom: SPACING.md,
+        }}
+      >
         {currentQuestion.question}
       </h2>
 
@@ -173,12 +186,12 @@ export default function Question() {
           display: 'flex',
           flexDirection: 'column',
           gap: SPACING.md,
-          marginTop: SPACING.xl,
+          marginTop: SPACING.lg,
         }}
       >
         {currentQuestion.options.map((option, index) => {
           const isSelected = existingAnswer?.selectedIndex === index;
-          let backgroundColor: string = COLORS.surface;
+          let backgroundColor: string = '#252525';
           if (hasAnswered && existingAnswer) {
             if (isSelected && existingAnswer.isCorrect) {
               backgroundColor = COLORS.correct;
@@ -201,18 +214,22 @@ export default function Question() {
                 disabled={hasAnswered}
                 aria-label={`Ответ ${String.fromCharCode(65 + index)}: ${option.text}`}
                 onClick={() => handleOption(index)}
+                whileTap={
+                  reduceMotion ? {} : { scale: 0.98, backgroundColor: 'rgba(33,150,243,0.15)' }
+                }
+                whileHover={reduceMotion ? {} : { borderColor: 'rgba(255,255,255,0.15)' }}
                 style={{
                   background: backgroundColor,
                   color: COLORS.textPrimary,
                   padding: SPACING.md,
-                  borderRadius: LAYOUT.cardRadius,
-                  border: 'none',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255,255,255,0.06)',
                   textAlign: 'left',
                   cursor: hasAnswered ? 'default' : 'pointer',
                   fontSize: 14,
                   lineHeight: 1.5,
                   fontFamily: 'inherit',
-                  transition: 'background 0.2s',
+                  transition: 'background 0.15s ease, border-color 0.15s ease',
                   display: 'flex',
                   alignItems: 'center',
                   gap: SPACING.sm,
