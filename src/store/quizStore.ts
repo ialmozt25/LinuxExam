@@ -39,9 +39,15 @@ interface QuizState {
   // Resume support
   isQuizInProgress: boolean;
 
-  // Exam mode. Only the gate is introduced here; COMMIT B adds the rest of
-  // the exam state (timing, question ids, answers, result).
+  // Exam mode. Only the gate + last-result slot are introduced here; COMMIT B
+  // adds the rest of the exam state (timing, question ids, answers, actions).
   examActive: boolean;
+  examLastResult: {
+    answers: AnswerRecord[];
+    startedAt: number;
+    finishedAt: number;
+    durationMs: number;
+  } | null;
 
   loadQuestions: () => void;
   recordActivity: () => void;
@@ -83,6 +89,7 @@ export const useQuizStore = create<QuizState>()(
       reviewAnswers: [],
       isQuizInProgress: false,
       examActive: false,
+      examLastResult: null,
 
       loadQuestions: () => {
         set({ isLoading: true });
@@ -96,12 +103,15 @@ export const useQuizStore = create<QuizState>()(
       navigateTo: (screen) => set({ currentScreen: screen }),
 
       // Explicitly leaves review mode and returns to the regular stream.
-      // Deliberately does NOT touch answers, wrongQuestionIds or exam state.
+      // Does NOT touch answers or wrongQuestionIds. It clears examLastResult only
+      // so a finished exam summary cannot resurface; a running exam is untouched.
       startRegularQuiz: () =>
         set({
           reviewQuestionIds: null,
           reviewAnswers: [],
           currentIndex: 0,
+          // Drop any previous exam summary so Results cannot show a stale one.
+          examLastResult: null,
         }),
 
       recordActivity: () => {
