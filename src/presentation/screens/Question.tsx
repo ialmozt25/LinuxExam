@@ -119,6 +119,7 @@ export default function Question() {
           marginBottom: SPACING.lg,
         }}
       >
+        {isTelegram && <div style={{ minWidth: '44px' }} aria-hidden="true" />}
         {!isTelegram && (
           <button
             type="button"
