@@ -5,12 +5,17 @@ import { shareResult } from '@/platform/telegram_adapter';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import { AppHeader } from '@/presentation/components/AppHeader';
 
 export default function Results() {
   const answers = useQuizStore((s) => s.answers);
   const questions = useQuizStore((s) => s.questions);
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const resetProgress = useQuizStore((s) => s.resetProgress);
+  const wrongQuestionIds = useQuizStore((s) => s.wrongQuestionIds);
+  const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
+  const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
+  const isReview = reviewQuestionIds !== null;
 
   const isTelegram = isTMA();
 
@@ -48,6 +53,8 @@ export default function Results() {
       title: topic.title,
       correct: topicCorrect,
       total: topicQuestions.length,
+      // Share of THIS topic's questions answered correctly so far.
+      percent: topicQuestions.length > 0 ? Math.round((topicCorrect / topicQuestions.length) * 100) : 0,
     };
   });
 
@@ -62,6 +69,8 @@ export default function Results() {
 
   return (
     <ScreenContainer>
+      <AppHeader onHome={handleBackToTopics} center="Результаты" />
+
       {/* Header */}
       <h1
         style={{
@@ -124,6 +133,30 @@ export default function Results() {
         )}
       </div>
 
+      {/* Review the questions answered incorrectly in the regular stream */}
+      {wrongQuestionIds.length > 0 && (
+        <button
+          type="button"
+          onClick={() => startReviewQuiz(wrongQuestionIds)}
+          style={{
+            width: '100%',
+            padding: 'var(--space-3)',
+            background: 'var(--bg-surface)',
+            color: 'var(--text-primary)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-md)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            marginTop: 'var(--space-4)',
+            marginBottom: 'var(--space-2)',
+          }}
+        >
+          {`Повторить ошибки (${wrongQuestionIds.length})`}
+        </button>
+      )}
+
       {/* Per-topic breakdown */}
       <div style={{ marginTop: SPACING.xl }}>
         <h2
@@ -158,19 +191,36 @@ export default function Results() {
                 {`${topicStat.total} ${pluralizeQuestions(topicStat.total)}`}
               </div>
             </div>
-            <div
-              style={{
-                fontSize: 16,
-                fontWeight: 600,
-                color:
-                  topicStat.correct === topicStat.total
-                    ? COLORS.correct
-                    : topicStat.correct === 0
-                      ? COLORS.wrong
-                      : COLORS.textPrimary,
-              }}
-            >
-              {`${topicStat.correct}/${topicStat.total}`}
+            <div style={{ textAlign: 'right' }}>
+              <div
+                style={{
+                  fontSize: 16,
+                  fontWeight: 600,
+                  color:
+                    topicStat.correct === topicStat.total
+                      ? COLORS.correct
+                      : topicStat.correct === 0
+                        ? COLORS.wrong
+                        : COLORS.textPrimary,
+                }}
+              >
+                {`${topicStat.correct}/${topicStat.total}`}
+              </div>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  marginTop: SPACING.xs,
+                  color:
+                    topicStat.percent >= 70
+                      ? COLORS.correct
+                      : topicStat.percent >= 40
+                        ? COLORS.primary
+                        : COLORS.wrong,
+                }}
+              >
+                {`${topicStat.percent}%`}
+              </div>
             </div>
           </div>
         ))}
@@ -178,6 +228,7 @@ export default function Results() {
 
       {/* Actions */}
       <div style={{ marginTop: SPACING.xl }}>
+        {!isReview && (
         <button
           type="button"
           onClick={handleRetry}
@@ -197,6 +248,7 @@ export default function Results() {
         >
           Пройти заново
         </button>
+        )}
         <button
           type="button"
           onClick={handleBackToTopics}

@@ -1,20 +1,23 @@
-import { useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useMemo, useRef } from 'react';
+import { ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { isTMA } from '@telegram-apps/sdk-react';
 import Paywall from '@/presentation/screens/Paywall';
 import { MotionButton } from '@/presentation/components/MotionButton';
+import { AppHeader } from '@/presentation/components/AppHeader';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/useTelegramBackButton';
 import { impact, notify } from '@/hooks/useTelegramHaptics';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 
 export default function Question() {
-  const currentQuestion = useQuizStore((s) => s.questions[s.currentIndex] ?? null);
+  const allQuestions = useQuizStore((s) => s.questions);
+  const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
+  const reviewAnswers = useQuizStore((s) => s.reviewAnswers);
+  const answerReview = useQuizStore((s) => s.answerReview);
   const currentIndex = useQuizStore((s) => s.currentIndex);
-  const totalQuestions = useQuizStore((s) => s.questions.length);
   const answers = useQuizStore((s) => s.answers);
   const answerQuestion = useQuizStore((s) => s.answerQuestion);
   const nextQuestion = useQuizStore((s) => s.nextQuestion);
@@ -24,10 +27,31 @@ export default function Question() {
   const reduceMotion = useReducedMotion();
   const explanationRef = useRef<HTMLDivElement>(null);
 
+  const isReview = reviewQuestionIds !== null;
+
+  // Active question set: the review subset when a review quiz is running,
+  // otherwise the regular list. useMemo keeps the reference stable so the
+  // derived values below do not recompute on every render.
+  const questions = useMemo(
+    () =>
+      reviewQuestionIds
+        ? allQuestions.filter((q) => reviewQuestionIds.includes(q.id))
+        : allQuestions,
+    [allQuestions, reviewQuestionIds]
+  );
+
+  // Active answer stream - reviewAnswers in review mode, answers otherwise.
+  // These streams never mix.
+  const activeAnswers = isReview ? reviewAnswers : answers;
+  const answerFn = isReview ? answerReview : answerQuestion;
+
+  const currentQuestion = questions[currentIndex] ?? null;
+  const totalQuestions = questions.length;
+
   // Derived values are computed BEFORE the early returns below so the Telegram
   // hooks can be called unconditionally (rules of hooks require it).
   const existingAnswer = currentQuestion
-    ? answers.find((a) => a.questionId === currentQuestion.id)
+    ? activeAnswers.find((a) => a.questionId === currentQuestion.id)
     : undefined;
   const hasAnswered = existingAnswer !== undefined;
   const isCorrectAnswer = existingAnswer?.isCorrect ?? false;
@@ -113,7 +137,8 @@ export default function Question() {
 
   // Paywall state (Paywall renders its own ScreenContainer — wrapping here would
   // double the padding/safe-area insets, so this early return stays unwrapped).
-  if (isPaywallVisible) {
+  // Review mode is a study mode and is never paywalled.
+  if (isPaywallVisible && !isReview) {
     return <Paywall />;
   }
 
@@ -149,48 +174,18 @@ export default function Question() {
   const handleOption = (index: number) => {
     const correct = currentQuestion.options[index].correct;
     impact('light');
-    answerQuestion(currentQuestion.id, index);
+    answerFn(currentQuestion.id, index);
     // Let the answer render first, then confirm it with the matching haptic pattern.
     setTimeout(() => (correct ? notify('success') : notify('error')), 100);
   };
 
   return (
     <ScreenContainer>
-      {/* Header */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: SPACING.lg,
-        }}
-      >
-        {isTelegram && <div style={{ minWidth: '44px' }} aria-hidden="true" />}
-        {!isTelegram && (
-          <button
-            type="button"
-            onClick={() => previousQuestion()}
-            disabled={currentIndex === 0}
-            aria-label="Предыдущий вопрос"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
-              opacity: currentIndex === 0 ? 0.3 : 1,
-              padding: SPACING.xs,
-              minWidth: '44px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-            }}
-          >
-            <ChevronLeft size={20} color={COLORS.textSecondary} />
-          </button>
-        )}
-        <div style={{ color: COLORS.textSecondary, fontSize: 14, flex: 1, textAlign: 'center' }}>
-          {`${currentIndex + 1} / ${totalQuestions}`}
-        </div>
-        <div style={{ minWidth: '44px' }} aria-hidden="true" />
-      </div>
+      <AppHeader
+        onBack={currentIndex === 0 ? undefined : () => previousQuestion()}
+        onHome={() => navigateTo('dashboard')}
+        center={`${currentIndex + 1} / ${totalQuestions}`}
+      />
 
       {/* Progress line */}
       <div

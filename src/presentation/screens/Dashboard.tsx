@@ -13,6 +13,10 @@ export default function Dashboard() {
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const streak = useQuizStore((s) => s.streak);
   const totalXp = useQuizStore((s) => s.totalXp);
+  const isQuizInProgress = useQuizStore((s) => s.isQuizInProgress);
+  const currentIndex = useQuizStore((s) => s.currentIndex);
+  const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
+  const resumeQuiz = useQuizStore((s) => s.resumeQuiz);
 
   // CRITICAL: useShallow with PRIMITIVES ONLY.
   // getProgress() returns a new object each call. useShallow on the full
@@ -164,6 +168,51 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Resume banner - only for an unfinished regular quiz, never during review */}
+      {isQuizInProgress && !reviewQuestionIds && (
+        <div
+          style={{
+            padding: 'var(--space-3)',
+            background: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-md)',
+            marginTop: 'var(--space-4)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 'var(--space-3)',
+          }}
+        >
+          <div>
+            <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>Тест не завершён</div>
+            <div
+              style={{
+                fontSize: 'var(--text-xs)',
+                color: 'var(--text-secondary)',
+                marginTop: 2,
+              }}
+            >
+              {`Вопрос ${currentIndex + 1} из ${totalQuestions}`}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={resumeQuiz}
+            style={{
+              padding: 'var(--space-2) var(--space-3)',
+              background: 'var(--accent)',
+              color: 'white',
+              border: 'none',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: 'var(--text-xs)',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            Продолжить
+          </button>
+        </div>
+      )}
       <div
         className="grid grid-cols-1 md:grid-cols-3"
         style={{ gap: SPACING.md, marginTop: SPACING.xl }}

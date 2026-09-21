@@ -4,6 +4,7 @@ import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { defaultPaymentProvider } from '@/platform/payment_provider';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import { AppHeader } from '@/presentation/components/AppHeader';
 
 /**
  * PAYWALL BEHAVIOR (INTENDED - do not change):
@@ -48,6 +49,7 @@ export default function Paywall() {
 
   return (
     <ScreenContainer style={{ justifyContent: 'center' }}>
+      <AppHeader onHome={handleClose} center="LinuxExam" />
       <h2
         style={{
           fontSize: 22,

@@ -29,6 +29,16 @@ interface QuizState {
   lastActiveDate: string | null;
   totalXp: number;
 
+  // Wrong-answer tracking for the regular stream (feeds review mode)
+  wrongQuestionIds: string[];
+
+  // REVIEW stream — fully isolated from 'answers'
+  reviewQuestionIds: string[] | null;
+  reviewAnswers: AnswerRecord[];
+
+  // Resume support
+  isQuizInProgress: boolean;
+
   loadQuestions: () => void;
   recordActivity: () => void;
   navigateTo: (screen: Screen) => void;
@@ -42,6 +52,10 @@ interface QuizState {
   getQuestionsByTopic: (topic: Topic) => Question[];
   getCurrentQuestion: () => Question | null;
   getProgress: () => ProgressMetrics;
+  getActiveQuestions: () => Question[];
+  resumeQuiz: () => void;
+  startReviewQuiz: (ids: string[]) => void;
+  answerReview: (questionId: string, selectedIndex: number) => void;
 }
 
 const questionRepo = new QuestionRepository();
@@ -59,6 +73,10 @@ export const useQuizStore = create<QuizState>()(
       streak: 0,
       lastActiveDate: null,
       totalXp: 0,
+      wrongQuestionIds: [],
+      reviewQuestionIds: null,
+      reviewAnswers: [],
+      isQuizInProgress: false,
 
       loadQuestions: () => {
         set({ isLoading: true });
@@ -98,6 +116,17 @@ export const useQuizStore = create<QuizState>()(
             ? get().answers.map((a, i) => (i === existingIndex ? record : a))
             : [...get().answers, record];
         set({ answers });
+
+        // Wrong-answer bookkeeping for review mode. This MUST NOT touch
+        // reviewAnswers or examAnswers - the three streams stay isolated.
+        const { wrongQuestionIds } = get();
+        if (!isCorrect && !wrongQuestionIds.includes(questionId)) {
+          set({ wrongQuestionIds: [...wrongQuestionIds, questionId] });
+        } else if (isCorrect && wrongQuestionIds.includes(questionId)) {
+          set({ wrongQuestionIds: wrongQuestionIds.filter((id) => id !== questionId) });
+        }
+        set({ isQuizInProgress: true });
+
         get().recordActivity();
       },
 
@@ -120,7 +149,15 @@ export const useQuizStore = create<QuizState>()(
       },
 
       resetProgress: () => {
-        set({ answers: [], currentIndex: 0, isPaywallVisible: false });
+        set({
+          answers: [],
+          currentIndex: 0,
+          isPaywallVisible: false,
+          isQuizInProgress: false,
+          wrongQuestionIds: [],
+          reviewQuestionIds: null,
+          reviewAnswers: [],
+        });
       },
 
       unlockPro: () => {
@@ -147,6 +184,43 @@ export const useQuizStore = create<QuizState>()(
       getProgress: (): ProgressMetrics => {
         return calculateProgress(get().answers, get().questions.length);
       },
+
+      // Returns the regular question list, or the review subset when a review
+      // session is active. Callers must use this instead of filtering questions
+      // themselves so indexes stay aligned with this store.
+      getActiveQuestions: (): Question[] => {
+        const { questions, reviewQuestionIds } = get();
+        if (!reviewQuestionIds) return questions;
+        return questions.filter((q) => reviewQuestionIds.includes(q.id));
+      },
+
+      resumeQuiz: () => set({ currentScreen: 'question' }),
+
+      startReviewQuiz: (ids) =>
+        set({
+          reviewQuestionIds: ids,
+          reviewAnswers: [],
+          currentIndex: 0,
+          isQuizInProgress: true,
+          currentScreen: 'question',
+        }),
+
+      // REVIEW stream. Deliberately bypasses canAccessQuestion: review is a
+      // post-hoc study mode, not new question consumption.
+      answerReview: (questionId, selectedIndex) => {
+        const { questions, reviewAnswers } = get();
+        const question = questions.find((q) => q.id === questionId);
+        if (!question) return;
+        const option = question.options[selectedIndex];
+        if (!option) return;
+        const record: AnswerRecord = { questionId, selectedIndex, isCorrect: option.correct };
+        const existingIndex = reviewAnswers.findIndex((a) => a.questionId === questionId);
+        const next =
+          existingIndex >= 0
+            ? reviewAnswers.map((a, i) => (i === existingIndex ? record : a))
+            : [...reviewAnswers, record];
+        set({ reviewAnswers: next, isQuizInProgress: true });
+      },
     }),
     {
       name: 'rhcsa_progress',
@@ -158,6 +232,10 @@ export const useQuizStore = create<QuizState>()(
         streak: state.streak,
         lastActiveDate: state.lastActiveDate,
         totalXp: state.totalXp,
+        wrongQuestionIds: state.wrongQuestionIds,
+        reviewQuestionIds: state.reviewQuestionIds,
+        reviewAnswers: state.reviewAnswers,
+        isQuizInProgress: state.isQuizInProgress,
       }),
       version: 2,
       migrate: (persistedState, version) => {
