@@ -59,3 +59,15 @@ options, explanation); их сравнение с бэкапом даёт deep-e
 Поэтому проверка схемы из шага 5 сообщает 15 сообщений только для этих 5 унаследованных
 записей (по 3 на запись: missing objective_domain, missing subtopic и objective_domain invalid).
 Для новых 30 вопросов та же проверка проходит чисто.
+---
+
+## Post-Merge Adjustments (Step 6)
+- Metadata: fp_001->9, fp_002->9, fm_001->1, fm_002->1, pm_001->3.
+- FREE_QUESTION_LIMIT: 3 -> 5.
+- Snapshot: src/data/state.step6.json.
+- TECHNICAL DEBT: file_permissions domain mapping (9 vs 1/5) pending.
+
+---
+
+## Correction (2026-09-21)
+Раннее замечание про «15 сообщений schema check» относится к состоянию ДО добавления метаданных. После Step 6 все 35 вопросов проходят схему без ошибок.

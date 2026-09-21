@@ -22,3 +22,7 @@ dist-ssr
 *.sw?
 .env
 src/data/questions.json.bak
+.tmp-step6/
+.tmp-verify/
+scripts/
+*.pre-step6-final

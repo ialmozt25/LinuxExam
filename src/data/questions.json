@@ -3,6 +3,8 @@
     "id": "fp_001",
     "topic": "file_permissions",
     "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "numeric modes",
     "question": "Что означает разрешение 754 в восьмеричной системе для файла?",
     "options": [
       {
@@ -28,6 +30,8 @@
     "id": "fp_002",
     "topic": "file_permissions",
     "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "special bits",
     "question": "Какая команда установит setgid-бит на директорию /shared?",
     "options": [
       {
@@ -53,6 +57,8 @@
     "id": "fm_001",
     "topic": "file_management",
     "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "cp / mv / ln (symbolic vs hard)",
     "question": "Какая команда рекурсивно скопирует директорию dir1 в dir2?",
     "options": [
       {
@@ -78,6 +84,8 @@
     "id": "fm_002",
     "topic": "file_management",
     "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "find: -name, -type, -mtime, -size, -exec",
     "question": "Какой командой можно найти все файлы с расширением .conf в директории /etc?",
     "options": [
       {
@@ -103,6 +111,8 @@
     "id": "pm_001",
     "topic": "process_management",
     "difficulty": "hard",
+    "objective_domain": "3",
+    "subtopic": "kill signals: TERM, KILL, HUP, USR1",
     "question": "Сигнал SIGKILL имеет номер 9. Какое утверждение верно?",
     "options": [
       {
