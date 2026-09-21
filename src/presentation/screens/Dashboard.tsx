@@ -62,7 +62,7 @@ export default function Dashboard() {
           color: 'var(--text-secondary)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <Flame size={16} color="var(--warning)" aria-hidden="true" />
           <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{streak}</span>
         </div>
