@@ -4,8 +4,10 @@ import { ShieldCheck, FolderOpen, Cpu } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
+import { isTMA } from '@telegram-apps/sdk-react';
 import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { XpBar } from '@/presentation/components/XpBar';
+import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 
 // CSS fallback for browsers without dvh support (older Safari/Chrome).
 // Two declarations of minHeight cannot coexist in one object literal (TS1117),
@@ -26,6 +28,10 @@ export default function Dashboard() {
       return { answered: p.answered, completion: p.completion };
     })
   );
+
+  const isTelegram = isTMA();
+
+  useTelegramMainButton('Продолжить', () => navigateTo('question'));
 
   const TOPICS = [
     { key: 'file_permissions' as const, title: 'Права доступа', Icon: ShieldCheck },
@@ -126,25 +132,27 @@ export default function Dashboard() {
         })}
       </div>
 
-      <button
-        type="button"
-        onClick={() => navigateTo('question')}
-        style={{
-          background: COLORS.primary,
-          color: COLORS.textPrimary,
-          padding: SPACING.md,
-          borderRadius: LAYOUT.buttonRadius,
-          width: '100%',
-          cursor: 'pointer',
-          fontSize: 16,
-          fontWeight: 600,
-          border: 'none',
-          marginTop: SPACING.xl,
-          fontFamily: 'inherit',
-        }}
-      >
-        Продолжить
-      </button>
+      {!isTelegram && (
+        <button
+          type="button"
+          onClick={() => navigateTo('question')}
+          style={{
+            background: COLORS.primary,
+            color: COLORS.textPrimary,
+            padding: SPACING.md,
+            borderRadius: LAYOUT.buttonRadius,
+            width: '100%',
+            cursor: 'pointer',
+            fontSize: 16,
+            fontWeight: 600,
+            border: 'none',
+            marginTop: SPACING.xl,
+            fontFamily: 'inherit',
+          }}
+        >
+          Продолжить
+        </button>
+      )}
     </div>
   );
 }

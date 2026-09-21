@@ -2,8 +2,12 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
+import { isTMA } from '@telegram-apps/sdk-react';
 import Paywall from '@/presentation/screens/Paywall';
 import { MotionButton } from '@/presentation/components/MotionButton';
+import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
+import { useTelegramBackButton } from '@/hooks/useTelegramBackButton';
+import { impact, notify } from '@/hooks/useTelegramHaptics';
 
 export default function Question() {
   const currentQuestion = useQuizStore((s) => s.questions[s.currentIndex] ?? null);
@@ -16,6 +20,31 @@ export default function Question() {
   const isPaywallVisible = useQuizStore((s) => s.isPaywallVisible);
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const reduceMotion = useReducedMotion();
+
+  // Derived values are computed BEFORE the early returns below so the Telegram
+  // hooks can be called unconditionally (rules of hooks require it).
+  const existingAnswer = currentQuestion
+    ? answers.find((a) => a.questionId === currentQuestion.id)
+    : undefined;
+  const hasAnswered = existingAnswer !== undefined;
+  const isCorrectAnswer = existingAnswer?.isCorrect ?? false;
+  const isLastQuestion = currentIndex === totalQuestions - 1;
+  const isTelegram = isTMA();
+
+  useTelegramMainButton(
+    isLastQuestion ? 'Завершить' : 'Следующий вопрос',
+    () => {
+      impact('light');
+      if (isLastQuestion) navigateTo('results');
+      else nextQuestion();
+    },
+    hasAnswered
+  );
+
+  useTelegramBackButton(() => {
+    impact('light');
+    previousQuestion();
+  }, currentIndex > 0);
 
   // Paywall state
   if (isPaywallVisible) {
@@ -58,11 +87,15 @@ export default function Question() {
   }
 
   // Safe computations AFTER guards
-  const existingAnswer = answers.find((a) => a.questionId === currentQuestion.id);
-  const hasAnswered = existingAnswer !== undefined;
-  const isCorrectAnswer = existingAnswer?.isCorrect ?? false;
   const progressPercent = totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
-  const isLastQuestion = currentIndex === totalQuestions - 1;
+
+  const handleOption = (index: number) => {
+    const correct = currentQuestion.options[index].correct;
+    impact('light');
+    answerQuestion(currentQuestion.id, index);
+    // Let the answer render first, then confirm it with the matching haptic pattern.
+    setTimeout(() => (correct ? notify('success') : notify('error')), 100);
+  };
 
   return (
     <div
@@ -84,23 +117,25 @@ export default function Question() {
           marginBottom: SPACING.lg,
         }}
       >
-        <button
-          type="button"
-          onClick={() => previousQuestion()}
-          disabled={currentIndex === 0}
-          aria-label="Предыдущий вопрос"
-          style={{
-            background: 'transparent',
-            border: 'none',
-            cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
-            opacity: currentIndex === 0 ? 0.3 : 1,
-            padding: SPACING.xs,
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <ChevronLeft size={20} color={COLORS.textSecondary} />
-        </button>
+        {!isTelegram && (
+          <button
+            type="button"
+            onClick={() => previousQuestion()}
+            disabled={currentIndex === 0}
+            aria-label="Предыдущий вопрос"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
+              opacity: currentIndex === 0 ? 0.3 : 1,
+              padding: SPACING.xs,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <ChevronLeft size={20} color={COLORS.textSecondary} />
+          </button>
+        )}
         <div style={{ color: COLORS.textSecondary, fontSize: 14 }}>
           {`${currentIndex + 1} / ${totalQuestions}`}
         </div>
@@ -165,7 +200,7 @@ export default function Question() {
                 type="button"
                 disabled={hasAnswered}
                 aria-label={`Ответ ${String.fromCharCode(65 + index)}: ${option.text}`}
-                onClick={() => answerQuestion(currentQuestion.id, index)}
+                onClick={() => handleOption(index)}
                 style={{
                   background: backgroundColor,
                   color: COLORS.textPrimary,
@@ -224,18 +259,18 @@ export default function Question() {
               borderLeft: `4px solid ${isCorrectAnswer ? COLORS.correct : COLORS.wrong}`,
             }}
           >
-          <div
-            style={{
-              fontSize: 12,
-              color: COLORS.textSecondary,
-              marginBottom: SPACING.xs,
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
-              fontWeight: 600,
-            }}
-          >
-            {isCorrectAnswer ? 'Верно' : 'Неверно'}
-          </div>
+            <div
+              style={{
+                fontSize: 12,
+                color: COLORS.textSecondary,
+                marginBottom: SPACING.xs,
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                fontWeight: 600,
+              }}
+            >
+              {isCorrectAnswer ? 'Верно' : 'Неверно'}
+            </div>
             <div style={{ fontSize: 14, color: COLORS.textPrimary, lineHeight: 1.5 }}>
               {currentQuestion.explanation}
             </div>
@@ -243,35 +278,37 @@ export default function Question() {
         )}
       </AnimatePresence>
 
-      {/* Next button */}
-      <button
-        type="button"
-        disabled={!hasAnswered}
-        onClick={() => {
-          if (isLastQuestion) navigateTo('results');
-          else nextQuestion();
-        }}
-        style={{
-          width: '100%',
-          padding: SPACING.md,
-          background: hasAnswered ? COLORS.primary : COLORS.surface,
-          color: COLORS.textPrimary,
-          border: 'none',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
-          fontWeight: 600,
-          cursor: hasAnswered ? 'pointer' : 'not-allowed',
-          fontFamily: 'inherit',
-          opacity: hasAnswered ? 1 : 0.5,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: SPACING.sm,
-          marginTop: SPACING.xl,
-        }}
-      >
-        {isLastQuestion ? 'Завершить' : 'Следующий вопрос'} <ChevronRight size={20} />
-      </button>
+      {/* Next button (in-app fallback: hidden in Telegram, where MainButton takes over) */}
+      {!isTelegram && (
+        <button
+          type="button"
+          disabled={!hasAnswered}
+          onClick={() => {
+            if (isLastQuestion) navigateTo('results');
+            else nextQuestion();
+          }}
+          style={{
+            width: '100%',
+            padding: SPACING.md,
+            background: hasAnswered ? COLORS.primary : COLORS.surface,
+            color: COLORS.textPrimary,
+            border: 'none',
+            borderRadius: LAYOUT.buttonRadius,
+            fontSize: 16,
+            fontWeight: 600,
+            cursor: hasAnswered ? 'pointer' : 'not-allowed',
+            fontFamily: 'inherit',
+            opacity: hasAnswered ? 1 : 0.5,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: SPACING.sm,
+            marginTop: SPACING.xl,
+          }}
+        >
+          {isLastQuestion ? 'Завершить' : 'Следующий вопрос'} <ChevronRight size={20} />
+        </button>
+      )}
     </div>
   );
 }

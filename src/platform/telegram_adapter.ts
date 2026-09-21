@@ -2,6 +2,7 @@ import {
   init,
   isTMA,
   backButton,
+  mainButton,
   viewport,
   themeParams,
   miniApp,
@@ -17,6 +18,9 @@ import {
  * - `isTMA('simple')` does not exist; the sync `isTMA()` is the non-strict check.
  * - `initData` has no `mount()`; it is initialised with `initData.restore()`.
  * - `viewport.disableVerticalSwipes` does not exist; it lives in the `swipeBehavior` scope as `disableVertical`.
+ * - `mainButton` has no `setText`/`show`/`hide`/`enable`/`disable`; text and state are set
+ *   through `mainButton.setParams({ text, isVisible, isEnabled })`.
+ * - `hapticFeedback` exposes no `mount()` at all, so there is nothing to mount for it.
  * All wrapped calls are guarded with `.isAvailable()` per the SDK documentation.
  */
 export async function initTelegramSDK(): Promise<void> {
@@ -29,6 +33,9 @@ export async function initTelegramSDK(): Promise<void> {
 
     if (backButton.mount.isAvailable()) {
       backButton.mount();
+    }
+    if (mainButton.mount.isAvailable()) {
+      mainButton.mount();
     }
     if (themeParams.mount.isAvailable()) {
       await themeParams.mount();

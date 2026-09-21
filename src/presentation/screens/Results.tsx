@@ -1,3 +1,4 @@
+import { isTMA } from '@telegram-apps/sdk-react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
@@ -7,6 +8,12 @@ export default function Results() {
   const questions = useQuizStore((s) => s.questions);
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const resetProgress = useQuizStore((s) => s.resetProgress);
+
+  const isTelegram = isTMA();
+  const shareUrl =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin + window.location.pathname
+      : 'https://ialmozt25.github.io/LinuxExam/';
 
   const totalQuestions = questions.length;
   const answered = answers.length;
@@ -206,6 +213,32 @@ export default function Results() {
         >
           К темам
         </button>
+
+        {isTelegram && correct > 0 && answered > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              const text = `Прошёл ${correct}/${answered} в Тренажёре RHCSA (${accuracy}%)`;
+              const url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+              window.open(url, '_blank', 'noopener,noreferrer');
+            }}
+            style={{
+              width: '100%',
+              padding: SPACING.md,
+              background: COLORS.surface,
+              color: COLORS.textPrimary,
+              border: 'none',
+              borderRadius: LAYOUT.buttonRadius,
+              fontSize: 16,
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              marginTop: SPACING.sm,
+            }}
+          >
+            Поделиться результатом
+          </button>
+        )}
         {/* TODO(content): заменить «Пройти заново» на «Повторить ошибки» с фильтрацией неправильных ответов когда база вопросов ≥ 50 */}
       </div>
     </div>
