@@ -3,6 +3,7 @@ import { useQuizStore } from '@/store/quizStore';
 import Dashboard from '@/presentation/screens/Dashboard';
 import Question from '@/presentation/screens/Question';
 import Results from '@/presentation/screens/Results';
+import { isTelegramWebApp, getTelegramUser } from '@/platform/telegram_adapter';
 
 function App() {
   const currentScreen = useQuizStore((s) => s.currentScreen);
@@ -12,10 +13,41 @@ function App() {
     loadQuestions();
   }, [loadQuestions]);
 
-  if (currentScreen === 'dashboard') return <Dashboard />;
-  if (currentScreen === 'question') return <Question />;
-  if (currentScreen === 'results') return <Results />;
-  return <Dashboard />;
+  const screen =
+    currentScreen === 'dashboard' ? (
+      <Dashboard />
+    ) : currentScreen === 'question' ? (
+      <Question />
+    ) : currentScreen === 'results' ? (
+      <Results />
+    ) : (
+      <Dashboard />
+    );
+
+  return (
+    <>
+      {screen}
+
+      {import.meta.env.DEV && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 4,
+            left: 4,
+            fontSize: 10,
+            color: '#666',
+            padding: 4,
+            background: 'rgba(0,0,0,0.3)',
+            borderRadius: 4,
+            zIndex: 9999,
+            pointerEvents: 'none',
+          }}
+        >
+          {isTelegramWebApp() ? `TG: ${getTelegramUser()?.first_name ?? 'user'}` : 'Web mode'}
+        </div>
+      )}
+    </>
+  );
 }
 
 export default App;
