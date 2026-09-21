@@ -5,10 +5,22 @@
     "difficulty": "easy",
     "question": "Что означает разрешение 754 в восьмеричной системе для файла?",
     "options": [
-      { "text": "Владелец: чтение/запись/исполнение, группа: чтение/исполнение, остальные: чтение", "correct": true },
-      { "text": "Владелец: чтение/запись, группа: чтение/исполнение, остальные: чтение", "correct": false },
-      { "text": "Владелец: чтение/запись/исполнение, группа: чтение/запись, остальные: без доступа", "correct": false },
-      { "text": "Владелец: выполнение, группа: чтение/запись, остальные: чтение", "correct": false }
+      {
+        "text": "Владелец: чтение/запись/исполнение, группа: чтение/исполнение, остальные: чтение",
+        "correct": true
+      },
+      {
+        "text": "Владелец: чтение/запись, группа: чтение/исполнение, остальные: чтение",
+        "correct": false
+      },
+      {
+        "text": "Владелец: чтение/запись/исполнение, группа: чтение/запись, остальные: без доступа",
+        "correct": false
+      },
+      {
+        "text": "Владелец: выполнение, группа: чтение/запись, остальные: чтение",
+        "correct": false
+      }
     ],
     "explanation": "Цифра 7 = rwx (владелец), 5 = r-x (группа), 4 = r-- (остальные). Каждая цифра — сумма: чтение=4, запись=2, выполнение=1."
   },
@@ -18,10 +30,22 @@
     "difficulty": "medium",
     "question": "Какая команда установит setgid-бит на директорию /shared?",
     "options": [
-      { "text": "chmod 2755 /shared", "correct": true },
-      { "text": "chmod 1755 /shared", "correct": false },
-      { "text": "chmod 4755 /shared", "correct": false },
-      { "text": "chmod 755 /shared +setgid", "correct": false }
+      {
+        "text": "chmod 2755 /shared",
+        "correct": true
+      },
+      {
+        "text": "chmod 1755 /shared",
+        "correct": false
+      },
+      {
+        "text": "chmod 4755 /shared",
+        "correct": false
+      },
+      {
+        "text": "chmod 755 /shared +setgid",
+        "correct": false
+      }
     ],
     "explanation": "Setgid-бит обозначается префиксом 2 перед стандартными тремя цифрами. 2755 = setgid + rwxr-xr-x. Префикс 4 — setuid, 1 — sticky bit."
   },
@@ -31,10 +55,22 @@
     "difficulty": "easy",
     "question": "Какая команда рекурсивно скопирует директорию dir1 в dir2?",
     "options": [
-      { "text": "cp -r dir1 dir2", "correct": true },
-      { "text": "cp dir1 dir2", "correct": false },
-      { "text": "copy -r dir1 dir2", "correct": false },
-      { "text": "mv -r dir1 dir2", "correct": false }
+      {
+        "text": "cp -r dir1 dir2",
+        "correct": true
+      },
+      {
+        "text": "cp dir1 dir2",
+        "correct": false
+      },
+      {
+        "text": "copy -r dir1 dir2",
+        "correct": false
+      },
+      {
+        "text": "mv -r dir1 dir2",
+        "correct": false
+      }
     ],
     "explanation": "Флаг -r (или -R) указывает команде cp копировать директорию рекурсивно — вместе со всем содержимым и поддиректориями."
   },
@@ -44,10 +80,22 @@
     "difficulty": "medium",
     "question": "Какой командой можно найти все файлы с расширением .conf в директории /etc?",
     "options": [
-      { "text": "find /etc -name '*.conf'", "correct": true },
-      { "text": "find /etc -type d '*.conf'", "correct": false },
-      { "text": "search /etc '*.conf'", "correct": false },
-      { "text": "ls /etc/*.conf -recursive", "correct": false }
+      {
+        "text": "find /etc -name '*.conf'",
+        "correct": true
+      },
+      {
+        "text": "find /etc -type d '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "search /etc '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "ls /etc/*.conf -recursive",
+        "correct": false
+      }
     ],
     "explanation": "Команда find с параметром -name выполняет поиск по имени. Шаблон '*.conf' должен быть в кавычках, чтобы оболочка не раскрыла его до передачи команде."
   },
@@ -57,11 +105,833 @@
     "difficulty": "hard",
     "question": "Сигнал SIGKILL имеет номер 9. Какое утверждение верно?",
     "options": [
-      { "text": "Процесс не может перехватить или игнорировать SIGKILL — он завершается принудительно", "correct": true },
-      { "text": "Процесс может перехватить SIGKILL и корректно освободить ресурсы", "correct": false },
-      { "text": "SIGKILL отправляется по умолчанию командой kill без аргументов", "correct": false },
-      { "text": "SIGKILL эквивалентен SIGTERM — различий нет", "correct": false }
+      {
+        "text": "Процесс не может перехватить или игнорировать SIGKILL — он завершается принудительно",
+        "correct": true
+      },
+      {
+        "text": "Процесс может перехватить SIGKILL и корректно освободить ресурсы",
+        "correct": false
+      },
+      {
+        "text": "SIGKILL отправляется по умолчанию командой kill без аргументов",
+        "correct": false
+      },
+      {
+        "text": "SIGKILL эквивалентен SIGTERM — различий нет",
+        "correct": false
+      }
     ],
     "explanation": "SIGKILL (9) — это безусловное завершение на уровне ядра. В отличие от SIGTERM (15), процесс не может его перехватить, обработать или проигнорировать. Используйте как крайнюю меру."
+  },
+  {
+    "id": "fp_003",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "numeric modes",
+    "question": "Чем отличается режим 640 от режима 600 для файла?",
+    "options": [
+      {
+        "text": "В режиме 640 группа получает право на чтение, а в 600 у группы прав нет",
+        "correct": true
+      },
+      {
+        "text": "В режиме 640 группа получает право на запись, а в 600 — нет",
+        "correct": false
+      },
+      {
+        "text": "Режимы 640 и 600 полностью идентичны",
+        "correct": false
+      },
+      {
+        "text": "В режиме 640 запрещён запуск файла владельцем",
+        "correct": false
+      }
+    ],
+    "explanation": "Цифры читаются тройками: 6 = rw- (чтение и запись для владельца), 4 = r-- (только чтение для группы), 0 = --- (нет прав для остальных). В 600 вторая цифра равна 0, поэтому группа не имеет доступа — именно это и отличает его от 640."
+  },
+  {
+    "id": "fp_004",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "objective_domain": "8",
+    "subtopic": "chown / chgrp",
+    "question": "Какая команда изменит владельца и группу директории /data рекурсивно на user1:devs?",
+    "options": [
+      {
+        "text": "chown -R user1:devs /data",
+        "correct": true
+      },
+      {
+        "text": "chown -r user1:devs /data",
+        "correct": false
+      },
+      {
+        "text": "chmod -R user1:devs /data",
+        "correct": false
+      },
+      {
+        "text": "chgrp -R user1:devs /data",
+        "correct": false
+      }
+    ],
+    "explanation": "У команды chown рекурсивный ключ — заглавная -R, строчной -r не существует. Формат владелец:группа задаётся именно в chown. chmod меняет только права доступа, а chgrp — только группу."
+  },
+  {
+    "id": "fp_005",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "symbolic modes",
+    "question": "Какая команда добавит владельцу право на выполнение файла script.sh?",
+    "options": [
+      {
+        "text": "chmod u+x script.sh",
+        "correct": true
+      },
+      {
+        "text": "chmod +x script.sh",
+        "correct": false
+      },
+      {
+        "text": "chmod a+x script.sh",
+        "correct": false
+      },
+      {
+        "text": "chmod u=+x script.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "Запись u+x добавляет бит выполнения только владельцу. Без указания класса (+x и a+x) право выполнения получают и группа, и остальные. Форма u=+x недопустима: символ = сбрасывает права и не может комбинироваться с +."
+  },
+  {
+    "id": "fp_006",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "umask",
+    "question": "Значение umask равно 022. Какие права получит обычный файл?",
+    "options": [
+      {
+        "text": "rw-r--r-- (644)",
+        "correct": true
+      },
+      {
+        "text": "rw-rw-r-- (664)",
+        "correct": false
+      },
+      {
+        "text": "rwxr-xr-x (755)",
+        "correct": false
+      },
+      {
+        "text": "rw------- (600)",
+        "correct": false
+      }
+    ],
+    "explanation": "Для файлов базовый режим 666, из которого вычитаются биты umask: 666 минус 022 = 644. У директорий база 777, поэтому там получилось бы 755. Вариант 664 соответствует umask 002 — это ближайший правдоподобный неверный ответ."
+  },
+  {
+    "id": "fp_007",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "ACLs",
+    "question": "Какая команда покажет ACL-записи файла report.txt?",
+    "options": [
+      {
+        "text": "getfacl report.txt",
+        "correct": true
+      },
+      {
+        "text": "setfacl report.txt",
+        "correct": false
+      },
+      {
+        "text": "ls -l report.txt",
+        "correct": false
+      },
+      {
+        "text": "acl --list report.txt",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда getfacl выводит список ACL, а setfacl только задаёт или изменяет их. Команда ls -l покажет лишь плюс в конце строки прав как признак наличия ACL, но не сами записи. Команды acl в RHEL не существует."
+  },
+  {
+    "id": "fp_008",
+    "topic": "file_permissions",
+    "difficulty": "hard",
+    "objective_domain": "9",
+    "subtopic": "special bits",
+    "question": "Какие последствия имеет бит setuid на исполняемом файле?",
+    "options": [
+      {
+        "text": "Процесс запускается с правами владельца файла, а не запустившего пользователя",
+        "correct": true
+      },
+      {
+        "text": "Процесс запускается с правами группы файла",
+        "correct": false
+      },
+      {
+        "text": "Файл защищён от изменения даже владельцем",
+        "correct": false
+      },
+      {
+        "text": "Файл можно удалить только владельцу директории",
+        "correct": false
+      }
+    ],
+    "explanation": "Setuid (префикс 4, например 4755) заставляет процесс работать от имени владельца файла — именно на этом основана работа passwd. На группу влияет setgid, а не setuid."
+  },
+  {
+    "id": "fp_009",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "default ACLs on directories",
+    "question": "Какая команда задаст директории /projects ACL по умолчанию для новых файлов?",
+    "options": [
+      {
+        "text": "setfacl -d -m u:dev1:rwx /projects",
+        "correct": true
+      },
+      {
+        "text": "setfacl -m u:dev1:rwx /projects",
+        "correct": false
+      },
+      {
+        "text": "setfacl -R -m u:dev1:rwx /projects",
+        "correct": false
+      },
+      {
+        "text": "setfacl --default-acl u:dev1:rwx /projects",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -d задаёт именно default ACL, который наследуется новыми файлами внутри директории. Без -d запись касается только самой директории. Ключ -R распространяет изменение на уже существующие данные, а не на будущие."
+  },
+  {
+    "id": "fp_010",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "special bits",
+    "question": "Какое числовое значение chmod устанавливает setgid-бит на директории?",
+    "options": [
+      {
+        "text": "2755",
+        "correct": true
+      },
+      {
+        "text": "1755",
+        "correct": false
+      },
+      {
+        "text": "4755",
+        "correct": false
+      },
+      {
+        "text": "6755",
+        "correct": false
+      }
+    ],
+    "explanation": "Префикс 2 означает setgid: 2755 = setgid + rwxr-xr-x. Префикс 1 — sticky bit, 4 — setuid. Значение 6755 совмещает setuid и setgid одновременно, поэтому не является ответом на вопрос только о setgid."
+  },
+  {
+    "id": "fp_011",
+    "topic": "file_permissions",
+    "difficulty": "hard",
+    "objective_domain": "9",
+    "subtopic": "symbolic modes",
+    "question": "Что сделает команда chmod g-w file.txt?",
+    "options": [
+      {
+        "text": "Уберёт право на запись у группы, остальные права не изменятся",
+        "correct": true
+      },
+      {
+        "text": "Уберёт право на запись у владельца и группы",
+        "correct": false
+      },
+      {
+        "text": "Выдаст группе право на запись",
+        "correct": false
+      },
+      {
+        "text": "Уберёт все права у группы",
+        "correct": false
+      }
+    ],
+    "explanation": "Символы читаются как класс прав, оператор и бит: g — группа, минус — убрать, w — запись. Затрагивается только бит записи группы, права на чтение и выполнение сохраняются. Чтобы снять все права группы, нужно g=."
+  },
+  {
+    "id": "fp_012",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "numeric modes",
+    "question": "Какая команда оставит доступ только владельцу?",
+    "options": [
+      {
+        "text": "chmod 600 file",
+        "correct": true
+      },
+      {
+        "text": "chmod 644 file",
+        "correct": false
+      },
+      {
+        "text": "chmod 700 file",
+        "correct": false
+      },
+      {
+        "text": "chmod 666 file",
+        "correct": false
+      }
+    ],
+    "explanation": "Режим 600 = rw------- : владелец читает и пишет, группа и остальные не имеют прав. 644 даёт чтение всем, 700 добавляет выполнение владельцу, 666 даёт запись всем."
+  },
+  {
+    "id": "fm_003",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "find: -name, -type",
+    "question": "Какая команда найдёт все файлы .conf в /etc и поддиректориях?",
+    "options": [
+      {
+        "text": "find /etc -type f -name '*.conf'",
+        "correct": true
+      },
+      {
+        "text": "find /etc -name '*.conf' -maxdepth 1",
+        "correct": false
+      },
+      {
+        "text": "ls -R /etc | grep '\\.conf$'",
+        "correct": false
+      },
+      {
+        "text": "locate /etc -name '*.conf'",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -type f ограничивает выборку обычными файлами, а -name задаёт шаблон имени, который нужно брать в кавычки. Ключ -maxdepth 1 наоборот запретит рекурсию, а locate не поддерживает -name."
+  },
+  {
+    "id": "fm_004",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "4",
+    "subtopic": "tar / gzip / bzip2",
+    "question": "Какая команда создаст gzip-архив из /var/log?",
+    "options": [
+      {
+        "text": "tar -czf archive.tar.gz /var/log",
+        "correct": true
+      },
+      {
+        "text": "tar -xzf archive.tar.gz /var/log",
+        "correct": false
+      },
+      {
+        "text": "tar -tzf archive.tar.gz /var/log",
+        "correct": false
+      },
+      {
+        "text": "tar -cjf archive.tar.gz /var/log",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключи читаются так: c — создать архив, z — gzip, f — имя файла. Ключ x распаковывает архив, t — только показывает содержимое. Ключ j включает bzip2, поэтому -cjf дал бы другой формат под именем .tar.gz."
+  },
+  {
+    "id": "fm_005",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "redirection: >, >>, 2>&1, tee",
+    "question": "Как направить вывод и ошибки команды в один файл log.txt с перезаписью?",
+    "options": [
+      {
+        "text": "command > log.txt 2>&1",
+        "correct": true
+      },
+      {
+        "text": "command > log.txt 2>1",
+        "correct": false
+      },
+      {
+        "text": "command >> log.txt 2>&1",
+        "correct": false
+      },
+      {
+        "text": "command 2>&1 > log.txt",
+        "correct": false
+      }
+    ],
+    "explanation": "Конструкция 2>&1 перенаправляет дескриптор ошибок туда же, куда указывает дескриптор 1. Запись 2>1 создаст файл с именем 1, а не соберёт ошибки. Ключ >> дописывает в конец файла вместо перезаписи. Порядок 2>&1 > log.txt оставит ошибки в терминале."
+  },
+  {
+    "id": "fm_006",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "5",
+    "subtopic": "cp / mv / ln (symbolic vs hard)",
+    "question": "Какая команда скопирует директорию с правами и метками времени?",
+    "options": [
+      {
+        "text": "cp -a /src /dst",
+        "correct": true
+      },
+      {
+        "text": "cp -r /src /dst",
+        "correct": false
+      },
+      {
+        "text": "cp -p /src /dst",
+        "correct": false
+      },
+      {
+        "text": "mv /src /dst",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -a равносилен -dR --preserve=all: копирует рекурсивно и сохраняет права, владельца, группу и метки времени. Ключ -r копирует только содержимое, -p — лишь часть атрибутов без рекурсии. Команда mv вообще перемещает, а не копирует."
+  },
+  {
+    "id": "fm_007",
+    "topic": "file_management",
+    "difficulty": "hard",
+    "objective_domain": "5",
+    "subtopic": "find: -mtime, -size, -exec",
+    "question": "Какая команда найдёт файлы, изменённые более 7 суток назад?",
+    "options": [
+      {
+        "text": "find . -type f -mtime +7",
+        "correct": true
+      },
+      {
+        "text": "find . -type f -mtime -7",
+        "correct": false
+      },
+      {
+        "text": "find . -type f -mtime 7",
+        "correct": false
+      },
+      {
+        "text": "find . -type f -atime +7",
+        "correct": false
+      }
+    ],
+    "explanation": "Знак плюс в -mtime +7 означает строго больше семи суток, знак минус — менее семи, без знака — ровно семь. Ключ -atime смотрит на время последнего чтения, а не изменения, поэтому даёт другой набор файлов."
+  },
+  {
+    "id": "fm_008",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "locate / updatedb",
+    "question": "Какая команда обновляет базу данных для locate?",
+    "options": [
+      {
+        "text": "updatedb",
+        "correct": true
+      },
+      {
+        "text": "locate --update",
+        "correct": false
+      },
+      {
+        "text": "mlocate --rebuild",
+        "correct": false
+      },
+      {
+        "text": "find / -name \"*\" > /var/lib/mlocate.db",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. У locate нет ключа --update, поэтому этот вариант не сработает. Ручная запись в файл базы не воспроизводит её формат."
+  },
+  {
+    "id": "fm_009",
+    "topic": "file_management",
+    "difficulty": "hard",
+    "objective_domain": "1",
+    "subtopic": "xargs",
+    "question": "Какая команда корректно обработает имена с пробелами через xargs?",
+    "options": [
+      {
+        "text": "find . -type f -print0 | xargs -0 rm",
+        "correct": true
+      },
+      {
+        "text": "find . -type f | xargs rm",
+        "correct": false
+      },
+      {
+        "text": "find . -type f -exec0 rm",
+        "correct": false
+      },
+      {
+        "text": "find . -type f | xargs -n 0 rm",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -print0 выводит имена, разделённые нулевым байтом, а -0 в xargs читает именно такой формат. Без этой пары xargs разбивает ввод по пробелам и передаст rm обрывки имён. У find нет ключа -exec0, а -n 0 не имеет смысла."
+  },
+  {
+    "id": "fm_010",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "5",
+    "subtopic": "file / stat / ls -l",
+    "question": "Какая команда покажет тип файла по его содержимому?",
+    "options": [
+      {
+        "text": "file data.bin",
+        "correct": true
+      },
+      {
+        "text": "stat data.bin",
+        "correct": false
+      },
+      {
+        "text": "ls -l data.bin",
+        "correct": false
+      },
+      {
+        "text": "type data.bin",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда file определяет тип по содержимому. stat выводит метаданные и не распознаёт формат данных, ls -l показывает только тип элемента файловой системы, а type в bash относится к командам."
+  },
+  {
+    "id": "fm_011",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "4",
+    "subtopic": "tar / gzip / bzip2",
+    "question": "Какая команда создаст архив, сжатый bzip2?",
+    "options": [
+      {
+        "text": "tar -cjf backup.tar.bz2 /home",
+        "correct": true
+      },
+      {
+        "text": "tar -czf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
+        "text": "tar -cJf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
+        "text": "tar -cf backup.tar.bz2 --bzip2 /home",
+        "correct": false
+      }
+    ],
+    "explanation": "Сжатие bzip2 включает ключ j, ключ z даёт gzip, а J — xz. Ключ --long-option с именем файла без -f не создаст архив нужного вида, поэтому верен только вариант с -cjf."
+  },
+  {
+    "id": "fm_012",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "5",
+    "subtopic": "cp / mv / ln (symbolic vs hard)",
+    "question": "Чем символическая ссылка отличается от жёсткой?",
+    "options": [
+      {
+        "text": "Символическая указывает на путь, а жёсткая — на тот же inode",
+        "correct": true
+      },
+      {
+        "text": "Жёсткая ссылка может указывать на другой раздел, а символическая — нет",
+        "correct": false
+      },
+      {
+        "text": "Символическая ссылка увеличивает счётчик ссылок до двух",
+        "correct": false
+      },
+      {
+        "text": "Жёсткую ссылку можно создать только на директорию",
+        "correct": false
+      }
+    ],
+    "explanation": "Жёсткая ссылка — это ещё одно имя для того же inode, поэтому она работает только в пределах одной файловой системы. Символическая ссылка — отдельный объект со своим inode, хранящий путь. Жёсткие ссылки на директории запрещены."
+  },
+  {
+    "id": "pm_002",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "3",
+    "subtopic": "process states (R, S, D, Z)",
+    "question": "Что означает состояние процесса Z в выводе ps?",
+    "options": [
+      {
+        "text": "Процесс завершился, но родитель ещё не прочитал его код завершения",
+        "correct": true
+      },
+      {
+        "text": "Процесс ожидает ввода-вывода и не потребляет процессор",
+        "correct": false
+      },
+      {
+        "text": "Процесс заблокирован на диске и не может быть завершён",
+        "correct": false
+      },
+      {
+        "text": "Процесс выполняется в фоновом режиме без терминала",
+        "correct": false
+      }
+    ],
+    "explanation": "Z — зомби: процесс уже завершился, но запись о нём остаётся в таблице, пока родитель не вызовет wait. Ожидание на диске — это D, ожидание ввода-вывода — S, а выполнение — R."
+  },
+  {
+    "id": "pm_003",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl: start / stop / enable / mask / status",
+    "question": "Какая команда запустит httpd немедленно и добавит в автозапуск одной командой?",
+    "options": [
+      {
+        "text": "systemctl enable --now httpd",
+        "correct": true
+      },
+      {
+        "text": "systemctl start httpd && systemctl enable httpd",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable httpd --start",
+        "correct": false
+      },
+      {
+        "text": "systemctl start --enable httpd",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ --now выполняет действие немедленно вместе с enable. У systemctl нет ключа --start, а ключ --enable недопустим после подкоманды start. Две команды через && тоже решают задачу, но вопрос спрашивает про одну."
+  },
+  {
+    "id": "pm_004",
+    "topic": "process_management",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "ps / top / htop filtering",
+    "question": "Какая команда покажет процессы пользователя dev1?",
+    "options": [
+      {
+        "text": "ps -u dev1",
+        "correct": true
+      },
+      {
+        "text": "ps -e dev1",
+        "correct": false
+      },
+      {
+        "text": "ps --user-only dev1",
+        "correct": false
+      },
+      {
+        "text": "ps -U dev1 -e",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u фильтрует список по эффективному пользователю. У ps нет ключа --user-only, поэтому такой вариант завершится ошибкой. Форма -e dev1 некорректна, поскольку -e не принимает аргумент."
+  },
+  {
+    "id": "pm_005",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "journalctl filtering",
+    "question": "Какая команда покажет записи журнала для sshd за текущий загруз?",
+    "options": [
+      {
+        "text": "journalctl -u sshd -b",
+        "correct": true
+      },
+      {
+        "text": "journalctl -u sshd -f",
+        "correct": false
+      },
+      {
+        "text": "journalctl --unit sshd -n 10",
+        "correct": false
+      },
+      {
+        "text": "journalctl -t sshd -b",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущим загрузом. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузу, а -t фильтрует по syslog-метке."
+  },
+  {
+    "id": "pm_006",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "nice / renice",
+    "question": "Какая команда снижает приоритет уже запущенного процесса 1234 до значения 10?",
+    "options": [
+      {
+        "text": "renice -n 10 -p 1234",
+        "correct": true
+      },
+      {
+        "text": "renice 1234 -n 10",
+        "correct": false
+      },
+      {
+        "text": "nice -n 10 1234",
+        "correct": false
+      },
+      {
+        "text": "renice -n -10 -p 1234",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда renice изменяет приоритет уже работающего процесса, номер задаётся ключом -p. Команда nice только запускает новый процесс с заданным приоритетом. Отрицательное значение наоборот повышает приоритет и требует прав root."
+  },
+  {
+    "id": "pm_007",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "objective_domain": "7",
+    "subtopic": "jobs / bg / fg / nohup",
+    "question": "Как запустить длительный процесс, чтобы он выжил после закрытия терминала?",
+    "options": [
+      {
+        "text": "nohup ./backup.sh &",
+        "correct": true
+      },
+      {
+        "text": "./backup.sh &",
+        "correct": false
+      },
+      {
+        "text": "./backup.sh && bg",
+        "correct": false
+      },
+      {
+        "text": "jobs ./backup.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда nohup игнорирует сигнал SIGHUP, который терминал шлёт зависимым процессам при закрытии. Запуск только с амперсандом даёт фоновое выполнение, но процесс всё равно получит SIGHUP. Команда jobs только показывает задачи и не запускает их."
+  },
+  {
+    "id": "pm_008",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "objective_domain": "3",
+    "subtopic": "kill signals: TERM, KILL, HUP, USR1",
+    "question": "Какой сигнал нельзя перехватить или проигнорировать?",
+    "options": [
+      {
+        "text": "SIGKILL (9)",
+        "correct": true
+      },
+      {
+        "text": "SIGTERM (15)",
+        "correct": false
+      },
+      {
+        "text": "SIGHUP (1)",
+        "correct": false
+      },
+      {
+        "text": "SIGUSR1 (10)",
+        "correct": false
+      }
+    ],
+    "explanation": "SIGKILL обрабатывается ядром напрямую: процесс не может ни перехватить его, ни заблокировать. В отличие от него SIGTERM, SIGHUP и SIGUSR1 можно перехватить, поэтому именно SIGTERM считается штатным способом завершения."
+  },
+  {
+    "id": "pm_009",
+    "topic": "process_management",
+    "difficulty": "easy",
+    "objective_domain": "3",
+    "subtopic": "ps / top / htop filtering",
+    "question": "Какая команда показывает динамически обновляемый список процессов с сортировкой по нагрузке?",
+    "options": [
+      {
+        "text": "top",
+        "correct": true
+      },
+      {
+        "text": "ps aux",
+        "correct": false
+      },
+      {
+        "text": "jobs -l",
+        "correct": false
+      },
+      {
+        "text": "uptime",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда top перерисовывает экран через заданный интервал и по умолчанию сортирует процессы по потреблению процессора. ps aux даёт статичный снимок, jobs -l — только задачи текущей оболочки, uptime — только среднюю нагрузку."
+  },
+  {
+    "id": "pm_010",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl: start / stop / enable / mask / status",
+    "question": "Чем systemctl mask отличается от systemctl disable?",
+    "options": [
+      {
+        "text": "Замаскированный юнит нельзя запустить даже вручную, а отключённый — можно",
+        "correct": true
+      },
+      {
+        "text": "mask удаляет файл юнита с диска, а disable — нет",
+        "correct": false
+      },
+      {
+        "text": "mask действует только до перезагрузки, а disable — навсегда",
+        "correct": false
+      },
+      {
+        "text": "disable требует прав root, а mask доступна обычному пользователю",
+        "correct": false
+      }
+    ],
+    "explanation": "mask создаёт ссылку на /dev/null вместо файла юнита, поэтому запуск блокируется полностью, даже если его вызвать вручную. disable лишь убирает автозапуск, и такой юнит по-прежнему можно запустить командой systemctl start."
+  },
+  {
+    "id": "pm_011",
+    "topic": "process_management",
+    "difficulty": "easy",
+    "objective_domain": "3",
+    "subtopic": "kill signals: TERM, KILL, HUP, USR1",
+    "question": "Какой сигнал отправляет kill по умолчанию, если сигнал не указан?",
+    "options": [
+      {
+        "text": "SIGTERM (15)",
+        "correct": true
+      },
+      {
+        "text": "SIGKILL (9)",
+        "correct": false
+      },
+      {
+        "text": "SIGHUP (1)",
+        "correct": false
+      },
+      {
+        "text": "SIGINT (2)",
+        "correct": false
+      }
+    ],
+    "explanation": "Без явного указания kill отправляет SIGTERM — корректный запрос на завершение, который процесс может обработать и освободить ресурсы. SIGKILL надо запрашивать явно через kill -9. SIGHUP по умолчанию не отправляется, а SIGINT генерирует сочетание Ctrl+C."
   }
 ]

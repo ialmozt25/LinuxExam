@@ -4,7 +4,7 @@ import { Question, Topic } from '@/data/models/Question';
 import { AnswerRecord } from '@/data/models/AnswerRecord';
 import { QuestionRepository } from '@/data/repositories/QuestionRepository';
 import { filterByTopic, getCurrentQuestion } from '@/domain/selectors';
-import { calculateProgress } from '@/domain/quizService';
+import { calculateProgress, ProgressMetrics } from '@/domain/quizService';
 
 /**
  * TODO(payments): Replace mock unlockPro with real Stripe / Telegram Stars provider.
@@ -12,7 +12,10 @@ import { calculateProgress } from '@/domain/quizService';
  * TODO(telegram): Wire Telegram WebApp adapter when targeting Telegram.
  */
 
-const FREE_QUESTION_LIMIT = 20;
+// TODO(content): raise to 20 after questions.json reaches 50+ items
+export const FREE_QUESTION_LIMIT = 3;
+
+export type Screen = 'dashboard' | 'question' | 'results';
 
 interface QuizState {
   questions: Question[];
@@ -21,9 +24,11 @@ interface QuizState {
   isPro: boolean;
   isLoading: boolean;
   isPaywallVisible: boolean;
+  currentScreen: Screen;
 
   loadQuestions: () => void;
-  answerQuestion: (questionId: string, selectedIndex: number, isCorrect: boolean) => void;
+  navigateTo: (screen: Screen) => void;
+  answerQuestion: (questionId: string, selectedIndex: number) => void;
   nextQuestion: () => void;
   previousQuestion: () => void;
   resetProgress: () => void;
@@ -32,7 +37,7 @@ interface QuizState {
   canAccessQuestion: (index: number) => boolean;
   getQuestionsByTopic: (topic: Topic) => Question[];
   getCurrentQuestion: () => Question | null;
-  getProgress: () => number;
+  getProgress: () => ProgressMetrics;
 }
 
 const questionRepo = new QuestionRepository();
@@ -46,6 +51,7 @@ export const useQuizStore = create<QuizState>()(
       isPro: false,
       isLoading: false,
       isPaywallVisible: false,
+      currentScreen: 'dashboard',
 
       loadQuestions: () => {
         set({ isLoading: true });
@@ -56,11 +62,16 @@ export const useQuizStore = create<QuizState>()(
         });
       },
 
-      answerQuestion: (questionId, selectedIndex, isCorrect) => {
+      navigateTo: (screen) => set({ currentScreen: screen }),
+
+      answerQuestion: (questionId, selectedIndex) => {
         if (!get().canAccessQuestion(get().currentIndex)) {
-          console.warn('Blocked answer on locked question index:', get().currentIndex);
           return;
         }
+        const question = get().questions.find((q) => q.id === questionId);
+        if (!question) return;
+        if (selectedIndex < 0 || selectedIndex >= question.options.length) return;
+        const isCorrect = question.options[selectedIndex].correct;
         const record: AnswerRecord = { questionId, selectedIndex, isCorrect };
         const existingIndex = get().answers.findIndex((a) => a.questionId === questionId);
         const answers =
@@ -113,7 +124,7 @@ export const useQuizStore = create<QuizState>()(
         return getCurrentQuestion(get().questions, get().currentIndex);
       },
 
-      getProgress: (): number => {
+      getProgress: (): ProgressMetrics => {
         return calculateProgress(get().answers, get().questions.length);
       },
     }),
