@@ -7,6 +7,7 @@ import { pluralizeQuestions } from '@/utils/pluralize';
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import { useExamTimer } from '@/hooks/useExamTimer';
 
 export default function Dashboard() {
   const questions = useQuizStore((s) => s.questions);
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const resumeQuiz = useQuizStore((s) => s.resumeQuiz);
   const examActive = useQuizStore((s) => s.examActive);
   const startRegularQuiz = useQuizStore((s) => s.startRegularQuiz);
+  const startExam = useQuizStore((s) => s.startExam);
 
   // CRITICAL: useShallow with PRIMITIVES ONLY.
   // getProgress() returns a new object each call. useShallow on the full
@@ -32,6 +34,7 @@ export default function Dashboard() {
   );
 
   const isTelegram = isTMA();
+  const { display: timerDisplay } = useExamTimer();
 
   useTelegramMainButton('Продолжить', () => navigateTo('question'));
 
@@ -170,8 +173,53 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Resume banner - only for an unfinished regular quiz, never during review */}
-      {isQuizInProgress && !reviewQuestionIds && (
+      {/* Exam banner REPLACES the resume banner while an exam runs */}
+      {examActive ? (
+        <div
+          style={{
+            padding: 'var(--space-3)',
+            background: 'rgba(33,150,243,0.1)',
+            border: '1px solid var(--accent)',
+            borderRadius: 'var(--radius-md)',
+            marginTop: 'var(--space-4)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 'var(--space-3)',
+          }}
+        >
+          <div>
+            <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>Экзамен идёт</div>
+            <div
+              style={{
+                fontSize: 'var(--text-xs)',
+                color: 'var(--text-secondary)',
+                marginTop: 2,
+              }}
+            >
+              {`${timerDisplay} осталось`}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigateTo('question')}
+            style={{
+              padding: 'var(--space-2) var(--space-3)',
+              background: 'var(--accent)',
+              color: 'white',
+              border: 'none',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: 'var(--text-xs)',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            Продолжить
+          </button>
+        </div>
+      ) : isQuizInProgress && !reviewQuestionIds ? (
+        /* Resume banner - unfinished regular quiz only */
         <div
           style={{
             padding: 'var(--space-3)',
@@ -214,6 +262,29 @@ export default function Dashboard() {
             Продолжить
           </button>
         </div>
+      ) : null}
+
+      {/* Exam entry point - only when no exam is running */}
+      {!examActive && (
+        <button
+          type="button"
+          onClick={() => startExam(20, 30 * 60 * 1000)}
+          style={{
+            width: '100%',
+            padding: 'var(--space-3)',
+            background: 'transparent',
+            color: 'var(--text-primary)',
+            border: '1px solid var(--border-strong)',
+            borderRadius: 'var(--radius-md)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            marginTop: 'var(--space-2)',
+            fontFamily: 'inherit',
+          }}
+        >
+          Режим экзамена (20 вопросов, 30 минут)
+        </button>
       )}
       <div
         className="grid grid-cols-1 md:grid-cols-3"

@@ -48,6 +48,10 @@ interface QuizState {
     finishedAt: number;
     durationMs: number;
   } | null;
+  examStartedAt: number | null;
+  examDurationMs: number;
+  examQuestionIds: string[];
+  examAnswers: AnswerRecord[];
 
   loadQuestions: () => void;
   recordActivity: () => void;
@@ -67,6 +71,10 @@ interface QuizState {
   startReviewQuiz: (ids: string[]) => void;
   answerReview: (questionId: string, selectedIndex: number) => void;
   startRegularQuiz: () => void;
+  startExam: (count: number, durationMs: number) => void;
+  answerExam: (questionId: string, selectedIndex: number) => void;
+  finishExam: () => void;
+  cancelExam: () => void;
 }
 
 const questionRepo = new QuestionRepository();
@@ -90,6 +98,10 @@ export const useQuizStore = create<QuizState>()(
       isQuizInProgress: false,
       examActive: false,
       examLastResult: null,
+      examStartedAt: null,
+      examDurationMs: 0,
+      examQuestionIds: [],
+      examAnswers: [],
 
       loadQuestions: () => {
         set({ isLoading: true });
@@ -156,10 +168,12 @@ export const useQuizStore = create<QuizState>()(
       },
 
       nextQuestion: () => {
-        const { currentIndex, questions, isPro } = get();
+        const { currentIndex, questions, examActive, examQuestionIds, isPro } = get();
+        const poolSize = examActive ? examQuestionIds.length : questions.length;
         const nextIndex = currentIndex + 1;
-        if (nextIndex >= questions.length) return;
-        if (nextIndex >= FREE_QUESTION_LIMIT && !isPro) {
+        if (nextIndex >= poolSize) return;
+        // Exam is never paywalled - the whole point is a full timed run.
+        if (!examActive && nextIndex >= FREE_QUESTION_LIMIT && !isPro) {
           set({ isPaywallVisible: true });
           return;
         }
@@ -167,7 +181,9 @@ export const useQuizStore = create<QuizState>()(
       },
 
       previousQuestion: () => {
-        const { currentIndex } = get();
+        const { currentIndex, examActive } = get();
+        // No back-navigation in exam mode.
+        if (examActive) return;
         if (currentIndex > 0) {
           set({ currentIndex: currentIndex - 1 });
         }
@@ -228,6 +244,8 @@ export const useQuizStore = create<QuizState>()(
           currentIndex: 0,
           isQuizInProgress: true,
           currentScreen: 'question',
+          // A finished exam summary must not resurface in review mode.
+          examLastResult: null,
         }),
 
       // REVIEW stream. Deliberately bypasses canAccessQuestion: review is a
@@ -246,6 +264,72 @@ export const useQuizStore = create<QuizState>()(
             : [...reviewAnswers, record];
         set({ reviewAnswers: next, isQuizInProgress: true });
       },
+
+      // EXAM stream. Fully isolated from answers and reviewAnswers.
+      startExam: (count, durationMs) => {
+        const { questions } = get();
+        const shuffled = [...questions];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        const selected = shuffled.slice(0, Math.min(count, questions.length));
+        set({
+          examActive: true,
+          examStartedAt: Date.now(),
+          examDurationMs: durationMs,
+          examQuestionIds: selected.map((q) => q.id),
+          examAnswers: [],
+          examLastResult: null,
+          currentIndex: 0,
+          currentScreen: 'question',
+        });
+      },
+
+      // Exam answers give no immediate feedback and bypass the paywall gate.
+      answerExam: (questionId, selectedIndex) => {
+        const { questions, examAnswers } = get();
+        const question = questions.find((q) => q.id === questionId);
+        if (!question) return;
+        const option = question.options[selectedIndex];
+        if (!option) return;
+        const record: AnswerRecord = { questionId, selectedIndex, isCorrect: option.correct };
+        const existingIndex = examAnswers.findIndex((a) => a.questionId === questionId);
+        const next =
+          existingIndex >= 0
+            ? examAnswers.map((a, i) => (i === existingIndex ? record : a))
+            : [...examAnswers, record];
+        set({ examAnswers: next });
+      },
+
+      finishExam: () => {
+        const { examAnswers, examStartedAt, examDurationMs } = get();
+        if (!examStartedAt) return;
+        set({
+          examActive: false,
+          examLastResult: {
+            answers: examAnswers,
+            startedAt: examStartedAt,
+            finishedAt: Date.now(),
+            durationMs: examDurationMs,
+          },
+          examStartedAt: null,
+          isQuizInProgress: false,
+          currentScreen: 'results',
+        });
+      },
+
+      cancelExam: () =>
+        set({
+          examActive: false,
+          examStartedAt: null,
+          examDurationMs: 0,
+          examQuestionIds: [],
+          examAnswers: [],
+          examLastResult: null,
+          currentIndex: 0,
+          currentScreen: 'dashboard',
+        }),
     }),
     {
       name: 'rhcsa_progress',
@@ -261,6 +345,12 @@ export const useQuizStore = create<QuizState>()(
         reviewQuestionIds: state.reviewQuestionIds,
         reviewAnswers: state.reviewAnswers,
         isQuizInProgress: state.isQuizInProgress,
+        examActive: state.examActive,
+        examStartedAt: state.examStartedAt,
+        examDurationMs: state.examDurationMs,
+        examQuestionIds: state.examQuestionIds,
+        examAnswers: state.examAnswers,
+        // examLastResult is deliberately NOT persisted - session state only.
       }),
       version: 2,
       migrate: (persistedState, version) => {

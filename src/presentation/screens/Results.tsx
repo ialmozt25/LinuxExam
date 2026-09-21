@@ -16,6 +16,9 @@ export default function Results() {
   const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
   const isReview = reviewQuestionIds !== null;
+  const examLastResult = useQuizStore((s) => s.examLastResult);
+  const startExam = useQuizStore((s) => s.startExam);
+  const cancelExam = useQuizStore((s) => s.cancelExam);
 
   const isTelegram = isTMA();
 
@@ -66,6 +69,110 @@ export default function Results() {
   const handleBackToTopics = () => {
     navigateTo('dashboard');
   };
+
+  // ---- Exam summary takes over the whole screen when a finished exam exists ----
+  if (examLastResult !== null) {
+    const { answers: examAns, startedAt, finishedAt } = examLastResult;
+    const examCorrect = examAns.filter((a) => a.isCorrect).length;
+    const examAnswered = examAns.length;
+    const examAccuracy = examAnswered > 0 ? Math.round((examCorrect / examAnswered) * 100) : 0;
+    const timeSpentMs = finishedAt - startedAt;
+    const timeMm = Math.floor(timeSpentMs / 60000);
+    const timeSs = Math.floor((timeSpentMs % 60000) / 1000);
+
+    return (
+      <ScreenContainer>
+        <AppHeader onHome={() => navigateTo('dashboard')} center="Экзамен" />
+
+        <h1
+          style={{
+            fontSize: 24,
+            fontWeight: 700,
+            margin: 0,
+            marginBottom: SPACING.sm,
+            textAlign: 'center',
+          }}
+        >
+          Экзамен завершён
+        </h1>
+
+        <div
+          style={{
+            background: COLORS.surface,
+            padding: SPACING.lg,
+            borderRadius: LAYOUT.cardRadius,
+            textAlign: 'center',
+            marginTop: SPACING.lg,
+          }}
+        >
+          <div style={{ fontSize: 48, fontWeight: 700, color: COLORS.primary }}>
+            {examCorrect + ' / ' + examAnswered}
+          </div>
+          <div style={{ fontSize: 14, color: COLORS.textSecondary, marginTop: SPACING.sm }}>
+            Правильных ответов
+          </div>
+          <div
+            style={{
+              fontSize: 20,
+              fontWeight: 600,
+              marginTop: SPACING.md,
+              color:
+                examAccuracy >= 70
+                  ? COLORS.correct
+                  : examAccuracy >= 40
+                    ? COLORS.primary
+                    : COLORS.wrong,
+            }}
+          >
+            {examAccuracy + '%'}
+          </div>
+          <div style={{ fontSize: 14, color: COLORS.textSecondary, marginTop: SPACING.md }}>
+            {`Время: ${timeMm}:${String(timeSs).padStart(2, '0')}`}
+          </div>
+        </div>
+
+        <div style={{ marginTop: SPACING.xl }}>
+          <button
+            type="button"
+            onClick={() => startExam(20, 30 * 60 * 1000)}
+            style={{
+              width: '100%',
+              padding: SPACING.md,
+              background: COLORS.primary,
+              color: COLORS.textPrimary,
+              border: 'none',
+              borderRadius: LAYOUT.buttonRadius,
+              fontSize: 16,
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              marginBottom: SPACING.sm,
+            }}
+          >
+            Пройти заново
+          </button>
+          <button
+            type="button"
+            onClick={() => cancelExam()}
+            style={{
+              width: '100%',
+              padding: SPACING.md,
+              background: COLORS.surface,
+              color: COLORS.textPrimary,
+              border: 'none',
+              borderRadius: LAYOUT.buttonRadius,
+              fontSize: 16,
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            Выйти
+          </button>
+        </div>
+      </ScreenContainer>
+    );
+  }
 
   return (
     <ScreenContainer>
