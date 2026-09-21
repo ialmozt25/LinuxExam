@@ -1,0 +1,64 @@
+:root {
+  /* Primitive */
+  --color-blue-500: #2196F3;
+  --color-green-500: #4CAF50;
+  --color-red-500: #F44336;
+  --color-orange-500: #FF9800;
+  --color-gray-900: #1E1E1E;
+  --color-gray-800: #2D2D2D;
+  --color-gray-700: #252525;
+  --color-white: #FFFFFF;
+  --color-gray-300: #B0B0B0;
+
+  /* Semantic — Telegram-first */
+  --bg-primary: var(--tg-theme-bg-color, #1E1E1E);
+  --bg-surface: var(--tg-theme-secondary-bg-color, #2D2D2D);
+  --bg-elevated: #252525;
+  --text-primary: var(--tg-theme-text-color, #FFFFFF);
+  --text-secondary: var(--tg-theme-hint-color, #B0B0B0);
+  --accent: var(--tg-theme-button-color, #2196F3);
+  --success: #4CAF50;
+  --danger: #F44336;
+  --warning: #FF9800;
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-strong: rgba(255,255,255,0.12);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Type */
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 19px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Touch */
+  --touch-min: 44px;
+  --mainbutton-height: 56px;
+  --mainbutton-gap: 16px;
+
+  /* Safe areas */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}

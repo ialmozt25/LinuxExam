@@ -1,7 +1,8 @@
+import './presentation/theme/tokens.css';
+import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import './index.css';
 import { useQuizStore } from '@/store/quizStore';
 import { initTelegramSDK } from './platform/telegram_adapter';
 
