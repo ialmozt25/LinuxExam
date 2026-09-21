@@ -4,6 +4,7 @@ import { useQuizStore } from '@/store/quizStore';
 import { shareResult } from '@/platform/telegram_adapter';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
+import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 
 export default function Results() {
   const answers = useQuizStore((s) => s.answers);
@@ -60,19 +61,7 @@ export default function Results() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        background: COLORS.background,
-        color: COLORS.textPrimary,
-        paddingTop: SPACING.md,
-        paddingLeft: SPACING.md,
-        paddingRight: SPACING.md,
-        paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
-        maxWidth: LAYOUT.containerMaxWidth,
-        margin: '0 auto',
-      }}
-    >
+    <ScreenContainer>
       {/* Header */}
       <h1
         style={{
@@ -253,6 +242,6 @@ export default function Results() {
         )}
         {/* TODO(content): заменить «Пройти заново» на «Повторить ошибки» с фильтрацией неправильных ответов когда база вопросов ≥ 50 */}
       </div>
-    </div>
+    </ScreenContainer>
   );
 }
