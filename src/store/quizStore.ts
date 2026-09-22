@@ -39,6 +39,10 @@ interface QuizState {
   // Resume support
   isQuizInProgress: boolean;
 
+  // Which topic quiz is running (null = regular / review / exam).
+  // Session-only: deliberately NOT persisted.
+  activeTopic: string | null;
+
   // Exam mode. Only the gate + last-result slot are introduced here; COMMIT B
   // adds the rest of the exam state (timing, question ids, answers, actions).
   examActive: boolean;
@@ -71,6 +75,7 @@ interface QuizState {
   startReviewQuiz: (ids: string[]) => void;
   answerReview: (questionId: string, selectedIndex: number) => void;
   startRegularQuiz: () => void;
+  startTopicQuiz: (topic: string) => void;
   startExam: (count: number, durationMs: number) => void;
   answerExam: (questionId: string, selectedIndex: number) => void;
   finishExam: () => void;
@@ -96,6 +101,7 @@ export const useQuizStore = create<QuizState>()(
       reviewQuestionIds: null,
       reviewAnswers: [],
       isQuizInProgress: false,
+      activeTopic: null,
       examActive: false,
       examLastResult: null,
       examStartedAt: null,
@@ -122,9 +128,34 @@ export const useQuizStore = create<QuizState>()(
           reviewQuestionIds: null,
           reviewAnswers: [],
           currentIndex: 0,
+          activeTopic: null,
           // Drop any previous exam summary so Results cannot show a stale one.
           examLastResult: null,
         }),
+
+      // Starts a topic quiz. Reuses the REVIEW stream (reviewQuestionIds /
+      // reviewAnswers) and tags it with activeTopic so it is distinguishable
+      // from "Повторить ошибки" without a fourth answer stream.
+      startTopicQuiz: (topic) => {
+        const { questions } = get();
+        const filtered = questions.filter((q) => q.topic === topic);
+        if (filtered.length === 0) return;
+        const shuffled = [...filtered];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        set({
+          reviewQuestionIds: shuffled.map((q) => q.id),
+          reviewAnswers: [],
+          currentIndex: 0,
+          isQuizInProgress: true,
+          currentScreen: 'question',
+          activeTopic: topic,
+          examActive: false,
+          examLastResult: null,
+        });
+      },
 
       recordActivity: () => {
         const today = new Date().toISOString().slice(0, 10);
@@ -168,10 +199,23 @@ export const useQuizStore = create<QuizState>()(
       },
 
       nextQuestion: () => {
-        const { currentIndex, questions, examActive, examQuestionIds, isPro } = get();
-        const poolSize = examActive ? examQuestionIds.length : questions.length;
+        const { currentIndex, questions, examActive, examQuestionIds, isPro, activeTopic, reviewQuestionIds } =
+          get();
+        // JOB 0: the pool must follow the ACTIVE stream. Without the review
+        // branch a topic/review quiz would run past its own pool into questions
+        // the Question screen does not even render.
+        const poolSize = examActive
+          ? examQuestionIds.length
+          : reviewQuestionIds
+            ? reviewQuestionIds.length
+            : questions.length;
         const nextIndex = currentIndex + 1;
-        if (nextIndex >= poolSize) return;
+        if (nextIndex >= poolSize) {
+          // 1.4: end of a topic quiz - drop the flag so the Dashboard stops
+          // presenting it as the active topic.
+          if (activeTopic !== null) set({ activeTopic: null });
+          return;
+        }
         // Exam is never paywalled - the whole point is a full timed run.
         if (!examActive && nextIndex >= FREE_QUESTION_LIMIT && !isPro) {
           set({ isPaywallVisible: true });
@@ -198,6 +242,7 @@ export const useQuizStore = create<QuizState>()(
           wrongQuestionIds: [],
           reviewQuestionIds: null,
           reviewAnswers: [],
+          activeTopic: null,
         });
       },
 
@@ -244,6 +289,7 @@ export const useQuizStore = create<QuizState>()(
           currentIndex: 0,
           isQuizInProgress: true,
           currentScreen: 'question',
+          activeTopic: null,
           // A finished exam summary must not resurface in review mode.
           examLastResult: null,
         }),
@@ -283,6 +329,7 @@ export const useQuizStore = create<QuizState>()(
           examLastResult: null,
           currentIndex: 0,
           currentScreen: 'question',
+          activeTopic: null,
         });
       },
 
@@ -329,6 +376,7 @@ export const useQuizStore = create<QuizState>()(
           examLastResult: null,
           currentIndex: 0,
           currentScreen: 'dashboard',
+          activeTopic: null,
         }),
     }),
     {

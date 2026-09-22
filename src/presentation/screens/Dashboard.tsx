@@ -21,6 +21,9 @@ export default function Dashboard() {
   const examActive = useQuizStore((s) => s.examActive);
   const startRegularQuiz = useQuizStore((s) => s.startRegularQuiz);
   const startExam = useQuizStore((s) => s.startExam);
+  const startTopicQuiz = useQuizStore((s) => s.startTopicQuiz);
+  const wrongQuestionIds = useQuizStore((s) => s.wrongQuestionIds);
+  const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
 
   // CRITICAL: useShallow with PRIMITIVES ONLY.
   // getProgress() returns a new object each call. useShallow on the full
@@ -168,6 +171,42 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* «Повторить ошибки» — resumed from the regular stream's wrong answers */}
+      {wrongQuestionIds.length > 0 && (
+        <button
+          type="button"
+          onClick={() => startReviewQuiz(wrongQuestionIds)}
+          style={{
+            width: '100%',
+            padding: 'var(--space-3)',
+            marginTop: 'var(--space-4)',
+            background: 'rgba(244, 67, 54, 0.1)',
+            border: '1px solid var(--danger)',
+            borderRadius: 'var(--radius-md)',
+            color: 'var(--text-primary)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            textAlign: 'left',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <span>Повторить ошибки</span>
+          <span
+            style={{
+              fontSize: 'var(--text-xs)',
+              color: 'var(--danger)',
+              fontWeight: 600,
+            }}
+          >
+            {wrongQuestionIds.length} вопр.
+          </span>
+        </button>
+      )}
+
       {/* RHCSA Roadmap - informational only, topics are NOT interactive */}
       <div style={{ marginTop: 'var(--space-6)' }}>
         <div
@@ -203,21 +242,25 @@ export default function Dashboard() {
           const count = questions.filter((q) => q.topic === topic.key).length;
           const isAvailable = topic.status === 'available';
           const Icon = topic.Icon;
-          return (
-            <div
-              key={topic.key}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-3)',
-                padding: 'var(--space-3)',
-                marginBottom: 'var(--space-2)',
-                background: 'var(--bg-surface)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-md)',
-                opacity: isAvailable ? 1 : 0.55,
-              }}
-            >
+
+          const rowStyle = {
+            display: 'flex' as const,
+            alignItems: 'center' as const,
+            gap: 'var(--space-3)',
+            padding: 'var(--space-3)',
+            marginBottom: 'var(--space-2)',
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-md)',
+            opacity: isAvailable ? 1 : 0.55,
+            width: '100%' as const,
+            textAlign: 'left' as const,
+            fontFamily: 'inherit',
+            color: 'inherit',
+          };
+
+          const inner = (
+            <>
               <Icon
                 size={20}
                 color={isAvailable ? 'var(--accent)' : 'var(--text-secondary)'}
@@ -274,6 +317,26 @@ export default function Dashboard() {
                   Скоро
                 </span>
               )}
+            </>
+          );
+
+          if (isAvailable) {
+            return (
+              <button
+                key={topic.key}
+                type="button"
+                onClick={() => startTopicQuiz(topic.key)}
+                aria-label={`Начать тему: ${topic.title}`}
+                style={{ ...rowStyle, cursor: 'pointer' }}
+              >
+                {inner}
+              </button>
+            );
+          }
+
+          return (
+            <div key={topic.key} style={rowStyle}>
+              {inner}
             </div>
           );
         })}
