@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { ShieldCheck, FolderOpen, Cpu, Flame } from 'lucide-react';
+import { Flame } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
-import { pluralizeQuestions } from '@/utils/pluralize';
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { useExamTimer } from '@/hooks/useExamTimer';
+import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 
 export default function Dashboard() {
   const questions = useQuizStore((s) => s.questions);
@@ -45,11 +45,6 @@ export default function Dashboard() {
     el.scrollTop = 0;
   }, []);
 
-  const TOPICS = [
-    { key: 'file_permissions' as const, title: 'Права доступа', Icon: ShieldCheck },
-    { key: 'file_management' as const, title: 'Управление файлами', Icon: FolderOpen },
-    { key: 'process_management' as const, title: 'Управление процессами', Icon: Cpu },
-  ];
 
   const totalQuestions = questions.length;
   const progressPercent = totalQuestions > 0 ? (answered / totalQuestions) * 100 : 0;
@@ -173,6 +168,116 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* RHCSA Roadmap - informational only, topics are NOT interactive */}
+      <div style={{ marginTop: 'var(--space-6)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            marginBottom: 'var(--space-3)',
+          }}
+        >
+          <span
+            style={{
+              fontSize: 'var(--text-xs)',
+              textTransform: 'uppercase',
+              letterSpacing: 'var(--letter-wide, 0.5px)',
+              color: 'var(--text-secondary)',
+              fontWeight: 600,
+            }}
+          >
+            Программа RHCSA
+          </span>
+          <span
+            style={{
+              fontSize: 'var(--text-xs)',
+              color: 'var(--text-secondary)',
+            }}
+          >
+            {`${AVAILABLE_TOPICS.length} из ${TOPICS.length} тем`}
+          </span>
+        </div>
+
+        {TOPICS.map((topic) => {
+          const count = questions.filter((q) => q.topic === topic.key).length;
+          const isAvailable = topic.status === 'available';
+          const Icon = topic.Icon;
+          return (
+            <div
+              key={topic.key}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-3)',
+                padding: 'var(--space-3)',
+                marginBottom: 'var(--space-2)',
+                background: 'var(--bg-surface)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-md)',
+                opacity: isAvailable ? 1 : 0.55,
+              }}
+            >
+              <Icon
+                size={20}
+                color={isAvailable ? 'var(--accent)' : 'var(--text-secondary)'}
+                aria-hidden="true"
+              />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    fontSize: 'var(--text-sm)',
+                    fontWeight: 600,
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {topic.title}
+                </div>
+                <div
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    color: 'var(--text-secondary)',
+                    marginTop: 'var(--space-1)',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {topic.description}
+                </div>
+              </div>
+              {isAvailable ? (
+                <span
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    fontWeight: 600,
+                    color: 'var(--accent)',
+                    flexShrink: 0,
+                  }}
+                >
+                  {count} вопр.
+                </span>
+              ) : (
+                <span
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary)',
+                    background: 'rgba(255,255,255,0.06)',
+                    padding: '2px 6px',
+                    borderRadius: 'var(--radius-sm)',
+                    flexShrink: 0,
+                    textTransform: 'uppercase',
+                    letterSpacing: 'var(--letter-wide, 0.5px)',
+                  }}
+                >
+                  Скоро
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
       {/* Exam banner REPLACES the resume banner while an exam runs */}
       {examActive ? (
         <div
@@ -286,40 +391,6 @@ export default function Dashboard() {
           Режим экзамена (20 вопросов, 30 минут)
         </button>
       )}
-      <div
-        className="grid grid-cols-1 md:grid-cols-3"
-        style={{ gap: SPACING.md, marginTop: SPACING.xl }}
-      >
-        {TOPICS.map(({ key, title, Icon }) => {
-          const count = questions.filter((q) => q.topic === key).length;
-          return (
-            <button
-              key={key}
-              type="button"
-              aria-label={`Перейти к теме: ${title}`}
-              onClick={() => navigateTo('question')}
-              style={{
-                background: COLORS.surface,
-                padding: SPACING.md,
-                borderRadius: LAYOUT.cardRadius,
-                cursor: 'pointer',
-                textAlign: 'left',
-                border: 'none',
-                width: '100%',
-                color: COLORS.textPrimary,
-                transition: 'background 0.2s',
-                fontFamily: 'inherit',
-              }}
-            >
-              <Icon size={24} color={COLORS.primary} aria-hidden="true" />
-              <div style={{ fontSize: 14, fontWeight: 600, marginTop: SPACING.sm }}>{title}</div>
-              <div style={{ fontSize: 12, color: COLORS.textSecondary, marginTop: SPACING.xs }}>
-                {`${count} ${pluralizeQuestions(count)}`}
-              </div>
-            </button>
-          );
-        })}
-      </div>
 
       {!examActive && !isTelegram && (
         <button
