@@ -76,7 +76,9 @@
    Telegram client. accent/success/danger/warning stay Telegram-aware.
    ═══════════════════════════════════════════════════════════════ */
 
-:root[data-theme="light"] {
+/* When data-theme-source="inherit" this hex block steps aside so the live
+   Telegram palette (--tg-theme-*, published by bindThemeParamsCssVars) wins. */
+:root[data-theme="light"]:not([data-theme-source="inherit"]) {
   color-scheme: light;
 
   /* Backgrounds — not pure white, reduces glare */
@@ -93,7 +95,7 @@
   --border-strong: rgba(0, 0, 0, 0.25);
 }
 
-:root[data-theme="dark"] {
+:root[data-theme="dark"]:not([data-theme-source="inherit"]) {
   color-scheme: dark;
 
   --bg-primary: #1E1E1E;

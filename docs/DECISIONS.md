@@ -97,3 +97,35 @@ answerExam по-прежнему изолирован (экзамен не вл�
 явный выбор «Светлая» не работал бы внутри тёмного Telegram-клиента.
 Следствие — Mini App больше не наследует тему Telegram. Откат: убрать
 hex-переопределения и вернуть `var(--tg-theme-*)` в базовом `:root`.
+
+## DECISION-010 (2026-09-22)
+
+**Контекст:** чат-фидбек Ilya и Евгения. Тема была three-state (System/Light/Dark),
+но `system` ориентировался только на OS `prefers-color-scheme` и игнорировал тему
+клиента Telegram; переключатель находился в самом низу Dashboard (после roadmap).
+
+**Решение:** live inherit + перенос UI в настройки.
+
+1. `useThemeController` — единый источник истины: внутри Telegram читает
+   `themeParams.isDark` через `useSignal` (реагирует на смену темы без перезагрузки),
+   вне Telegram — `matchMedia` с change-listener.
+2. `themeParams.bindCssVars()` при mount: публикует `--tg-theme-*` и поддерживает их
+   в актуальном состоянии. Одноразовый `themeParams.state()` из `useTelegramTheme`
+   этого не давал.
+3. `data-theme-source="inherit" | "manual"` на `<html>`. CSS-блоки темы получили
+   `:not([data-theme-source="inherit"])`, поэтому в inherit-режиме hex-переопределения
+   уступают живой палитре Telegram.
+4. Два ключа localStorage: `lx-theme` (`system|light|dark`, источник истины) и
+   `lx-theme-manual` (последний ручной выбор, дефолт `dark`).
+5. UI: селектор удалён из Dashboard; в status strip — кнопка настроек; три состояния
+   в `SettingsScreen` (чекбокс «Следовать Telegram / системе» + `role="switch"` с
+   `aria-checked` / `aria-disabled`).
+
+**Последствия:**
+
+- **Breaking change для существующих `system`:** раньше внутри Telegram `system` = OS,
+  теперь `system` = тема клиента Telegram. Смена поведения молчаливая — вынести как
+  открытый вопрос: уведомлять пользователя или нет.
+- `--accent`/`--success`/`--danger`/`--warning` по-прежнему не переопределяются.
+- `light-dark()` не используется (совместимость со старыми WebView).
+- Multi-tab sync не реализован (см. DECISION-009).

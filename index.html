@@ -7,21 +7,38 @@
     <!-- FOUC prevention: resolves data-theme before the CSS/JS bundle loads. -->
     <script>
       (function () {
+        var root = document.documentElement;
         try {
           var saved = localStorage.getItem('lx-theme');
-          var theme;
-          if (saved === 'light' || saved === 'dark') {
-            theme = saved;
-          } else {
+          if (saved === 'system') {
+            // Following the client/system: let the live Telegram palette through.
+            root.setAttribute('data-theme-source', 'inherit');
+            var scheme =
+              (window.Telegram &&
+                window.Telegram.WebApp &&
+                window.Telegram.WebApp.colorScheme) ||
+              (window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light');
+            root.setAttribute('data-theme', scheme === 'light' ? 'light' : 'dark');
+            return;
+          }
+          var theme = saved === 'light' || saved === 'dark' ? saved : null;
+          if (theme === null) {
             theme =
               window.matchMedia &&
               window.matchMedia('(prefers-color-scheme: dark)').matches
                 ? 'dark'
                 : 'light';
+            root.setAttribute('data-theme-source', 'inherit');
+          } else {
+            root.setAttribute('data-theme-source', 'manual');
           }
-          document.documentElement.setAttribute('data-theme', theme);
+          root.setAttribute('data-theme', theme);
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
+          root.setAttribute('data-theme', 'dark');
+          root.setAttribute('data-theme-source', 'inherit');
         }
       })();
     </script>
