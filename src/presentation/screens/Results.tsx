@@ -6,9 +6,12 @@ import { SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { AppHeader } from '@/presentation/components/AppHeader';
+import { TOPICS } from '@/data/topics';
 
 export default function Results() {
-  const answers = useQuizStore((s) => s.answers);
+  const regularAnswers = useQuizStore((s) => s.answers);
+  const reviewAnswers = useQuizStore((s) => s.reviewAnswers);
+  const activeTopic = useQuizStore((s) => s.activeTopic);
   const questions = useQuizStore((s) => s.questions);
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const resetProgress = useQuizStore((s) => s.resetProgress);
@@ -34,21 +37,29 @@ export default function Results() {
       ? window.location.origin + window.location.pathname
       : 'https://ialmozt25.github.io/LinuxExam/';
 
+  // Exactly one answer stream is active, resolved with the same precedence as
+  // Question.tsx: exam > review (a review or topic quiz) > regular. Review is
+  // keyed off reviewQuestionIds, NOT off reviewAnswers.length - the latter is
+  // merely a stale leftover after a review run and would misreport a regular
+  // run as a review one.
+  const answers = isReview ? reviewAnswers : regularAnswers;
+
   const totalQuestions = questions.length;
   const answered = answers.length;
   const correct = answers.filter((a) => a.isCorrect).length;
   const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
   const hasAnyAnswers = answered > 0;
 
-  const TOPICS = [
-    { key: 'file_permissions' as const, title: 'Права доступа' },
-    { key: 'file_management' as const, title: 'Управление файлами' },
-    { key: 'process_management' as const, title: 'Управление процессами' },
-  ];
+  // A review is either a topic quiz (activeTopic set) or "Повторить ошибки".
+  const topicTitle = activeTopic ? (TOPICS.find((t) => t.key === activeTopic)?.title ?? null) : null;
+  const screenTitle =
+    isReview && topicTitle ? `Тема: ${topicTitle}` : isReview ? 'Результаты повторения' : 'Результаты';
 
   const topicStats = TOPICS.map((topic) => {
     const topicQuestions = questions.filter((q) => q.topic === topic.key);
     const topicIds = new Set(topicQuestions.map((q) => q.id));
+    // Counted against the ACTIVE stream, so a review/topic run does not report
+    // every topic as 0/12 while its own score reads 2/2.
     const topicAnswers = answers.filter((a) => topicIds.has(a.questionId));
     const topicCorrect = topicAnswers.filter((a) => a.isCorrect).length;
     return {
@@ -61,6 +72,8 @@ export default function Results() {
     };
   });
 
+  // Regular stream only (the button is not rendered for a review): clears the
+  // per-run progress and starts the run from the top.
   const handleRetry = () => {
     resetProgress();
     navigateTo('question');
@@ -176,7 +189,7 @@ export default function Results() {
 
   return (
     <ScreenContainer>
-      <AppHeader onHome={handleBackToTopics} center="Результаты" />
+      <AppHeader onHome={handleBackToTopics} center={screenTitle} />
 
       {/* Header */}
       <h1
@@ -188,7 +201,7 @@ export default function Results() {
           textAlign: 'center',
         }}
       >
-        Результаты
+        {screenTitle}
       </h1>
 
       {/* Big score card */}
@@ -240,8 +253,10 @@ export default function Results() {
         )}
       </div>
 
-      {/* Review the questions answered incorrectly in the regular stream */}
-      {wrongQuestionIds.length > 0 && (
+      {/* Review the questions answered incorrectly in the regular stream. Only
+          offered in the regular stream: inside a review the list is already the
+          subject matter, and a second entry point would restart it. */}
+      {!isReview && wrongQuestionIds.length > 0 && (
         <button
           type="button"
           onClick={() => startReviewQuiz(wrongQuestionIds)}

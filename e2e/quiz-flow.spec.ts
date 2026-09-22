@@ -381,3 +381,113 @@ test('review first question has no back', async ({ page }) => {
   await expect(page.getByText(/2\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
   await expect(page.getByRole('button', { name: 'Назад' })).toBeVisible();
 });
+
+test('a completed topic run reports the review stream, not an empty screen', async ({ page }) => {
+  // Seeded on the LAST question of a topic run, with currentScreen = 'question'
+  // so the app boots straight into it (an unfinished review run is not offered
+  // as a resumable banner, and driving all 12 questions is impossible for a free
+  // user - see the report on the free-question gate). This isolates the defect
+  // under repair: a finished topic run must land on the REVIEW results and must
+  // not claim "Вы ещё не ответили ни на один вопрос".
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'rhcsa_progress',
+      JSON.stringify({
+        version: 2,
+        state: {
+          answers: [],
+          currentIndex: 11,
+          isPro: true,
+          streak: 3,
+          lastActiveDate: null,
+          totalXp: 30,
+          wrongQuestionIds: [],
+          reviewQuestionIds: [
+            'fp_001', 'fp_002', 'fp_003', 'fp_004', 'fp_005', 'fp_006',
+            'fp_007', 'fp_008', 'fp_009', 'fp_010', 'fp_011', 'fp_012',
+          ],
+          reviewAnswers: [
+            { questionId: 'fp_001', selectedIndex: 0, isCorrect: true },
+            { questionId: 'fp_002', selectedIndex: 0, isCorrect: true },
+          ],
+          isQuizInProgress: true,
+          currentScreen: 'question',
+          // activeTopic is session-only (never persisted), so a topic run that is
+          // resumed in a fresh session cannot restore its own title. Seed it here
+          // to exercise the topic-title branch end to end.
+          activeTopic: 'file_permissions',
+          examActive: false,
+          examStartedAt: null,
+          examDurationMs: 0,
+          examQuestionIds: [],
+          examAnswers: [],
+        },
+      })
+    );
+  });
+
+  await page.goto('/');
+
+  // The review stream is live: 12 questions, the last one open.
+  await expect(page.getByText(/12\s*\/\s*12/)).toBeVisible({ timeout: 10000 });
+  await page.locator('button[aria-label^="Ответ"]').first().click();
+  await page.getByRole('button', { name: 'Завершить', exact: true }).click();
+
+  // REVIEW results: titled with the topic, a real score - and no regular-only
+  // affordances.
+  await expect(page.getByRole('heading', { level: 1, name: 'Тема: Права доступа' })).toBeVisible({
+    timeout: 10000,
+  });
+  await expect(page.getByText('Вы ещё не ответили ни на один вопрос')).toHaveCount(0);
+  await expect(page.getByText(/^[1-3] \/ [1-3]$/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Пройти заново' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'К темам' })).toBeVisible();
+});
+
+
+test('a finished exam still shows the exam summary', async ({ page }) => {
+  // Guard for the other branch of the stream formula. The exam is driven through
+  // its REAL auto-finish path: a persisted running exam whose time has already
+  // elapsed triggers finishExam from useExamTimer, which populates
+  // examLastResult (session-only, so it cannot be seeded directly).
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'rhcsa_progress',
+      JSON.stringify({
+        version: 2,
+        state: {
+          answers: [],
+          currentIndex: 0,
+          isPro: true,
+          streak: 0,
+          lastActiveDate: null,
+          totalXp: 0,
+          wrongQuestionIds: [],
+          reviewQuestionIds: null,
+          reviewAnswers: [],
+          isQuizInProgress: true,
+          currentScreen: 'question',
+          activeTopic: null,
+          examActive: true,
+          examStartedAt: Date.now() - 120000,
+          examDurationMs: 60000,
+          examQuestionIds: ['fp_001', 'fp_002'],
+          examAnswers: [
+            { questionId: 'fp_002', selectedIndex: 1, isCorrect: true },
+            { questionId: 'fp_003', selectedIndex: 1, isCorrect: true },
+          ],
+          examLastResult: null,
+        },
+      })
+    );
+  });
+
+  await page.goto('/');
+
+  // The elapsed exam finalises itself: examLastResult is built from the EXAM
+  // answers (2/2), not from the empty regular stream.
+  await expect(page.getByText('Экзамен завершён')).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText('2 / 2')).toBeVisible();
+  await expect(page.getByText('100%')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Пройти заново' })).toBeVisible();
+});
