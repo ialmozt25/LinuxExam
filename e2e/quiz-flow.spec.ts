@@ -491,3 +491,61 @@ test('a finished exam still shows the exam summary', async ({ page }) => {
   await expect(page.getByText('100%')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Пройти заново' })).toBeVisible();
 });
+
+test('a free user can advance past the limit inside a topic run (B1)', async ({ page }) => {
+  // B1: nextQuestion applied FREE_QUESTION_LIMIT to the review stream while
+  // Question.tsx hides the paywall for review, so a free user froze at the limit
+  // with nothing to act on. Seeded AT the limit with isPro false: one click must
+  // move to the next question and must not surface the paywall.
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'rhcsa_progress',
+      JSON.stringify({
+        version: 2,
+        state: {
+          answers: [],
+          currentIndex: 4,
+          isPro: false,
+          streak: 0,
+          lastActiveDate: null,
+          totalXp: 0,
+          wrongQuestionIds: [],
+          reviewQuestionIds: [
+            'fp_001', 'fp_002', 'fp_003', 'fp_004', 'fp_005', 'fp_006',
+            'fp_007', 'fp_008', 'fp_009', 'fp_010', 'fp_011', 'fp_012',
+          ],
+          reviewAnswers: [{ questionId: 'fp_005', selectedIndex: 0, isCorrect: true }],
+          isQuizInProgress: true,
+          currentScreen: 'question',
+          activeTopic: 'file_permissions',
+          examActive: false,
+          examStartedAt: null,
+          examDurationMs: 0,
+          examQuestionIds: [],
+          examAnswers: [],
+        },
+      })
+    );
+  });
+
+  await page.goto('/');
+
+  // Fifth question of the topic run (the last free index) for a non-pro user.
+  await expect(page.getByText(/5\s*\/\s*12/)).toBeVisible({ timeout: 10000 });
+
+  await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
+
+  // Advanced past the free limit: question 6 of 12 renders and no paywall is
+  // shown. Before the fix this stuck at 5 / 12.
+  await expect(page.getByText(/6\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Бесплатные вопросы закончились')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Следующий вопрос', exact: true })).toBeVisible();
+
+  // The run keeps going: two more steps land on 8 / 12.
+  await page.locator('button[aria-label^="Ответ"]').first().click();
+  await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
+  await page.locator('button[aria-label^="Ответ"]').first().click();
+  await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
+  await expect(page.getByText(/8\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Бесплатные вопросы закончились')).toHaveCount(0);
+});

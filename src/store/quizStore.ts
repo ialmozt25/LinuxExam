@@ -199,8 +199,22 @@ export const useQuizStore = create<QuizState>()(
       },
 
       nextQuestion: () => {
-        const { currentIndex, questions, examActive, examQuestionIds, isPro, activeTopic, reviewQuestionIds } =
-          get();
+        const {
+          currentIndex,
+          questions,
+          examActive,
+          examQuestionIds,
+          isPro,
+          activeTopic,
+          reviewQuestionIds,
+        } = get();
+        // Same review predicate as Question.tsx. Review is a study mode, not new
+        // question consumption: answerReview deliberately skips canAccessQuestion,
+        // and the payload screen hides the paywall for review - so gating here
+        // deadlocked a free user at the limit (currentIndex froze, no paywall to
+        // act on). Review therefore bypasses the free-question gate, exactly like
+        // the exam branch already does.
+        const isReview = reviewQuestionIds !== null;
         // JOB 0: the pool must follow the ACTIVE stream. Without the review
         // branch a topic/review quiz would run past its own pool into questions
         // the Question screen does not even render.
@@ -216,8 +230,9 @@ export const useQuizStore = create<QuizState>()(
           if (activeTopic !== null) set({ activeTopic: null });
           return;
         }
-        // Exam is never paywalled - the whole point is a full timed run.
-        if (!examActive && nextIndex >= FREE_QUESTION_LIMIT && !isPro) {
+        // Exam is never paywalled - the whole point is a full timed run. Review is
+        // exempt for the same reason.
+        if (!examActive && !isReview && nextIndex >= FREE_QUESTION_LIMIT && !isPro) {
           set({ isPaywallVisible: true });
           return;
         }
