@@ -67,44 +67,78 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Light theme
-   Controlled via [data-theme] on <html>.
+   Themed values
 
-   NOTE: these override the Telegram-adaptive defaults in the block
-   above. That is deliberate — an explicit user choice must win over the
-   Mini App theme, otherwise "Light" would do nothing inside a dark
-   Telegram client. accent/success/danger/warning stay Telegram-aware.
+   One block per theme, defining ONLY --theme-* values. The final --bg-*,
+   --text-* and --border-* variables are resolved further down from these, so
+   the Telegram-aware and the fixed variants cannot drift apart.
    ═══════════════════════════════════════════════════════════════ */
 
-/* When data-theme-source="inherit" this hex block steps aside so the live
-   Telegram palette (--tg-theme-*, published by bindThemeParamsCssVars) wins. */
-:root[data-theme="light"]:not([data-theme-source="inherit"]) {
+:root[data-theme="light"] {
   color-scheme: light;
 
   /* Backgrounds — not pure white, reduces glare */
-  --bg-primary: #F5F5F5;
-  --bg-surface: #FFFFFF;
-  --bg-elevated: #EAEAEA;
+  --theme-bg-primary: #F5F5F5;
+  --theme-bg-surface: #FFFFFF;
+  --theme-bg-elevated: #EAEAEA;
 
   /* Text — not pure black, softer on eyes; passes WCAG AA */
-  --text-primary: #1B1F23;
-  --text-secondary: #4A4A4A;
+  --theme-text-primary: #1B1F23;
+  --theme-text-secondary: #4A4A4A;
 
   /* Borders — visible on light bg (decorative, not the sole cue) */
-  --border-subtle: rgba(0, 0, 0, 0.15);
-  --border-strong: rgba(0, 0, 0, 0.25);
+  --theme-border-subtle: rgba(0, 0, 0, 0.15);
+  --theme-border-strong: rgba(0, 0, 0, 0.25);
 }
 
-:root[data-theme="dark"]:not([data-theme-source="inherit"]) {
+:root[data-theme="dark"] {
   color-scheme: dark;
 
-  --bg-primary: #1E1E1E;
-  --bg-surface: #2D2D2D;
-  --bg-elevated: #252525;
+  --theme-bg-primary: #1E1E1E;
+  --theme-bg-surface: #2D2D2D;
+  --theme-bg-elevated: #252525;
 
-  --text-primary: #FFFFFF;
-  --text-secondary: #B0B0B0;
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #B0B0B0;
 
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.12);
+  --theme-border-subtle: rgba(255, 255, 255, 0.06);
+  --theme-border-strong: rgba(255, 255, 255, 0.12);
 }
+
+/*
+ * inherit: prefer the live Telegram palette, fall back to the resolved theme.
+ *
+ * Outside Telegram nothing publishes --tg-theme-*, so each variable resolves to
+ * its --theme-* value and the resolved theme is what the user sees. Inside
+ * Telegram, bindCssVars writes --tg-theme-* INLINE on <html>
+ * (document.documentElement.style.setProperty), and an inline declaration beats
+ * any author rule — so the client palette takes over here regardless of
+ * specificity.
+ */
+:root[data-theme-source="inherit"] {
+  --bg-primary: var(--tg-theme-bg-color, var(--theme-bg-primary));
+  --bg-surface: var(--tg-theme-secondary-bg-color, var(--theme-bg-surface));
+  --bg-elevated: var(--tg-theme-secondary-bg-color, var(--theme-bg-elevated));
+  --text-primary: var(--tg-theme-text-color, var(--theme-text-primary));
+  --text-secondary: var(--tg-theme-hint-color, var(--theme-text-secondary));
+  --border-subtle: var(--theme-border-subtle);
+  --border-strong: var(--theme-border-strong);
+}
+
+/*
+ * manual: the user pinned a theme, so the Telegram palette must NOT leak in.
+ */
+:root[data-theme-source="manual"] {
+  --bg-primary: var(--theme-bg-primary);
+  --bg-surface: var(--theme-bg-surface);
+  --bg-elevated: var(--theme-bg-elevated);
+  --text-primary: var(--theme-text-primary);
+  --text-secondary: var(--theme-text-secondary);
+  --border-subtle: var(--theme-border-subtle);
+  --border-strong: var(--theme-border-strong);
+}
+
+/*
+ * --accent, --success, --danger and --warning are absent from every block above
+ * on purpose: they stay Telegram-aware.
+ */

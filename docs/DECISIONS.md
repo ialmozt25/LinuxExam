@@ -174,3 +174,45 @@ Telegram недоступен, поэтому первый кадр исполь
 клиент Telegram расходятся, возможен короткий flash до монтирования
 `useThemeController`. В этой задаче НЕ чинится (сознательно; решение — либо
 проброс сигнала в early-boot пути, либо перенос применения темы на первый рендер).
+
+## DECISION-012 (2026-09-22)
+
+**Контекст:** в inherit-режиме вне Telegram страница рисовалась тёмной, хотя
+`data-theme="light"` и `data-theme-source="inherit"`. Симптом был невидим на
+уровне атрибутов и воспроизводился только по computed style.
+
+Причина: `index.css` объявлял статические `--tg-theme-*` (тёмные) в `:root`.
+Поэтому `--tg-theme-bg-color` была **всегда определена**, и в `tokens.css`
+конструкция `var(--tg-theme-bg-color, <fallback>)` никогда не доходила до
+fallback. Состояние «Telegram переменную не опубликовал» стало неотличимо от
+«опубликовал, и она тёмная». Вдобавок селекторы темы содержали
+`:not([data-theme-source="inherit"])`, что в inherit-режиме отключало светлый
+hex-блок целиком, оставляя только тёмный базовый `:root`.
+
+**Решение:**
+
+1. Из `index.css` удалены ВСЕ статические `--tg-theme-*`, включая
+   `--tg-theme-button-color`. Внутри Telegram их инжектит `bindCssVars`,
+   который пишет **inline** (`document.documentElement.style.setProperty`), а
+   inline-декларация побеждает любое author-правило — поэтому живая палитра
+   клиента продолжает работать независимо от специфичности.
+2. В `tokens.css` введены промежуточные `--theme-*` в `:root[data-theme="light"]`
+   и `:root[data-theme="dark"]` (7 переменных: `bg-primary`, `bg-surface`,
+   `bg-elevated`, `text-primary`, `text-secondary`, `border-subtle`,
+   `border-strong`). `:not(...)` из селекторов убран.
+3. Добавлены блоки маппинга `:root[data-theme-source="inherit"]`
+   (`var(--tg-theme-*, var(--theme-*))`) и `:root[data-theme-source="manual"]`
+   (`var(--theme-*)` без TG). Структура fallback одинакова для всех переменных.
+4. `--accent`, `--success`, `--danger`, `--warning` не переопределяются ни в
+   одном блоке — остаются Telegram-aware.
+
+**Последствия:**
+
+- Вне Telegram `inherit` = тема по `matchMedia` (светлая при светлой OS).
+- Внутри Telegram `inherit` = тема клиента (inline от `bindCssVars`).
+- `manual` изолирован от палитры Telegram.
+- **Компоненты с хардкодом `COLORS` из `colors.ts` остаются тёмными**:
+  `StreakBadge`, `XpBar`, `Paywall`, `Question`, `Results`. Их миграция на
+  CSS-переменные — отдельная задача (backlog). Измерено на Question при
+  inherit+OS light: 5 тёмных элементов уровня `#252525`.
+- Мёртвый экспорт `CSS_VARS` в `colors.ts` не используется нигде и не troнут.

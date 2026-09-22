@@ -35,19 +35,11 @@ body {
 @tailwind utilities;
 
 /*
- * Telegram Mini App theme fallbacks. Values are overridden at runtime by
- * useTelegramTheme() from themeParams.state; the static palette is used when
- * the app runs in a plain browser.
+ * --tg-theme-* are injected by bindCssVars inside Telegram. The static dark
+ * fallback that used to live here is removed — DECISION-012.
+ *
+ * It made "Telegram did not publish this variable" indistinguishable from
+ * "published, and it is dark", so the inherit mode could never resolve to a
+ * light palette outside Telegram. Colour now flows through the --theme-* values
+ * in tokens.css instead.
  */
-:root {
-  --tg-theme-bg-color: #1e1e1e;
-  --tg-theme-secondary-bg-color: #2d2d2d;
-  --tg-theme-text-color: #ffffff;
-  --tg-theme-hint-color: #b0b0b0;
-  --tg-theme-button-color: #2196f3;
-  --tg-theme-button-text-color: #ffffff;
-  --tg-theme-link-color: #2196f3;
-  --tg-theme-header-bg-color: #1e1e1e;
-  --tg-theme-accent-text-color: #2196f3;
-  --tg-theme-destructive-text-color: #f44336;
-}
