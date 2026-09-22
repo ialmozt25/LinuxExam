@@ -84,7 +84,11 @@ export default function Question() {
   const isCorrectAnswer = existingAnswer?.isCorrect ?? false;
   const isLastQuestion = currentIndex === totalQuestions - 1;
   const isLastExamQuestion = examActive && isLastQuestion;
-  const hasHistory = examActive ? false : isReview ? true : currentIndex > 0;
+  // Review starts at index 0 like every other stream, so the back control has
+  // history exactly when a previous question exists. The old 'isReview ? true'
+  // branch advertised a back button on the first review question, where
+  // previousQuestion() is a no-op and the Telegram BackButton is already hidden.
+  const hasHistory = examActive ? false : currentIndex > 0;
   const isTelegram = isTMA();
 
   useTelegramMainButton(

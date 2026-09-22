@@ -361,3 +361,23 @@ test('theme-aware success/danger clear AA against the surface (4 combinations)',
     expect(probe.dangerRatio).toBeGreaterThanOrEqual(4.5);
   }
 });
+
+test('review first question has no back', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
+    timeout: 10000,
+  });
+
+  // A topic quiz runs on the review stream. Its first question has no previous
+  // question, so neither the header back control nor Telegram's BackButton may
+  // be offered (previousQuestion() is a no-op at index 0).
+  await page.getByRole('button', { name: /Начать тему: Права доступа/ }).click();
+  await expect(page.getByText(/1\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByRole('button', { name: 'Назад' })).toHaveCount(0);
+
+  // Answering and advancing must bring the control back for question 2.
+  await page.locator('button[aria-label^="Ответ"]').first().click();
+  await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
+  await expect(page.getByText(/2\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByRole('button', { name: 'Назад' })).toBeVisible();
+});
