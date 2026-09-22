@@ -1,10 +1,9 @@
 import type { ReactNode } from 'react';
-import { ChevronLeft, Home, MoonStar } from 'lucide-react';
+import { ChevronLeft, Home } from 'lucide-react';
 
 interface Props {
   onBack?: () => void;
   onHome?: () => void;
-  onSettings?: () => void;
   center?: ReactNode;
   right?: ReactNode;
 }
@@ -17,7 +16,7 @@ const SIDE = 44;
  * has no control it still renders an empty box of the same width so the center
  * label stays optically centered.
  */
-export function AppHeader({ onBack, onHome, onSettings, center, right }: Props) {
+export function AppHeader({ onBack, onHome, center, right }: Props) {
   return (
     <div
       style={{
@@ -65,26 +64,6 @@ export function AppHeader({ onBack, onHome, onSettings, center, right }: Props) 
 
       {right !== undefined ? (
         right
-      ) : onSettings ? (
-        <button
-          type="button"
-          onClick={onSettings}
-          aria-label="Настройки"
-          style={{
-            minWidth: SIDE,
-            minHeight: SIDE,
-            background: 'transparent',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
-        </button>
       ) : onHome ? (
         <button
           type="button"

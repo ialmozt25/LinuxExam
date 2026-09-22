@@ -61,37 +61,67 @@ test('inherit mode normalises a legacy system value', async ({ page }) => {
   expect(await page.evaluate(() => window.localStorage.getItem('lx-theme-manual'))).toBeNull();
 });
 
-test('switch flips the theme and can return to inherit', async ({ page }) => {
+test('theme icon flips the theme and can return to inherit', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
     timeout: 10000,
   });
 
-  await page.getByRole('button', { name: 'Настройки' }).click();
+  // The icon lives in the Dashboard status strip and names the action it performs.
+  const icon = page.getByRole('button', { name: 'Переключить на тёмную' });
+  await expect(icon).toBeVisible();
 
-  // inherit + OS light => the switch reports the light theme.
-  const sw = page.getByRole('switch');
-  await expect(sw).toHaveAttribute('aria-checked', 'false');
-  await expect(page.getByText('Светлая тема')).toBeVisible();
-  await expect(page.getByText(/Следует системной теме/)).toBeVisible();
-
-  // Flip to dark: an explicit choice is pinned.
-  await sw.click();
+  // Flip to dark: an explicit choice is pinned and the label now offers the reverse.
+  await icon.click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme-source', 'manual');
-  await expect(page.getByText('Тёмная тема')).toBeVisible();
-  await expect(page.getByText('Ручной выбор')).toBeVisible();
   expect(await page.evaluate(() => window.localStorage.getItem('lx-theme'))).toBe('dark');
+  const back = page.getByRole('button', { name: 'Переключить на светлую' });
+  await expect(back).toBeVisible();
 
   // Flip back: it now equals the system theme, so the key is cleared entirely
   // (null, not an empty string) and the app follows the system again.
-  await sw.click();
+  await back.click();
   await expect(page.locator('html')).toHaveAttribute('data-theme-source', 'inherit');
   await expect
     .poll(() => page.evaluate(() => window.localStorage.getItem('lx-theme')), { timeout: 5000 })
     .toBeNull();
-  await expect(page.getByText(/Следует системной теме/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Переключить на тёмную' })).toBeVisible();
+});
+
+test('theme icon does not navigate away from the dashboard', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
+    timeout: 10000,
+  });
+
+  await page.getByRole('button', { name: 'Переключить на тёмную' }).click();
+
+  // There is no Settings screen any more: the dashboard must still be the screen.
+  await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible();
+  await expect(page.getByText('Программа RHCSA')).toBeVisible();
+  await expect(page.getByRole('switch')).toHaveCount(0);
+});
+
+test('the app inherits the theme on load without any interaction', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  // Clean storage: inherit is the default state.
+  await page.addInitScript(() => window.localStorage.removeItem('lx-theme'));
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
+    timeout: 10000,
+  });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('html')).toHaveAttribute('data-theme-source', 'inherit');
+  expect(await page.evaluate(() => window.localStorage.getItem('lx-theme'))).toBeNull();
+  await expect(page.getByRole('button', { name: 'Переключить на тёмную' })).toBeVisible();
+
+  // And the OS change propagates without a reload.
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark', { timeout: 5000 });
+  await expect(page.getByRole('button', { name: 'Переключить на светлую' })).toBeVisible();
 });
 
 // Computed-style assertions, not attribute assertions: the theme bug that

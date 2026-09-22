@@ -15,7 +15,7 @@ import { calculateProgress, ProgressMetrics } from '@/domain/quizService';
 // TODO(content): raise to 20 after questions.json reaches 50+ items
 export const FREE_QUESTION_LIMIT = 5;
 
-export type Screen = 'dashboard' | 'question' | 'results' | 'settings';
+export type Screen = 'dashboard' | 'question' | 'results';
 
 interface QuizState {
   questions: Question[];

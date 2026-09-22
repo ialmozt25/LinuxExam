@@ -4,13 +4,12 @@ import Dashboard from '@/presentation/screens/Dashboard';
 import Question from '@/presentation/screens/Question';
 import Results from '@/presentation/screens/Results';
 import { isTelegramWebApp, getTelegramUser } from '@/platform/telegram_adapter';
-import Settings from '@/presentation/screens/Settings';
 import { useThemeController } from '@/hooks/useThemeController';
 
 function App() {
   // Single source of truth: follows Telegram inside the client, the OS outside,
   // and re-applies on every live theme change. Publishes live --tg-theme-* too.
-  useThemeController();
+  const { resolved, toggle } = useThemeController();
 
   const currentScreen = useQuizStore((s) => s.currentScreen);
   const loadQuestions = useQuizStore((s) => s.loadQuestions);
@@ -21,15 +20,13 @@ function App() {
 
   const screen =
     currentScreen === 'dashboard' ? (
-      <Dashboard />
+      <Dashboard theme={resolved} onToggleTheme={toggle} />
     ) : currentScreen === 'question' ? (
       <Question />
     ) : currentScreen === 'results' ? (
       <Results />
-    ) : currentScreen === 'settings' ? (
-      <Settings />
     ) : (
-      <Dashboard />
+      <Dashboard theme={resolved} onToggleTheme={toggle} />
     );
 
   return (

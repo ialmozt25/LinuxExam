@@ -11,7 +11,7 @@ describe('Dashboard a11y', () => {
   });
 
   it('has no accessibility violations', async () => {
-    const { container } = render(<Dashboard />);
+    const { container } = render(<Dashboard theme="light" onToggleTheme={() => {}} />);
     await testAccessibility(container);
   });
 });

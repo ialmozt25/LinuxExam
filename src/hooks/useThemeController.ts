@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import { isTMA, themeParams, useSignal } from '@telegram-apps/sdk-react';
-import { applyThemeChoice, type ResolvedTheme, type ThemeChoice } from '@/utils/theme';
+import {
+  applyThemeChoice,
+  resolveTheme,
+  type ResolvedTheme,
+  type ThemeChoice,
+} from '@/utils/theme';
 
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
+// Mirrors the private STORAGE_KEY in utils/theme.ts. That constant is not
+// exported and theme.ts is out of scope here, so the key is repeated.
 const STORAGE_KEY = 'lx-theme';
 
 function readOsIsDark(): boolean {
@@ -12,7 +19,7 @@ function readOsIsDark(): boolean {
 
 /**
  * Manual choice, or null while the app follows Telegram / the system.
- * Absence of the storage key is what 'inherit' means now.
+ * Absence of the storage key is what 'inherit' means.
  */
 function readManual(): ResolvedTheme | null {
   if (typeof window === 'undefined') return null;
@@ -30,7 +37,38 @@ function toChoice(manual: ResolvedTheme | null): ThemeChoice {
 }
 
 /**
- * Single source of truth for the active theme.
+ * The Telegram colour scheme, or undefined when it cannot be trusted.
+ * Strict comparison on purpose: a Computed that is not mounted yields undefined,
+ * which must NOT be read as 'dark'.
+ */
+function readSystemTheme(): ResolvedTheme {
+  const fromMedia = (): ResolvedTheme =>
+    typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+      ? window.matchMedia(MEDIA_QUERY).matches
+        ? 'dark'
+        : 'light'
+      : 'dark';
+  try {
+    if (isTMA() === true) {
+      const value = themeParams.isDark();
+      if (value === true) return 'dark';
+      if (value === false) return 'light';
+    }
+  } catch {
+    // Fall through to the OS preference.
+  }
+  return fromMedia();
+}
+
+export interface ThemeController {
+  /** The theme actually in effect right now. */
+  resolved: ResolvedTheme;
+  /** Flips to the opposite theme, or back to inherit when it equals the system one. */
+  toggle: () => void;
+}
+
+/**
+ * Single source of truth for the active theme. Called exactly once, from App.
  *
  * Two live inputs are merged here:
  * - inside Telegram, `themeParams.isDark` (a Computed signal, subscribed via
@@ -38,15 +76,13 @@ function toChoice(manual: ResolvedTheme | null): ThemeChoice {
  *   switches Telegram's own theme;
  * - outside Telegram, `matchMedia` with a change listener.
  *
- * The Telegram signal is handed to `applyThemeChoice`, otherwise that call would
- * fall back to the OS preference and an inheriting app inside Telegram would show
- * the wrong theme.
+ * `applyThemeChoice` receives the Telegram signal, otherwise it would fall back to
+ * the OS preference and an inheriting app inside Telegram would show the wrong theme.
  *
  * `themeParams.bindCssVars()` publishes `--tg-theme-*` on <html> and keeps them in
- * sync; useTelegramTheme only published them once, which left the inherit mode on
- * the static fallback palette.
+ * sync, which the [data-theme-source="inherit"] block in tokens.css consumes.
  */
-export function useThemeController(): void {
+export function useThemeController(): ThemeController {
   const inTelegram = isTMA();
 
   // Subscribing through the SDK hook rather than reading the signal inline: the
@@ -87,17 +123,28 @@ export function useThemeController(): void {
     };
   }, [inTelegram]);
 
-  // The Settings screen announces explicit changes through this event.
-  useEffect(() => {
-    const handler = () => setManual(readManual());
-    window.addEventListener(THEME_CHANGE_EVENT, handler);
-    return () => window.removeEventListener(THEME_CHANGE_EVENT, handler);
-  }, []);
+  const resolved = resolveTheme(toChoice(manual), {
+    inTelegram,
+    telegramIsDark: inTelegram ? telegramIsDark : undefined,
+  });
 
   useEffect(() => {
     applyThemeChoice(toChoice(manual), inTelegram ? telegramIsDark : undefined);
   }, [manual, inTelegram, telegramIsDark, osIsDark]);
-}
 
-/** Event name shared with the Settings screen. */
-export const THEME_CHANGE_EVENT = 'lx-theme-change';
+  const toggle = () => {
+    const newChoice: ResolvedTheme = resolved === 'dark' ? 'light' : 'dark';
+    const systemTheme = readSystemTheme();
+    const next: ResolvedTheme | null = newChoice === systemTheme ? null : newChoice;
+    try {
+      if (next === null) window.localStorage.removeItem(STORAGE_KEY);
+      else window.localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      // Storage unavailable: the choice still applies for this session.
+    }
+    // Drives the re-render; the effect above then paints the new theme.
+    setManual(next);
+  };
+
+  return { resolved, toggle };
+}

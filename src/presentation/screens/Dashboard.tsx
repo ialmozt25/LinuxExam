@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { Flame, MoonStar } from 'lucide-react';
+import { Flame, MoonStar, Sun } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { SPACING, LAYOUT } from '@/presentation/theme';
 import { isTMA } from '@telegram-apps/sdk-react';
@@ -8,8 +8,16 @@ import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { useExamTimer } from '@/hooks/useExamTimer';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
+import type { ResolvedTheme } from '@/utils/theme';
 
-export default function Dashboard() {
+interface Props {
+  /** Theme currently in effect, owned by useThemeController in App. */
+  theme: ResolvedTheme;
+  /** Flips the theme, or returns to inherit when it matches the system one. */
+  onToggleTheme: () => void;
+}
+
+export default function Dashboard({ theme, onToggleTheme }: Props) {
   const questions = useQuizStore((s) => s.questions);
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const streak = useQuizStore((s) => s.streak);
@@ -103,8 +111,10 @@ export default function Dashboard() {
           </span>
           <button
             type="button"
-            onClick={() => navigateTo('settings')}
-            aria-label="Настройки"
+            onClick={onToggleTheme}
+            aria-label={
+              theme === 'light' ? 'Переключить на тёмную' : 'Переключить на светлую'
+            }
             style={{
               minWidth: 44,
               minHeight: 44,
@@ -118,7 +128,11 @@ export default function Dashboard() {
               color: 'var(--text-secondary)',
             }}
           >
-            <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
+            {theme === 'light' ? (
+              <Sun size={20} color="var(--text-secondary)" aria-hidden="true" />
+            ) : (
+              <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
