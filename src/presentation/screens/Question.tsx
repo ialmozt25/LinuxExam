@@ -8,11 +8,23 @@ import Paywall from '@/presentation/screens/Paywall';
 import { MotionButton } from '@/presentation/components/MotionButton';
 import { AppHeader } from '@/presentation/components/AppHeader';
 import { useExamTimer } from '@/hooks/useExamTimer';
+import { shuffleOptions, seedFromId } from '@/domain/quizService';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/useTelegramBackButton';
 import { impact, notify } from '@/hooks/useTelegramHaptics';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 
+type OptionLike = { text: string; correct: boolean };
+
+/**
+ * Deterministic option order for one question: the same id always yields the
+ * same order, so there is no re-shuffle flicker and no test flakiness. The
+ * arguments are primitives/id-scoped so the memo depends on nothing unstable.
+ */
+function orderOptions(questionId: string | null, options?: ReadonlyArray<OptionLike>) {
+  if (!questionId || !options) return [];
+  return shuffleOptions(options, seedFromId(questionId));
+}
 export default function Question() {
   const allQuestions = useQuizStore((s) => s.questions);
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
@@ -48,6 +60,16 @@ export default function Question() {
 
   const currentQuestion = activeQuestions[currentIndex] ?? null;
   const totalQuestions = activeQuestions.length;
+  const questionId = currentQuestion?.id ?? null;
+
+  // Deterministic per-question option order. MUST stay above the conditional
+  // returns below (Rules of Hooks). Dependencies are the id and the options of
+  // the current question only, so the order never re-shuffles on a re-render.
+  const questionOptions = currentQuestion?.options;
+  const shuffledOptions = useMemo(
+    () => orderOptions(questionId, questionOptions),
+    [questionId, questionOptions]
+  );
 
   // Exactly one answer stream is active. They never mix.
   const activeAnswers = examActive ? examAnswers : isReview ? reviewAnswers : answers;
@@ -249,8 +271,11 @@ export default function Question() {
           marginTop: SPACING.lg,
         }}
       >
-        {currentQuestion.options.map((option, index) => {
-          const isSelected = existingAnswer?.selectedIndex === index;
+        {shuffledOptions.map((option, visualIndex) => {
+          // originalIndex is the position in the stored options array: it is what
+          // gets persisted and what all correctness logic must use.
+          const originalIndex = option.originalIndex;
+          const isSelected = existingAnswer?.selectedIndex === originalIndex;
           const isRevealedCorrect = hasAnswered && !isSelected && option.correct;
 
           // Border WIDTH is constant (2px) in every state - selecting an option
@@ -286,15 +311,15 @@ export default function Question() {
 
           return (
             <motion.div
-              key={index}
+              key={option.originalIndex}
               animate={shouldPulse && !reduceMotion ? { scale: [1, 1.05, 1] } : { scale: 1 }}
               transition={{ duration: 0.3 }}
             >
               <MotionButton
                 type="button"
                 disabled={hasAnswered}
-                aria-label={`Ответ ${String.fromCharCode(65 + index)}: ${option.text}`}
-                onClick={() => handleOption(index)}
+                aria-label={`Ответ ${String.fromCharCode(65 + visualIndex)}: ${option.text}`}
+                onClick={() => handleOption(originalIndex)}
                 whileTap={
                   reduceMotion ? {} : { scale: 0.98, backgroundColor: 'rgba(33,150,243,0.15)' }
                 }
@@ -333,7 +358,7 @@ export default function Question() {
                     flexShrink: 0,
                   }}
                 >
-                  {String.fromCharCode(65 + index)}
+                  {String.fromCharCode(65 + visualIndex)}
                 </span>
                 <span>{option.text}</span>
               </MotionButton>

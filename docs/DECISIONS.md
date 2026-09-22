@@ -43,3 +43,11 @@
 **Решение:** явный timeout 10s на assertion. НЕ используем
 `waitForLoadState("networkidle")` — deprecated в Playwright, никогда не
 достигается на Vite HMR WebSocket.
+
+## DECISION-007 (2026-09-22)
+
+**Контекст:** testers asked for both option order and question order shuffle.
+**Решение:** implemented option shuffle only (deterministic, seed from
+question.id). Question order stays as-is.
+**Обоснование:** option shuffle solves 80% of "cheat by peeking". Question
+order shuffle needs new state field (questionOrder) — separate task.
