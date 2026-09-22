@@ -261,3 +261,73 @@ test('answer options use the semantic elevated surface, not a literal', async ({
   });
   expect(contrast).toBeGreaterThanOrEqual(4.5);
 });
+
+// K2: --success/--danger became theme-scoped so each theme keeps AA against its
+// own surface. Assert the computed tokens AND the measured ratio, so a future
+// palette tweak that drops below 4.5 fails here instead of shipping.
+
+test('theme-aware success/danger clear AA against the surface (4 combinations)', async ({ page }) => {
+  const cases = [
+    { colorScheme: 'light' as const, stored: null, success: 'rgb(55, 126, 58)', danger: 'rgb(207, 57, 46)' },
+    { colorScheme: 'dark' as const, stored: null, success: 'rgb(76, 175, 80)', danger: 'rgb(255, 92, 74)' },
+    { colorScheme: 'dark' as const, stored: 'light' as const, success: 'rgb(55, 126, 58)', danger: 'rgb(207, 57, 46)' },
+    { colorScheme: 'light' as const, stored: 'dark' as const, success: 'rgb(76, 175, 80)', danger: 'rgb(255, 92, 74)' },
+  ];
+
+  for (const c of cases) {
+    await page.emulateMedia({ colorScheme: c.colorScheme });
+    await page.addInitScript((value) => {
+      if (value === null) window.localStorage.removeItem('lx-theme');
+      else window.localStorage.setItem('lx-theme', value);
+    }, c.stored);
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
+      timeout: 10000,
+    });
+
+    const probe = await page.evaluate(() => {
+      const vars = getComputedStyle(document.documentElement);
+      // Resolve a token through a throwaway element so the measured value is what
+      // the browser actually paints, not the raw token text.
+      const resolve = (token: string, on: string) => {
+        const el = document.createElement('span');
+        el.style.color = token;
+        el.style.backgroundColor = on;
+        document.body.appendChild(el);
+        const cs = getComputedStyle(el);
+        const out = { fg: cs.color, bg: cs.backgroundColor };
+        el.remove();
+        return out;
+      };
+      const lum = (rgb: string) => {
+        const m = (rgb.match(/\d+/g) || []).map(Number);
+        const chan = m.slice(0, 3).map((v) => {
+          const s = v / 255;
+          return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * chan[0] + 0.7152 * chan[1] + 0.0722 * chan[2];
+      };
+      const ratio = (a: string, b: string) => {
+        const la = lum(a);
+        const lb = lum(b);
+        return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+      };
+      const surface = vars.getPropertyValue('--bg-surface').trim();
+      const s1 = resolve('var(--success)', 'var(--bg-surface)');
+      const d1 = resolve('var(--danger)', 'var(--bg-surface)');
+      return {
+        success: s1.fg,
+        danger: d1.fg,
+        surface: s1.bg,
+        surfaceToken: surface,
+        successRatio: ratio(s1.fg, s1.bg),
+        dangerRatio: ratio(d1.fg, d1.bg),
+      };
+    });
+
+    expect(probe.success).toBe(c.success);
+    expect(probe.danger).toBe(c.danger);
+    expect(probe.successRatio).toBeGreaterThanOrEqual(4.5);
+    expect(probe.dangerRatio).toBeGreaterThanOrEqual(4.5);
+  }
+});

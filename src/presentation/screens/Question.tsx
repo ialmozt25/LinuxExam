@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
-import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
+import { SPACING, LAYOUT } from '@/presentation/theme';
 import { isTMA } from '@telegram-apps/sdk-react';
 import Paywall from '@/presentation/screens/Paywall';
 import { MotionButton } from '@/presentation/components/MotionButton';
@@ -380,7 +380,7 @@ export default function Question() {
               padding: SPACING.md,
               background: 'var(--bg-surface)',
               borderRadius: LAYOUT.cardRadius,
-              borderLeft: `4px solid ${isCorrectAnswer ? COLORS.correct : COLORS.wrong}`,
+              borderLeft: `4px solid ${isCorrectAnswer ? 'var(--success)' : 'var(--danger)'}`,
             }}
           >
             <div

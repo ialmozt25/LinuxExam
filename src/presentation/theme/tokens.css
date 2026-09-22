@@ -20,8 +20,7 @@
   --text-primary: var(--tg-theme-text-color, #FFFFFF);
   --text-secondary: var(--tg-theme-hint-color, #B0B0B0);
   --accent: var(--tg-theme-button-color, #2196F3);
-  --success: #4CAF50;
-  --danger: #F44336;
+  /* --success/--danger are theme-scoped now: see the [data-theme] blocks. */
   --warning: #FF9800;
   --border-subtle: rgba(255,255,255,0.06);
   --border-strong: rgba(255,255,255,0.12);
@@ -86,6 +85,10 @@
   --theme-text-primary: #1B1F23;
   --theme-text-secondary: #4A4A4A;
 
+  /* Status — darkened so 4.5:1 holds on BOTH #FFFFFF and #F5F5F5 */
+  --theme-success: #377E3A;
+  --theme-danger: #CF392E;
+
   /* Borders — visible on light bg (decorative, not the sole cue) */
   --theme-border-subtle: rgba(0, 0, 0, 0.15);
   --theme-border-strong: rgba(0, 0, 0, 0.25);
@@ -100,6 +103,10 @@
 
   --theme-text-primary: #FFFFFF;
   --theme-text-secondary: #B0B0B0;
+
+  /* Status — success already passes; danger lightened to clear 4.5:1 on #2D2D2D */
+  --theme-success: #4CAF50;
+  --theme-danger: #FF5C4A;
 
   --theme-border-subtle: rgba(255, 255, 255, 0.06);
   --theme-border-strong: rgba(255, 255, 255, 0.12);
@@ -123,6 +130,8 @@
   --text-secondary: var(--tg-theme-hint-color, var(--theme-text-secondary));
   --border-subtle: var(--theme-border-subtle);
   --border-strong: var(--theme-border-strong);
+  --success: var(--theme-success);
+  --danger: var(--theme-danger);
 }
 
 /*
@@ -136,9 +145,12 @@
   --text-secondary: var(--theme-text-secondary);
   --border-subtle: var(--theme-border-subtle);
   --border-strong: var(--theme-border-strong);
+  --success: var(--theme-success);
+  --danger: var(--theme-danger);
 }
 
 /*
- * --accent, --success, --danger and --warning are absent from every block above
- * on purpose: they stay Telegram-aware.
+ * --accent and --warning stay Telegram-aware and are absent from every block
+ * above on purpose. --success/--danger are theme-scoped (light keeps AA on a
+ * light surface, dark keeps AA on a dark one).
  */

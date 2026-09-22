@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useQuizStore } from '@/store/quizStore';
 import { shareResult } from '@/platform/telegram_adapter';
-import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
+import { SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { AppHeader } from '@/presentation/components/AppHeader';
@@ -118,10 +118,10 @@ export default function Results() {
               marginTop: SPACING.md,
               color:
                 examAccuracy >= 70
-                  ? COLORS.correct
+                  ? 'var(--success)'
                   : examAccuracy >= 40
                     ? 'var(--accent)'
-                    : COLORS.wrong,
+                    : 'var(--danger)',
             }}
           >
             {examAccuracy + '%'}
@@ -231,7 +231,7 @@ export default function Results() {
                 fontWeight: 600,
                 marginTop: SPACING.md,
                 color:
-                  accuracy >= 70 ? COLORS.correct : accuracy >= 40 ? 'var(--accent)' : COLORS.wrong,
+                  accuracy >= 70 ? 'var(--success)' : accuracy >= 40 ? 'var(--accent)' : 'var(--danger)',
               }}
             >
               {`${accuracy}%`}
@@ -305,9 +305,9 @@ export default function Results() {
                   fontWeight: 600,
                   color:
                     topicStat.correct === topicStat.total
-                      ? COLORS.correct
+                      ? 'var(--success)'
                       : topicStat.correct === 0
-                        ? COLORS.wrong
+                        ? 'var(--danger)'
                         : 'var(--text-primary)',
                 }}
               >
@@ -320,10 +320,10 @@ export default function Results() {
                   marginTop: SPACING.xs,
                   color:
                     topicStat.percent >= 70
-                      ? COLORS.correct
+                      ? 'var(--success)'
                       : topicStat.percent >= 40
                         ? 'var(--accent)'
-                        : COLORS.wrong,
+                        : 'var(--danger)',
                 }}
               >
                 {`${topicStat.percent}%`}

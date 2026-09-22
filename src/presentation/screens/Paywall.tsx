@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuizStore, FREE_QUESTION_LIMIT } from '@/store/quizStore';
-import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
+import { SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { defaultPaymentProvider } from '@/platform/payment_provider';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
@@ -93,7 +93,7 @@ export default function Paywall() {
       {error !== null && (
         <div
           style={{
-            color: COLORS.wrong,
+            color: 'var(--danger)',
             fontSize: 13,
             textAlign: 'center',
             marginBottom: SPACING.md,

@@ -1,5 +1,5 @@
 import { useQuizStore } from '@/store/quizStore';
-import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
+import { SPACING, LAYOUT } from '@/presentation/theme';
 
 export function XpBar() {
   const totalXp = useQuizStore((s) => s.totalXp);
@@ -38,7 +38,7 @@ export function XpBar() {
           style={{
             width: `${progress}%`,
             height: '100%',
-            background: `linear-gradient(90deg,${'var(--accent)'},${COLORS.correct})`,
+            background: `linear-gradient(90deg, ${'var(--accent)'}, ${'var(--success)'})`,
             borderRadius: LAYOUT.progressBarRadius,
             transition: 'width 0.3s ease',
           }}

@@ -12,12 +12,15 @@ import { isTMA, themeParams } from '@telegram-apps/sdk-react';
  * change, which the screens do not need.
  *
  * State keys arrive camelCased from the SDK (bgColor, secondaryBgColor, textColor,
- * hintColor, buttonColor, ...) and are published as `--tg-theme-<kebab-case>`, so
- * the CSS_VARS aliases in the theme resolve.
+ * hintColor, buttonColor, ...) and are published as `--tg-theme-<kebab-case>`.
+ * tokens.css consumes them in its [data-theme-source="inherit"] block, so the
+ * inherit mode follows the client palette. (The old CSS_VARS alias map in
+ * colors.ts was unused and has been removed.)
  *
  * The hook is a no-op outside Telegram (no launch params) and never throws: when
- * the API is missing it logs a warning and returns, leaving the static :root
- * fallbacks from index.css in place.
+ * the API is missing it logs a warning and returns, and the --theme-* values in
+ * tokens.css stay in effect (index.css no longer ships a static palette —
+ * DECISION-012).
  */
 export function useTelegramTheme(): void {
   useEffect(() => {
