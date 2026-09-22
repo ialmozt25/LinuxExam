@@ -181,8 +181,8 @@ export default function Question() {
           type="button"
           onClick={() => navigateTo('dashboard')}
           style={{
-            background: COLORS.primary,
-            color: COLORS.textPrimary,
+            background: 'var(--accent)',
+            color: 'var(--text-primary)',
             padding: SPACING.md,
             borderRadius: LAYOUT.buttonRadius,
             border: 'none',
@@ -232,7 +232,7 @@ export default function Question() {
       <div
         style={{
           height: '3px',
-          background: 'rgba(255,255,255,0.08)',
+          background: 'var(--bg-elevated)',
           borderRadius: '2px',
           marginBottom: SPACING.lg,
           overflow: 'hidden',
@@ -242,7 +242,7 @@ export default function Question() {
           style={{
             width: `${progressPercent}%`,
             height: '100%',
-            background: COLORS.primary,
+            background: 'var(--accent)',
             boxShadow: '0 0 8px rgba(33,150,243,0.5)',
             transition: 'width 0.3s ease',
           }}
@@ -281,7 +281,7 @@ export default function Question() {
           // Border WIDTH is constant (2px) in every state - selecting an option
           // must never shift layout. Only color, background, box-shadow and
           // opacity change. The 3px inset bar marks the user's own pick.
-          let backgroundColor = '#252525';
+          let backgroundColor = 'var(--bg-elevated)';
           let borderColor = 'var(--border-subtle)';
           let boxShadow = 'none';
           let opacity = 1;
@@ -326,7 +326,7 @@ export default function Question() {
                 whileHover={reduceMotion ? {} : { borderColor: 'rgba(255,255,255,0.15)' }}
                 style={{
                   background: backgroundColor,
-                  color: COLORS.textPrimary,
+                  color: 'var(--text-primary)',
                   padding: SPACING.md,
                   borderRadius: '12px',
                   border: `2px solid ${borderColor}`,
@@ -378,7 +378,7 @@ export default function Question() {
             style={{
               marginTop: SPACING.lg,
               padding: SPACING.md,
-              background: COLORS.surface,
+              background: 'var(--bg-surface)',
               borderRadius: LAYOUT.cardRadius,
               borderLeft: `4px solid ${isCorrectAnswer ? COLORS.correct : COLORS.wrong}`,
             }}
@@ -386,7 +386,7 @@ export default function Question() {
             <div
               style={{
                 fontSize: 12,
-                color: COLORS.textSecondary,
+                color: 'var(--text-secondary)',
                 marginBottom: SPACING.xs,
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
@@ -399,7 +399,7 @@ export default function Question() {
               ref={explanationRef}
               style={{
                 fontSize: 14,
-                color: COLORS.textPrimary,
+                color: 'var(--text-primary)',
                 lineHeight: 1.5,
                 paddingBottom: '32px',
               }}
@@ -423,8 +423,8 @@ export default function Question() {
           style={{
             width: '100%',
             padding: SPACING.md,
-            background: hasAnswered ? COLORS.primary : COLORS.surface,
-            color: COLORS.textPrimary,
+            background: hasAnswered ? 'var(--accent)' : 'var(--bg-surface)',
+            color: 'var(--text-primary)',
             border: 'none',
             borderRadius: LAYOUT.buttonRadius,
             fontSize: 16,

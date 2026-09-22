@@ -98,17 +98,17 @@ export default function Results() {
 
         <div
           style={{
-            background: COLORS.surface,
+            background: 'var(--bg-surface)',
             padding: SPACING.lg,
             borderRadius: LAYOUT.cardRadius,
             textAlign: 'center',
             marginTop: SPACING.lg,
           }}
         >
-          <div style={{ fontSize: 48, fontWeight: 700, color: COLORS.primary }}>
+          <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}>
             {examCorrect + ' / ' + examAnswered}
           </div>
-          <div style={{ fontSize: 14, color: COLORS.textSecondary, marginTop: SPACING.sm }}>
+          <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
             Правильных ответов
           </div>
           <div
@@ -120,13 +120,13 @@ export default function Results() {
                 examAccuracy >= 70
                   ? COLORS.correct
                   : examAccuracy >= 40
-                    ? COLORS.primary
+                    ? 'var(--accent)'
                     : COLORS.wrong,
             }}
           >
             {examAccuracy + '%'}
           </div>
-          <div style={{ fontSize: 14, color: COLORS.textSecondary, marginTop: SPACING.md }}>
+          <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.md }}>
             {`Время: ${timeMm}:${String(timeSs).padStart(2, '0')}`}
           </div>
         </div>
@@ -138,8 +138,8 @@ export default function Results() {
             style={{
               width: '100%',
               padding: SPACING.md,
-              background: COLORS.primary,
-              color: COLORS.textPrimary,
+              background: 'var(--accent)',
+              color: 'var(--text-primary)',
               border: 'none',
               borderRadius: LAYOUT.buttonRadius,
               fontSize: 16,
@@ -157,8 +157,8 @@ export default function Results() {
             style={{
               width: '100%',
               padding: SPACING.md,
-              background: COLORS.surface,
-              color: COLORS.textPrimary,
+              background: 'var(--bg-surface)',
+              color: 'var(--text-primary)',
               border: 'none',
               borderRadius: LAYOUT.buttonRadius,
               fontSize: 16,
@@ -194,7 +194,7 @@ export default function Results() {
       {/* Big score card */}
       <div
         style={{
-          background: COLORS.surface,
+          background: 'var(--bg-surface)',
           padding: SPACING.lg,
           borderRadius: LAYOUT.cardRadius,
           textAlign: 'center',
@@ -202,22 +202,22 @@ export default function Results() {
         }}
       >
         {!hasAnyAnswers ? (
-          <div style={{ fontSize: 16, color: COLORS.textSecondary, padding: SPACING.lg }}>
+          <div style={{ fontSize: 16, color: 'var(--text-secondary)', padding: SPACING.lg }}>
             Вы ещё не ответили ни на один вопрос
           </div>
         ) : (
           <>
-            <div style={{ fontSize: 48, fontWeight: 700, color: COLORS.primary }}>
+            <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}>
               {`${correct} / ${answered}`}
             </div>
-            <div style={{ fontSize: 14, color: COLORS.textSecondary, marginTop: SPACING.sm }}>
+            <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
               {`Правильных из ${answered} ${pluralizeQuestions(answered)}`}
             </div>
             {answered < totalQuestions && (
               <div
                 style={{
                   fontSize: 12,
-                  color: COLORS.textSecondary,
+                  color: 'var(--text-secondary)',
                   marginTop: SPACING.xs,
                   opacity: 0.7,
                 }}
@@ -231,7 +231,7 @@ export default function Results() {
                 fontWeight: 600,
                 marginTop: SPACING.md,
                 color:
-                  accuracy >= 70 ? COLORS.correct : accuracy >= 40 ? COLORS.primary : COLORS.wrong,
+                  accuracy >= 70 ? COLORS.correct : accuracy >= 40 ? 'var(--accent)' : COLORS.wrong,
               }}
             >
               {`${accuracy}%`}
@@ -269,7 +269,7 @@ export default function Results() {
         <h2
           style={{
             fontSize: 14,
-            color: COLORS.textSecondary,
+            color: 'var(--text-secondary)',
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
             fontWeight: 600,
@@ -283,7 +283,7 @@ export default function Results() {
           <div
             key={topicStat.key}
             style={{
-              background: COLORS.surface,
+              background: 'var(--bg-surface)',
               padding: SPACING.md,
               borderRadius: LAYOUT.cardRadius,
               marginBottom: SPACING.sm,
@@ -294,7 +294,7 @@ export default function Results() {
           >
             <div>
               <div style={{ fontSize: 14, fontWeight: 600 }}>{topicStat.title}</div>
-              <div style={{ fontSize: 12, color: COLORS.textSecondary, marginTop: SPACING.xs }}>
+              <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: SPACING.xs }}>
                 {`${topicStat.total} ${pluralizeQuestions(topicStat.total)}`}
               </div>
             </div>
@@ -308,7 +308,7 @@ export default function Results() {
                       ? COLORS.correct
                       : topicStat.correct === 0
                         ? COLORS.wrong
-                        : COLORS.textPrimary,
+                        : 'var(--text-primary)',
                 }}
               >
                 {`${topicStat.correct}/${topicStat.total}`}
@@ -322,7 +322,7 @@ export default function Results() {
                     topicStat.percent >= 70
                       ? COLORS.correct
                       : topicStat.percent >= 40
-                        ? COLORS.primary
+                        ? 'var(--accent)'
                         : COLORS.wrong,
                 }}
               >
@@ -342,8 +342,8 @@ export default function Results() {
           style={{
             width: '100%',
             padding: SPACING.md,
-            background: COLORS.primary,
-            color: COLORS.textPrimary,
+            background: 'var(--accent)',
+            color: 'var(--text-primary)',
             border: 'none',
             borderRadius: LAYOUT.buttonRadius,
             fontSize: 16,
@@ -362,8 +362,8 @@ export default function Results() {
           style={{
             width: '100%',
             padding: SPACING.md,
-            background: COLORS.surface,
-            color: COLORS.textPrimary,
+            background: 'var(--bg-surface)',
+            color: 'var(--text-primary)',
             border: 'none',
             borderRadius: LAYOUT.buttonRadius,
             fontSize: 16,
@@ -385,8 +385,8 @@ export default function Results() {
             style={{
               width: '100%',
               padding: SPACING.md,
-              background: COLORS.surface,
-              color: COLORS.textPrimary,
+              background: 'var(--bg-surface)',
+              color: 'var(--text-primary)',
               border: 'none',
               borderRadius: LAYOUT.buttonRadius,
               fontSize: 16,

@@ -13,7 +13,7 @@ export function XpBar() {
           display: 'flex',
           justifyContent: 'space-between',
           fontSize: 12,
-          color: COLORS.textSecondary,
+          color: 'var(--text-secondary)',
           marginBottom: SPACING.xs,
         }}
       >
@@ -29,7 +29,7 @@ export function XpBar() {
         aria-label="Опыт"
         style={{
           height: LAYOUT.progressBarHeight,
-          background: COLORS.surface,
+          background: 'var(--bg-surface)',
           borderRadius: LAYOUT.progressBarRadius,
           overflow: 'hidden',
         }}
@@ -38,7 +38,7 @@ export function XpBar() {
           style={{
             width: `${progress}%`,
             height: '100%',
-            background: `linear-gradient(90deg,${COLORS.primary},${COLORS.correct})`,
+            background: `linear-gradient(90deg,${'var(--accent)'},${COLORS.correct})`,
             borderRadius: LAYOUT.progressBarRadius,
             transition: 'width 0.3s ease',
           }}

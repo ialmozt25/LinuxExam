@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { Flame, MoonStar } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
-import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
+import { SPACING, LAYOUT } from '@/presentation/theme';
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
@@ -326,7 +326,8 @@ export default function Dashboard() {
                     fontSize: 'var(--text-xs)',
                     fontWeight: 600,
                     color: 'var(--text-secondary)',
-                    background: 'rgba(255,255,255,0.06)',
+                    background: 'var(--bg-elevated)',
+                    border: '1px solid var(--border-subtle)',
                     padding: '2px 6px',
                     borderRadius: 'var(--radius-sm)',
                     flexShrink: 0,
@@ -485,8 +486,8 @@ export default function Dashboard() {
             navigateTo('question');
           }}
           style={{
-            background: COLORS.primary,
-            color: COLORS.textPrimary,
+            background: 'var(--accent)',
+            color: 'var(--text-primary)',
             padding: SPACING.md,
             borderRadius: LAYOUT.buttonRadius,
             width: '100%',

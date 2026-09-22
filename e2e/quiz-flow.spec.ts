@@ -172,3 +172,92 @@ test('inherit paints a light page in a plain browser (the reported bug)', async 
   });
   expect(lum).toBeGreaterThan(0.8);
 });
+
+// K1: components migrated from the hardcoded COLORS palette to the semantic
+// CSS variables. These assertions read COMPUTED colours, so a regression back to
+// a literal (e.g. surface: '#2D2D2D') fails here even though the JSX still looks
+// right.
+
+const LIGHT = {
+  primary: 'rgb(245, 245, 245)',
+  surface: 'rgb(255, 255, 255)',
+  elevated: 'rgb(234, 234, 234)',
+};
+const DARK = {
+  primary: 'rgb(30, 30, 30)',
+  surface: 'rgb(45, 45, 45)',
+  elevated: 'rgb(37, 37, 37)',
+};
+
+test('migrated surfaces follow the theme (4 combinations)', async ({ page }) => {
+  const cases = [
+    { colorScheme: 'light' as const, stored: null, want: LIGHT },
+    { colorScheme: 'dark' as const, stored: null, want: DARK },
+    { colorScheme: 'dark' as const, stored: 'light' as const, want: LIGHT },
+    { colorScheme: 'light' as const, stored: 'dark' as const, want: DARK },
+  ];
+
+  for (const c of cases) {
+    await page.emulateMedia({ colorScheme: c.colorScheme });
+    await page.addInitScript((value) => {
+      if (value === null) window.localStorage.removeItem('lx-theme');
+      else window.localStorage.setItem('lx-theme', value);
+    }, c.stored);
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
+      timeout: 10000,
+    });
+
+    const probe = await page.evaluate(() => {
+      const vars = getComputedStyle(document.documentElement);
+      const container = document.querySelector('#root > div');
+      const card = document.querySelector('#status-strip');
+      return {
+        primary: vars.getPropertyValue('--bg-primary').trim(),
+        surface: vars.getPropertyValue('--bg-surface').trim(),
+        elevated: vars.getPropertyValue('--bg-elevated').trim(),
+        containerBg: container ? getComputedStyle(container).backgroundColor : 'n/a',
+        bodyBg: getComputedStyle(document.body).backgroundColor,
+        cardBg: card ? getComputedStyle(card).backgroundColor : 'n/a',
+      };
+    });
+
+    // The variables themselves must resolve per theme.
+    expect(probe.surface.toLowerCase()).toBe(c.want === LIGHT ? '#ffffff' : '#2d2d2d');
+    expect(probe.elevated.toLowerCase()).toBe(c.want === LIGHT ? '#eaeaea' : '#252525');
+
+    // ScreenContainer paints --bg-primary, and body carries the page colour.
+    expect(probe.containerBg).toBe(c.want.primary);
+    expect(probe.bodyBg).toBe(c.want.primary);
+  }
+});
+
+test('answer options use the semantic elevated surface, not a literal', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.addInitScript(() => window.localStorage.removeItem('lx-theme'));
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Продолжить' }).click();
+
+  const first = page.locator('button[aria-label^="Ответ"]').first();
+  await expect(first).toBeVisible({ timeout: 10000 });
+
+  // Must be the light elevated colour. The pre-migration literal was #252525,
+  // which stayed dark in a light theme and made the options unreadable.
+  await expect(first).toHaveCSS('background-color', LIGHT.elevated);
+
+  const contrast = await first.evaluate((el) => {
+    const lum = (rgb: string) => {
+      const m = (rgb.match(/\d+/g) || []).map(Number);
+      const chan = m.slice(0, 3).map((v) => {
+        const c = v / 255;
+        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * chan[0] + 0.7152 * chan[1] + 0.0722 * chan[2];
+    };
+    const cs = getComputedStyle(el);
+    const a = lum(cs.backgroundColor);
+    const b = lum(cs.color);
+    return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  });
+  expect(contrast).toBeGreaterThanOrEqual(4.5);
+});

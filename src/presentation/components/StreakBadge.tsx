@@ -1,6 +1,6 @@
 import { Flame } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
-import { COLORS, SPACING, LAYOUT } from '@/presentation/theme';
+import { SPACING, LAYOUT } from '@/presentation/theme';
 
 export function StreakBadge() {
   const streak = useQuizStore((s) => s.streak);
@@ -15,8 +15,8 @@ export function StreakBadge() {
         display: 'inline-flex',
         alignItems: 'center',
         gap: SPACING.xs,
-        background: COLORS.surface,
-        color: COLORS.textPrimary,
+        background: 'var(--bg-surface)',
+        color: 'var(--text-primary)',
         padding: `${SPACING.xs} ${SPACING.sm}`,
         borderRadius: LAYOUT.buttonRadius,
         fontSize: 14,
@@ -24,7 +24,7 @@ export function StreakBadge() {
         flexShrink: 0,
       }}
     >
-      <Flame size={16} color={COLORS.primary} aria-hidden="true" />
+      <Flame size={16} color={'var(--accent)'} aria-hidden="true" />
       <span>{streak}</span>
     </div>
   );

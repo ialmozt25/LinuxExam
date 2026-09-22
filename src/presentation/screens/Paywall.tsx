@@ -64,7 +64,7 @@ export default function Paywall() {
 
       <p
         style={{
-          color: COLORS.textSecondary,
+          color: 'var(--text-secondary)',
           textAlign: 'center',
           margin: 0,
           marginBottom: SPACING.xl,
@@ -77,7 +77,7 @@ export default function Paywall() {
 
       <div
         style={{
-          background: COLORS.surface,
+          background: 'var(--bg-surface)',
           padding: SPACING.md,
           borderRadius: LAYOUT.cardRadius,
           marginBottom: SPACING.xl,
@@ -111,8 +111,8 @@ export default function Paywall() {
         style={{
           width: '100%',
           padding: SPACING.md,
-          background: COLORS.primary,
-          color: COLORS.textPrimary,
+          background: 'var(--accent)',
+          color: 'var(--text-primary)',
           border: 'none',
           borderRadius: LAYOUT.buttonRadius,
           fontSize: 16,
@@ -134,7 +134,7 @@ export default function Paywall() {
           width: '100%',
           padding: SPACING.md,
           background: 'transparent',
-          color: COLORS.textSecondary,
+          color: 'var(--text-secondary)',
           border: 'none',
           borderRadius: LAYOUT.buttonRadius,
           fontSize: 14,
