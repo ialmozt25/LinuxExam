@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { Flame } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
@@ -8,6 +8,7 @@ import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { useExamTimer } from '@/hooks/useExamTimer';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
+import { getThemeChoice, applyThemeChoice, type ThemeChoice } from '@/utils/theme';
 
 export default function Dashboard() {
   const questions = useQuizStore((s) => s.questions);
@@ -38,6 +39,12 @@ export default function Dashboard() {
 
   const isTelegram = isTMA();
   const { display: timerDisplay } = useExamTimer();
+  const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => getThemeChoice());
+
+  const handleThemeChange = (next: ThemeChoice) => {
+    setThemeChoice(next);
+    applyThemeChoice(next);
+  };
 
   useTelegramMainButton('Продолжить', () => navigateTo('question'));
 
@@ -481,6 +488,75 @@ export default function Dashboard() {
           Продолжить
         </button>
       )}
+
+      {/* Theme selector — three explicit states; the resolved value lands on
+          <html data-theme>, so CSS never consults prefers-color-scheme. */}
+      <div
+        style={{
+          marginTop: 'var(--space-6)',
+          paddingTop: 'var(--space-4)',
+          borderTop: '1px solid var(--border-subtle)',
+        }}
+      >
+        <div
+          style={{
+            fontSize: 'var(--text-xs)',
+            color: 'var(--text-secondary)',
+            textTransform: 'uppercase',
+            letterSpacing: 'var(--letter-wide, 0.5px)',
+            fontWeight: 600,
+            marginBottom: 'var(--space-3)',
+          }}
+        >
+          Тема оформления
+        </div>
+        <div
+          role="radiogroup"
+          aria-label="Тема оформления"
+          style={{
+            display: 'flex',
+            gap: 'var(--space-1)',
+            background: 'var(--bg-surface)',
+            padding: 'var(--space-1)',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border-subtle)',
+          }}
+        >
+          {(
+            [
+              { value: 'system' as const, label: 'Системная' },
+              { value: 'light' as const, label: 'Светлая' },
+              { value: 'dark' as const, label: 'Тёмная' },
+            ]
+          ).map(({ value, label }) => {
+            const isActive = themeChoice === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                role="radio"
+                aria-checked={isActive}
+                onClick={() => handleThemeChange(value)}
+                style={{
+                  flex: 1,
+                  padding: 'var(--space-2)',
+                  background: isActive ? 'var(--bg-elevated)' : 'transparent',
+                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  color: 'var(--text-primary)',
+                  fontSize: 'var(--text-xs)',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'background 0.15s ease',
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
       {/* Legal disclaimer — trademark safety (independent trainer notice) */}
       <div
         data-disclaimer="legal"

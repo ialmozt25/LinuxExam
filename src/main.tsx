@@ -5,6 +5,12 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import { useQuizStore } from '@/store/quizStore';
 import { initTelegramSDK } from './platform/telegram_adapter';
+import { applyThemeChoice, getThemeChoice } from './utils/theme';
+
+// Resolve the stored theme before anything renders. The inline <head> script in
+// index.html has already prevented the flash; this re-applies the same choice
+// for the in-app path (and covers a storage change since that script ran).
+applyThemeChoice(getThemeChoice());
 
 async function bootstrap(): Promise<void> {
   // Optional DEV-only Telegram environment mock. Off by default so a plain browser

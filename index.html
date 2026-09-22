@@ -2,6 +2,29 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+    <!-- Declares both schemes so native controls match the active theme. -->
+    <meta name="color-scheme" content="light dark" />
+    <!-- FOUC prevention: resolves data-theme before the CSS/JS bundle loads. -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('lx-theme');
+          var theme;
+          if (saved === 'light' || saved === 'dark') {
+            theme = saved;
+          } else {
+            theme =
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          }
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta property="og:type" content="website" />

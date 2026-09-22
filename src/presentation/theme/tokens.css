@@ -1,4 +1,7 @@
 :root {
+  /* Native controls (scrollbars, form widgets) follow the active theme. */
+  color-scheme: light dark;
+
   /* Primitive */
   --color-blue-500: #2196F3;
   --color-green-500: #4CAF50;
@@ -61,4 +64,45 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Light theme
+   Controlled via [data-theme] on <html>.
+
+   NOTE: these override the Telegram-adaptive defaults in the block
+   above. That is deliberate — an explicit user choice must win over the
+   Mini App theme, otherwise "Light" would do nothing inside a dark
+   Telegram client. accent/success/danger/warning stay Telegram-aware.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Backgrounds — not pure white, reduces glare */
+  --bg-primary: #F5F5F5;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #EAEAEA;
+
+  /* Text — not pure black, softer on eyes; passes WCAG AA */
+  --text-primary: #1B1F23;
+  --text-secondary: #4A4A4A;
+
+  /* Borders — visible on light bg (decorative, not the sole cue) */
+  --border-subtle: rgba(0, 0, 0, 0.15);
+  --border-strong: rgba(0, 0, 0, 0.25);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-primary: #1E1E1E;
+  --bg-surface: #2D2D2D;
+  --bg-elevated: #252525;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0B0B0;
+
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
 }
