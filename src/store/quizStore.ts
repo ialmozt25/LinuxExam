@@ -243,6 +243,17 @@ export const useQuizStore = create<QuizState>()(
           reviewQuestionIds: null,
           reviewAnswers: [],
           activeTopic: null,
+          // Exam mode is part of "progress" too: a stale examActive/examStartedAt
+          // would resurface an exam gate (and finishExam would compute its
+          // duration from an outdated timestamp). streak/lastActiveDate/totalXp
+          // are deliberately kept - they are the user's accumulated record, not
+          // per-run progress.
+          examActive: false,
+          examStartedAt: null,
+          examDurationMs: 0,
+          examQuestionIds: [],
+          examAnswers: [],
+          examLastResult: null,
         });
       },
 
