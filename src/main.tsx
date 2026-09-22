@@ -5,11 +5,18 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import { useQuizStore } from '@/store/quizStore';
 import { initTelegramSDK } from './platform/telegram_adapter';
-import { applyThemeChoice, getThemeChoice } from './utils/theme';
+import { applyThemeChoice, getThemeChoice, migrateThemeStorage } from './utils/theme';
+
+// Storage migration runs SYNCHRONOUSLY here, before the first theme read. Doing it
+// in an effect would let the app paint the unmigrated value once and flash.
+// migrateThemeStorage is idempotent, so it is safe to call on every boot.
+migrateThemeStorage();
 
 // Resolve the stored theme before anything renders. The inline <head> script in
 // index.html has already prevented the flash; this re-applies the same choice
 // for the in-app path (and covers a storage change since that script ran).
+// No Telegram signal is available at module scope, so this falls back to the OS
+// preference; useThemeController corrects it on mount (see DECISION-011).
 applyThemeChoice(getThemeChoice());
 
 async function bootstrap(): Promise<void> {

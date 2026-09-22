@@ -9,33 +9,29 @@
       (function () {
         var root = document.documentElement;
         try {
+          // Storage format: key ABSENT (or the legacy 'system') means inherit;
+          // 'light' / 'dark' mean an explicit manual choice. This script does NOT
+          // migrate storage - React is not loaded yet; migrateThemeStorage() in
+          // main.tsx does that synchronously right after.
           var saved = localStorage.getItem('lx-theme');
-          if (saved === 'system') {
-            // Following the client/system: let the live Telegram palette through.
-            root.setAttribute('data-theme-source', 'inherit');
-            var scheme =
-              (window.Telegram &&
-                window.Telegram.WebApp &&
-                window.Telegram.WebApp.colorScheme) ||
-              (window.matchMedia &&
-              window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light');
-            root.setAttribute('data-theme', scheme === 'light' ? 'light' : 'dark');
+          var scheme;
+          if (saved === 'light' || saved === 'dark') {
+            root.setAttribute('data-theme-source', 'manual');
+            root.setAttribute('data-theme', saved);
             return;
           }
-          var theme = saved === 'light' || saved === 'dark' ? saved : null;
-          if (theme === null) {
-            theme =
-              window.matchMedia &&
-              window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light';
-            root.setAttribute('data-theme-source', 'inherit');
-          } else {
-            root.setAttribute('data-theme-source', 'manual');
-          }
-          root.setAttribute('data-theme', theme);
+          // Inherit: let the live Telegram palette through and follow the client
+          // colour scheme when it is already available, otherwise the OS one.
+          root.setAttribute('data-theme-source', 'inherit');
+          scheme =
+            (window.Telegram &&
+              window.Telegram.WebApp &&
+              window.Telegram.WebApp.colorScheme) ||
+            (window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light');
+          root.setAttribute('data-theme', scheme === 'light' ? 'light' : 'dark');
         } catch (e) {
           root.setAttribute('data-theme', 'dark');
           root.setAttribute('data-theme-source', 'inherit');

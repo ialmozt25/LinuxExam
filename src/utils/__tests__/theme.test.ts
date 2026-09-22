@@ -8,17 +8,23 @@ import {
   getSystemTheme,
   getThemeChoice,
   getThemeState,
+  migrateThemeStorage,
   readManualChoice,
   resolveTheme,
-  setFollowSystem,
-  type ThemeSignals,
 } from '../theme';
 import Settings from '@/presentation/screens/Settings';
 import { THEME_CHANGE_EVENT } from '@/hooks/useThemeController';
 
+const SETTINGS_EL = createElement(Settings);
+
+const KEY = 'lx-theme';
+const MANUAL = 'lx-theme-manual';
+
 const mocks = vi.hoisted(() => ({
   navigateTo: vi.fn(),
   backButton: vi.fn(),
+  isTMA: vi.fn<() => boolean>(),
+  isDark: vi.fn<() => boolean | undefined>(),
 }));
 
 vi.mock('@/store/quizStore', () => ({
@@ -30,9 +36,10 @@ vi.mock('@/hooks/useTelegramBackButton', () => ({
   useTelegramBackButton: mocks.backButton,
 }));
 
-// createElement instead of JSX keeps this a .ts file (the allowed-file list
-// names theme.test.ts).
-const SETTINGS_EL = createElement(Settings);
+vi.mock('@telegram-apps/sdk-react', () => ({
+  isTMA: mocks.isTMA,
+  themeParams: { isDark: mocks.isDark },
+}));
 
 function stubMatchMedia(prefersDark: boolean) {
   vi.stubGlobal('matchMedia', (query: string) => ({
@@ -47,22 +54,15 @@ function stubMatchMedia(prefersDark: boolean) {
   }));
 }
 
-const tg = (isDark: boolean): ThemeSignals => ({
-  inTelegram: true,
-  telegramIsDark: isDark,
-  osIsDark: !isDark,
-});
-const browser = (isDark: boolean): ThemeSignals => ({
-  inTelegram: false,
-  telegramIsDark: !isDark,
-  osIsDark: isDark,
-});
-
 beforeEach(() => {
   localStorage.clear();
   document.documentElement.removeAttribute('data-theme');
   document.documentElement.removeAttribute('data-theme-source');
   mocks.navigateTo.mockClear();
+  mocks.isTMA.mockReset();
+  mocks.isDark.mockReset();
+  mocks.isTMA.mockReturnValue(false);
+  mocks.isDark.mockReturnValue(undefined);
 });
 afterEach(() => {
   cleanup();
@@ -72,29 +72,155 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe('resolveTheme — system follows Telegram inside TG, OS outside', () => {
-  it('(system, TG, dark) resolves to dark', () => {
-    expect(resolveTheme('system', tg(true))).toBe('dark');
+describe('migrateThemeStorage', () => {
+  it("'system' removes the key (absence means inherit)", () => {
+    localStorage.setItem(KEY, 'system');
+    migrateThemeStorage();
+    expect(localStorage.getItem(KEY)).toBeNull();
   });
-  it('(system, TG, light) resolves to light', () => {
-    expect(resolveTheme('system', tg(false))).toBe('light');
+
+  it("keeps an explicit 'light'", () => {
+    localStorage.setItem(KEY, 'light');
+    migrateThemeStorage();
+    expect(localStorage.getItem(KEY)).toBe('light');
   });
-  it('(system, browser, dark) resolves from matchMedia', () => {
-    expect(resolveTheme('system', browser(true))).toBe('dark');
+
+  it("keeps an explicit 'dark'", () => {
+    localStorage.setItem(KEY, 'dark');
+    migrateThemeStorage();
+    expect(localStorage.getItem(KEY)).toBe('dark');
   });
-  it('(light, any) ignores Telegram and OS', () => {
-    expect(resolveTheme('light', tg(true))).toBe('light');
-    expect(resolveTheme('light', browser(true))).toBe('light');
+
+  it('promotes lx-theme-manual when lx-theme is absent', () => {
+    localStorage.setItem(MANUAL, 'dark');
+    migrateThemeStorage();
+    expect(localStorage.getItem(KEY)).toBe('dark');
+    expect(localStorage.getItem(MANUAL)).toBeNull();
   });
-  it('(dark, any) ignores Telegram and OS', () => {
-    expect(resolveTheme('dark', tg(false))).toBe('dark');
-    expect(resolveTheme('dark', browser(false))).toBe('dark');
+
+  it('always removes lx-theme-manual', () => {
+    localStorage.setItem(KEY, 'light');
+    localStorage.setItem(MANUAL, 'dark');
+    migrateThemeStorage();
+    expect(localStorage.getItem(KEY)).toBe('light');
+    expect(localStorage.getItem(MANUAL)).toBeNull();
+  });
+
+  it('is idempotent: two runs equal one run', () => {
+    localStorage.setItem(KEY, 'system');
+    localStorage.setItem(MANUAL, 'light');
+    migrateThemeStorage();
+    const afterFirst = JSON.stringify([localStorage.getItem(KEY), localStorage.getItem(MANUAL)]);
+    migrateThemeStorage();
+    const afterSecond = JSON.stringify([localStorage.getItem(KEY), localStorage.getItem(MANUAL)]);
+    expect(afterSecond).toBe(afterFirst);
+    expect(localStorage.getItem(MANUAL)).toBeNull();
+  });
+
+  it('ignores a junk manual value', () => {
+    localStorage.setItem(MANUAL, 'purple');
+    migrateThemeStorage();
+    expect(localStorage.getItem(KEY)).toBeNull();
+    expect(localStorage.getItem(MANUAL)).toBeNull();
   });
 });
 
-describe('legacy exports still behave', () => {
-  it('getThemeChoice defaults to system', () => {
+describe('getThemeChoice normalisation', () => {
+  it('absent key reports system', () => {
     expect(getThemeChoice()).toBe('system');
+  });
+  it('legacy system reports system', () => {
+    localStorage.setItem(KEY, 'system');
+    expect(getThemeChoice()).toBe('system');
+  });
+  it('explicit values pass through', () => {
+    localStorage.setItem(KEY, 'light');
+    expect(getThemeChoice()).toBe('light');
+    localStorage.setItem(KEY, 'dark');
+    expect(getThemeChoice()).toBe('dark');
+  });
+  it('junk reports system', () => {
+    localStorage.setItem(KEY, 'purple');
+    expect(getThemeChoice()).toBe('system');
+  });
+});
+
+describe('resolveTheme — Telegram signal beats matchMedia', () => {
+  it('(system, TG dark) resolves to dark', () => {
+    expect(resolveTheme('system', { inTelegram: true, telegramIsDark: true })).toBe('dark');
+  });
+  it('(system, TG light) resolves to light even when the OS is dark', () => {
+    stubMatchMedia(true);
+    expect(resolveTheme('system', { inTelegram: true, telegramIsDark: false })).toBe('light');
+  });
+  it('(system, no TG signal) falls back to matchMedia', () => {
+    stubMatchMedia(true);
+    expect(resolveTheme('system', { inTelegram: false, telegramIsDark: undefined })).toBe('dark');
+    stubMatchMedia(false);
+    expect(resolveTheme('system', { inTelegram: false, telegramIsDark: undefined })).toBe('light');
+  });
+  it('(system, no options) falls back to matchMedia', () => {
+    stubMatchMedia(false);
+    expect(resolveTheme('system')).toBe('light');
+  });
+  it('(system, TG in browser but undefined signal) falls back, not dark', () => {
+    stubMatchMedia(false);
+    expect(resolveTheme('system', { inTelegram: true, telegramIsDark: undefined })).toBe('light');
+  });
+  it('explicit choice ignores every signal', () => {
+    expect(resolveTheme('light', { inTelegram: true, telegramIsDark: true })).toBe('light');
+    expect(resolveTheme('dark', { inTelegram: false, telegramIsDark: false })).toBe('dark');
+  });
+});
+
+describe('applyThemeChoice', () => {
+  it('system clears nothing but marks inherit', () => {
+    stubMatchMedia(false);
+    applyThemeChoice('system');
+    expect(document.documentElement.getAttribute('data-theme-source')).toBe('inherit');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+  });
+  it('an explicit choice marks manual', () => {
+    applyThemeChoice('dark');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    expect(document.documentElement.getAttribute('data-theme-source')).toBe('manual');
+  });
+  it('uses the Telegram signal when provided (the P0 bug)', () => {
+    stubMatchMedia(true);
+    applyThemeChoice('system', false);
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    applyThemeChoice('system', true);
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+  });
+  it('falls back to matchMedia when the signal is undefined', () => {
+    stubMatchMedia(false);
+    applyThemeChoice('system', undefined);
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+  });
+});
+
+describe('applyThemeState persistence', () => {
+  it('writes an explicit choice', () => {
+    applyThemeState({ choice: 'dark', manual: 'dark', followSystem: false });
+    expect(localStorage.getItem(KEY)).toBe('dark');
+    expect(document.documentElement.getAttribute('data-theme-source')).toBe('manual');
+  });
+  it('removes the key when following the system', () => {
+    localStorage.setItem(KEY, 'dark');
+    applyThemeState({ choice: 'system', manual: null, followSystem: true });
+    expect(localStorage.getItem(KEY)).toBeNull();
+    expect(document.documentElement.getAttribute('data-theme-source')).toBe('inherit');
+  });
+  it('never persists system as a value', () => {
+    applyThemeState({ choice: 'system', manual: null, followSystem: true });
+    expect(localStorage.getItem(KEY)).not.toBe('system');
+  });
+  it('getThemeState reports manual null while inheriting', () => {
+    expect(getThemeState().manual).toBeNull();
+    expect(getFollowSystem()).toBe(true);
+    localStorage.setItem(KEY, 'light');
+    expect(getThemeState().manual).toBe('light');
+    expect(getFollowSystem()).toBe(false);
   });
   it('getSystemTheme reads matchMedia', () => {
     stubMatchMedia(true);
@@ -102,83 +228,90 @@ describe('legacy exports still behave', () => {
     stubMatchMedia(false);
     expect(getSystemTheme()).toBe('light');
   });
-  it('applyThemeChoice sets data-theme and source by choice', () => {
-    applyThemeChoice('system');
-    expect(document.documentElement.getAttribute('data-theme-source')).toBe('inherit');
-    applyThemeChoice('light');
-    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
-    expect(document.documentElement.getAttribute('data-theme-source')).toBe('manual');
-  });
-});
-
-describe('follow switch and manual key', () => {
-  it('system sets data-theme-source=inherit', () => {
-    applyThemeChoice('system');
-    expect(document.documentElement.getAttribute('data-theme-source')).toBe('inherit');
-  });
-  it('setFollowSystem(true) keeps the last manual choice', () => {
-    setFollowSystem(false);
-    window.localStorage.setItem('lx-theme-manual', 'light');
-    window.localStorage.setItem('lx-theme', 'light');
-    setFollowSystem(true);
-    expect(getFollowSystem()).toBe(true);
+  it('readManualChoice falls back to light while inheriting', () => {
     expect(readManualChoice()).toBe('light');
-    expect(getThemeChoice()).toBe('system');
-  });
-  it('applyThemeState writes the source derived from followSystem', () => {
-    applyThemeState({ choice: 'dark', manual: 'dark', followSystem: false });
-    expect(document.documentElement.getAttribute('data-theme-source')).toBe('manual');
-    applyThemeState({ choice: 'system', manual: 'dark', followSystem: true });
-    expect(document.documentElement.getAttribute('data-theme-source')).toBe('inherit');
-  });
-  it('getThemeState reports a coherent triple', () => {
-    setFollowSystem(false);
-    window.localStorage.setItem('lx-theme', 'dark');
-    const s = getThemeState();
-    expect(s.choice).toBe('dark');
-    expect(s.followSystem).toBe(false);
-    expect(s.manual).toBe('dark');
+    localStorage.setItem(KEY, 'dark');
+    expect(readManualChoice()).toBe('dark');
   });
 });
 
-describe('Settings screen', () => {
-  it('switch has aria-disabled while following, and ignores clicks', () => {
-    applyThemeChoice('system');
+describe('Settings switch', () => {
+  it('label and aria-checked follow the resolved theme (OS light)', () => {
+    stubMatchMedia(false);
     render(SETTINGS_EL);
     const sw = screen.getByRole('switch');
-    expect(sw.getAttribute('aria-disabled')).toBe('true');
-    const before = document.documentElement.getAttribute('data-theme');
-    fireEvent.click(sw);
-    expect(getFollowSystem()).toBe(true);
-    expect(document.documentElement.getAttribute('data-theme')).toBe(before);
+    expect(sw.getAttribute('aria-checked')).toBe('false');
+    expect(screen.getByText('Светлая тема')).toBeTruthy();
+    expect(sw.getAttribute('aria-label')).toBe('Светлая тема');
   });
 
-  it('unchecking the follow box and flipping the switch picks a manual theme', () => {
-    applyThemeChoice('system');
+  it('label and aria-checked follow the resolved theme (OS dark)', () => {
+    stubMatchMedia(true);
     render(SETTINGS_EL);
-    fireEvent.click(screen.getByRole('checkbox'));
     const sw = screen.getByRole('switch');
-    expect(sw.getAttribute('aria-disabled')).toBe('false');
-    fireEvent.click(sw);
-    expect(getFollowSystem()).toBe(false);
+    expect(sw.getAttribute('aria-checked')).toBe('true');
+    expect(screen.getByText('Тёмная тема')).toBeTruthy();
+    expect(sw.getAttribute('aria-label')).toBe('Тёмная тема');
+  });
+
+  it('uses the Telegram signal over the OS when available', () => {
+    stubMatchMedia(false);
+    mocks.isTMA.mockReturnValue(true);
+    mocks.isDark.mockReturnValue(true);
+    render(SETTINGS_EL);
+    expect(screen.getByRole('switch').getAttribute('aria-checked')).toBe('true');
+  });
+
+  it('shows the inherit hint with the current value', () => {
+    stubMatchMedia(false);
+    render(SETTINGS_EL);
+    expect(screen.getByText(/Следует системной теме/)).toBeTruthy();
+    expect(screen.getByText(/сейчас: светлая/)).toBeTruthy();
+  });
+
+  it('shows the manual hint after an explicit choice', () => {
+    stubMatchMedia(false);
+    localStorage.setItem(KEY, 'dark');
+    render(SETTINGS_EL);
+    expect(screen.getByText('Ручной выбор')).toBeTruthy();
+  });
+
+  it('toggling from inherit pins the opposite of the system theme', () => {
+    stubMatchMedia(false);
+    render(SETTINGS_EL);
+    fireEvent.click(screen.getByRole('switch'));
+    expect(localStorage.getItem(KEY)).toBe('dark');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
     expect(document.documentElement.getAttribute('data-theme-source')).toBe('manual');
+  });
+
+  it('toggling back to the system value clears the key (null, not empty)', () => {
+    stubMatchMedia(false);
+    render(SETTINGS_EL);
+    const sw = screen.getByRole('switch');
+    fireEvent.click(sw);
+    expect(localStorage.getItem(KEY)).toBe('dark');
+    fireEvent.click(sw);
+    expect(localStorage.getItem(KEY)).toBeNull();
+    expect(document.documentElement.getAttribute('data-theme-source')).toBe('inherit');
+  });
+
+  it('announces changes through the shared event', () => {
+    stubMatchMedia(false);
+    const spy = vi.fn();
+    window.addEventListener(THEME_CHANGE_EVENT, spy);
+    render(SETTINGS_EL);
+    fireEvent.click(screen.getByRole('switch'));
+    expect(spy).toHaveBeenCalled();
+    window.removeEventListener(THEME_CHANGE_EVENT, spy);
   });
 
   it('back button navigates to the dashboard', () => {
+    stubMatchMedia(false);
     render(SETTINGS_EL);
     expect(mocks.backButton).toHaveBeenCalled();
     const cb = mocks.backButton.mock.calls[0][0] as () => void;
     cb();
     expect(mocks.navigateTo).toHaveBeenCalledWith('dashboard');
-  });
-
-  it('announces theme changes through the shared event', () => {
-    applyThemeChoice('system');
-    const spy = vi.fn();
-    window.addEventListener(THEME_CHANGE_EVENT, spy);
-    render(SETTINGS_EL);
-    fireEvent.click(screen.getByRole('checkbox'));
-    expect(spy).toHaveBeenCalled();
-    window.removeEventListener(THEME_CHANGE_EVENT, spy);
   });
 });

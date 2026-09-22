@@ -1,12 +1,32 @@
 import { useEffect, useState } from 'react';
 import { isTMA, themeParams, useSignal } from '@telegram-apps/sdk-react';
-import { applyThemeChoice, getFollowSystem, readManualChoice, type ThemeChoice } from '@/utils/theme';
+import { applyThemeChoice, type ResolvedTheme, type ThemeChoice } from '@/utils/theme';
 
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
+const STORAGE_KEY = 'lx-theme';
 
 function readOsIsDark(): boolean {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return true;
   return window.matchMedia(MEDIA_QUERY).matches;
+}
+
+/**
+ * Manual choice, or null while the app follows Telegram / the system.
+ * Absence of the storage key is what 'inherit' means now.
+ */
+function readManual(): ResolvedTheme | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    if (saved === 'light' || saved === 'dark') return saved;
+  } catch {
+    // localStorage unavailable
+  }
+  return null;
+}
+
+function toChoice(manual: ResolvedTheme | null): ThemeChoice {
+  return manual === null ? 'system' : manual;
 }
 
 /**
@@ -18,10 +38,13 @@ function readOsIsDark(): boolean {
  *   switches Telegram's own theme;
  * - outside Telegram, `matchMedia` with a change listener.
  *
- * `themeParams.bindCssVars()` is called once on mount. It publishes `--tg-theme-*`
- * on <html> and keeps them in sync on later theme changes. useTelegramTheme does a
- * one-shot publish only; without the live binding the inherit mode would fall back
- * to the static #1E1E1E palette.
+ * The Telegram signal is handed to `applyThemeChoice`, otherwise that call would
+ * fall back to the OS preference and an inheriting app inside Telegram would show
+ * the wrong theme.
+ *
+ * `themeParams.bindCssVars()` publishes `--tg-theme-*` on <html> and keeps them in
+ * sync; useTelegramTheme only published them once, which left the inherit mode on
+ * the static fallback palette.
  */
 export function useThemeController(): void {
   const inTelegram = isTMA();
@@ -31,9 +54,7 @@ export function useThemeController(): void {
   const telegramIsDark = useSignal(themeParams.isDark);
 
   const [osIsDark, setOsIsDark] = useState<boolean>(readOsIsDark);
-  const [choice, setChoice] = useState<ThemeChoice>(() =>
-    getFollowSystem() ? 'system' : readManualChoice()
-  );
+  const [manual, setManual] = useState<ResolvedTheme | null>(readManual);
 
   // OS preference changes.
   useEffect(() => {
@@ -68,14 +89,14 @@ export function useThemeController(): void {
 
   // The Settings screen announces explicit changes through this event.
   useEffect(() => {
-    const handler = () => setChoice(getFollowSystem() ? 'system' : readManualChoice());
+    const handler = () => setManual(readManual());
     window.addEventListener(THEME_CHANGE_EVENT, handler);
     return () => window.removeEventListener(THEME_CHANGE_EVENT, handler);
   }, []);
 
   useEffect(() => {
-    applyThemeChoice(choice);
-  }, [choice, inTelegram, telegramIsDark, osIsDark]);
+    applyThemeChoice(toChoice(manual), inTelegram ? telegramIsDark : undefined);
+  }, [manual, inTelegram, telegramIsDark, osIsDark]);
 }
 
 /** Event name shared with the Settings screen. */

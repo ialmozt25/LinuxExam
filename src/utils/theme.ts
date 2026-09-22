@@ -3,137 +3,167 @@ export type ResolvedTheme = 'light' | 'dark';
 export type ThemeSource = 'inherit' | 'manual';
 
 const STORAGE_KEY = 'lx-theme';
-const MANUAL_KEY = 'lx-theme-manual';
-const DEFAULT_MANUAL: ResolvedTheme = 'dark';
+const LEGACY_MANUAL_KEY = 'lx-theme-manual';
 
 /**
- * The user's stored preference. 'system' is a real third state, not a
- * fallback for "unset" - it is written to localStorage like any explicit
- * choice, so switching back to it is preserved.
+ * Storage format (current):
+ *   lx-theme ABSENT            -> inherit (follow Telegram / system)
+ *   lx-theme = 'light' | 'dark' -> explicit manual choice
+ *   lx-theme = 'system'         -> legacy value, still accepted as inherit
+ *
+ * `lx-theme-manual` is obsolete. migrateThemeStorage() removes it.
+ */
+
+/**
+ * Normalises the persisted key. An absent key is inherit, which is reported as
+ * 'system' because ThemeChoice keeps 'system' as the third state.
  */
 export function getThemeChoice(): ThemeChoice {
   if (typeof window === 'undefined') return 'system';
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved === 'light' || saved === 'dark' || saved === 'system') {
-      return saved;
-    }
+    if (saved === 'light' || saved === 'dark') return saved;
   } catch {
     // localStorage unavailable (private mode / blocked storage)
   }
   return 'system';
 }
 
-/** OS preference. Used outside Telegram, and by the legacy 'system' path. */
+/**
+ * One-way, idempotent storage migration from the old two-key model.
+ *
+ *   'system'                        -> key removed (absent means inherit)
+ *   'light' | 'dark'                -> kept as-is
+ *   absent + lx-theme-manual        -> manual value promoted to lx-theme
+ *   lx-theme-manual (always)        -> removed
+ *
+ * No migration flag: running it twice equals running it once, so it can be
+ * called unconditionally on every boot.
+ */
+export function migrateThemeStorage(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const ls = window.localStorage;
+    const choice = ls.getItem(STORAGE_KEY);
+    const legacyManual = ls.getItem(LEGACY_MANUAL_KEY);
+
+    if (choice === 'system') {
+      ls.removeItem(STORAGE_KEY);
+    } else if (choice === null && (legacyManual === 'light' || legacyManual === 'dark')) {
+      ls.setItem(STORAGE_KEY, legacyManual);
+    }
+
+    ls.removeItem(LEGACY_MANUAL_KEY);
+  } catch {
+    // Storage unavailable: nothing to migrate, the app falls back to inherit.
+  }
+}
+
+/**
+ * Last explicit light/dark pick. With an absent key (inherit) the light theme is
+ * reported, because that is what the OS/Telegram default resolves to when no
+ * dark signal is available; the real value is always taken from the controller.
+ */
+export function readManualChoice(): ResolvedTheme {
+  if (typeof window === 'undefined') return 'light';
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    if (saved === 'light' || saved === 'dark') return saved;
+  } catch {
+    // localStorage unavailable
+  }
+  return 'light';
+}
+
+/** True while the app follows Telegram / the system instead of a manual choice. */
+export function getFollowSystem(): boolean {
+  return getThemeChoice() === 'system';
+}
+
+/** OS preference. Used when no Telegram signal is available. */
 export function getSystemTheme(): ResolvedTheme {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-    return DEFAULT_MANUAL;
+    return 'dark';
   }
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-export interface ThemeSignals {
+export interface ResolveOptions {
   /** True inside a Telegram Mini App. */
   inTelegram: boolean;
-  /** Current value of themeParams.isDark(). */
-  telegramIsDark: boolean;
-  /** Current OS preference. */
-  osIsDark: boolean;
+  /**
+   * Value of `themeParams.isDark()`. Kept as `boolean | undefined` so a signal
+   * that is missing or unreadable cannot silently read as 'dark'.
+   */
+  telegramIsDark: boolean | undefined;
 }
 
 /**
  * `system` resolves to the Telegram palette inside Telegram and to the OS
  * preference elsewhere; every other choice wins unconditionally.
+ *
+ * Without options there is no Telegram signal to trust, so it falls back to the
+ * OS preference.
  */
-export function resolveTheme(choice: ThemeChoice, signals?: ThemeSignals): ResolvedTheme {
+export function resolveTheme(choice: ThemeChoice, options?: ResolveOptions): ResolvedTheme {
   if (choice !== 'system') return choice;
-  if (signals) {
-    if (signals.inTelegram) return signals.telegramIsDark ? 'dark' : 'light';
-    return signals.osIsDark ? 'dark' : 'light';
-  }
+  if (options && options.inTelegram && options.telegramIsDark === true) return 'dark';
+  if (options && options.inTelegram && options.telegramIsDark === false) return 'light';
   return getSystemTheme();
-}
-
-/** Last manual (non-system) choice. Used by the Settings switch. */
-export function readManualChoice(): ResolvedTheme {
-  if (typeof window === 'undefined') return DEFAULT_MANUAL;
-  try {
-    const saved = window.localStorage.getItem(MANUAL_KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
-    const primary = window.localStorage.getItem(STORAGE_KEY);
-    if (primary === 'light' || primary === 'dark') return primary;
-  } catch {
-    // localStorage unavailable
-  }
-  return DEFAULT_MANUAL;
-}
-
-/** True while the app follows Telegram / the system instead of a manual choice. */
-export function getFollowSystem(): boolean {
-  return getThemeChoice() !== 'light' && getThemeChoice() !== 'dark';
 }
 
 export interface ThemeState {
   /** Persisted single source of truth. */
   choice: ThemeChoice;
-  /** Last manual choice, retained even while following the system. */
-  manual: ResolvedTheme;
+  /** Last explicit pick, or null while inheriting. */
+  manual: ResolvedTheme | null;
   followSystem: boolean;
 }
 
 export function getThemeState(): ThemeState {
   const choice = getThemeChoice();
-  return { choice, manual: readManualChoice(), followSystem: getFollowSystem() };
-}
-
-/**
- * Turns the follow switch on: the persisted choice becomes 'system' while the
- * manual choice is remembered for when the switch is turned off again.
- */
-export function setFollowSystem(enabled: boolean): void {
-  if (typeof window === 'undefined') return;
-  try {
-    const manual = readManualChoice();
-    window.localStorage.setItem(MANUAL_KEY, manual);
-    window.localStorage.setItem(STORAGE_KEY, enabled ? 'system' : manual);
-  } catch {
-    // session-only fallback
-  }
+  return {
+    choice,
+    manual: choice === 'light' || choice === 'dark' ? choice : null,
+    followSystem: getFollowSystem(),
+  };
 }
 
 /**
  * Writes the RESOLVED theme plus the source of that decision to <html>.
  *
- * `data-theme-source="inherit"` makes the CSS hex overrides in tokens.css
- * step aside so the live Telegram palette (--tg-theme-*) shows through.
+ * `data-theme-source="inherit"` makes the hex overrides in tokens.css step aside
+ * so the live Telegram palette (--tg-theme-*) shows through.
  */
-export function applyThemeState(state: ThemeState): ResolvedTheme {
-  const resolved = resolveTheme(state.choice);
+export function applyThemeChoice(choice: ThemeChoice, telegramIsDark?: boolean): ResolvedTheme {
+  const inTelegram = telegramIsDark !== undefined;
+  const resolved = resolveTheme(choice, { inTelegram, telegramIsDark });
   if (typeof document !== 'undefined') {
     document.documentElement.setAttribute('data-theme', resolved);
     document.documentElement.setAttribute(
       'data-theme-source',
-      state.followSystem ? 'inherit' : 'manual'
+      choice === 'system' ? 'inherit' : 'manual'
     );
   }
   return resolved;
 }
 
 /**
- * Back-compat entry point: keeps the exact signature the app already calls, so
- * main.tsx needs no change. The source is derived from the choice.
+ * Persists an explicit choice, or clears the key to go back to inherit. Never
+ * writes 'system' - absence is what inherit means now.
  */
-export function applyThemeChoice(choice: ThemeChoice): void {
-  if (typeof document === 'undefined') return;
-  const resolved = resolveTheme(choice);
-  document.documentElement.setAttribute('data-theme', resolved);
-  document.documentElement.setAttribute(
-    'data-theme-source',
-    choice === 'system' ? 'inherit' : 'manual'
-  );
-  try {
-    window.localStorage.setItem(STORAGE_KEY, choice);
-  } catch {
-    // session-only fallback
+export function applyThemeState(state: ThemeState, telegramIsDark?: boolean): ResolvedTheme {
+  if (typeof window !== 'undefined') {
+    try {
+      if (state.choice === 'light' || state.choice === 'dark') {
+        window.localStorage.setItem(STORAGE_KEY, state.choice);
+      } else {
+        window.localStorage.removeItem(STORAGE_KEY);
+      }
+      window.localStorage.removeItem(LEGACY_MANUAL_KEY);
+    } catch {
+      // session-only fallback
+    }
   }
+  return applyThemeChoice(state.choice, telegramIsDark);
 }
