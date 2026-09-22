@@ -297,7 +297,7 @@ export const useQuizStore = create<QuizState>()(
       // REVIEW stream. Deliberately bypasses canAccessQuestion: review is a
       // post-hoc study mode, not new question consumption.
       answerReview: (questionId, selectedIndex) => {
-        const { questions, reviewAnswers } = get();
+        const { questions, reviewAnswers, wrongQuestionIds } = get();
         const question = questions.find((q) => q.id === questionId);
         if (!question) return;
         const option = question.options[selectedIndex];
@@ -308,7 +308,25 @@ export const useQuizStore = create<QuizState>()(
           existingIndex >= 0
             ? reviewAnswers.map((a, i) => (i === existingIndex ? record : a))
             : [...reviewAnswers, record];
-        set({ reviewAnswers: next, isQuizInProgress: true });
+
+        // Unified rule: a correct answer retires the question from the
+        // wrong-answer list, a wrong one (re)adds it. wrongQuestionIds is only
+        // written when the membership actually changes, so unrelated state and
+        // array identity stay stable.
+        const isCorrect = option.correct;
+        const isInWrong = wrongQuestionIds.includes(questionId);
+        const update: {
+          reviewAnswers: AnswerRecord[];
+          isQuizInProgress: boolean;
+          wrongQuestionIds?: string[];
+        } = { reviewAnswers: next, isQuizInProgress: true };
+        if (isCorrect && isInWrong) {
+          update.wrongQuestionIds = wrongQuestionIds.filter((id) => id !== questionId);
+        } else if (!isCorrect && !isInWrong) {
+          update.wrongQuestionIds = [...wrongQuestionIds, questionId];
+        }
+
+        set(update);
       },
 
       // EXAM stream. Fully isolated from answers and reviewAnswers.

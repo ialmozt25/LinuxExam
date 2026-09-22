@@ -51,3 +51,22 @@
 question.id). Question order stays as-is.
 **Обоснование:** option shuffle solves 80% of "cheat by peeking". Question
 order shuffle needs new state field (questionOrder) — separate task.
+
+## DECISION-008 (2026-09-22)
+
+**Контекст:** bug — правильный ответ в режиме «Повторить ошибки» не
+уменьшал wrongQuestionIds.
+
+**Решение:** unified rule — любой правильный ответ (в regular, review,
+topic) удаляет вопрос из wrongQuestionIds; любой неправильный добавляет.
+answerExam по-прежнему изолирован (экзамен не влияет на ошибки).
+
+**Обоснование:** Duolingo-style mastery-based retry. Счётчик уменьшается
+при правильных ответах — мотивация. Spaced repetition (SRS) — отдельная
+задача.
+
+**Примечание (реализация):** `streams-isolation.test.ts` не существовал —
+создан в этом коммите. Хелперы `resetStore`/`mockQuestions` продублированы
+(не импортированы из `topic-quiz.test.ts`), чтобы тесты не были связаны.
+`wrongQuestionIds` пишется только при фактическом изменении membership —
+это проверяется отдельным тестом.
