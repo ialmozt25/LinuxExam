@@ -17,6 +17,16 @@ export const FREE_QUESTION_LIMIT = 5;
 
 export type Screen = 'dashboard' | 'question' | 'results';
 
+/** Local per-question statistics. Persisted with the rest of the progress. */
+export interface QuestionStat {
+  /** Total number of times the question has been answered in any stream. */
+  attempts: number;
+  /** How many of those attempts were correct. */
+  correct: number;
+  /** ISO-8601 timestamp of the most recent answer. */
+  lastAt: string;
+}
+
 interface QuizState {
   questions: Question[];
   currentIndex: number;
@@ -31,6 +41,13 @@ interface QuizState {
 
   // Wrong-answer tracking for the regular stream (feeds review mode)
   wrongQuestionIds: string[];
+
+  // Per-question local statistics (no backend). Keyed by question id; a question
+  // simply has no entry until it is first answered, so the 42 existing questions
+  // are deliberately NOT backfilled. Accumulates across all three streams
+  // (regular, review, topic), because every answer goes through exactly one of
+  // answerQuestion / answerReview / answerExam.
+  questionStats: Record<string, QuestionStat>;
 
   // REVIEW stream — fully isolated from 'answers'
   reviewQuestionIds: string[] | null;
@@ -61,6 +78,8 @@ interface QuizState {
   recordActivity: () => void;
   navigateTo: (screen: Screen) => void;
   answerQuestion: (questionId: string, selectedIndex: number) => void;
+  /** Records one answer into the local per-question statistics. */
+  recordQuestionStat: (questionId: string, isCorrect: boolean) => void;
   nextQuestion: () => void;
   previousQuestion: () => void;
   resetProgress: () => void;
@@ -98,6 +117,7 @@ export const useQuizStore = create<QuizState>()(
       lastActiveDate: null,
       totalXp: 0,
       wrongQuestionIds: [],
+      questionStats: {},
       reviewQuestionIds: null,
       reviewAnswers: [],
       isQuizInProgress: false,
@@ -169,6 +189,19 @@ export const useQuizStore = create<QuizState>()(
         });
       },
 
+      // Local per-question stats. Kept out of the three answer streams so the
+      // streams stay isolated; every answer records through here instead.
+      recordQuestionStat: (questionId, isCorrect) => {
+        const prev = get().questionStats[questionId];
+        const next: QuestionStat = {
+          attempts: (prev?.attempts ?? 0) + 1,
+          correct: (prev?.correct ?? 0) + (isCorrect ? 1 : 0),
+          lastAt: new Date().toISOString(),
+        };
+        set({ questionStats: { ...get().questionStats, [questionId]: next } });
+      },
+
+
       answerQuestion: (questionId, selectedIndex) => {
         if (!get().canAccessQuestion(get().currentIndex)) {
           return;
@@ -184,6 +217,7 @@ export const useQuizStore = create<QuizState>()(
             ? get().answers.map((a, i) => (i === existingIndex ? record : a))
             : [...get().answers, record];
         set({ answers });
+        get().recordQuestionStat(questionId, isCorrect);
 
         // Wrong-answer bookkeeping for review mode. This MUST NOT touch
         // reviewAnswers or examAnswers - the three streams stay isolated.
@@ -353,6 +387,7 @@ export const useQuizStore = create<QuizState>()(
         }
 
         set(update);
+        get().recordQuestionStat(questionId, isCorrect);
       },
 
       // EXAM stream. Fully isolated from answers and reviewAnswers.
@@ -391,6 +426,7 @@ export const useQuizStore = create<QuizState>()(
             ? examAnswers.map((a, i) => (i === existingIndex ? record : a))
             : [...examAnswers, record];
         set({ examAnswers: next });
+        get().recordQuestionStat(questionId, option.correct);
       },
 
       finishExam: () => {
@@ -434,6 +470,10 @@ export const useQuizStore = create<QuizState>()(
         lastActiveDate: state.lastActiveDate,
         totalXp: state.totalXp,
         wrongQuestionIds: state.wrongQuestionIds,
+        // Local per-question statistics (see QuestionStat). No version bump:
+        // zustand shallow-merges persisted state over initialState, so states
+        // written before this field existed simply receive questionStats: {}.
+        questionStats: state.questionStats,
         reviewQuestionIds: state.reviewQuestionIds,
         reviewAnswers: state.reviewAnswers,
         isQuizInProgress: state.isQuizInProgress,
