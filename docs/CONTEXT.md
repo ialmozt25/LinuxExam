@@ -39,9 +39,10 @@
 - Хостинг: приватность репо (VPS или GitHub Pro)
 - Lazy-load questions.json — критично до 100+ вопросов
 - Ужесточение L8 (сейчас 4/4 чеклист мягкий: 12/12 без reject)
-- L5c intra-batch — код в tools/cosine.cjs (закоммичен в 0be90f7), тесты не прогнаны (задача 1.6)
+- L5c intra-batch — код и тесты в проде (per-text embedding, batch-independent, verified 2026-09-23)
 - Dependabot: 52 уязвимости в deps
 - @xenova/transformers в dependencies → devDependencies
+- Cosine threshold margin -0.0085 (background_max 0.8085 > threshold 0.80)
 
 ## Отклонённые подходы (НЕ пробовать)
 
@@ -68,7 +69,7 @@
 
 ## Ключевые цифры
 
-- Порог cosine: 0.80 (background_max 0.8043 — на грани)
+- Порог cosine: 0.80 (background_max 0.8085, margin -0.0085 — требует решения)
 - Jaccard порог: 0.9 (bigram)
 - Bundle watch: >137 kB gzip — стоп
 - L8 порог: 4/4
