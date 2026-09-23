@@ -143,3 +143,44 @@ background_max 0.8085 > threshold 0.80. Требует решения в отд�
 - commit3 (this session-log)
 
 **Состояние:** origin/main = 6deaf4c31be480b2ffd14fd1c582cbd5fd46516b + commit3 поверх, банк 54, L5c верифицирован.
+
+## 2026-09-23 (сессия 8) — cosine class inversion (decision: keep 0.80)
+
+**Задачи:** решить margin -0.0085. Старые probes (0.855-0.963) — числа без 
+текстов + батчевый embedding, непригодны.
+
+**ФАЗА 2:** создано 9 новых probe-пар (банк + перефраз), измерены per-text.
+
+**Результат — CLASS INVERSION:**
+- Перефразы: 0.6686 .. 0.9249 (median 0.7662)
+- Фон top-4: 0.7548 .. 0.8085
+- 6/9 перефразов НИЖЕ bgMax 0.8085
+- gap = probeP25 - bgMax = -0.0838
+
+**Корень:** MiniLM-L6-v2 на русском ранжирует по лексике/теме, не по 
+семантической эквивалентности.
+
+**Решение (c):** зафиксировать как есть.
+- threshold 0.80 — НЕ меняем.
+- Jaccard 0.9 — primary defense.
+- known_exceptions (2) — остаются.
+- Смена модели → backlog.
+
+**Backlog:** замена cosine-модели на русскоязычную (cointegrated/rubert-tiny2) 
+после 100+ вопросов или при первых реальных дубликатах.
+
+**Код (cosine.cjs):** не изменён.
+
+**Инциденты при apply (self-detected):**
+- ConvertTo-Json дал CRLF → нормализовано в LF.
+- 0.80 → 0.8 при сериализации → восстановлено 0.80.
+- Trailing LF потерян → восстановлен.
+
+**Гейты:** typecheck 0, lint 0, unit 128, build 0.
+
+**Коммиты:**
+- commit1: 17ce56b60a3c3c6ad0a94e5d1895a41f894f5106 (docs calibration + CONTEXT)
+- commit2: этот (session-log)
+
+**Состояние:** банк 54, L5c в проде, threshold 0.80, class inversion 
+зафиксирован.
