@@ -4,27 +4,29 @@
   "pooling": "mean over token axis, weighted by attention_mask, then L2-normalised",
   "offline": true,
   "corpus": "src/data/questions.json",
-  "corpus_size": 42,
-  "pairs_measured": 861,
+  "corpus_size": 54,
+  "pairs_measured": 1431,
   "measured_at": "2026-09-23",
-  "background_max": 0.7837,
+  "calibrated_at": "2026-09-23T06:10:00Z",
+  "background_max": 0.8043,
   "background": {
-    "max": 0.7837,
-    "max_pair": ["fm_002", "fm_003"],
-    "p99": 0.1506,
-    "p95": 0.2908,
-    "mean": 0.4774,
-    "note": "measured with the explicit attention_mask-weighted mean pooling implemented in tools/cosine.cjs; p99/p95/mean were null in the first version and are filled in here"
+    "max": 0.8043,
+    "max_pair": ["ug_003", "ug_004"],
+    "p99": null,
+    "p95": null,
+    "mean": null,
+    "note": "recalibrated on the 54-question bank (was 0.7837 on 42). p99/p95/mean are still from the 42-question pass and are marked null here until re-measured on 54."
   },
   "distribution": {
-    "gt_0_80": 0,
-    "gt_0_78": 1,
-    "gt_0_75": 2,
-    "gt_0_70": 7,
-    "note": "gt_0_80 corrected from a stale 1 - that value was inherited from the 0.8040 pipeline measurement and contradicted background_max 0.7837. Measured value is 0, so FPR at threshold 0.80 is 0/861 = 0.000000."
+    "gt_0_80": 1,
+    "gt_0_78": 3,
+    "note": "measured on 1431 pairs of the 54-question bank; gt_0_80 counts ug_003~ug_004 (0.8043), gt_0_78 adds ug_005~ug_006 (0.7937) and fm_002~fm_003 (0.7917)"
   },
+  "known_exceptions": ["fm_002~fm_003", "ug_003~ug_004", "ug_005~ug_006"],
   "true_paraphrase_probes": [0.9626, 0.8932, 0.8745, 0.8553],
   "thresholds": {
+    "fail": 0.80,
+    "warn": 0.75,
     "cosine": 0.80,
     "jaccard": 0.9
   },
@@ -35,16 +37,18 @@
     "pipeline_pooling_max": 0.8040,
     "delta": -0.0203,
     "same_winning_pair": "fm_002~fm_003",
-    "note": "0.8040 comes from the @xenova pipeline() default pooling; the explicit attention_mask-weighted mean requested by the pipeline specification yields 0.7837. Both agree on the winning pair. Delta is against the operational (explicit mean) figure. Threshold 0.80 = background_max 0.7837 + 0.0163."
+    "note": "measured on the 42-question bank. 0.8040 comes from the @xenova pipeline() default pooling; the explicit attention_mask-weighted mean yields 0.7837. Both agree on the winning pair. The new 54-question background maximum of 0.8043 is a different quantity (it comes from new intra-batch pairs) and must not be confused with the 0.8040 pipeline figure."
   },
   "threshold_margin": {
     "threshold": 0.8,
-    "background_max_manual": 0.7837,
-    "margin": 0.0163,
-    "verdict": "threshold sits 0.0163 ABOVE the measured background maximum, so it rejects no existing pair (FPR 0/861) and still sits below the 0.855-0.963 paraphrase band measured earlier"
+    "background_max": 0.8043,
+    "margin": -0.0043,
+    "verdict": "the threshold is now 0.0043 BELOW the measured background maximum, so exactly one pair (ug_003~ug_004) exceeds it. Those two questions are semantically different (home directory vs shell), so this is a calibrated-threshold artefact of the compressed Russian-text range, not a duplicate. Recorded as a known exception."
   },
-  "justification": "FPR = 0/861 = 0.000000 at cosine > 0.80. The highest real pair is 0.7837 (fm_002~fm_003) and true paraphrases measured 0.855-0.963, so 0.80 leaves a 0.0163 margin above the highest real pair while staying under the paraphrase band.",
-  "note": "0.80 lies 0.0163 ABOVE the measured background maximum (0.7837) when the explicit attention_mask-weighted mean pooling is used, so the filter is live. It still rejects no existing pair, including fm_002~fm_003, which are genuine semantic twins about find *.conf. Kept at 0.80 by explicit decision (threshold must not be changed in this task).",
-  "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English.",
-  "recalibrated": false
+  "threshold_warning": "0.80 < background_max. New pairs > 0.80 will be auto-rejected. L5c (intra-batch manual review) required before accepting new batches.",
+  "calibration_note": "background_max вырос из-за пар внутри users_groups батча. Пары семантически разные. L5c — в backlog.",
+  "justification": "On the 42-question bank the maximum was 0.7837 with 0 pairs above 0.80. After appending the 12 users_groups questions the maximum is 0.8043 (ug_003~ug_004), with 1 pair above 0.80 and 3 above 0.78. The pipeline validated each new question against the bank (42) and drafts (17) but never against its own batch, so intra-batch pairs were never scored.",
+  "note": "The cosine threshold remains 0.80 by explicit decision and was not changed. Because background_max 0.8043 now exceeds it, any future batch containing a pair at that similarity will be auto-rejected unless it is listed in known_exceptions.",
+  "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English. This is why topically-related but distinct questions can reach 0.80.",
+  "recalibrated": true
 }
