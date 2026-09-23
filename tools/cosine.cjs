@@ -230,21 +230,27 @@ if (require.main === module) {
     // --self-check: pairwise cosine over the bank itself, verifying that the
     // background maximum still matches tools/cosine-calibration.json.
     if (target === '--self-check') {
-      const bankIds = loadBank();
-      const vecs = await embed(bankIds.map((q) => q.question));
+      const bankQs = loadBank();
+      const vecs = await embed(bankQs.map((q) => q.question));
       let max = 0;
       let pair = null;
-      for (let i = 0; i < bankIds.length; i++) {
-        for (let j = i + 1; j < bankIds.length; j++) {
+      let gt80 = 0;
+      let gt78 = 0;
+      for (let i = 0; i < bankQs.length; i++) {
+        for (let j = i + 1; j < bankQs.length; j++) {
           const c = cosine(vecs[i], vecs[j]);
-          if (c > max) { max = c; pair = bankIds[i].id + '~' + bankIds[j].id; }
+          if (c > max) { max = c; pair = bankQs[i].id + '~' + bankQs[j].id; }
+          if (c > 0.80) gt80++;
+          if (c > 0.78) gt78++;
         }
       }
-      const n = (bankIds.length * (bankIds.length - 1)) / 2;
+      const n = (bankQs.length * (bankQs.length - 1)) / 2;
       const expected = CALIBRATION && CALIBRATION.background ? CALIBRATION.background.max : null;
       console.log('pairs: ' + n);
       console.log('max cosine: ' + max.toFixed(4) + '  (' + pair + ')');
       console.log('threshold: ' + DEFAULT_COSINE_THRESHOLD);
+      console.log('pairs > 0.80: ' + gt80);
+      console.log('pairs > 0.78: ' + gt78);
       if (expected !== null) {
         const ok = Math.abs(max - expected) < 0.005;
         console.log('calibration expected max: ' + expected.toFixed(4) + '  ->  ' + (ok ? 'MATCH' : 'MISMATCH'));
