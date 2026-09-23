@@ -943,5 +943,257 @@
       }
     ],
     "explanation": "Без явного указания kill отправляет SIGTERM — корректный запрос на завершение, который процесс может обработать и освободить ресурсы. SIGKILL надо запрашивать явно через kill -9. SIGHUP по умолчанию не отправляется, а SIGINT генерирует сочетание Ctrl+C."
+  },
+  {
+    "id": "et_001",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "grep: fixed-string matching",
+    "question": "Требуется найти в файле строки, содержащие последовательность . * буквально, без интерпретации символов как шаблон регулярного выражения. Какой ключ grep задаст такой режим поиска?",
+    "options": [
+      {
+        "text": "grep -F '. *' file",
+        "correct": true
+      },
+      {
+        "text": "grep -E '. *' file",
+        "correct": false
+      },
+      {
+        "text": "grep -w '. *' file",
+        "correct": false
+      },
+      {
+        "text": "grep -v '. *' file",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -F (--fixed-strings) трактует шаблон как набор фиксированных строк, а не как регулярное выражение, поэтому точка и звёздочка ищутся буквально, включая разделяющий их пробел. Ключ -E включает расширенные регулярные выражения, то есть усиливает интерпретацию шаблона, и точка начинает означать любой символ, из-за чего совпадений становится больше. Ключ -w ограничивает совпадение границами слова, но шаблон по-прежнему остаётся регулярным выражением. Ключ -v инвертирует выборку и выводит строки, которые шаблону не соответствуют, а способ разбора шаблона не меняет.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "2.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-22T23:22:58Z",
+      "source": "pipeline_essential_tools_iter1",
+      "reference": "man grep",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_002",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "find: filtering by size",
+    "question": "Нужно найти в каталоге /var/log обычные файлы, размер которых строго больше 100 МиБ (100 МБ в двоичных единицах). Какое условие find отберёт именно такие файлы?",
+    "options": [
+      {
+        "text": "find /var/log -type f -size +100M",
+        "correct": true
+      },
+      {
+        "text": "find /var/log -type f -size 100M",
+        "correct": false
+      },
+      {
+        "text": "find /var/log -type f -size -100M",
+        "correct": false
+      },
+      {
+        "text": "find /var/log -type d -size +100M",
+        "correct": false
+      }
+    ],
+    "explanation": "Суффикс M в выражении -size задаёт единицу измерения в МиБ, а знак плюс означает строго больше указанного размера, поэтому +100M отбирает файлы крупнее 100 МиБ, то есть более 104857600 байт. Запись без знака 100M отбирает файлы ровно такого размера, причём сравнение идёт с округлением вверх. Знак минус в -100M означает строго меньше указанного размера. Условие -type d отбирает каталоги, а не обычные файлы, для которых предназначен -type f.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "2.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-22T23:22:58Z",
+      "source": "pipeline_essential_tools_iter1",
+      "reference": "man find",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_003",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "sort: numeric ordering",
+    "question": "Файл sizes.txt содержит один столбец чисел, записанных как 9, 10 и 100. Какая команда упорядочит строки файла по возрастанию как числа, а не как текст?",
+    "options": [
+      {
+        "text": "sort -n sizes.txt",
+        "correct": true
+      },
+      {
+        "text": "sort sizes.txt",
+        "correct": false
+      },
+      {
+        "text": "sort -r sizes.txt",
+        "correct": false
+      },
+      {
+        "text": "sort -u sizes.txt",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -n (--numeric-sort) сравнивает ведущие числовые значения, поэтому строка 9 расположится перед 10, а 10 перед 100. Сортировка без ключей выполняется лексикографически, и тогда строка 10 оказывается раньше 9, а 100 раньше 9. Ключ -r меняет порядок на обратный, но само сравнение остаётся лексикографическим. Ключ -u удаляет повторяющиеся строки и способ сравнения не изменяет.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "2.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-22T23:22:58Z",
+      "source": "pipeline_essential_tools_iter1",
+      "reference": "man sort",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_004",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "xargs: batching arguments",
+    "question": "Список путей list.txt нужно передать команде rm так, чтобы за один запуск команда получала группу из нескольких аргументов, а не по одному файлу за запуск. Какой ключ xargs задаёт такой режим?",
+    "options": [
+      {
+        "text": "xargs -n 20 rm < list.txt",
+        "correct": true
+      },
+      {
+        "text": "xargs -p 20 rm < list.txt",
+        "correct": false
+      },
+      {
+        "text": "xargs -I 20 rm < list.txt",
+        "correct": false
+      },
+      {
+        "text": "xargs -t 20 rm < list.txt",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -n задаёт максимальное число аргументов, передаваемых команде за один запуск, поэтому -n 20 передаёт пути группой до двадцати штук за вызов. Ключ -I подставляет входные строки в указанное место команды и подразумевает по одному элементу на запуск, то есть даёт ровно противоположное поведение. Ключ -p включает интерактивный запрос подтверждения перед каждым запуском и число аргументов не задаёт. Ключ -t лишь печатает формируемую команду перед выполнением.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "2.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-22T23:22:58Z",
+      "source": "pipeline_essential_tools_iter1",
+      "reference": "man xargs",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_005",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "stat: permission representation",
+    "question": "Команда stat показывает права файла в восьмеричном виде в поле %a. Какой спецификатор формата выведет права в символическом виде, например -rw-r--r--?",
+    "options": [
+      {
+        "text": "stat -c '%A' file",
+        "correct": true
+      },
+      {
+        "text": "stat -c '%a' file",
+        "correct": false
+      },
+      {
+        "text": "stat -c '%n' file",
+        "correct": false
+      },
+      {
+        "text": "stat -c '%s' file",
+        "correct": false
+      }
+    ],
+    "explanation": "Спецификатор %A выводит права вместе с типом файла в человекочитаемом символическом виде, например -rw-r--r--. Спецификатор %a выводит только восьмеричный код прав, например 644. Спецификатор %n выводит имя файла. Спецификатор %s выводит размер файла в байтах. Регистр буквы в спецификаторе значим: %A и %a дают разные данные.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "2.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-22T23:22:58Z",
+      "source": "pipeline_essential_tools_iter1",
+      "reference": "man stat",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_006",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "tar: creating a gzip archive",
+    "question": "Каталог /etc/nginx требуется упаковать в один архивный файл с именем nginx.tar.gz, сжатый gzip, вместе со всем содержимым каталога. Какая команда это выполнит?",
+    "options": [
+      {
+        "text": "tar -czf nginx.tar.gz /etc/nginx",
+        "correct": true
+      },
+      {
+        "text": "tar -cjf nginx.tar.gz /etc/nginx",
+        "correct": false
+      },
+      {
+        "text": "tar -tf nginx.tar.gz /etc/nginx",
+        "correct": false
+      },
+      {
+        "text": "tar -xzf nginx.tar.gz /etc/nginx",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключи -c создают архив, -z включают сжатие gzip, а -f задаёт имя файла архива, поэтому -czf создаёт сжатый gzip архив с указанным именем, рекурсивно включая содержимое каталога. Ключ -j включает сжатие bzip2, то есть даст данные другого формата под расширением .gz. Ключ -t только просматривает содержимое существующего архива и ничего не создаёт. Ключ -x распаковывает архив, выполняя обратную операцию.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "2.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-22T23:22:58Z",
+      "source": "pipeline_essential_tools_iter1",
+      "reference": "man tar",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_007",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "grep: counting matches",
+    "question": "Нужно узнать, сколько строк в файле app.log содержат слово error. Какая команда выведет именно количество таких строк?",
+    "options": [
+      {
+        "text": "grep -c 'error' app.log",
+        "correct": true
+      },
+      {
+        "text": "grep -v 'error' app.log",
+        "correct": false
+      },
+      {
+        "text": "grep -n 'error' app.log",
+        "correct": false
+      },
+      {
+        "text": "grep -l 'error' app.log",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -c (--count) подавляет обычный вывод строк и печатает только их количество, поэтому будет выведено число подходящих строк. Ключ -v инвертирует выборку и печатает строки, не содержащие шаблон, то есть на экран попадут сами строки, а не их число. Ключ -n добавляет к каждой найденной строке её номер и также печатает строки. Ключ -l вместо содержимого печатает имя файла, в котором найдено совпадение.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "2.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-22T23:22:58Z",
+      "source": "pipeline_essential_tools_iter1",
+      "reference": "man grep",
+      "status": "active"
+    }
   }
 ]
