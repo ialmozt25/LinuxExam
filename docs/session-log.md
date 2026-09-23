@@ -240,3 +240,15 @@ background_max 0.8085 > threshold 0.80. Требует решения в отд�
 **Состояние:** банк 66, готов к MAS-аудиту.
 
 **Backlog:** lazy-load questions.json (критично перед 100+).
+
+## 2026-09-23 (сессия 12) — fix topics.ts status
+
+**Проблема:** UI показывал 47 из 66. essential_tools (7) и users_groups (12) остались planned после merge (сессии 3 и 4).
+
+**Fix:** переключены в available. UI показывает 66 (6 из 6 тем available).
+
+**Корневая причина:** асимметрия шаблона merge — security (session 10) переключили явным шагом, essential_tools и users_groups — нет.
+
+**Backlog:** в шаблон merge добавить обязательный шаг «topics.ts: planned -> available».
+
+**Коммиты:** commit1: f5e7a77b8d3a74568fd61fc210dab10314015866.
