@@ -101,6 +101,14 @@ function cosine(a, b) {
   return dot;
 }
 
+// ---- intra-batch (L5c) -------------------------------------------------------
+// The forward check above only scores a candidate against the bank and the other
+// drafts, never against the other candidates in its own batch. Intra-batch mode
+// closes that gap: C(N,2) cosine pairs inside one draft file.
+const INTRA_FAIL_THRESHOLD = 0.80;
+const INTRA_WARN_THRESHOLD = 0.75;
+const INTRA_PAIR_LIMIT = 10;
+
 // --- bigram Jaccard (same definition as tools/qc.cjs, duplicated on purpose so
 // --- each tool stays a standalone script) ---
 function tokenize(text) {
@@ -206,6 +214,84 @@ async function buildReference(pool, modelId = DEFAULT_MODEL) {
   return { pool, vectors };
 }
 
+/**
+ * --intra-batch <file> [--whitelist-aware]: pairwise cosine between the
+ * candidates inside a single draft file.
+ *
+ * --self-check deliberately stays whitelist-unaware (see the CLI below); this
+ * mode is the only place that reads known_exceptions, because a pre-accept
+ * batch review has to be able to distinguish an agreed-around background pair
+ * from a real duplicate.
+ */
+async function runIntraBatch(file, whitelistAware) {
+  let json;
+  try {
+    json = JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (e) {
+    console.error("failed to read/parse '" + file + "': " + e.message);
+    process.exitCode = 2;
+    return;
+  }
+  const questions = Array.isArray(json) ? json : json.questions;
+  if (!Array.isArray(questions)) {
+    console.error('no questions array found in ' + file);
+    process.exitCode = 2;
+    return;
+  }
+
+  const n = questions.length;
+  const totalPairs = (n * (n - 1)) / 2;
+  if (n < 2) {
+    console.log('need >=2 questions, got ' + n);
+    process.exitCode = 0;
+    return;
+  }
+
+  const vectors = await embed(questions.map((q) => q.question));
+  const pairs = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      pairs.push({ a: questions[i].id, b: questions[j].id, c: cosine(vectors[i], vectors[j]) });
+    }
+  }
+  pairs.sort((x, y) => y.c - x.c);
+
+  let whitelist = [];
+  if (whitelistAware) {
+    try {
+      const calib = JSON.parse(fs.readFileSync(path.join(__dirname, 'cosine-calibration.json'), 'utf8'));
+      whitelist = calib.known_exceptions || [];
+    } catch (e) {
+      console.warn('calibration.json not found, whitelist empty');
+    }
+  }
+  const whitelisted = new Set(whitelist);
+  const isWhitelisted = (p) => whitelisted.has(p.a + '~' + p.b) || whitelisted.has(p.b + '~' + p.a);
+
+  const aboveFail = pairs.filter((p) => p.c > INTRA_FAIL_THRESHOLD);
+  const aboveWarn = pairs.filter((p) => p.c > INTRA_WARN_THRESHOLD);
+  const unwhitelistedFails = whitelistAware ? aboveFail.filter((p) => !isWhitelisted(p)) : aboveFail;
+
+  console.log('intra-batch pairs: ' + totalPairs);
+  console.log('max cosine: ' + pairs[0].c.toFixed(4) + ' (' + pairs[0].a + '~' + pairs[0].b + ')');
+  console.log('threshold: ' + INTRA_FAIL_THRESHOLD);
+  console.log('pairs > ' + INTRA_FAIL_THRESHOLD + ': ' + aboveFail.length);
+  for (const p of aboveFail.slice(0, INTRA_PAIR_LIMIT)) {
+    console.log('  ' + p.a + '~' + p.b + ': ' + p.c.toFixed(4) + (whitelistAware && isWhitelisted(p) ? ' (whitelisted)' : ''));
+  }
+  console.log('pairs > ' + INTRA_WARN_THRESHOLD + ': ' + aboveWarn.length);
+  for (const p of aboveWarn.slice(0, INTRA_PAIR_LIMIT)) {
+    console.log('  ' + p.a + '~' + p.b + ': ' + p.c.toFixed(4) + (whitelistAware && isWhitelisted(p) ? ' (whitelisted)' : ''));
+  }
+  if (whitelistAware) {
+    console.log('whitelisted exceptions: ' + whitelist.length);
+    console.log('unwhitelisted pairs > ' + INTRA_FAIL_THRESHOLD + ': ' + unwhitelistedFails.length);
+  }
+
+  process.exitCode = unwhitelistedFails.length > 0 ? 1 : 0;
+  return unwhitelistedFails;
+}
+
 module.exports = {
   DEFAULT_MODEL,
   EXPECTED_DIM,
@@ -222,10 +308,30 @@ module.exports = {
   checkDuplicate,
 };
 
-// ---- CLI: node tools/cosine.cjs <pending.json> ----
+// ---- CLI: node tools/cosine.cjs <pending.json> | --self-check | --intra-batch <file> ----
 if (require.main === module) {
   (async () => {
-    const target = process.argv[2];
+    const argv = process.argv.slice(2);
+
+    if (argv.includes('--whitelist-aware') && !argv.includes('--intra-batch')) {
+      console.error('--whitelist-aware requires --intra-batch');
+      process.exitCode = 2;
+      return;
+    }
+
+    if (argv.includes('--intra-batch')) {
+      const idx = argv.indexOf('--intra-batch');
+      const file = argv[idx + 1];
+      if (!file || file.startsWith('--')) {
+        console.error('--intra-batch requires a file argument');
+        process.exitCode = 2;
+        return;
+      }
+      await runIntraBatch(file, argv.includes('--whitelist-aware'));
+      return;
+    }
+
+    const target = argv[0];
 
     // --self-check: pairwise cosine over the bank itself, verifying that the
     // background maximum still matches tools/cosine-calibration.json.
