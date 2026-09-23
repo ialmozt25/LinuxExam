@@ -216,3 +216,27 @@ background_max 0.8085 > threshold 0.80. Требует решения в отд�
 - commit1: bcbd8ef4900df5ae38aeac1aa1f52d79155de656 (drafts security)
 - commit2: eabe1f82edbadb4cc34e3da15f6c7a58c1730e41 (CONTEXT.md sync)
 - commit3: этот (session-log)
+
+## 2026-09-23 (сессия 10) — security merge (54 -> 66)
+
+**Задачи:** merge 12 security drafts + topics planned->available + patch verified_at.
+
+**Результат:**
+- Банк: 54 -> 66.
+- sec_001..sec_012 в банке, домен 9.
+- 11 с _meta.flags: ["review_recommended"], 1 без (sec_002).
+- topics.ts: security -> available.
+- CONTEXT.md: bank 54->66, origin/main 87c14a0.
+- verified_at patched (12 sec_*) с placeholder на актуальный UTC.
+
+**Гейты:** typecheck 0, lint 0, unit 128, e2e 18, build 0, qc Fails 0 Warns 2.
+
+**Bundle gzip:** 142.10 kB (watch 137 kB превышен до merge). Lazy-load — в backlog.
+
+**Коммиты:**
+- commit1: 0f14023b61c13e593e29be23b9d4f00e2a1d265e (merge + topics + CONTEXT + patch)
+- commit2: этот
+
+**Состояние:** банк 66, готов к MAS-аудиту.
+
+**Backlog:** lazy-load questions.json (критично перед 100+).
