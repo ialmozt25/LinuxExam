@@ -13,7 +13,7 @@
 ## Текущее состояние
 
 - Банк: 54 вопроса (3 базовых темы + essential_tools + users_groups)
-- origin/main = a641b5d
+- origin/main = 0be90f7
 - Bundle gzip: 138 kB (backlog: lazy-load questions.json)
 - Тема: 3 состояния (light/dark/inherit) через data-theme + data-theme-source
 - 128 unit + 18 e2e — все зелёные
@@ -39,7 +39,7 @@
 - Хостинг: приватность репо (VPS или GitHub Pro)
 - Lazy-load questions.json — критично до 100+ вопросов
 - Ужесточение L8 (сейчас 4/4 чеклист мягкий: 12/12 без reject)
-- L5c intra-batch проверка (в работе — tools/cosine.cjs --intra-batch)
+- L5c intra-batch — код в tools/cosine.cjs (закоммичен в 0be90f7), тесты не прогнаны (задача 1.6)
 - Dependabot: 52 уязвимости в deps
 - @xenova/transformers в dependencies → devDependencies
 
