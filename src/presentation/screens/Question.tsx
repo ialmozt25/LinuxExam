@@ -297,16 +297,16 @@ export default function Question() {
             borderColor = 'var(--accent)';
           } else if (!examActive && hasAnswered && existingAnswer) {
             if (isSelected && existingAnswer.isCorrect) {
-              backgroundColor = 'rgba(76,175,80,0.15)';
-              borderColor = '#4CAF50';
-              boxShadow = 'inset 3px 0 0 #4CAF50';
+              backgroundColor = 'rgba(76, 175, 80, 0.15)';
+              borderColor = 'var(--success)';
+              boxShadow = 'inset 3px 0 0 var(--success)';
             } else if (isSelected && !existingAnswer.isCorrect) {
-              backgroundColor = 'rgba(244,67,54,0.15)';
-              borderColor = '#F44336';
-              boxShadow = 'inset 3px 0 0 #F44336';
+              backgroundColor = 'rgba(244, 67, 54, 0.15)';
+              borderColor = 'var(--danger)';
+              boxShadow = 'inset 3px 0 0 var(--danger)';
             } else if (isRevealedCorrect) {
               backgroundColor = 'transparent';
-              borderColor = '#4CAF50';
+              borderColor = 'var(--success)';
             } else {
               opacity = 0.55;
             }
@@ -324,16 +324,14 @@ export default function Question() {
                 disabled={hasAnswered}
                 aria-label={`Ответ ${String.fromCharCode(65 + visualIndex)}: ${option.text}`}
                 onClick={() => handleOption(originalIndex)}
-                whileTap={
-                  reduceMotion ? {} : { scale: 0.98, backgroundColor: 'rgba(33,150,243,0.15)' }
-                }
-                whileHover={reduceMotion ? {} : { borderColor: 'rgba(255,255,255,0.15)' }}
                 style={{
-                  background: backgroundColor,
+                  backgroundColor,
                   color: 'var(--text-primary)',
                   padding: SPACING.md,
                   borderRadius: '12px',
-                  border: `2px solid ${borderColor}`,
+                  borderWidth: 2,
+                  borderStyle: 'solid',
+                  borderColor,
                   boxShadow,
                   textAlign: 'left',
                   cursor: hasAnswered ? 'default' : 'pointer',
