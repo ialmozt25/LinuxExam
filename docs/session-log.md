@@ -184,3 +184,35 @@ background_max 0.8085 > threshold 0.80. Требует решения в отд�
 
 **Состояние:** банк 54, L5c в проде, threshold 0.80, class inversion 
 зафиксирован.
+
+## 2026-09-23 (сессия 9) — security pilot (domain 9)
+
+**Задачи:** сгенерировать 12 черновиков security.
+
+**Окружение:**
+- SELinux Disabled на WSL -> эмпирика только по man.
+- firewalld active, uid=1000 без авторизации -> read-only.
+- openssh-server / auditd / aide отсутствуют -> SSH hardening и auditd исключены.
+
+**Результат:** 1 passed (sec_002), 11 pass_with_flag, 0 rejected.
+**soft_MAC_flag:** false.
+
+**L5:** Jaccard max 0.1071 (primary defense). Cosine max 0.6907 (class inversion -> не в reject).
+**L5c intra-batch:** 66 пар, max cosine 0.7367, 0 пар >=0.80.
+
+**Subtopics (12):** режимы SELinux, chcon, semanage fcontext, булевы, firewalld зоны, runtime vs permanent, службы/порты, sudoers синтаксис, Cmnd_Alias, visudo, chage -M, pwquality minlen.
+
+**Правки по ходу:**
+- sec_008: «все команды» -> «произвольные команды».
+- \bALL\b в sec_008 = sudoers ключевое слово, НЕ absolute term.
+
+**Файлы:**
+- drafts/pending-security-2026-09-23.json
+- drafts/report-security-2026-09-23.md
+
+**Состояние:** банк 54, готовы к merge.
+
+**Коммиты:**
+- commit1: bcbd8ef4900df5ae38aeac1aa1f52d79155de656 (drafts security)
+- commit2: eabe1f82edbadb4cc34e3da15f6c7a58c1730e41 (CONTEXT.md sync)
+- commit3: этот (session-log)
