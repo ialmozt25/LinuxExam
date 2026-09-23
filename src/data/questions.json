@@ -1636,5 +1636,470 @@
       "reference": "man 5 passwd",
       "status": "active"
     }
+  },
+  {
+    "id": "sec_001",
+    "topic": "security",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "SELinux: режимы и getenforce",
+    "question": "В какой строке вывода getenforce отражается текущий режим SELinux?",
+    "options": [
+      {
+        "text": "enforcing, permissive или disabled",
+        "correct": true
+      },
+      {
+        "text": "0, 1 или 2",
+        "correct": false
+      },
+      {
+        "text": "On или Off",
+        "correct": false
+      },
+      {
+        "text": "Статус последней перезагрузки политики",
+        "correct": false
+      }
+    ],
+    "explanation": "getenforce печатает ровно одно слово, обозначающее текущий рабочий режим: enforcing, permissive или disabled. Числовые значения 0, 1 и 2 принимает не getenforce, а setenforce в качестве аргумента, поэтому в выводе getenforce их не бывает. Значения On и Off относятся к булевым параметрам SELinux и выводятся командой getsebool, а не режимом работы политики. Строка про статус последней перезагрузки политики описывает служебную запись, а getenforce сообщает только текущий режим и других полей не показывает.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man getenforce",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_002",
+    "topic": "security",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "SELinux: контексты файлов (chcon)",
+    "question": "Требуется задать файлу /var/www/html/index.html тип контекста httpd_sys_content_t. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "chcon -t httpd_sys_content_t /var/www/html/index.html",
+        "correct": true
+      },
+      {
+        "text": "chcon -l httpd_sys_content_t /var/www/html/index.html",
+        "correct": false
+      },
+      {
+        "text": "chcon --reference httpd_sys_content_t /var/www/html/index.html",
+        "correct": false
+      },
+      {
+        "text": "chcon -R httpd_sys_content_t /var/www/html/index.html",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -t (--type=TYPE) задаёт именно тип контекста, поэтому запись chcon -t применяет нужный тип к файлу. Ключ -l работает с диапазоном (--range) и ожидает значение уровня MLS, а не имя типа, поэтому такой вызов завершится ошибкой разбора. Ключ --reference=RFILE принимает путь к файлу-образцу, от которого копируется контекст, и не принимает имя типа. Ключ -R включает рекурсивный обход каталогов, но сам по себе не задаёт контекст, и без -t ему нечего применять.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man chcon",
+      "status": "active"
+    }
+  },
+  {
+    "id": "sec_003",
+    "topic": "security",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "SELinux: semanage fcontext",
+    "question": "Администратор задаёт контекст для каталога /web с помощью semanage fcontext -a -t httpd_sys_content_t '/web(/.*)?'. Какое действие выполняет этот вызов сам по себе?",
+    "options": [
+      {
+        "text": "Записывает правило контекста в локальную политику, но не изменяет контексты уже существующих файлов",
+        "correct": true
+      },
+      {
+        "text": "Изменяет контекст файлов в /web сразу и записывает правило в локальную политику",
+        "correct": false
+      },
+      {
+        "text": "Удаляет ранее добавленное правило контекста для /web",
+        "correct": false
+      },
+      {
+        "text": "Только печатает список локальных правил контекста, ничего не меняя",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -a добавляет запись в хранилище локальных настроек политики, поэтому правило начинает действовать для будущей маркировки, а уже размеченные файлы остаются с прежним контекстом; для их перемаркировки man прямо предписывает выполнить restorecon. Второй вариант приписывает semanage ещё и немедленную перемаркировку, которую выполняет как раз restorecon. Третий вариант описывает действие ключа -d (--delete), а не -a. Четвёртый вариант описывает ключ -l (--list), который только выводит записи.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man semanage-fcontext",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_004",
+    "topic": "security",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "SELinux: булевы параметры",
+    "question": "Каким ключом setsebool закрепляет новое значение булева параметра в политике?",
+    "options": [
+      {
+        "text": "-P",
+        "correct": true
+      },
+      {
+        "text": "-V",
+        "correct": false
+      },
+      {
+        "text": "-N",
+        "correct": false
+      },
+      {
+        "text": "-b",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -P (--persistent) записывает значение булева параметра в локальную политику, поэтому оно сохраняется между перезагрузками. Ключ -V (--verbose) только делает вывод подробнее и на сохранение значения не влияет. Ключ -N (--noreload) отключает перезагрузку политики, то есть управляет применением, а не долговременным хранением. Ключа -b у setsebool нет: man для этого параметра не документирует, и такой вызов завершится ошибкой разбора аргументов.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man setsebool",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_005",
+    "topic": "security",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "firewalld: зоны",
+    "question": "Какая из предопределённых зон firewalld принимает весь входящий трафик без проверок?",
+    "options": [
+      {
+        "text": "trusted",
+        "correct": true
+      },
+      {
+        "text": "public",
+        "correct": false
+      },
+      {
+        "text": "drop",
+        "correct": false
+      },
+      {
+        "text": "block",
+        "correct": false
+      }
+    ],
+    "explanation": "Зона trusted описана как зона, в которой принимается любое сетевое соединение, поэтому она не применяет фильтрующих правил. Зона public предназначена для общедоступных мест и разрешает только выбранные пользователем службы, а прочий трафик отбрасывается. Зона drop отбрасывает все входящие пакеты без уведомления отправителя, то есть ведёт себя противоположно trusted. Зона block также отвергает входящие соединения, отвечая отправителю отказом icmp, что тоже не является приёмом трафика без проверок.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man firewalld.zone",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_006",
+    "topic": "security",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "firewalld: runtime против permanent",
+    "question": "Что происходит с изменениями, добавленными только в runtime-конфигурацию firewalld, при выполнении firewall-cmd --reload?",
+    "options": [
+      {
+        "text": "Они теряются, поскольку после перезагрузки правил действующей становится постоянная конфигурация",
+        "correct": true
+      },
+      {
+        "text": "Они сохраняются, потому что сохранение в постоянную конфигурацию относится к первому же изменению",
+        "correct": false
+      },
+      {
+        "text": "Они копируются в постоянную конфигурацию перед применением новых правил",
+        "correct": false
+      },
+      {
+        "text": "Они сохраняются до следующей перезагрузки службы и после неё перестают действовать",
+        "correct": false
+      }
+    ],
+    "explanation": "По странице firewall-cmd ключ --reload делает постоянную конфигурацию новой действующей, поэтому изменения, добавленные только в runtime-конфигурацию, теряются — именно это сказано в man дословно. Второй вариант неверен, потому что автоматического сохранения при изменении не происходит: правило попадает в постоянную конфигурацию только при явном --permanent. Третий вариант описывает несуществующее копирование, тогда как для переноса целой runtime-конфигурации предусмотрен отдельный ключ --runtime-to-permanent. Четвёртый вариант путает время жизни runtime-правил с настройками службы.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man firewall-cmd",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_007",
+    "topic": "security",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "firewalld: службы и порты",
+    "question": "Что делает вызов firewall-cmd --permanent --add-service=http без последующего --reload?",
+    "options": [
+      {
+        "text": "Записывает службу в постоянную конфигурацию, но текущая работа firewall эту службу не пропускает",
+        "correct": true
+      },
+      {
+        "text": "Разрешает службу немедленно, не изменяя постоянную конфигурацию",
+        "correct": false
+      },
+      {
+        "text": "Разрешает службу немедленно и сразу записывает её в постоянную конфигурацию",
+        "correct": false
+      },
+      {
+        "text": "Добавляет службу только к временной конфигурации, поскольку ключ --permanent здесь не действует",
+        "correct": false
+      }
+    ],
+    "explanation": "С ключом --permanent изменения попадают в постоянную конфигурацию и, согласно man, вступают в силу только после перезапуска службы, --reload или перезагрузки системы, поэтому немедленного эффекта нет. Второй вариант описывает вызов без --permanent, который меняет только runtime-конфигурацию. Третий вариант приписывает одиночному вызову двойной результат, тогда как man предлагает выполнить один и тот же вызов со ключом и без него, чтобы изменить обе конфигурации. Четвёртый вариант содержит ошибку чтения ключа: --permanent как раз переводит изменение в постоянную конфигурацию.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man firewall-cmd",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_008",
+    "topic": "security",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "sudo: /etc/sudoers синтаксис",
+    "question": "Как в /etc/sudoers указать, что пользователь alice запускает произвольные команды без ввода своего пароля?",
+    "options": [
+      {
+        "text": "alice ALL=(ALL) NOPASSWD: ALL",
+        "correct": true
+      },
+      {
+        "text": "alice ALL=(ALL) PASSWD: ALL",
+        "correct": false
+      },
+      {
+        "text": "alice ALL=(ALL) NOINTERCEPT: ALL",
+        "correct": false
+      },
+      {
+        "text": "alice ALL=(ALL) SETENV: ALL",
+        "correct": false
+      }
+    ],
+    "explanation": "Тег NOPASSWD отменяет обязательную аутентификацию для команд, перечисленных после него, поэтому строка с NOPASSWD: ALL даёт запуск любых команд без пароля. Тег PASSWD возвращает требование пароля и является обратным к NOPASSWD, то есть даёт противоположный результат. Тег NOINTERCEPT управляет проверкой перехватывающих команд и к требованию пароля отношения не имеет. Тег SETENV разрешает задавать переменные окружения для команды и на необходимость аутентификации не влияет.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man sudoers",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_009",
+    "topic": "security",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "sudo: алиасы Cmnd_Alias и User_Alias",
+    "question": "Какой тип алиаса в sudoers объединяет группу команд под одним именем?",
+    "options": [
+      {
+        "text": "Cmnd_Alias",
+        "correct": true
+      },
+      {
+        "text": "User_Alias",
+        "correct": false
+      },
+      {
+        "text": "Host_Alias",
+        "correct": false
+      },
+      {
+        "text": "Runas_Alias",
+        "correct": false
+      }
+    ],
+    "explanation": "Cmnd_Alias перечисляет команды, поэтому именно он служит для объединения команд под общим именем, а с версии sudo 1.9.0 допускается и краткая форма Cmd_Alias. User_Alias описывает список пользователей, то есть тех, кому адресовано правило, а не сами команды. Host_Alias описывает список хостов, на которых правило действует. Runas_Alias описывает список пользователей, от имени которых разрешён запуск, и команды в нём не перечисляются.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man sudoers",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_010",
+    "topic": "security",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "sudo: visudo и /etc/sudoers.d",
+    "question": "Какая команда открывает /etc/sudoers на редактирование, проверяя синтаксис перед сохранением?",
+    "options": [
+      {
+        "text": "visudo",
+        "correct": true
+      },
+      {
+        "text": "sudoedit /etc/sudoers",
+        "correct": false
+      },
+      {
+        "text": "nano /etc/sudoers",
+        "correct": false
+      },
+      {
+        "text": "echo 'new rule' >> /etc/sudoers",
+        "correct": false
+      }
+    ],
+    "explanation": "visudo блокирует файл от одновременного редактирования и проверяет синтаксис перед установкой изменённого файла, поэтому сохраняет его лишь при отсутствии ошибок. sudoedit даёт редактирование файла с правами sudo, но синтаксической проверки sudoers не выполняет. Прямой запуск редактора, например nano, также не проверяет синтаксис, и ошибка попадёт в действующий файл. Дозапись через перенаправление не только не проверяет синтаксис, но и пишет в файл в обход блокировки, поэтому такой способ опасен.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man visudo",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_011",
+    "topic": "security",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "chage: срок действия пароля",
+    "question": "Что задаёт команда chage -M 90 alice?",
+    "options": [
+      {
+        "text": "Максимальный срок действия пароля alice в 90 дней",
+        "correct": true
+      },
+      {
+        "text": "Минимальный срок действия пароля alice в 90 дней",
+        "correct": false
+      },
+      {
+        "text": "Дату, после которой учётная запись alice блокируется",
+        "correct": false
+      },
+      {
+        "text": "Число дней предупреждения о скором устаревании пароля",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -M (--maxdays) задаёт максимальное число дней, в течение которых пароль действителен, поэтому 90 означает предельный срок его действия. Ключ -m (--mindays) задаёт минимальный срок между сменами пароля, то есть нижнюю, а не верхнюю границу. Дату блокировки учётной записи задаёт ключ -E (--expiredate), который принимает дату. Число дней предупреждения задаёт ключ -W (--warndays), и это отдельный параметр.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man chage",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  },
+  {
+    "id": "sec_012",
+    "topic": "security",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "pwquality.conf: минимальная длина пароля",
+    "question": "Какой параметр в /etc/security/pwquality.conf задаёт минимальную длину нового пароля?",
+    "options": [
+      {
+        "text": "minlen",
+        "correct": true
+      },
+      {
+        "text": "minclass",
+        "correct": false
+      },
+      {
+        "text": "difok",
+        "correct": false
+      },
+      {
+        "text": "maxrepeat",
+        "correct": false
+      }
+    ],
+    "explanation": "Параметр minlen задаёт минимально допустимый размер нового пароля и не может быть установлен ниже 6, а значение по умолчанию равно 8. Параметр minclass задаёт минимальное число классов символов, то есть разнообразие, а не длину. Параметр difok задаёт число символов нового пароля, которых не было в старом. Параметр maxrepeat ограничивает длину серии одинаковых подряд идущих символов.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man pwquality.conf",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
   }
 ]

@@ -57,7 +57,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'planned', Icon: Users },
   { key: 'security', title: 'Безопасность',
     description: 'SELinux, firewalld, SSH keys, sudo',
-    status: 'planned', Icon: Lock },
+    status: 'available', Icon: Lock },
 ];
 
 export const AVAILABLE_TOPICS = TOPICS.filter((t) => t.status === 'available');
