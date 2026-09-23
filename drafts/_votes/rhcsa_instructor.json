@@ -1,0 +1,8 @@
+[{"qid":"et_001","role":"rhcsa_instructor","choice":"A","reason":"-F/--fixed-strings трактует шаблон как фиксированную строку; -w совпадение целых слов, -v инверсия.","man_ref":"man grep","verified":true},
+{"qid":"et_002","role":"rhcsa_instructor","choice":"A","reason":"-size +100M = строго больше 100 МиБ, точный размер не совпадает; -type f ограничивает обычными файлами.","man_ref":"man find","verified":true},
+{"qid":"et_003","role":"rhcsa_instructor","choice":"A","reason":"-n/--numeric-sort сравнивает по числовому значению; по умолчанию, -r и -u дают лексикографический порядок.","man_ref":"man sort","verified":true},
+{"qid":"et_004","role":"rhcsa_instructor","choice":"A","reason":"-n max-args = at most max-args arguments per command line; -I подразумевает -L 1, только -n задаёт группу.","man_ref":"man xargs","verified":true},
+{"qid":"et_005","role":"rhcsa_instructor","choice":"A","reason":"%A permission bits and file type in human readable form; %a=644, %n=имя, %s=размер.","man_ref":"man stat","verified":true},
+{"qid":"et_006","role":"rhcsa_instructor","choice":"A","reason":"-c create, -z фильтр gzip, -f имя архива. B даёт bzip2 вопреки .tar.gz, C только листает, D распаковывает.","man_ref":"man tar","verified":true},
+{"qid":"et_007","role":"rhcsa_instructor","choice":"A","reason":"--mime-type выводит только MIME-тип; D (-i -b) даёт text/plain; charset=us-ascii, то есть MIME вместе с charset.","man_ref":"man file","verified":true},
+{"qid":"et_008","role":"rhcsa_instructor","choice":"A","reason":"A дописывает оба потока, сохраняя содержимое. ВНИМАНИЕ: D (2>> out.txt 1>&2) эмпирически даёт тот же результат.","man_ref":"man bash (REDIRECTION)","verified":true}]

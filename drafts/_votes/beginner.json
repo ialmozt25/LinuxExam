@@ -1,0 +1,8 @@
+[{"qid":"et_001","role":"beginner","choice":"A","reason":"Только -F трактует шаблон буквально; -E это расширенный regex, -w совпадение по слову, -v инверсия.","verified":true},
+{"qid":"et_002","role":"beginner","choice":"A","reason":"-size с округлением вверх, '+' больше; B ровно 100M, C меньше, D каталоги вместо файлов.","verified":true},
+{"qid":"et_003","role":"beginner","choice":"A","reason":"sort -n числовая сортировка; обычный sort даёт 10,100,9.","verified":true},
+{"qid":"et_004","role":"beginner","choice":"A","reason":"-n = use at most MAX-ARGS arguments per command line. Формулировка 'вызывалась один раз' неточна при более чем 20 путях, но из контраста смысл ясен.","verified":true},
+{"qid":"et_005","role":"beginner","choice":"A","reason":"%A даёт -rw-r--r--; %a восьмерично, %n имя, %s размер.","verified":true},
+{"qid":"et_006","role":"beginner","choice":"A","reason":"tar -czf: c создать, z gzip, f имя файла; -j bzip2, -t список, -x распаковка.","verified":true},
+{"qid":"et_007","role":"beginner","choice":"A","reason":"--mime-type даёт ровно text/plain; -i в том числе с -b добавляет charset, поэтому D не 'именно MIME-тип'.","verified":true},
+{"qid":"et_008","role":"beginner","choice":"ABSTAIN","reason":"Верных вариантов два: A и D дают в файле старое содержимое + stdout + stderr. Вопрос не различает A и D.","verified":true}]
