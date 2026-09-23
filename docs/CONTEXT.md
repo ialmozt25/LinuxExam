@@ -42,7 +42,7 @@
 - L5c intra-batch — код и тесты в проде (per-text embedding, batch-independent, verified 2026-09-23)
 - Dependabot: 52 уязвимости в deps
 - @xenova/transformers в dependencies → devDependencies
-- Cosine threshold margin -0.0085 (background_max 0.8085 > threshold 0.80)
+- Cosine-модель: замена на русскоязычную (cointegrated/rubert-tiny2) после 100+ вопросов
 
 ## Отклонённые подходы (НЕ пробовать)
 
@@ -69,7 +69,7 @@
 
 ## Ключевые цифры
 
-- Порог cosine: 0.80 (background_max 0.8085, margin -0.0085 — требует решения)
+- Порог cosine: 0.80 (class inversion — детектор не разделяет классы; см. calibration.json.cosine_limitation)
 - Jaccard порог: 0.9 (bigram)
 - Bundle watch: >137 kB gzip — стоп
 - L8 порог: 4/4

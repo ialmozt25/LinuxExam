@@ -7,11 +7,13 @@
   "corpus_size": 54,
   "pairs_measured": 1431,
   "measured_at": "2026-09-23",
-  "calibrated_at": "2026-09-23T20:30:00Z",
   "background_max": 0.8085,
   "background": {
     "max": 0.8085,
-    "max_pair": ["ug_005", "ug_006"],
+    "max_pair": [
+      "ug_005",
+      "ug_006"
+    ],
     "p99": 0.719,
     "p95": 0.6521,
     "mean": 0.4862,
@@ -25,8 +27,10 @@
     "gt_0_70": 21,
     "note": "measured on 1431 pairs of the 54-question bank with per-text embedding. gt_0_80 counts ug_005~ug_006 (0.8085) and fm_002~fm_003 (0.8040). Both are whitelisted as known exceptions."
   },
-  "known_exceptions": ["fm_002~fm_003", "ug_005~ug_006"],
-  "true_paraphrase_probes": [0.9626, 0.8932, 0.8745, 0.8553],
+  "known_exceptions": [
+    "fm_002~fm_003",
+    "ug_005~ug_006"
+  ],
   "thresholds": {
     "fail": 0.80,
     "warn": 0.75,
@@ -58,7 +62,83 @@
   "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English. This is why topically-related but distinct questions can reach 0.80.",
   "recalibrated": true,
   "recalibration_history": [
-    { "date": "2026-09-23", "embedding": "batched (padding=true)", "background_max": 0.8043, "max_pair": "ug_003~ug_004", "note": "superseded: batch-composition dependent" },
-    { "date": "2026-09-23", "embedding": "per-text (batch=1)", "background_max": 0.8085, "max_pair": "ug_005~ug_006", "note": "current; batch-independent, verified identical at batch=1/2/54" }
-  ]
+    {
+      "date": "2026-09-23",
+      "embedding": "batched (padding=true)",
+      "background_max": 0.8043,
+      "max_pair": "ug_003~ug_004",
+      "note": "superseded: batch-composition dependent"
+    },
+    {
+      "date": "2026-09-23",
+      "embedding": "per-text (batch=1)",
+      "background_max": 0.8085,
+      "max_pair": "ug_005~ug_006",
+      "note": "current; batch-independent, verified identical at batch=1/2/54"
+    }
+  ],
+  "cosine_limitation": {
+    "finding": "per-text cosine under Xenova/all-MiniLM-L6-v2 does not separate paraphrases from background on Russian text",
+    "measured_at": "2026-09-23",
+    "evidence": "9 paraphrase probes (0.67-0.92) vs 4 top background pairs (0.75-0.81): 6/9 paraphrases BELOW bgMax",
+    "class_inversion": true,
+    "primary_defense": "jaccard_0.9",
+    "threshold_decision": "keep_0.80",
+    "threshold_rationale": "raising threshold does not help: paraphrases are below background, not above",
+    "backlog_task": "replace cosine model with Russian-language model (e.g. cointegrated/rubert-tiny2); requires online download + full recalibration"
+  },
+  "true_paraphrase_probes": [
+    {
+      "id": "et_003",
+      "cosine": 0.9249,
+      "paraphrase_preserved_correct": true
+    },
+    {
+      "id": "fp_006",
+      "cosine": 0.8675,
+      "paraphrase_preserved_correct": true
+    },
+    {
+      "id": "ug_008",
+      "cosine": 0.8253,
+      "paraphrase_preserved_correct": true
+    },
+    {
+      "id": "ug_009",
+      "cosine": 0.7665,
+      "paraphrase_preserved_correct": true
+    },
+    {
+      "id": "pm_005",
+      "cosine": 0.7662,
+      "paraphrase_preserved_correct": true
+    },
+    {
+      "id": "fp_003",
+      "cosine": 0.7488,
+      "paraphrase_preserved_correct": false
+    },
+    {
+      "id": "fm_002",
+      "cosine": 0.7247,
+      "paraphrase_preserved_correct": false
+    },
+    {
+      "id": "fm_009",
+      "cosine": 0.7229,
+      "paraphrase_preserved_correct": true
+    },
+    {
+      "id": "fp_004",
+      "cosine": 0.6686,
+      "paraphrase_preserved_correct": true
+    }
+  ],
+  "true_paraphrase_probes_legacy": [
+    0.9626,
+    0.8932,
+    0.8745,
+    0.8553
+  ],
+  "calibrated_at": "2026-09-23T10:55:38Z"
 }
