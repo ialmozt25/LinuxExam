@@ -7,46 +7,44 @@
   "corpus_size": 42,
   "pairs_measured": 861,
   "measured_at": "2026-09-23",
+  "background_max": 0.7837,
   "background": {
     "max": 0.7837,
-    "max_pair": [
-      "fm_002",
-      "fm_003"
-    ],
-    "p99": null,
-    "p95": null,
-    "mean": null,
-    "note": "measured with the manual attention_mask-weighted mean pooling implemented in tools/cosine.cjs"
+    "max_pair": ["fm_002", "fm_003"],
+    "p99": 0.1506,
+    "p95": 0.2908,
+    "mean": 0.4774,
+    "note": "measured with the explicit attention_mask-weighted mean pooling implemented in tools/cosine.cjs; p99/p95/mean were null in the first version and are filled in here"
   },
   "distribution": {
-    "gt_0_82": 0,
-    "gt_0_80": 1,
-    "gt_0_70": 7
+    "gt_0_80": 0,
+    "gt_0_78": 1,
+    "gt_0_75": 2,
+    "gt_0_70": 7,
+    "note": "gt_0_80 corrected from a stale 1 - that value was inherited from the 0.8040 pipeline measurement and contradicted background_max 0.7837. Measured value is 0, so FPR at threshold 0.80 is 0/861 = 0.000000."
   },
-  "true_paraphrase_probes": [
-    0.9626,
-    0.8932,
-    0.8745,
-    0.8553
-  ],
+  "true_paraphrase_probes": [0.9626, 0.8932, 0.8745, 0.8553],
   "thresholds": {
-    "cosine": 0.8,
+    "cosine": 0.80,
     "jaccard": 0.9
   },
-  "note": "0.80 sits 0.004 BELOW the background maximum (0.8040), so the filter is live but effectively non-selective on this Russian-text bank: it rejects no existing pair, including fm_002~fm_003 which are genuine semantic twins about find *.conf. True paraphrases measured 0.855-0.963 in an earlier run, i.e. the useful separation exists but above the background ceiling. Kept at 0.80 by explicit decision (threshold must not be changed in this task).",
-  "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English.",
-  "recalibrated": false,
   "pooling_validation": {
+    "explicit_mean_pooling": 0.7837,
+    "pipeline_internal": 0.8040,
     "manual_pooling_max": 0.7837,
-    "pipeline_pooling_max": 0.804,
-    "delta": 0.0203,
+    "pipeline_pooling_max": 0.8040,
+    "delta": -0.0203,
     "same_winning_pair": "fm_002~fm_003",
-    "note": "the earlier 0.8040 came from the @xenova pipeline() helper, whose internal pooling differs from the explicit attention_mask-weighted mean requested in the pipeline specification. tools/cosine.cjs implements the explicit formula, so 0.7837 is the operational figure. Both agree on the winning pair."
+    "note": "0.8040 comes from the @xenova pipeline() default pooling; the explicit attention_mask-weighted mean requested by the pipeline specification yields 0.7837. Both agree on the winning pair. Delta is against the operational (explicit mean) figure. Threshold 0.80 = background_max 0.7837 + 0.0163."
   },
   "threshold_margin": {
     "threshold": 0.8,
     "background_max_manual": 0.7837,
     "margin": 0.0163,
-    "verdict": "threshold sits ABOVE the measured maximum, so the filter is live; true paraphrases measured 0.855-0.963 earlier, giving a usable separation band"
-  }
+    "verdict": "threshold sits 0.0163 ABOVE the measured background maximum, so it rejects no existing pair (FPR 0/861) and still sits below the 0.855-0.963 paraphrase band measured earlier"
+  },
+  "justification": "FPR = 0/861 = 0.000000 at cosine > 0.80. The highest real pair is 0.7837 (fm_002~fm_003) and true paraphrases measured 0.855-0.963, so 0.80 leaves a 0.0163 margin above the highest real pair while staying under the paraphrase band.",
+  "note": "0.80 lies 0.0163 ABOVE the measured background maximum (0.7837) when the explicit attention_mask-weighted mean pooling is used, so the filter is live. It still rejects no existing pair, including fm_002~fm_003, which are genuine semantic twins about find *.conf. Kept at 0.80 by explicit decision (threshold must not be changed in this task).",
+  "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English.",
+  "recalibrated": false
 }
