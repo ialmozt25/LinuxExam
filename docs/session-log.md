@@ -111,3 +111,35 @@ Append-only журнал сессий. Обновляется в конце ка
 **Обнаружено:** L5c intra-batch уже был написан (в tools/cosine.cjs), но не закоммичен и не протестирован. Теперь в проде — требует прогона 4 сценариев (задача 1.6).
 
 **Состояние:** origin/main = 0be90f7, банк 54, working tree clean.
+
+## 2026-09-23 (сессия 7) — cosine batch-independence fix
+
+**Задачи:** исправить зависимость cosine от размера батча.
+
+**Обнаружено:** cosine(ug_003, ug_004) = 0.7661 (batch=1) vs 0.7727 (batch=2) 
+vs 0.8043 (batch=54). Дельта 0.0382 >> зазора порога (0.0043) -> инструмент 
+невоспроизводим.
+
+**Фикс:** embed() теперь per-text (batch=1 внутри цикла). meanPoolNormalize 
+сохранён.
+
+**Перекалибровка:**
+- background_max: 0.8043 -> 0.8085 (неожиданно вырос).
+- max_pair: ug_003~ug_004 -> ug_005~ug_006.
+- known_exceptions: 3 -> 2 (ug_003~ug_004 убрана: 0.7661 < 0.80).
+- distribution: gt80=2, gt78=2, gt75=5, gt70=21.
+- p99=0.719, p95=0.6521, mean=0.4862, min=0.1013 (банк 54).
+
+**Новый margin:** threshold_margin = -0.0085 (было -0.0043). 
+background_max 0.8085 > threshold 0.80. Требует решения в отдельной задаче.
+
+**Тесты:** 4/4 прошли (синтетический вход: 2 идентичных текста -> cosine 1.0).
+
+**Гейты:** typecheck 0, lint 0, unit 128, build 0.
+
+**Коммиты:**
+- commit1 (fix qc): f29aec9c3323d5eeb5f069cab7256b080902a02f
+- commit2 (CONTEXT.md): 6deaf4c31be480b2ffd14fd1c582cbd5fd46516b
+- commit3 (this session-log)
+
+**Состояние:** origin/main = 6deaf4c31be480b2ffd14fd1c582cbd5fd46516b + commit3 поверх, банк 54, L5c верифицирован.
