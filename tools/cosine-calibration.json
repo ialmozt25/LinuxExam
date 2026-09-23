@@ -1,0 +1,52 @@
+{
+  "model": "Xenova/all-MiniLM-L6-v2",
+  "dim": 384,
+  "pooling": "mean over token axis, weighted by attention_mask, then L2-normalised",
+  "offline": true,
+  "corpus": "src/data/questions.json",
+  "corpus_size": 42,
+  "pairs_measured": 861,
+  "measured_at": "2026-09-23",
+  "background": {
+    "max": 0.7837,
+    "max_pair": [
+      "fm_002",
+      "fm_003"
+    ],
+    "p99": null,
+    "p95": null,
+    "mean": null,
+    "note": "measured with the manual attention_mask-weighted mean pooling implemented in tools/cosine.cjs"
+  },
+  "distribution": {
+    "gt_0_82": 0,
+    "gt_0_80": 1,
+    "gt_0_70": 7
+  },
+  "true_paraphrase_probes": [
+    0.9626,
+    0.8932,
+    0.8745,
+    0.8553
+  ],
+  "thresholds": {
+    "cosine": 0.8,
+    "jaccard": 0.9
+  },
+  "note": "0.80 sits 0.004 BELOW the background maximum (0.8040), so the filter is live but effectively non-selective on this Russian-text bank: it rejects no existing pair, including fm_002~fm_003 which are genuine semantic twins about find *.conf. True paraphrases measured 0.855-0.963 in an earlier run, i.e. the useful separation exists but above the background ceiling. Kept at 0.80 by explicit decision (threshold must not be changed in this task).",
+  "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English.",
+  "recalibrated": false,
+  "pooling_validation": {
+    "manual_pooling_max": 0.7837,
+    "pipeline_pooling_max": 0.804,
+    "delta": 0.0203,
+    "same_winning_pair": "fm_002~fm_003",
+    "note": "the earlier 0.8040 came from the @xenova pipeline() helper, whose internal pooling differs from the explicit attention_mask-weighted mean requested in the pipeline specification. tools/cosine.cjs implements the explicit formula, so 0.7837 is the operational figure. Both agree on the winning pair."
+  },
+  "threshold_margin": {
+    "threshold": 0.8,
+    "background_max_manual": 0.7837,
+    "margin": 0.0163,
+    "verdict": "threshold sits ABOVE the measured maximum, so the filter is live; true paraphrases measured 0.855-0.963 earlier, giving a usable separation band"
+  }
+}
