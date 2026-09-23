@@ -96,3 +96,18 @@ Append-only журнал сессий. Обновляется в конце ка
   ОТКЛОНЁННЫЕ подходы, правила работы, ключевые цифры.
 
 **Состояние:** origin/main = 7726b065c80776a8cff330ed50e74d7dafdf33e4, банк 54.
+
+
+## 2026-09-23 (сессия 6) — commit untracked artifacts + sync CONTEXT
+
+**Задачи:** закоммитить untracked артефакты прошлых сессий + устранить дрейф CONTEXT.md.
+
+**Коммиты:** e46982b (audit-logic), 5b8af3f (drafts artifacts), 0be90f7 (package.json + cosine.cjs).
+
+**Что сделано:**
+- docs/audit-logic-20260922.md, drafts/_tools/, drafts/_votes/, pending-2026-09-22, report-2026-09-22 — в git.
+- package.json (cosine:intra script) + tools/cosine.cjs (L5c) — в git.
+
+**Обнаружено:** L5c intra-batch уже был написан (в tools/cosine.cjs), но не закоммичен и не протестирован. Теперь в проде — требует прогона 4 сценариев (задача 1.6).
+
+**Состояние:** origin/main = 0be90f7, банк 54, working tree clean.
