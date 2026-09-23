@@ -86,12 +86,29 @@ function meanPoolNormalize(lastHiddenState, attentionMask) {
   return out;
 }
 
-/** Embed an array of texts -> array of unit-length vectors (dim 384). */
+/**
+ * Embed an array of texts -> array of unit-length vectors (dim 384).
+ *
+ * One text per forward pass on purpose. With a padded batch the padded positions
+ * are not fully masked inside @xenova/transformers v2, so a text's vector depends
+ * on the length of the longest text beside it: cosine(ug_003, ug_004) measured
+ * 0.7661 alone, 0.7727 next to its pair and 0.8043 inside the 54-question bank.
+ * That spread (0.038) dwarfs the 0.0043 threshold margin, which made every score
+ * - and the duplicate verdict - a property of batch composition instead of text.
+ * Per-text keeps attention_mask all-ones (nothing to pad), so the score is
+ * reproducible regardless of batch size or order. It is also faster here
+ * (~0.7 s vs ~2.1 s for 54 texts) because the batch path pads every row to the
+ * longest one. Return shape is unchanged: array of vectors, input order.
+ */
 async function embed(texts, modelId = DEFAULT_MODEL) {
   const { tokenizer, model } = await getEncoder(modelId);
-  const input = await tokenizer(texts, { padding: true, truncation: true });
-  const output = await model(input);
-  return meanPoolNormalize(output.last_hidden_state, input.attention_mask);
+  const out = [];
+  for (const text of texts) {
+    const input = await tokenizer([text], { padding: true, truncation: true });
+    const output = await model(input);
+    out.push(meanPoolNormalize(output.last_hidden_state, input.attention_mask)[0]);
+  }
+  return out;
 }
 
 function cosine(a, b) {

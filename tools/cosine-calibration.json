@@ -1,28 +1,31 @@
 {
   "model": "Xenova/all-MiniLM-L6-v2",
   "dim": 384,
-  "pooling": "mean over token axis, weighted by attention_mask, then L2-normalised",
+  "pooling": "per-text embedding (batch=1), mean over token axis weighted by attention_mask, then L2-normalised",
   "offline": true,
   "corpus": "src/data/questions.json",
   "corpus_size": 54,
   "pairs_measured": 1431,
   "measured_at": "2026-09-23",
-  "calibrated_at": "2026-09-23T06:10:00Z",
-  "background_max": 0.8043,
+  "calibrated_at": "2026-09-23T20:30:00Z",
+  "background_max": 0.8085,
   "background": {
-    "max": 0.8043,
-    "max_pair": ["ug_003", "ug_004"],
-    "p99": null,
-    "p95": null,
-    "mean": null,
-    "note": "recalibrated on the 54-question bank (was 0.7837 on 42). p99/p95/mean are still from the 42-question pass and are marked null here until re-measured on 54."
+    "max": 0.8085,
+    "max_pair": ["ug_005", "ug_006"],
+    "p99": 0.719,
+    "p95": 0.6521,
+    "mean": 0.4862,
+    "min": 0.1013,
+    "note": "recalibrated on the 54-question bank with per-text embedding. Previously the background maximum was a property of batch composition (0.7661 / 0.7727 / 0.8043 / 0.8085 for the same texts at batch sizes 1 / 2 / 54 / 54-per-text). p99/p95/mean/min are now measured on the 54-question bank instead of the 42-question pass."
   },
   "distribution": {
-    "gt_0_80": 1,
-    "gt_0_78": 3,
-    "note": "measured on 1431 pairs of the 54-question bank; gt_0_80 counts ug_003~ug_004 (0.8043), gt_0_78 adds ug_005~ug_006 (0.7937) and fm_002~fm_003 (0.7917)"
+    "gt_0_80": 2,
+    "gt_0_78": 2,
+    "gt_0_75": 5,
+    "gt_0_70": 21,
+    "note": "measured on 1431 pairs of the 54-question bank with per-text embedding. gt_0_80 counts ug_005~ug_006 (0.8085) and fm_002~fm_003 (0.8040). Both are whitelisted as known exceptions."
   },
-  "known_exceptions": ["fm_002~fm_003", "ug_003~ug_004", "ug_005~ug_006"],
+  "known_exceptions": ["fm_002~fm_003", "ug_005~ug_006"],
   "true_paraphrase_probes": [0.9626, 0.8932, 0.8745, 0.8553],
   "thresholds": {
     "fail": 0.80,
@@ -30,25 +33,32 @@
     "cosine": 0.80,
     "jaccard": 0.9
   },
+  "pooling_note": "per-text embedding (batch=1), batch-independent. The pre-fix batch path was not reproducible: the same two question texts scored 0.7661 (batch=1), 0.7727 (batch=2, pipeline with pooling/normalize), 0.8043 (batch=54, batched manual pooling) and 0.8085 (batch=54, per-text). The 0.038 spread exceeded the 0.0043 threshold margin, so every score and duplicate verdict depended on batch composition. Fixed in tools/cosine.cjs embed() by embedding one text per forward pass (nothing to pad, attention_mask is all-ones).",
   "pooling_validation": {
-    "explicit_mean_pooling": 0.7837,
-    "pipeline_internal": 0.8040,
-    "manual_pooling_max": 0.7837,
-    "pipeline_pooling_max": 0.8040,
-    "delta": -0.0203,
-    "same_winning_pair": "fm_002~fm_003",
-    "note": "measured on the 42-question bank. 0.8040 comes from the @xenova pipeline() default pooling; the explicit attention_mask-weighted mean yields 0.7837. Both agree on the winning pair. The new 54-question background maximum of 0.8043 is a different quantity (it comes from new intra-batch pairs) and must not be confused with the 0.8040 pipeline figure."
+    "per_text_batch1_x2": 0.7661,
+    "old_batched_batch1_x2": 0.7661,
+    "old_batched_batch2": 0.7727,
+    "old_batched_batch54": 0.8043,
+    "pipeline_pooled_batch2": 0.7727,
+    "pair_measured": "ug_003~ug_004",
+    "batch_independence_diff": 0.0,
+    "note": "measured on the 54-question bank. batch=2 via --intra-batch on a 2-question file and batch=54 via --self-check now return the identical 0.7661 for ug_003~ug_004 (those two texts are byte-identical in the bank and in that file). The pipeline figure is a separate 2-text call with { pooling: 'mean', normalize: true }; the plain pipeline() call with no options returns a 3D token matrix, which cannot be cosined directly.",
+    "max_pair_shift": "under the old batched embedding the 54-question maximum was ug_003~ug_004 (0.8043); with per-text embedding it is ug_005~ug_006 (0.8085) and ug_003~ug_004 falls to 0.7661"
   },
   "threshold_margin": {
     "threshold": 0.8,
-    "background_max": 0.8043,
-    "margin": -0.0043,
-    "verdict": "the threshold is now 0.0043 BELOW the measured background maximum, so exactly one pair (ug_003~ug_004) exceeds it. Those two questions are semantically different (home directory vs shell), so this is a calibrated-threshold artefact of the compressed Russian-text range, not a duplicate. Recorded as a known exception."
+    "background_max": 0.8085,
+    "margin": -0.0085,
+    "verdict": "the threshold sits 0.0085 BELOW the measured background maximum, so exactly two pairs exceed it under per-text embedding: ug_005~ug_006 (0.8085) and fm_002~fm_003 (0.8040). ug_005 and ug_006 are two differently-worded questions about the same operation (adding a user to a supplementary group); fm_002~fm_003 are a file-management pair. Both pairs were judged acceptable in human review, so this is an artifact of the compressed Russian-text range in an English model, not an unnoticed duplicate. Both stay in known_exceptions; the threshold is unchanged at 0.80 by explicit decision."
   },
   "threshold_warning": "0.80 < background_max. New pairs > 0.80 will be auto-rejected. L5c (intra-batch manual review) required before accepting new batches.",
-  "calibration_note": "background_max вырос из-за пар внутри users_groups батча. Пары семантически разные. L5c — в backlog.",
-  "justification": "On the 42-question bank the maximum was 0.7837 with 0 pairs above 0.80. After appending the 12 users_groups questions the maximum is 0.8043 (ug_003~ug_004), with 1 pair above 0.80 and 3 above 0.78. The pipeline validated each new question against the bank (42) and drafts (17) but never against its own batch, so intra-batch pairs were never scored.",
-  "note": "The cosine threshold remains 0.80 by explicit decision and was not changed. Because background_max 0.8043 now exceeds it, any future batch containing a pair at that similarity will be auto-rejected unless it is listed in known_exceptions.",
+  "calibration_note": "Recalibrated after the batch-independence fix (per-text embedding). ug_003~ug_004 dropped out of the whitelist (0.7661); fm_002~fm_003 (0.8040) and ug_005~ug_006 (0.8085) stay whitelisted. Threshold unchanged at 0.80 by explicit decision.",
+  "justification": "The pre-fix embed() scored a padded batch, so a text's vector depended on the longest text beside it and the measured maximum was a property of batch composition, not of the corpus. per-text embedding (batch=1) removes padding entirely and is reproducible: ug_003~ug_004 returns 0.7661 in a 2-question file, inside the 12-question pending batch and inside the 54-question bank. On the recalibrated 54-question bank the maximum is ug_005~ug_006 = 0.8085 with 2 pairs above 0.80, 2 above 0.78, 5 above 0.75 and 21 above 0.70. Under the old batched embedding the same bank reported 1 pair above 0.80 (ug_003~ug_004 = 0.8043).",
+  "note": "The cosine threshold remains 0.80 by explicit decision and was not changed. Because background_max 0.8085 now exceeds it, any future batch containing a pair at that similarity will be auto-rejected unless it is listed in known_exceptions.",
   "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English. This is why topically-related but distinct questions can reach 0.80.",
-  "recalibrated": true
+  "recalibrated": true,
+  "recalibration_history": [
+    { "date": "2026-09-23", "embedding": "batched (padding=true)", "background_max": 0.8043, "max_pair": "ug_003~ug_004", "note": "superseded: batch-composition dependent" },
+    { "date": "2026-09-23", "embedding": "per-text (batch=1)", "background_max": 0.8085, "max_pair": "ug_005~ug_006", "note": "current; batch-independent, verified identical at batch=1/2/54" }
+  ]
 }
