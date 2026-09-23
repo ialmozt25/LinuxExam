@@ -13,7 +13,7 @@
 ## Текущее состояние
 
 - Банк: 54 вопроса (3 базовых темы + essential_tools + users_groups)
-- origin/main = 0be90f7
+- origin/main = fe0dcae
 - Bundle gzip: 138 kB (backlog: lazy-load questions.json)
 - Тема: 3 состояния (light/dark/inherit) через data-theme + data-theme-source
 - 128 unit + 18 e2e — все зелёные
