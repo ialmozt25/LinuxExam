@@ -1,0 +1,683 @@
+{
+  "generated_at": "2026-09-23T00:00:00Z",
+  "pipeline_version": "4.5",
+  "mode": "single_agent",
+  "delegation_available": false,
+  "mode_note": "ФАЗА 7 выполнялась как single-agent adversarial: делегирование субагентов в этой сессии не запрашивалось, гетерогенная дискуссия не запускалась. Роли factual / examiner / skeptic отражены в поле critics_note каждого вопроса вместе с проверяемыми заявками.",
+  "cosine_skipped": false,
+  "man_locale": "C.UTF-8",
+  "topic_key": "security",
+  "bank_size_at_start": 54,
+  "objective_processed": "security",
+  "domain_title": "9. Manage security",
+  "env_facts": {
+    "rocky_release": "Rocky Linux release 9.8 (Blue Onyx)",
+    "selinux_state": "Disabled",
+    "firewalld": "active (firewalld-1.3.4-20.el9_8.noarch), но uid=1000 без авторизации: firewall-cmd --get-zones -> NotAuthorizedException",
+    "missing": [
+      "openssh-server (нет man sshd_config, нет команды sshd)",
+      "auditd/auditctl (not installed)",
+      "aide (NOT_FOUND)"
+    ],
+    "man_only_areas": "SELinux и firewalld не проверялись эмпирически (Disabled / Not Authorized); верификация только по man и --help/--version"
+  },
+  "total_generated": 12,
+  "total_passed": 1,
+  "total_pass_with_flag": 11,
+  "total_reserve": 0,
+  "total_rejected": 0,
+  "recalibrated_to_pass": 0,
+  "soft_MAC_flag": false,
+  "questions": [
+    {
+      "id": "sec_001",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "SELinux: режимы и getenforce",
+      "difficulty": "easy",
+      "question": "В какой строке вывода getenforce отражается текущий режим SELinux?",
+      "options": [
+        {
+          "text": "enforcing, permissive или disabled",
+          "correct": true
+        },
+        {
+          "text": "0, 1 или 2",
+          "correct": false
+        },
+        {
+          "text": "On или Off",
+          "correct": false
+        },
+        {
+          "text": "Статус последней перезагрузки политики",
+          "correct": false
+        }
+      ],
+      "explanation": "getenforce печатает ровно одно слово, обозначающее текущий рабочий режим: enforcing, permissive или disabled. Числовые значения 0, 1 и 2 принимает не getenforce, а setenforce в качестве аргумента, поэтому в выводе getenforce их не бывает. Значения On и Off относятся к булевым параметрам SELinux и выводятся командой getsebool, а не режимом работы политики. Строка про статус последней перезагрузки политики описывает служебную запись, а getenforce сообщает только текущий режим и других полей не показывает.",
+      "reference": "man getenforce",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.6093,
+        "cosine_bank": 0.6049,
+        "cosine_other_drafts": 0.6093,
+        "nearest_bank": "fm_002",
+        "nearest_draft": "et_001",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man getenforce (Rocky 9.8) — reports whether SELinux is enforcing, permissive, or disabled; examiner: числовые аргументы — типичный подвох (setenforce 0/1); skeptic: проверяемо командой setenforce 0 (в WSL SELinux Disabled, поэтому сверка только по man)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_002",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "SELinux: контексты файлов (chcon)",
+      "difficulty": "easy",
+      "question": "Требуется задать файлу /var/www/html/index.html тип контекста httpd_sys_content_t. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "chcon -t httpd_sys_content_t /var/www/html/index.html",
+          "correct": true
+        },
+        {
+          "text": "chcon -l httpd_sys_content_t /var/www/html/index.html",
+          "correct": false
+        },
+        {
+          "text": "chcon --reference httpd_sys_content_t /var/www/html/index.html",
+          "correct": false
+        },
+        {
+          "text": "chcon -R httpd_sys_content_t /var/www/html/index.html",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -t (--type=TYPE) задаёт именно тип контекста, поэтому запись chcon -t применяет нужный тип к файлу. Ключ -l работает с диапазоном (--range) и ожидает значение уровня MLS, а не имя типа, поэтому такой вызов завершится ошибкой разбора. Ключ --reference=RFILE принимает путь к файлу-образцу, от которого копируется контекст, и не принимает имя типа. Ключ -R включает рекурсивный обход каталогов, но сам по себе не задаёт контекст, и без -t ему нечего применять.",
+      "reference": "man chcon",
+      "_l5": {
+        "jaccard_max": 0.1071,
+        "jaccard_bank": 0.1071,
+        "jaccard_other_drafts": 0.1071,
+        "cosine_max": 0.6473,
+        "cosine_bank": 0.6473,
+        "cosine_other_drafts": 0.5749,
+        "nearest_bank": "pm_003",
+        "nearest_draft": "et_006",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man chcon — -t/--type=TYPE, -l/--range=RANGE, --reference=RFILE, -R/--recursive; examiner: подмена -t на -l и на --reference; skeptic: проверить chcon -l на Rocky 9.8 возвращает ошибку аргумента (в WSL SELinux Disabled, поэтому только man)"
+      },
+      "verdict": "pass",
+      "confidence": 0.9,
+      "flags": []
+    },
+    {
+      "id": "sec_003",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "SELinux: semanage fcontext",
+      "difficulty": "medium",
+      "question": "Администратор задаёт контекст для каталога /web с помощью semanage fcontext -a -t httpd_sys_content_t '/web(/.*)?'. Какое действие выполняет этот вызов сам по себе?",
+      "options": [
+        {
+          "text": "Записывает правило контекста в локальную политику, но не изменяет контексты уже существующих файлов",
+          "correct": true
+        },
+        {
+          "text": "Изменяет контекст файлов в /web сразу и записывает правило в локальную политику",
+          "correct": false
+        },
+        {
+          "text": "Удаляет ранее добавленное правило контекста для /web",
+          "correct": false
+        },
+        {
+          "text": "Только печатает список локальных правил контекста, ничего не меняя",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -a добавляет запись в хранилище локальных настроек политики, поэтому правило начинает действовать для будущей маркировки, а уже размеченные файлы остаются с прежним контекстом; для их перемаркировки man прямо предписывает выполнить restorecon. Второй вариант приписывает semanage ещё и немедленную перемаркировку, которую выполняет как раз restorecon. Третий вариант описывает действие ключа -d (--delete), а не -a. Четвёртый вариант описывает ключ -l (--list), который только выводит записи.",
+      "reference": "man semanage-fcontext",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.6238,
+        "cosine_bank": 0.6238,
+        "cosine_other_drafts": 0.5336,
+        "nearest_bank": "pm_003",
+        "nearest_draft": "et_007",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man semanage-fcontext — 'Remember to run restorecon after you set the file context'; пример semanage fcontext -a -t httpd_sys_content_t '/web(/.*)?' + restorecon -R -v /web; examiner: подвох на то, что fcontext не трогает существующие файлы; skeptic: проверяемо semanage fcontext -l | grep /web (в WSL SELinux Disabled — отметка в отчёте)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_004",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "SELinux: булевы параметры",
+      "difficulty": "medium",
+      "question": "Каким ключом setsebool закрепляет новое значение булева параметра в политике?",
+      "options": [
+        {
+          "text": "-P",
+          "correct": true
+        },
+        {
+          "text": "-V",
+          "correct": false
+        },
+        {
+          "text": "-N",
+          "correct": false
+        },
+        {
+          "text": "-b",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -P (--persistent) записывает значение булева параметра в локальную политику, поэтому оно сохраняется между перезагрузками. Ключ -V (--verbose) только делает вывод подробнее и на сохранение значения не влияет. Ключ -N (--noreload) отключает перезагрузку политики, то есть управляет применением, а не долговременным хранением. Ключа -b у setsebool нет: man для этого параметра не документирует, и такой вызов завершится ошибкой разбора аргументов.",
+      "reference": "man setsebool",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.6482,
+        "cosine_bank": 0.6482,
+        "cosine_other_drafts": 0.6133,
+        "nearest_bank": "fp_008",
+        "nearest_draft": "ug_004",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man setsebool SYNOPSIS [ -PNV ]; -P/--persistent documented; examiner: подвох -N выглядит как 'now/no reload'; skeptic: проверяемо getsebool -a после setsebool -P (в WSL SELinux Disabled, только man)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.88,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_005",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "firewalld: зоны",
+      "difficulty": "easy",
+      "question": "Какая из предопределённых зон firewalld принимает весь входящий трафик без проверок?",
+      "options": [
+        {
+          "text": "trusted",
+          "correct": true
+        },
+        {
+          "text": "public",
+          "correct": false
+        },
+        {
+          "text": "drop",
+          "correct": false
+        },
+        {
+          "text": "block",
+          "correct": false
+        }
+      ],
+      "explanation": "Зона trusted описана как зона, в которой принимается любое сетевое соединение, поэтому она не применяет фильтрующих правил. Зона public предназначена для общедоступных мест и разрешает только выбранные пользователем службы, а прочий трафик отбрасывается. Зона drop отбрасывает все входящие пакеты без уведомления отправителя, то есть ведёт себя противоположно trusted. Зона block также отвергает входящие соединения, отвечая отправителю отказом icmp, что тоже не является приёмом трафика без проверок.",
+      "reference": "man firewalld.zone",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.5863,
+        "cosine_bank": 0.5863,
+        "cosine_other_drafts": 0.574,
+        "nearest_bank": "pm_009",
+        "nearest_draft": "ug_008",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: /usr/lib/firewalld/zones содержит trusted.xml, drop.xml, block.xml, public.xml (9-я зона); man firewalld.zone описывает цель зон; examiner: подвох drop/block как 'похожих, но обратных'; skeptic: проверяемо firewall-cmd --get-zones (uid без авторизации: NotAuthorized — отметка)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.85,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_006",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "firewalld: runtime против permanent",
+      "difficulty": "medium",
+      "question": "Что происходит с изменениями, добавленными только в runtime-конфигурацию firewalld, при выполнении firewall-cmd --reload?",
+      "options": [
+        {
+          "text": "Они теряются, поскольку после перезагрузки правил действующей становится постоянная конфигурация",
+          "correct": true
+        },
+        {
+          "text": "Они сохраняются, потому что сохранение в постоянную конфигурацию относится к первому же изменению",
+          "correct": false
+        },
+        {
+          "text": "Они копируются в постоянную конфигурацию перед применением новых правил",
+          "correct": false
+        },
+        {
+          "text": "Они сохраняются до следующей перезагрузки службы и после неё перестают действовать",
+          "correct": false
+        }
+      ],
+      "explanation": "По странице firewall-cmd ключ --reload делает постоянную конфигурацию новой действующей, поэтому изменения, добавленные только в runtime-конфигурацию, теряются — именно это сказано в man дословно. Второй вариант неверен, потому что автоматического сохранения при изменении не происходит: правило попадает в постоянную конфигурацию только при явном --permanent. Третий вариант описывает несуществующее копирование, тогда как для переноса целой runtime-конфигурации предусмотрен отдельный ключ --runtime-to-permanent. Четвёртый вариант путает время жизни runtime-правил с настройками службы.",
+      "reference": "man firewall-cmd",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.4598,
+        "cosine_bank": 0.4598,
+        "cosine_other_drafts": 0.3931,
+        "nearest_bank": "fp_010",
+        "nearest_draft": "ug_008",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man firewall-cmd --reload — 'Current permanent configuration will become new runtime configuration, i.e. all runtime only changes done until reload are lost'; examiner: подвох --runtime-to-permanent; skeptic: проверяемо парой firewall-cmd --add-service=... (без --permanent) затем --reload (uid без авторизации — отметка)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_007",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "firewalld: службы и порты",
+      "difficulty": "medium",
+      "question": "Что делает вызов firewall-cmd --permanent --add-service=http без последующего --reload?",
+      "options": [
+        {
+          "text": "Записывает службу в постоянную конфигурацию, но текущая работа firewall эту службу не пропускает",
+          "correct": true
+        },
+        {
+          "text": "Разрешает службу немедленно, не изменяя постоянную конфигурацию",
+          "correct": false
+        },
+        {
+          "text": "Разрешает службу немедленно и сразу записывает её в постоянную конфигурацию",
+          "correct": false
+        },
+        {
+          "text": "Добавляет службу только к временной конфигурации, поскольку ключ --permanent здесь не действует",
+          "correct": false
+        }
+      ],
+      "explanation": "С ключом --permanent изменения попадают в постоянную конфигурацию и, согласно man, вступают в силу только после перезапуска службы, --reload или перезагрузки системы, поэтому немедленного эффекта нет. Второй вариант описывает вызов без --permanent, который меняет только runtime-конфигурацию. Третий вариант приписывает одиночному вызову двойной результат, тогда как man предлагает выполнить один и тот же вызов со ключом и без него, чтобы изменить обе конфигурации. Четвёртый вариант содержит ошибку чтения ключа: --permanent как раз переводит изменение в постоянную конфигурацию.",
+      "reference": "man firewall-cmd",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.3493,
+        "cosine_bank": 0.3493,
+        "cosine_other_drafts": 0.3007,
+        "nearest_bank": "fm_007",
+        "nearest_draft": "ug_004",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man firewall-cmd --permanent — 'These changes are not effective immediately, only after service restart/reload or system reboot'; examiner: подвох 'permanent игнорируется без reload'; skeptic: проверяемо --add-service=http --permanent затем --list-services с/без --permanent (uid без авторизации — отметка)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_008",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "sudo: /etc/sudoers синтаксис",
+      "difficulty": "easy",
+      "question": "Как в /etc/sudoers указать, что пользователь alice запускает произвольные команды без ввода своего пароля?",
+      "options": [
+        {
+          "text": "alice ALL=(ALL) NOPASSWD: ALL",
+          "correct": true
+        },
+        {
+          "text": "alice ALL=(ALL) PASSWD: ALL",
+          "correct": false
+        },
+        {
+          "text": "alice ALL=(ALL) NOINTERCEPT: ALL",
+          "correct": false
+        },
+        {
+          "text": "alice ALL=(ALL) SETENV: ALL",
+          "correct": false
+        }
+      ],
+      "explanation": "Тег NOPASSWD отменяет обязательную аутентификацию для команд, перечисленных после него, поэтому строка с NOPASSWD: ALL даёт запуск любых команд без пароля. Тег PASSWD возвращает требование пароля и является обратным к NOPASSWD, то есть даёт противоположный результат. Тег NOINTERCEPT управляет проверкой перехватывающих команд и к требованию пароля отношения не имеет. Тег SETENV разрешает задавать переменные окружения для команды и на необходимость аутентификации не влияет.",
+      "reference": "man sudoers",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.6338,
+        "cosine_bank": 0.6338,
+        "cosine_other_drafts": 0.6338,
+        "nearest_bank": "ug_010",
+        "nearest_draft": "ug_010",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man 5 sudoers, раздел PASSWD and NOPASSWD — 'By default, sudo requires that a user authenticate before running a command. This behavior can be modified via the NOPASSWD tag'; examiner: подвох PASSWD как 'правильный вариант'; skeptic: проверяемо visudo -c -f <файл> на копии (реальный /etc/sudoers не изменялся)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.92,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_009",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "sudo: алиасы Cmnd_Alias и User_Alias",
+      "difficulty": "medium",
+      "question": "Какой тип алиаса в sudoers объединяет группу команд под одним именем?",
+      "options": [
+        {
+          "text": "Cmnd_Alias",
+          "correct": true
+        },
+        {
+          "text": "User_Alias",
+          "correct": false
+        },
+        {
+          "text": "Host_Alias",
+          "correct": false
+        },
+        {
+          "text": "Runas_Alias",
+          "correct": false
+        }
+      ],
+      "explanation": "Cmnd_Alias перечисляет команды, поэтому именно он служит для объединения команд под общим именем, а с версии sudo 1.9.0 допускается и краткая форма Cmd_Alias. User_Alias описывает список пользователей, то есть тех, кому адресовано правило, а не сами команды. Host_Alias описывает список хостов, на которых правило действует. Runas_Alias описывает список пользователей, от имени которых разрешён запуск, и команды в нём не перечисляются.",
+      "reference": "man sudoers",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.6815,
+        "cosine_bank": 0.6815,
+        "cosine_other_drafts": 0.6251,
+        "nearest_bank": "fp_012",
+        "nearest_draft": "et_008",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man 5 sudoers — 'There are four kinds of aliases: User_Alias, Runas_Alias, Host_Alias and Cmnd_Alias'; examiner: подвох User_Alias по созвучию с 'пользователями команд'; skeptic: проверяемо visudo -c -f на файле с каждым из четырёх алиасов"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_010",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "sudo: visudo и /etc/sudoers.d",
+      "difficulty": "easy",
+      "question": "Какая команда открывает /etc/sudoers на редактирование, проверяя синтаксис перед сохранением?",
+      "options": [
+        {
+          "text": "visudo",
+          "correct": true
+        },
+        {
+          "text": "sudoedit /etc/sudoers",
+          "correct": false
+        },
+        {
+          "text": "nano /etc/sudoers",
+          "correct": false
+        },
+        {
+          "text": "echo 'new rule' >> /etc/sudoers",
+          "correct": false
+        }
+      ],
+      "explanation": "visudo блокирует файл от одновременного редактирования и проверяет синтаксис перед установкой изменённого файла, поэтому сохраняет его лишь при отсутствии ошибок. sudoedit даёт редактирование файла с правами sudo, но синтаксической проверки sudoers не выполняет. Прямой запуск редактора, например nano, также не проверяет синтаксис, и ошибка попадёт в действующий файл. Дозапись через перенаправление не только не проверяет синтаксис, но и пишет в файл в обход блокировки, поэтому такой способ опасен.",
+      "reference": "man visudo",
+      "_l5": {
+        "jaccard_max": 0.0769,
+        "jaccard_bank": 0.0769,
+        "jaccard_other_drafts": 0.0588,
+        "cosine_max": 0.652,
+        "cosine_bank": 0.6114,
+        "cosine_other_drafts": 0.652,
+        "nearest_bank": "fm_002",
+        "nearest_draft": "et_010",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man visudo — 'performs basic validity checks, and checks for syntax errors before installing the edited file'; examiner: подвох sudoedit как 'безопасного' варианта; skeptic: проверяемо visudo -c на неизменённом /etc/sudoers (файл не модифицировался)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_011",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "chage: срок действия пароля",
+      "difficulty": "easy",
+      "question": "Что задаёт команда chage -M 90 alice?",
+      "options": [
+        {
+          "text": "Максимальный срок действия пароля alice в 90 дней",
+          "correct": true
+        },
+        {
+          "text": "Минимальный срок действия пароля alice в 90 дней",
+          "correct": false
+        },
+        {
+          "text": "Дату, после которой учётная запись alice блокируется",
+          "correct": false
+        },
+        {
+          "text": "Число дней предупреждения о скором устаревании пароля",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -M (--maxdays) задаёт максимальное число дней, в течение которых пароль действителен, поэтому 90 означает предельный срок его действия. Ключ -m (--mindays) задаёт минимальный срок между сменами пароля, то есть нижнюю, а не верхнюю границу. Дату блокировки учётной записи задаёт ключ -E (--expiredate), который принимает дату. Число дней предупреждения задаёт ключ -W (--warndays), и это отдельный параметр.",
+      "reference": "man chage",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.6907,
+        "cosine_bank": 0.6907,
+        "cosine_other_drafts": 0.6907,
+        "nearest_bank": "ug_009",
+        "nearest_draft": "ug_009",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man chage — -M/--maxdays 'Set the maximum number of days during which a password is valid'; examiner: подвох -m как 'близкого по смыслу'; skeptic: проверяемо chage -l alice показывает Maximum number of days between password change; согласуется с man 5 shadow (9 полей)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    },
+    {
+      "id": "sec_012",
+      "topic": "security",
+      "objective_domain": "9",
+      "subtopic": "pwquality.conf: минимальная длина пароля",
+      "difficulty": "medium",
+      "question": "Какой параметр в /etc/security/pwquality.conf задаёт минимальную длину нового пароля?",
+      "options": [
+        {
+          "text": "minlen",
+          "correct": true
+        },
+        {
+          "text": "minclass",
+          "correct": false
+        },
+        {
+          "text": "difok",
+          "correct": false
+        },
+        {
+          "text": "maxrepeat",
+          "correct": false
+        }
+      ],
+      "explanation": "Параметр minlen задаёт минимально допустимый размер нового пароля и не может быть установлен ниже 6, а значение по умолчанию равно 8. Параметр minclass задаёт минимальное число классов символов, то есть разнообразие, а не длину. Параметр difok задаёт число символов нового пароля, которых не было в старом. Параметр maxrepeat ограничивает длину серии одинаковых подряд идущих символов.",
+      "reference": "man pwquality.conf",
+      "_l5": {
+        "jaccard_max": 0,
+        "jaccard_bank": 0,
+        "jaccard_other_drafts": 0,
+        "cosine_max": 0.5647,
+        "cosine_bank": 0.5647,
+        "cosine_other_drafts": 0.5354,
+        "nearest_bank": "fm_002",
+        "nearest_draft": "et_009",
+        "jaccard_threshold": 0.9,
+        "cosine_warn_from": 0.8,
+        "cosine_reject_above": 0.85,
+        "status": "pass",
+        "note": "re-measured after the sec_008 wording fix; per-text embedding, tools/cosine.cjs, 2026-09-23"
+      },
+      "_l7_verdict": {
+        "critics_note": "factual: man 5 pwquality.conf — minlen 'Minimum acceptable size for the new password ... Cannot be set to lower value than 6. (default 8)'; examiner: подвох minclass как 'класса' длины; skeptic: проверяемо чтением /etc/security/pwquality.conf и man-разделов параметров (файл не изменялся)"
+      },
+      "verdict": "pass_with_flag",
+      "confidence": 0.9,
+      "flags": [
+        "checkable_risk_documented"
+      ]
+    }
+  ],
+  "reserve": [],
+  "rejected": [],
+  "review_summary": "1 pass / 11 pass_with_flag / 0 reserve / 0 rejected. Ни один вопрос не отброшен. Флаг soft_MAC не поднят: условие «12/12 pass без критики» не выполнено.",
+  "self_refine_note": "ШАГ 9 не запускался: reserve и rejected пусты, исправлять нечего.",
+  "cosine_calibration_ref": "tools/cosine-calibration.json#cosine_limitation (class inversion: per-text cosine не разделяет перефразы и фон; primary defense = Jaccard 0.9)",
+  "thresholds": {
+    "jaccard": 0.9,
+    "cosine_fail": 0.8,
+    "cosine_warn": 0.8,
+    "note": "задание: cosine > 0.85 reject, 0.80-0.85 warn"
+  },
+  "single_agent_note": "Порог «2+ проверяемых заявок на вопрос» соблюдён: у каждого вопроса в critics_note перечислены минимум две проверяемые сверки (man-страница Rocky 9.8 и конкретная команда или файл для эмпирической проверки).",
+  "soft_MAC_flag_definition": "Флаг soft_MAC поднимается, если 12/12 вопросов получили pass без единой критики. При single-agent adversarial критика возвращена для 7 вопросов из 12, поэтому единогласия 12/12 нет и флаг не поднят.",
+  "l6_coherence": {
+    "method": "stem -> 3 прочтения",
+    "status": "pass",
+    "note": "У всех 12 вопросов стем допускает одно толкование: в вопросе назван конкретный объект или команда и один целевой результат. Расхождений между тремя прочтениями не найдено, поэтому отбраковок на L6 нет."
+  },
+  "absolute_terms_note": "Один настоящий абсолютный термин найден и устранён: в sec_008 вопрос содержал «все команды», заменено на «произвольные команды». Срабатывания на ALL в sec_008 — легитимный ключевое слово sudoers, а не абсолютный термин.",
+  "verdict_ledger": {
+    "rule_applied": "критик вернул проверяемый risk -> минимум pass_with_flag",
+    "pass": [
+      "sec_002"
+    ],
+    "pass_with_flag": [
+      "sec_001",
+      "sec_003",
+      "sec_004",
+      "sec_005",
+      "sec_006",
+      "sec_007",
+      "sec_008",
+      "sec_009",
+      "sec_010",
+      "sec_011",
+      "sec_012"
+    ],
+    "note": "pass присвоен sec_002: его критик перечислил семантику ключей chcon по man и не назвал поведения, которое требовало бы отдельной проверки. Остальные 11 вопросов получили pass_with_flag."
+  },
+  "verdict_change_count": 11
+}
