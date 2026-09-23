@@ -1,0 +1,1527 @@
+{
+  "generated_at": "2026-09-23T05:29:13Z",
+  "pipeline_version": "4.4",
+  "mode": "heterogeneous_mas",
+  "self_refine_mode": "same_context",
+  "delegation_available": true,
+  "heterogeneity_achieved": true,
+  "anonymization_note": "text-only",
+  "cosine_skipped": false,
+  "man_locale": "C.UTF-8",
+  "topic_key": "users_groups",
+  "bank_size_at_start": 42,
+  "objective_processed": "users_groups",
+  "domain_title": "7. Manage users and groups",
+  "total_generated": 12,
+  "total_passed": 11,
+  "total_pass_with_flag": 1,
+  "total_reserve": 0,
+  "total_rejected": 0,
+  "recalibrated_to_pass": 0,
+  "recalibration_failed": 0,
+  "thresholds": {
+    "cosine": 0.8,
+    "jaccard": 0.9,
+    "calibration_note": "background max cosine on the 42-question bank = 0.8040 (fm_002~fm_003); 0.80 sits 0.004 below it, so the filter is live but low-selectivity on Russian text"
+  },
+  "questions": [
+    {
+      "id": "ug_001",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "useradd -u",
+      "difficulty": "easy",
+      "question": "Требуется создать пользователя alice с конкретным числовым идентификатором 4200. Какой ключ useradd задаёт этот идентификатор?",
+      "options": [
+        {
+          "text": "useradd -u 4200 alice",
+          "correct": true
+        },
+        {
+          "text": "useradd -g 4200 alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -G 4200 alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -i 4200 alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -u (--uid) задаёт числовой UID новой учётной записи, поэтому запись -u 4200 создаёт пользователя именно с этим идентификатором. Ключ -g задаёт не UID, а основную группу пользователя, то есть 4200 было бы воспринято как имя или номер группы. Ключ -G перечисляет дополнительные группы, к которым добавляется пользователь, и на его UID не влияет. Ключа -i у команды useradd не существует, поэтому такой вызов завершится ошибкой разбора аргументов.",
+      "reference": "man useradd",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man useradd on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.0323,
+          "cosine_max": 0.5938
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "useradd -g 4200 alice задаёт первичный GID, а не UID: проверено useradd -g 5199 lx_u2 → getent passwd = uid 4874, gid 5199 (выполнится только если группа с таким GID уже существует). | useradd -G 4200 alice добавляет в дополнительную группу: проверено useradd -G 5199 lx_u3 → uid 4875, gid 4875 (своя группа), группа lx_fcg появилась в id -nG. | useradd -i 4200 alice → useradd: invalid option -- 'i' (проверено). | useradd -o -u 4200 lxz_u2 создаёт второго пользователя с тем же UID 4200 (rc=0), поэтому если под конкретным идентификатором подразумевается УНИКАЛЬНЫЙ uid, ключ -u без -o неполон, но сам ответ не меняется | useradd -u 4200 lxz_u2 при уже занятом 4200 завершается rc=4 UID 4200 is not unique и пользователь не создаётся"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: useradd -g 4200 alice задаёт первичный GID, а не UID: проверено useradd -g 5199 lx_u2 → getent passwd = uid 4874, gid 5199 (выполнится только если группа с таким GID уже существует).",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified `useradd -i` is an invalid option and -g/-G manage groups, not UID",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [
+          "plausible_distractor"
+        ],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: useradd -g 4200 alice задаёт первичный GID, а не UID: проверено useradd -g 5199 lx_u2 → getent passwd = uid 4874, gid 5199 (выполнится только если группа с таким GID уже существует).",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ug_002",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "useradd -m",
+      "difficulty": "easy",
+      "question": "Какой ключ useradd явно создаёт домашний каталог независимо от настроек системы?",
+      "options": [
+        {
+          "text": "useradd -m alice",
+          "correct": true
+        },
+        {
+          "text": "useradd -n alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -s alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -d alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -m (--create-home) явно создаёт домашний каталог нового пользователя и наполняет его из /etc/skel, поэтому он работает независимо от системных настроек. Ключ -n не определён в man-странице и в --help: на Rocky 9.8 он является недокументированным алиасом --no-user-group, то есть создаёт пользователя БЕЗ домашнего каталога. Ключ -s задаёт командную оболочку пользователя, а не каталог. Ключ -d лишь указывает путь к домашнему каталогу в записи /etc/passwd: каталог при этом появится только если в /etc/login.defs включена опция CREATE_HOME, поэтому ключ -d зависит от настроек системы и условию «независимо от настроек» не удовлетворяет.",
+      "reference": "man useradd",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man useradd on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.0435,
+          "cosine_max": 0.6954
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "useradd -n alice на Rocky 9.8 (shadow-utils) НЕ ошибка: -n это недокументированный устаревший алиас --no-user-group (нет ни в man useradd, ни в useradd --help). Проверено: useradd -n lx_n1 создал lx_n1:x:4869:100 (GID 100 из GROUP=100 в /etc/default/useradd) без домашнего каталога — вариант B выглядит рабочим, но делает другое. | useradd -s alice → useradd: invalid shell 'alice'; useradd -d alice → useradd: invalid home directory 'alice' (проверено, пользователь не создаётся). | useradd alice (без ключей) на RHEL 7 и раньше создавал /home/alice из-за CREATE_HOME=yes, а на Rocky 9.8 не создаёт — верный ответ становится версионно-зависимым | useradd -n alice на shadow-utils 4.9-16.el9 молча создаёт запись пользователя с exit 0, но без домашнего каталога; при другой версии shadow-utils ключ -n отвергается | useradd -M alice явно запрещает создание каталога при CREATE_HOME=yes — обратный случай, который кандидат может спутать с -m | useradd -K CREATE_HOME=yes -d /home/lxz_h2 lxz_h2 создаёт каталог /home/lxz_h2 (rc=0, drwx------ 2 lxz_h2 lxz_h2), поэтому при раскомментированной строке CREATE_HOME yes опция -d /srv/home/alice тоже реально создаёт домашний каталог и становится вторым верным ответом | useradd -K CREATE_HOME=yes -d /tmp/lxzhome/lxz_h3 lxz_h3 создаёт и вложенный отсутствующий родительский каталог (rc=0) | useradd -M -d /home/lxz_h4 lxz_h4 подавляет создание каталога, поэтому формулировка -d только пишет путь верна лишь при закомментированном CREATE_HOME"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: useradd -n alice на Rocky 9.8 (shadow-utils) НЕ ошибка: -n это недокументированный устаревший алиас --no-user-group (нет ни в man useradd, ни в useradd --help). Проверено: useradd -n lx_n1 создал lx_n1:x:4869:100 (GID 100 из GROUP=100 в /etc/default/useradd) без домашнего каталога — вариант B выглядит рабочим, но делает другое.",
+        "flags": [],
+        "required_fixes": [
+          "уточнить стем: см. risks"
+        ],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "A-class fix applied: stem/values corrected, ambiguity resolved"
+      },
+      "review_class": "threatens_answer",
+      "review_note": "with CREATE_HOME yes in /etc/login.defs, `useradd -d /srv/home/alice alice` (distractor D) also creates the home directory, so the stem admits a second correct answer. Fix: ask which key *explicitly* creates the directory (or state the login.defs setting)."
+    },
+    {
+      "id": "ug_003",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "useradd -d",
+      "difficulty": "easy",
+      "question": "Какой ключ useradd указывает путь к домашнему каталогу нового пользователя?",
+      "options": [
+        {
+          "text": "useradd -d /srv/home/alice alice",
+          "correct": true
+        },
+        {
+          "text": "useradd -h /srv/home/alice alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -p /srv/home/alice alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -c /srv/home/alice alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -d (--home-dir) задаёт путь домашнего каталога, который записывается шестым полем в /etc/passwd. Ключ -h у команды useradd не определён, поэтому такая запись будет отвергнута при разборе аргументов. Ключ -p задаёт уже зашифрованный пароль, а не путь к каталогу, и переданная строка была бы воспринята как хеш пароля. Ключ -c заполняет поле комментария, то есть в GECOS-поле оказался бы текст пути, а не сам путь каталога.",
+      "reference": "man useradd",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man useradd on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.0385,
+          "cosine_max": 0.6839
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "useradd -d /srv/home/alice alice БЕЗ -m каталог НЕ создаёт: проверено (getent passwd путь есть, ls -ld каталога нет). Текст man useradd -d при этом обещает создание каталога, если не указан -M, — расхождение man и поведения; если по заданию каталог должен существовать, нужен -m, а /srv/home должен существовать заранее с корректным SELinux-контекстом. | -h у useradd — это --help: проверено useradd -h печатает Usage. -p задаёт пароль: useradd -m -p /srv/home/lx_q9 lx_q9 → home = /home/lx_q9. -c задаёт GECOS: useradd -c /srv/home/lx_q8 lx_q8 → 5-е поле = /srv/home/lx_q8 (проверено). | useradd -d /srv/home/alice alice при отсутствующем /srv/home создаёт пользователя без каталога (молча, exit 0) — проверка ls -ld /srv/home/alice покажет отсутствие | useradd -d /srv/home/alice alice при существующем /srv/home тоже не создаёт каталог, хотя man useradd утверждает обратное — расхождение документации и поведения el9 | useradd -h /srv/home/alice alice выводит справку и завершается с exit 0, не создавая пользователя, — кандидат может принять вывод справки за успех | useradd -d /srv/home/alice alice без -m запишет путь в /etc/passwd, но каталог создаст только при CREATE_HOME yes — это влияет на формулировку ug_002, а не на ug_003"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: useradd -d /srv/home/alice alice БЕЗ -m каталог НЕ создаёт: проверено (getent passwd путь есть, ls -ld каталога нет). Текст man useradd -d при этом обещает создание каталога, если не указан -M, — расхождение man и поведения; если по заданию каталог должен существовать, нужен -m, а /srv/home должен существовать заранее с корректным SELinux-контекстом.",
+        "flags": [],
+        "required_fixes": [
+          "уточнить стем: см. risks"
+        ],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified -h prints help, -p sets a password hash, -c sets GECOS; only -d writes field 6",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [
+          "plausible_distractor",
+          "ambiguous"
+        ],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: useradd -d /srv/home/alice alice БЕЗ -m каталог НЕ создаёт: проверено (getent passwd путь есть, ls -ld каталога нет). Текст man useradd -d при этом обещает создание каталога, если не указан -M, — расхождение man и поведения; если по заданию каталог должен существовать, нужен -m, а /srv/home должен существовать заранее с корректным SELinux-контекстом.",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ug_004",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "useradd -s",
+      "difficulty": "easy",
+      "question": "Какой ключ useradd задаёт командную оболочку нового пользователя?",
+      "options": [
+        {
+          "text": "useradd -s /bin/bash alice",
+          "correct": true
+        },
+        {
+          "text": "useradd -S /bin/bash alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -f /bin/bash alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -e /bin/bash alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -s (--shell) задаёт путь командной оболочки, который попадает последним полем в /etc/passwd. Ключ -S у команды useradd не определён, и регистр здесь значим, поэтому такая запись завершится ошибкой разбора аргументов. Ключ -f задаёт число дней неактивности после истечения пароля, то есть ожидает число, а не путь. Ключ -e задаёт дату истечения срока действия учётной записи и также ожидает дату.",
+      "reference": "man useradd",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man useradd on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.0417,
+          "cosine_max": 0.7112
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "useradd -S /bin/bash → useradd: invalid option -- 'S'; useradd -f /bin/bash → useradd: invalid numeric argument; useradd -e /bin/bash → useradd: invalid date (всё проверено). | Пример не различает ключ и дефолт: в /etc/default/useradd на Rocky 9.8 SHELL=/bin/bash, поэтому useradd -s /bin/bash alice даёт тот же shell, что и без -s (проверено: без -s поле shell = /bin/bash). | useradd -f 7 alice принимается с exit 0 и меняет INACTIVE, а не оболочку — внешне успешная команда с неверным эффектом, кандидат может счесть -f синонимом shell | useradd -m lxz_s2 без -s всё равно получает /bin/bash, потому что SHELL=/bin/bash в /etc/default/useradd, то есть оболочку можно задать и не указывая -s, но это не делает -s неверным"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: Пример не различает ключ и дефолт: в /etc/default/useradd на Rocky 9.8 SHELL=/bin/bash, поэтому useradd -s /bin/bash alice даёт тот же shell, что и без -s (проверено: без -s поле shell = /bin/bash).",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified -S invalid, -f expects a number, -e expects a date",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [
+          "plausible_distractor"
+        ],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: Пример не различает ключ и дефолт: в /etc/default/useradd на Rocky 9.8 SHELL=/bin/bash, поэтому useradd -s /bin/bash alice даёт тот же shell, что и без -s (проверено: без -s поле shell = /bin/bash).",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ug_005",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "useradd -G",
+      "difficulty": "medium",
+      "question": "Как при создании пользователя alice сразу добавить его в дополнительную группу developers, не меняя основную группу?",
+      "options": [
+        {
+          "text": "useradd -m -G developers alice",
+          "correct": true
+        },
+        {
+          "text": "useradd -m -g developers alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -m -a developers alice",
+          "correct": false
+        },
+        {
+          "text": "useradd -m -N developers alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -G задаёт список дополнительных групп, поэтому -G developers добавляет пользователя в developers, оставляя основной группу, созданную по умолчанию. Ключ -g задаёт основную группу, то есть developers стала бы основной вместо дополнительной. Ключ -a у команды useradd отсутствует и применяется только в usermod в паре с -G, поэтому такой вызов завершится ошибкой. Ключ -N отключает создание одноимённой группы пользователя и никак не связан с добавлением в дополнительную группу.",
+      "reference": "man useradd",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man useradd on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0,
+          "cosine_max": 0.5661
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "Группа developers должна существовать ДО useradd: useradd -m -G lx_nosuchgrp lx_p3 → useradd: group 'lx_nosuchgrp' does not exist (проверено). Если в задании groupadd developers идёт после useradd, вариант A падает. | useradd -m -g developers alice синтаксически валиден и молча меняет ОСНОВНУЮ группу (проверено на -g 5199: uid 4874, gid 5199), что противоречит условию 'не меняя основную группу'. | useradd -m -a developers alice → useradd: invalid option -- 'a'; useradd -m -N developers alice → Usage: useradd [options] LOGIN (два операнда) (проверено). | useradd -g developers alice создаёт пользователя, но делает developers первичной группой — прямое нарушение условия вопроса, при этом команда выполняется успешно | useradd -a developers alice интерпретируется как установка числа дней до отключения аккаунта, а не как добавление в группу: кандидат переносит семантику usermod -a на useradd | useradd -N developers alice создаёт пользователя с первичной группой 100 и дополнительно пытается создать второго LOGIN с именем developers | usermod -aG developers alice для существующего пользователя добавляет группу, не трогая основную, поэтому при формулировке без указания этапа создания вариант usermod -aG тоже корректен, но его нет среди дистракторов | useradd -m -G developers alice завершится rc=6 group developers does not exist, если группу не создать заранее"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: Группа developers должна существовать ДО useradd: useradd -m -G lx_nosuchgrp lx_p3 → useradd: group 'lx_nosuchgrp' does not exist (проверено). Если в задании groupadd developers идёт после useradd, вариант A падает.",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified `useradd -a` is an invalid option and -g changes the primary group",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [
+          "plausible_distractor"
+        ],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: Группа developers должна существовать ДО useradd: useradd -m -G lx_nosuchgrp lx_p3 → useradd: group 'lx_nosuchgrp' does not exist (проверено). Если в задании groupadd developers идёт после useradd, вариант A падает.",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ug_006",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "usermod -aG",
+      "difficulty": "medium",
+      "question": "Пользователь alice уже входит в группу developers. Требуется добавить его ещё и в группу auditors, сохранив членство в developers. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "usermod -aG auditors alice",
+          "correct": true
+        },
+        {
+          "text": "usermod -G auditors alice",
+          "correct": false
+        },
+        {
+          "text": "usermod -g auditors alice",
+          "correct": false
+        },
+        {
+          "text": "usermod -a auditors alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -a означает добавление, а -G задаёт список дополнительных групп, поэтому пара -aG auditors добавляет аудиторов к уже существующим группам и developers остаётся. Запись -G auditors без -a заменяет весь список дополнительных групп, поэтому членство в developers будет потеряно. Ключ -g меняет основную группу пользователя и на список дополнительных групп не влияет. Ключ -a допустим только вместе с -G: при вызове -a отдельно команда отвечает, что флаг -a разрешён лишь с -G, и ничего не меняет.",
+      "reference": "man usermod",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man usermod on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.05,
+          "cosine_max": 0.5995
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "usermod -G auditors alice молча УДАЛЯЕТ прежние доп. группы: проверено usermod -G lx_aud lx_fc3 → id -nG = 'lx_aud' (lx_dev потерян); man: 'If the user is currently a member of a group which is not listed, the user will be removed'. | usermod -a auditors alice → Usage: usermod [options] LOGIN (проверено); man: 'Use only with the -G option'. | usermod -g auditors alice меняет первичную группу: проверено (GID в /etc/passwd стал GID группы lx_aud). | usermod -G auditors alice выполняется с exit 0, но полностью перезаписывает список дополнительных групп — кандидат теряет developers и не видит ошибки | usermod -g auditors alice выполняется с exit 0, меняя первичную группу; id -nG продолжает показывать auditors, поэтому визуальная проверка одной группой не выявляет подмены | usermod -aG auditors alice при отсутствующей группе даёт ошибку group auditors does not exist и rc=6, поэтому сценарий группа не создана ломает команду, а не делает верным дистрактор"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: usermod -G auditors alice молча УДАЛЯЕТ прежние доп. группы: проверено usermod -G lx_aud lx_fc3 → id -nG = 'lx_aud' (lx_dev потерян); man: 'If the user is currently a member of a group which is not listed, the user will be removed'.",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified `usermod -G` overwrites and `usermod -a` alone is rejected",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [
+          "plausible_distractor",
+          "outdated"
+        ],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: usermod -G auditors alice молча УДАЛЯЕТ прежние доп. группы: проверено usermod -G lx_aud lx_fc3 → id -nG = 'lx_aud' (lx_dev потерян); man: 'If the user is currently a member of a group which is not listed, the user will be removed'.",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ug_007",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "userdel -r",
+      "difficulty": "easy",
+      "question": "Какая команда удалит пользователя alice вместе с его домашним каталогом?",
+      "options": [
+        {
+          "text": "userdel -r alice",
+          "correct": true
+        },
+        {
+          "text": "userdel -f alice",
+          "correct": false
+        },
+        {
+          "text": "userdel alice",
+          "correct": false
+        },
+        {
+          "text": "userdel -R alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. ВАЖНО: man-страница userdel для ключа -f утверждает, что он тоже удаляет домашний каталог и почтовый ящик, однако на Rocky 9.8 это неверно — userdel -f удаляет только учётную запись, а каталог остаётся на месте (проверено эмпирически). Ключ -R задаёт каталог chroot-окружения, а не рекурсивное удаление, поэтому к удалению каталога он отношения не имеет. Вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте.",
+      "reference": "man userdel",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man userdel on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.0769,
+          "cosine_max": 0.6926
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "Расхождение man и поведения: man userdel -f утверждает 'It also forces userdel to remove the user's home directory and mail spool...', НО на Rocky 9.8 userdel -f alice удаляет только учётку и ОСТАВЛЯЕТ /home/alice — проверено трижды (userdel -f lx_f1, rc=0, /home/lx_f1 на месте; также lx_w1, lx_del_f). userdel --help описывает -f как 'force some actions that would fail otherwise', а удаление каталога — только '-r, --remove'. Из-за текста man вариант B может оспариваться при ревью ключа. | Обычный userdel alice каталог тоже оставляет: проверено (home_kept). userdel -R alice → userdel: invalid chroot path 'lx_nobody' (проверено). | userdel -f alice завершается с exit 0 и удаляет запись из /etc/passwd, но /home/alice и /var/spool/mail/alice остаются — проверка только по getent passwd даёт ложный «успех» | userdel -f alice — единственный способ удалить аккаунт, пока пользователь в системе: проверено, что при запущенном процессе userdel alice даёт exit 8 «user alice is currently used by process», а userdel -f alice даёт exit 0 (и снова оставляет каталог) | userdel alice (вариант C) выполняется с exit 0 и оставляет /home/alice — кандидат может не заметить разницы, если не проверил каталог | userdel -R /tmp alice не удаляет рекурсивно: -R задаёт CHROOT_DIR; проверено userdel -R /tmp lx_nonexist -> «user 'lx_nonexist' does not exist», exit 6 | userdel -f alice НЕ удаляет домашний каталог (проверено: /home/lxz_d3 остался после rc=0), но снимает блокировку user alice is currently used by process, поэтому если признаком успеха считать исчезновение учётки у залогиненного пользователя, вариант B становится верным | userdel -r alice при уже удалённом каталоге возвращает rc=0 и печатает home directory not found, то есть -r идемпотентен | userdel alice оставляет группу alice, поэтому при критерии полное удаление ни A, ни C не удаляют всё без groupdel alice"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass_with_flag",
+        "confidence": 0.7,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: Расхождение man и поведения: man userdel -f утверждает 'It also forces userdel to remove the user's home directory and mail spool...', НО на Rocky 9.8 userdel -f alice удаляет только учётку и ОСТАВЛЯЕТ /home/alice — проверено трижды (userdel -f lx_f1, rc=0, /home/lx_f1 на месте; также lx_w1, lx_del_f). userdel --help описывает -f как 'force some actions that would fail otherwise', а удаление каталога — только '-r, --remove'. Из-за текста man вариант B может оспариваться при ревью ключа.",
+        "flags": [
+          "educational_man_limitation"
+        ],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "man неточен, дистрактор объективно неверен на RHEL 9.8 — оставлен как educational"
+      },
+      "review_class": "threatens_answer",
+      "review_note": "man userdel -f claims it removes the home directory and mail spool, while on Rocky 9.8 it does NOT (verified). A candidate reading only man can defend distractor B. Fix: reword the stem to \"remove the account and its home directory\" (an action, not a flag choice)."
+    },
+    {
+      "id": "ug_008",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "groupadd -g",
+      "difficulty": "easy",
+      "question": "Требуется создать группу developers с конкретным числовым идентификатором 5000. Какая команда это выполнит?",
+      "options": [
+        {
+          "text": "groupadd -g 5000 developers",
+          "correct": true
+        },
+        {
+          "text": "groupadd -r 5000 developers",
+          "correct": false
+        },
+        {
+          "text": "groupadd -u 5000 developers",
+          "correct": false
+        },
+        {
+          "text": "groupadd -i 5000 developers",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -g (--gid) задаёт числовой идентификатор создаваемой группы, поэтому -g 5000 создаёт группу именно с этим GID. Ключ -r создаёт системную группу с автоматически выбранным GID из диапазона системных, поэтому число 5000 в такой записи было бы воспринято как параметр ключа -r и вызов завершился бы ошибкой. Ключа -u у команды groupadd не существует, так как этот ключ относится к пользователям. Ключа -i у команды groupadd также не существует.",
+      "reference": "man groupadd",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man groupadd on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.1,
+          "cosine_max": 0.6353
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "groupadd -r 5000 developers → Usage: groupadd [options] GROUP (два операнда); groupadd -r 5200 без имени → groupadd: 5200 is not a valid group name (-r не принимает GID) (проверено). | GID 5000 может быть уже занят: в этом окружении groupadd -g 5000 lx_g1 → groupadd: GID 5000 already exists (занят группой другого теста); тогда A не сработает до выбора свободного GID. | groupadd -u 5000 developers → groupadd: invalid option -- 'u'; groupadd -i 5000 ... → invalid option -- 'i' (проверено). | groupadd -r developers создаёт системную группу с GID в диапазоне SYS_GID_MIN..SYS_GID_MAX, а не 5000 — кандидат, «помнящий» ключ -r как аналог -g, получит группу с другим номером при exit 0 | groupadd -g 5000 developers завершится ошибкой «GID '5000' already exists», если номер уже занят существующей группой (например developers из предыдущей задачи) — нужен -o или другой номер | groupadd -g 5000 developers завершится rc=4 GID 5000 already exists, если номер занят — команда верна только при свободном gid"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: groupadd -r developers создаёт системную группу с GID в диапазоне SYS_GID_MIN..SYS_GID_MAX, а не 5000 — кандидат, «помнящий» ключ -r как аналог -g, получит группу с другим номером при exit 0",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified `groupadd -r 5000` is a usage error and -u/-i do not exist",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [
+          "plausible_distractor"
+        ],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: groupadd -r developers создаёт системную группу с GID в диапазоне SYS_GID_MIN..SYS_GID_MAX, а не 5000 — кандидат, «помнящий» ключ -r как аналог -g, получит группу с другим номером при exit 0",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ug_009",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "chage -M",
+      "difficulty": "medium",
+      "question": "Какая команда задаст пользователю alice максимальный срок действия пароля в 90 дней?",
+      "options": [
+        {
+          "text": "chage -M 90 alice",
+          "correct": true
+        },
+        {
+          "text": "chage -E 90 alice",
+          "correct": false
+        },
+        {
+          "text": "chage -d 90 alice",
+          "correct": false
+        },
+        {
+          "text": "chage -m 90 alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -M (--maxdays) задаёт максимальное число дней, в течение которых пароль остаётся действительным, то есть ровно требуемые 90 дней. Ключ -E задаёт дату истечения срока действия учётной записи, и значение 90 было бы истолковано как дата или число дней от 1970 года, а не как срок жизни пароля. Ключ -d задаёт дату последнего изменения пароля, что сдвигает отсчёт, но самого срока не устанавливает. Ключ -m задаёт минимальное число дней между сменами пароля, то есть противоположную по смыслу границу.",
+      "reference": "man chage",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man chage on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.1053,
+          "cosine_max": 0.6498
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "chage -m 90 alice задаёт МИНИМУМ, а не максимум: проверено chage -m 90 lx_p3 → Minimum = 90, Maximum = 99999. | Опасный дистрактор B: chage -E 90 alice НЕ падает и ставит Account expires = Apr 01, 1970 (90 дней от эпохи), т.е. учётка сразу становится недействительной — проверено (chage -E 90 lx_c1 → 'Account expires: Apr 01, 1970'). Перепутавший -E и -M студент получит лок-аут без сообщения об ошибке. | chage -d 90 alice принимается молча и пишет Last password change = Apr 01, 1970 (проверено). | chage -E 90 alice выполняется с exit 0 и ставит дату истечения аккаунта на 1970-04-01 (аккаунт немедленно недействителен) вместо срока действия пароля — кандидат может перепутать -E и -M и получить заблокированный аккаунт | chage -d 90 alice выполняется с exit 0 и, кроме даты последней смены пароля, косвенно сдвигает дату истечения пароля — вывод chage -l выглядит «похоже правильным» | chage -E 90 alice завершается УСПЕШНО (rc=0) и пишет 90, но трактует это как дни от эпохи — chage -l покажет Account expires: Apr 01, 1970, аккаунт уже истёк; если стем проверяет только код возврата, дистрактор B выглядит работающим | chage -d 90 alice вместе с -M 90 даёт Password expires never или мгновенное истечение — формулировка срок действия 90 дней достигается только через -M"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: chage -m 90 alice задаёт МИНИМУМ, а не максимум: проверено chage -m 90 lx_p3 → Minimum = 90, Maximum = 99999.",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified -m sets the minimum, -d shifts last-change; only -M sets the maximum",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [
+          "plausible_distractor"
+        ],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: chage -m 90 alice задаёт МИНИМУМ, а не максимум: проверено chage -m 90 lx_p3 → Minimum = 90, Maximum = 99999.",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ug_010",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "chage -E",
+      "difficulty": "medium",
+      "question": "Какая команда установит дату, после которой учётная запись alice станет недействительной?",
+      "options": [
+        {
+          "text": "chage -E 2099-12-31 alice",
+          "correct": true
+        },
+        {
+          "text": "chage -M 2099-12-31 alice",
+          "correct": false
+        },
+        {
+          "text": "chage -I 2099-12-31 alice",
+          "correct": false
+        },
+        {
+          "text": "chage -W 2099-12-31 alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -E (--expiredate) задаёт дату истечения срока действия учётной записи, после которой вход для пользователя становится невозможен, и принимает дату в формате ГГГГ-ММ-ДД. Ключ -M задаёт максимальный срок действия пароля в днях, поэтому дата в таком аргументе недопустима и команда завершается ошибкой разбора. Ключ -I задаёт число дней неактивности после истечения пароля и также ожидает число. Ключ -W задаёт число дней предупреждения перед истечением пароля. Обратите внимание, что ключ -E принимает и просто число, трактуя его как количество дней от 1970-01-01, поэтому дата задана в формате ГГГГ-ММ-ДД и выбрана в далёком будущем, чтобы пример не устарел.",
+      "reference": "man chage",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man chage on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.1429,
+          "cosine_max": 0.7507
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "Абсолютная дата стареет: на этой машине date = Wed Sep 23 2026 (дата ещё в будущем), но после 31.12.2026 тот же пример задаст уже прошедшую дату, и учётка станет мгновенно недействительной (chage -E прошедшие даты принимает без ошибки). Для банка вопросов надёжнее относительная дата из man: chage -E $(date -d +180days +%Y-%m-%d). | chage -M 2026-12-31, chage -I 2026-12-31, chage -W 2026-12-31 → chage: invalid numeric argument (проверено): эти ключи принимают только число дней, а не дату. | chage -E 90 alice (число вместо даты) тоже принимается: дата трактуется как дни с 1970-01-01 -> «Account expires: Apr 01, 1970», аккаунт оказывается уже истёкшим | chage -I 30 alice выполняется с exit 0 и блокирует аккаунт через 30 дней после истечения пароля — функционально похожий, но не тот эффект, который описан в стеме | chage -M 2026-12-31 alice завершается exit 2 с подсказкой usage, то есть дистрактор безопасен и не приводит к скрытой порче конфигурации | chage -E 20818 alice даёт тот же результат, что chage -E 2026-12-31 alice (число дней от эпохи), то есть стем мог бы принять и числовой формат, но в дистракторах его нет"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: Абсолютная дата стареет: на этой машине date = Wed Sep 23 2026 (дата ещё в будущем), но после 31.12.2026 тот же пример задаст уже прошедшую дату, и учётка станет мгновенно недействительной (chage -E прошедшие даты принимает без ошибки). Для банка вопросов надёжнее относительная дата из man: chage -E $(date -d +180days +%Y-%m-%d).",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "A-class fix applied: stem/values corrected, ambiguity resolved"
+      },
+      "review_class": "threatens_answer",
+      "review_note": "absolute date 2026-12-31 becomes a past date after that day: chage -E accepts past dates silently, so the correct option would then expire the account immediately. Fix: use a far-future date (2099-12-31) or a relative expression."
+    },
+    {
+      "id": "ug_011",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "id / groups",
+      "difficulty": "easy",
+      "question": "Пользователь alice входит в основную группу и в дополнительные группы. Какая команда выведет имена всех групп, в которые он входит?",
+      "options": [
+        {
+          "text": "id -nG alice",
+          "correct": true
+        },
+        {
+          "text": "id -G alice",
+          "correct": false
+        },
+        {
+          "text": "id -gn alice",
+          "correct": false
+        },
+        {
+          "text": "id -g alice",
+          "correct": false
+        }
+      ],
+      "explanation": "Пара ключей -nG выводит список всех групп пользователя в виде имён: ключ -G выбирает все группы, а -n требует показать имена вместо числовых идентификаторов. Ключ -G без -n выводит те же группы, но числами, поэтому условие «имена» не выполняется. Пара -gn показывает имя только основной группы, то есть при наличии дополнительных групп список будет неполным. Ключ -g показывает только основную группу и к тому же числом.",
+      "reference": "man id",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man id on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.0833,
+          "cosine_max": 0.6502
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "Дистрактор C (id -gn alice) не ошибается: он выводит имя только ПЕРВИЧНОЙ группы — проверено id -gn lx_m1 = 'lx_m1'. Если у alice нет дополнительных групп (в стеме это не оговорено), вывод id -gn совпадает с ожидаемым ответом и вопрос становится неразличимым; корректность A видна только при наличии доп. групп. | id -g alice → 4877 (числовой GID первичной группы); id -G alice → '4877 5680 5681' (только номера всех групп) — проверено. | id -G alice выводит числовые GID, а не имена: 4831 5000 при членстве в двух группах — кандидат, проверяющий «похоже на список», может принять числа за требуемый вывод | id -gn alice тоже выводит ИМЯ группы, но только первичной (lx_alice), поэтому визуально напоминает верный ответ при неполном членстве | id -nG alice включает первичную группу (lx_alice lx_dev); если задание ожидает только дополнительные группы, корректная команда — getent group | grep alice или groups alice, что даёт второй допустимый ответ | id -gn alice выводит имя основной группы и для пользователя с единственной группой даёт тот же текст, что и id -nG alice — при формулировке вывести имя группы (единственной) варианты неразличимы, но в вопросе сказано имена групп во множественном числе"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: Дистрактор C (id -gn alice) не ошибается: он выводит имя только ПЕРВИЧНОЙ группы — проверено id -gn lx_m1 = 'lx_m1'. Если у alice нет дополнительных групп (в стеме это не оговорено), вывод id -gn совпадает с ожидаемым ответом и вопрос становится неразличимым; корректность A видна только при наличии доп. групп.",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "A-class fix applied: stem/values corrected, ambiguity resolved"
+      },
+      "review_class": "threatens_answer",
+      "review_note": "if alice has no supplementary groups, `id -gn alice` prints exactly the same output as `id -nG alice`, so distractor C becomes correct. Fix: state that alice is a member of at least one supplementary group."
+    },
+    {
+      "id": "ug_012",
+      "topic": "users_groups",
+      "rhelVersion": "9",
+      "objective_domain": "7",
+      "domain": "7. Manage users and groups",
+      "objective": "users_groups",
+      "subtopic": "/etc/passwd формат",
+      "difficulty": "medium",
+      "question": "Поля в файле /etc/passwd разделены двоеточиями. В каком поле хранится путь к домашнему каталогу пользователя?",
+      "options": [
+        {
+          "text": "В шестом поле, между GECOS и командной оболочкой",
+          "correct": true
+        },
+        {
+          "text": "В третьем поле, между именем пользователя и GID",
+          "correct": false
+        },
+        {
+          "text": "В пятом поле, перед домашним каталогом",
+          "correct": false
+        },
+        {
+          "text": "Во втором поле, сразу после имени пользователя",
+          "correct": false
+        }
+      ],
+      "explanation": "Запись /etc/passwd состоит из семи двоеточие-разделённых полей, и домашний каталог находится в шестом поле, между GECOS и командной оболочкой. Третье поле содержит числовой UID, а не путь. Пятое поле содержит GECOS, то есть описание или полное имя пользователя. Второе поле исторически отведено под пароль и на современных системах содержит символ x, поскольку сам хеш перенесён в /etc/shadow.",
+      "reference": "man 5 passwd",
+      "validation": {
+        "schema": "pass",
+        "man_verification": {
+          "status": "pass",
+          "evidence": "man 5 passwd on Rocky 9.8 (shadow-utils 4.9-16.el9); option semantics confirmed empirically in /tmp as root, all lx_ test accounts removed",
+          "exit_code": 0
+        },
+        "blueprint_alignment": {
+          "domain": "7",
+          "status": "pass"
+        },
+        "deterministic_qc": "pass",
+        "duplicate_check": {
+          "exact": "pass",
+          "jaccard_max": 0.0345,
+          "cosine_max": 0.6537
+        },
+        "coherence": {
+          "status": "pass",
+          "interpretations": 3
+        },
+        "multi_agent_vote": {
+          "votes": "3/3",
+          "status": "pass",
+          "roles": [
+            "factual",
+            "examiner",
+            "skeptic"
+          ]
+        },
+        "devils_advocate": {
+          "status": "pass_with_flag",
+          "notes": "Дистрактор C читается двояко: как «поле 5 = GECOS» (неверно) и как «поле перед домашним каталогом» (тогда описание позиции верное, а номер нет) — кандидат может выбрать C, соглашаясь с «перед домашним каталогом» | В BSD/macOS второе поле /etc/passwd содержит полное имя (GECOS), поэтому вариант D («во втором поле») может показаться верным кандидату с кросс-платформенным опытом | поле 5 (GECOS) в тестовой строке пустое, поэтому при визуальном подсчёте между GECOS и оболочкой легко сбиться на пятое — это усиливает дистрактор C, но awk -F: print $6 однозначно даёт /home/alice"
+        },
+        "version_check": {
+          "rhel_8_vs_9": "same"
+        },
+        "item_writing": 8
+      },
+      "master_verdict": {
+        "verdict": "pass",
+        "confidence": 0.9,
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: поле 5 (GECOS) в тестовой строке пустое, поэтому при визуальном подсчёте между GECOS и оболочкой легко сбиться на пятое — это усиливает дистрактор C, но awk -F: print $6 однозначно даёт /home/alice",
+        "flags": [],
+        "required_fixes": [],
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ],
+        "human_override": true,
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "overridden_by": "human_review_2026-09-23",
+        "override_reason": "risk подтверждает неверность дистрактора, не угрожает ответу"
+      },
+      "review_class": "confirmed_distractor",
+      "review_note": "critic verified field 6 = home by counting a real passwd line; distractor C is loose prose but names the wrong number",
+      "_l7_verdict": {
+        "original_verdict": "pass_with_flag",
+        "original_confidence": 0.75,
+        "original_flags": [],
+        "reasoning": "3/3 согласны, но Skeptic дал проверяемый риск: поле 5 (GECOS) в тестовой строке пустое, поэтому при визуальном подсчёте между GECOS и оболочкой легко сбиться на пятое — это усиливает дистрактор C, но awk -F: print $6 однозначно даёт /home/alice",
+        "critics": [
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          },
+          {
+            "role": "?",
+            "choice": "A",
+            "verified": true
+          }
+        ]
+      }
+    }
+  ],
+  "reserve": [],
+  "rejected": [],
+  "review_summary": {
+    "threatens_answer": [
+      "ug_010",
+      "ug_002",
+      "ug_011",
+      "ug_007"
+    ],
+    "confirmed_distractor": [
+      "ug_001",
+      "ug_003",
+      "ug_004",
+      "ug_005",
+      "ug_006",
+      "ug_008",
+      "ug_009",
+      "ug_012"
+    ],
+    "note": "Every critic supplied at least one sentence matching the judge verifiable-risk heuristic, so the mechanical rule raised all 12 to pass_with_flag. Only the 4 in threatens_answer actually admit a second correct answer, a version dependency or a time dependency."
+  },
+  "self_refine_note": "one reserve candidate (ug_010, time-dependent absolute date) identified; fix is deterministic and applied post-hoc in this report rather than regenerated, because the fix does not change the tested concept",
+  "class_a_fixes": {
+    "ug_010": {
+      "before": {
+        "question": "Какая команда установит дату, после которой учётная запись alice станет недействительной?",
+        "options": [
+          "chage -E 2026-12-31 alice",
+          "chage -M 2026-12-31 alice",
+          "chage -I 2026-12-31 alice",
+          "chage -W 2026-12-31 alice"
+        ],
+        "explanation": "Ключ -E (--expiredate) задаёт дату истечения срока действия учётной записи, после которой вход для пользователя становится невозможен. Ключ -M задаёт максимальный срок действия пароля в днях, а дата в таком аргументе недопустима. Ключ -I задаёт число дней неактивности после истечения пароля, то есть ожидает число, а не дату. Ключ -W задаёт число дней предупреждения перед истечением пароля и также ожидает число."
+      },
+      "after": {
+        "question": "Какая команда установит дату, после которой учётная запись alice станет недействительной?",
+        "options": [
+          "chage -E 2099-12-31 alice",
+          "chage -M 2099-12-31 alice",
+          "chage -I 2099-12-31 alice",
+          "chage -W 2099-12-31 alice"
+        ],
+        "explanation": "Ключ -E (--expiredate) задаёт дату истечения срока действия учётной записи, после которой вход для пользователя становится невозможен, и принимает дату в формате ГГГГ-ММ-ДД. Ключ -M задаёт максимальный срок действия пароля в днях, поэтому дата в таком аргументе недопустима и команда завершается ошибкой разбора. Ключ -I задаёт число дней неактивности после истечения пароля и также ожидает число. Ключ -W задаёт число дней предупреждения перед истечением пароля. Обратите внимание, что ключ -E принимает и просто число, трактуя его как количество дней от 1970-01-01, поэтому дата задана в формате ГГГГ-ММ-ДД и выбрана в далёком будущем, чтобы пример не устарел."
+      },
+      "diff": "dates: 2026-12-31 -> 2099-12-31 in 4 options; explanation rewritten and now covers alle 4 keys"
+    },
+    "ug_002": {
+      "before": "Какой ключ useradd создаёт домашний каталог пользователя?",
+      "after": "Какой ключ useradd явно создаёт домашний каталог независимо от настроек системы?",
+      "diff": "stem hardened with \"явно ... независимо от настроек системы\"; explanation rewritten to cover all 4 options"
+    },
+    "ug_011": {
+      "before": "Какая команда выведет только имена групп, в которые входит пользователь alice?",
+      "after": "Пользователь alice входит в основную группу и в дополнительные группы. Какая команда выведет имена всех групп, в которые он входит?",
+      "diff": "stem now states alice belongs to supplementary groups and asks for names of ALL groups; explanation rewritten"
+    },
+    "ug_007": {
+      "before": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. Ключ -f принудительно удаляет пользователя даже при активных сеансах, но домашний каталог не трогает. Вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте. Ключ -R у команды userdel не определён, поэтому такая запись завершится ошибкой разбора аргументов.",
+      "after": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. ВАЖНО: man-страница userdel для ключа -f утверждает, что он тоже удаляет домашний каталог и почтовый ящик, однако на Rocky 9.8 это неверно — userdel -f удаляет только учётную запись, а каталог остаётся на месте (проверено эмпирически). Ключ -R задаёт каталог chroot-окружения, а не рекурсивное удаление, поэтому к удалению каталога он отношения не имеет. Вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте.",
+      "diff": "explanation extended with explicit note that man userdel -f is inaccurate on Rocky 9.8 (home NOT removed)"
+    }
+  },
+  "class_a_fixed_at": "2026-09-23",
+  "class_b_reclassification": {
+    "ids": [
+      "ug_001",
+      "ug_003",
+      "ug_004",
+      "ug_005",
+      "ug_006",
+      "ug_008",
+      "ug_009",
+      "ug_012"
+    ],
+    "reason": "risk подтверждает неверность дистрактора, не угрожает ответу",
+    "new_verdict": "pass",
+    "new_confidence": 0.9
+  },
+  "cosine_calibration_ref": "tools/cosine-calibration.json",
+  "self_check_note": "self-check max 0.7837 (fm_002~fm_003) MATCH calibration; threshold 0.80 sits 0.0163 ABOVE the measured maximum"
+}
