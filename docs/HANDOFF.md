@@ -10,13 +10,13 @@
 | Репо | `C:\Users\Alexey Udotov\LinuxExam` |
 | GitHub | `github.com/ialmozt25/LinuxExam` (публичный) |
 | Прод | https://ialmozt25.github.io/LinuxExam/ |
-| HEAD | `fe49e10` (`fe49e104b2575b74ec3e4854c546222ab2344cbf`), `docs: log topics status fix (session 12)`, 2026-09-23 22:12:32 +1000 |
+| HEAD | `cd8e348` (`cd8e34825e77a41cc267370f9fb8c007da07f2ff`), `content: merge networking batch (10 questions, 66 -> 76) + HALADYNA + votes`, 2026-09-24 |
 | Ветка / upstream | `main` / `origin/main`, ahead/behind `0/0` |
-| История | 86 коммитов |
-| Банк | 66 вопросов, 66 уникальных id, 0 невалидных, 54 сабтопика |
-| Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `essential_tools` 7 |
-| Домены (objective_domain) | 1:13, 2:**0**, 3:5, 4:2, 5:4, 6:3, 7:15, 8:1, 9:23 (все 66 записей имеют валидный домен) |
-| topics.ts | 6 available / 8 planned; у всех planned — 0 вопросов |
+| История | 95 коммитов |
+| Банк | 76 вопросов, 76 уникальных id, 0 невалидных, 62 сабтопика |
+| Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `essential_tools` 7 |
+| Домены (objective_domain) | 1:13, 2:**0**, 3:5, 4:2, 5:4, 6:3, 7:25, 8:1, 9:23 (все 76 записей имеют валидный домен) |
+| topics.ts | 7 available / 7 planned; у всех planned — 0 вопросов |
 | Bundle gzip | `dist/assets/index-CcJwThrt.js` = **138.77 kB** (raw 456.38 kB), CSS 2.70 kB; watch-порог **>137 kB → стоп** |
 | Стек | React `^18.3.1`, Vite `^5.4.2`, TypeScript `^5.5.3`, Zustand `^5.0.15`, Tailwind `^3.4.1`, motion `^13.4.0`, @telegram-apps/sdk `^3.11.8`, lucide-react `^0.446.0`; Node `v24.13.0`, npm `11.6.2` |
 | Дата снапшота | 2026-09-24 |
@@ -43,9 +43,10 @@
 
 ## Состояние на 2026-09-24
 
-- HEAD `fe49e10`, ветка `main`, upstream `origin/main`, ahead/behind **0/0**, 86 коммитов.
-- Банк **66** вопросов: `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `essential_tools` 7. Уникальных id 66, невалидных 0.
-- `topics.ts`: 6 available / 8 planned; у всех planned тем — 0 вопросов в банке.
+- HEAD `cd8e348`, ветка `main`, upstream `origin/main`, ahead/behind **2/0** (push — в конце сессии), 95 коммитов.
+- Банк **76** вопросов: `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `essential_tools` 7. Уникальных id 76, невалидных 0, уникальных сабтопиков 62.
+- `topics.ts`: 7 available / 7 planned; у всех planned тем — 0 вопросов в банке.
+- `subagent_calls` этой сессии: 0 (сброс после merge батча 1; финальное значение — в HANDOFF в конце сессии).
 - Bundle gzip **138.77 kB** при watch-пороге `>137 kB → стоп` — **красный флаг**.
 - Уязвимости (два среза): Dependabot 52 (1 critical, 23 high, 24 moderate, 4 low); npm audit 32 (1 critical, 20 high, 8 moderate, 3 low, 564 зависимости).
 - Cosine: `background_max` **0.8085**, threshold **0.80**, margin **−0.0085**, class inversion на русском; `threshold_warning` требует L5c-ревью перед приёмкой батча.
@@ -57,7 +58,7 @@
 
 ### P0 (блокеры)
 
-- Наполнение банка до 160+ (8 planned-тем без вопросов).
+- Наполнение банка до 160+ (7 planned-тем без вопросов).
 - Токен `@linux_exam_bot` отозван — перевыпустить.
 - Option shuffle: все 66 ответов на позиции A на уровне данных (рендер перемешивает через `shuffleOptions` + seed, но банк вырожден для аудита).
 - Bundle gzip 138.77 kB > 137 kB watch — резать (lazy-load `questions.json`).
@@ -85,6 +86,7 @@
 
 ## Что закрыто (не переделывать)
 
+- Merge networking: банк 66 → **76**, тема `networking` закрыта (10 вопросов, домен 7), commit `cd8e348`; пайплайн L1..L5, Haladyna min 9 / max 10, L4.5 9/10 unanimous 5/5 (net_003 — правка объяснения), Jaccard max 0.1818, cosine SKIPPED.
 - Merge security: банк 54 → **66**, тема `security` закрыта (12 вопросов, домен 9).
 - `fix(topics): enable essential_tools and users_groups` — обе темы переведены `planned → available` (до этого UI показывал 47 из 66).
 - MAS-аудит 66 вопросов выполнен: `keep 61`, `minor_fix 3`, `major_fix 2`, `retire 0`; `disagreement 2`, `insufficient_data 0`, `critical 0`; `positional_bias` — `all_A=true`, `match 65/66`.
@@ -124,7 +126,7 @@
 
 | Файл | Назначение |
 |---|---|
-| `src/data/questions.json` | банк, 66 вопросов (98 233 байта); бэкап `questions.json.bak` (4 522 байта) |
+| `src/data/questions.json` | банк, 76 вопросов (113 873 байта); бэкап `questions.json.bak` (4 522 байта) |
 | `src/data/topics.ts` | 14 тем, `TOPICS`/`AVAILABLE_TOPICS`/`PLANNED_TOPICS`; источник валидных topic-ключей для `qc.cjs` |
 | `src/store/quizStore.ts` | Zustand-стор: 3 потока (regular/review/exam), `FREE_QUESTION_LIMIT = 5`, persist |
 | `src/domain/quizService.ts` | `seedFromId`, `shuffleOptions`, `calculateProgress` (чистые функции) |
@@ -138,7 +140,7 @@
 | `docs/STATE-SNAPSHOT-2026-09-24.md` | полный снапшот состояния, 14 рисков |
 | `docs/HANDOFF-2026-09-23.md` | разбор MAS-аудита (findings, ограничение `all_A`) |
 | `drafts/pending-*.json` | артефакты партий (схемы разошлись: v2.0 / v4.4 / v4.5) |
-| `drafts/_votes/*.json` | голоса 5 ролей по пилоту `essential_tools` |
+| `drafts/_votes/*.json` | голоса 5 ролей (`essential_tools`, `networking` — 56 файлов) |
 | `drafts/audit-mas-2026-09-23.json` | результат MAS-аудита: 66 findings + `counts` + `positional_bias` |
 
 ## Долги по докам
