@@ -33,7 +33,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'planned', Icon: FileText },
   { key: 'shell_scripts', title: 'Shell-скрипты',
     description: 'if, loops, args, command substitution',
-    status: 'planned', Icon: Code },
+    status: 'available', Icon: Code },
   { key: 'running_systems', title: 'Управление системами',
     description: 'boot targets, services, journals',
     status: 'planned', Icon: Activity },

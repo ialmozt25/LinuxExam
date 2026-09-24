@@ -1,0 +1,362 @@
+{
+  "batch": "shell_scripts-1",
+  "date": "2026-09-24",
+  "pipeline": "v2.0",
+  "topic": "shell_scripts",
+  "topic_status_at_generation": "planned",
+  "objective_domain": "2",
+  "subtopics_used": [
+    "if/then/else и test [ ]",
+    "циклы for/while",
+    "позиционные аргументы $1.. и $@",
+    "подстановка $() и результат команды",
+    "коды возврата $? и exit",
+    "функции и локальные переменные",
+    "чтение stdin: read и перенаправления"
+  ],
+  "questions": [
+    {
+      "id": "sh_001",
+      "topic": "shell_scripts",
+      "difficulty": "easy",
+      "objective_domain": "2",
+      "subtopic": "if/then/else и test [ ]",
+      "question": "Скрипту перед чтением нужно убедиться, что путь /etc/app.conf указывает именно на обычный файл, а не на каталог или устройство. Какое условие test это проверит?",
+      "options": [
+        {
+          "text": "test -f /etc/app.conf",
+          "correct": true
+        },
+        {
+          "text": "test -e /etc/app.conf",
+          "correct": false
+        },
+        {
+          "text": "test -d /etc/app.conf",
+          "correct": false
+        },
+        {
+          "text": "test -r /etc/app.conf",
+          "correct": false
+        }
+      ],
+      "explanation": "test -f истинно только для обычного файла. Оператор -e проверяет лишь существование пути и истинен также для каталогов и устройств. Оператор -d истинен только для каталогов. Оператор -r проверяет право на чтение и ничего не говорит о типе объекта."
+    },
+    {
+      "id": "sh_002",
+      "topic": "shell_scripts",
+      "difficulty": "easy",
+      "objective_domain": "2",
+      "subtopic": "if/then/else и test [ ]",
+      "question": "Скрипту нужно вывести ok, если каталог /var/log существует, и fail в противном случае. Какая конструкция это сделает?",
+      "options": [
+        {
+          "text": "if test -d /var/log; then echo ok; else echo fail; fi",
+          "correct": true
+        },
+        {
+          "text": "if test -d /var/log; then echo fail; else echo ok; fi",
+          "correct": false
+        },
+        {
+          "text": "if test -f /var/log; then echo ok; else echo fail; fi",
+          "correct": false
+        },
+        {
+          "text": "if test -d /var/log; then echo ok; else echo ok; fi",
+          "correct": false
+        }
+      ],
+      "explanation": "Ветвь then срабатывает при истинном условии, ветвь else — при ложном, поэтому проверка каталога через -d с выводом ok в then и fail в else решает задачу. Перестановка строк местами печатает ok и fail наоборот. Оператор -f для каталога ложен, поэтому такая конструкция всегда уходит в else. Последний вариант печатает ok в обеих ветвях и fail не выводит никогда."
+    },
+    {
+      "id": "sh_003",
+      "topic": "shell_scripts",
+      "difficulty": "medium",
+      "objective_domain": "2",
+      "subtopic": "циклы for/while",
+      "question": "Скрипту нужно по очереди выполнить команду backup для каждого каталога из переменной dirs. Какая конструкция переберёт их?",
+      "options": [
+        {
+          "text": "for d in $dirs; do backup $d; done",
+          "correct": true
+        },
+        {
+          "text": "for d in dirs; do backup $d; done",
+          "correct": false
+        },
+        {
+          "text": "while d in $dirs; do backup $d; done",
+          "correct": false
+        },
+        {
+          "text": "for d in $dirs; do backup; done",
+          "correct": false
+        }
+      ],
+      "explanation": "for перебирает слова, полученные после in, поэтому подстановка $dirs передаёт содержимое переменной, а тело цикла между do и done выполняется по разу на слово. Запись без знака доллара перебирает одно слово dirs, то есть имя переменной, а не её значение. Ключевое слово while не образует пары «in … do» для списка слов: строка d in $dirs воспринимается как вызов команды d, которой в системе нет. В последнем варианте команда backup вызывается вообще без аргумента, поэтому каталоги в неё не передаются."
+    },
+    {
+      "id": "sh_004",
+      "topic": "shell_scripts",
+      "difficulty": "medium",
+      "objective_domain": "2",
+      "subtopic": "циклы for/while",
+      "question": "Скрипту нужно обработать файл list.txt строка за строкой, пока в нём остаются непрочитанные строки. Какая конструкция это делает?",
+      "options": [
+        {
+          "text": "while read line; do process $line; done < list.txt",
+          "correct": true
+        },
+        {
+          "text": "while read line; do process $line; done > list.txt",
+          "correct": false
+        },
+        {
+          "text": "until read line; do process $line; done < list.txt",
+          "correct": false
+        },
+        {
+          "text": "for line in list.txt; do process $line; done",
+          "correct": false
+        }
+      ],
+      "explanation": "Конструкция while read line получает очередную строку со стандартного входа, а перенаправление < list.txt подключает к нему файл; цикл завершается, когда read доходит до конца файла. Знак > вместо < перенаправляет стандартный выход и перезаписывает исходный файл. Конструкция until выполняет тело, пока условие ложно, поэтому после успешного первого read цикл сразу останавливается. Последний вариант перебирает одно слово list.txt, то есть имя файла, а не его строки."
+    },
+    {
+      "id": "sh_005",
+      "topic": "shell_scripts",
+      "difficulty": "easy",
+      "objective_domain": "2",
+      "subtopic": "позиционные аргументы $1.. и $@",
+      "question": "Скрипт запущен как ./run.sh alpha beta gamma. Какая подстановка содержит третий аргумент, то есть gamma?",
+      "options": [
+        {
+          "text": "\"$3\"",
+          "correct": true
+        },
+        {
+          "text": "\"$2\"",
+          "correct": false
+        },
+        {
+          "text": "\"$0\"",
+          "correct": false
+        },
+        {
+          "text": "\"$#\"",
+          "correct": false
+        }
+      ],
+      "explanation": "Позиционные параметры нумеруются с единицы, поэтому третий аргумент доступен как $3. Подстановка $2 содержит второй аргумент beta. Подстановка $0 содержит имя самого скрипта, то есть ./run.sh. Подстановка $# содержит количество переданных аргументов, то есть число 3."
+    },
+    {
+      "id": "sh_006",
+      "topic": "shell_scripts",
+      "difficulty": "easy",
+      "objective_domain": "2",
+      "subtopic": "позиционные аргументы $1.. и $@",
+      "question": "Скрипту нужно убедиться, что при запуске передали ровно два аргумента, и иначе завершиться с ошибкой. Какое условие проверяет количество аргументов?",
+      "options": [
+        {
+          "text": "test $# -eq 2",
+          "correct": true
+        },
+        {
+          "text": "test $# -eq 0",
+          "correct": false
+        },
+        {
+          "text": "test $? -eq 2",
+          "correct": false
+        },
+        {
+          "text": "test $# -ge 2",
+          "correct": false
+        }
+      ],
+      "explanation": "Количество позиционных параметров хранится в $#, поэтому сравнение -eq 2 истинно ровно при двух аргументах. Сравнение с нулём истинно при запуске без аргументов. Переменная $? хранит код возврата предыдущей команды, а не число аргументов. Оператор -ge 2 истинен и при трёх, и при большем числе аргументов, поэтому условие «ровно два» он не обеспечивает."
+    },
+    {
+      "id": "sh_007",
+      "topic": "shell_scripts",
+      "difficulty": "medium",
+      "objective_domain": "2",
+      "subtopic": "подстановка $() и результат команды",
+      "question": "Скрипту нужно записать в переменную count только число строк файла list.txt, без имени файла. Какая конструкция это сделает?",
+      "options": [
+        {
+          "text": "count=$(wc -l < list.txt)",
+          "correct": true
+        },
+        {
+          "text": "count=$(wc -l list.txt)",
+          "correct": false
+        },
+        {
+          "text": "count=`wc -l list.txt`",
+          "correct": false
+        },
+        {
+          "text": "count=$wc -l list.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Подстановка $() заменяет команду её стандартным выводом, а знак < подаёт файл на вход wc, поэтому в переменную попадёт одно число. Запись wc -l list.txt без перенаправления добавляет к числу имя файла, и в переменной окажется строка вида «3 list.txt». Обратные кавычки дают тот же результат, что и $(), поэтому имя файла сохранится и там. В последнем варианте переменной присваивается пустое значение, а слово -l воспринимается как имя команды."
+    },
+    {
+      "id": "sh_008",
+      "topic": "shell_scripts",
+      "difficulty": "medium",
+      "objective_domain": "2",
+      "subtopic": "коды возврата $? и exit",
+      "question": "В скрипте после команды cmd нужно при её неудаче прервать работу с тем же кодом возврата, а при успехе продолжить выполнение. Какая конструкция это сделает?",
+      "options": [
+        {
+          "text": "cmd || exit $?",
+          "correct": true
+        },
+        {
+          "text": "cmd && exit $?",
+          "correct": false
+        },
+        {
+          "text": "cmd || exit 0",
+          "correct": false
+        },
+        {
+          "text": "cmd && exit 0",
+          "correct": false
+        }
+      ],
+      "explanation": "Оператор || выполняет правую часть только при ненулевом коде возврата, а $? в этот момент содержит код неудачной команды, поэтому скрипт завершается тем же кодом. Оператор && срабатывает при успехе, когда $? равен нулю, поэтому исход проблемы не сохраняется. Вариант с exit 0 при неудаче подменяет код ошибки успешным. Последний вариант вообще не реагирует на неудачу команды и выходит из скрипта только после успешного выполнения."
+    },
+    {
+      "id": "sh_009",
+      "topic": "shell_scripts",
+      "difficulty": "medium",
+      "objective_domain": "2",
+      "subtopic": "функции и локальные переменные",
+      "question": "Внутри функции нужно создать переменную count так, чтобы одноимённая переменная за пределами функции не изменилась. Какая строка это обеспечит?",
+      "options": [
+        {
+          "text": "local count=0; echo $count",
+          "correct": true
+        },
+        {
+          "text": "export count=0; echo $count",
+          "correct": false
+        },
+        {
+          "text": "count=0; count=1; echo $count",
+          "correct": false
+        },
+        {
+          "text": "declare -g count=0; echo $count",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключевое слово local создаёт переменную, область видимости которой ограничена функцией, поэтому внешняя переменная с тем же именем не затрагивается. export лишь помечает переменную для передачи в дочерние процессы и область видимости не сужает. Обычное присваивание создаёт глобальную переменную и меняет внешнюю. Ключ -g у declare явно требует глобальную переменную, то есть результат обратный нужному."
+    },
+    {
+      "id": "sh_010",
+      "topic": "shell_scripts",
+      "difficulty": "easy",
+      "objective_domain": "2",
+      "subtopic": "чтение stdin: read и перенаправления",
+      "question": "Скрипту нужно прочитать введённое пользователем имя в переменную user, показав приглашение. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "read -p \"Имя: \" user",
+          "correct": true
+        },
+        {
+          "text": "read -p \"Имя: \" name",
+          "correct": false
+        },
+        {
+          "text": "read -p \"Имя: \" $user",
+          "correct": false
+        },
+        {
+          "text": "echo -p \"Имя: \" user",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -p задаёт приглашение, а следующий за ним обычный аргумент — имя переменной, поэтому строка читает ответ в user и показывает приглашение. Вариант с именем name читает ответ в другую переменную, и user остаётся пустой. Знак доллара заставляет оболочку подставить значение переменной user вместо её имени. Команда echo ничего не читает: она только печатает свои аргументы."
+    }
+  ],
+  "meta": {
+    "generated": 10,
+    "attempted": 10,
+    "rejected": 0,
+    "voted_unanimous": 10,
+    "haladyna_min": 9,
+    "haladyna_max": 10,
+    "length_ratio_max": 1.1923,
+    "jaccard_max": 0.1429,
+    "cosine_max": null,
+    "cosine_status": "SKIPPED_NO_MODEL_CACHE",
+    "subagent_calls": 60,
+    "option_ratio_max": 1.1923,
+    "option_ratio_note": "Option-only ratio (max/min длины текста опций). Максимум 1.1923 (sh_009) — ниже порога 1.30.",
+    "option_ratio_table": [
+      "sh_001=1.0000",
+      "sh_002=1.0392",
+      "sh_003=1.1613",
+      "sh_004=1.1364",
+      "sh_005=1.0000",
+      "sh_006=1.0000",
+      "sh_007=1.1905",
+      "sh_008=1.0769",
+      "sh_009=1.1923",
+      "sh_010=1.0500"
+    ],
+    "man_verified": 10,
+    "man_distro": "Rocky Linux release 9.8 (Blue Onyx), bash 5.1.8(1)-release (WSL)",
+    "jaccard_max_pair": "sh_010~sec_002",
+    "jaccard_intra_max": 0.1379,
+    "jaccard_intra_pair": "sh_002~sh_007",
+    "jaccard_options_max": 0.7778,
+    "duplicates_rejected": 0,
+    "votes_total_expected": 50,
+    "votes_received": 50,
+    "subagent_calls_note": "60 вызовов: 10 coherence (L4) + 50 голосов L4.5 (5 ролей × 10 вопросов), per-question. В лимит сессии 130 укладывается; на батч 2 ушло ровно 60.",
+    "haladyna_status": "PASSED (10/10 ≥ 8/10; min 9 — sh_007 #8)",
+    "haladyna_checklist": "docs/HALADYNA.md",
+    "qc_passed": true,
+    "rejected_questions": 0,
+    "question_replaced": null,
+    "status": "CLOSED",
+    "domain": "2 (Create simple shell scripts) — домен закрыт впервые: до этого батча в банке было 0 вопросов домена 2."
+  },
+  "pipeline_status": {
+    "schema": "pass",
+    "man_verification": "PASSED",
+    "man_verification_note": "L2 выполнен капитаном в WSL Rocky-9 (Rocky Linux release 9.8 Blue Onyx), bash 5.1.8(1)-release. Прогоном проверено: операторы test -f/-e/-d/-r на файле и каталоге (0/1 в ожидаемых комбинациях); ветви if/then/else дают ok/fail/fail/ok для A/B/C/D; for d in $dirs — 3 итерации, for d in dirs — 1, while d in $dirs — синтаксически валидный вызов несуществующей команды d (exit 0 у bash -n), for без разделителей — syntax error; while read ... done < file — 3 итерации, until — 0, for по имени файла — 1, перенаправление > обнуляет файл; позиционные параметры при ./run.sh alpha beta gamma: $3=gamma, $2=beta, $0=путь, $#=3; test $# -eq 2 истинно ровно при двух аргументах, -ge 2 истинно и при трёх; wc -l < file даёт «3», wc -l file и обратные кавычки дают «3 <путь>», count=$wc -l file даёт exit 127; cmd || exit $? завершает скрипт кодом 1 при неудаче и продолжает при успехе, cmd && exit $? завершает при успехе; область видимости: local → внешняя OUTER, export → 0, обычное присваивание → 1, declare -g → 0; read -p «…» user читает в user, вариант с name читает в name. Найдено и исправлено на L2: в sh_010 дистрактор read user -p «…» давал «not a valid identifier» (заменён на read -p «…» name), в sh_008 стем допускал случайное совпадение с cmd && exit $? (стем усилен требованием «при успехе продолжить выполнение»).",
+    "blueprint_alignment": "pass",
+    "blueprint_alignment_note": "Все 10 вопросов используют 7 сабтопиков shell_scripts из docs/BLUEPRINT-300.md:113 (if/then/else и test, циклы for/while, позиционные аргументы, подстановка $(), коды возврата $? и exit, функции и локальные переменные, чтение stdin). objective_domain=2 у всех — домен 2 закрыт.",
+    "deterministic_qc": "PASSED",
+    "deterministic_qc_note": "tools/qc.cjs на временной изолированной копии дерева с объединённым банком (76 + 10 = 86): Fails 0, Warns 2 (fm_002, fm_003 — существующие в банке). Первый прогон дал FAIL sh_003 (jaccard между опциями 1.00: токенайзер qc.cjs срезает «;», из-за чего вариант с пропущенными разделителями совпал по биграммам с ключом) — дистрактор заменён, прогон повторён.",
+    "duplicate_detection": "PARTIAL",
+    "duplicate_detection_note": "Bigram Jaccard (export tools/cosine.cjs) по стемам: max против банка 0.1429 (sh_010~sec_002), intra-batch 0.1379 (sh_002~sh_007), между опциями внутри вопроса 0.7778 (sh_004) — все ниже порога 0.9. Cosine SKIPPED: кэш Xenova/all-MiniLM-L6-v2 отсутствует.",
+    "coherence": "PASSED",
+    "coherence_note": "Все 10 прошли L4 (3 интерпретации каждая, ambiguous=false, verdict=pass), файлы drafts/_coherence/sh_00N.json. Ни в одном случае альтернативное чтение стема не делает верным дистрактор.",
+    "mas_vote": "PASSED (10/10 unanimous 5/5)",
+    "mas_vote_note": "Метод: 5 ролей × 10 вопросов = 50 голосов, per-question, без батчинга. Все 50 — PASS; ни одного REJECT/ABSTAIN. Роли: sysadmin_10y, rhcsa_instructor, ex200_examiner, beginner, skeptic.",
+    "item_writing": "PASSED (10/10 ≥ 8/10)",
+    "item_writing_note": "Haladyna по docs/HALADYNA.md, 10 критериев на вопрос. Баллы: 10/10 у девяти; 9/10 у sh_007 (критерий 8: слово «только» в стеме по букве чеклиста). min 9, max 10, порог ≥ 8 выполнен у всех. length ratio max 1.1923 ≤ 1.30."
+  },
+  "open_verification_points": [
+    "sh_001: ПОДТВЕРЖДЕНО в Rocky 9.8 — test -f даёт 0 для обычного файла и 1 для каталога; -e даёт 0 для обоих; -d даёт 1 для файла и 0 для каталога; -r даёт 0 для обоих (право чтения, не тип).",
+    "sh_002: ПОДТВЕРЖДЕНО — четыре конструкции печатают ok/fail/fail/ok; test -d /var/log истинно.",
+    "sh_003: ПОДТВЕРЖДЕНО — for d in $dirs даёт 3 итерации, for d in dirs — 1; bash -n подтверждает, что while d in $dirs синтаксически валиден (вызов команды d), а for без разделителей — syntax error.",
+    "sh_004: ПОДТВЕРЖДЕНО на файле из 3 строк — while read ... done < file даёт 3 итерации, until — 0, for по имени файла — 1, перенаправление > обнуляет файл. Замечание ревьюера L4 (не влияет на ключ): идиома без read -r/IFS= искажает обратные слэши и ведущие пробелы.",
+    "sh_005: ПОДТВЕРЖДЕНО — при ./run.sh alpha beta gamma: $3=gamma, $2=beta, $0=путь к скрипту, $#=3.",
+    "sh_006: ПОДТВЕРЖДЕНО — test $# -eq 2: 0 при двух аргументах, 1 при трёх; -eq 0 истинно при нуле; -ge 2 истинно при трёх; $? хранит код возврата, а не число аргументов.",
+    "sh_007: ПОДТВЕРЖДЕНО — wc -l < file возвращает только число (3), wc -l file и обратные кавычки возвращают «3 <путь>», count=$wc -l file завершается кодом 127.",
+    "sh_008: ПОДТВЕРЖДЕНО — cmd || exit $? при неудаче завершает скрипт тем же кодом (1) и продолжает при успехе; cmd && exit $? завершает работу при успехе; exit 0 подменяет код.",
+    "sh_009: ПОДТВЕРЖДЕНО — после функции с local внешняя переменная осталась OUTER; export и обычное присваивание изменили внешнюю на 0 и 1; declare -g изменил внешнюю на 0. Замечание ревьюера (не дефект): local — расширение bash/dash, не POSIX sh.",
+    "sh_010: ПОДТВЕРЖДЕНО — read -p «Имя: » user читает ответ в user; вариант с name читает в name, оставляя user прежней; знак доллара подставляет значение; echo ничего не читает."
+  ]
+}
