@@ -38,6 +38,7 @@ const LOADERS: Record<string, () => Promise<JsonModule>> = {
   file_permissions: () => import('./file_permissions.json'),
   networking: () => import('./networking.json'),
   process_management: () => import('./process_management.json'),
+  running_systems: () => import('./running_systems.json'),
   security: () => import('./security.json'),
   shell_scripts: () => import('./shell_scripts.json'),
   text_files: () => import('./text_files.json'),
