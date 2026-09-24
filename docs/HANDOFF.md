@@ -10,14 +10,14 @@
 | Репо | `C:\Users\Alexey Udotov\LinuxExam` |
 | GitHub | `github.com/ialmozt25/LinuxExam` (публичный) |
 | Прод | https://ialmozt25.github.io/LinuxExam/ |
-| HEAD | `dd4434d` (`dd4434d73017520c4a02dec4034075c66b6a4dcb`), `content: merge text_files batch (10 questions, 86 -> 96)`, 2026-09-24 |
+| HEAD | `dd4434d` — база этой работы; сверху **этот коммит** (`perf: lazy-load questions by topic`, entry 150.21 → 125.22 kB gzip), 2026-09-24 |
 | Ветка / upstream | `main` / `origin/main`, ahead/behind `0/0` |
-| История | 98 коммитов |
+| История | 100 коммитов |
 | Банк | 96 вопросов, 96 уникальных id, 0 невалидных, 76 сабтопиков |
 | Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `essential_tools` 7 |
 | Домены (objective_domain) | 1:23, 2:**10**, 3:5, 4:2, 5:4, 6:3, 7:25, 8:1, 9:23 (все 96 записей имеют валидный домен) |
 | topics.ts | 9 available / 5 planned; у всех planned — 0 вопросов |
-| Bundle gzip | `dist/assets/index-C-cLnBaH.js` = **150.21 kB** (raw 469.43 kB), CSS 2.76 kB; watch-порог **>137 kB → превышен на 13.21 kB** |
+| Bundle gzip | entry `dist/assets/index-*.js` = **125.22 kB** (raw 390.37 kB), CSS 2.76 kB; банк — 10 ленивых чанков (9 тем + `_order`, **31.57 kB** gzip); суммарный первый запрос **156.79 kB** gzip; watch-порог **>137 kB**: entry проходит, суммарный — нет |
 | Стек | React `^18.3.1`, Vite `^5.4.2`, TypeScript `^5.5.3`, Zustand `^5.0.15`, Tailwind `^3.4.1`, motion `^13.4.0`, @telegram-apps/sdk `^3.11.8`, lucide-react `^0.446.0`; Node `v24.13.0`, npm `11.6.2` |
 | Дата снапшота | 2026-09-24 |
 | Дата сборки HANDOFF | 2026-09-24 |
@@ -43,11 +43,11 @@
 
 ## Состояние на 2026-09-24
 
-- HEAD `dd4434d`, ветка `main`, upstream `origin/main`, ahead/behind **4/0** (push — в конце сессии), 98 коммитов.
+- HEAD `dd4434d` + этот коммит (`perf: lazy-load questions by topic`), ветка `main`, upstream `origin/main`, ahead/behind **1/0** (push — по одобрению), 100 коммитов.
 - Банк **96** вопросов: `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `essential_tools` 7. Уникальных id 96, невалидных 0, уникальных сабтопиков 76.
 - `topics.ts`: 9 available / 5 planned; у всех planned тем — 0 вопросов в банке.
-- `subagent_calls` этой сессии: **123** из лимита 130 (батч 2 `shell_scripts` — 60, батч 3 `text_files` — 63).
-- Bundle gzip **150.21 kB** при watch-пороге `>137 kB → стоп` — **красный флаг** (рост за сессию +11.44 kB на +30 вопросах).
+- `subagent_calls` этой сессии: **0** (задача решена без субагентов; предыдущая конвейерная сессия — 123 из лимита 130).
+- Bundle: entry-чанк **125.22 kB** gzip (до этого 150.21 kB одним чанком), банк вынесен в 9 ленивых чанков + `_order` (31.57 kB gzip). Суммарный первый запрос **156.79 kB** — выше watch 137 kB. Цель «initial ≤ 60 kB» **НЕ достигнута**: замер manualChunks-диагностикой даёт остаток React 45.5 + motion 44.0 + `@telegram-apps/sdk` 16.6 + экраны 11.8 + misc 3.7 + lucide 2.6 + zustand 1.6 kB gzip.
 - Уязвимости (два среза): Dependabot 52 (1 critical, 23 high, 24 moderate, 4 low); npm audit 32 (1 critical, 20 high, 8 moderate, 3 low, 564 зависимости).
 - Cosine: `background_max` **0.8085**, threshold **0.80**, margin **−0.0085**, class inversion на русском; `threshold_warning` требует L5c-ревью перед приёмкой батча.
 - `tools/qc.cjs`: length ratio — только `WARN > 2.5`, тогда как пилот v2.0 отбраковывал при `> 1.30` (осознанное расхождение, не баг).
@@ -61,7 +61,7 @@
 - Наполнение банка до 160+ (5 planned-тем без вопросов).
 - Токен `@linux_exam_bot` отозван — перевыпустить.
 - Option shuffle: все 96 ответов на позиции A на уровне данных (рендер перемешивает через `shuffleOptions` + seed, но банк вырожден для аудита).
-- Bundle gzip 150.21 kB > 137 kB watch — резать (lazy-load `questions.json`).
+- Bundle: вопросы вынесены в ленивые чанки (entry 150.21 → 125.22 kB gzip), но цель ≤60 kB требует другого рычага — `motion` (44.0 kB gzip) и React (45.5) дают ~72% остатка; далее `@telegram-apps/sdk` (16.6) и ленивые экраны (11.8).
 - `npm audit`: 1 critical + 20 high — обновить deps.
 
 ### P1 (качество)
@@ -86,6 +86,7 @@
 
 ## Что закрыто (не переделывать)
 
+- Lazy-load банка: монолит `src/data/questions.json` (143 093 б) разбит на `src/data/questions/{topic}.json` (9 файлов) + `_order.json` (порядок id) + лоадер `index.ts` (dynamic import → отдельный чанк на тему); store грузит банк асинхронно (`loadQuestions(): Promise<void>`), у UI появился loading-gate; tsc 0 ошибок, 128 unit + 18 e2e тестов зелёные; entry 150.21 → 125.22 kB gzip. В e2e пришлось снять гонку: `color-regression` проверял `isVisible()` до появления кнопки темы (loading-gate) и пропускал клик — заменено на ожидание `waitFor`. Грабли: пока монолит лежал рядом, Vite резолвил `@/data/questions` в `questions.json` раньше `questions/index.ts`, и тесты падали с `loadAll is not a function` — коллизию снимает удаление монолита (tsc при этом уже был зелёным).
 - Merge text_files: банк 86 → **96**, тема `text_files` закрыта (10 вопросов, домен 1), commit `dd4434d`; L4 — 3 вопроса вернулись с fail и перепроверены после правок стемов (tf_003, tf_006, tf_007); L4.5 — 49 PASS + 1 опровергнутый REJECT (tf_001); Haladyna 10/10 у всех, Jaccard max 0.2250.
 - Merge shell_scripts: банк 76 → **86**, домен 2 закрыт впервые (10 вопросов, `sh_001..sh_010`), commit `f54a3dc`; L4.5 10/10 unanimous, Haladyna min 9 / max 10, Jaccard max 0.1429; на L2 исправлены 2 дефекта (нерабочий дистрактор sh_010, лазейка в стеме sh_008).
 - Merge networking: банк 66 → **76**, тема `networking` закрыта (10 вопросов, домен 7), commit `cd8e348`; пайплайн L1..L5, Haladyna min 9 / max 10, L4.5 9/10 unanimous 5/5 (net_003 — правка объяснения), Jaccard max 0.1818, cosine SKIPPED.
@@ -128,7 +129,7 @@
 
 | Файл | Назначение |
 |---|---|
-| `src/data/questions.json` | банк, 96 вопросов (143 093 байта); бэкап `questions.json.bak` (4 522 байта) |
+| `src/data/questions/` | банк 96 вопросов: 9 файлов по темам + `_order.json` (порядок id) + ленивый лоадер `index.ts`; монолит `questions.json` удалён (gitignored бэкап `questions.json.bak`, 4 522 б) |
 | `src/data/topics.ts` | 14 тем, `TOPICS`/`AVAILABLE_TOPICS`/`PLANNED_TOPICS`; источник валидных topic-ключей для `qc.cjs` |
 | `src/store/quizStore.ts` | Zustand-стор: 3 потока (regular/review/exam), `FREE_QUESTION_LIMIT = 5`, persist |
 | `src/domain/quizService.ts` | `seedFromId`, `shuffleOptions`, `calculateProgress` (чистые функции) |

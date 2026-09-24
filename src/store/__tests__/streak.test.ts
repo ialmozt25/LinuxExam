@@ -1,9 +1,15 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach, afterEach, vi } from 'vitest';
 import { useQuizStore } from '@/store/quizStore';
 
 const reset = (streak: number, lastActiveDate: string | null, totalXp: number) => {
   useQuizStore.setState({ streak, lastActiveDate, totalXp });
 };
+
+// The bank is loaded once, outside the fake timers installed per test: chunk
+// imports resolve through microtasks, which fake timers can stall.
+beforeAll(async () => {
+  await useQuizStore.getState().loadQuestions();
+});
 
 describe('recordActivity: streak + XP', () => {
   beforeEach(() => {
@@ -67,7 +73,6 @@ describe('recordActivity: streak + XP', () => {
     vi.setSystemTime(new Date('2026-03-10T12:00:00.000Z'));
     reset(0, null, 0);
 
-    useQuizStore.getState().loadQuestions();
     useQuizStore.setState({ currentIndex: 0 });
     const first = useQuizStore.getState().questions[0];
     useQuizStore.getState().answerQuestion(first.id, 0);

@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { shuffleOptions, seedFromId } from '../quizService';
-import questionsData from '@/data/questions.json';
+import { loadAll } from '@/data/questions';
 
 const sampleOptions = [
   { text: 'A', correct: true },
@@ -74,7 +74,13 @@ interface RawQuestion {
   options: { text: string; correct: boolean }[];
 }
 
-const questions = questionsData as unknown as RawQuestion[];
+let questions: RawQuestion[] = [];
+
+// The bank is reached through per-topic chunks now, so it is awaited once here
+// instead of being statically imported at module load.
+beforeAll(async () => {
+  questions = (await loadAll()) as unknown as RawQuestion[];
+});
 
 /**
  * Guards the reason option shuffle was introduced: 3 of 5 testers noticed that

@@ -6,7 +6,7 @@ import { testAccessibility } from '@/test/a11y-utils';
 
 describe('Paywall a11y', () => {
   it('has no accessibility violations', async () => {
-    useQuizStore.getState().loadQuestions();
+    await useQuizStore.getState().loadQuestions();
 
     const { container } = render(<Paywall />);
     await testAccessibility(container);

@@ -36,9 +36,9 @@ const right = (questionId: string) => ({ questionId, selectedIndex: 0, isCorrect
 const wrong = (questionId: string) => ({ questionId, selectedIndex: 1, isCorrect: false });
 
 describe('Results reads the active stream', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     if (typeof localStorage !== 'undefined') localStorage.clear();
-    useQuizStore.getState().loadQuestions();
+    await useQuizStore.getState().loadQuestions();
     resetStore();
   });
 

@@ -74,7 +74,7 @@ interface QuizState {
   examQuestionIds: string[];
   examAnswers: AnswerRecord[];
 
-  loadQuestions: () => void;
+  loadQuestions: () => Promise<void>;
   recordActivity: () => void;
   navigateTo: (screen: Screen) => void;
   answerQuestion: (questionId: string, selectedIndex: number) => void;
@@ -129,13 +129,22 @@ export const useQuizStore = create<QuizState>()(
       examQuestionIds: [],
       examAnswers: [],
 
-      loadQuestions: () => {
+      // The bank is no longer a static import: it arrives as per-topic chunks, so
+      // loading is asynchronous. `isLoading` drives the loading gate in App.tsx;
+      // every accessor below stays synchronous and reads the snapshot afterwards.
+      loadQuestions: async () => {
         set({ isLoading: true });
-        const questions = questionRepo.getAll();
-        set({
-          questions,
-          isLoading: false,
-        });
+        try {
+          await questionRepo.load();
+          set({
+            questions: questionRepo.getAll(),
+            isLoading: false,
+          });
+        } catch (error) {
+          // A failed chunk fetch must not leave the UI stuck on the loading gate.
+          console.error('[quizStore] failed to load questions', error);
+          set({ questions: [], isLoading: false });
+        }
       },
 
       navigateTo: (screen) => set({ currentScreen: screen }),

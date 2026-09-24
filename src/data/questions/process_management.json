@@ -1,0 +1,299 @@
+[
+  {
+    "id": "pm_001",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "objective_domain": "3",
+    "subtopic": "kill signals: TERM, KILL, HUP, USR1",
+    "question": "Сигнал SIGKILL имеет номер 9. Какое утверждение верно?",
+    "options": [
+      {
+        "text": "Процесс не может перехватить или игнорировать SIGKILL — он завершается принудительно",
+        "correct": true
+      },
+      {
+        "text": "Процесс может перехватить SIGKILL и корректно освободить ресурсы",
+        "correct": false
+      },
+      {
+        "text": "SIGKILL отправляется по умолчанию командой kill без аргументов",
+        "correct": false
+      },
+      {
+        "text": "SIGKILL эквивалентен SIGTERM — различий нет",
+        "correct": false
+      }
+    ],
+    "explanation": "SIGKILL (9) — это безусловное завершение на уровне ядра. В отличие от SIGTERM (15), процесс не может его перехватить, обработать или проигнорировать. Используйте как крайнюю меру."
+  },
+  {
+    "id": "pm_002",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "3",
+    "subtopic": "process states (R, S, D, Z)",
+    "question": "Что означает состояние процесса Z в выводе ps?",
+    "options": [
+      {
+        "text": "Процесс завершился, но родитель ещё не прочитал его код завершения",
+        "correct": true
+      },
+      {
+        "text": "Процесс ожидает ввода-вывода и не потребляет процессор",
+        "correct": false
+      },
+      {
+        "text": "Процесс заблокирован на диске и не может быть завершён",
+        "correct": false
+      },
+      {
+        "text": "Процесс выполняется в фоновом режиме без терминала",
+        "correct": false
+      }
+    ],
+    "explanation": "Z — зомби: процесс уже завершился, но запись о нём остаётся в таблице, пока родитель не вызовет wait. Ожидание на диске — это D, ожидание ввода-вывода — S, а выполнение — R."
+  },
+  {
+    "id": "pm_003",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl: start / stop / enable / mask / status",
+    "question": "Какая команда запустит httpd немедленно и добавит в автозапуск одной командой?",
+    "options": [
+      {
+        "text": "systemctl enable --now httpd",
+        "correct": true
+      },
+      {
+        "text": "systemctl start httpd && systemctl enable httpd",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable httpd --start",
+        "correct": false
+      },
+      {
+        "text": "systemctl start --enable httpd",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ --now выполняет действие немедленно вместе с enable. У systemctl нет ключа --start, а ключ --enable недопустим после подкоманды start. Две команды через && тоже решают задачу, но вопрос спрашивает про одну."
+  },
+  {
+    "id": "pm_004",
+    "topic": "process_management",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "ps / top / htop filtering",
+    "question": "Какая команда покажет процессы пользователя dev1?",
+    "options": [
+      {
+        "text": "ps -u dev1",
+        "correct": true
+      },
+      {
+        "text": "ps -e dev1",
+        "correct": false
+      },
+      {
+        "text": "ps --user-only dev1",
+        "correct": false
+      },
+      {
+        "text": "ps -U dev1 -e",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u фильтрует список по эффективному пользователю. У ps нет ключа --user-only, поэтому такой вариант завершится ошибкой. Форма -e dev1 некорректна, поскольку -e не принимает аргумент."
+  },
+  {
+    "id": "pm_005",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "journalctl filtering",
+    "question": "Какая команда покажет записи журнала для sshd за текущий загруз?",
+    "options": [
+      {
+        "text": "journalctl -u sshd -b",
+        "correct": true
+      },
+      {
+        "text": "journalctl -u sshd -f",
+        "correct": false
+      },
+      {
+        "text": "journalctl --unit sshd -n 10",
+        "correct": false
+      },
+      {
+        "text": "journalctl -t sshd -b",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущим загрузом. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузу, а -t фильтрует по syslog-метке."
+  },
+  {
+    "id": "pm_006",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "nice / renice",
+    "question": "Какая команда снижает приоритет уже запущенного процесса 1234 до значения 10?",
+    "options": [
+      {
+        "text": "renice -n 10 -p 1234",
+        "correct": true
+      },
+      {
+        "text": "renice -p 1234 10",
+        "correct": false
+      },
+      {
+        "text": "nice -n 10 1234",
+        "correct": false
+      },
+      {
+        "text": "renice -n -10 -p 1234",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда renice изменяет приоритет уже работающего процесса, номер задаётся ключом -p. Команда nice только запускает новый процесс с заданным приоритетом. Отрицательное значение наоборот повышает приоритет и требует прав root."
+  },
+  {
+    "id": "pm_007",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "objective_domain": "7",
+    "subtopic": "jobs / bg / fg / nohup",
+    "question": "Как запустить длительный процесс, чтобы он выжил после закрытия терминала?",
+    "options": [
+      {
+        "text": "nohup ./backup.sh &",
+        "correct": true
+      },
+      {
+        "text": "./backup.sh &",
+        "correct": false
+      },
+      {
+        "text": "./backup.sh && bg",
+        "correct": false
+      },
+      {
+        "text": "jobs ./backup.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда nohup игнорирует сигнал SIGHUP, который терминал шлёт зависимым процессам при закрытии. Запуск только с амперсандом даёт фоновое выполнение, но процесс всё равно получит SIGHUP. Команда jobs только показывает задачи и не запускает их."
+  },
+  {
+    "id": "pm_008",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "objective_domain": "3",
+    "subtopic": "kill signals: TERM, KILL, HUP, USR1",
+    "question": "Какой сигнал нельзя перехватить или проигнорировать?",
+    "options": [
+      {
+        "text": "SIGKILL (9)",
+        "correct": true
+      },
+      {
+        "text": "SIGTERM (15)",
+        "correct": false
+      },
+      {
+        "text": "SIGHUP (1)",
+        "correct": false
+      },
+      {
+        "text": "SIGUSR1 (10)",
+        "correct": false
+      }
+    ],
+    "explanation": "SIGKILL обрабатывается ядром напрямую: процесс не может ни перехватить его, ни заблокировать. В отличие от него SIGTERM, SIGHUP и SIGUSR1 можно перехватить, поэтому именно SIGTERM считается штатным способом завершения."
+  },
+  {
+    "id": "pm_009",
+    "topic": "process_management",
+    "difficulty": "easy",
+    "objective_domain": "3",
+    "subtopic": "ps / top / htop filtering",
+    "question": "Какая команда показывает динамически обновляемый список процессов с сортировкой по нагрузке?",
+    "options": [
+      {
+        "text": "top",
+        "correct": true
+      },
+      {
+        "text": "ps aux",
+        "correct": false
+      },
+      {
+        "text": "jobs -l",
+        "correct": false
+      },
+      {
+        "text": "uptime",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда top перерисовывает экран через заданный интервал и по умолчанию сортирует процессы по потреблению процессора. ps aux даёт статичный снимок, jobs -l — только задачи текущей оболочки, uptime — только среднюю нагрузку."
+  },
+  {
+    "id": "pm_010",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl: start / stop / enable / mask / status",
+    "question": "Чем systemctl mask отличается от systemctl disable?",
+    "options": [
+      {
+        "text": "Замаскированный юнит нельзя запустить даже вручную, а отключённый — можно",
+        "correct": true
+      },
+      {
+        "text": "mask удаляет файл юнита с диска, а disable — нет",
+        "correct": false
+      },
+      {
+        "text": "mask действует только до перезагрузки, а disable — навсегда",
+        "correct": false
+      },
+      {
+        "text": "disable требует прав root, а mask доступна обычному пользователю",
+        "correct": false
+      }
+    ],
+    "explanation": "mask создаёт ссылку на /dev/null вместо файла юнита, поэтому запуск блокируется полностью, даже если его вызвать вручную. disable лишь убирает автозапуск, и такой юнит по-прежнему можно запустить командой systemctl start."
+  },
+  {
+    "id": "pm_011",
+    "topic": "process_management",
+    "difficulty": "easy",
+    "objective_domain": "3",
+    "subtopic": "kill signals: TERM, KILL, HUP, USR1",
+    "question": "Какой сигнал отправляет kill по умолчанию, если сигнал не указан?",
+    "options": [
+      {
+        "text": "SIGTERM (15)",
+        "correct": true
+      },
+      {
+        "text": "SIGKILL (9)",
+        "correct": false
+      },
+      {
+        "text": "SIGHUP (1)",
+        "correct": false
+      },
+      {
+        "text": "SIGINT (2)",
+        "correct": false
+      }
+    ],
+    "explanation": "Без явного указания kill отправляет SIGTERM — корректный запрос на завершение, который процесс может обработать и освободить ресурсы. SIGKILL надо запрашивать явно через kill -9. SIGHUP по умолчанию не отправляется, а SIGINT генерирует сочетание Ctrl+C."
+  }
+]

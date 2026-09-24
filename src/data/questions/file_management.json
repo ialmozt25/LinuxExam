@@ -1,0 +1,326 @@
+[
+  {
+    "id": "fm_001",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "cp / mv / ln (symbolic vs hard)",
+    "question": "Какая команда рекурсивно скопирует директорию dir1 в dir2?",
+    "options": [
+      {
+        "text": "cp -r dir1 dir2",
+        "correct": true
+      },
+      {
+        "text": "cp dir1 dir2",
+        "correct": false
+      },
+      {
+        "text": "copy -r dir1 dir2",
+        "correct": false
+      },
+      {
+        "text": "mv -r dir1 dir2",
+        "correct": false
+      }
+    ],
+    "explanation": "Флаг -r (или -R) указывает команде cp копировать директорию рекурсивно — вместе со всем содержимым и поддиректориями."
+  },
+  {
+    "id": "fm_002",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "find: -name, -type, -mtime, -size, -exec",
+    "question": "Какой командой можно найти все файлы с расширением .conf в директории /etc?",
+    "options": [
+      {
+        "text": "find /etc -name '*.conf'",
+        "correct": true
+      },
+      {
+        "text": "find /etc -type d '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "search /etc '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "ls /etc/*.conf -recursive",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда find с параметром -name выполняет поиск по имени. Шаблон '*.conf' должен быть в кавычках, чтобы оболочка не раскрыла его до передачи команде."
+  },
+  {
+    "id": "fm_003",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "find: -name, -type",
+    "question": "Какая команда найдёт все файлы .conf в /etc и поддиректориях?",
+    "options": [
+      {
+        "text": "find /etc -type f -name '*.conf'",
+        "correct": true
+      },
+      {
+        "text": "find /etc -name '*.conf' -maxdepth 1",
+        "correct": false
+      },
+      {
+        "text": "ls -R /etc | grep '\\.conf$'",
+        "correct": false
+      },
+      {
+        "text": "locate /etc -name '*.conf'",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -type f ограничивает выборку обычными файлами, а -name задаёт шаблон имени, который нужно брать в кавычки. Ключ -maxdepth 1 наоборот запретит рекурсию, а locate не поддерживает -name."
+  },
+  {
+    "id": "fm_004",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "4",
+    "subtopic": "tar / gzip / bzip2",
+    "question": "Какая команда создаст gzip-архив из /var/log?",
+    "options": [
+      {
+        "text": "tar -czf archive.tar.gz /var/log",
+        "correct": true
+      },
+      {
+        "text": "tar -xzf archive.tar.gz /var/log",
+        "correct": false
+      },
+      {
+        "text": "tar -tzf archive.tar.gz /var/log",
+        "correct": false
+      },
+      {
+        "text": "tar -cjf archive.tar.gz /var/log",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключи читаются так: c — создать архив, z — gzip, f — имя файла. Ключ x распаковывает архив, t — только показывает содержимое. Ключ j включает bzip2, поэтому -cjf дал бы другой формат под именем .tar.gz."
+  },
+  {
+    "id": "fm_005",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "redirection: >, >>, 2>&1, tee",
+    "question": "Как направить вывод и ошибки команды в один файл log.txt с перезаписью?",
+    "options": [
+      {
+        "text": "command > log.txt 2>&1",
+        "correct": true
+      },
+      {
+        "text": "command > log.txt 2>1",
+        "correct": false
+      },
+      {
+        "text": "command >> log.txt 2>&1",
+        "correct": false
+      },
+      {
+        "text": "command 2>&1 > log.txt",
+        "correct": false
+      }
+    ],
+    "explanation": "Конструкция 2>&1 перенаправляет дескриптор ошибок туда же, куда указывает дескриптор 1. Запись 2>1 создаст файл с именем 1, а не соберёт ошибки. Ключ >> дописывает в конец файла вместо перезаписи. Порядок 2>&1 > log.txt оставит ошибки в терминале."
+  },
+  {
+    "id": "fm_006",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "5",
+    "subtopic": "cp / mv / ln (symbolic vs hard)",
+    "question": "Какая команда скопирует директорию рекурсивно с правами и метками времени?",
+    "options": [
+      {
+        "text": "cp -a /src /dst",
+        "correct": true
+      },
+      {
+        "text": "cp -r /src /dst",
+        "correct": false
+      },
+      {
+        "text": "cp -p /src /dst",
+        "correct": false
+      },
+      {
+        "text": "mv /src /dst",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -a равносилен -dR --preserve=all: копирует рекурсивно и сохраняет права, владельца, группу и метки времени. Ключ -r копирует только содержимое, -p — лишь часть атрибутов без рекурсии. Команда mv вообще перемещает, а не копирует."
+  },
+  {
+    "id": "fm_007",
+    "topic": "file_management",
+    "difficulty": "hard",
+    "objective_domain": "5",
+    "subtopic": "find: -mtime, -size, -exec",
+    "question": "Какая команда найдёт файлы, изменённые строго больше семи суток назад?",
+    "options": [
+      {
+        "text": "find . -type f -mtime +7",
+        "correct": true
+      },
+      {
+        "text": "find . -type f -mtime -7",
+        "correct": false
+      },
+      {
+        "text": "find . -type f -mtime 7",
+        "correct": false
+      },
+      {
+        "text": "find . -type f -atime +7",
+        "correct": false
+      }
+    ],
+    "explanation": "Знак плюс в -mtime +7 означает строго больше семи суток, знак минус — менее семи, без знака — ровно семь. Ключ -atime смотрит на время последнего чтения, а не изменения, поэтому даёт другой набор файлов."
+  },
+  {
+    "id": "fm_008",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "locate / updatedb",
+    "question": "Какая команда обновляет базу данных для locate?",
+    "options": [
+      {
+        "text": "updatedb",
+        "correct": true
+      },
+      {
+        "text": "locate --update",
+        "correct": false
+      },
+      {
+        "text": "mlocate --rebuild",
+        "correct": false
+      },
+      {
+        "text": "find / -name \"*\" > /var/lib/mlocate.db",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. У locate нет ключа --update, поэтому этот вариант не сработает. Ручная запись в файл базы не воспроизводит её формат."
+  },
+  {
+    "id": "fm_009",
+    "topic": "file_management",
+    "difficulty": "hard",
+    "objective_domain": "1",
+    "subtopic": "xargs",
+    "question": "Какая команда корректно обработает имена с пробелами через xargs?",
+    "options": [
+      {
+        "text": "find . -type f -print0 | xargs -0 rm",
+        "correct": true
+      },
+      {
+        "text": "find . -type f | xargs rm",
+        "correct": false
+      },
+      {
+        "text": "find . -type f -exec0 rm",
+        "correct": false
+      },
+      {
+        "text": "find . -type f | xargs -n 0 rm",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -print0 выводит имена, разделённые нулевым байтом, а -0 в xargs читает именно такой формат. Без этой пары xargs разбивает ввод по пробелам и передаст rm обрывки имён. У find нет ключа -exec0, а -n 0 не имеет смысла."
+  },
+  {
+    "id": "fm_010",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "5",
+    "subtopic": "file / stat / ls -l",
+    "question": "Какая команда покажет тип файла по его содержимому?",
+    "options": [
+      {
+        "text": "file data.bin",
+        "correct": true
+      },
+      {
+        "text": "stat data.bin",
+        "correct": false
+      },
+      {
+        "text": "ls -l data.bin",
+        "correct": false
+      },
+      {
+        "text": "type data.bin",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда file определяет тип по содержимому. stat выводит метаданные и не распознаёт формат данных, ls -l показывает только тип элемента файловой системы, а type в bash относится к командам."
+  },
+  {
+    "id": "fm_011",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "4",
+    "subtopic": "tar / gzip / bzip2",
+    "question": "Какая команда создаст архив, сжатый bzip2?",
+    "options": [
+      {
+        "text": "tar -cjf backup.tar.bz2 /home",
+        "correct": true
+      },
+      {
+        "text": "tar -czf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
+        "text": "tar -cJf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
+        "text": "tar -cf backup.tar.bz2 --bzip2 /home",
+        "correct": false
+      }
+    ],
+    "explanation": "Сжатие bzip2 включает ключ j, ключ z даёт gzip, а J — xz. Ключ --long-option с именем файла без -f не создаст архив нужного вида, поэтому верен только вариант с -cjf."
+  },
+  {
+    "id": "fm_012",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "5",
+    "subtopic": "cp / mv / ln (symbolic vs hard)",
+    "question": "Чем символическая ссылка отличается от жёсткой?",
+    "options": [
+      {
+        "text": "Символическая указывает на путь, а жёсткая — на тот же inode",
+        "correct": true
+      },
+      {
+        "text": "Жёсткая ссылка может указывать на другой раздел, а символическая — нет",
+        "correct": false
+      },
+      {
+        "text": "Символическая ссылка увеличивает счётчик ссылок до двух",
+        "correct": false
+      },
+      {
+        "text": "Жёсткую ссылку можно создать только на директорию",
+        "correct": false
+      }
+    ],
+    "explanation": "Жёсткая ссылка — это ещё одно имя для того же inode, поэтому она работает только в пределах одной файловой системы. Символическая ссылка — отдельный объект со своим inode, хранящий путь. Жёсткие ссылки на директории запрещены."
+  }
+]

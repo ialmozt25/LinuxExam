@@ -16,8 +16,12 @@ for (const theme of ['light', 'dark'] as const) {
     }, theme);
 
     await page.goto('/');
+    // The bank is loaded in per-topic chunks, so the dashboard appears only after
+    // a short loading gate. Wait for the topic button instead of a non-waiting
+    // isVisible() probe, which raced the gate and skipped the click.
     const start = page.getByRole('button', { name: /Начать тему/ }).first();
-    if (await start.isVisible()) await start.click();
+    await start.waitFor({ state: 'visible' });
+    await start.click();
 
     const options = page.locator('button[aria-label^="Ответ"]');
     await expect(options).toHaveCount(4);

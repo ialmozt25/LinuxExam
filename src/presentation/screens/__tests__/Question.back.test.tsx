@@ -34,9 +34,9 @@ function resetStore() {
 const backButton = () => screen.queryByRole('button', { name: 'Назад' });
 
 describe('Question header back control follows currentIndex', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     if (typeof localStorage !== 'undefined') localStorage.clear();
-    useQuizStore.getState().loadQuestions();
+    await useQuizStore.getState().loadQuestions();
     resetStore();
   });
 

@@ -1,0 +1,443 @@
+[
+  {
+    "id": "ug_001",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "useradd -u",
+    "question": "Требуется создать пользователя alice с конкретным числовым идентификатором 4200. Какой ключ useradd задаёт этот идентификатор?",
+    "options": [
+      {
+        "text": "useradd -u 4200 alice",
+        "correct": true
+      },
+      {
+        "text": "useradd -g 4200 alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -G 4200 alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -i 4200 alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u (--uid) задаёт числовой UID новой учётной записи, поэтому запись -u 4200 создаёт пользователя именно с этим идентификатором. Ключ -g задаёт не UID, а основную группу пользователя, то есть 4200 было бы воспринято как имя или номер группы. Ключ -G перечисляет дополнительные группы, к которым добавляется пользователь, и на его UID не влияет. Ключа -i у команды useradd не существует, поэтому такой вызов завершится ошибкой разбора аргументов.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man useradd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_002",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "useradd -m",
+    "question": "Какой ключ useradd явно создаёт домашний каталог независимо от настроек системы?",
+    "options": [
+      {
+        "text": "useradd -m alice",
+        "correct": true
+      },
+      {
+        "text": "useradd -n alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -s alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -d alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -m (--create-home) явно создаёт домашний каталог нового пользователя и наполняет его из /etc/skel, поэтому он работает независимо от системных настроек. Ключ -n не определён в man-странице и в --help: на Rocky 9.8 он является недокументированным алиасом --no-user-group, то есть создаёт пользователя БЕЗ домашнего каталога. Ключ -s задаёт командную оболочку пользователя, а не каталог. Ключ -d лишь указывает путь к домашнему каталогу в записи /etc/passwd: каталог при этом появится только если в /etc/login.defs включена опция CREATE_HOME, поэтому ключ -d зависит от настроек системы и условию «независимо от настроек» не удовлетворяет.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man useradd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_003",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "useradd -d",
+    "question": "Какой ключ useradd указывает путь к домашнему каталогу нового пользователя?",
+    "options": [
+      {
+        "text": "useradd -d /srv/home/alice alice",
+        "correct": true
+      },
+      {
+        "text": "useradd -h /srv/home/alice alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -p /srv/home/alice alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -c /srv/home/alice alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -d (--home-dir) задаёт путь домашнего каталога, который записывается шестым полем в /etc/passwd. Ключ -h у команды useradd не определён, поэтому такая запись будет отвергнута при разборе аргументов. Ключ -p задаёт уже зашифрованный пароль, а не путь к каталогу, и переданная строка была бы воспринята как хеш пароля. Ключ -c заполняет поле комментария, то есть в GECOS-поле оказался бы текст пути, а не сам путь каталога.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man useradd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_004",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "useradd -s",
+    "question": "Какой ключ useradd задаёт командную оболочку нового пользователя?",
+    "options": [
+      {
+        "text": "useradd -s /bin/bash alice",
+        "correct": true
+      },
+      {
+        "text": "useradd -S /bin/bash alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -f /bin/bash alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -e /bin/bash alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -s (--shell) задаёт путь командной оболочки, который попадает последним полем в /etc/passwd. Ключ -S у команды useradd не определён, и регистр здесь значим, поэтому такая запись завершится ошибкой разбора аргументов. Ключ -f задаёт число дней неактивности после истечения пароля, то есть ожидает число, а не путь. Ключ -e задаёт дату истечения срока действия учётной записи и также ожидает дату.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man useradd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_005",
+    "topic": "users_groups",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "useradd -G",
+    "question": "Как при создании пользователя alice сразу добавить его в дополнительную группу developers, не меняя основную группу?",
+    "options": [
+      {
+        "text": "useradd -m -G developers alice",
+        "correct": true
+      },
+      {
+        "text": "useradd -m -g developers alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -m -a developers alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -m -N developers alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -G задаёт список дополнительных групп, поэтому -G developers добавляет пользователя в developers, оставляя основной группу, созданную по умолчанию. Ключ -g задаёт основную группу, то есть developers стала бы основной вместо дополнительной. Ключ -a у команды useradd отсутствует и применяется только в usermod в паре с -G, поэтому такой вызов завершится ошибкой. Ключ -N отключает создание одноимённой группы пользователя и никак не связан с добавлением в дополнительную группу.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man useradd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_006",
+    "topic": "users_groups",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "usermod -aG",
+    "question": "Пользователь alice уже входит в группу developers. Требуется добавить его ещё и в группу auditors, сохранив членство в developers. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "usermod -aG auditors alice",
+        "correct": true
+      },
+      {
+        "text": "usermod -G auditors alice",
+        "correct": false
+      },
+      {
+        "text": "usermod -g auditors alice",
+        "correct": false
+      },
+      {
+        "text": "usermod -a auditors alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -a означает добавление, а -G задаёт список дополнительных групп, поэтому пара -aG auditors добавляет аудиторов к уже существующим группам и developers остаётся. Запись -G auditors без -a заменяет весь список дополнительных групп, поэтому членство в developers будет потеряно. Ключ -g меняет основную группу пользователя и на список дополнительных групп не влияет. Ключ -a допустим только вместе с -G: при вызове -a отдельно команда отвечает, что флаг -a разрешён лишь с -G, и ничего не меняет.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man usermod",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_007",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "userdel -r",
+    "question": "Какая команда удалит пользователя alice вместе с его домашним каталогом?",
+    "options": [
+      {
+        "text": "userdel -r alice",
+        "correct": true
+      },
+      {
+        "text": "userdel -f alice",
+        "correct": false
+      },
+      {
+        "text": "userdel alice",
+        "correct": false
+      },
+      {
+        "text": "userdel -R alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. ВАЖНО: man-страница userdel для ключа -f утверждает, что он тоже удаляет домашний каталог и почтовый ящик, однако на Rocky 9.8 это неверно — userdel -f удаляет только учётную запись, а каталог остаётся на месте (проверено эмпирически). Ключ -R задаёт каталог chroot-окружения, а не рекурсивное удаление, поэтому к удалению каталога он отношения не имеет. Вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man userdel",
+      "status": "active",
+      "flags": [
+        "educational_man_limitation"
+      ],
+      "human_review": {
+        "verdict_before": "pass_with_flag",
+        "verdict_after": "pass_with_flag",
+        "reviewed_at": "2026-09-23",
+        "reason": "man userdel -f неточен на RHEL 9, дистрактор объективно неверен"
+      }
+    }
+  },
+  {
+    "id": "ug_008",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "groupadd -g",
+    "question": "Требуется создать группу developers с конкретным числовым идентификатором 5000. Какая команда это выполнит?",
+    "options": [
+      {
+        "text": "groupadd -g 5000 developers",
+        "correct": true
+      },
+      {
+        "text": "groupadd -r 5000 developers",
+        "correct": false
+      },
+      {
+        "text": "groupadd -u 5000 developers",
+        "correct": false
+      },
+      {
+        "text": "groupadd -i 5000 developers",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -g (--gid) задаёт числовой идентификатор создаваемой группы, поэтому -g 5000 создаёт группу именно с этим GID. Ключ -r создаёт системную группу с автоматически выбранным GID из диапазона системных, поэтому число 5000 в такой записи было бы воспринято как параметр ключа -r и вызов завершился бы ошибкой. Ключа -u у команды groupadd не существует, так как этот ключ относится к пользователям. Ключа -i у команды groupadd также не существует.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man groupadd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_009",
+    "topic": "users_groups",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "chage -M",
+    "question": "Какая команда задаст пользователю alice максимальный срок действия пароля в 90 дней?",
+    "options": [
+      {
+        "text": "chage -M 90 alice",
+        "correct": true
+      },
+      {
+        "text": "chage -E 90 alice",
+        "correct": false
+      },
+      {
+        "text": "chage -d 90 alice",
+        "correct": false
+      },
+      {
+        "text": "chage -m 90 alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -M (--maxdays) задаёт максимальное число дней, в течение которых пароль остаётся действительным, то есть ровно требуемые 90 дней. Ключ -E задаёт дату истечения срока действия учётной записи, и значение 90 было бы истолковано как дата или число дней от 1970 года, а не как срок жизни пароля. Ключ -d задаёт дату последнего изменения пароля, что сдвигает отсчёт, но самого срока не устанавливает. Ключ -m задаёт минимальное число дней между сменами пароля, то есть противоположную по смыслу границу.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man chage",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_010",
+    "topic": "users_groups",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "chage -E",
+    "question": "Какая команда установит дату, после которой учётная запись alice станет недействительной?",
+    "options": [
+      {
+        "text": "chage -E 2099-12-31 alice",
+        "correct": true
+      },
+      {
+        "text": "chage -M 2099-12-31 alice",
+        "correct": false
+      },
+      {
+        "text": "chage -I 2099-12-31 alice",
+        "correct": false
+      },
+      {
+        "text": "chage -W 2099-12-31 alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -E (--expiredate) задаёт дату истечения срока действия учётной записи, после которой вход для пользователя становится невозможен, и принимает дату в формате ГГГГ-ММ-ДД. Ключ -M задаёт максимальный срок действия пароля в днях, поэтому дата в таком аргументе недопустима и команда завершается ошибкой разбора. Ключ -I задаёт число дней неактивности после истечения пароля и также ожидает число. Ключ -W задаёт число дней предупреждения перед истечением пароля. Обратите внимание, что ключ -E принимает и просто число, трактуя его как количество дней от 1970-01-01, поэтому дата задана в формате ГГГГ-ММ-ДД и выбрана в далёком будущем, чтобы пример не устарел.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man chage",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_011",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "id / groups",
+    "question": "Пользователь alice входит в основную группу и в дополнительные группы. Какая команда выведет имена всех групп, в которые он входит?",
+    "options": [
+      {
+        "text": "id -nG alice",
+        "correct": true
+      },
+      {
+        "text": "id -G alice",
+        "correct": false
+      },
+      {
+        "text": "id -gn alice",
+        "correct": false
+      },
+      {
+        "text": "id -g alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Пара ключей -nG выводит список всех групп пользователя в виде имён: ключ -G выбирает все группы, а -n требует показать имена вместо числовых идентификаторов. Ключ -G без -n выводит те же группы, но числами, поэтому условие «имена» не выполняется. Пара -gn показывает имя только основной группы, то есть при наличии дополнительных групп список будет неполным. Ключ -g показывает только основную группу и к тому же числом.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man id",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_012",
+    "topic": "users_groups",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "/etc/passwd формат",
+    "question": "Поля в файле /etc/passwd разделены двоеточиями. В каком поле хранится путь к домашнему каталогу пользователя?",
+    "options": [
+      {
+        "text": "В шестом поле, между GECOS и командной оболочкой",
+        "correct": true
+      },
+      {
+        "text": "В третьем поле, между именем пользователя и GID",
+        "correct": false
+      },
+      {
+        "text": "В пятом поле, перед домашним каталогом",
+        "correct": false
+      },
+      {
+        "text": "Во втором поле, сразу после имени пользователя",
+        "correct": false
+      }
+    ],
+    "explanation": "Запись /etc/passwd состоит из семи двоеточие-разделённых полей, и домашний каталог находится в шестом поле, между GECOS и командной оболочкой. Третье поле содержит числовой UID, а не путь. Пятое поле содержит GECOS, то есть описание или полное имя пользователя. Второе поле исторически отведено под пароль и на современных системах содержит символ x, поскольку сам хеш перенесён в /etc/shadow.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T05:29:13Z",
+      "source": "pipeline_users_groups_iter1",
+      "reference": "man 5 passwd",
+      "status": "active"
+    }
+  }
+]

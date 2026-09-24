@@ -13,10 +13,29 @@ function App() {
 
   const currentScreen = useQuizStore((s) => s.currentScreen);
   const loadQuestions = useQuizStore((s) => s.loadQuestions);
+  const isLoading = useQuizStore((s) => s.isLoading);
 
   useEffect(() => {
-    loadQuestions();
+    // Fire-and-forget: the async action reports progress through `isLoading`.
+    void loadQuestions();
   }, [loadQuestions]);
+
+  // The bank arrives as per-topic chunks. Until it is in place every screen would
+  // render an empty bank (topic counts of 0, no current question), so gate on it.
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        Загрузка…
+      </div>
+    );
+  }
 
   const screen =
     currentScreen === 'dashboard' ? (

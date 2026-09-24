@@ -1,0 +1,326 @@
+[
+  {
+    "id": "fp_001",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "numeric modes",
+    "question": "Что означает разрешение 754 в восьмеричной системе для файла?",
+    "options": [
+      {
+        "text": "Владелец: чтение/запись/исполнение, группа: чтение/исполнение, остальные: чтение",
+        "correct": true
+      },
+      {
+        "text": "Владелец: чтение/запись, группа: чтение/исполнение, остальные: чтение",
+        "correct": false
+      },
+      {
+        "text": "Владелец: чтение/запись/исполнение, группа: чтение/запись, остальные: без доступа",
+        "correct": false
+      },
+      {
+        "text": "Владелец: выполнение, группа: чтение/запись, остальные: чтение",
+        "correct": false
+      }
+    ],
+    "explanation": "Цифра 7 = rwx (владелец), 5 = r-x (группа), 4 = r-- (остальные). Каждая цифра — сумма: чтение=4, запись=2, выполнение=1."
+  },
+  {
+    "id": "fp_002",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "special bits",
+    "question": "Какая команда установит setgid-бит на директорию /shared?",
+    "options": [
+      {
+        "text": "chmod 2755 /shared",
+        "correct": true
+      },
+      {
+        "text": "chmod 1755 /shared",
+        "correct": false
+      },
+      {
+        "text": "chmod 4755 /shared",
+        "correct": false
+      },
+      {
+        "text": "chmod 755 /shared +setgid",
+        "correct": false
+      }
+    ],
+    "explanation": "Setgid-бит обозначается префиксом 2 перед стандартными тремя цифрами. 2755 = setgid + rwxr-xr-x. Префикс 4 — setuid, 1 — sticky bit."
+  },
+  {
+    "id": "fp_003",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "numeric modes",
+    "question": "Чем отличается режим 640 от режима 600 для файла?",
+    "options": [
+      {
+        "text": "В режиме 640 группа получает право на чтение, а в 600 у группы прав нет",
+        "correct": true
+      },
+      {
+        "text": "В режиме 640 группа получает право на запись, а в 600 — нет",
+        "correct": false
+      },
+      {
+        "text": "Режимы 640 и 600 полностью идентичны",
+        "correct": false
+      },
+      {
+        "text": "В режиме 640 запрещён запуск файла владельцем",
+        "correct": false
+      }
+    ],
+    "explanation": "Цифры читаются тройками: 6 = rw- (чтение и запись для владельца), 4 = r-- (только чтение для группы), 0 = --- (нет прав для остальных). В 600 вторая цифра равна 0, поэтому группа не имеет доступа — именно это и отличает его от 640."
+  },
+  {
+    "id": "fp_004",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "objective_domain": "8",
+    "subtopic": "chown / chgrp",
+    "question": "Какая команда изменит владельца и группу директории /data рекурсивно на user1:devs?",
+    "options": [
+      {
+        "text": "chown -R user1:devs /data",
+        "correct": true
+      },
+      {
+        "text": "chown -r user1:devs /data",
+        "correct": false
+      },
+      {
+        "text": "chmod -R user1:devs /data",
+        "correct": false
+      },
+      {
+        "text": "chgrp -R user1:devs /data",
+        "correct": false
+      }
+    ],
+    "explanation": "У команды chown рекурсивный ключ — заглавная -R, строчной -r не существует. Формат владелец:группа задаётся именно в chown. chmod меняет только права доступа, а chgrp — только группу."
+  },
+  {
+    "id": "fp_005",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "symbolic modes",
+    "question": "Какая команда добавит владельцу право на выполнение файла script.sh?",
+    "options": [
+      {
+        "text": "chmod u+x script.sh",
+        "correct": true
+      },
+      {
+        "text": "chmod +x script.sh",
+        "correct": false
+      },
+      {
+        "text": "chmod a+x script.sh",
+        "correct": false
+      },
+      {
+        "text": "chmod u=+x script.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "Запись u+x добавляет бит выполнения только владельцу, поэтому права владельца становятся rwx и команда решает задачу. Записи +x и a+x без указания класса применяют изменение ко всем классам одновременно, поэтому право на выполнение получают и группа, и остальные — это шире, чем требуется в условии. Запись u=+x синтаксически допустима, но не решает задачу: знак = сбрасывает текущие права владельца и присваивает новые, поэтому владелец получает только право на выполнение, теряя чтение и запись. Права группы и остальных при этом не изменяются — например, для файла с правами 644 результат будет ---xr--r--. Такой итог не соответствует условию задачи, хотя команда и завершается без ошибки."
+  },
+  {
+    "id": "fp_006",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "umask",
+    "question": "Значение umask равно 022. Какие права получит обычный файл?",
+    "options": [
+      {
+        "text": "rw-r--r-- (644)",
+        "correct": true
+      },
+      {
+        "text": "rw-rw-r-- (664)",
+        "correct": false
+      },
+      {
+        "text": "rwxr-xr-x (755)",
+        "correct": false
+      },
+      {
+        "text": "rw------- (600)",
+        "correct": false
+      }
+    ],
+    "explanation": "Для файлов базовый режим 666, из которого вычитаются биты umask: 666 минус 022 = 644. У директорий база 777, поэтому там получилось бы 755. Вариант 664 соответствует umask 002 — это ближайший правдоподобный неверный ответ."
+  },
+  {
+    "id": "fp_007",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "ACLs",
+    "question": "Какая команда покажет ACL-записи файла report.txt?",
+    "options": [
+      {
+        "text": "getfacl report.txt",
+        "correct": true
+      },
+      {
+        "text": "setfacl report.txt",
+        "correct": false
+      },
+      {
+        "text": "ls -l report.txt",
+        "correct": false
+      },
+      {
+        "text": "acl --list report.txt",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда getfacl выводит список ACL, а setfacl только задаёт или изменяет их. Команда ls -l покажет лишь плюс в конце строки прав как признак наличия ACL, но не сами записи. Команды acl в RHEL не существует."
+  },
+  {
+    "id": "fp_008",
+    "topic": "file_permissions",
+    "difficulty": "hard",
+    "objective_domain": "9",
+    "subtopic": "special bits",
+    "question": "Какие последствия имеет бит setuid на исполняемом файле?",
+    "options": [
+      {
+        "text": "Процесс запускается с правами владельца файла, а не запустившего пользователя",
+        "correct": true
+      },
+      {
+        "text": "Процесс запускается с правами группы файла",
+        "correct": false
+      },
+      {
+        "text": "Файл защищён от изменения даже владельцем",
+        "correct": false
+      },
+      {
+        "text": "Файл можно удалить только владельцу директории",
+        "correct": false
+      }
+    ],
+    "explanation": "Setuid (префикс 4, например 4755) заставляет процесс работать от имени владельца файла — именно на этом основана работа passwd. На группу влияет setgid, а не setuid."
+  },
+  {
+    "id": "fp_009",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "default ACLs on directories",
+    "question": "Какая команда задаст директории /projects ACL по умолчанию для новых файлов?",
+    "options": [
+      {
+        "text": "setfacl -d -m u:dev1:rwx /projects",
+        "correct": true
+      },
+      {
+        "text": "setfacl -m u:dev1:rwx /projects",
+        "correct": false
+      },
+      {
+        "text": "setfacl -R -m u:dev1:rwx /projects",
+        "correct": false
+      },
+      {
+        "text": "setfacl --default-acl u:dev1:rwx /projects",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -d задаёт именно default ACL, который наследуется новыми файлами внутри директории. Без -d запись касается только самой директории. Ключ -R распространяет изменение на уже существующие данные, а не на будущие."
+  },
+  {
+    "id": "fp_010",
+    "topic": "file_permissions",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "special bits",
+    "question": "Какое числовое значение chmod устанавливает setgid-бит на директории?",
+    "options": [
+      {
+        "text": "2755",
+        "correct": true
+      },
+      {
+        "text": "1755",
+        "correct": false
+      },
+      {
+        "text": "4755",
+        "correct": false
+      },
+      {
+        "text": "6755",
+        "correct": false
+      }
+    ],
+    "explanation": "Префикс 2 означает setgid: 2755 = setgid + rwxr-xr-x. Префикс 1 — sticky bit, 4 — setuid. Значение 6755 совмещает setuid и setgid одновременно, поэтому не является ответом на вопрос только о setgid."
+  },
+  {
+    "id": "fp_011",
+    "topic": "file_permissions",
+    "difficulty": "hard",
+    "objective_domain": "9",
+    "subtopic": "symbolic modes",
+    "question": "Что сделает команда chmod g-w file.txt?",
+    "options": [
+      {
+        "text": "Уберёт право на запись у группы, остальные права не изменятся",
+        "correct": true
+      },
+      {
+        "text": "Уберёт право на запись у владельца и группы",
+        "correct": false
+      },
+      {
+        "text": "Выдаст группе право на запись",
+        "correct": false
+      },
+      {
+        "text": "Уберёт все права у группы",
+        "correct": false
+      }
+    ],
+    "explanation": "Символы читаются как класс прав, оператор и бит: g — группа, минус — убрать, w — запись. Затрагивается только бит записи группы, права на чтение и выполнение сохраняются. Чтобы снять все права группы, нужно g=."
+  },
+  {
+    "id": "fp_012",
+    "topic": "file_permissions",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "numeric modes",
+    "question": "Какая команда оставит доступ только владельцу?",
+    "options": [
+      {
+        "text": "chmod 600 file",
+        "correct": true
+      },
+      {
+        "text": "chmod 644 file",
+        "correct": false
+      },
+      {
+        "text": "chmod 700 file",
+        "correct": false
+      },
+      {
+        "text": "chmod 666 file",
+        "correct": false
+      }
+    ],
+    "explanation": "Режим 600 = rw------- : владелец читает и пишет, группа и остальные не имеют прав. 644 даёт чтение всем, 700 добавляет выполнение владельцу, 666 даёт запись всем."
+  }
+]

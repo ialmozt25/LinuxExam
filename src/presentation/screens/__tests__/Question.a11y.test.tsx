@@ -5,8 +5,8 @@ import { useQuizStore } from '@/store/quizStore';
 import { testAccessibility } from '@/test/a11y-utils';
 
 describe('Question a11y', () => {
-  beforeEach(() => {
-    useQuizStore.getState().loadQuestions();
+  beforeEach(async () => {
+    await useQuizStore.getState().loadQuestions();
     useQuizStore.setState({
       currentIndex: 0,
       answers: [],
