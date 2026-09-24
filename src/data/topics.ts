@@ -29,7 +29,7 @@ export const TOPICS: TopicConfig[] = [
     description: 'shell, grep, ssh, tar, man pages',
     status: 'available', Icon: Terminal },
   { key: 'text_files', title: 'Работа с текстом',
-    description: 'cp, mv, vim, hard/soft links, permissions',
+    description: 'sed, awk, cut, sort, uniq, tr, wc, head/tail',
     status: 'planned', Icon: FileText },
   { key: 'shell_scripts', title: 'Shell-скрипты',
     description: 'if, loops, args, command substitution',
