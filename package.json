@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "qc": "node tools/qc.cjs",
+    "manifest": "node tools/gen-topics-manifest.mjs",
     "cosine:intra": "node tools/cosine.cjs --intra-batch",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test:run": "vitest run",

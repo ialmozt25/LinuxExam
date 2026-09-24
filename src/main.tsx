@@ -43,12 +43,23 @@ async function bootstrap(): Promise<void> {
     });
   }
 
-  // The Telegram SDK is ~17 kB gzip and only matters inside the client, so the
-  // adapter is reached through a dynamic import: it becomes its own chunk instead of
-  // riding in the initial chunk. Ordering is unchanged — init still completes before
-  // the first render, so mounted buttons, viewport and theme variables are ready.
-  const { initTelegramSDK } = await import('./platform/telegram_adapter');
-  await initTelegramSDK();
+  // The Telegram SDK is ~18 kB gzip and is useless outside the client, so it is both
+  // code-split (dynamic import) and GATED: a plain browser never downloads the chunk.
+  // Inside Telegram the init still completes before the first render, so mounted
+  // buttons, viewport and theme variables are ready in time. The DEV mock forces the
+  // gate open so `VITE_MOCK_TELEGRAM=1 npm run dev` keeps exercising the real path.
+  const telegramWebApp =
+    typeof window === 'undefined'
+      ? undefined
+      : (window as unknown as { Telegram?: { WebApp?: unknown } }).Telegram?.WebApp;
+  const needTelegram = telegramWebApp != null || import.meta.env.VITE_MOCK_TELEGRAM === '1';
+
+  if (needTelegram) {
+    const { initTelegramSDK } = await import('./platform/telegram_adapter');
+    await initTelegramSDK();
+  } else {
+    console.log('Not in Telegram — running in browser mode (Telegram SDK not loaded)');
+  }
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
