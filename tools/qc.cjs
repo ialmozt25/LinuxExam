@@ -1,10 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 
-const BANK = path.join(__dirname, '..', 'src/data/questions.json');
+const BANK_DIR = path.join(__dirname, '..', 'src/data/questions');
 const TOPICS = path.join(__dirname, '..', 'src/data/topics.ts');
 
-const questions = JSON.parse(fs.readFileSync(BANK, 'utf8'));
+// The bank used to be a single questions.json. It is now split into one file per
+// topic (src/data/questions/<topic>.json) plus two manifests that hold no questions
+// (_order.json = quiz order, _topics.json = counters). The bank is assembled here in
+// a deterministic order: file names sorted, question order inside a file kept as is.
+const BANK_FILES = fs
+  .readdirSync(BANK_DIR)
+  .filter((f) => f.endsWith('.json') && f !== '_order.json' && f !== '_topics.json')
+  .sort();
+
+const questions = BANK_FILES.flatMap((f) =>
+  JSON.parse(fs.readFileSync(path.join(BANK_DIR, f), 'utf8'))
+);
 const topicsRaw = fs.readFileSync(TOPICS, 'utf8');
 const validTopics = new Set(
   [...topicsRaw.matchAll(/key:\s*['"]([a-zA-Z0-9_-]+)['"]/g)].map(m => m[1])
