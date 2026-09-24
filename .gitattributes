@@ -1,0 +1,12 @@
+# Нормализация EOL: текстовые файлы — LF в рабочем дереве и в репо.
+# Отменяет скачки CRLF/LF из-за core.autocrlf=true.
+* text=auto eol=lf
+
+# Бинарные — не трогать
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
