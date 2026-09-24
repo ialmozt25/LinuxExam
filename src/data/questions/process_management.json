@@ -113,7 +113,7 @@
     "difficulty": "medium",
     "objective_domain": "6",
     "subtopic": "journalctl filtering",
-    "question": "Какая команда покажет записи журнала для sshd за текущий загруз?",
+    "question": "Какая команда покажет записи журнала для sshd за текущую загрузку?",
     "options": [
       {
         "text": "journalctl -u sshd -b",
@@ -128,11 +128,11 @@
         "correct": false
       },
       {
-        "text": "journalctl -t sshd -b",
+        "text": "journalctl -u sshd --since today",
         "correct": false
       }
     ],
-    "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущим загрузом. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузу, а -t фильтрует по syslog-метке."
+    "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущей загрузкой. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузке, а --since today задаёт интервал времени, а не загрузку."
   },
   {
     "id": "pm_006",
