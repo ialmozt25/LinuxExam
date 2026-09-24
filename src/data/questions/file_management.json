@@ -16,7 +16,7 @@
         "correct": false
       },
       {
-        "text": "copy -r dir1 dir2",
+        "text": "copy dir1 dir2",
         "correct": false
       },
       {
@@ -228,11 +228,11 @@
         "correct": true
       },
       {
-        "text": "find . -type f | xargs rm",
+        "text": "find . -type f -print | xargs rm",
         "correct": false
       },
       {
-        "text": "find . -type f -exec0 rm",
+        "text": "find . -type f -exec0 rm {} \\;",
         "correct": false
       },
       {
