@@ -4,7 +4,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import { useQuizStore } from '@/store/quizStore';
-import { initTelegramSDK } from './platform/telegram_adapter';
 import { applyThemeChoice, getThemeChoice, migrateThemeStorage } from './utils/theme';
 
 // Storage migration runs SYNCHRONOUSLY here, before the first theme read. Doing it
@@ -44,6 +43,11 @@ async function bootstrap(): Promise<void> {
     });
   }
 
+  // The Telegram SDK is ~17 kB gzip and only matters inside the client, so the
+  // adapter is reached through a dynamic import: it becomes its own chunk instead of
+  // riding in the initial chunk. Ordering is unchanged — init still completes before
+  // the first render, so mounted buttons, viewport and theme variables are ready.
+  const { initTelegramSDK } = await import('./platform/telegram_adapter');
   await initTelegramSDK();
 
   createRoot(document.getElementById('root')!).render(

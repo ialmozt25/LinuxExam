@@ -2,17 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { createElement } from 'react';
 import { act, render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { useThemeController } from '../useThemeController';
-
-const mocks = vi.hoisted(() => ({
-  isTMA: vi.fn<() => boolean>(),
-  isDark: vi.fn<() => boolean | undefined>(),
-}));
-
-vi.mock('@telegram-apps/sdk-react', () => ({
-  isTMA: mocks.isTMA,
-  themeParams: { isDark: mocks.isDark, bindCssVars: undefined },
-  useSignal: (signal: () => unknown) => signal(),
-}));
+import { publishTelegramTheme } from '@/platform/telegramTheme';
 
 const KEY = 'lx-theme';
 
@@ -70,10 +60,9 @@ beforeEach(() => {
   localStorage.clear();
   document.documentElement.removeAttribute('data-theme');
   document.documentElement.removeAttribute('data-theme-source');
-  mocks.isTMA.mockReset();
-  mocks.isDark.mockReset();
-  mocks.isTMA.mockReturnValue(false);
-  mocks.isDark.mockReturnValue(undefined);
+  // The controller now reads the SDK-free bridge; the SDK adapter publishes into it
+  // (see platform/telegram_adapter.ts). Reset it to "not in Telegram".
+  publishTelegramTheme({ inTMA: false, isDark: undefined });
 });
 
 afterEach(() => {
@@ -151,23 +140,19 @@ describe('useThemeController — toggle', () => {
   });
 });
 
-// NOTE: readSystemTheme() also guards a throwing themeParams.isDark(). That branch
-// is deliberately NOT covered here: the hook reads the signal through
-// useSignal(signal), which invokes it during RENDER, so a throwing signal fails the
-// render itself and never reaches the guard. The guard is defensive for direct
-// calls from the toggle path.
+// NOTE: the adapter reads themeParams.isDark defensively (readTelegramIsDark), and
+// an unreadable signal is published as undefined, which the controller must treat as
+// untrusted — covered by "treats undefined from the signal as untrusted" below.
 describe('useThemeController — Telegram signal', () => {
-  it('uses themeParams.isDark for the system theme inside Telegram', () => {
-    mocks.isTMA.mockReturnValue(true);
-    mocks.isDark.mockReturnValue(true);
+  it('uses the published colour scheme for the system theme inside Telegram', () => {
+    publishTelegramTheme({ inTMA: true, isDark: true });
     stubMatchMedia(false);
     render(createElement(Probe));
     expect(resolvedOf()).toBe('dark');
   });
 
   it('toggle inside Telegram compares against the client theme', () => {
-    mocks.isTMA.mockReturnValue(true);
-    mocks.isDark.mockReturnValue(true);
+    publishTelegramTheme({ inTMA: true, isDark: true });
     stubMatchMedia(false);
     render(createElement(Probe));
     fireEvent.click(screen.getByRole('button'));
@@ -176,8 +161,7 @@ describe('useThemeController — Telegram signal', () => {
   });
 
   it('a manual choice overrides the Telegram signal entirely', () => {
-    mocks.isTMA.mockReturnValue(true);
-    mocks.isDark.mockReturnValue(true);
+    publishTelegramTheme({ inTMA: true, isDark: true });
     localStorage.setItem(KEY, 'light');
     render(createElement(Probe));
     // Telegram says dark, the pinned choice says light, and the choice wins.
@@ -187,8 +171,7 @@ describe('useThemeController — Telegram signal', () => {
 
 
   it('treats undefined from the signal as untrusted and uses matchMedia', () => {
-    mocks.isTMA.mockReturnValue(true);
-    mocks.isDark.mockReturnValue(undefined);
+    publishTelegramTheme({ inTMA: true, isDark: undefined });
     stubMatchMedia(false);
     render(createElement(Probe));
     expect(resolvedOf()).toBe('light');

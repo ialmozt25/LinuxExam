@@ -10,6 +10,7 @@ import {
   swipeBehavior,
   shareURL,
 } from '@telegram-apps/sdk-react';
+import { publishTelegramTheme } from './telegramTheme';
 
 /**
  * Thin wrapper around the official Telegram Mini Apps SDK (@telegram-apps/sdk-react v3).
@@ -41,6 +42,14 @@ export async function initTelegramSDK(): Promise<void> {
     if (themeParams.mount.isAvailable()) {
       await themeParams.mount();
     }
+
+    // Hand the colour scheme to the SDK-free bridge (src/platform/telegramTheme.ts)
+    // and keep it in sync, so useThemeController can follow the Telegram palette
+    // without pulling the SDK into the initial chunk.
+    publishTheme();
+    themeParams.isDark.sub(() => publishTheme());
+    bindThemeCssVars();
+
     if (miniApp.mount.isAvailable()) {
       await miniApp.mount();
     }
@@ -66,6 +75,41 @@ export async function initTelegramSDK(): Promise<void> {
     document.body.style.overscrollBehavior = 'none';
   } catch (e) {
     console.warn('Telegram SDK init failed:', e);
+  }
+}
+
+/**
+ * Reads `themeParams.isDark` defensively: an unmounted Computed yields undefined,
+ * which the theme bridge deliberately does NOT read as 'dark'.
+ */
+function readTelegramIsDark(): boolean | undefined {
+  try {
+    const value = themeParams.isDark();
+    return value === true ? true : value === false ? false : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** Publishes the current Telegram colour scheme into the SDK-free bridge. */
+function publishTheme(): void {
+  publishTelegramTheme({ inTMA: true, isDark: readTelegramIsDark() });
+}
+
+/**
+ * Publishes `--tg-theme-*` on <html> and keeps them in sync. The
+ * [data-theme-source="inherit"] block in tokens.css consumes them. Moved here from
+ * useThemeController when the SDK left the initial chunk: binding is an SDK concern,
+ * and doing it at init means the variables exist before React's first paint.
+ */
+function bindThemeCssVars(): void {
+  const bind = themeParams.bindCssVars;
+  if (typeof bind !== 'function') return;
+  try {
+    if (typeof bind.isAvailable === 'function' && !bind.isAvailable()) return;
+    bind();
+  } catch {
+    // Already bound, or not mounted: existing variables stay in place.
   }
 }
 

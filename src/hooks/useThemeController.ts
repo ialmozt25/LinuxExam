@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { isTMA, themeParams, useSignal } from '@telegram-apps/sdk-react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
+import { getTelegramThemeState, subscribeTelegramTheme } from '@/platform/telegramTheme';
 import {
   applyThemeChoice,
   resolveTheme,
@@ -37,9 +37,9 @@ function toChoice(manual: ResolvedTheme | null): ThemeChoice {
 }
 
 /**
- * The Telegram colour scheme, or undefined when it cannot be trusted.
- * Strict comparison on purpose: a Computed that is not mounted yields undefined,
- * which must NOT be read as 'dark'.
+ * The Telegram colour scheme, or the OS preference when no trustworthy Telegram
+ * signal exists. Strict comparison on purpose: a missing/unreadable signal yields
+ * undefined, which must NOT be read as 'dark'.
  */
 function readSystemTheme(): ResolvedTheme {
   const fromMedia = (): ResolvedTheme =>
@@ -48,14 +48,12 @@ function readSystemTheme(): ResolvedTheme {
         ? 'dark'
         : 'light'
       : 'dark';
-  try {
-    if (isTMA() === true) {
-      const value = themeParams.isDark();
-      if (value === true) return 'dark';
-      if (value === false) return 'light';
-    }
-  } catch {
-    // Fall through to the OS preference.
+  // Read through the SDK-free bridge: the adapter publishes into it when the SDK
+  // loads, so this stays accurate without importing the SDK here.
+  const telegram = getTelegramThemeState();
+  if (telegram.inTMA) {
+    if (telegram.isDark === true) return 'dark';
+    if (telegram.isDark === false) return 'light';
   }
   return fromMedia();
 }
@@ -71,23 +69,34 @@ export interface ThemeController {
  * Single source of truth for the active theme. Called exactly once, from App.
  *
  * Two live inputs are merged here:
- * - inside Telegram, `themeParams.isDark` (a Computed signal, subscribed via
- *   `useSignal`) so the app follows the client theme and reacts when the user
- *   switches Telegram's own theme;
+ * - inside Telegram, the colour scheme published by the SDK adapter into the
+ *   SDK-free bridge (`@/platform/telegramTheme`), subscribed through
+ *   useSyncExternalStore, so the app follows the client theme and reacts when the
+ *   user switches Telegram's own theme. The SDK itself is never imported here — it
+ *   is reached only through the dynamic import in main.tsx, which keeps ~17 kB gzip
+ *   of SDK out of the initial chunk;
  * - outside Telegram, `matchMedia` with a change listener.
  *
  * `applyThemeChoice` receives the Telegram signal, otherwise it would fall back to
  * the OS preference and an inheriting app inside Telegram would show the wrong theme.
  *
- * `themeParams.bindCssVars()` publishes `--tg-theme-*` on <html> and keeps them in
- * sync, which the [data-theme-source="inherit"] block in tokens.css consumes.
+ * The `--tg-theme-*` variables are published by the adapter's bindThemeCssVars call
+ * when the SDK loads; the [data-theme-source="inherit"] block in tokens.css consumes
+ * them.
  */
 export function useThemeController(): ThemeController {
-  const inTelegram = isTMA();
+  // Re-renders when the adapter publishes a new Telegram colour scheme. The bridge
+  // hands back a stable snapshot object, so this does not loop.
+  const telegram = useSyncExternalStore(
+    subscribeTelegramTheme,
+    getTelegramThemeState,
+    getTelegramThemeState
+  );
+  const inTelegram = telegram.inTMA;
 
-  // Subscribing through the SDK hook rather than reading the signal inline: the
-  // component must re-render when Telegram flips its color scheme.
-  const telegramIsDark = useSignal(themeParams.isDark);
+  // Subscribed through the bridge rather than read inline: the component must
+  // re-render when Telegram flips its color scheme.
+  const telegramIsDark = telegram.isDark;
 
   const [osIsDark, setOsIsDark] = useState<boolean>(readOsIsDark);
   const [manual, setManual] = useState<ResolvedTheme | null>(readManual);
@@ -101,27 +110,9 @@ export function useThemeController(): ThemeController {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  // Publish (and keep publishing) the Telegram palette as CSS variables.
-  useEffect(() => {
-    if (!inTelegram) return;
-    const bind = themeParams.bindCssVars;
-    if (typeof bind !== 'function') return;
-    let unbind: (() => void) | undefined;
-    try {
-      if (typeof bind.isAvailable === 'function' && !bind.isAvailable()) return;
-      unbind = bind();
-    } catch {
-      // Already bound, or the component is not mounted: existing variables stay.
-      return;
-    }
-    return () => {
-      try {
-        unbind?.();
-      } catch {
-        // Best-effort on teardown.
-      }
-    };
-  }, [inTelegram]);
+  // The Telegram palette (--tg-theme-*) is bound by the SDK adapter at init (see
+  // bindThemeCssVars in platform/telegram_adapter.ts): it is an SDK concern, and
+  // binding before the first paint is strictly better. This hook stays SDK-free.
 
   const resolved = resolveTheme(toChoice(manual), {
     inTelegram,

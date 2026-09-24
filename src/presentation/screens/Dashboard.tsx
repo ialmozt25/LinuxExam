@@ -8,6 +8,7 @@ import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { useExamTimer } from '@/hooks/useExamTimer';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
+import { getBankTotal, getTopicCount } from '@/data/questions';
 import type { ResolvedTheme } from '@/utils/theme';
 
 interface Props {
@@ -18,7 +19,8 @@ interface Props {
 }
 
 export default function Dashboard({ theme, onToggleTheme }: Props) {
-  const questions = useQuizStore((s) => s.questions);
+  // Counts come from the bank manifest (≈260 B) rather than from the loaded bank:
+  // the Dashboard must show real numbers before the topic chunks arrive.
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const streak = useQuizStore((s) => s.streak);
   const totalXp = useQuizStore((s) => s.totalXp);
@@ -58,7 +60,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   }, []);
 
 
-  const totalQuestions = questions.length;
+  const totalQuestions = getBankTotal();
   const progressPercent = totalQuestions > 0 ? (answered / totalQuestions) * 100 : 0;
   const level = Math.floor(totalXp / 100) + 1;
   const xpPercent = totalXp % 100;
@@ -273,7 +275,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </div>
 
         {TOPICS.map((topic) => {
-          const count = questions.filter((q) => q.topic === topic.key).length;
+          const count = getTopicCount(topic.key);
           const isAvailable = topic.status === 'available';
           const Icon = topic.Icon;
 

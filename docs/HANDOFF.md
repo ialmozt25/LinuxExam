@@ -10,14 +10,14 @@
 | Репо | `C:\Users\Alexey Udotov\LinuxExam` |
 | GitHub | `github.com/ialmozt25/LinuxExam` (публичный) |
 | Прод | https://ialmozt25.github.io/LinuxExam/ |
-| HEAD | `dd4434d` — база этой работы; сверху **этот коммит** (`perf: lazy-load questions by topic`, entry 150.21 → 125.22 kB gzip), 2026-09-24 |
+| HEAD | `302fe00` — база этой работы; сверху **этот коммит** (`perf: reduce entry bundle gzip`, entry 125.22 → **51.56** kB gzip), 2026-09-24 |
 | Ветка / upstream | `main` / `origin/main`, ahead/behind `0/0` |
-| История | 100 коммитов |
+| История | 101 коммит |
 | Банк | 96 вопросов, 96 уникальных id, 0 невалидных, 76 сабтопиков |
 | Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `essential_tools` 7 |
 | Домены (objective_domain) | 1:23, 2:**10**, 3:5, 4:2, 5:4, 6:3, 7:25, 8:1, 9:23 (все 96 записей имеют валидный домен) |
 | topics.ts | 9 available / 5 planned; у всех planned — 0 вопросов |
-| Bundle gzip | entry `dist/assets/index-*.js` = **125.22 kB** (raw 390.37 kB), CSS 2.76 kB; банк — 10 ленивых чанков (9 тем + `_order`, **31.57 kB** gzip); суммарный первый запрос **156.79 kB** gzip; watch-порог **>137 kB**: entry проходит, суммарный — нет |
+| Bundle gzip | entry `index-B7YDS_6E.js` = **51.56 kB** (raw 158.39 kB), CSS 2.76 kB; ленивые чанки: Question+motion 47.94, SDK 18.41, Dashboard 3.48, topics 2.51, банк 31.57; первый экран (entry + SDK + Dashboard + topics + банк) ≈ **110 kB** gzip, сумма всех чанков 160.74 kB; watch-порог **>137 kB** считается по entry — проходит с запасом |
 | Стек | React `^18.3.1`, Vite `^5.4.2`, TypeScript `^5.5.3`, Zustand `^5.0.15`, Tailwind `^3.4.1`, motion `^13.4.0`, @telegram-apps/sdk `^3.11.8`, lucide-react `^0.446.0`; Node `v24.13.0`, npm `11.6.2` |
 | Дата снапшота | 2026-09-24 |
 | Дата сборки HANDOFF | 2026-09-24 |
@@ -43,11 +43,11 @@
 
 ## Состояние на 2026-09-24
 
-- HEAD `dd4434d` + этот коммит (`perf: lazy-load questions by topic`), ветка `main`, upstream `origin/main`, ahead/behind **1/0** (push — по одобрению), 100 коммитов.
+- HEAD `302fe00` + этот коммит (`perf: reduce entry bundle gzip`), ветка `main`, upstream `origin/main`, ahead/behind **2/0** (два коммита ждут одобрения push), 101 коммит.
 - Банк **96** вопросов: `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `essential_tools` 7. Уникальных id 96, невалидных 0, уникальных сабтопиков 76.
 - `topics.ts`: 9 available / 5 planned; у всех planned тем — 0 вопросов в банке.
-- `subagent_calls` этой сессии: **0** (задача решена без субагентов; предыдущая конвейерная сессия — 123 из лимита 130).
-- Bundle: entry-чанк **125.22 kB** gzip (до этого 150.21 kB одним чанком), банк вынесен в 9 ленивых чанков + `_order` (31.57 kB gzip). Суммарный первый запрос **156.79 kB** — выше watch 137 kB. Цель «initial ≤ 60 kB» **НЕ достигнута**: замер manualChunks-диагностикой даёт остаток React 45.5 + motion 44.0 + `@telegram-apps/sdk` 16.6 + экраны 11.8 + misc 3.7 + lucide 2.6 + zustand 1.6 kB gzip.
+- `subagent_calls` этой сессии: **0** (обе bundle-сессии решены без субагентов).
+- Bundle: entry-чанк **51.56 kB** gzip (было 125.22, исходно 150.21 одним чанком) — идеал «≤ 60 kB» **достигнут**. `motion` уехал вместе с ленивым `Question` (47.94 kB gzip), SDK — в отдельный ленивый чанк (18.41), экраны — `React.lazy`, Dashboard берёт счётчики из 261-байтного `_topics.json`. Сумма всех чанков 160.74 kB (на 3.95 больше прежних 156.79 из-за накладных на чанки), но первый экран грузит ≈110 kB вместо ≈159 kB.
 - Уязвимости (два среза): Dependabot 52 (1 critical, 23 high, 24 moderate, 4 low); npm audit 32 (1 critical, 20 high, 8 moderate, 3 low, 564 зависимости).
 - Cosine: `background_max` **0.8085**, threshold **0.80**, margin **−0.0085**, class inversion на русском; `threshold_warning` требует L5c-ревью перед приёмкой батча.
 - `tools/qc.cjs`: length ratio — только `WARN > 2.5`, тогда как пилот v2.0 отбраковывал при `> 1.30` (осознанное расхождение, не баг).
@@ -61,7 +61,7 @@
 - Наполнение банка до 160+ (5 planned-тем без вопросов).
 - Токен `@linux_exam_bot` отозван — перевыпустить.
 - Option shuffle: все 96 ответов на позиции A на уровне данных (рендер перемешивает через `shuffleOptions` + seed, но банк вырожден для аудита).
-- Bundle: вопросы вынесены в ленивые чанки (entry 150.21 → 125.22 kB gzip), но цель ≤60 kB требует другого рычага — `motion` (44.0 kB gzip) и React (45.5) дают ~72% остатка; далее `@telegram-apps/sdk` (16.6) и ленивые экраны (11.8).
+- Bundle: entry приведён к **51.56 kB** gzip (цель ≤60 достигнута). Остаток entry — React (≈45.5 kB gzip) + store/theme/glue; дальше только смена рантайма (Preact) или отказ от React-зависимостей. Суммарный вес всех чанков 160.74 kB — watch 137 kB считается по entry и проходит.
 - `npm audit`: 1 critical + 20 high — обновить deps.
 
 ### P1 (качество)
@@ -86,6 +86,8 @@
 
 ## Что закрыто (не переделывать)
 
+- Bundle-opt: entry 125.22 → **51.56 kB** gzip. `motion` (44 kB gzip) уехал вместе с ленивым `Question` — он используется только в `Question.tsx` и `MotionButton.tsx`; `@telegram-apps/sdk` — через dynamic import адаптера в `main.tsx` в отдельный чанк (инициализация по-прежнему до первого рендера, порядок не менялся); экраны — `React.lazy` + `Suspense` с общим фолбэком; Dashboard считает вопросы и общий итог из `_topics.json`. Тема стала SDK-free: добавлен мост `src/platform/telegramTheme.ts` (адаптер публикует, `useThemeController` читает через `useSyncExternalStore`), `bindCssVars` переехал в адаптер; тесты контроллера переведены с мока SDK на публикацию в мост. tsc 0 ошибок, 128 unit + 18 e2e зелёные.
+- НЕ сделано осознанно (нужна отдельная задача): отказ от загрузки банка на старте. Три экрана (`Dashboard`, `Paywall`, `Results`) используют `questions.length` как знаменатель, а `start*Quiz` синхронны и в трёх тест-файлах получают банк через `setState({ questions: mock })`. Вынос требует async-квери, ленивой загрузки темы по клику и переписывания этих тестов — вне рамок bundle-задачи, эффект только на суммарный вес, не на entry.
 - Lazy-load банка: монолит `src/data/questions.json` (143 093 б) разбит на `src/data/questions/{topic}.json` (9 файлов) + `_order.json` (порядок id) + лоадер `index.ts` (dynamic import → отдельный чанк на тему); store грузит банк асинхронно (`loadQuestions(): Promise<void>`), у UI появился loading-gate; tsc 0 ошибок, 128 unit + 18 e2e тестов зелёные; entry 150.21 → 125.22 kB gzip. В e2e пришлось снять гонку: `color-regression` проверял `isVisible()` до появления кнопки темы (loading-gate) и пропускал клик — заменено на ожидание `waitFor`. Грабли: пока монолит лежал рядом, Vite резолвил `@/data/questions` в `questions.json` раньше `questions/index.ts`, и тесты падали с `loadAll is not a function` — коллизию снимает удаление монолита (tsc при этом уже был зелёным).
 - Merge text_files: банк 86 → **96**, тема `text_files` закрыта (10 вопросов, домен 1), commit `dd4434d`; L4 — 3 вопроса вернулись с fail и перепроверены после правок стемов (tf_003, tf_006, tf_007); L4.5 — 49 PASS + 1 опровергнутый REJECT (tf_001); Haladyna 10/10 у всех, Jaccard max 0.2250.
 - Merge shell_scripts: банк 76 → **86**, домен 2 закрыт впервые (10 вопросов, `sh_001..sh_010`), commit `f54a3dc`; L4.5 10/10 unanimous, Haladyna min 9 / max 10, Jaccard max 0.1429; на L2 исправлены 2 дефекта (нерабочий дистрактор sh_010, лазейка в стеме sh_008).
@@ -129,7 +131,8 @@
 
 | Файл | Назначение |
 |---|---|
-| `src/data/questions/` | банк 96 вопросов: 9 файлов по темам + `_order.json` (порядок id) + ленивый лоадер `index.ts`; монолит `questions.json` удалён (gitignored бэкап `questions.json.bak`, 4 522 б) |
+| `src/data/questions/` | банк 96 вопросов: 9 файлов по темам + `_order.json` (порядок id) + `_topics.json` (счётчики для Dashboard, 261 б) + ленивый лоадер `index.ts`; монолит `questions.json` удалён |
+| `src/platform/telegramTheme.ts` | SDK-free мост состояния Telegram-темы: адаптер публикует, `useThemeController` читает через `useSyncExternalStore` — SDK не попадает в entry |
 | `src/data/topics.ts` | 14 тем, `TOPICS`/`AVAILABLE_TOPICS`/`PLANNED_TOPICS`; источник валидных topic-ключей для `qc.cjs` |
 | `src/store/quizStore.ts` | Zustand-стор: 3 потока (regular/review/exam), `FREE_QUESTION_LIMIT = 5`, persist |
 | `src/domain/quizService.ts` | `seedFromId`, `shuffleOptions`, `calculateProgress` (чистые функции) |

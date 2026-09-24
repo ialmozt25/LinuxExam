@@ -1,4 +1,20 @@
 import type { QuestionJson } from '@/data/models/Question';
+import bankTotals from './_topics.json';
+
+/**
+ * Bank sizes without loading the bank.
+ *
+ * `_topics.json` (≈260 B) is generated next to the topic chunks, so screens that
+ * only need counts — the Dashboard, the paywall denominator — can render correct
+ * numbers on the first paint instead of waiting for the bank.
+ */
+export function getBankTotal(): number {
+  return bankTotals.total;
+}
+
+export function getTopicCount(topic: string): number {
+  return (bankTotals.byTopic as Record<string, number>)[topic] ?? 0;
+}
 
 /**
  * Lazy loader for the question bank.

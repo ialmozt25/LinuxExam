@@ -1,10 +1,33 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { useQuizStore } from '@/store/quizStore';
-import Dashboard from '@/presentation/screens/Dashboard';
-import Question from '@/presentation/screens/Question';
-import Results from '@/presentation/screens/Results';
 import { isTelegramWebApp, getTelegramUser } from '@/platform/telegram_adapter';
 import { useThemeController } from '@/hooks/useThemeController';
+
+/**
+ * Screens are code-split. React, the store, the theme controller and the DEV badge
+ * stay in the initial chunk, while each screen carries its own dependencies
+ * (motion, lucide icons, the screen-level Telegram hooks) in a separate chunk.
+ * The Dashboard is the first screen and therefore loads immediately; Question and
+ * Results only when navigation reaches them.
+ */
+const Dashboard = lazy(() => import('@/presentation/screens/Dashboard'));
+const Question = lazy(() => import('@/presentation/screens/Question'));
+const Results = lazy(() => import('@/presentation/screens/Results'));
+
+function Loading() {
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      Загрузка…
+    </div>
+  );
+}
 
 function App() {
   // Single source of truth: follows Telegram inside the client, the OS outside,
@@ -23,18 +46,7 @@ function App() {
   // The bank arrives as per-topic chunks. Until it is in place every screen would
   // render an empty bank (topic counts of 0, no current question), so gate on it.
   if (isLoading) {
-    return (
-      <div
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        Загрузка…
-      </div>
-    );
+    return <Loading />;
   }
 
   const screen =
@@ -50,7 +62,8 @@ function App() {
 
   return (
     <>
-      {screen}
+      {/* The lazy screen chunk is fetched on first render of that screen. */}
+      <Suspense fallback={<Loading />}>{screen}</Suspense>
 
       {import.meta.env.DEV && (
         <div
