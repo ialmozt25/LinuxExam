@@ -201,19 +201,19 @@
         "correct": true
       },
       {
-        "text": "locate --update",
+        "text": "locate -b",
         "correct": false
       },
       {
-        "text": "mlocate --rebuild",
+        "text": "locate -c",
         "correct": false
       },
       {
-        "text": "find / -name \"*\" > /var/lib/mlocate.db",
+        "text": "mlocate -r",
         "correct": false
       }
     ],
-    "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. У locate нет ключа --update, поэтому этот вариант не сработает. Ручная запись в файл базы не воспроизводит её формат."
+    "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. Ключи -b, -c и -r у locate управляют выборкой (базовое имя, подсчёт совпадений, регулярное выражение), но саму базу данных не перестраивают."
   },
   {
     "id": "fm_009",
