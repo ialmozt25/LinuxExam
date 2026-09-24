@@ -1,0 +1,9 @@
+{
+  "qid": "net_001",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "A единственно верный: modify пишет статику в профиль, но применяет только `connection up`; B = modify + show (ничего не применяет), C невалидна (add без --type → «type argument is required»), D переводит профиль на DHCP и игнорирует addresses.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

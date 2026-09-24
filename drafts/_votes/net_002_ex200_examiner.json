@@ -1,0 +1,9 @@
+{
+  "qid": "net_002",
+  "role": "ex200_examiner",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ hostnamectl set-hostname db1.example.com корректен: на Rocky 9 systemd-hostnamed пишет статическое имя в /etc/hostname, и оно сохраняется после перезагрузки. Дистракторы невалидны по синтаксису (sysctl hostname set, hostname --set-static, hostnamectl --transient без подкоманды set-hostname), поэтому валидных альтернатив и двусмысленности нет. Формулировка однозначна и соответствует объективу EX200 по настройке имени хоста.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

@@ -1,0 +1,9 @@
+{
+  "qid": "net_001",
+  "role": "ex200_examiner",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ A верен: nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 с последующим nmcli connection up eth0 — штатный способ применить статику к существующему подключению без перезагрузки, синтаксис актуален для NetworkManager/nmcli в RHEL 8/9. Дистракторы корректны: B не применяет настройку (только show), C использует connection add без обязательного --type и создаёт новое подключение, D ставит method auto (DHCP), при котором статический адрес не применяется. Объяснение в файле согласуется с ключом, двусмысленности нет.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

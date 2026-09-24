@@ -1,0 +1,9 @@
+{
+  "qid": "net_008",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "ip route show печатает IPv4-таблицу маршрутизации с default via — канонический способ проверить шлюз. B — адреса, C — каналы/MTU, D — правила RPDB, ни один маршрутов не печатает.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

@@ -1,0 +1,9 @@
+{
+  "qid": "net_012",
+  "role": "ex200_examiner",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ A верен: `nmcli device wifi list` инициирует сканирование и печатает доступные точки доступа, что прямо соответствует формулировке стема. Дистракторы синтаксически валидны и правдоподобны, но выводят другое: устройства (device status), сохранённые профили (connection show) и состояние NetworkManager (general status). Двусмысленности нет: только ключ перечисляет найденные Wi-Fi сети.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

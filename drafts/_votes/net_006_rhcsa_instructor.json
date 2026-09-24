@@ -1,0 +1,9 @@
+{
+  "qid": "net_006",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Формат /etc/hosts — сначала IP, затем имена; модуль files в nsswitch резолвит db1 локально без DNS. B — обратный порядок; C и D пишут в resolv.conf, где хранятся только параметры резолвера.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

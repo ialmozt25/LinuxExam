@@ -1,0 +1,9 @@
+{
+  "qid": "net_002",
+  "role": "skeptic",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ A верен: hostnamectl set-hostname пишет статическое имя в /etc/hostname, и оно сохраняется после перезагрузки (в т.ч. на Rocky 9); B задаёт только transient, C — несуществующий синтаксис sysctl, D — несуществующий ключ --set-static у hostname. Стем однозначен, второго правильного варианта нет; единственная придирка — объяснение иллюстрирует transient-эффект командой hostname db1.example.com, которой нет среди опций, но суть возражения к D оно всё равно раскрывает.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

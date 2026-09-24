@@ -1,0 +1,9 @@
+{
+  "qid": "net_009",
+  "role": "ex200_examiner",
+  "vote": "REJECT",
+  "key_correct": false,
+  "reason": "Ключ A «nmcli device status --all states» не является рабочей командой: у nmcli нет глобальной опции --all и нет поля states, поэтому вызов завершится ошибкой, тогда как верный ответ — просто «nmcli device status». Дистракторы B–D также синтаксически невозможны (у connection нет status, у networking нет status, general status не принимает --all devices), а объяснение вообще не разбирает ключ и ссылается на отсутствующую в опциях «nmcli general permissions», поэтому вопрос двусмыслен и в банк не годится.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

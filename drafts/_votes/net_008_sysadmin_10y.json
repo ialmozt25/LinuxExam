@@ -1,0 +1,9 @@
+{
+  "qid": "net_008",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "ip route show выводит основную таблицу маршрутизации, включая default via. B — адреса, C — каналы, D — правила RPDB (0/32766/32767 lookup local|main|default), которые не печатают сам маршрут.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

@@ -51,7 +51,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'planned', Icon: Settings },
   { key: 'networking', title: 'Сеть',
     description: 'nmcli, hostname, /etc/hosts, firewalld',
-    status: 'planned', Icon: Wifi },
+    status: 'available', Icon: Wifi },
   { key: 'users_groups', title: 'Пользователи и группы',
     description: 'useradd, usermod, sudo, /etc/passwd',
     status: 'available', Icon: Users },

@@ -1,0 +1,11 @@
+{
+  "id": "net_003",
+  "interpretations": [
+    "Literal: asked for the file holding DNS resolver addresses; /etc/resolv.conf holds nameserver entries — A.",
+    "Reading \"what governs DNS use\": /etc/nsswitch.conf has hosts: files dns myhostname, which looks DNS-related, but it defines source order only, not server addresses — C stays wrong.",
+    "Reading \"where persistent DNS config lives\": addresses normally live in the NetworkManager profile and /etc/resolv.conf is derived; that option is absent, so A stays nearest-correct."
+  ],
+  "ambiguous": false,
+  "reason": "Only /etc/resolv.conf contains server addresses; /etc/nsswitch.conf holds order only; /etc/host.conf is legacy resolver config; /etc/hosts.allow is TCP wrappers access control.",
+  "verdict": "pass"
+}

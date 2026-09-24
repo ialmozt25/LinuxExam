@@ -1,0 +1,9 @@
+{
+  "qid": "net_012",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ nmcli device wifi list действительно инициирует сканирование и выводит список доступных точек доступа (SSID/BSSID/канал/сигнал) — это штатный синтаксис nmcli и прямое попадание в objective по NetworkManager. Все дистракторы существуют и правдоподобны, но показывают другое: device status — устройства и их состояние, connection show — сохранённые профили, general status — общее состояние NM; двусмысленности и скрытых валидных вариантов нет.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

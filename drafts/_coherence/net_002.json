@@ -1,0 +1,11 @@
+{
+  "id": "net_002",
+  "interpretations": [
+    "Literal (command validity): only A is a syntactically valid hostnamectl invocation that sets the hostname; C is not hostnamectl syntax and D is not a CLI.",
+    "Persistence semantics: the stem demands survival of reboot (static hostname); set-hostname without keys writes pretty+static+transient, the static part living in /etc/hostname, so A satisfies it; B is the transient-only trap.",
+    "Alternative-tool reading: Rocky 9 offers several routes (hostnamectl, nmcli general hostname, /etc/hostname, nmtui); only the hostnamectl route is present and A is the only correct entry."
+  ],
+  "ambiguous": false,
+  "reason": "Ambiguity exists only at the level of framing (root/sudo not stated, \"static\" not named explicitly), not answerability. No interpretation makes a second option defensible: B is transient-only, C is invalid syntax, D is a D-Bus service rather than a command.",
+  "verdict": "pass"
+}

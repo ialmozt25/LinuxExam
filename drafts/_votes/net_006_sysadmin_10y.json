@@ -1,0 +1,9 @@
+{
+  "qid": "net_006",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Формат hosts(5) — IP первым, поэтому A создаёт статическую привязку, а B с обратным порядком парсер files отклонит. C/D пишут неверный синтаксис в resolv.conf, где допустимы только nameserver/search/domain/options.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

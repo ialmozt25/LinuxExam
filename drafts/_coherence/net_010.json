@@ -1,0 +1,11 @@
+{
+  "id": "net_010",
+  "interpretations": [
+    "Permanent binding: \"постоянно\" means surviving firewall-cmd --reload and reboot → --permanent with --zone=internal --add-interface=ens18, option A.",
+    "Immediate/session binding: if survival were not required, B would fit, but it is runtime-only and excluded by the word \"постоянно\".",
+    "Zone-creation or alternative-key reading: C (--new-zone does not take --interface) and D (--set-interface does not exist) are invalid syntax, so A remains the only valid option."
+  ],
+  "ambiguous": false,
+  "reason": "The qualifier \"постоянно\" excludes runtime-only B; C and D are invalid syntax; --change-interface, which would also work, is not among the options. Exactly one option is defensible.",
+  "verdict": "pass"
+}

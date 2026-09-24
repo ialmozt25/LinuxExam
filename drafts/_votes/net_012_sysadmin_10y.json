@@ -1,0 +1,9 @@
+{
+  "qid": "net_012",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ верен: nmcli device wifi list запускает сканирование адаптером и печатает найденные точки доступа (SSID, BSSID, канал, сигнал). Дистракторы корректны и правдоподобны: device status и general status показывают состояние устройств и NetworkManager, connection show — сохранённые профили, а не обнаруженные сети. Двусмысленности нет, формулировка стема однозначно указывает на список доступных сетей.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

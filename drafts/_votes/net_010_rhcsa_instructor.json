@@ -1,0 +1,9 @@
+{
+  "qid": "net_010",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "A единственная постоянная форма (--permanent пишет в /etc/firewalld/zones/internal.xml). B — runtime-only, C — --new-zone не принимает --interface, D — несуществующая --set-interface. Оговорка: при управлении через NM зона может задаваться в профиле подключения.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

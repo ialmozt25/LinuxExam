@@ -1,0 +1,9 @@
+{
+  "qid": "net_003",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "/etc/resolv.conf содержит строки nameserver. /etc/hosts.allow — TCP wrappers, /etc/nsswitch.conf — порядок источников без адресов, /etc/host.conf — устаревшие order/trim/spoof.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

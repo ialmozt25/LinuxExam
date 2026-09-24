@@ -2101,5 +2101,275 @@
         "review_recommended"
       ]
     }
+  },
+  {
+    "id": "net_001",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "nmcli connection add/modify/up/down",
+    "question": "Существующему подключению NetworkManager с именем eth0 требуется вручную задать статический адрес 192.168.10.50/24 и шлюз 192.168.10.1, причём так, чтобы настройка сразу применилась к интерфейсу, без перезагрузки. Какая последовательность команд это выполнит?",
+    "options": [
+      {
+        "text": "nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "correct": true
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection show eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection add eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv4.method auto ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "correct": false
+      }
+    ],
+    "explanation": "Опция ipv4.method принимает только значения auto, manual, link-local и disabled; запись auto ipv4.addresses … синтаксически допустима, но метод auto означает получение адреса по DHCP и статический адрес не применяется. Ключ connection add создаёт новое подключение, а не изменяет существующее, поэтому в системе появилось бы второе подключение, и команда без обязательного типа (--type ethernet) завершилась бы ошибкой. Вариант с командой ip addr add меняет адрес только до перезапуска или до следующего применения профиля NetworkManager и не сохраняется в конфигурации подключения."
+  },
+  {
+    "id": "net_002",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "hostname и hostnamectl",
+    "question": "Какая команда на Rocky 9 изменит статическое имя хоста на db1.example.com и сохранит его после перезагрузки?",
+    "options": [
+      {
+        "text": "hostnamectl set-hostname db1.example.com",
+        "correct": true
+      },
+      {
+        "text": "hostnamectl --transient db1.example.com",
+        "correct": false
+      },
+      {
+        "text": "sysctl hostname set db1.example.com",
+        "correct": false
+      },
+      {
+        "text": "hostname db1.example.com --set-static",
+        "correct": false
+      }
+    ],
+    "explanation": "hostname db1.example.com меняет только текущее (transient) имя в ядре и теряется после перезагрузки. Утилита sysctl работает с параметрами ядра вида имя=значение, ключа set у неё нет, и имя хоста так не задаётся. Ключ --transient у hostnamectl, наоборот, задаёт только временное имя для текущей загрузки, а статическое имя в /etc/hostname остаётся прежним."
+  },
+  {
+    "id": "net_003",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "/etc/resolv.conf и DNS",
+    "question": "В каком файле на Rocky 9 хранятся адреса DNS-серверов, которые система использует для разрешения имён?",
+    "options": [
+      {
+        "text": "/etc/resolv.conf",
+        "correct": true
+      },
+      {
+        "text": "/etc/hosts.allow",
+        "correct": false
+      },
+      {
+        "text": "/etc/nsswitch.conf",
+        "correct": false
+      },
+      {
+        "text": "/etc/host.conf",
+        "correct": false
+      }
+    ],
+    "explanation": "Адреса DNS-серверов перечисляются именно в /etc/resolv.conf: строки nameserver <IP> задают серверы имён, к которым резолвер обращается за разрешением. /etc/nsswitch.conf задаёт только порядок источников разрешения (например, «hosts: files dns»), но адресов серверов не содержит. /etc/hosts.allow относится к TCP wrappers и управляет доступом к службам, а не разрешением имён; на типовой Rocky 9 пакет tcp_wrappers не установлен, поэтому файла в системе нет. /etc/host.conf — устаревший файл glibc (в Rocky 9 содержит, например, «multi on») и адреса серверов имён тоже не хранит."
+  },
+  {
+    "id": "net_011",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "ss: фильтр по состоянию сокета",
+    "question": "Какая команда покажет только установленные (established) TCP-соединения с числовыми адресами и портами?",
+    "options": [
+      {
+        "text": "ss --tcp state established --numeric",
+        "correct": true
+      },
+      {
+        "text": "ss --tcp state time-wait --numeric",
+        "correct": false
+      },
+      {
+        "text": "ss --tcp state listening --numeric",
+        "correct": false
+      },
+      {
+        "text": "ss --tcp state close-wait --numeric",
+        "correct": false
+      }
+    ],
+    "explanation": "Фильтр состояний задаётся после указания протокола: ss --tcp state established --numeric оставляет только сокеты TCP в состоянии established и печатает адреса и порты числами, не разрешая имена служб. Состояние time-wait наступает после завершения соединения, когда сокет ещё удерживается для приёма запоздавших пакетов, поэтому установленные соединения в эту выборку не входят. Состояние listening описывает сокеты, ожидающие входящих подключений, у которых состояния established не бывает. Состояние close-wait означает, что удалённая сторона уже отправила FIN, а локальная ещё не закрыла соединение, то есть соединение находится в процессе завершения."
+  },
+  {
+    "id": "net_005",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "firewalld zone и --add-interface",
+    "question": "Требуется постоянно открывать TCP-порт 8080 в активной зоне firewalld. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "firewall-cmd --permanent --add-port=8080/tcp",
+        "correct": true
+      },
+      {
+        "text": "firewall-cmd --permanent --add-service=8080",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --add-rich-rule='open port 8080'",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --set-default-port=8080/tcp",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ --add-service принимает имя службы из набора firewalld (например http, https), а не номер порта, поэтому значение 8080 такой службой не является и команда завершится ошибкой. Синтаксис rich-rule не имеет формы open port; правило должно содержать port port=\"8080\" protocol=\"tcp\", иначе оно не будет разобрано. Ключа --set-default-port у firewall-cmd не существует."
+  },
+  {
+    "id": "net_006",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "/etc/hosts и порядок разрешения",
+    "question": "Требуется, чтобы имя db1 разрешалось в 192.168.1.10 без обращения к DNS-серверу. Какая команда это обеспечит?",
+    "options": [
+      {
+        "text": "echo '192.168.1.10 db1' >> /etc/hosts",
+        "correct": true
+      },
+      {
+        "text": "echo '192.168.1.10 db1' >> /etc/resolv.conf",
+        "correct": false
+      },
+      {
+        "text": "echo 'db1 192.168.1.10' >> /etc/hosts",
+        "correct": false
+      },
+      {
+        "text": "echo 'nameserver db1' >> /etc/resolv.conf",
+        "correct": false
+      }
+    ],
+    "explanation": "В /etc/resolv.conf хранятся адреса DNS-серверов, а не пары «адрес — имя», поэтому добавленная туда строка не будет разобрана и файл может быть перезаписан NetworkManager. В /etc/hosts формат строго «IP-адрес, затем имена», поэтому перестановка местами делает строку недопустимой. Директива nameserver ожидает IP-адрес сервера, а не имя db1, к тому же запись в /etc/resolv.conf не создаёт статическую привязку имени."
+  },
+  {
+    "id": "net_007",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "ip addr/route и проверка шлюза",
+    "question": "Маска подсети записана как 255.255.255.0. Какому префиксу длины сети она соответствует?",
+    "options": [
+      {
+        "text": "/24",
+        "correct": true
+      },
+      {
+        "text": "/16",
+        "correct": false
+      },
+      {
+        "text": "/25",
+        "correct": false
+      },
+      {
+        "text": "/33",
+        "correct": false
+      }
+    ],
+    "explanation": "Маска 255.255.255.0 содержит ровно 24 бита единиц, поэтому ей соответствует префикс /24. Вариант /16 — это маска 255.255.0.0, то есть 16 бит единиц. Вариант /25 — маска 255.255.255.128, то есть 25 бит. Значения /33 не существует: длина префикса IPv4 лежит в диапазоне от 0 до 32, поэтому такой префикс недопустим."
+  },
+  {
+    "id": "net_008",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "ip addr/route и проверка шлюза",
+    "question": "Какая команда покажет таблицу маршрутизации, включая маршрут по умолчанию?",
+    "options": [
+      {
+        "text": "ip route show",
+        "correct": true
+      },
+      {
+        "text": "ip addr show",
+        "correct": false
+      },
+      {
+        "text": "ip link show",
+        "correct": false
+      },
+      {
+        "text": "ip rule list",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда ip route show выводит таблицу маршрутизации основной таблицы, и строка default via ... в ней описывает маршрут по умолчанию. Команда ip addr show перечисляет адреса интерфейсов. ip link show показывает состояние каналов (флаги, MTU), а ip rule list выводит правила маршрутной политики (routing policy database), а не маршруты назначения."
+  },
+  {
+    "id": "net_012",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "nmcli device status и wifi",
+    "question": "Какая команда выведет список доступных Wi-Fi сетей (точек доступа) через NetworkManager?",
+    "options": [
+      {
+        "text": "nmcli device wifi list",
+        "correct": true
+      },
+      {
+        "text": "nmcli device status",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection show",
+        "correct": false
+      },
+      {
+        "text": "nmcli general status",
+        "correct": false
+      }
+    ],
+    "explanation": "Подкоманда device wifi list выполняет сканирование эфира Wi-Fi-адаптером и печатает доступные точки доступа (SSID, BSSID, канал, уровень сигнала). Команда device status показывает список устройств (тип, состояние, профиль подключения), но найденные сети не перечисляет. Команда connection show перечисляет профили подключений, то есть уже сохранённые конфигурации, а не найденные сети. Команда general status показывает общее состояние NetworkManager и уровень связности и точек доступа не перечисляет."
+  },
+  {
+    "id": "net_010",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "firewalld zone и --add-interface",
+    "question": "Какая команда привяжет интерфейс ens18 к зоне internal постоянно?",
+    "options": [
+      {
+        "text": "firewall-cmd --permanent --zone=internal --add-interface=ens18",
+        "correct": true
+      },
+      {
+        "text": "firewall-cmd --zone=internal --add-interface=ens18",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --permanent --new-zone=internal --interface=ens18",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --set-interface=ens18 --zone=internal",
+        "correct": false
+      }
+    ],
+    "explanation": "Без ключа --permanent изменение попадает только в runtime-конфигурацию и теряется при firewall-cmd --reload или перезагрузке, то есть требование постоянства не выполняется. Форма --new-zone --interface неверна: --new-zone только создаёт пустую зону, а интерфейс добавляют отдельным ключом --add-interface. Ключа --set-interface у firewall-cmd не существует; за привязку интерфейса отвечают --add-interface и --change-interface."
   }
 ]

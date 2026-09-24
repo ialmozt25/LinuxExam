@@ -1,0 +1,9 @@
+{
+  "qid": "net_005",
+  "role": "ex200_examiner",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ A — единственная корректная и постоянная форма: --permanent --add-port=8080/tcp добавляет порт в default (обычно активную) зону, что соответствует объективу firewalld в EX200. Остальные опции невалидны: --add-service принимает имя службы, а не номер порта; rich-rule требует полной формы rule ... port port=\"8080\" protocol=\"tcp\"; ключа --set-default-port у firewall-cmd нет. Стем однозначен, минимальная оговорка о необходимости firewall-cmd --reload дефектом не является.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

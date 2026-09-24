@@ -1,0 +1,9 @@
+{
+  "qid": "net_009",
+  "role": "skeptic",
+  "vote": "REJECT",
+  "key_correct": false,
+  "reason": "Ключ A содержит несуществующий хвост опций: nmcli device status принимает -f/--fields, -p/--pretty и --all, но не '--all states' (в nmcli нет такого form). Правильные дистракторы при этом построены на реальных объектах nmcli (connection/general/networking), поэтому единственный формально валидный вариант отсутствует, а объяснение разбирает только B, C, D и никак не обосновывает, что именно означает 'states' в ключе — рациональный студент может отвергнуть A и застрять. Исправить: ключ записать как 'nmcli device status --all' (или 'nmcli device' / 'nmcli device status'), а в объяснение добавить разбор: --all показывает и отключённые устройства, --all states — неверный синтаксис.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

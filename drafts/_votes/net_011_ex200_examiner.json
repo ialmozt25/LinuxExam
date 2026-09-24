@@ -1,0 +1,9 @@
+{
+  "qid": "net_011",
+  "role": "ex200_examiner",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ A синтаксически корректен: ss --tcp state established --numeric — валидная форма фильтра по состоянию сокета, а --numeric подавляет разрешение имён; она действительно оставляет только established-соединения. Дистракторы B/C/D используют реальные состояния TCP (time-wait, listening, close-wait), каждое из которых исключает established, поэтому они правдоподобны и однозначно неверны. Двусмысленности в стеме нет: 'установленные TCP-соединения' однозначно указывает на state established.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

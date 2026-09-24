@@ -1,0 +1,9 @@
+{
+  "qid": "net_009",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "nmcli device status даёт DEVICE/TYPE/STATE/CONNECTION. connection status и networking status не существуют; general status существует, но печатает только общий STATE/CONNECTIVITY без устройств. Замечание: хвост --all ... единообразный шум, снижает реалистичность дистракторов.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

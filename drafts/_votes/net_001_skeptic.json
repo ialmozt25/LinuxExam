@@ -1,0 +1,9 @@
+{
+  "qid": "net_001",
+  "role": "skeptic",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Атака не дала результата: `nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1` синтаксически и семантически корректен, а `connection up eth0` действительно применяет статику без перезагрузки. Дистракторы сдержанно неверны по существу: show лишь выводит настройки, `connection add` без --type создаёт/падает с ошибкой, а ipv4.method auto означает DHCP и игнорирует статический адрес. Объяснение согласуется с опциями.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

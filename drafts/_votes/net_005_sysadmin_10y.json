@@ -1,0 +1,9 @@
+{
+  "qid": "net_005",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "A единственная валидная и решающая: --permanent --add-port=8080/tcp. B даёт INVALID_SERVICE, C — невалидный rich-rule, D — несуществующая --set-default-port.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

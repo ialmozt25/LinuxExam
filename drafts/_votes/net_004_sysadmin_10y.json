@@ -1,0 +1,10 @@
+{
+  "qid": "net_004",
+  "role": "sysadmin_10y",
+  "vote": "REJECT",
+  "key_correct": false,
+  "reason": "Проверено на iproute2-6.19.0: опция A валидна, но дистракторы тоже валидны — ss --tcp --udp --all --numeric является надмножеством вывода A, а ключи -i/--info и -w/--raw у ss существуют и тоже печатают прослушиваемые TCP/UDP-сокеты с числовыми портами. Уникального ключа нет.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24",
+  "evidence": "WSL iproute2-6.19.0: ss --tcp --udp --listening --numeric → ok; ss --tcp --udp --all --numeric → ok (включает LISTEN-строки); ss --tcp --listening --info → ok; ss --tcp --listening --raw → ok; man ss OPTIONS содержит -a/--all, -l/--listening, -n/--numeric, -i/--info, -w/--raw."
+}

@@ -1,0 +1,11 @@
+{
+  "id": "net_006",
+  "interpretations": [
+    "Literal: a static local name→address record read by NSS/glibc from /etc/hosts before DNS; man hosts fixes the format as IP_address canonical_hostname — only A.",
+    "Resolver-config reading: candidate assumes resolv.conf holds name→address pairs (C) or declares the host as a DNS server (D) — both contradict resolv.conf semantics.",
+    "Field-order reading: candidate expects \"hostname IP\" (B); with the reversed order \"db1\" is not an IP address, the line is invalid and the name does not resolve."
+  ],
+  "ambiguous": false,
+  "reason": "Only A is both in the right file and syntactically valid; the documented format removes real ambiguity. The near-collision between A and B is resolved normatively by man hosts.",
+  "verdict": "pass"
+}

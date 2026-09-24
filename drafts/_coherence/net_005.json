@@ -1,0 +1,11 @@
+{
+  "id": "net_005",
+  "interpretations": [
+    "Literal \"постоянно\" = persistent configuration: only --permanent provides persistence, so A is exact.",
+    "Strict \"port open and surviving reboot\": --permanent alone writes config and does not open the port until firewall-cmd --reload, making A the necessary first step rather than the whole chain.",
+    "Pragmatic \"open 8080 in the active zone\": --permanent binds to the active zone at reload time; no option offers --zone and no distractor becomes correct."
+  ],
+  "ambiguous": false,
+  "reason": "All readings converge on A; B fails with INVALID_SERVICE, C uses a non-existent rich-rule form, D uses a non-existent flag. The --reload nuance makes A incomplete as a one-liner but creates no second correct option.",
+  "verdict": "pass"
+}

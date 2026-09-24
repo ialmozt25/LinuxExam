@@ -1,0 +1,367 @@
+{
+  "batch": "networking-1",
+  "date": "2026-09-24",
+  "pipeline": "v2.0",
+  "topic": "networking",
+  "topic_status_at_generation": "planned",
+  "objective_domain": "7",
+  "subtopics_used": [
+    "nmcli connection add/modify/up/down",
+    "nmcli device status и wifi",
+    "hostname и hostnamectl",
+    "/etc/hosts и порядок разрешения",
+    "/etc/resolv.conf и DNS",
+    "ip addr/route и проверка шлюза",
+    "firewalld zone и --add-interface"
+  ],
+  "questions": [
+    {
+      "id": "net_001",
+      "topic": "networking",
+      "difficulty": "medium",
+      "objective_domain": "7",
+      "subtopic": "nmcli connection add/modify/up/down",
+      "question": "Существующему подключению NetworkManager с именем eth0 требуется вручную задать статический адрес 192.168.10.50/24 и шлюз 192.168.10.1, причём так, чтобы настройка сразу применилась к интерфейсу, без перезагрузки. Какая последовательность команд это выполнит?",
+      "options": [
+        {
+          "text": "nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+          "correct": true
+        },
+        {
+          "text": "nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection show eth0",
+          "correct": false
+        },
+        {
+          "text": "nmcli connection add eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+          "correct": false
+        },
+        {
+          "text": "nmcli connection modify eth0 ipv4.method auto ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+          "correct": false
+        }
+      ],
+      "explanation": "Опция ipv4.method принимает только значения auto, manual, link-local и disabled; запись auto ipv4.addresses … синтаксически допустима, но метод auto означает получение адреса по DHCP и статический адрес не применяется. Ключ connection add создаёт новое подключение, а не изменяет существующее, поэтому в системе появилось бы второе подключение, и команда без обязательного типа (--type ethernet) завершилась бы ошибкой. Вариант с командой ip addr add меняет адрес только до перезапуска или до следующего применения профиля NetworkManager и не сохраняется в конфигурации подключения."
+    },
+    {
+      "id": "net_002",
+      "topic": "networking",
+      "difficulty": "easy",
+      "objective_domain": "7",
+      "subtopic": "hostname и hostnamectl",
+      "question": "Какая команда на Rocky 9 изменит статическое имя хоста на db1.example.com и сохранит его после перезагрузки?",
+      "options": [
+        {
+          "text": "hostnamectl set-hostname db1.example.com",
+          "correct": true
+        },
+        {
+          "text": "hostnamectl --transient db1.example.com",
+          "correct": false
+        },
+        {
+          "text": "sysctl hostname set db1.example.com",
+          "correct": false
+        },
+        {
+          "text": "hostname db1.example.com --set-static",
+          "correct": false
+        }
+      ],
+      "explanation": "hostname db1.example.com меняет только текущее (transient) имя в ядре и теряется после перезагрузки. Утилита sysctl работает с параметрами ядра вида имя=значение, ключа set у неё нет, и имя хоста так не задаётся. Ключ --transient у hostnamectl, наоборот, задаёт только временное имя для текущей загрузки, а статическое имя в /etc/hostname остаётся прежним."
+    },
+    {
+      "id": "net_003",
+      "topic": "networking",
+      "difficulty": "easy",
+      "objective_domain": "7",
+      "subtopic": "/etc/resolv.conf и DNS",
+      "question": "В каком файле на Rocky 9 хранятся адреса DNS-серверов, которые система использует для разрешения имён?",
+      "options": [
+        {
+          "text": "/etc/resolv.conf",
+          "correct": true
+        },
+        {
+          "text": "/etc/hosts.allow",
+          "correct": false
+        },
+        {
+          "text": "/etc/nsswitch.conf",
+          "correct": false
+        },
+        {
+          "text": "/etc/host.conf",
+          "correct": false
+        }
+      ],
+      "explanation": "Адреса DNS-серверов перечисляются именно в /etc/resolv.conf: строки nameserver <IP> задают серверы имён, к которым резолвер обращается за разрешением. /etc/nsswitch.conf задаёт только порядок источников разрешения (например, «hosts: files dns»), но адресов серверов не содержит. /etc/hosts.allow относится к TCP wrappers и управляет доступом к службам, а не разрешением имён; на типовой Rocky 9 пакет tcp_wrappers не установлен, поэтому файла в системе нет. /etc/host.conf — устаревший файл glibc (в Rocky 9 содержит, например, «multi on») и адреса серверов имён тоже не хранит."
+    },
+    {
+      "id": "net_011",
+      "topic": "networking",
+      "difficulty": "medium",
+      "objective_domain": "7",
+      "subtopic": "ss: фильтр по состоянию сокета",
+      "question": "Какая команда покажет только установленные (established) TCP-соединения с числовыми адресами и портами?",
+      "options": [
+        {
+          "text": "ss --tcp state established --numeric",
+          "correct": true
+        },
+        {
+          "text": "ss --tcp state time-wait --numeric",
+          "correct": false
+        },
+        {
+          "text": "ss --tcp state listening --numeric",
+          "correct": false
+        },
+        {
+          "text": "ss --tcp state close-wait --numeric",
+          "correct": false
+        }
+      ],
+      "explanation": "Фильтр состояний задаётся после указания протокола: ss --tcp state established --numeric оставляет только сокеты TCP в состоянии established и печатает адреса и порты числами, не разрешая имена служб. Состояние time-wait наступает после завершения соединения, когда сокет ещё удерживается для приёма запоздавших пакетов, поэтому установленные соединения в эту выборку не входят. Состояние listening описывает сокеты, ожидающие входящих подключений, у которых состояния established не бывает. Состояние close-wait означает, что удалённая сторона уже отправила FIN, а локальная ещё не закрыла соединение, то есть соединение находится в процессе завершения."
+    },
+    {
+      "id": "net_005",
+      "topic": "networking",
+      "difficulty": "medium",
+      "objective_domain": "7",
+      "subtopic": "firewalld zone и --add-interface",
+      "question": "Требуется постоянно открывать TCP-порт 8080 в активной зоне firewalld. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "firewall-cmd --permanent --add-port=8080/tcp",
+          "correct": true
+        },
+        {
+          "text": "firewall-cmd --permanent --add-service=8080",
+          "correct": false
+        },
+        {
+          "text": "firewall-cmd --add-rich-rule='open port 8080'",
+          "correct": false
+        },
+        {
+          "text": "firewall-cmd --set-default-port=8080/tcp",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ --add-service принимает имя службы из набора firewalld (например http, https), а не номер порта, поэтому значение 8080 такой службой не является и команда завершится ошибкой. Синтаксис rich-rule не имеет формы open port; правило должно содержать port port=\"8080\" protocol=\"tcp\", иначе оно не будет разобрано. Ключа --set-default-port у firewall-cmd не существует."
+    },
+    {
+      "id": "net_006",
+      "topic": "networking",
+      "difficulty": "easy",
+      "objective_domain": "7",
+      "subtopic": "/etc/hosts и порядок разрешения",
+      "question": "Требуется, чтобы имя db1 разрешалось в 192.168.1.10 без обращения к DNS-серверу. Какая команда это обеспечит?",
+      "options": [
+        {
+          "text": "echo '192.168.1.10 db1' >> /etc/hosts",
+          "correct": true
+        },
+        {
+          "text": "echo '192.168.1.10 db1' >> /etc/resolv.conf",
+          "correct": false
+        },
+        {
+          "text": "echo 'db1 192.168.1.10' >> /etc/hosts",
+          "correct": false
+        },
+        {
+          "text": "echo 'nameserver db1' >> /etc/resolv.conf",
+          "correct": false
+        }
+      ],
+      "explanation": "В /etc/resolv.conf хранятся адреса DNS-серверов, а не пары «адрес — имя», поэтому добавленная туда строка не будет разобрана и файл может быть перезаписан NetworkManager. В /etc/hosts формат строго «IP-адрес, затем имена», поэтому перестановка местами делает строку недопустимой. Директива nameserver ожидает IP-адрес сервера, а не имя db1, к тому же запись в /etc/resolv.conf не создаёт статическую привязку имени."
+    },
+    {
+      "id": "net_007",
+      "topic": "networking",
+      "difficulty": "easy",
+      "objective_domain": "7",
+      "subtopic": "ip addr/route и проверка шлюза",
+      "question": "Маска подсети записана как 255.255.255.0. Какому префиксу длины сети она соответствует?",
+      "options": [
+        {
+          "text": "/24",
+          "correct": true
+        },
+        {
+          "text": "/16",
+          "correct": false
+        },
+        {
+          "text": "/25",
+          "correct": false
+        },
+        {
+          "text": "/33",
+          "correct": false
+        }
+      ],
+      "explanation": "Маска 255.255.255.0 содержит ровно 24 бита единиц, поэтому ей соответствует префикс /24. Вариант /16 — это маска 255.255.0.0, то есть 16 бит единиц. Вариант /25 — маска 255.255.255.128, то есть 25 бит. Значения /33 не существует: длина префикса IPv4 лежит в диапазоне от 0 до 32, поэтому такой префикс недопустим."
+    },
+    {
+      "id": "net_008",
+      "topic": "networking",
+      "difficulty": "medium",
+      "objective_domain": "7",
+      "subtopic": "ip addr/route и проверка шлюза",
+      "question": "Какая команда покажет таблицу маршрутизации, включая маршрут по умолчанию?",
+      "options": [
+        {
+          "text": "ip route show",
+          "correct": true
+        },
+        {
+          "text": "ip addr show",
+          "correct": false
+        },
+        {
+          "text": "ip link show",
+          "correct": false
+        },
+        {
+          "text": "ip rule list",
+          "correct": false
+        }
+      ],
+      "explanation": "Команда ip route show выводит таблицу маршрутизации основной таблицы, и строка default via ... в ней описывает маршрут по умолчанию. Команда ip addr show перечисляет адреса интерфейсов. ip link show показывает состояние каналов (флаги, MTU), а ip rule list выводит правила маршрутной политики (routing policy database), а не маршруты назначения."
+    },
+    {
+      "id": "net_012",
+      "topic": "networking",
+      "difficulty": "easy",
+      "objective_domain": "7",
+      "subtopic": "nmcli device status и wifi",
+      "question": "Какая команда выведет список доступных Wi-Fi сетей (точек доступа) через NetworkManager?",
+      "options": [
+        {
+          "text": "nmcli device wifi list",
+          "correct": true
+        },
+        {
+          "text": "nmcli device status",
+          "correct": false
+        },
+        {
+          "text": "nmcli connection show",
+          "correct": false
+        },
+        {
+          "text": "nmcli general status",
+          "correct": false
+        }
+      ],
+      "explanation": "Подкоманда device wifi list выполняет сканирование эфира Wi-Fi-адаптером и печатает доступные точки доступа (SSID, BSSID, канал, уровень сигнала). Команда device status показывает список устройств (тип, состояние, профиль подключения), но найденные сети не перечисляет. Команда connection show перечисляет профили подключений, то есть уже сохранённые конфигурации, а не найденные сети. Команда general status показывает общее состояние NetworkManager и уровень связности и точек доступа не перечисляет."
+    },
+    {
+      "id": "net_010",
+      "topic": "networking",
+      "difficulty": "medium",
+      "objective_domain": "7",
+      "subtopic": "firewalld zone и --add-interface",
+      "question": "Какая команда привяжет интерфейс ens18 к зоне internal постоянно?",
+      "options": [
+        {
+          "text": "firewall-cmd --permanent --zone=internal --add-interface=ens18",
+          "correct": true
+        },
+        {
+          "text": "firewall-cmd --zone=internal --add-interface=ens18",
+          "correct": false
+        },
+        {
+          "text": "firewall-cmd --permanent --new-zone=internal --interface=ens18",
+          "correct": false
+        },
+        {
+          "text": "firewall-cmd --set-interface=ens18 --zone=internal",
+          "correct": false
+        }
+      ],
+      "explanation": "Без ключа --permanent изменение попадает только в runtime-конфигурацию и теряется при firewall-cmd --reload или перезагрузке, то есть требование постоянства не выполняется. Форма --new-zone --interface неверна: --new-zone только создаёт пустую зону, а интерфейс добавляют отдельным ключом --add-interface. Ключа --set-interface у firewall-cmd не существует; за привязку интерфейса отвечают --add-interface и --change-interface."
+    }
+  ],
+  "meta": {
+    "generated": 12,
+    "attempted": 10,
+    "rejected": 2,
+    "voted_unanimous": 9,
+    "haladyna_min": 9,
+    "haladyna_max": 10,
+    "length_ratio_max": 1.2857,
+    "jaccard_max": 0.1818,
+    "cosine_max": null,
+    "subagent_calls": 108,
+    "option_ratio_max": 1.2857,
+    "length_ratio_note": "Option-only ratio (max/min длины текста опций). В финальном батче максимум 1.2857 (net_003) — ниже порога 1.30. Прежняя заметка про максимум 1.67 и перегенерацию net_002/net_007 устарела: пересчёт даёт net_002=1.1429, net_007=1.0000.",
+    "stem_ratio_max": 29,
+    "stem_ratio_note": "max(len(стема)/min(len(опции))) по 10 финальным. Не является гейтом; гейт — option-only ratio ≤ 1.30.",
+    "option_ratio_table": [
+      "net_001=1.0385",
+      "net_002=1.1429",
+      "net_003=1.2857",
+      "net_011=1.0588",
+      "net_005=1.1250",
+      "net_006=1.1622",
+      "net_007=1.0000",
+      "net_008=1.0833",
+      "net_012=1.1579",
+      "net_010=1.2400"
+    ],
+    "man_verified": 10,
+    "man_distro": "Rocky Linux release 9.8 (Blue Onyx), nmcli 1.54.3-2.el9, firewalld 1.3.4-20.el9_8 (WSL)",
+    "jaccard_max_pair": "net_008~fp_007",
+    "jaccard_intra_max": 0.1176,
+    "jaccard_intra_pair": "net_011~net_008",
+    "jaccard_options_max": 0.7333,
+    "duplicates_rejected": 0,
+    "cosine_status": "SKIPPED_NO_MODEL_CACHE",
+    "votes_total_expected": 50,
+    "votes_received": 50,
+    "votes_received_note": "По финальному батчу 10 вопросов × 5 ролей = 50 голосов. Всего файлов в drafts/_votes — 56: +5 голосов net_009 (слот заменён) и +1 голос net_004_sysadmin_10y (история).",
+    "subagent_calls_note": "Прошлые сессии ≈70 + эта сессия 38 (27 голосов 3 роли × 9 + 5 голосов net_011 + 1 coherence net_012 + 5 голосов net_012) = 108 из лимита 108.",
+    "haladyna_status": "PASSED (10/10 ≥ 8/10; min 9 — net_007 #2, net_011 #8)",
+    "haladyna_checklist": "docs/HALADYNA.md",
+    "qc_passed": true,
+    "rejected_questions": 2,
+    "questions_fixed_at_l2": 5,
+    "questions_fixed_at_l4": 3,
+    "questions_fixed_at_l45": 1,
+    "question_replaced": "net_004 -> net_011 (прошлая сессия, L4.5 REJECT: дистракторы были валидны); net_009 -> net_012 (эта сессия, L4.5 REJECT×2: ключ `nmcli device status --all states` нерабочий — exit 2, invalid extra argument '--all')",
+    "meta_note": "generated = все сгенерированные id (net_001..net_012, 12); attempted = слотов в финальном батче (10); rejected = заменённых слотов (2)."
+  },
+  "pipeline_status": {
+    "schema": "pass",
+    "man_verification": "PASSED",
+    "man_verification_note": "L2 в WSL Rocky-9 (Rocky Linux release 9.8 Blue Onyx), nmcli 1.54.3-2.el9. В этой сессии перепроверены все 10 финальных: nmcli device wifi list / device status / connection show / general status — exit 0; ip route show печатает default via; ss --tcp state {established,time-wait,listening,close-wait} --numeric — exit 0 у всех четырёх; hostnamectl --transient <имя> → «Unknown command verb», exit 1; firewall-cmd --set-default-port и --set-interface → «unrecognized arguments», exit 2. НАЙДЕН ДЕФЕКТ ПРОШЛОЙ СЕССИИ: ключ net_009 `nmcli device status --all states` не работает (exit 2, invalid extra argument «--all»), поэтому слот заменён на net_012. firewalld в WSL активен, но без root управление даёт NotAuthorized, поэтому ключи net_005/net_010 сверены на уровне argparse/--help, а не прогоном.",
+    "blueprint_alignment": "pass",
+    "deterministic_qc": "PASSED",
+    "duplicate_detection": "PARTIAL",
+    "coherence": "PASSED",
+    "mas_vote": "PARTIAL (9/10 unanimous 5/5)",
+    "item_writing": "PASSED (10/10 ≥ 8/10)",
+    "deterministic_qc_note": "tools/qc.cjs на временной изолированной копии дерева с объединённым банком (66 + 10 = 76): Fails 0, Warns 2 (fm_002, fm_003 — существующие в банке). Прежние warns net_004 и net_006 закрыты (net_004 заменён, стем net_006 переформулирован).",
+    "duplicate_detection_note": "Bigram Jaccard (та же функция, что экспортирует tools/cosine.cjs) по стемам: max против банка 0.1818 (net_008~fp_007), intra-batch 0.1176 (net_011~net_008), между опциями внутри вопроса 0.7333 (net_001) — все ниже порога 0.9. Для net_012: 0.0833 против банка (et_007). Cosine SKIPPED: кэш модели Xenova/all-MiniLM-L6-v2 отсутствует (%USERPROFILE%\\.cache\\huggingface и .cache нет).",
+    "coherence_note": "Все 10 финальных прошли L4 (3 интерпретации, ambiguous=false). net_012 проверен в этой сессии (verdict=pass); net_011 — в прошлой сессии (pass).",
+    "mas_vote_note": "Метод: 5 ролей × 10 вопросов = 50 голосов, per-question (без батчинга). 9 вопросов приняты 5/5: net_001, net_002, net_005, net_006, net_007, net_008, net_010, net_011, net_012. net_003 — 4/5 PASS + 1 REJECT (skeptic): объяснение расходилось с опциями (разбирало /etc/hosts и /etc/dnsmasq.conf, не поясняло B /etc/hosts.allow и D /etc/host.conf). Объяснение переписано (1-я итерация разрешена правилами), повторное голосование не проводилось: бюджет subagent_calls исчерпан (108/108). Ключ net_003 и набор дистракторов возражений ни у одной роли не вызвали. net_009 получил 2 REJECT (ex200_examiner и skeptic) по нерабочему ключу и заменён.",
+    "item_writing_note": "Haladyna по docs/HALADYNA.md, 10 критериев на вопрос, 10 финальных. Баллы: 10/10 у восьми; 9/10 у net_007 (критерий 2: /33 невозможен, отбрасывается тривиально) и 9/10 у net_011 (критерий 8: слово «только» в стеме по букве чеклиста). min 9, max 10, порог ≥ 8 выполнен у всех. length ratio max 1.2857 ≤ 1.30."
+  },
+  "open_verification_points": [
+    "net_001: ПОДТВЕРЖДЕНО в Rocky 9.8 — `nmcli connection add eth0 ipv4.method ...` → «invalid <setting>.<property> 'eth0'», exit 2 (add без --type не работает).",
+    "net_002: ПОДТВЕРЖДЕНО — `hostnamectl --transient db1.example.com` → «Unknown command verb db1.example.com», exit 1; --transient требует подкоманды hostname/set-hostname.",
+    "net_003: ПОДТВЕРЖДЕНО — /etc/resolv.conf существует, /etc/nsswitch.conf содержит «hosts: files dns myhostname», /etc/host.conf существует («multi on»); /etc/hosts.allow ОТСУТСТВУЕТ (tcp_wrappers не установлен) — объяснение это теперь и указывает.",
+    "net_005: `--add-service=8080` и rich-rule проверены только на уровне argparse: firewalld в WSL активен, но без root управление даёт NotAuthorized, поэтому семантический отказ «8080 — не имя службы» опирается на набор служб firewalld, а не на прогон.",
+    "net_006: формат /etc/hosts подтверждён косвенно (см. net_003); прогон записи не выполнялся (изменение системного файла WSL).",
+    "net_007: тривиальная арифметика префикса, прогон не требуется.",
+    "net_008: ПОДТВЕРЖДЕНО — `ip route show` печатает строку `default via 172.20.224.1 dev eth0`.",
+    "net_009: ЗАКРЫТО — ключ `nmcli device status --all states` не работает (exit 2, invalid extra argument «--all»); слот заменён на net_012.",
+    "net_010: ПОДТВЕРЖДЕНО — `firewall-cmd --set-interface=ens18 --zone=internal` → «unrecognized arguments», exit 2; поведение --permanent против runtime не перепроверялось (нужен root).",
+    "net_011: ПОДТВЕРЖДЕНО — все четыре `ss --tcp state {established,time-wait,listening,close-wait} --numeric` завершаются exit 0; `ss --help` перечисляет все использованные состояния.",
+    "net_012: ПОДТВЕРЖДЕНО — `nmcli device wifi list` (--help: ARGUMENTS list), `nmcli device status`, `nmcli connection show`, `nmcli general status` — exit 0 у всех четырёх."
+  ]
+}

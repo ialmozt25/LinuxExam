@@ -1,0 +1,9 @@
+{
+  "qid": "net_002",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "hostnamectl set-hostname пишет статическое имя в /etc/hostname и применяет сразу. B невалидна (позиционный аргумент — VERB) и меняет только transient; C — нет опции --set-static; D — systemd-hostnamed это D-Bus-демон без CLI-верба.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

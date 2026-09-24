@@ -1,0 +1,9 @@
+{
+  "qid": "net_010",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "A: --permanent --zone=internal --add-interface=ens18 пишет постоянную привязку. B валидна, но runtime-only; C невалидна (--new-zone не принимает --interface); D невалидна (нет --set-interface, есть --change-interface).",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

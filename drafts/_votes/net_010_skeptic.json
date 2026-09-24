@@ -1,0 +1,9 @@
+{
+  "qid": "net_010",
+  "role": "skeptic",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ A верен: --permanent --zone=internal --add-interface=ens18 даёт постоянную привязку, а B без --permanent меняет только runtime и теряется при reload/reboot. C содержит несуществующую форму --new-zone --interface, D — несуществующий ключ --set-interface (в firewalld есть --change-interface), поэтому дистракторы не являются скрыто правильными. Объяснение полностью согласуется с опциями, двусмысленности стема не обнаружено.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

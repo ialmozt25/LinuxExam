@@ -1,0 +1,9 @@
+{
+  "qid": "net_009",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "A: nmcli device status даёт DEVICE/TYPE/STATE/CONNECTION. B и D — несуществующие подкоманды, C показывает глобальные STATE/CONNECTIVITY без состояния интерфейсов.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

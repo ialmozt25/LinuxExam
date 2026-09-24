@@ -1,0 +1,9 @@
+{
+  "qid": "net_005",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "A — единственная валидная и постоянная форма; B даёт INVALID_SERVICE, C — INVALID_RULE, D — INVALID_OPTION (--set-default-port не существует). Оговорка про --reload не входит ни в один вариант и не делает A неверным.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

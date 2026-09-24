@@ -1,0 +1,9 @@
+{
+  "qid": "net_010",
+  "role": "beginner",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Стем короткий и однозначный: спрашивается постоянная привязка интерфейса к зоне, ответ A использует --permanent --zone --add-interface. Дистракторы B (без --permanent), C (несуществующая форма --new-zone --interface) и D (нет ключа --set-interface) не выглядят верными для новичка, подсказок в формулировке нет.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

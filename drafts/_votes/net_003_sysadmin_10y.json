@@ -1,0 +1,9 @@
+{
+  "qid": "net_003",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "A единственная: glibc читает адреса DNS-серверов из /etc/resolv.conf (nameserver). /etc/hosts.allow — tcp_wrappers, /etc/nsswitch.conf — порядок источников без адресов, /etc/host.conf — устаревшие order/multi без адресов.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

@@ -1,0 +1,9 @@
+{
+  "qid": "net_010",
+  "role": "ex200_examiner",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Ключ A верен: постоянная привязка интерфейса к зоне выполняется через firewall-cmd --permanent --zone=<zone> --add-interface=<iface> с последующим --reload. Дистракторы корректны: B даёт только runtime-изменение, C и D используют несуществующий синтаксис (--new-zone не принимает --interface, ключа --set-interface нет). Соответствует объективу EX200 по управлению firewalld, формулировка однозначна.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

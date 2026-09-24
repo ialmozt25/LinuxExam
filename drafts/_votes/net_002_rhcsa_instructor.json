@@ -1,0 +1,9 @@
+{
+  "qid": "net_002",
+  "role": "rhcsa_instructor",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "hostnamectl set-hostname пишет /etc/hostname (статическое имя) и применяет сразу — переживает перезагрузку. B невалидна по порядку аргументов и в любом случае transient, C — изобретённый ключ, D — не CLI (systemd-hostnamed это D-Bus).",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}

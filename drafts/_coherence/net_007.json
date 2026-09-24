@@ -1,0 +1,11 @@
+{
+  "id": "net_007",
+  "interpretations": [
+    "Direct dotted-decimal conversion: 255.255.255.0 = 24 leading one-bits → /24.",
+    "Classful view: 255.255.255.0 is a class C mask, historically fixed at /24 → /24.",
+    "Host-bits view: 8 zero bits = 8 host bits, which under a mistaken reading gives /8; that option is absent and /24 stays correct."
+  ],
+  "ambiguous": false,
+  "reason": "All three readings converge on /24; /16, /25 and /33 are respectively 255.255.0.0, 255.255.255.128 and outside the valid /0../32 range.",
+  "verdict": "pass"
+}

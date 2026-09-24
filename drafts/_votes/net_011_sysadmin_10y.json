@@ -1,0 +1,9 @@
+{
+  "qid": "net_011",
+  "role": "sysadmin_10y",
+  "vote": "PASS",
+  "key_correct": true,
+  "reason": "Синтаксис ss --tcp state established --numeric корректен: фильтр состояния идёт после указания протокола, --numeric подавляет разрешение имён. Дистракторы используют реально существующие состояния (time-wait, listening, close-wait) и не пересекаются с established, поэтому ключ однозначен. Уровень сложности medium соответствует базовому навыку RHCSA по диагностике сокетов.",
+  "source": "subagent (L4.5 MAS-vote)",
+  "voted_at": "2026-09-24"
+}
