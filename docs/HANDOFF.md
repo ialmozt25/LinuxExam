@@ -47,7 +47,7 @@
 - Банк **66** вопросов: `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `essential_tools` 7. Уникальных id 66, невалидных 0.
 - `topics.ts`: 6 available / 8 planned; у всех planned тем — 0 вопросов в банке.
 - Bundle gzip **138.77 kB** при watch-пороге `>137 kB → стоп` — **красный флаг**.
-- `npm audit`: **32** уязвимости — 1 critical, 20 high, 8 moderate, 3 low (564 зависимости).
+- Уязвимости (два среза): Dependabot 52 (1 critical, 23 high, 24 moderate, 4 low); npm audit 32 (1 critical, 20 high, 8 moderate, 3 low, 564 зависимости).
 - Cosine: `background_max` **0.8085**, threshold **0.80**, margin **−0.0085**, class inversion на русском; `threshold_warning` требует L5c-ревью перед приёмкой батча.
 - `tools/qc.cjs`: length ratio — только `WARN > 2.5`, тогда как пилот v2.0 отбраковывал при `> 1.30` (осознанное расхождение, не баг).
 - Все 66 правильных ответов в хранилище стоят в позиции A (`allCorrectAtPos0: true`); рендер маскирует это детерминированным шаффлом.
@@ -77,7 +77,7 @@
 
 - Приватность репо.
 - Cosine-модель русскоязычная (`cointegrated/rubert-tiny2`).
-- Устаревшая цифра «52 vulns» в `docs/CONTEXT.md` — привести к 32.
+- `docs/CONTEXT.md`: согласовать с HANDOFF — Dependabot 52 ≠ npm audit 32, это разные срезы, не «устарело».
 
 ### P3 (nice-to-have)
 
@@ -134,7 +134,7 @@
 | `docs/DECISIONS.md` | 13 решений (DECISION-001..013, все 2026-09-22) |
 | `docs/session-log.md` | append-only журнал сессий |
 | `docs/HANDOFF.md` | этот файл — точка входа |
-| `docs/CONTEXT.md` | краткий контекст проекта (содержит устаревшую цифру vulns) |
+| `docs/CONTEXT.md` | краткий контекст проекта (два среза vulns: Dependabot 52, npm audit 32) |
 | `docs/STATE-SNAPSHOT-2026-09-24.md` | полный снапшот состояния, 14 рисков |
 | `docs/HANDOFF-2026-09-23.md` | разбор MAS-аудита (findings, ограничение `all_A`) |
 | `drafts/pending-*.json` | артефакты партий (схемы разошлись: v2.0 / v4.4 / v4.5) |
@@ -144,7 +144,7 @@
 ## Долги по докам
 
 - `docs/session-log.md`: пропуски — есть сессии 6, 7, 8, 9, 10, 12; **сессии 11 нет** — решить (восстановить или пометить как утрачено).
-- `docs/CONTEXT.md`: устаревшие данные — «52 уязвимости» (фактически 32), открытый пункт «L5c intra-batch» числится незакрытым, хотя код и тесты в проде.
+- `docs/CONTEXT.md`: два среза vulns — Dependabot 52 ≠ npm audit 32 (не «устарело»); открытый пункт «L5c intra-batch» числится незакрытым, хотя код и тесты в проде.
 - `docs/content-generation-20260921-1403.md`: утверждает, что у 5 унаследованных записей нет `objective_domain`/`subtopic` — это состояние ДО Step 6/merge; в текущем банке поля есть у всех 66.
 - `docs/HANDOFF-2026-09-23.md` ссылается на `.tmp-audit/` (консенсус-скрипт и raw-результаты) — каталог в `.gitignore` и не закоммичен, ссылки невоспроизводимы из репозитория.
 
