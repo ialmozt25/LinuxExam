@@ -1,0 +1,360 @@
+{
+  "batch": "running_systems-1",
+  "date": "2026-09-24",
+  "pipeline": "v2.0",
+  "topic": "running_systems",
+  "topic_status_at_generation": "planned",
+  "objective_domain_note": "Домен назначен по прецеденту репозитория (BLUEPRINT L144 фиксирует привязку доменов как открытый вопрос): существующие вопросы про systemctl/journalctl (pm_003, pm_005, pm_010) имеют objective_domain=6, вопросы про процессы (pm_001, pm_002, pm_009) — 3. Поэтому службы/журналы/цели/unit-файлы — 6, процессы/фоновые задания — 3.",
+  "subtopics_used": [
+    "boot targets: systemctl get-default/set-default",
+    "systemctl is-active/is-enabled/status",
+    "journalctl: -u, -b, -p, --since",
+    "перезагрузка и rescue/target",
+    "unit-файлы: [Unit]/[Service]/[Install]",
+    "systemctl daemon-reload и маскирование",
+    "процессы: $! и фоновые задания"
+  ],
+  "subtopic_coverage": {
+    "boot targets: systemctl get-default/set-default": 1,
+    "unit-файлы: [Unit]/[Service]/[Install]": 1,
+    "systemctl is-active/is-enabled/status": 2,
+    "journalctl: -u, -b, -p, --since": 2,
+    "systemctl daemon-reload и маскирование": 2,
+    "перезагрузка и rescue/target": 1,
+    "процессы: $! и фоновые задания": 1
+  },
+  "questions": [
+    {
+      "id": "rs_001",
+      "topic": "running_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "boot targets: systemctl get-default/set-default",
+      "question": "Нужно, чтобы система после загрузки по умолчанию запускала текстовый режим (без графики) вместо графического. Какая команда задаст это постоянной целью загрузки?",
+      "options": [
+        {
+          "text": "systemctl set-default multi-user.target",
+          "correct": true
+        },
+        {
+          "text": "systemctl isolate multi-user.target",
+          "correct": false
+        },
+        {
+          "text": "systemctl enable multi-user.target",
+          "correct": false
+        },
+        {
+          "text": "systemctl get-default multi-user.target",
+          "correct": false
+        }
+      ],
+      "explanation": "set-default записывает цель в конфигурацию как цель загрузки по умолчанию, поэтому выбор сохраняется после перезагрузки. isolate переключает систему в указанную цель прямо сейчас, но значение по умолчанию не меняет. enable лишь создаёт ссылки включения для юнита и целью загрузки не управляет. get-default только печатает текущую цель по умолчанию и ничего не меняет."
+    },
+    {
+      "id": "rs_002",
+      "topic": "running_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "unit-файлы: [Unit]/[Service]/[Install]",
+      "question": "В файле службы systemd нужно указать команду, которая запускает саму программу. Какая директива раздела службы это делает?",
+      "options": [
+        {
+          "text": "ExecStart=",
+          "correct": true
+        },
+        {
+          "text": "ExecStop=",
+          "correct": false
+        },
+        {
+          "text": "Restart=",
+          "correct": false
+        },
+        {
+          "text": "WantedBy=",
+          "correct": false
+        }
+      ],
+      "explanation": "Директива ExecStart задаёт команду запуска службы и находится в разделе Service. ExecStop описывает команду остановки. Restart задаёт политику автоматического перезапуска и команду запуска не определяет. WantedBy указывается в разделе Install и определяет, в какие цели включается юнит при enable."
+    },
+    {
+      "id": "rs_003",
+      "topic": "running_systems",
+      "difficulty": "easy",
+      "objective_domain": "6",
+      "subtopic": "systemctl is-active/is-enabled/status",
+      "question": "Скрипту нужно командой проверить именно автозапуск службы sshd (по коду возврата). Какая команда подходит?",
+      "options": [
+        {
+          "text": "systemctl is-enabled sshd",
+          "correct": true
+        },
+        {
+          "text": "systemctl is-active sshd",
+          "correct": false
+        },
+        {
+          "text": "systemctl status sshd",
+          "correct": false
+        },
+        {
+          "text": "systemctl list-units --all",
+          "correct": false
+        }
+      ],
+      "explanation": "is-enabled сообщает состояние автозапуска (enabled, disabled, static, masked и другие) и возвращает ненулевой код для disabled и masked, поэтому подходит для проверки в скрипте. is-active показывает текущее состояние запуска. status печатает подробный отчёт для человека, а его код возврата отражает активность юнита, а не автозапуск. list-units --all выводит таблицу юнитов со столбцами LOAD, ACTIVE и SUB, но состояния автозапуска в ней нет."
+    },
+    {
+      "id": "rs_004",
+      "topic": "running_systems",
+      "difficulty": "easy",
+      "objective_domain": "6",
+      "subtopic": "journalctl: -u, -b, -p, --since",
+      "question": "Служба httpd не запускается, и нужно увидеть сообщения журнала, относящиеся именно к этой службе. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "journalctl -u httpd",
+          "correct": true
+        },
+        {
+          "text": "journalctl -p err",
+          "correct": false
+        },
+        {
+          "text": "journalctl -b 0",
+          "correct": false
+        },
+        {
+          "text": "journalctl -n 20",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -u ограничивает вывод сообщениями указанного юнита, поэтому видно историю именно этой службы. Ключ -p err фильтрует по приоритету и показывает сообщения об ошибках от любых служб. Ключ -b 0 выбирает текущую загрузку целиком. Ключ -n 20 ограничивает вывод двадцатью последними строками журнала независимо от службы."
+    },
+    {
+      "id": "rs_005",
+      "topic": "running_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "journalctl: -u, -b, -p, --since",
+      "question": "Нужно посмотреть сообщения журнала за предыдущую загрузку системы. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "journalctl --boot -1",
+          "correct": true
+        },
+        {
+          "text": "journalctl --boot",
+          "correct": false
+        },
+        {
+          "text": "journalctl --boot 1",
+          "correct": false
+        },
+        {
+          "text": "journalctl --boot -0",
+          "correct": false
+        }
+      ],
+      "explanation": "Отрицательное смещение у --boot отсчитывается от последней загрузки, поэтому --boot -1 выбирает предыдущую загрузку. Без смещения --boot показывает текущую загрузку. Положительное смещение --boot 1 отсчитывается от первой загрузки, записанной в журнале. Смещение -0 означает текущую загрузку."
+    },
+    {
+      "id": "rs_006",
+      "topic": "running_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "systemctl daemon-reload и маскирование",
+      "question": "Нужно запретить случайный запуск службы telnet.socket, не удаляя её unit-файл. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "systemctl mask telnet.socket",
+          "correct": true
+        },
+        {
+          "text": "systemctl disable telnet.socket",
+          "correct": false
+        },
+        {
+          "text": "systemctl stop telnet.socket",
+          "correct": false
+        },
+        {
+          "text": "systemctl unmask telnet.socket",
+          "correct": false
+        }
+      ],
+      "explanation": "mask подменяет unit-файл ссылкой на /dev/null, поэтому службу нельзя запустить ни вручную, ни как зависимость. disable убирает только автозапуск, и службу по-прежнему можно запустить вручную. stop останавливает службу сейчас, но не мешает запустить её снова. unmask снимает запрет, то есть делает обратное."
+    },
+    {
+      "id": "rs_007",
+      "topic": "running_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "systemctl daemon-reload и маскирование",
+      "question": "После правки файла службы нужно, чтобы systemd перечитал изменённые unit-файлы, не прерывая работу уже запущенной службы. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "systemctl daemon-reload",
+          "correct": true
+        },
+        {
+          "text": "systemctl reload sshd",
+          "correct": false
+        },
+        {
+          "text": "systemctl restart sshd",
+          "correct": false
+        },
+        {
+          "text": "systemctl reset-failed",
+          "correct": false
+        }
+      ],
+      "explanation": "daemon-reload заставляет systemd перечитать файлы юнитов с диска, поэтому правки конфигурации вступают в силу при следующем запуске службы. reload отправляет работающей службе сигнал перечитать свою конфигурацию, но сами unit-файлы при этом не перечитываются. restart останавливает и запускает службу заново. reset-failed сбрасывает состояние неудачных юнитов и файлы не перечитывает."
+    },
+    {
+      "id": "rs_008",
+      "topic": "running_systems",
+      "difficulty": "medium",
+      "objective_domain": "3",
+      "subtopic": "перезагрузка и rescue/target",
+      "question": "Система загрузилась, но нужно перейти в режим однопользовательского обслуживания (rescue) без перезагрузки. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "systemctl isolate rescue.target",
+          "correct": true
+        },
+        {
+          "text": "systemctl set-default rescue.target",
+          "correct": false
+        },
+        {
+          "text": "systemctl start rescue.target",
+          "correct": false
+        },
+        {
+          "text": "systemctl enable rescue.target",
+          "correct": false
+        }
+      ],
+      "explanation": "isolate останавливает юниты текущей цели и запускает только юниты указанной, поэтому система сразу переходит в режим rescue. set-default делает rescue целью загрузки по умолчанию, то есть меняет поведение при следующей загрузке, а не сейчас. start запускает юниты цели, но не останавливает уже работающие, поэтому переключения режима не происходит. enable лишь включает автозапуск юнита."
+    },
+    {
+      "id": "rs_009",
+      "topic": "running_systems",
+      "difficulty": "easy",
+      "objective_domain": "3",
+      "subtopic": "процессы: $! и фоновые задания",
+      "question": "Команда long-task запущена в фоне как long-task &. Какая переменная содержит PID этого фонового процесса?",
+      "options": [
+        {
+          "text": "$!",
+          "correct": true
+        },
+        {
+          "text": "$$",
+          "correct": false
+        },
+        {
+          "text": "$0",
+          "correct": false
+        },
+        {
+          "text": "$#",
+          "correct": false
+        }
+      ],
+      "explanation": "Переменная $! хранит идентификатор последнего процесса, запущенного в фоне, поэтому именно её используют вместе с wait. Переменная $$ содержит PID самой оболочки. Переменная $0 содержит имя запущенного скрипта или оболочки. Переменная $# содержит число позиционных параметров."
+    },
+    {
+      "id": "rs_010",
+      "topic": "running_systems",
+      "difficulty": "easy",
+      "objective_domain": "6",
+      "subtopic": "systemctl is-active/is-enabled/status",
+      "question": "Нужно, чтобы служба httpd автоматически запускалась при загрузке системы. Какая команда это настроит?",
+      "options": [
+        {
+          "text": "systemctl enable httpd",
+          "correct": true
+        },
+        {
+          "text": "systemctl start httpd",
+          "correct": false
+        },
+        {
+          "text": "systemctl status httpd",
+          "correct": false
+        },
+        {
+          "text": "systemctl is-enabled httpd",
+          "correct": false
+        }
+      ],
+      "explanation": "enable создаёт ссылки включения, поэтому служба стартует при загрузке системы. start запускает службу только сейчас и на следующую загрузку не влияет. status показывает состояние службы для человека. is-enabled только сообщает текущее состояние автозапуска и ничего не меняет."
+    }
+  ],
+  "meta": {
+    "generated": 10,
+    "attempted": 10,
+    "rejected": 0,
+    "voted_unanimous": 10,
+    "haladyna_min": 10,
+    "haladyna_max": 10,
+    "length_ratio_max": 1.2667,
+    "option_ratio_max": 1.2667,
+    "option_ratio_note": "Option-only ratio (max/min длины текста опций). Максимум 1.2667 (rs_004) — ниже порога 1.30.",
+    "option_ratio_table": [
+      "rs_001=1.1471",
+      "rs_002=1.2500",
+      "rs_003=1.2381",
+      "rs_004=1.2667",
+      "rs_005=1.1765",
+      "rs_006=1.1071",
+      "rs_007=1.0952",
+      "rs_008=1.2069",
+      "rs_009=1.0000",
+      "rs_010=1.2381"
+    ],
+    "jaccard_max": 0.1667,
+    "jaccard_max_pair": "rs_005~sec_002",
+    "jaccard_intra_max": 0.1667,
+    "jaccard_intra_pair": "rs_004~rs_005",
+    "jaccard_options_max": 0.5,
+    "jaccard_options_pair": "rs_005",
+    "duplicates_rejected": 0,
+    "cosine_max": null,
+    "cosine_status": "SKIPPED_NO_MODEL_CACHE",
+    "votes_total_expected": 50,
+    "votes_received": 50,
+    "man_verified": 10,
+    "man_distro": "Rocky Linux release 9.8 (Blue Onyx), WSL Rocky-9 (проверено этой сессией: wsl -d Rocky-9 -e cat /etc/redhat-release)",
+    "subagent_calls": 60,
+    "subagent_calls_note": "60 учтённых вызовов на батч: 10 coherence (L4, упавшая сессия) + 50 голосов L4.5 (5 ролей × 10 вопросов; 20 собрано в упавшей сессии, 30 — в этой). Повторные coherence-итерации rs_007 в упавшей сессии не восстановимы: лога вызовов на диске нет, поэтому не учтены.",
+    "haladyna_status": "PASSED (10/10 ≥ 8/10; min 10, max 10)",
+    "haladyna_checklist": "docs/HALADYNA.md",
+    "qc_passed": true,
+    "rejected_questions": 0,
+    "question_replaced": null,
+    "status": "PIPELINE_COMPLETE"
+  },
+  "pipeline_status": {
+    "schema": "pass",
+    "man_verification": "PASSED",
+    "man_verification_note": "L2 выполнен капитаном в WSL Rocky-9 (Rocky Linux release 9.8 Blue Onyx) в упавшей сессии; машинного артефакта L2 на диске нет, но l2_evidence присутствует во всех 10 файлах drafts/_coherence/rs_00N.json. В этой сессии подтверждено, что дистрибутив Rocky-9 = Rocky Linux release 9.8. Все 10 вопросов в финальном батче те же, что прошли L2 (содержимое вопросов не менялось: правился только rs_007 на этапе L4, и он получил отдельный l2_evidence после правки).",
+    "blueprint_alignment": "pass",
+    "blueprint_alignment_note": "Использованы 7 сабтопиков running_systems из docs/BLUEPRINT: boot targets (get-default/set-default), systemctl is-active/is-enabled/status, journalctl -u/-b/-p/--since, перезагрузка и rescue/target, unit-файлы [Unit]/[Service]/[Install], systemctl daemon-reload и маскирование, процессы $! и фоновые задания. subtopic_coverage: 1/2/2/1/1/2/1 = 10 без превышения квот. objective_domain назначен по прецеденту репозитория (службы/журналы/цели/unit-файлы — 6, процессы — 3), зафиксировано в objective_domain_note батча.",
+    "deterministic_qc": "PASSED",
+    "deterministic_qc_note": "tools/qc.cjs на изолированной временной копии дерева с объединённым банком (96 + 10 = 106): Total 106, Fails 0, Warns 2 (fm_002, fm_003 — существующие в банке, не относятся к rs_*), exit 0. Реальный банк на момент прогона не изменялся (копия в %TEMP%).",
+    "duplicate_detection": "PARTIAL",
+    "duplicate_detection_note": "Bigram Jaccard (та же definition, что экспортирует tools/cosine.cjs) по стемам: max против банка 0.1667 (rs_005~sec_002), intra-batch 0.1667 (rs_004~rs_005), между опциями внутри вопроса 0.5000 (rs_005) — все ниже порога 0.9. Cosine SKIPPED: кэш Xenova/all-MiniLM-L6-v2 отсутствует (cosine_status=SKIPPED_NO_MODEL_CACHE). PARTIAL, как и в предыдущих батчах, именно из-за недоступности cosine.",
+    "coherence": "PASSED",
+    "coherence_note": "Все 10 файлов drafts/_coherence/rs_001..rs_010.json: verdict=pass, ambiguous=false, по 3 интерпретации каждый. rs_007 в логе упавшей сессии сначала получил FAIL (стем не исключал restart), затем правка стема и повторный проход дали pass; на диске лежит ИТОГОВАЯ pass-версия (mtime 07:11:09, позже остальных девяти файлов 07:10:18–07:10:24), в reason прямо зафиксировано «Прежнее замечание снято». Переспрашивать не требуется.",
+    "mas_vote": "PASSED (10/10 принято; 10/10 unanimous 5/5)",
+    "mas_vote_note": "Метод: 5 ролей × 10 вопросов = 50 голосов, per-question, строго последовательно (один вызов → settled → запись файла → следующий); параллельных вызовов не было — это была причина падения прошлой сессии. Роли: sysadmin_10y (10, упавшая сессия), rhcsa_instructor (10, упавшая сессия), ex200_examiner (10, эта сессия), beginner (10, эта сессия), skeptic (10, эта сессия). Итог: 50 PASS, 0 REJECT, 0 ABSTAIN → 10/10 ACCEPT. Все 50 файлов валидны (JSON parse, LF, без BOM, обязательные поля). Замечания ролей, не потребовавшие REJECT: rs_002 — директивы в опциях единообразны, rs_006 — метка сабтопика шире вопроса, rs_010 — skeptic не смог проверить пересечение с rs_003 (текст не предоставлялся); ни одно не является дефектом.",
+    "item_writing": "PASSED (10/10 ≥ 8/10)",
+    "item_writing_note": "Haladyna по docs/HALADYNA.md, 10 критериев на вопрос, все 10 вопросов — 10/10 (min 10, max 10), порог ≥ 8 выполнен. Option-only length ratio max 1.2667 (rs_004) ≤ 1.30. Спойлерные и абсолютные термины в стемах отсутствуют: qc.cjs даёт 0 warns по rs_*. Позиция ключа — 0 у всех 10, что соответствует конвенции банка (маскируется рантайм-шаффлом); это известный P0-долг банка целиком (см. docs/HANDOFF.md), а не дефект батча."
+  },
+  "open_verification_points": []
+}
