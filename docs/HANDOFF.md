@@ -10,17 +10,17 @@
 | Репо | `C:\Users\Alexey Udotov\LinuxExam` |
 | GitHub | `github.com/ialmozt25/LinuxExam` (публичный) |
 | Прод | https://ialmozt25.github.io/LinuxExam/ |
-| HEAD | `302fe00` — база этой работы; сверху **этот коммит** (`perf: reduce entry bundle gzip`, entry 125.22 → **51.56** kB gzip), 2026-09-24 |
+| HEAD | `8c80c5e` — база этой работы (после merge running_systems); сверху **этот коммит** (`docs: update HANDOFF after running_systems merge`, банк 96 → **106**), 2026-09-25 |
 | Ветка / upstream | `main` / `origin/main`, ahead/behind `0/0` |
-| История | 101 коммит |
-| Банк | 96 вопросов, 96 уникальных id, 0 невалидных, 76 сабтопиков |
-| Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `essential_tools` 7 |
-| Домены (objective_domain) | 1:23, 2:**10**, 3:5, 4:2, 5:4, 6:3, 7:25, 8:1, 9:23 (все 96 записей имеют валидный домен) |
-| topics.ts | 9 available / 5 planned; у всех planned — 0 вопросов |
+| История | 110 коммитов |
+| Банк | 106 вопросов, 106 уникальных id, 0 невалидных, 83 сабтопика |
+| Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `running_systems` 10, `essential_tools` 7 |
+| Домены (objective_domain) | 1:23, 2:**10**, 3:7, 4:2, 5:4, 6:**11**, 7:25, 8:1, 9:23 (все 106 записей имеют валидный домен) |
+| topics.ts | 10 available / 4 planned; у всех planned — 0 вопросов |
 | Bundle gzip | entry `index-B7YDS_6E.js` = **51.56 kB** (raw 158.39 kB), CSS 2.76 kB; ленивые чанки: Question+motion 47.94, SDK 18.41, Dashboard 3.48, topics 2.51, банк 31.57; первый экран (entry + SDK + Dashboard + topics + банк) ≈ **110 kB** gzip, сумма всех чанков 160.74 kB; watch-порог **>137 kB** считается по entry — проходит с запасом |
 | Стек | React `^18.3.1`, Vite `^5.4.2`, TypeScript `^5.5.3`, Zustand `^5.0.15`, Tailwind `^3.4.1`, motion `^13.4.0`, @telegram-apps/sdk `^3.11.8`, lucide-react `^0.446.0`; Node `v24.13.0`, npm `11.6.2` |
 | Дата снапшота | 2026-09-24 |
-| Дата сборки HANDOFF | 2026-09-24 |
+| Дата сборки HANDOFF | 2026-09-25 |
 
 ## Правила работы
 
@@ -32,6 +32,7 @@
 6. Rocky 9.8 WSL2 — источник истины для man.
 7. Субагентам запрещён pwsh/man.
 8. questions.json не менять без явного одобрения.
+9. Голоса L4.5 — СТРОГО последовательно (один subagent-вызов → дождаться settled → записать файл → следующий). Параллельные и пакетные вызовы запрещены: 20 параллельных голосов накопили >1M токенов в контексте родителя и уронили сессию 2026-09-24.
 
 ## СТОП-ПРАВИЛА
 
@@ -51,16 +52,32 @@
 - Уязвимости (два среза): Dependabot 52 (1 critical, 23 high, 24 moderate, 4 low); npm audit 32 (1 critical, 20 high, 8 moderate, 3 low, 564 зависимости).
 - Cosine: `background_max` **0.8085**, threshold **0.80**, margin **−0.0085**, class inversion на русском; `threshold_warning` требует L5c-ревью перед приёмкой батча.
 - `tools/qc.cjs`: length ratio — только `WARN > 2.5`, тогда как пилот v2.0 отбраковывал при `> 1.30` (осознанное расхождение, не баг).
-- Все 66 правильных ответов в хранилище стоят в позиции A (`allCorrectAtPos0: true`); рендер маскирует это детерминированным шаффлом.
+- Все 106 правильных ответов в хранилище стоят в позиции A (`allCorrectAtPos0: true`); рендер маскирует это детерминированным шаффлом.
 - `docs/HANDOFF.md` до этой сессии отсутствовал; каноническая точка входа — этот файл.
+
+## Состояние на 2026-09-25
+
+- Сессия: **recovery** после падения 2026-09-24 на L4.5 (MAS-vote) из-за переполнения контекста (1 057 432 / 1 048 576 токенов). Причина падения — параллельный запуск subagent-вызовов (wave 1 + wave 2 одновременно).
+- На диске уцелело: черновик `drafts/pending-running_systems-2026-09-24.json` (10 вопросов, 7 сабтопиков, LF/no BOM, все ключи на позиции 0), coherence 10/10 pass (rs_007 — итоговая pass-версия после правки стема), голоса wave 1 (`sysadmin_10y` 10/10 PASS) и wave 2 (`rhcsa_instructor` 10/10 PASS).
+- Дособрано в этой сессии: 30 голосов **строго последовательно** — `ex200_examiner` 10/10 PASS, `beginner` 10/10 PASS, `skeptic` 10/10 PASS. Итого **50/50 голосов, 10/10 accepted, 0 REJECT, 0 ABSTAIN**.
+- `subagent_calls` этой сессии: **30** (лимит сессии ≤ 35) — только голоса L4.5; coherence переиспользована с диска и не генерировалась повторно.
+- L5 Haladyna: 10/10 у всех 10 вопросов (min 10, max 10), порог ≥ 8 выполнен. Option-only length ratio max **1.2667** (rs_004) ≤ 1.30.
+- L3 QC на объединённом банке (106): **Fails 0, Warns 2** (fm_002, fm_003 — унаследованные, не rs_*); `npm run typecheck` — **0 ошибок**.
+- Duplicate detection: Jaccard max против банка **0.1667** (rs_005~sec_002), intra-batch **0.1667** (rs_004~rs_005), между опциями **0.5000** (rs_005) — все ниже порога 0.9; cosine SKIPPED (кэш модели отсутствует).
+- Merge: банк **96 → 106**, `running_systems` переведена `planned → available`, `_topics.json` перегенерирован (10 тем), `_order.json` — 106 id, 10 файлов тем.
+- Коммиты сессии: `aee0cfb` (голоса ex200_examiner), `399d74a` (beginner), `f15b2c7` (skeptic), `b398bb6` (черновик: pipeline complete), `2f2e8b8` (merge 96 → 106), `8c80c5e` (восстановленные coherence + голоса wave 1/2), + этот (HANDOFF).
+- Push: `origin/main` = HEAD, ahead/behind **0/0**.
+- Отклонение от скрипта сессии (осознанное, две правки): (1) в merge-коммит добавлен 5-й файл — сам черновик (`meta.status` → `CLOSED`), чтобы артефакт соответствовал конвенции репозитория; (2) отдельным коммитом закоммичены 30 восстановленных артефактов упавшей сессии (10 coherence + 20 голосов wave 1/2), которые лежали untracked и не были durable.
+- Bundle: сборка **не пересобиралась** (не входило в скрипт сессии); цифры в таблице — замер 2026-09-24 при банке 96. Банк грузится ленивыми чанками по темам, поэтому +10 вопросов entry-чанк не увеличивают; при следующей сессии перепроверить watch-порог сборкой.
+- Остаток P0: 4 planned-темы без вопросов (`manage_software` — конвейер 2 так и не начинался, `local_storage`, `file_systems`, `deploy_systems`); option shuffle на уровне данных (все 106 ключей в позиции A).
 
 ## Открытые задачи
 
 ### P0 (блокеры)
 
-- Наполнение банка до 160+ (5 planned-тем без вопросов).
+- Наполнение банка до 160+ (4 planned-темы без вопросов: `manage_software`, `local_storage`, `file_systems`, `deploy_systems`).
 - Токен `@linux_exam_bot` отозван — перевыпустить.
-- Option shuffle: все 96 ответов на позиции A на уровне данных (рендер перемешивает через `shuffleOptions` + seed, но банк вырожден для аудита).
+- Option shuffle: все 106 ответов на позиции A на уровне данных (рендер перемешивает через `shuffleOptions` + seed, но банк вырожден для аудита).
 - Bundle: entry приведён к **51.56 kB** gzip (цель ≤60 достигнута). Остаток entry — React (≈45.5 kB gzip) + store/theme/glue; дальше только смена рантайма (Preact) или отказ от React-зависимостей. Суммарный вес всех чанков 160.74 kB — watch 137 kB считается по entry и проходит.
 - `npm audit`: 1 critical + 20 high — обновить deps.
 
@@ -93,6 +110,7 @@
 - Merge shell_scripts: банк 76 → **86**, домен 2 закрыт впервые (10 вопросов, `sh_001..sh_010`), commit `f54a3dc`; L4.5 10/10 unanimous, Haladyna min 9 / max 10, Jaccard max 0.1429; на L2 исправлены 2 дефекта (нерабочий дистрактор sh_010, лазейка в стеме sh_008).
 - Merge networking: банк 66 → **76**, тема `networking` закрыта (10 вопросов, домен 7), commit `cd8e348`; пайплайн L1..L5, Haladyna min 9 / max 10, L4.5 9/10 unanimous 5/5 (net_003 — правка объяснения), Jaccard max 0.1818, cosine SKIPPED.
 - Merge security: банк 54 → **66**, тема `security` закрыта (12 вопросов, домен 9).
+- Merge running_systems (2026-09-25, recovery): банк 96 → **106**, тема `running_systems` переведена `planned → available` (10 вопросов, `rs_001..rs_010`, домены 6:8 и 3:2), commit `2f2e8b8`; L4.5 — 10/10 accepted, все 5/5 unanimous, 0 REJECT/ABSTAIN; Haladyna min 10 / max 10; option ratio max 1.2667; Jaccard max 0.1667; cosine SKIPPED; QC на банке 106 — Fails 0, Warns 2 (fm_002, fm_003).
 - `fix(topics): enable essential_tools and users_groups` — обе темы переведены `planned → available` (до этого UI показывал 47 из 66).
 - MAS-аудит 66 вопросов выполнен: `keep 61`, `minor_fix 3`, `major_fix 2`, `retire 0`; `disagreement 2`, `insufficient_data 0`, `critical 0`; `positional_bias` — `all_A=true`, `match 65/66`.
 - Пайплайн v2.0 восстановлен и задокументирован (см. ниже).
@@ -131,7 +149,7 @@
 
 | Файл | Назначение |
 |---|---|
-| `src/data/questions/` | банк 96 вопросов: 9 файлов по темам + `_order.json` (порядок id) + `_topics.json` (счётчики для Dashboard, 261 б) + ленивый лоадер `index.ts`; монолит `questions.json` удалён |
+| `src/data/questions/` | банк 106 вопросов: 10 файлов по темам + `_order.json` (порядок id) + `_topics.json` (счётчики для Dashboard, 289 б) + ленивый лоадер `index.ts`; монолит `questions.json` удалён |
 | `src/platform/telegramTheme.ts` | SDK-free мост состояния Telegram-темы: адаптер публикует, `useThemeController` читает через `useSyncExternalStore` — SDK не попадает в entry |
 | `src/data/topics.ts` | 14 тем, `TOPICS`/`AVAILABLE_TOPICS`/`PLANNED_TOPICS`; источник валидных topic-ключей для `qc.cjs` |
 | `src/store/quizStore.ts` | Zustand-стор: 3 потока (regular/review/exam), `FREE_QUESTION_LIMIT = 5`, persist |
@@ -147,7 +165,7 @@
 | `docs/STATE-SNAPSHOT-2026-09-24.md` | полный снапшот состояния, 14 рисков |
 | `docs/HANDOFF-2026-09-23.md` | разбор MAS-аудита (findings, ограничение `all_A`) |
 | `drafts/pending-*.json` | артефакты партий (схемы разошлись: v2.0 / v4.4 / v4.5) |
-| `drafts/_votes/*.json` | голоса 5 ролей (161 файл: `essential_tools`, `networking`, `shell_scripts`, `text_files`) |
+| `drafts/_votes/*.json` | голоса 5 ролей (211 файлов: `essential_tools`, `networking`, `running_systems`, `shell_scripts`, `text_files`) |
 | `drafts/audit-mas-2026-09-23.json` | результат MAS-аудита: 66 findings + `counts` + `positional_bias` |
 
 ## Долги по докам
