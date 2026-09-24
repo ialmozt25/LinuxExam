@@ -12,15 +12,15 @@
         "correct": true
       },
       {
-        "text": "Процесс может перехватить SIGKILL и корректно освободить ресурсы",
+        "text": "Процесс может перехватить SIGKILL и корректно освободить все ресурсы",
         "correct": false
       },
       {
-        "text": "SIGKILL отправляется по умолчанию командой kill без аргументов",
+        "text": "SIGKILL отправляется командой kill по умолчанию, то есть без аргументов",
         "correct": false
       },
       {
-        "text": "SIGKILL эквивалентен SIGTERM — различий нет",
+        "text": "SIGKILL полностью эквивалентен SIGTERM, никаких различий между ними нет",
         "correct": false
       }
     ],
@@ -62,23 +62,23 @@
     "question": "Какая команда запустит httpd немедленно и добавит в автозапуск одной командой?",
     "options": [
       {
-        "text": "systemctl enable --now httpd",
+        "text": "systemctl enable --now httpd.service",
         "correct": true
       },
       {
-        "text": "systemctl start httpd && systemctl enable httpd",
+        "text": "systemctl start httpd; systemctl enable httpd",
         "correct": false
       },
       {
-        "text": "systemctl enable httpd --start",
+        "text": "systemctl enable httpd --also-start-now",
         "correct": false
       },
       {
-        "text": "systemctl start --enable httpd",
+        "text": "systemctl start --enable httpd.service",
         "correct": false
       }
     ],
-    "explanation": "Ключ --now выполняет действие немедленно вместе с enable. У systemctl нет ключа --start, а ключ --enable недопустим после подкоманды start. Две команды через && тоже решают задачу, но вопрос спрашивает про одну."
+    "explanation": "Ключ --now выполняет действие немедленно вместе с enable. У systemctl нет ключа --also-start-now, а ключ --enable недопустим после подкоманды start. Две команды подряд тоже решают задачу, но вопрос спрашивает про одну."
   },
   {
     "id": "pm_004",
@@ -97,7 +97,7 @@
         "correct": false
       },
       {
-        "text": "ps --user-only dev1",
+        "text": "ps -C dev1",
         "correct": false
       },
       {
@@ -105,7 +105,7 @@
         "correct": false
       }
     ],
-    "explanation": "Ключ -u фильтрует список по эффективному пользователю. У ps нет ключа --user-only, поэтому такой вариант завершится ошибкой. Форма -e dev1 некорректна, поскольку -e не принимает аргумент."
+    "explanation": "Ключ -u фильтрует список по эффективному пользователю. Ключ -C выбирает процессы по имени команды, а не по пользователю, поэтому вариант с -C ничего не найдёт. Форма -e dev1 некорректна, поскольку -e не принимает аргумент."
   },
   {
     "id": "pm_005",
@@ -124,15 +124,15 @@
         "correct": false
       },
       {
-        "text": "journalctl --unit sshd -n 10",
+        "text": "journalctl -u sshd -n 10",
         "correct": false
       },
       {
-        "text": "journalctl -u sshd --since today",
+        "text": "journalctl -u sshd -S today",
         "correct": false
       }
     ],
-    "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущей загрузкой. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузке, а --since today задаёт интервал времени, а не загрузку."
+    "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущей загрузкой. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузке, а -S today задаёт интервал времени, а не загрузку."
   },
   {
     "id": "pm_006",
@@ -224,19 +224,19 @@
     "question": "Какая команда показывает динамически обновляемый список процессов с сортировкой по нагрузке?",
     "options": [
       {
-        "text": "top",
+        "text": "top -d 1",
         "correct": true
       },
       {
-        "text": "ps aux",
+        "text": "ps aux -w",
         "correct": false
       },
       {
-        "text": "jobs -l",
+        "text": "jobs -l -r",
         "correct": false
       },
       {
-        "text": "uptime",
+        "text": "uptime -p",
         "correct": false
       }
     ],
@@ -255,7 +255,7 @@
         "correct": true
       },
       {
-        "text": "mask удаляет файл юнита с диска, а disable — нет",
+        "text": "mask удаляет файл юнита с диска навсегда, а disable — нет",
         "correct": false
       },
       {
