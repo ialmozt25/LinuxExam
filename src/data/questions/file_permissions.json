@@ -236,7 +236,7 @@
         "correct": false
       },
       {
-        "text": "setfacl --default-acl u:dev1:rwx /projects",
+        "text": "setfacl -default u:dev1:rwx /projects",
         "correct": false
       }
     ],
