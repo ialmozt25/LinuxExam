@@ -10,14 +10,14 @@
 | Репо | `C:\Users\Alexey Udotov\LinuxExam` |
 | GitHub | `github.com/ialmozt25/LinuxExam` (публичный) |
 | Прод | https://ialmozt25.github.io/LinuxExam/ |
-| HEAD | `cd8e348` (`cd8e34825e77a41cc267370f9fb8c007da07f2ff`), `content: merge networking batch (10 questions, 66 -> 76) + HALADYNA + votes`, 2026-09-24 |
+| HEAD | `dd4434d` (`dd4434d73017520c4a02dec4034075c66b6a4dcb`), `content: merge text_files batch (10 questions, 86 -> 96)`, 2026-09-24 |
 | Ветка / upstream | `main` / `origin/main`, ahead/behind `0/0` |
-| История | 95 коммитов |
-| Банк | 76 вопросов, 76 уникальных id, 0 невалидных, 62 сабтопика |
-| Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `essential_tools` 7 |
-| Домены (objective_domain) | 1:13, 2:**0**, 3:5, 4:2, 5:4, 6:3, 7:25, 8:1, 9:23 (все 76 записей имеют валидный домен) |
-| topics.ts | 7 available / 7 planned; у всех planned — 0 вопросов |
-| Bundle gzip | `dist/assets/index-CcJwThrt.js` = **138.77 kB** (raw 456.38 kB), CSS 2.70 kB; watch-порог **>137 kB → стоп** |
+| История | 98 коммитов |
+| Банк | 96 вопросов, 96 уникальных id, 0 невалидных, 76 сабтопиков |
+| Разбивка по темам | `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `essential_tools` 7 |
+| Домены (objective_domain) | 1:23, 2:**10**, 3:5, 4:2, 5:4, 6:3, 7:25, 8:1, 9:23 (все 96 записей имеют валидный домен) |
+| topics.ts | 9 available / 5 planned; у всех planned — 0 вопросов |
+| Bundle gzip | `dist/assets/index-C-cLnBaH.js` = **150.21 kB** (raw 469.43 kB), CSS 2.76 kB; watch-порог **>137 kB → превышен на 13.21 kB** |
 | Стек | React `^18.3.1`, Vite `^5.4.2`, TypeScript `^5.5.3`, Zustand `^5.0.15`, Tailwind `^3.4.1`, motion `^13.4.0`, @telegram-apps/sdk `^3.11.8`, lucide-react `^0.446.0`; Node `v24.13.0`, npm `11.6.2` |
 | Дата снапшота | 2026-09-24 |
 | Дата сборки HANDOFF | 2026-09-24 |
@@ -43,11 +43,11 @@
 
 ## Состояние на 2026-09-24
 
-- HEAD `cd8e348`, ветка `main`, upstream `origin/main`, ahead/behind **2/0** (push — в конце сессии), 95 коммитов.
-- Банк **76** вопросов: `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `essential_tools` 7. Уникальных id 76, невалидных 0, уникальных сабтопиков 62.
-- `topics.ts`: 7 available / 7 planned; у всех planned тем — 0 вопросов в банке.
-- `subagent_calls` этой сессии: 0 (сброс после merge батча 1; финальное значение — в HANDOFF в конце сессии).
-- Bundle gzip **138.77 kB** при watch-пороге `>137 kB → стоп` — **красный флаг**.
+- HEAD `dd4434d`, ветка `main`, upstream `origin/main`, ahead/behind **4/0** (push — в конце сессии), 98 коммитов.
+- Банк **96** вопросов: `file_permissions` 12, `file_management` 12, `users_groups` 12, `security` 12, `process_management` 11, `networking` 10, `shell_scripts` 10, `text_files` 10, `essential_tools` 7. Уникальных id 96, невалидных 0, уникальных сабтопиков 76.
+- `topics.ts`: 9 available / 5 planned; у всех planned тем — 0 вопросов в банке.
+- `subagent_calls` этой сессии: **123** из лимита 130 (батч 2 `shell_scripts` — 60, батч 3 `text_files` — 63).
+- Bundle gzip **150.21 kB** при watch-пороге `>137 kB → стоп` — **красный флаг** (рост за сессию +11.44 kB на +30 вопросах).
 - Уязвимости (два среза): Dependabot 52 (1 critical, 23 high, 24 moderate, 4 low); npm audit 32 (1 critical, 20 high, 8 moderate, 3 low, 564 зависимости).
 - Cosine: `background_max` **0.8085**, threshold **0.80**, margin **−0.0085**, class inversion на русском; `threshold_warning` требует L5c-ревью перед приёмкой батча.
 - `tools/qc.cjs`: length ratio — только `WARN > 2.5`, тогда как пилот v2.0 отбраковывал при `> 1.30` (осознанное расхождение, не баг).
@@ -58,10 +58,10 @@
 
 ### P0 (блокеры)
 
-- Наполнение банка до 160+ (7 planned-тем без вопросов).
+- Наполнение банка до 160+ (5 planned-тем без вопросов).
 - Токен `@linux_exam_bot` отозван — перевыпустить.
-- Option shuffle: все 66 ответов на позиции A на уровне данных (рендер перемешивает через `shuffleOptions` + seed, но банк вырожден для аудита).
-- Bundle gzip 138.77 kB > 137 kB watch — резать (lazy-load `questions.json`).
+- Option shuffle: все 96 ответов на позиции A на уровне данных (рендер перемешивает через `shuffleOptions` + seed, но банк вырожден для аудита).
+- Bundle gzip 150.21 kB > 137 kB watch — резать (lazy-load `questions.json`).
 - `npm audit`: 1 critical + 20 high — обновить deps.
 
 ### P1 (качество)
@@ -72,7 +72,7 @@
 - Type-safety: `Topic` знает 3 темы при 6 в банке; убрать `as`-каст в `fromJson` (F-6 в `docs/AUDIT.md`).
 - Унифицировать схему `drafts/pending-*` (v2.0 → v4.4 → v4.5, у security нет блока `validation`).
 - Cosine margin −0.0085 — решить L5c-ревью перед приёмкой батча.
-- Домен 2 (shell scripts) — 0 вопросов.
+- `tools/qc.cjs`: placeholder-проверка считает FAIL любую конструкцию вида `{...}` в стеме/опции, поэтому каноническую awk-программу `{print $1}` в опцию записать нельзя — сабтопик BLUEPRINT «awk: выбор полей и печать колонок» закрывается только brace-free формой (см. meta батча 3).
 
 ### P2 (инфраструктура)
 
@@ -86,6 +86,8 @@
 
 ## Что закрыто (не переделывать)
 
+- Merge text_files: банк 86 → **96**, тема `text_files` закрыта (10 вопросов, домен 1), commit `dd4434d`; L4 — 3 вопроса вернулись с fail и перепроверены после правок стемов (tf_003, tf_006, tf_007); L4.5 — 49 PASS + 1 опровергнутый REJECT (tf_001); Haladyna 10/10 у всех, Jaccard max 0.2250.
+- Merge shell_scripts: банк 76 → **86**, домен 2 закрыт впервые (10 вопросов, `sh_001..sh_010`), commit `f54a3dc`; L4.5 10/10 unanimous, Haladyna min 9 / max 10, Jaccard max 0.1429; на L2 исправлены 2 дефекта (нерабочий дистрактор sh_010, лазейка в стеме sh_008).
 - Merge networking: банк 66 → **76**, тема `networking` закрыта (10 вопросов, домен 7), commit `cd8e348`; пайплайн L1..L5, Haladyna min 9 / max 10, L4.5 9/10 unanimous 5/5 (net_003 — правка объяснения), Jaccard max 0.1818, cosine SKIPPED.
 - Merge security: банк 54 → **66**, тема `security` закрыта (12 вопросов, домен 9).
 - `fix(topics): enable essential_tools and users_groups` — обе темы переведены `planned → available` (до этого UI показывал 47 из 66).
@@ -126,7 +128,7 @@
 
 | Файл | Назначение |
 |---|---|
-| `src/data/questions.json` | банк, 76 вопросов (113 873 байта); бэкап `questions.json.bak` (4 522 байта) |
+| `src/data/questions.json` | банк, 96 вопросов (143 093 байта); бэкап `questions.json.bak` (4 522 байта) |
 | `src/data/topics.ts` | 14 тем, `TOPICS`/`AVAILABLE_TOPICS`/`PLANNED_TOPICS`; источник валидных topic-ключей для `qc.cjs` |
 | `src/store/quizStore.ts` | Zustand-стор: 3 потока (regular/review/exam), `FREE_QUESTION_LIMIT = 5`, persist |
 | `src/domain/quizService.ts` | `seedFromId`, `shuffleOptions`, `calculateProgress` (чистые функции) |
@@ -134,13 +136,14 @@
 | `tools/cosine.cjs` | офлайн cosine/Jaccard (`all-MiniLM-L6-v2`, dim 384); `--self-check`, `--intra-batch`; `INTRA_FAIL 0.80` / `INTRA_WARN 0.75` |
 | `tools/cosine-calibration.json` | пороги (`fail 0.80`, `warn 0.75`, `jaccard 0.9`), `background_max 0.8085`, `known_exceptions`, `cosine_limitation` |
 | `docs/DECISIONS.md` | 13 решений (DECISION-001..013, все 2026-09-22) |
+| `docs/HALADYNA.md` | 10 критериев оценки MCQ (адаптация Haladyna 1997), порог приёмки ≥ 8/10 |
 | `docs/session-log.md` | append-only журнал сессий |
 | `docs/HANDOFF.md` | этот файл — точка входа |
 | `docs/CONTEXT.md` | краткий контекст проекта (два среза vulns: Dependabot 52, npm audit 32) |
 | `docs/STATE-SNAPSHOT-2026-09-24.md` | полный снапшот состояния, 14 рисков |
 | `docs/HANDOFF-2026-09-23.md` | разбор MAS-аудита (findings, ограничение `all_A`) |
 | `drafts/pending-*.json` | артефакты партий (схемы разошлись: v2.0 / v4.4 / v4.5) |
-| `drafts/_votes/*.json` | голоса 5 ролей (`essential_tools`, `networking` — 56 файлов) |
+| `drafts/_votes/*.json` | голоса 5 ролей (161 файл: `essential_tools`, `networking`, `shell_scripts`, `text_files`) |
 | `drafts/audit-mas-2026-09-23.json` | результат MAS-аудита: 66 findings + `counts` + `positional_bias` |
 
 ## Долги по докам
