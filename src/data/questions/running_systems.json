@@ -1,0 +1,272 @@
+[
+  {
+    "id": "rs_001",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "boot targets: systemctl get-default/set-default",
+    "question": "Нужно, чтобы система после загрузки по умолчанию запускала текстовый режим (без графики) вместо графического. Какая команда задаст это постоянной целью загрузки?",
+    "options": [
+      {
+        "text": "systemctl set-default multi-user.target",
+        "correct": true
+      },
+      {
+        "text": "systemctl isolate multi-user.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable multi-user.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl get-default multi-user.target",
+        "correct": false
+      }
+    ],
+    "explanation": "set-default записывает цель в конфигурацию как цель загрузки по умолчанию, поэтому выбор сохраняется после перезагрузки. isolate переключает систему в указанную цель прямо сейчас, но значение по умолчанию не меняет. enable лишь создаёт ссылки включения для юнита и целью загрузки не управляет. get-default только печатает текущую цель по умолчанию и ничего не меняет."
+  },
+  {
+    "id": "rs_002",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "unit-файлы: [Unit]/[Service]/[Install]",
+    "question": "В файле службы systemd нужно указать команду, которая запускает саму программу. Какая директива раздела службы это делает?",
+    "options": [
+      {
+        "text": "ExecStart=",
+        "correct": true
+      },
+      {
+        "text": "ExecStop=",
+        "correct": false
+      },
+      {
+        "text": "Restart=",
+        "correct": false
+      },
+      {
+        "text": "WantedBy=",
+        "correct": false
+      }
+    ],
+    "explanation": "Директива ExecStart задаёт команду запуска службы и находится в разделе Service. ExecStop описывает команду остановки. Restart задаёт политику автоматического перезапуска и команду запуска не определяет. WantedBy указывается в разделе Install и определяет, в какие цели включается юнит при enable."
+  },
+  {
+    "id": "rs_003",
+    "topic": "running_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl is-active/is-enabled/status",
+    "question": "Скрипту нужно командой проверить именно автозапуск службы sshd (по коду возврата). Какая команда подходит?",
+    "options": [
+      {
+        "text": "systemctl is-enabled sshd",
+        "correct": true
+      },
+      {
+        "text": "systemctl is-active sshd",
+        "correct": false
+      },
+      {
+        "text": "systemctl status sshd",
+        "correct": false
+      },
+      {
+        "text": "systemctl list-units --all",
+        "correct": false
+      }
+    ],
+    "explanation": "is-enabled сообщает состояние автозапуска (enabled, disabled, static, masked и другие) и возвращает ненулевой код для disabled и masked, поэтому подходит для проверки в скрипте. is-active показывает текущее состояние запуска. status печатает подробный отчёт для человека, а его код возврата отражает активность юнита, а не автозапуск. list-units --all выводит таблицу юнитов со столбцами LOAD, ACTIVE и SUB, но состояния автозапуска в ней нет."
+  },
+  {
+    "id": "rs_004",
+    "topic": "running_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "journalctl: -u, -b, -p, --since",
+    "question": "Служба httpd не запускается, и нужно увидеть сообщения журнала, относящиеся именно к этой службе. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "journalctl -u httpd",
+        "correct": true
+      },
+      {
+        "text": "journalctl -p err",
+        "correct": false
+      },
+      {
+        "text": "journalctl -b 0",
+        "correct": false
+      },
+      {
+        "text": "journalctl -n 20",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u ограничивает вывод сообщениями указанного юнита, поэтому видно историю именно этой службы. Ключ -p err фильтрует по приоритету и показывает сообщения об ошибках от любых служб. Ключ -b 0 выбирает текущую загрузку целиком. Ключ -n 20 ограничивает вывод двадцатью последними строками журнала независимо от службы."
+  },
+  {
+    "id": "rs_005",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "journalctl: -u, -b, -p, --since",
+    "question": "Нужно посмотреть сообщения журнала за предыдущую загрузку системы. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "journalctl --boot -1",
+        "correct": true
+      },
+      {
+        "text": "journalctl --boot",
+        "correct": false
+      },
+      {
+        "text": "journalctl --boot 1",
+        "correct": false
+      },
+      {
+        "text": "journalctl --boot -0",
+        "correct": false
+      }
+    ],
+    "explanation": "Отрицательное смещение у --boot отсчитывается от последней загрузки, поэтому --boot -1 выбирает предыдущую загрузку. Без смещения --boot показывает текущую загрузку. Положительное смещение --boot 1 отсчитывается от первой загрузки, записанной в журнале. Смещение -0 означает текущую загрузку."
+  },
+  {
+    "id": "rs_006",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl daemon-reload и маскирование",
+    "question": "Нужно запретить случайный запуск службы telnet.socket, не удаляя её unit-файл. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "systemctl mask telnet.socket",
+        "correct": true
+      },
+      {
+        "text": "systemctl disable telnet.socket",
+        "correct": false
+      },
+      {
+        "text": "systemctl stop telnet.socket",
+        "correct": false
+      },
+      {
+        "text": "systemctl unmask telnet.socket",
+        "correct": false
+      }
+    ],
+    "explanation": "mask подменяет unit-файл ссылкой на /dev/null, поэтому службу нельзя запустить ни вручную, ни как зависимость. disable убирает только автозапуск, и службу по-прежнему можно запустить вручную. stop останавливает службу сейчас, но не мешает запустить её снова. unmask снимает запрет, то есть делает обратное."
+  },
+  {
+    "id": "rs_007",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl daemon-reload и маскирование",
+    "question": "После правки файла службы нужно, чтобы systemd перечитал изменённые unit-файлы, не прерывая работу уже запущенной службы. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "systemctl daemon-reload",
+        "correct": true
+      },
+      {
+        "text": "systemctl reload sshd",
+        "correct": false
+      },
+      {
+        "text": "systemctl restart sshd",
+        "correct": false
+      },
+      {
+        "text": "systemctl reset-failed",
+        "correct": false
+      }
+    ],
+    "explanation": "daemon-reload заставляет systemd перечитать файлы юнитов с диска, поэтому правки конфигурации вступают в силу при следующем запуске службы. reload отправляет работающей службе сигнал перечитать свою конфигурацию, но сами unit-файлы при этом не перечитываются. restart останавливает и запускает службу заново. reset-failed сбрасывает состояние неудачных юнитов и файлы не перечитывает."
+  },
+  {
+    "id": "rs_008",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "3",
+    "subtopic": "перезагрузка и rescue/target",
+    "question": "Система загрузилась, но нужно перейти в режим однопользовательского обслуживания (rescue) без перезагрузки. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "systemctl isolate rescue.target",
+        "correct": true
+      },
+      {
+        "text": "systemctl set-default rescue.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl start rescue.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable rescue.target",
+        "correct": false
+      }
+    ],
+    "explanation": "isolate останавливает юниты текущей цели и запускает только юниты указанной, поэтому система сразу переходит в режим rescue. set-default делает rescue целью загрузки по умолчанию, то есть меняет поведение при следующей загрузке, а не сейчас. start запускает юниты цели, но не останавливает уже работающие, поэтому переключения режима не происходит. enable лишь включает автозапуск юнита."
+  },
+  {
+    "id": "rs_009",
+    "topic": "running_systems",
+    "difficulty": "easy",
+    "objective_domain": "3",
+    "subtopic": "процессы: $! и фоновые задания",
+    "question": "Команда long-task запущена в фоне как long-task &. Какая переменная содержит PID этого фонового процесса?",
+    "options": [
+      {
+        "text": "$!",
+        "correct": true
+      },
+      {
+        "text": "$$",
+        "correct": false
+      },
+      {
+        "text": "$0",
+        "correct": false
+      },
+      {
+        "text": "$#",
+        "correct": false
+      }
+    ],
+    "explanation": "Переменная $! хранит идентификатор последнего процесса, запущенного в фоне, поэтому именно её используют вместе с wait. Переменная $$ содержит PID самой оболочки. Переменная $0 содержит имя запущенного скрипта или оболочки. Переменная $# содержит число позиционных параметров."
+  },
+  {
+    "id": "rs_010",
+    "topic": "running_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl is-active/is-enabled/status",
+    "question": "Нужно, чтобы служба httpd автоматически запускалась при загрузке системы. Какая команда это настроит?",
+    "options": [
+      {
+        "text": "systemctl enable httpd",
+        "correct": true
+      },
+      {
+        "text": "systemctl start httpd",
+        "correct": false
+      },
+      {
+        "text": "systemctl status httpd",
+        "correct": false
+      },
+      {
+        "text": "systemctl is-enabled httpd",
+        "correct": false
+      }
+    ],
+    "explanation": "enable создаёт ссылки включения, поэтому служба стартует при загрузке системы. start запускает службу только сейчас и на следующую загрузку не влияет. status показывает состояние службы для человека. is-enabled только сообщает текущее состояние автозапуска и ничего не меняет."
+  }
+]

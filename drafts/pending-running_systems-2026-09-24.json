@@ -337,7 +337,7 @@
     "qc_passed": true,
     "rejected_questions": 0,
     "question_replaced": null,
-    "status": "PIPELINE_COMPLETE"
+    "status": "CLOSED"
   },
   "pipeline_status": {
     "schema": "pass",

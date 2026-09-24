@@ -36,7 +36,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'available', Icon: Code },
   { key: 'running_systems', title: 'Управление системами',
     description: 'boot targets, services, journals',
-    status: 'planned', Icon: Activity },
+    status: 'available', Icon: Activity },
   { key: 'manage_software', title: 'Управление ПО',
     description: 'dnf, rpm, repositories, Flatpak',
     status: 'planned', Icon: Package },
