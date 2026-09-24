@@ -1,0 +1,1 @@
+{"qid":"rs_007","role":"ex200_examiner","vote":"PASS","key_correct":true,"reason":"Ключ A верен: daemon-reload перечитывает unit-файлы, не прерывая работу службы; distractors правдоподобны и однозначно неверны, пояснение корректно, уровень RHCSA соблюдён.","source":"subagent (L4.5 MAS-vote)","voted_at":"2026-09-25"}
