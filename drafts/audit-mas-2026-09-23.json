@@ -1,0 +1,2827 @@
+{
+  "generated_at": "2026-09-24T10:12:22.090Z",
+  "method": "Heterogeneous 5-agent audit (per-batch)",
+  "bank_size": 66,
+  "batches": 11,
+  "ground_truth_blind": true,
+  "positional_bias": {
+    "actual_all_A": true,
+    "inferred_match_actual": 65,
+    "total_judged": 66
+  },
+  "counts": {
+    "keep": 61,
+    "minor_fix": 3,
+    "major_fix": 2,
+    "retire": 0,
+    "unanimous": 40,
+    "strong_majority": 20,
+    "weak_majority": 4,
+    "disagreement": 2,
+    "insufficient_data": 0,
+    "critical": 0
+  },
+  "findings": [
+    {
+      "id": "fp_001",
+      "batch": 0,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_002",
+      "batch": 0,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_001",
+      "batch": 0,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.95,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_002",
+      "batch": 0,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_001",
+      "batch": 0,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_003",
+      "batch": 0,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_004",
+      "batch": 1,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_005",
+      "batch": 1,
+      "verdict": "major_fix",
+      "consensus_level": "disagreement",
+      "is_disagreement": true,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.77,
+      "verdict_distribution": {
+        "minor_fix": 2,
+        "keep": 2,
+        "major_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "major_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_006",
+      "batch": 1,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_007",
+      "batch": 1,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.92,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_008",
+      "batch": 1,
+      "verdict": "keep",
+      "consensus_level": "weak_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.87,
+      "verdict_distribution": {
+        "keep": 3,
+        "minor_fix": 2
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_009",
+      "batch": 1,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_010",
+      "batch": 2,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.91,
+      "verdict_distribution": {
+        "minor_fix": 1,
+        "keep": 4
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_011",
+      "batch": 2,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "minor_fix": 1,
+        "keep": 4
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fp_012",
+      "batch": 2,
+      "verdict": "major_fix",
+      "consensus_level": "disagreement",
+      "is_disagreement": true,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.73,
+      "verdict_distribution": {
+        "minor_fix": 2,
+        "major_fix": 2,
+        "retire": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "major_fix",
+          "inferred": "C"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "minor_fix",
+          "inferred": "B"
+        },
+        {
+          "role": "beginner",
+          "verdict": "major_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "retire",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_003",
+      "batch": 2,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.92,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_004",
+      "batch": 2,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_005",
+      "batch": 2,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_006",
+      "batch": 3,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.92,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_007",
+      "batch": 3,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_008",
+      "batch": 3,
+      "verdict": "minor_fix",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "unknown",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.43,
+      "verdict_distribution": {
+        "minor_fix": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "minor_fix",
+          "inferred": "unknown"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "minor_fix",
+          "inferred": "unknown"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "minor_fix",
+          "inferred": "unknown"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "unknown"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "minor_fix",
+          "inferred": "unknown"
+        }
+      ]
+    },
+    {
+      "id": "fm_009",
+      "batch": 3,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_010",
+      "batch": 3,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.85,
+      "verdict_distribution": {
+        "keep": 4,
+        "major_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "major_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_011",
+      "batch": 3,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.89,
+      "verdict_distribution": {
+        "keep": 4,
+        "retire": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "retire",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "fm_012",
+      "batch": 4,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.87,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_002",
+      "batch": 4,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_003",
+      "batch": 4,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_004",
+      "batch": 4,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.87,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_005",
+      "batch": 4,
+      "verdict": "minor_fix",
+      "consensus_level": "weak_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.82,
+      "verdict_distribution": {
+        "minor_fix": 3,
+        "keep": 2
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_006",
+      "batch": 4,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.92,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_007",
+      "batch": 5,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "B"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_008",
+      "batch": 5,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.98,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_009",
+      "batch": 5,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_010",
+      "batch": 5,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.95,
+      "verdict_distribution": {
+        "keep": 4,
+        "major_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "major_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "pm_011",
+      "batch": 5,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "et_001",
+      "batch": 5,
+      "verdict": "minor_fix",
+      "consensus_level": "weak_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.85,
+      "verdict_distribution": {
+        "keep": 2,
+        "minor_fix": 3
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "et_002",
+      "batch": 6,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "et_003",
+      "batch": 6,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "et_004",
+      "batch": 6,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.93,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "et_005",
+      "batch": 6,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "et_006",
+      "batch": 6,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "et_007",
+      "batch": 6,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_001",
+      "batch": 7,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_002",
+      "batch": 7,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.95,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_003",
+      "batch": 7,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_004",
+      "batch": 7,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_005",
+      "batch": 7,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.91,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_006",
+      "batch": 7,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_007",
+      "batch": 8,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_008",
+      "batch": 8,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_009",
+      "batch": 8,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_010",
+      "batch": 8,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_011",
+      "batch": 8,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "ug_012",
+      "batch": 8,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_001",
+      "batch": 9,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.89,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_002",
+      "batch": 9,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.95,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_003",
+      "batch": 9,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.88,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_004",
+      "batch": 9,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_005",
+      "batch": 9,
+      "verdict": "keep",
+      "consensus_level": "weak_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.79,
+      "verdict_distribution": {
+        "keep": 3,
+        "minor_fix": 1,
+        "major_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "major_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_006",
+      "batch": 9,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.92,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_007",
+      "batch": 10,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.96,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_008",
+      "batch": 10,
+      "verdict": "keep",
+      "consensus_level": "strong_majority",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.92,
+      "verdict_distribution": {
+        "keep": 4,
+        "minor_fix": 1
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "minor_fix",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_009",
+      "batch": 10,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.94,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_010",
+      "batch": 10,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_011",
+      "batch": 10,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    },
+    {
+      "id": "sec_012",
+      "batch": 10,
+      "verdict": "keep",
+      "consensus_level": "unanimous",
+      "is_disagreement": false,
+      "inferred_correct": "A",
+      "actual_correct": "A",
+      "is_critical": false,
+      "votes_count": 5,
+      "avg_confidence": 0.97,
+      "verdict_distribution": {
+        "keep": 5
+      },
+      "per_role": [
+        {
+          "role": "sysadmin_10y",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "rhcsa_instructor",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "ex200_examiner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "beginner",
+          "verdict": "keep",
+          "inferred": "A"
+        },
+        {
+          "role": "skeptic",
+          "verdict": "keep",
+          "inferred": "A"
+        }
+      ]
+    }
+  ]
+}
