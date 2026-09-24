@@ -30,7 +30,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'available', Icon: Terminal },
   { key: 'text_files', title: 'Работа с текстом',
     description: 'sed, awk, cut, sort, uniq, tr, wc, head/tail',
-    status: 'planned', Icon: FileText },
+    status: 'available', Icon: FileText },
   { key: 'shell_scripts', title: 'Shell-скрипты',
     description: 'if, loops, args, command substitution',
     status: 'available', Icon: Code },

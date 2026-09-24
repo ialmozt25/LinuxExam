@@ -1,0 +1,366 @@
+{
+  "batch": "text_files-1",
+  "date": "2026-09-24",
+  "pipeline": "v2.0",
+  "topic": "text_files",
+  "topic_status_at_generation": "planned",
+  "objective_domain": "1",
+  "objective_domain_note": "Домен 1 (Understand and use essential tools) выбран по прецеденту репозитория: все 7 существующих вопросов по текстовым инструментам (et_001..et_007 — grep/sort/xargs/stat/tar/find) имеют objective_domain=1. Альтернатива «домен 5» опирается только на неподтверждённую цитату drafts/report-2026-09-22.md:82 и противоречит смыслу домена 5 EX200 (файловые системы); в docs/RESEARCH-text-topic-2026-09-24.md это зафиксировано как открытый вопрос к капитану. Решение капитана может быть изменено одной правкой поля.",
+  "subtopics_used": [
+    "sed: подстановка",
+    "sed: удаление и диапазоны строк",
+    "awk: выбор полей и печать колонок",
+    "cut: поля и диапазоны",
+    "sort -u / uniq: дедупликация",
+    "tr: регистр и удаление символов",
+    "wc/head/tail: подсчёт и срезы"
+  ],
+  "questions": [
+    {
+      "id": "tf_001",
+      "topic": "text_files",
+      "difficulty": "medium",
+      "objective_domain": "1",
+      "subtopic": "sed: подстановка",
+      "question": "В файле config.txt нужно заменить первое в каждой строке вхождение строки old на new и записать результат в новый файл result.txt, не изменяя исходный файл. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "sed 's/old/new/' config.txt > result.txt",
+          "correct": true
+        },
+        {
+          "text": "sed 's/old/new/g' config.txt > result.txt",
+          "correct": false
+        },
+        {
+          "text": "sed -n 's/old/new/' config.txt > result.txt",
+          "correct": false
+        },
+        {
+          "text": "sed -i 's/old/new/' config.txt > result.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Команда s/old/new/ без флага g заменяет только первое вхождение в каждой строке, а перенаправление > записывает результат в result.txt, оставляя config.txt нетронутым. Флаг g заменил бы каждое вхождение в строке. Ключ -n отключает автоматическую печать, поэтому в result.txt не попадёт ничего. Ключ -i правит файл на месте, и для перенаправления вывода уже ничего не остаётся."
+    },
+    {
+      "id": "tf_002",
+      "topic": "text_files",
+      "difficulty": "medium",
+      "objective_domain": "1",
+      "subtopic": "sed: подстановка",
+      "question": "Нужно заменить каждое вхождение строки old на new прямо в файле config.txt, оставив результат в том же файле. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "sed -i 's/old/new/g' config.txt",
+          "correct": true
+        },
+        {
+          "text": "sed 's/old/new/g' config.txt",
+          "correct": false
+        },
+        {
+          "text": "sed -i -n 's/old/new/g' config.txt",
+          "correct": false
+        },
+        {
+          "text": "sed -e 's/old/new/g' config.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -i включает правку файла на месте, а флаг g заменяет каждое вхождение в строке, поэтому результат остаётся в config.txt. Без -i sed печатает результат в стандартный вывод и файл не меняет. Сочетание -n с -i отключает автоматическую печать, поэтому файл окажется пустым. Ключ -e лишь задаёт список команд и правку на месте не включает."
+    },
+    {
+      "id": "tf_003",
+      "topic": "text_files",
+      "difficulty": "easy",
+      "objective_domain": "1",
+      "subtopic": "sed: удаление и диапазоны строк",
+      "question": "Нужно вывести ровно строки с 5-й по 10-ю файла list.txt, без дублирования и лишних строк. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "sed -n '5,10p' list.txt",
+          "correct": true
+        },
+        {
+          "text": "sed -n '5-10p' list.txt",
+          "correct": false
+        },
+        {
+          "text": "sed '5,10p' list.txt",
+          "correct": false
+        },
+        {
+          "text": "sed -n '5p;10p' list.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Флаг -n отключает автоматическую печать, поэтому на экран попадут только строки, выбранные командой p, а адрес 5,10p задаёт диапазон с пятой по десятую строку. В адресах sed диапазон разделяется запятой, а не дефисом, поэтому запись с дефисом не разбирается и sed завершается ошибкой. Без -n sed печатает каждую строку плюс выбранные, и строки 5–10 появятся дважды. Запись 5p;10p состоит из двух отдельных команд p с адресами 5 и 10, поэтому выведет только 5-ю и 10-ю строки."
+    },
+    {
+      "id": "tf_004",
+      "topic": "text_files",
+      "difficulty": "medium",
+      "objective_domain": "1",
+      "subtopic": "awk: выбор полей и печать колонок",
+      "question": "Файл /etc/passwd разделён двоеточиями. Нужно вывести строки, у которых поле оболочки пользователя равно /bin/bash. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "awk -F: '$7==\"/bin/bash\"' /etc/passwd",
+          "correct": true
+        },
+        {
+          "text": "awk -F: '$7=\"/bin/bash\"' /etc/passwd",
+          "correct": false
+        },
+        {
+          "text": "awk -F: '$1==\"/bin/bash\"' /etc/passwd",
+          "correct": false
+        },
+        {
+          "text": "awk -F: '$6==\"/bin/bash\"' /etc/passwd",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -F: задаёт двоеточие как разделитель полей, а программа-шаблон $7==\"/bin/bash\" выбирает строки, у которых седьмое поле равно указанному значению; в /etc/passwd седьмым полем записана оболочка пользователя. Одиночный знак равенства — это присваивание, значение которого непусто и потому истинно для каждой строки, то есть такая команда выведет весь файл и затрёт поле. Проверка поля $1 сравнивает имя пользователя, а поля $6 — домашний каталог."
+    },
+    {
+      "id": "tf_005",
+      "topic": "text_files",
+      "difficulty": "easy",
+      "objective_domain": "1",
+      "subtopic": "cut: поля и диапазоны",
+      "question": "Нужно вывести первое и третье поля каждой строки файла data.txt, разделённые двоеточиями. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "cut -d: -f1,3 data.txt",
+          "correct": true
+        },
+        {
+          "text": "cut -d: -f1-3 data.txt",
+          "correct": false
+        },
+        {
+          "text": "cut -d: -f1 data.txt",
+          "correct": false
+        },
+        {
+          "text": "cut -c1,3 data.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -d: задаёт двоеточие как разделитель, а список -f1,3 выбирает первое и третье поля. Запись -f1-3 задаёт диапазон и выведет подряд три поля. Запись -f1 выведет только первое поле. Ключ -c работает с символами, а не с полями, поэтому его нумерация относится к позициям внутри строки."
+    },
+    {
+      "id": "tf_006",
+      "topic": "text_files",
+      "difficulty": "easy",
+      "objective_domain": "1",
+      "subtopic": "cut: поля и диапазоны",
+      "question": "Нужно вырезать ровно символы с 5-го по 10-й в каждой строке файла data.txt, отбросив символы за пределами этого диапазона. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "cut -c5-10 data.txt",
+          "correct": true
+        },
+        {
+          "text": "cut -c5,10 data.txt",
+          "correct": false
+        },
+        {
+          "text": "cut -f5-10 data.txt",
+          "correct": false
+        },
+        {
+          "text": "cut -c5- data.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -c выбирает символы, а диапазон 5-10 задаёт позиции с пятой по десятую. Список через запятую 5,10 оставил бы только пятый и десятый символы. Ключ -f работает с полями и по умолчанию считает разделителем табуляцию, поэтому на строке без табуляции он вернёт строку целиком. Запись 5- без правой границы вырежет всё начиная с пятого символа до конца строки."
+    },
+    {
+      "id": "tf_007",
+      "topic": "text_files",
+      "difficulty": "easy",
+      "objective_domain": "1",
+      "subtopic": "sort -u / uniq: дедупликация",
+      "question": "В файле list.txt строки идут в порядке b, a, b, b, c. Нужно получить отсортированный список, в котором каждая строка встречается один раз. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "sort -u list.txt",
+          "correct": true
+        },
+        {
+          "text": "uniq list.txt",
+          "correct": false
+        },
+        {
+          "text": "sort list.txt",
+          "correct": false
+        },
+        {
+          "text": "uniq -u list.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -u у sort удаляет повторяющиеся строки и заодно сортирует результат, поэтому на входе b, a, b, b, c получится a, b, c. Утилита uniq без предварительной сортировки удаляет только соседние одинаковые строки и порядок не меняет: выйдет b, a, b, c. Команда sort без -u сортирует, но сохраняет все повторы: a, b, b, b, c. Ключ -u у uniq печатает строки без соседних повторов в исходном порядке: b, a, c."
+    },
+    {
+      "id": "tf_008",
+      "topic": "text_files",
+      "difficulty": "medium",
+      "objective_domain": "1",
+      "subtopic": "sort -u / uniq: дедупликация",
+      "question": "Файл list.txt уже отсортирован. Нужно получить пары «число повторений и строка». Какая команда это выведет?",
+      "options": [
+        {
+          "text": "uniq -c list.txt",
+          "correct": true
+        },
+        {
+          "text": "uniq -d list.txt",
+          "correct": false
+        },
+        {
+          "text": "uniq -u list.txt",
+          "correct": false
+        },
+        {
+          "text": "uniq -i list.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -c заставляет uniq печатать перед каждой строкой число её вхождений подряд. Ключ -d печатает только повторяющиеся строки, но без счётчика. Ключ -u печатает только строки, встречающиеся один раз. Ключ -i лишь игнорирует регистр при сравнении и счётчик не добавляет."
+    },
+    {
+      "id": "tf_009",
+      "topic": "text_files",
+      "difficulty": "easy",
+      "objective_domain": "1",
+      "subtopic": "tr: регистр и удаление символов",
+      "question": "Нужно перевести строчные латинские буквы файла в заглавные. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "tr 'a-z' 'A-Z' < file.txt",
+          "correct": true
+        },
+        {
+          "text": "tr 'A-Z' 'a-z' < file.txt",
+          "correct": false
+        },
+        {
+          "text": "tr -d 'a-z' < file.txt",
+          "correct": false
+        },
+        {
+          "text": "tr -s 'a-z' < file.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Первое множество задаёт символы, которые нужно заменить, второе — на что заменять, поэтому пары a-z и A-Z переводят строчные буквы в заглавные. Перестановка множеств делает обратное. Ключ -d удаляет символы первого множества вместо замены. Ключ -s сжимает повторы символов и замену регистра не выполняет."
+    },
+    {
+      "id": "tf_010",
+      "topic": "text_files",
+      "difficulty": "easy",
+      "objective_domain": "1",
+      "subtopic": "wc/head/tail: подсчёт и срезы",
+      "question": "Нужно вывести последние 20 строк файла log.txt. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "tail -n 20 log.txt",
+          "correct": true
+        },
+        {
+          "text": "head -n 20 log.txt",
+          "correct": false
+        },
+        {
+          "text": "tail -n +20 log.txt",
+          "correct": false
+        },
+        {
+          "text": "head -n -20 log.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -n 20 у tail выводит последние 20 строк. head с тем же ключом выводит первые 20 строк. Запись +20 у tail означает «начиная с 20-й строки до конца файла». Отрицательное значение у head отбрасывает последние 20 строк, то есть выводит всё, кроме них."
+    }
+  ],
+  "meta": {
+    "generated": 10,
+    "attempted": 10,
+    "rejected": 0,
+    "voted_unanimous": 10,
+    "haladyna_min": 10,
+    "haladyna_max": 10,
+    "length_ratio_max": 1.2308,
+    "jaccard_max": 0.1765,
+    "cosine_max": null,
+    "cosine_status": "SKIPPED_NO_MODEL_CACHE",
+    "subagent_calls": 63,
+    "option_ratio_max": 1.2308,
+    "option_ratio_note": "Option-only ratio (max/min длины текста опций). Максимум 1.2308 (tf_007) — ниже порога 1.30.",
+    "option_ratio_table": [
+      "tf_001=1.0750",
+      "tf_002=1.2143",
+      "tf_003=1.2000",
+      "tf_004=1.0278",
+      "tf_005=1.2222",
+      "tf_006=1.1176",
+      "tf_007=1.2308",
+      "tf_008=1.0000",
+      "tf_009=1.1364",
+      "tf_010=1.0556"
+    ],
+    "man_verified": 10,
+    "man_distro": "Rocky Linux release 9.8 (Blue Onyx): GNU sed 4.8, GNU Awk 5.1.0, coreutils 8.32 (WSL)",
+    "jaccard_max_pair": "tf_010~sec_002",
+    "jaccard_intra_max": 0.225,
+    "jaccard_intra_pair": "tf_001~tf_002",
+    "jaccard_options_max": 0.5,
+    "duplicates_rejected": 0,
+    "votes_total_expected": 50,
+    "votes_received": 50,
+    "subagent_calls_note": "63 вызова на батч 3: 10 coherence (L4, первый раунд) + 3 повторных coherence после правок стемов (tf_003, tf_006, tf_007) + 50 голосов L4.5 (5 ролей × 10 вопросов). Итого по сессии 60 (батч 2) + 63 = 123 из лимита 130.",
+    "haladyna_status": "PASSED (10/10 ≥ 8/10; min 10)",
+    "haladyna_checklist": "docs/HALADYNA.md",
+    "qc_passed": true,
+    "rejected_questions": 0,
+    "question_replaced": null,
+    "status": "CLOSED",
+    "domain_note": "objective_domain=1 (Understand and use essential tools) — по прецеденту репозитория: все 7 существующих вопросов по текстовым инструментам (et_001..et_007: grep/sort/xargs/stat/tar/find) имеют домен 1. Вариант «домен 5» (цитата drafts/report-2026-09-22.md:82, зафиксирована как открытый вопрос в docs/RESEARCH-text-topic-2026-09-24.md) не подтверждён документом в репо и противоречит смыслу домена 5 EX200 (файловые системы). Правка домена — одна операция над 10 записями, если капитан решит иначе.",
+    "awk_qc_conflict": "Саботопик BLUEPRINT «awk: выбор полей и печать колонок» несовместим с tools/qc.cjs: placeholder-проверка qc.cjs считает FAIL любую конструкцию вида {..}, то есть канонический awk-программу {print $1} в опции записать нельзя. Вопрос tf_004 реализован на brace-free форме awk -F: '$7==\"/bin/bash\"' file (программа-шаблон без блока действия) — она валидна, проверена прогоном и не нарушает qc.cjs."
+  },
+  "pipeline_status": {
+    "schema": "pass",
+    "man_verification": "PASSED",
+    "man_verification_note": "L2 выполнен капитаном в WSL Rocky-9 (Rocky Linux release 9.8 Blue Onyx), GNU sed 4.8, GNU Awk 5.1.0, coreutils 8.32. Прогоном проверено: sed -n '5,10p' → 5..10, '5-10p' → «unknown command -», без -n → дубли строк 5..10, '5p;10p' → только 5 и 10; sed без g → первое вхождение, g → все, -n → 0 байт, -i → правка на месте без вывода, -i -n → файл 0 байт; awk -F: '$7==\"/bin/bash\"' → 8 строк, '$7=\"…\"' (присваивание) → все 24 строки, $1==/$6== → 0; cut -d: -f1,3 → «root:0», -f1-3 → «root:x:0», -f1 → «root», -c1,3 → «ro»; cut -c5-10 → «efghij», -c5,10 → «ej», -f5-10 → вся строка, -c5- → «efghijkl»; sort -u → a b c, uniq → b a b c, sort → a b b b c, uniq -u → b a c, uniq -c/-d/-u/-i на отсортированном файле; tr 'a-z' 'A-Z' → «HELLO WORLD 123», -d → «H W 123», -s → «Helo World 123»; tail -n 20 → строки 6..25, head -n 20 → 1..20, tail -n +20 → 6 строк с 20-й, head -n -20 → 5 строк. Дополнительно сверено по man (sed/awk/cut/sort/uniq/tr/tail/head). Найдено и исправлено на L2: дистрактор tf_003 sed -n '5;10p' оказался синтаксической ошибкой (а не «печатает 5-ю и 10-ю»), заменён на валидный '5p;10p', объяснение исправлено.",
+    "blueprint_alignment": "pass",
+    "blueprint_alignment_note": "Использованы 7 сабтопиков text_files из docs/BLUEPRINT-300.md:111 (Вариант B): sed: подстановка, sed: удаление и диапазоны строк, awk: выбор полей и печать колонок, cut: поля и диапазоны, sort -u / uniq: дедупликация, tr: регистр и удаление символов, wc/head/tail: подсчёт и срезы. Пересечение с essential_tools/file_management снято: ни один вопрос не про grep, числовую сортировку (et_003) и перенаправления (fm_005) как самостоятельный сабтопик.",
+    "deterministic_qc": "PASSED",
+    "deterministic_qc_note": "tools/qc.cjs на временной изолированной копии дерева с объединённым банком (86 + 10 = 96): Fails 0, Warns 2 (fm_002, fm_003 — существующие в банке). Прогон повторён после правок стемов tf_003/tf_006/tf_007 — снова Fails 0.",
+    "duplicate_detection": "PARTIAL",
+    "duplicate_detection_note": "Bigram Jaccard (export tools/cosine.cjs) по стемам: max против банка 0.1765 (tf_010~sec_002), intra-batch 0.2250 (tf_001~tf_002), между опциями внутри вопроса 0.5000 (tf_001) — все ниже порога 0.9. Cosine SKIPPED: кэш Xenova/all-MiniLM-L6-v2 отсутствует.",
+    "coherence": "PASSED",
+    "coherence_note": "Первый раунд L4: 7 из 10 прошли, 3 получили fail и конкретные рекомендации: tf_003 (стем не требовал ровно диапазон — «sed 5,10p» дублировал строки), tf_006 (стем не закрывал чтение «начиная с 5-й позиции»), tf_007 (стем формулировал цель как свойство вывода, из-за чего uniq -u выглядел защитимым). Правки внесены, стемы перепроверены теми же агентами и получили pass/ambiguous=false. Итог: все 10 — pass. Замечание о процессе: при перезаписи файла два агента были вынуждены прочитать собственный целевой артефакт (требование fs-политики read-before-write); исходники, ключи и чужие артефакты не читались, команды/man/wsl не вызывались.",
+    "mas_vote": "PASSED (10/10 принято; 9 вопросов unanimous 5/5, tf_001 — 4/5 с опровергнутым REJECT)",
+    "mas_vote_note": "Метод: 5 ролей × 10 вопросов = 50 голосов, per-question. 49 PASS + 1 REJECT. Единственный REJECT — skeptic по tf_001 с утверждением, что вариант A «склеен» (config.txt>result.txt) и потому неработоспособен. Проверка капитана: текст опции A = sed 's/old/new/' config.txt > result.txt (40 символов, пробелы с обеих сторон '>' подтверждены побайтово), а прогон в Rocky 9.8 показывает, что и форма без пробелов работает в POSIX-оболочке — посылка REJECT ложна, сам ревьюер признал ключ верным. Решение капитана: вопрос принят, REJECT записан в деле как опровергнутый (файл голоса drafts/_votes/tf_001_skeptic.json не изменялся). Капитан может отменить это решение, удалив tf_001 из банка.",
+    "mas_vote_adjudication": "tf_001: 4/5 PASS + 1 REJECT (skeptic), опровергнут фактами (текст опции и поведение bash). Итоговая приёмка — 10/10.",
+    "votes_artifact_repair": "2 из 50 файлов голосов (tf_004_ex200_examiner.json, tf_004_rhcsa_instructor.json) были записаны с неэкранированными кавычками внутри reason ($7==\"/bin/bash\"), из-за чего JSON не парсился. Выполнено только экранирование; значения vote/role/qid и текст reason не изменялись, оба голоса PASS независимо подтверждены сообщениями агентов.",
+    "item_writing": "PASSED (10/10 ≥ 8/10)",
+    "item_writing_note": "Haladyna по docs/HALADYNA.md, 10 критериев на вопрос. Все 10 вопросов — 10/10 (min 10, max 10); length ratio max 1.2308 ≤ 1.30. Слова-спойлеры и абсолютные термины в стемах отсутствуют по построению (проверено гейтом генератора)."
+  },
+  "open_verification_points": [
+    "tf_001: ПОДТВЕРЖДЕНО — sed без g меняет только первое вхождение (new old line), с g — все (new new line), -n даёт 0 байт вывода, -i меняет файл на месте и вывода не даёт.",
+    "tf_002: ПОДТВЕРЖДЕНО — -i правит файл на месте; -i -n оставляет файл в 0 байт; -e правку на месте не включает.",
+    "tf_003: ПОДТВЕРЖДЕНО — sed -n '5,10p' печатает 5..10; '5-10p' даёт «unknown command -'; без -n строки 5..10 печатаются дважды вместе со всеми остальными; '5p;10p' печатает только 5 и 10. Дистрактор B — синтаксическая ошибка (зафиксировано), заменённый ключевой набор проверен.",
+    "tf_004: ПОДТВЕРЖДЕНО — на /etc/passwd: $7==\"/bin/bash\" → 8 строк; $7=\"…\" → все 24 строки (присваивание истинно); $1== и $6== → 0 строк.",
+    "tf_005: ПОДТВЕРЖДЕНО — cut -d: -f1,3 → «root:0»; -f1-3 → «root:x:0»; -f1 → «root»; -c1,3 → «ro». Замечание L4 не блокирующее: фразу «поля, разделённые двоеточиями» можно прочитать и как про разделитель вывода — оба прочтения сходятся на ключе A.",
+    "tf_006: ПОДТВЕРЖДЕНО на «abcdefghijkl» — -c5-10 → «efghij»; -c5,10 → «ej»; -f5-10 (без -d) → вся строка; -c5- → «efghijkl».",
+    "tf_007: ПОДТВЕРЖДЕНО на «b a b b c» — sort -u → «a b c»; uniq → «b a b c»; sort → «a b b b c»; uniq -u → «b a c» (не отсортировано).",
+    "tf_008: ПОДТВЕРЖДЕНО на отсортированном «b b a c» — uniq -c → «2 b, 1 a, 1 c»; uniq -d → «b»; uniq -u → «a c»; uniq -i схлопывает «B» и «b».",
+    "tf_009: ПОДТВЕРЖДЕНО на «Hello World 123» — a-z→A-Z → «HELLO WORLD 123»; A-Z→a-z → «hello world 123»; -d 'a-z' → «H W 123»; -s 'a-z' → «Helo World 123».",
+    "tf_010: ПОДТВЕРЖДЕНО на файле из 25 строк — tail -n 20 → строки 6..25 (20 строк); head -n 20 → 1..20; tail -n +20 → 6 строк начиная с 20-й; head -n -20 → 5 строк."
+  ]
+}
