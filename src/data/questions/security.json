@@ -12,11 +12,11 @@
         "correct": true
       },
       {
-        "text": "0, 1 или 2",
+        "text": "Значения 0, 1 или 2 (числовые режимы)",
         "correct": false
       },
       {
-        "text": "On или Off",
+        "text": "Строки со значениями On или Off",
         "correct": false
       },
       {
@@ -91,11 +91,11 @@
         "correct": false
       },
       {
-        "text": "Удаляет ранее добавленное правило контекста для /web",
+        "text": "Удаляет ранее добавленное правило контекста для каталога /web из локальной политики",
         "correct": false
       },
       {
-        "text": "Только печатает список локальных правил контекста, ничего не меняя",
+        "text": "Только печатает список локальных правил контекста и не трогает ни файлы, ни политику",
         "correct": false
       }
     ],
@@ -161,19 +161,19 @@
     "question": "Какая из предопределённых зон firewalld принимает весь входящий трафик без проверок?",
     "options": [
       {
-        "text": "trusted",
+        "text": "trusted (зона firewalld)",
         "correct": true
       },
       {
-        "text": "public",
+        "text": "public (зона firewalld)",
         "correct": false
       },
       {
-        "text": "drop",
+        "text": "drop (зона firewalld)",
         "correct": false
       },
       {
-        "text": "block",
+        "text": "block (зона firewalld)",
         "correct": false
       }
     ],
@@ -243,7 +243,7 @@
         "correct": true
       },
       {
-        "text": "Разрешает службу немедленно, не изменяя постоянную конфигурацию",
+        "text": "Разрешает службу немедленно и вовсе не изменяет постоянную конфигурацию firewall",
         "correct": false
       },
       {
@@ -356,23 +356,23 @@
     "question": "Какая команда открывает /etc/sudoers на редактирование, проверяя синтаксис перед сохранением?",
     "options": [
       {
-        "text": "visudo",
+        "text": "sudo visudo",
         "correct": true
       },
       {
-        "text": "sudoedit /etc/sudoers",
+        "text": "visudo --check",
         "correct": false
       },
       {
-        "text": "nano /etc/sudoers",
+        "text": "nano sudoers",
         "correct": false
       },
       {
-        "text": "echo 'new rule' >> /etc/sudoers",
+        "text": "sed -i sudoers",
         "correct": false
       }
     ],
-    "explanation": "visudo блокирует файл от одновременного редактирования и проверяет синтаксис перед установкой изменённого файла, поэтому сохраняет его лишь при отсутствии ошибок. sudoedit даёт редактирование файла с правами sudo, но синтаксической проверки sudoers не выполняет. Прямой запуск редактора, например nano, также не проверяет синтаксис, и ошибка попадёт в действующий файл. Дозапись через перенаправление не только не проверяет синтаксис, но и пишет в файл в обход блокировки, поэтому такой способ опасен.",
+    "explanation": "visudo блокирует файл от одновременного редактирования и проверяет синтаксис перед установкой изменённого файла, поэтому сохраняет его лишь при отсутствии ошибок. Ключ --check только проверяет синтаксис и редактор не открывает, nano правит файл без проверки, а sed -i меняет его на месте, тоже без валидации.",
     "_meta": {
       "added_at": "2026-09-23",
       "pipeline_version": "4.5",
@@ -434,19 +434,19 @@
     "question": "Какой параметр в /etc/security/pwquality.conf задаёт минимальную длину нового пароля?",
     "options": [
       {
-        "text": "minlen",
+        "text": "minlen в pwquality.conf",
         "correct": true
       },
       {
-        "text": "minclass",
+        "text": "minclass в pwquality.conf",
         "correct": false
       },
       {
-        "text": "difok",
+        "text": "difok в pwquality.conf",
         "correct": false
       },
       {
-        "text": "maxrepeat",
+        "text": "maxrepeat в pwquality.conf",
         "correct": false
       }
     ],
