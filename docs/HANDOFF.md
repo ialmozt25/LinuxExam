@@ -21,8 +21,8 @@
 
 | Параметр | Значение |
 |---|---|
-| **HEAD** | `37f2202` |
-| **Ветка** | main, ahead 3 (не запушено) |
+| **HEAD** | `e33e02f` |
+| **Ветка** | main, ahead 6 (не запушено) |
 | **Дерево** | clean |
 | **Банк** | **106 вопросов**, 106 уникальных id |
 | **Тем** | 10 available / 4 planned |
@@ -31,8 +31,8 @@
 | **Тесты** | 133 unit + 18 e2e зелёные |
 | **TS** | 0 ошибок |
 | **QC** | `tools/qc.cjs` — Fails 0, Warns 2 (fm_002, fm_003) |
-| **Среда** | WSL Rocky Linux 9.8 (Blue Onyx), WSL `Rocky-9` |
-| **Cosine** | РАБОТАЕТ (кэш `node_modules/@xenova/transformers/.cache/Xenova/all-MiniLM-L6-v2`) |
+| **Среда** | **Windows-side** (`C:\Users\Alexey Udotov\LinuxExam`); `node.exe` (`C:\Program Files\nodejs\node.exe`), `git.exe` (`C:\Program Files\Git\cmd\git.exe`); WSL Rocky 9.8 (Blue Onyx), WSL `Rocky-9` — только для man |
+| **Cosine** | РАБОТАЕТ через `node.exe` (кэш `node_modules/@xenova/transformers/.cache/Xenova/all-MiniLM-L6-v2`) |
 
 ---
 
@@ -64,6 +64,8 @@ docs/session-log.md                — журнал сессий
 drafts/pending-*.json              — черновики батчей
 drafts/_votes/*.json               — голоса 5 ролей (MAS)
 drafts/_coherence/*.json           — coherence-проверки
+
+# Разработка: Windows-side (node.exe). WSL Rocky — только man (правило #6).
 ```
 
 ---
@@ -72,6 +74,7 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 4.1. Соглашения кода
 
+- **Среда:** разработка и запуск инструментов — Windows-side (`node.exe`, `git.exe`, cwd `C:\Users\Alexey Udotov\LinuxExam`). WSL Rocky 9.8 — только `man` (HANDOFF #6). В WSL нет git/node, `cd` через `wsl -d` не работает (кириллический путь).
 - **Файлы:** LF, UTF-8 без BOM. `[System.IO.File]::WriteAllText(..., $utf8NoBom)`.
 - **Кириллица:** НЕ использовать `node -e` — только `.mjs`-файлы.
 - **Regex:** НЕ использовать `\b` с кириллицей (не работает). Только `(?<![\p{L}])` / `(?![\p{L}])` с флагом `u`.
@@ -86,7 +89,7 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 4.3. HANDOFF-правила
 
-- **#6:** Rocky 9.8 WSL2 — источник истины для man.
+- **#6:** Rocky 9.8 WSL2 — источник истины для man. Не для node/git.
 - **#7:** Субагентам запрещён pwsh/man — только капитан.
 
 ### 4.4. Что НЕ запускать
