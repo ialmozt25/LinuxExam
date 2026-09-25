@@ -32,26 +32,26 @@
     "difficulty": "medium",
     "objective_domain": "1",
     "subtopic": "find: -name, -type, -mtime, -size, -exec",
-    "question": "Какой командой можно найти все файлы с расширением .conf в директории /etc?",
+    "question": "Какой командой найти в /etc файлы, изменённые за последние 24 часа?",
     "options": [
       {
-        "text": "find /etc -name '*.conf'",
+        "text": "find /etc -mtime -1",
         "correct": true
       },
       {
-        "text": "find /etc -type d '*.conf'",
+        "text": "find /etc -mtime +1",
         "correct": false
       },
       {
-        "text": "search /etc '*.conf'",
+        "text": "find /etc -mmin -1",
         "correct": false
       },
       {
-        "text": "ls /etc/*.conf -recursive",
+        "text": "find /etc -newer /etc",
         "correct": false
       }
     ],
-    "explanation": "Команда find с параметром -name выполняет поиск по имени. Шаблон '*.conf' должен быть в кавычках, чтобы оболочка не раскрыла его до передачи команде."
+    "explanation": "Тест -mtime -1 выбирает файлы, изменённые менее чем за последние 24 часа. Запись +1 означает обратное — файлы, изменённые более 24 часов назад. Тест -mmin -1 считает время в минутах, поэтому ограничился бы последней минутой. Тест -newer /etc сравнивает время модификации с самим файлом /etc, а не с суточным интервалом."
   },
   {
     "id": "fm_003",
