@@ -1,0 +1,224 @@
+{
+  "batch_id": "file_permissions_r1",
+  "meta": {
+    "checks": {}
+  },
+  "questions": [
+    {
+      "id": "fp_013",
+      "topic": "file_permissions",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "ACL grant",
+      "question": "Какая команда даст пользователю alice право на запись в файл /srv/report.txt, не изменяя права группы и остальных пользователей?",
+      "options": [
+        {
+          "text": "setfacl -m u:alice:rw /srv/report.txt",
+          "correct": true
+        },
+        {
+          "text": "chmod u:alice:rw /srv/report.txt",
+          "correct": false
+        },
+        {
+          "text": "setfacl -x u:alice /srv/report.txt",
+          "correct": false
+        },
+        {
+          "text": "setfacl -m u:alice:r /srv/report.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Команда setfacl с ключом -m добавляет или изменяет ACL-запись, а префикс u: задаёт именованного пользователя. Права rw дают alice чтение и запись, при этом биты группы и остальных в выводе ls -l остаются прежними. Ключ -x удаляет запись, а chmod не принимает имена пользователей в таком виде."
+    },
+    {
+      "id": "fp_014",
+      "topic": "file_permissions",
+      "difficulty": "hard",
+      "objective_domain": "9",
+      "subtopic": "ACL mask",
+      "question": "Какая команда ограничит эффективные права именованных пользователей и групп файла /srv/data.txt до чтения, сохранив сами ACL-записи?",
+      "options": [
+        {
+          "text": "setfacl -m m::r /srv/data.txt",
+          "correct": true
+        },
+        {
+          "text": "setfacl --mask r::rw /srv/data.txt",
+          "correct": false
+        },
+        {
+          "text": "setfacl -m g:wheel:r /srv/data.txt",
+          "correct": false
+        },
+        {
+          "text": "setfacl -m u::r /srv/data.txt",
+          "correct": false
+        }
+      ],
+      "explanation": "Запись mask в ACL задаёт верхнюю границу прав для именованных пользователей и групп, поэтому setfacl -m m::r оставляет им только чтение. Сами записи при этом сохраняются, а в выводе getfacl появляется пометка effective. Длинной опции --mask у setfacl нет, префикс u:: меняет права владельца, а g:wheel:r затрагивает одну группу."
+    },
+    {
+      "id": "fp_015",
+      "topic": "file_permissions",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "umask",
+      "question": "Какая команда сделает так, чтобы новые каталоги в текущем сеансе получали права 750, а новые файлы 640?",
+      "options": [
+        {
+          "text": "umask 027",
+          "correct": true
+        },
+        {
+          "text": "umask 028",
+          "correct": false
+        },
+        {
+          "text": "umask 750",
+          "correct": false
+        },
+        {
+          "text": "umask 022",
+          "correct": false
+        }
+      ],
+      "explanation": "umask задаёт биты, которые снимаются с прав по умолчанию при создании файла или каталога. Значение 027 убирает запись у группы и все права у остальных, поэтому каталог получает 750, а обычный файл 640. Запись 028 недопустима в восьмеричной системе, а значения 022 и 750 дают другой набор прав."
+    },
+    {
+      "id": "fp_016",
+      "topic": "file_permissions",
+      "difficulty": "medium",
+      "objective_domain": "8",
+      "subtopic": "chown --reference",
+      "question": "Какая команда присвоит файлу /srv/app.conf владельца и группу файла-образца /opt/template.conf?",
+      "options": [
+        {
+          "text": "chown --reference=/opt/template.conf /srv/app.conf",
+          "correct": true
+        },
+        {
+          "text": "chown --copy=/opt/template.conf /srv/app.conf",
+          "correct": false
+        },
+        {
+          "text": "chmod --reference=/opt/template.conf /srv/app.conf",
+          "correct": false
+        },
+        {
+          "text": "cp -p /opt/template.conf /srv/app.conf",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ --reference у chown берёт владельца и группу из указанного файла-образца и применяет их к целевому файлу. У chmod такой ключ тоже есть, но он копирует только биты режима доступа. Опции --copy у chown не существует, а cp -p копирует содержимое вместе с атрибутами и перезаписывает целевой файл."
+    },
+    {
+      "id": "fp_017",
+      "topic": "file_permissions",
+      "difficulty": "hard",
+      "objective_domain": "9",
+      "subtopic": "symbolic modes",
+      "question": "Какая команда добавит право на чтение каталогу /srv/www с содержимым, а право на выполнение только каталогам и уже исполняемым файлам?",
+      "options": [
+        {
+          "text": "chmod -R a+rX /srv/www",
+          "correct": true
+        },
+        {
+          "text": "chmod -R any+rX /srv/www",
+          "correct": false
+        },
+        {
+          "text": "chmod -R a+rx /srv/www",
+          "correct": false
+        },
+        {
+          "text": "chmod -R a=rX /srv/www",
+          "correct": false
+        }
+      ],
+      "explanation": "В символьном режиме прописная X добавляет бит выполнения только каталогам и тем файлам, у которых он уже установлен. Строчная x в chmod -R a+rx сделает исполняемыми обычные файлы, а знак равенства в a=rX сначала сбросит остальные биты, включая запись. Класс пользователей any в chmod не поддерживается."
+    },
+    {
+      "id": "fp_018",
+      "topic": "file_permissions",
+      "difficulty": "easy",
+      "objective_domain": "9",
+      "subtopic": "immutable attribute",
+      "question": "Какая команда запретит изменение и удаление файла /etc/app.conf до снятия атрибута?",
+      "options": [
+        {
+          "text": "chattr +i /etc/app.conf",
+          "correct": true
+        },
+        {
+          "text": "chattr +I /etc/app.conf",
+          "correct": false
+        },
+        {
+          "text": "chmod 444 /etc/app.conf",
+          "correct": false
+        },
+        {
+          "text": "chattr +a /etc/app.conf",
+          "correct": false
+        }
+      ],
+      "explanation": "Атрибут i делает файл неизменяемым, поэтому его нельзя ни изменить, ни удалить до снятия атрибута командой chattr -i. Права 444 запрещают запись в файл, но не мешают удалить его из каталога с правом записи. Атрибут a разрешает только дописывание данных, а прописная I в chattr не поддерживается."
+    },
+    {
+      "id": "fp_019",
+      "topic": "file_permissions",
+      "difficulty": "hard",
+      "objective_domain": "9",
+      "subtopic": "find -perm",
+      "question": "Какая команда найдёт в файловой системе обычные файлы с установленным битом setuid?",
+      "options": [
+        {
+          "text": "find / -type f -perm -4000",
+          "correct": true
+        },
+        {
+          "text": "find / -type f -perm -4suid",
+          "correct": false
+        },
+        {
+          "text": "find / -type f -perm 4000",
+          "correct": false
+        },
+        {
+          "text": "find / -type f -perm -2000",
+          "correct": false
+        }
+      ],
+      "explanation": "В GNU find запись -perm -4000 означает, что бит 4000 установлен вместе с любыми другими битами режима. Вариант без минуса находит только файлы, у которых режим равен ровно 4000, поэтому реальные программы вида /usr/bin/passwd в результат не попадут. Запись 4suid синтаксически недопустима, а 2000 проверяет бит setgid."
+    },
+    {
+      "id": "fp_020",
+      "topic": "file_permissions",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "capabilities",
+      "question": "Какая команда покажет capabilities, назначенные исполняемому файлу /usr/bin/arping?",
+      "options": [
+        {
+          "text": "getcap /usr/bin/arping",
+          "correct": true
+        },
+        {
+          "text": "getcap --list /usr/bin/arping",
+          "correct": false
+        },
+        {
+          "text": "getfacl /usr/bin/arping",
+          "correct": false
+        },
+        {
+          "text": "lsattr /usr/bin/arping",
+          "correct": false
+        }
+      ],
+      "explanation": "Утилита getcap из пакета libcap выводит capabilities указанного файла, например cap_net_raw=p для arping. Команда getfacl показывает записи ACL, а lsattr относится к атрибутам файловой системы вроде неизменяемости. Длинной опции --list у getcap нет."
+    }
+  ]
+}
