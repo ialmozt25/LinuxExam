@@ -74,7 +74,7 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 4.1. Соглашения кода
 
-- **Среда:** разработка и запуск инструментов — Windows-side (`node.exe`, `git.exe`, cwd `C:\Users\Alexey Udotov\LinuxExam`). WSL Rocky 9.8 — только `man` (HANDOFF #6). В WSL нет git/node, `cd` через `wsl -d` не работает (кириллический путь).
+- **Среда:** разработка и запуск инструментов — Windows-side (`node.exe`, `git.exe`). WSL Rocky 9.8 — только `man` (HANDOFF #6). В WSL нет git/node, `cd` через `wsl -d` не работает (кириллический путь). cwd процессов — не репозиторий; работать через `git -C "C:\Users\Alexey Udotov\LinuxExam"` или явный `cd`.
 - **Файлы:** LF, UTF-8 без BOM. `[System.IO.File]::WriteAllText(..., $utf8NoBom)`.
 - **Кириллица:** НЕ использовать `node -e` — только `.mjs`-файлы.
 - **Regex:** НЕ использовать `\b` с кириллицей (не работает). Только `(?<![\p{L}])` / `(?![\p{L}])` с флагом `u`.
