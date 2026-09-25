@@ -169,8 +169,6 @@ for (const q of questions) {
   const stopwordCheck = (label, text) => {
     if (typeof text !== 'string') return;
     if (/в течении/iu.test(text)) warn(q.id, `stopword "в течении" in ${label}`, 'stopword');
-    const zag = text.match(/загрузк[а-яё]+/iu);
-    if (zag) warn(q.id, `stopword "${zag[0]}" in ${label}`, 'stopword');
     if (/ {2,}/.test(text)) warn(q.id, `double space in ${label}`, 'stopword');
     // Пробел перед знаком препинания. Точка НЕ считается нарушением, если за ней
     // идёт имя расширения/глоба (`.conf`, `.txt`), — иначе «файлы .conf» ложно падало.

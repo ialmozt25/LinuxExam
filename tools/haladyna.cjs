@@ -7,8 +7,10 @@
 //   node tools/haladyna.cjs <id>              — один вопрос из банка
 //   node tools/haladyna.cjs all               — весь банк
 //   node tools/haladyna.cjs --batch file.json — массив вопросов (схема банка)
+//   --auto-only                               — exit только по AUTO (SEMI печатается, но не влияет)
 //
-// Exit code: 0 если у ВСЕХ обработанных вопросов auto=6/6 И semi=2/2, иначе 1.
+// Exit code: 0 если у ВСЕХ обработанных вопросов auto=6/6 (и semi=2/2, если не указан
+// --auto-only), иначе 1.
 
 const fs = require('fs');
 const path = require('path');
@@ -64,9 +66,11 @@ function auto3StemIsQuestion(q) {
   return startsLike(stem, ['Какая', 'Какой', 'Какое', 'Что', 'Как', 'Нужно', 'Требуется', 'Дано', 'Скрипту']);
 }
 
+// Критерий 4 — только STEM. «все ресурсы»/«оба режима» в опциях-дистракторах
+// легальны; absolute terms опасны именно в стеме.
 function auto4NoAllBoth(q) {
   const re = /(?<![а-яё])(все|оба|ни одно|ни один)(?![а-яё])/iu;
-  return !(q.options || []).some((o) => re.test(textOf(o)));
+  return !re.test(String(q.question || ''));
 }
 
 function auto5NoLengthHint(q) {
@@ -143,13 +147,15 @@ function printQuestion(q) {
   console.log(`AUTO_FAIL: ${r.autoFails.length ? '[' + r.autoFails.join(', ') + ']' : 'нет'}`);
   console.log(`SEMI_FAIL: ${r.semiFails.length ? '[' + r.semiFails.join(', ') + ']' : 'нет'}`);
   console.log(`MANUAL: [${MANUAL.join(', ')}]`);
-  return r.perfect;
+  return r;
 }
 
 function main() {
-  const argv = process.argv.slice(2);
+  const rawArgv = process.argv.slice(2);
+  const autoOnly = rawArgv.includes('--auto-only');
+  const argv = rawArgv.filter((a) => a !== '--auto-only');
   if (argv.length === 0) {
-    console.error('usage: node tools/haladyna.cjs <id|all|--batch file.json>');
+    console.error('usage: node tools/haladyna.cjs [--auto-only] <id|all|--batch file.json>');
     process.exitCode = 1;
     return;
   }
@@ -188,14 +194,18 @@ function main() {
   }
 
   let perfect = 0;
+  let autoPerfect = 0;
   for (const q of targets) {
-    if (printQuestion(q)) perfect++;
+    const r = printQuestion(q);
+    if (r.perfect) perfect++;
+    if (r.autoFails.length === 0) autoPerfect++;
   }
 
   if (targets.length > 1) {
     console.log(`\n---\nPerfect (auto 6/6 and semi 2/2): ${perfect}/${targets.length}`);
+    console.log(`Auto-perfect (6/6): ${autoPerfect}/${targets.length}`);
   }
-  process.exitCode = perfect === targets.length ? 0 : 1;
+  process.exitCode = (autoOnly ? autoPerfect : perfect) === targets.length ? 0 : 1;
 }
 
 main();
