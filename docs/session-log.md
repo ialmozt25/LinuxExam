@@ -7,7 +7,7 @@ Append-only журнал сессий. Обновляется в конце ка
 1. Одна задача = одна сессия агента. После push или длинной задачи — new session.
 2. Pre-read при старте (read-only, 2 минуты):
    - Последние 3 записи этого файла
-   - docs/DECISIONS.md
+   - docs/ENGINEERING-DECISIONS.md
    - Последний drafts/report-*.md
    - tools/cosine-calibration.json
 3. После чтения — кратко резюмируй состояние (3-5 строк), затем задача.

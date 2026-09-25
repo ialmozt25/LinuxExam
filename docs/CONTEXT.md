@@ -58,7 +58,7 @@
 ## Правила работы
 
 1. Одна задача = одна сессия агента
-2. Pre-read: session-log (3) + CONTEXT + DECISIONS + последний report
+2. Pre-read: session-log (3) + CONTEXT + ENGINEERING-DECISIONS + последний report
 3. Context guard: usage > 500K → новая сессия
 4. Не пушить без ahead=1 (перед push — fetch)
 5. Атомарные коммиты: один симптом = один коммит
@@ -77,7 +77,7 @@
 
 ## Ссылки
 
-- DECISIONS: docs/DECISIONS.md
+- ENGINEERING-DECISIONS: docs/ENGINEERING-DECISIONS.md
 - Session-log: docs/session-log.md
 - Audits: docs/audit-*.md
 - Reports: drafts/report-*.md

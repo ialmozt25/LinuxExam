@@ -58,7 +58,7 @@ tools/split-questions.mjs          — splitter монолита (устарел
 docs/HANDOFF.md                    — точка входа
 docs/BLUEPRINT-300.md              — план 300, сабтопики, числа
 docs/HALADYNA.md                   — 10 критериев MCQ
-docs/DECISIONS.md                  — 13 решений
+docs/ENGINEERING-DECISIONS.md                  — 13 решений
 docs/DISTRACTOR-TYPES.md           — типы дистракторов (создаётся)
 docs/session-log.md                — журнал сессий
 drafts/pending-*.json              — черновики батчей
@@ -152,7 +152,7 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 6.1. Инфраструктура
 
-- HANDOFF.md, BLUEPRINT-300.md, HALADYNA.md, DECISIONS.md.
+- HANDOFF.md, BLUEPRINT-300.md, HALADYNA.md, ENGINEERING-DECISIONS.md.
 - `.gitattributes` (LF нормализация).
 - Разбиение questions.json на 10 тематических файлов.
 - Lazy-load по темам (`import()`).

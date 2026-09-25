@@ -31,14 +31,14 @@
 
    Итого реально текстовую обработку покрывают **5 вопросов**: `et_001`, `et_003`, `et_007` (grep/sort) и `fm_005` (redirection).
 
-3. **В blueprint / DECISIONS / drafts:**
+3. **В blueprint / ENGINEERING-DECISIONS / drafts:**
    - `docs/blueprint*.md` — **файлов нет** (поиск `blueprint*` по репо, исключая `node_modules`, дал пусто).
    - `drafts/report-2026-09-22.md:82` — единственное содержательное упоминание темы:
      > «**Скоуп-вопрос на будущее:** `text_files` по разведке относится к домену 5, а не 1, поэтому домен 1 закрыт одной темой. Подтвердить эту границу.»
    - `docs/STATE-SNAPSHOT-2026-09-24.md:288` — строка инвентаря: ``| `text_files` | Работа с текстом | planned | 0 |``.
    - `docs/content-generation-20260921-1403.md:33-35` — про домен 2 (не про `text_files`):
      > «Домен 2 (shell scripts) сознательно не задействован: в банке нет заданий на написание скриптов, а приписывать существующим вопросам этот домен было бы недостоверно.»
-   - `docs/DECISIONS.md` — решений про `text_files` или таксономию тем **нет**. Ближайшее по смыслу — `DECISION-007` (`docs/DECISIONS.md:65-70`), но оно про порядок опций/вопросов, не про состав тем:
+   - `docs/ENGINEERING-DECISIONS.md` — решений про `text_files` или таксономию тем **нет**. Ближайшее по смыслу — `DECISION-007` (`docs/ENGINEERING-DECISIONS.md:65-70`), но оно про порядок опций/вопросов, не про состав тем:
      > «implemented option shuffle only (deterministic, seed from question.id). Question order stays as-is. <…> Question order shuffle needs new state field (questionOrder) — separate task.»
    - `drafts/` — черновиков по `text_files` **нет**: в `drafts/pending-*.json` значатся только `essential_tools`, `users_groups`, `security`.
    - `git grep -i "работа с текстом"` — 2 совпадения, оба вне контента: `topics.ts:31` (сама тема) и `STATE-SNAPSHOT-2026-09-24.md:288` (инвентарь).
@@ -114,7 +114,7 @@
 | `docs/STATE-SNAPSHOT-2026-09-24.md:288` | `text_files` — planned, 0 вопросов |
 | `docs/STATE-SNAPSHOT-2026-09-24.md:274` | домен 2 — 0 вопросов; все 66 записей имеют валидный домен |
 | `docs/HANDOFF.md:18` | распределение `objective_domain` 1–9 |
-| `docs/DECISIONS.md:65-70` | `DECISION-007` (порядок опций/вопросов; к таксономии не относится) |
+| `docs/ENGINEERING-DECISIONS.md:65-70` | `DECISION-007` (порядок опций/вопросов; к таксономии не относится) |
 | `git grep "text_files"` | 2 совпадения (тема + инвентарь) + 1 цитата в report-2026-09-22 |
 | `git grep -i "работа с текстом"` | 2 совпадения (тема + инвентарь) |
 | поиск `blueprint*` по репо | файлов нет |
