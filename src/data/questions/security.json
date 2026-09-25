@@ -434,19 +434,19 @@
     "question": "Какой параметр в /etc/security/pwquality.conf задаёт минимальную длину нового пароля?",
     "options": [
       {
-        "text": "minlen в pwquality.conf",
+        "text": "minlen",
         "correct": true
       },
       {
-        "text": "minclass в pwquality.conf",
+        "text": "minclass",
         "correct": false
       },
       {
-        "text": "difok в pwquality.conf",
+        "text": "difok",
         "correct": false
       },
       {
-        "text": "maxrepeat в pwquality.conf",
+        "text": "maxrepeat",
         "correct": false
       }
     ],
