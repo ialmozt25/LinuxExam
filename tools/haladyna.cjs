@@ -7,6 +7,7 @@
 //   node tools/haladyna.cjs <id>              — один вопрос из банка
 //   node tools/haladyna.cjs all               — весь банк
 //   node tools/haladyna.cjs --batch file.json — массив вопросов (схема банка)
+//   либо pending-объект с полем questions (drafts/pending-*.json)
 //   --auto-only                               — exit только по AUTO (SEMI печатается, но не влияет)
 //
 // Exit code: 0 если у ВСЕХ обработанных вопросов auto=5/5 (и semi=3/3, если не указан
@@ -170,15 +171,17 @@ function main() {
       return;
     }
     try {
-      targets = JSON.parse(fs.readFileSync(file, 'utf8'));
+      // Схема банка — массив, pending-артефакт — объект с полем questions.
+      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+      targets = Array.isArray(json) ? json : json.questions || [];
     } catch (e) {
       console.error(`cannot read batch ${file}: ${e.message}`);
       process.exitCode = 1;
       return;
     }
-    if (!Array.isArray(targets)) {
-      console.error(`batch ${file} is not an array`);
-      process.exitCode = 1;
+    if (!targets.length) {
+      console.error('batch: empty');
+      process.exitCode = 2;
       return;
     }
   } else if (argv[0] === 'all') {
