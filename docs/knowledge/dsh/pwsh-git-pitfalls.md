@@ -49,3 +49,27 @@ SSH-опции) — это не помогает.
 `origin/main`. Если fetch упал (Проблема 2), этот ref не обновлён, и
 "ahead 0" ничего не говорит о состоянии удалёнки. Перед выводом
 "синхронизировано" — проверить, что fetch прошёл (`$LASTEXITCODE -eq 0`).
+
+## Copy-Item не задаёт $LASTEXITCODE
+
+Copy-Item — cmdlet PowerShell, не native-программа. После его вызова
+$LASTEXITCODE сохраняет значение от предыдущей native-команды (git, node, wsl).
+
+Ошибка: проверять `if ($LASTEXITCODE -ne 0) { throw }` после Copy-Item.
+
+Правильно:
+  Copy-Item -Path $src -Destination $dst -Force -ErrorAction Stop
+  if (-not (Test-Path $dst)) { throw "copy failed" }
+  # опционально: SHA256-сверка src/dst
+
+## $LASTEXITCODE — automatic variable, не присваивать
+
+Присваивание `$LASTEXITCODE = $value` создаёт локальную переменную, которая
+затеняет automatic variable. Последующие native-команды обновляют global,
+но read возвращает затенённую — значение от присваивания.
+
+Ошибка: сохранить exit-код через `$LASTEXITCODE = ...` и потом читать его.
+
+Правильно: своя переменная.
+  $myExit = $LASTEXITCODE
+  # ... позже проверять $myExit
