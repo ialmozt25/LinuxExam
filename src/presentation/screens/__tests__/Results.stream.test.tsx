@@ -78,8 +78,14 @@ describe('Results reads the active stream', () => {
     expect(screen.getByText('1 / 2')).toBeTruthy();
     expect(screen.getByText('50%')).toBeTruthy();
     // The per-topic breakdown counts the active stream too: 2 of this topic's
-    // 12 questions were graded (one correct), not 0/12 while the card says 1/2.
-    expect(screen.getByText('1/12')).toBeTruthy();
+    // questions were graded (one correct), not 0/N while the card says 1/2.
+    // The denominator is read from the loaded bank with the same rule as
+    // Results.tsx (topicQuestions.length), so growing the topic cannot break
+    // this test the way a hardcoded constant would.
+    const topicTotal = useQuizStore
+      .getState()
+      .questions.filter((q) => q.topic === 'file_permissions').length;
+    expect(screen.getByText(`1/${topicTotal}`)).toBeTruthy();
   });
 
   it('regular after a review reads the regular stream, not the review one', () => {
