@@ -20,9 +20,10 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const BANK_DIR = join(HERE, '..');
 // Counts grow with every integrated topic: file_systems r1 raised them to 13 / 130,
-// deploy_systems r1 (the last planned topic) to 14 / 138.
+// deploy_systems r1 (the last planned topic) to 14 / 138, and the security
+// expansion batch (sec_013..sec_020) to 14 / 146.
 const EXPECTED_TOPICS = 14;
-const EXPECTED_QUESTIONS = 138;
+const EXPECTED_QUESTIONS = 146;
 const MAX_POSITION_SHARE = 0.6;
 
 interface RawQuestion {

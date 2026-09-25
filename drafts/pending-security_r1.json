@@ -1,0 +1,224 @@
+{
+  "batch_id": "security_r1",
+  "meta": {
+    "checks": {}
+  },
+  "questions": [
+    {
+      "id": "sec_013",
+      "topic": "security",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "SSH: PasswordAuthentication в sshd_config",
+      "question": "Сервер принимает вход по SSH с паролем, и это нужно запретить. Какую строку добавить в /etc/ssh/sshd_config?",
+      "options": [
+        {
+          "text": "PasswordAuthentication no",
+          "correct": true
+        },
+        {
+          "text": "PermitRootLogin prohibit-password",
+          "correct": false
+        },
+        {
+          "text": "PasswordAuthentication yes",
+          "correct": false
+        },
+        {
+          "text": "PasswordAuthentication off",
+          "correct": false
+        }
+      ],
+      "explanation": "Параметр PasswordAuthentication со значением no запрещает вход по паролю, оставляя вход по ключам. Параметр PermitRootLogin prohibit-password запрещает вход по паролю только для root. Значение yes оставляет вход по паролю разрешённым. Значения off у этого параметра нет: sshd принимает только yes и no, а такой файл настройки отвергает."
+    },
+    {
+      "id": "sec_014",
+      "topic": "security",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "SSH: генерация пары ключей ssh-keygen",
+      "question": "Нужно создать новую пару ключей SSH для пользователя. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "ssh-keygen -t ed25519 -f ~/.ssh/id_app",
+          "correct": true
+        },
+        {
+          "text": "ssh-keygen -l -f ~/.ssh/id_app.pub",
+          "correct": false
+        },
+        {
+          "text": "ssh-keygen --genkey ~/.ssh/id_app",
+          "correct": false
+        },
+        {
+          "text": "ssh-keygen -p -f ~/.ssh/id_app",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключи -t ed25519 и -f создают новую пару ключей указанного типа в заданном файле. Ключ -l печатает отпечаток уже существующего ключа. Опции --genkey у ssh-keygen нет: команда завершается ошибкой разбора аргументов. Ключ -p меняет парольную фразу существующего ключа, а не создаёт новый."
+    },
+    {
+      "id": "sec_015",
+      "topic": "security",
+      "difficulty": "easy",
+      "objective_domain": "9",
+      "subtopic": "SSH: файл authorized_keys",
+      "question": "Публичный ключ пользователя нужно добавить на сервер, чтобы вход выполнялся по ключу. В какой файл его записывают?",
+      "options": [
+        {
+          "text": "~/.ssh/authorized_keys",
+          "correct": true
+        },
+        {
+          "text": "~/.ssh/known_hosts",
+          "correct": false
+        },
+        {
+          "text": "~/.ssh/id_ed25519.pub",
+          "correct": false
+        },
+        {
+          "text": "/etc/ssh/sshd_config",
+          "correct": false
+        }
+      ],
+      "explanation": "Файл authorized_keys в каталоге пользователя содержит открытые ключи, которым разрешён вход, поэтому именно туда добавляют ключ. Файл known_hosts хранит ключи серверов, к которым подключался клиент. Файл с расширением pub — это собственный открытый ключ пользователя, а не список разрешённых. В sshd_config задают настройки демона, а не ключи пользователей."
+    },
+    {
+      "id": "sec_016",
+      "topic": "security",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "GPG: экспорт открытого ключа",
+      "question": "Открытый ключ GPG нужно передать коллеге в текстовом виде. Какая команда выведет его?",
+      "options": [
+        {
+          "text": "gpg --export --armor user@example.com",
+          "correct": true
+        },
+        {
+          "text": "gpg --export-secret-keys user@example.com",
+          "correct": false
+        },
+        {
+          "text": "gpg --export-key user@example.com",
+          "correct": false
+        },
+        {
+          "text": "gpg --list-keys user@example.com",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ --export выводит открытые ключи, а вместе с --armor они кодируются текстом для пересылки в письме. Форма --export-secret-keys выгружает закрытые ключи, которые передавать нельзя. Опции --export-key у gpg нет: команда завершается ошибкой разбора аргументов. Ключ --list-keys только показывает ключи в хранилище."
+    },
+    {
+      "id": "sec_017",
+      "topic": "security",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "auditd: поиск событий через ausearch",
+      "question": "Служба аудита уже зафиксировала запуск программы /usr/bin/sudo. Какой командой найти эти записи?",
+      "options": [
+        {
+          "text": "ausearch -x /usr/bin/sudo",
+          "correct": true
+        },
+        {
+          "text": "ausearch -k /usr/bin/sudo",
+          "correct": false
+        },
+        {
+          "text": "ausearch -m /usr/bin/sudo",
+          "correct": false
+        },
+        {
+          "text": "ausearch --command /usr/bin/sudo",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -x отбирает события по исполняемому файлу, поэтому именно он находит запуск /usr/bin/sudo. Ключ -k ищет по ключу правила аудита, а -m по типу сообщения, поэтому в этих вариантах указано значение не того вида. Опции --command у ausearch нет: команда завершается ошибкой разбора аргументов."
+    },
+    {
+      "id": "sec_018",
+      "topic": "security",
+      "difficulty": "easy",
+      "objective_domain": "9",
+      "subtopic": "sudo: список разрешённых команд",
+      "question": "Пользователю нужно посмотреть, какие команды ему разрешено выполнять через sudo. Какая команда это покажет?",
+      "options": [
+        {
+          "text": "sudo -l",
+          "correct": true
+        },
+        {
+          "text": "sudo -v",
+          "correct": false
+        },
+        {
+          "text": "sudo -k",
+          "correct": false
+        },
+        {
+          "text": "sudo -u",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -l у sudo выводит список команд, разрешённых текущему пользователю. Ключ -v только обновляет метку времени, а -k её сбрасывает, поэтому обе команды списка не показывают. Ключ -u требует имени пользователя и без аргумента завершается ошибкой разбора."
+    },
+    {
+      "id": "sec_019",
+      "topic": "security",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "passwd: блокировка учётной записи",
+      "question": "Сотрудник уходит в отпуск, и вход в систему под его учётными данными нужно закрыть, не удаляя саму запись. Какую команду выполняют?",
+      "options": [
+        {
+          "text": "passwd -l backup",
+          "correct": true
+        },
+        {
+          "text": "passwd -d backup",
+          "correct": false
+        },
+        {
+          "text": "passwd --block backup",
+          "correct": false
+        },
+        {
+          "text": "chage --list backup",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -l у passwd блокирует пароль учётной записи, оставляя саму запись и её файлы на месте. Ключ -d удаляет пароль, поэтому вход становится возможен без него. Опции --block у passwd нет: команда завершается ошибкой разбора аргументов. Команда chage --list только печатает сведения о сроках действия пароля."
+    },
+    {
+      "id": "sec_020",
+      "topic": "security",
+      "difficulty": "medium",
+      "objective_domain": "9",
+      "subtopic": "firewalld: rich rule для адреса",
+      "question": "Нужно разрешить подключения к серверу только с адреса 203.0.113.10 через firewalld. Какую команду используют?",
+      "options": [
+        {
+          "text": "firewall-cmd --add-rich-rule='rule source address=203.0.113.10 accept'",
+          "correct": true
+        },
+        {
+          "text": "firewall-cmd --permanent --add-service=https --zone=public",
+          "correct": false
+        },
+        {
+          "text": "firewall-cmd --add-port=203.0.113.10 --permanent --zone=public",
+          "correct": false
+        },
+        {
+          "text": "firewall-cmd --rich-rule='rule source address=203.0.113.10 accept'",
+          "correct": false
+        }
+      ],
+      "explanation": "Богатое правило задают опцией --add-rich-rule, а внутри строки указывают адрес источника и действие accept. Вариант со службой https разрешает подключения всем адресам, а не только указанному. Опция --add-port ожидает порт с протоколом, а не адрес, поэтому команда завершается ошибкой. Опции --rich-rule у firewall-cmd нет: строка отвергается на разборе аргументов."
+    }
+  ]
+}
