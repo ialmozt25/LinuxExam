@@ -40,6 +40,5 @@ coverage/
 # Шумные, часто меняющиеся файлы — не в git
 .project/events.jsonl
 .project/agents/*.json
-.project/agents/*-report.md
 .project/traces/
 .project/evidence/
