@@ -3,11 +3,12 @@
   "dim": 384,
   "pooling": "per-text embedding (batch=1), mean over token axis weighted by attention_mask, then L2-normalised",
   "offline": true,
-  "corpus": "src/data/questions.json",
-  "corpus_size": 54,
-  "pairs_measured": 1431,
-  "measured_at": "2026-09-23",
-  "background_max": 0.8085,
+  "corpus": "src/data/questions/*.json",
+  "corpus_size": 106,
+  "pairs_measured": 5565,
+  "measured_at": "2026-09-25",
+  "background_max": 0.9020,
+  "_historical_note": "background.{p99,p95,mean,min}, distribution.gt_0_70, cosine_limitation, true_paraphrase_probes — measured on the 54-question bank (2026-09-23); not recalculated on 106-question bank",
   "background": {
     "max": 0.9020,
     "max_pair": [
@@ -21,9 +22,9 @@
     "note": "recalibrated on the 106-question bank (2026-09-25); --self-check compares global max cosine, not whitelist-filtered max"
   },
   "distribution": {
-    "gt_0_80": 2,
-    "gt_0_78": 2,
-    "gt_0_75": 5,
+    "gt_0_80": 13,
+    "gt_0_78": 17,
+    "gt_0_75": 28,
     "gt_0_70": 21,
     "note": "measured on 1431 pairs of the 54-question bank with per-text embedding. gt_0_80 counts ug_005~ug_006 (0.8085) and fm_002~fm_003 (0.8040). Both are whitelisted as known exceptions."
   },
@@ -51,9 +52,9 @@
   },
   "threshold_margin": {
     "threshold": 0.8,
-    "background_max": 0.8085,
-    "margin": -0.0085,
-    "verdict": "the threshold sits 0.0085 BELOW the measured background maximum, so exactly two pairs exceed it under per-text embedding: ug_005~ug_006 (0.8085) and fm_002~fm_003 (0.8040). ug_005 and ug_006 are two differently-worded questions about the same operation (adding a user to a supplementary group); fm_002~fm_003 are a file-management pair. Both pairs were judged acceptable in human review, so this is an artifact of the compressed Russian-text range in an English model, not an unnoticed duplicate. Both stay in known_exceptions; the threshold is unchanged at 0.80 by explicit decision."
+    "background_max": 0.9020,
+    "margin": -0.1020,
+    "verdict": "13 pairs exceed threshold (as of 2026-09-25, bank 106)"
   },
   "threshold_warning": "0.80 < background_max. New pairs > 0.80 will be auto-rejected. L5c (intra-batch manual review) required before accepting new batches.",
   "calibration_note": "Recalibrated after the batch-independence fix (per-text embedding). ug_003~ug_004 dropped out of the whitelist (0.7661); fm_002~fm_003 (0.8040) and ug_005~ug_006 (0.8085) stay whitelisted. Threshold unchanged at 0.80 by explicit decision.",
@@ -75,6 +76,17 @@
       "background_max": 0.8085,
       "max_pair": "ug_005~ug_006",
       "note": "current; batch-independent, verified identical at batch=1/2/54"
+    },
+    {
+      "date": "2026-09-25",
+      "embedding": "per-text (batch=1)",
+      "bank_size": 106,
+      "background_max": 0.9020,
+      "max_pair": [
+        "tf_001",
+        "tf_002"
+      ],
+      "note": "recalibrated after lazy-load split; see cosine.cjs fix"
     }
   ],
   "cosine_limitation": {
