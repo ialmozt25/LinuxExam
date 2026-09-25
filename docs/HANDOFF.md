@@ -138,6 +138,14 @@ drafts/_coherence/*.json           — coherence-проверки
 - Explanation не должен ссылаться на удалённые токены.
 - Стем, ключ, позиция — НЕ трогать (кроме вынужденных случаев с ⚠️KEY).
 
+### 5.5. Позиция правильного ответа
+
+- Банк хранит options в детерминированно перемешанном порядке: `tools/shuffle-bank.mjs`, seed = `cyrb53(id)`, Fisher-Yates на mulberry32, без `Math.random`.
+- Идемпотентность: перед перестановкой options приводятся к каноническому порядку по контенту (`cyrb53(id + option text)`), поэтому повторный `--apply` не меняет файлы (проверка: `npm run shuffle-bank` → diff пуст).
+- UI-shuffle (`shuffleOptions(options, seedFromId(id))` в `Question.tsx`) остаётся, но больше не компенсирует дефект данных: банк распределён сам (≈25% на позицию, ни одна позиция не >60%).
+- При добавлении новых вопросов — обязательно `npm run shuffle-bank` после экспорта; контроль — `npm run shuffle-bank:check` и `src/data/questions/__tests__/positional-distribution.test.ts`.
+- Правило 5.4 «позиция — НЕ трогать» относится к ручным правкам отдельного вопроса; массовая нормализация порядка выполняется только через `tools/shuffle-bank.mjs`.
+
 ---
 
 ## 6. Что закрыто (не переделывать)

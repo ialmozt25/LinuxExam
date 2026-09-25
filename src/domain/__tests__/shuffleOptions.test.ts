@@ -84,18 +84,20 @@ beforeAll(async () => {
 
 /**
  * Guards the reason option shuffle was introduced: 3 of 5 testers noticed that
- * every correct answer sat at position 1. These assertions run against the real
+ * every correct answer sat at position 1. The stored bank itself was fixed on
+ * 2026-09-26 (tools/shuffle-bank.mjs), so the render-time shuffle no longer
+ * compensates for a data defect - these assertions still run against the real
  * bank, not a synthetic fixture.
  */
 describe('option shuffle vs the real question bank', () => {
-  it('has a stored bank with answers only at position 0 (the reported bug)', () => {
+  it('stores keys across more than one position (positional-bias fix)', () => {
     const stored = { 0: 0, 1: 0, 2: 0, 3: 0 } as Record<number, number>;
     questions.forEach((q) => {
       const idx = q.options.findIndex((o) => o.correct);
-      expect(idx).toBe(0);
+      expect(idx).toBeGreaterThanOrEqual(0);
       stored[idx]++;
     });
-    expect(stored[0]).toBe(questions.length);
+    expect(Object.values(stored).filter((v) => v > 0).length).toBeGreaterThan(1);
   });
 
   it('spreads correct answers across more than one visual position', () => {
