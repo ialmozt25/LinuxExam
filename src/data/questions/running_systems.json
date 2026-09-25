@@ -248,14 +248,14 @@
     "difficulty": "easy",
     "objective_domain": "6",
     "subtopic": "systemctl is-active/is-enabled/status",
-    "question": "Нужно, чтобы служба httpd автоматически запускалась при загрузке системы. Какая команда это настроит?",
+    "question": "Нужно проверить, включена ли служба httpd в автозапуск, не меняя её состояние. Какая команда это сделает?",
     "options": [
       {
-        "text": "systemctl enable httpd",
+        "text": "systemctl is-enabled httpd",
         "correct": true
       },
       {
-        "text": "systemctl start httpd",
+        "text": "systemctl is-active httpd",
         "correct": false
       },
       {
@@ -263,10 +263,10 @@
         "correct": false
       },
       {
-        "text": "systemctl is-enabled httpd",
+        "text": "systemctl enable httpd",
         "correct": false
       }
     ],
-    "explanation": "enable создаёт ссылки включения, поэтому служба стартует при загрузке системы. start запускает службу только сейчас и на следующую загрузку не влияет. status показывает состояние службы для человека. is-enabled только сообщает текущее состояние автозапуска и ничего не меняет."
+    "explanation": "is-enabled только сообщает текущее состояние автозапуска и ничего не меняет, поэтому именно она отвечает на вопрос. is-active показывает, запущена ли служба прямо сейчас, а не включена ли она в автозапуск. status выводит состояние службы для человека, но не даёт ответа именно об автозапуске без разбора вывода. enable, наоборот, включает автозапуск, то есть меняет состояние службы."
   }
 ]
