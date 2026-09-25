@@ -12,9 +12,9 @@ MCQ, 4 опции, 1 правильная, UI на русском.
 ## Цель
 Банк 300+ вопросов, монетизация через Telegram-бота @linux_exam_bot.
 
-## Текущее состояние (2026-09-25)
+## Текущее состояние (2026-09-26)
 - Банк: 160 вопросов, 14 topics (все available)
-- HEAD: `ba6f7cd`
+- HEAD: `9dda3ea`
 - QC: Fails=0, Warns=15
 - Cosine: MATCH, max 0.9020
 - Тесты: 137 passed / 0 failed

@@ -28,6 +28,6 @@ M1 закрыт (handoff-тест PASS). Следующий шаг — M2: QC Au
 | 3 | Paywall dead-end (нет выхода) | Высокая | — |
 
 ## Следующие шаги
-1. M1: создать пресет `linuxexam-content-writer`
-2. M1: создать Agent Contract `orchestrator_to_writer.yaml`
-3. M1: проверить handoff orchestrator → writer
+1. M2: создать пресет `linuxexam-qc-auditor`
+2. M2: создать Agent Contract `writer_to_qc.yaml`
+3. M2: замкнуть цикл writer -> qc -> orchestrator
