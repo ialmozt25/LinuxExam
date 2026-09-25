@@ -248,26 +248,26 @@
     "difficulty": "medium",
     "objective_domain": "9",
     "subtopic": "special bits",
-    "question": "Какое числовое значение chmod устанавливает setgid-бит на директории?",
+    "question": "Какая команда установит setgid-бит на директорию /shared через символьную запись chmod?",
     "options": [
       {
-        "text": "2755",
+        "text": "chmod g+s /shared",
         "correct": true
       },
       {
-        "text": "1755",
+        "text": "chmod u+s /shared",
         "correct": false
       },
       {
-        "text": "4755",
+        "text": "chmod +setgid /shared",
         "correct": false
       },
       {
-        "text": "6755",
+        "text": "chmod +sgid /shared",
         "correct": false
       }
     ],
-    "explanation": "Префикс 2 означает setgid: 2755 = setgid + rwxr-xr-x. Префикс 1 — sticky bit, 4 — setuid. Значение 6755 совмещает setuid и setgid одновременно, поэтому не является ответом на вопрос только о setgid."
+    "explanation": "Символьная запись g+s устанавливает setgid на директорию: класс g и бит s. Запись u+s устанавливает setuid для владельца, а не setgid для группы. Запись +setgid невалидна: в символьной нотации chmod принимает только классы u/g/o/a и права r/w/x/X/s/t, а не полные слова. Запись +sgid тоже невалидна, поскольку sgid не является допустимым правом."
   },
   {
     "id": "fp_011",
