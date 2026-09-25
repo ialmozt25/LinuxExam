@@ -47,7 +47,7 @@
         "correct": false
       },
       {
-        "text": "chmod 755 /shared +setgid",
+        "text": "chmod +setgid /shared",
         "correct": false
       }
     ],
