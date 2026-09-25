@@ -248,26 +248,26 @@
     "difficulty": "medium",
     "objective_domain": "9",
     "subtopic": "special bits",
-    "question": "Какая команда установит setgid-бит на директорию /shared через символьную запись chmod?",
+    "question": "Какая команда защитит файлы в директории /projects от удаления пользователями, не являющимися их владельцами (sticky-бит)?",
     "options": [
       {
-        "text": "chmod g+s /shared",
+        "text": "chmod +t /projects",
         "correct": true
       },
       {
-        "text": "chmod u+s /shared",
+        "text": "chmod +s /projects",
         "correct": false
       },
       {
-        "text": "chmod +setgid /shared",
+        "text": "chmod +sticky /projects",
         "correct": false
       },
       {
-        "text": "chmod +sgid /shared",
+        "text": "chmod 2755 /projects",
         "correct": false
       }
     ],
-    "explanation": "Символьная запись g+s устанавливает setgid на директорию: класс g и бит s. Запись u+s устанавливает setuid для владельца, а не setgid для группы. Запись +setgid невалидна: в символьной нотации chmod принимает только классы u/g/o/a и права r/w/x/X/s/t, а не полные слова. Запись +sgid тоже невалидна, поскольку sgid не является допустимым правом."
+    "explanation": "Sticky-бит (+t, числовой префикс 1) на директории разрешает удалять и переименовывать файлы только их владельцам и владельцу самой директории. Запись +s устанавливает setuid или setgid, а не sticky. Запись +sticky невалидна: в символьной нотации chmod принимает только права r/w/x/X/s/t, а не полное слово. Числовой режим 2755 задаёт setgid-бит и sticky-бит не включает."
   },
   {
     "id": "fp_011",
