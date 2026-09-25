@@ -35,3 +35,11 @@ blob-report/
 coverage/
 .wrangler/
 .bolt/
+
+# .project — состояние проекта (см. DECISIONS.md от 2026-09-25)
+# Шумные, часто меняющиеся файлы — не в git
+.project/events.jsonl
+.project/agents/*.json
+.project/agents/*-report.md
+.project/traces/
+.project/evidence/
