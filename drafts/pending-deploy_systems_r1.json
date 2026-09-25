@@ -1,0 +1,224 @@
+{
+  "batch_id": "deploy_systems_r1",
+  "meta": {
+    "checks": {}
+  },
+  "questions": [
+    {
+      "id": "ds_001",
+      "topic": "deploy_systems",
+      "difficulty": "easy",
+      "objective_domain": "6",
+      "subtopic": "at: однократное задание по времени",
+      "question": "Скрипт /root/report.sh нужно выполнить один раз в 20:00. Какая команда поставит задание?",
+      "options": [
+        {
+          "text": "batch -f /root/report.sh",
+          "correct": false
+        },
+        {
+          "text": "at --file /root/report.sh 20:00",
+          "correct": false
+        },
+        {
+          "text": "run-parts /root/report.sh",
+          "correct": false
+        },
+        {
+          "text": "at -f /root/report.sh 20:00",
+          "correct": true
+        }
+      ],
+      "explanation": "Команда at ставит задание в очередь на однократное выполнение, время задаётся аргументом, а ключ -f указывает файл со сценарием. Очередь batch тоже относится к at, но запускает задание при низкой нагрузке, а не в 20:00. Ключа --file у at нет: команда завершается ошибкой разбора аргументов. run-parts выполняет сценарии из каталога, а не отдельный файл по расписанию."
+    },
+    {
+      "id": "ds_002",
+      "topic": "deploy_systems",
+      "difficulty": "easy",
+      "objective_domain": "6",
+      "subtopic": "crontab: строка расписания",
+      "question": "Скрипт /opt/check.sh должен запускаться каждый день в 3:30. Какую строку добавить в crontab пользователя root?",
+      "options": [
+        {
+          "text": "30 3 * * * /opt/check.sh",
+          "correct": true
+        },
+        {
+          "text": "0 3 * * * /opt/check.sh",
+          "correct": false
+        },
+        {
+          "text": "30 25 * * * /opt/check.sh",
+          "correct": false
+        },
+        {
+          "text": "* 3 * * * /opt/check.sh",
+          "correct": false
+        }
+      ],
+      "explanation": "В строке crontab первые пять полей задают минуты, часы, день месяца, месяц и день недели. Ежедневный запуск в 3:30 — это минуты 30, часы 3, остальные поля заменены звёздочками. Строка 0 3 выполняет задание в 3:00, а звёздочка в поле минут запускает его каждую минуту в течение часа. Значение часа 25 выходит из диапазона 0–23, поэтому cron отбрасывает такую строку."
+    },
+    {
+      "id": "ds_003",
+      "topic": "deploy_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "cron.d: системное задание и поле пользователя",
+      "question": "Системное задание описано в файле /etc/cron.d/backup. Чем строка из этого файла отличается от строки в crontab пользователя?",
+      "options": [
+        {
+          "text": "расписание задают только через @daily",
+          "correct": false
+        },
+        {
+          "text": "перед командой указывают пользователя",
+          "correct": true
+        },
+        {
+          "text": "перед командой указывают очередь",
+          "correct": false
+        },
+        {
+          "text": "команду нужно завершать точкой с запятой",
+          "correct": false
+        }
+      ],
+      "explanation": "Файлы в /etc/cron.d и /etc/crontab описывают системные задания, поэтому дополнительно указывают пользователя, от имени которого выполняется команда. Очередь в строке расписания не указывают: это понятие из планировщика at. Точка с запятой в конце строки не требуется. Форма @daily — лишь сокращение для ежедневного расписания, и её применение не обязательно."
+    },
+    {
+      "id": "ds_004",
+      "topic": "deploy_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "systemd timer: OnCalendar",
+      "question": "Скрипт /opt/sync.sh должен запускаться каждый день в 4:15 через systemd. Какую директиву указывают в секции Timer юнита?",
+      "options": [
+        {
+          "text": "OnUnitActiveSec=04:15:00",
+          "correct": false
+        },
+        {
+          "text": "OnCalendar 04:15:00",
+          "correct": false
+        },
+        {
+          "text": "OnCalendar=*-*-* 04:15:00",
+          "correct": true
+        },
+        {
+          "text": "OnCalendar=*-*-* 15:04:00",
+          "correct": false
+        }
+      ],
+      "explanation": "Расписание таймера задаёт директива OnCalendar в секции Timer, а время внутри неё записывают в порядке часы:минуты:секунды. Перестановка 15:04 запускает задание в другое время суток. Директива OnUnitActiveSec отсчитывает задержку от последнего запуска юнита, а не время суток. Строка без знака равенства не разбирается, и systemd не принимает такой unit."
+    },
+    {
+      "id": "ds_005",
+      "topic": "deploy_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "tuned-adm: переключение профиля",
+      "question": "Сервер работает как СУБД, и ему нужен профиль tuned для высокой пропускной способности. Какая команда переключит профиль?",
+      "options": [
+        {
+          "text": "tuned-adm profile throughput-performance",
+          "correct": true
+        },
+        {
+          "text": "tuned-adm list throughput-performance",
+          "correct": false
+        },
+        {
+          "text": "tuned-adm set-profile throughput-performance",
+          "correct": false
+        },
+        {
+          "text": "tuned-adm recommend throughput-performance",
+          "correct": false
+        }
+      ],
+      "explanation": "Подкоманда profile переключает активный профиль tuned, имя профиля передаётся аргументом. Подкоманды set-profile у tuned-adm нет, поэтому такая команда завершается ошибкой разбора аргументов. Подкоманда list только печатает доступные профили, а recommend выдаёт рекомендацию для текущего состояния системы, не меняя профиль."
+    },
+    {
+      "id": "ds_006",
+      "topic": "deploy_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "systemd drop-in: правка юнита без его файла",
+      "question": "Нужно изменить параметр юнита myservice.service, не правя его файл из пакета. Какой командой это делают?",
+      "options": [
+        {
+          "text": "systemctl edit myservice.service",
+          "correct": true
+        },
+        {
+          "text": "systemctl enable myservice.service",
+          "correct": false
+        },
+        {
+          "text": "systemctl revert myservice.service",
+          "correct": false
+        },
+        {
+          "text": "systemctl override myservice.service",
+          "correct": false
+        }
+      ],
+      "explanation": "systemctl edit создаёт drop-in фрагмент в каталоге myservice.service.d, поэтому настройки меняются без правки юнита из пакета. Подкоманды override у systemctl нет: команда завершается ошибкой разбора аргументов. Подкоманда enable только включает автозапуск, а revert удаляет созданные фрагменты и возвращает исходный юнит."
+    },
+    {
+      "id": "ds_007",
+      "topic": "deploy_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "journald: постоянное хранение журнала",
+      "question": "Записи журнала systemd должны сохраняться после выключения сервера. Что указывают в /etc/systemd/journald.conf?",
+      "options": [
+        {
+          "text": "Storage=volatile",
+          "correct": false
+        },
+        {
+          "text": "Storage persistent",
+          "correct": false
+        },
+        {
+          "text": "Storage=persistent",
+          "correct": true
+        },
+        {
+          "text": "ForwardToSyslog=yes",
+          "correct": false
+        }
+      ],
+      "explanation": "Параметр Storage=persistent заставляет systemd-journald хранить журнал на диске, в каталоге /var/log/journal. Значение volatile оставляет записи только в памяти, поэтому после выключения они теряются. Параметр ForwardToSyslog отвечает за пересылку записей в syslog и на хранение не влияет. Строка без знака равенства не разбирается."
+    },
+    {
+      "id": "ds_008",
+      "topic": "deploy_systems",
+      "difficulty": "medium",
+      "objective_domain": "6",
+      "subtopic": "SELinux: контекст порта для нового сервиса",
+      "question": "Новый сервис слушает порт 8080/tcp, и SELinux должен разрешить его как HTTP-порт. Какая команда добавит порт?",
+      "options": [
+        {
+          "text": "semanage port --add --protocol tcp 8080",
+          "correct": false
+        },
+        {
+          "text": "semanage port -a -t http_port_t -p tcp 8080",
+          "correct": true
+        },
+        {
+          "text": "semanage fcontext -a -t http_port_t 8080",
+          "correct": false
+        },
+        {
+          "text": "semanage port -a -t http_port_t -p tcp 80",
+          "correct": false
+        }
+      ],
+      "explanation": "Контекст порта задаётся подкомандой semanage port, а тип http_port_t и протокол tcp указывают ключами -t и -p. Порт 80 уже помечен как http_port_t, поэтому его добавление завершается ошибкой, а сервису нужен 8080. Подкоманда fcontext управляет контекстами файлов, а не портов. Без ключа -t команда завершается ошибкой: тип для добавления обязателен."
+    }
+  ]
+}

@@ -48,7 +48,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'available', Icon: Database },
   { key: 'deploy_systems', title: 'Развёртывание систем',
     description: 'at, cron, systemd services, tuning',
-    status: 'planned', Icon: Settings },
+    status: 'available', Icon: Settings },
   { key: 'networking', title: 'Сеть',
     description: 'nmcli, hostname, /etc/hosts, firewalld',
     status: 'available', Icon: Wifi },

@@ -33,6 +33,7 @@ type JsonModule = { default: QuestionJson[] };
 
 /** One dynamic import per topic — each becomes its own build chunk. */
 const LOADERS: Record<string, () => Promise<JsonModule>> = {
+  deploy_systems: () => import('./deploy_systems.json'),
   essential_tools: () => import('./essential_tools.json'),
   file_management: () => import('./file_management.json'),
   file_permissions: () => import('./file_permissions.json'),
