@@ -83,3 +83,33 @@
 - **Why:** Независимая верификация требует другого фрейма и модели. Research показывает: verifier на той же модели с тем же фреймом — фейковый гейт. Diversity фреймов (5 проходов) + diversity моделей (QC ≠ Writer) + детерминированные gates в приоритете над LLM-судьёй.
 - **Alternatives:** MAS v2 с 6 отдельными ролями (дороже, coordination overhead); ежебатчный QC (теряет diversity); LLM-судья без re-execution (независимость падает).
 - **Decided-by:** Капитан + Orchestrator.
+
+## 2026-09-26 — QC Auditor: reference-копия, модель, YAML, pwsh-ловушка
+
+**Решение:** пресет `linuxexam-qc-auditor` закрыт как копия Writer'а с 7 правками:
+- 5 правок в persona: список скиллов, фраза делегирования, роль (`Ты — QC Auditor`),
+  глагол-роль (`генерировать` → `независимо верифицировать`), вставка блока про модель;
+- 2 остаточных Writer-изма в рабочей части: `соблюдая` → `проверяя соответствие`,
+  `генерировать вопросы и отчитываться` → `верифицировать вопросы и возвращать issues`;
+- шапка-комментарий (строки 1–3) и `description` в preset.yml.
+
+**Deviation от изначального плана M2.2:** reference-копия пресета добавлена в репо
+(`docs/knowledge/dsh/presets/linuxexam-qc-auditor/`) — на случай сброса worktree
+(инцидент 4.5). SHA256-сверка гарантирует байт-идентичность копии и источника.
+
+**Модель НЕ задаётся файлами пресета (M2.2c-1):**
+`readPresetMetadata()` в `dsh-agent-presets` читает только `name`, `description`, `order`.
+`agentOptions()` в `dsh-api-session-controller` читает host-сервис `agentDefaultModel`.
+Поле `model:` в `agent.cordis.yml` или `preset.yml` молча отбрасывается.
+**Следствие:** diversity слепых пятен Writer↔QC зависит от дисциплины капитана
+(per-session выбор через /model в UI), не от конфига.
+
+**Модель QC по умолчанию:** `deepseek-official/deepseek-v4-pro`.
+**Причина:** Writer на `tier-router/smart` (обычно flash, иногда pro); QC на pro даёт
+стабильно другой tier на большинстве вопросов.
+
+**YAML-валидация:** js-yaml из `$dsh\profiles\node_modules`, с заменой тега `!!js`
+на `!!str` ТОЛЬКО В ПАМЯТИ (файл не меняется). Обход ограничения handoff §4.3.
+Позволяет ловить структурные ошибки ДО перезапуска DSH (M2.5).
+
+**Новая pwsh-ловушка:** см. `docs/knowledge/dsh/pwsh-cyrillic-escaped-parens.md`.

@@ -42,8 +42,8 @@
 - [x] Проверено: пресет Content Writer загружает 4/4 skills
 
 ### M2: Третий агент — QC Auditor
-- [ ] M2.1: расширить PLAN.md архитектурой QC (этот шаг)
-- [ ] M2.2: создать пресет `linuxexam-qc-auditor` + 4 skills
+- [x] M2.1: расширить PLAN.md архитектурой QC (этот шаг)
+- [x] M2.2: создать пресет `linuxexam-qc-auditor` + 4 skills
 - [ ] M2.3: создать контракт `writer_to_qc.yaml`
 - [ ] M2.4: создать контракт `qc_to_orchestrator.yaml`
 - [ ] M2.5: перезапуск DSH + проверка пресета QC

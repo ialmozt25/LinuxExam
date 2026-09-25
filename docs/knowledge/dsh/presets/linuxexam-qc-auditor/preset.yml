@@ -1,0 +1,2 @@
+name: LinuxExam QC Auditor
+description: Независимая верификация MCQ-вопросов LinuxExam. 5 проходов, adversarial stance, ratification by re-execution. Не правит контент — возвращает issues.

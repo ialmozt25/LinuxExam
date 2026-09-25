@@ -1,0 +1,113 @@
+# Пресет LinuxExam QC Auditor
+# Базируется на пресете linuxexam-orchestrator (см. docs/knowledge/dsh/preset-common-errors.md).
+# Отличие: другая persona, секция delegation удалена (QC не делегирует, не правит контент, не принимает финальных решений).
+
+- id: persona
+  name: '@deepseek-ai/dsh-persona'
+  config:
+    prefix: |-
+      Ты — QC Auditor проекта LinuxExam. Твоя задача — независимо верифицировать
+      MCQ-вопросы для RHCSA EX200, проверяя соответствие правилам дистракторов и ratio.
+      
+      При старте сессии загрузи skills:
+      - `bootstrap` — читает .project/ при старте
+      - `adversarial-verification` — 5 проходов, default FAIL, адверсариальная стойка
+      - `man-verification` — выборочная проверка команд через man (Rocky-9)
+      - `verdict-rules` — severity, hard blockers, ratification by re-execution
+      
+      Ты НЕ делегируешь, НЕ правишь контент и НЕ принимаешь финальных решений. Возвращаешь issues Writer'у; финальное решение принимает Orchestrator.
+      Твоя работа — верифицировать вопросы и возвращать issues в отчёте.
+      
+      Формат отчёта — как в skill `bootstrap`, секция «Формат отчёта».
+      ПЕРЕД НАЧАЛОМ ЛЮБОЙ РАБОТЫ попроси капитана подтвердить, что твоя модель = deepseek-official/deepseek-v4-pro. Если капитан не подтверждает или указывает другую модель — СТОП. Причина — QC обязан иметь модель, отличную от Writer-а (diversity слепых пятен). Модель НЕ задаётся файлами пресета, только per-session через /model в UI.
+
+- id: agent-instructions
+  name: '@deepseek-ai/dsh-agent-instructions'
+  config:
+    maxBytes: 65536
+
+- id: tool-bash
+  name: '@deepseek-ai/dsh-tool-bash'
+  disabled: !!js process.platform === 'win32'
+
+- id: tool-pwsh
+  name: '@deepseek-ai/dsh-tool-pwsh'
+  disabled: !!js process.platform !== 'win32'
+
+- id: tool-fs
+  name: '@deepseek-ai/dsh-tool-fs'
+
+- id: tool-fs-search
+  name: '@deepseek-ai/dsh-tool-fs-search'
+  config:
+    sampleOverCapGlobResults: false
+
+- id: tool-jobs
+  name: '@deepseek-ai/dsh-tool-jobs'
+
+- id: command-goal
+  name: '@deepseek-ai/dsh-command-goal'
+
+- id: tool-goal
+  name: '@deepseek-ai/dsh-tool-goal'
+
+- id: planning
+  name: cordis:group
+  group: true
+  isolate:
+    planMode: true
+  config:
+    - id: plan-mode
+      name: '@deepseek-ai/dsh-plan-mode'
+      config:
+        section: |
+          Ты в plan mode. Оставайся в нём, пока exit_plan_mode не сработает или пользователь не переключит режим.
+          Сначала исследуй: используй только читающие операции (read, search, grep). Не редактируй файлы, не коммить.
+          Когда план готов — вызови exit_plan_mode с полным markdown-планом.
+          Не используй todo_write для планирования.
+
+- id: compaction
+  name: cordis:group
+  group: true
+  isolate:
+    compaction: true
+    toolResultPruner: true
+  config:
+    - id: compaction-basic
+      name: '@deepseek-ai/dsh-compaction-basic'
+
+    - id: command-compact
+      name: '@deepseek-ai/dsh-command-compact'
+
+    - id: tool-result-pruner
+      name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+      config:
+        thresholdChars: 8192
+        headChars: 4096
+        tailChars: 1024
+
+- id: tool-ask-user
+  name: '@deepseek-ai/dsh-tool-ask-user'
+
+- id: tool-todo
+  name: '@deepseek-ai/dsh-tool-todo'
+  config:
+    allowParallelInProgress: true
+
+- id: tool-web
+  name: '@deepseek-ai/dsh-tool-web'
+  config:
+    fetch: true
+    searchTimeoutMs: 60000
+
+- id: skill-filesystem
+  name: '@deepseek-ai/dsh-skill-filesystem'
+  config:
+    customSkillDirs:
+      - !!js "process.getBuiltinModule('node:url').fileURLToPath(new URL('skills/', baseUrl))"
+
+- id: tool-skill
+  name: '@deepseek-ai/dsh-tool-skill'
+
+- id: present
+  name: '@deepseek-ai/dsh-tool-present'
