@@ -1,7 +1,7 @@
 # LinuxExam — Текущее состояние
 
 ## Что делаем сейчас
-M0 полностью закрыт (включая push). Следующий шаг — M1: Content Writer.
+M1 закрыт (handoff-тест PASS). Следующий шаг — M2: QC Auditor.
 
 ## Что сделано
 - [x] 160 вопросов сгенерированы
@@ -14,7 +14,11 @@ M0 полностью закрыт (включая push). Следующий ш�
 - [x] База знаний docs/knowledge/ создана (M0.5)
 - [x] Разграничены журналы решений (docs/ENGINEERING-DECISIONS.md)
 - [x] M0.7 (мост) и M3/M3.5 (Центр разработки) зафиксированы в PLAN.md
-- [x] Всё запушено на origin/main (HEAD = bc71c56)
+- [x] Всё запушено на origin/main (HEAD = 9a9c8ea)
+- [x] M1: пресет linuxexam-content-writer создан
+- [x] M1: Agent Contract orchestrator_to_writer.yaml создан
+- [x] M1: handoff-тест — PASS (2 вопроса, evidence list, gates ok)
+- [x] docs/knowledge/PROJECT-GOALS.md создан
 
 ## Блокеры
 | # | Блокер | Критичность | Ответственный |

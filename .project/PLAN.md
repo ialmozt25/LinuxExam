@@ -29,10 +29,11 @@
 - **M0.7.1 (отложено):** автоматизация переноса (dubridge / dsh-ops-mcp /
   dsh-hermes-link) — при триггере «≥3 итерации ручного копипаста в одной задаче».
 
-### M1: Второй агент — Content Writer
-- [ ] Создать пресет `linuxexam-content-writer`
-- [ ] Agent Contract `orchestrator_to_writer.yaml`
-- [ ] Проверить handoff
+### M1: Второй агент — Content Writer (закрыт 2026-09-26)
+**Закрыт:** 2026-09-26
+- [x] Создать пресет `linuxexam-content-writer`
+- [x] Agent Contract `orchestrator_to_writer.yaml`
+- [x] Проверить handoff
 
 ### M2: Третий агент — QC Auditor
 - [ ] Создать пресет `linuxexam-qc-auditor`

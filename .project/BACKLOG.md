@@ -14,3 +14,5 @@
       (добавить `paths-ignore: ['docs/**', '*.md', '.project/**']`)
 - [ ] Dependabot: 52 уязвимости в default branch (1 critical, 23 high, 24 moderate, 4 low)
       — проверить и обновить зависимости
+- [ ] `tools/qc.cjs`: добавить поддержку `--batch <file>` (сейчас молча игнорирует; проверяет весь банк)
+- [ ] `tools/cosine.cjs`: добавить поддержку `--batch <file>` (сейчас падает с ENOENT; рабочий режим — `--intra-batch`)
