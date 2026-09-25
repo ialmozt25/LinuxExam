@@ -8,7 +8,7 @@
     "question": "Требуется создать пользователя alice с конкретным числовым идентификатором 4200. Какой ключ useradd задаёт этот идентификатор?",
     "options": [
       {
-        "text": "useradd -g 4200 alice",
+        "text": "useradd -i 4200 alice",
         "correct": false
       },
       {
@@ -20,7 +20,7 @@
         "correct": true
       },
       {
-        "text": "useradd -i 4200 alice",
+        "text": "useradd -g 4200 alice",
         "correct": false
       }
     ],
@@ -44,7 +44,7 @@
     "question": "Какой ключ useradd явно создаёт домашний каталог независимо от настроек системы?",
     "options": [
       {
-        "text": "useradd -d alice",
+        "text": "useradd -n alice",
         "correct": false
       },
       {
@@ -52,12 +52,12 @@
         "correct": false
       },
       {
-        "text": "useradd -m alice",
-        "correct": true
+        "text": "useradd -d alice",
+        "correct": false
       },
       {
-        "text": "useradd -n alice",
-        "correct": false
+        "text": "useradd -m alice",
+        "correct": true
       }
     ],
     "explanation": "Ключ -m (--create-home) явно создаёт домашний каталог нового пользователя и наполняет его из /etc/skel, поэтому он работает независимо от системных настроек. Ключ -n не определён в man-странице и в --help: на Rocky 9.8 он является недокументированным алиасом --no-user-group, то есть создаёт пользователя БЕЗ домашнего каталога. Ключ -s задаёт командную оболочку пользователя, а не каталог. Ключ -d лишь указывает путь к домашнему каталогу в записи /etc/passwd: каталог при этом появится только если в /etc/login.defs включена опция CREATE_HOME, поэтому ключ -d зависит от настроек системы и условию «независимо от настроек» не удовлетворяет.",
@@ -80,16 +80,16 @@
     "question": "Какой ключ useradd указывает путь к домашнему каталогу нового пользователя?",
     "options": [
       {
-        "text": "useradd -c /srv/home/alice alice",
-        "correct": false
+        "text": "useradd -d /srv/home/alice alice",
+        "correct": true
       },
       {
         "text": "useradd -h /srv/home/alice alice",
         "correct": false
       },
       {
-        "text": "useradd -d /srv/home/alice alice",
-        "correct": true
+        "text": "useradd -c /srv/home/alice alice",
+        "correct": false
       },
       {
         "text": "useradd -p /srv/home/alice alice",
@@ -116,11 +116,7 @@
     "question": "Какой ключ useradd задаёт командную оболочку нового пользователя?",
     "options": [
       {
-        "text": "useradd -e /bin/bash alice",
-        "correct": false
-      },
-      {
-        "text": "useradd -S /bin/bash alice",
+        "text": "useradd -f /bin/bash alice",
         "correct": false
       },
       {
@@ -128,7 +124,11 @@
         "correct": true
       },
       {
-        "text": "useradd -f /bin/bash alice",
+        "text": "useradd -S /bin/bash alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -e /bin/bash alice",
         "correct": false
       }
     ],
@@ -156,16 +156,16 @@
         "correct": false
       },
       {
-        "text": "useradd -m -N developers alice",
-        "correct": false
-      },
-      {
         "text": "useradd -m -a developers alice",
         "correct": false
       },
       {
         "text": "useradd -m -G developers alice",
         "correct": true
+      },
+      {
+        "text": "useradd -m -N developers alice",
+        "correct": false
       }
     ],
     "explanation": "Ключ -G задаёт список дополнительных групп, поэтому -G developers добавляет пользователя в developers, оставляя основной группу, созданную по умолчанию. Ключ -g задаёт основную группу, то есть developers стала бы основной вместо дополнительной. Ключ -a у команды useradd отсутствует и применяется только в usermod в паре с -G, поэтому такой вызов завершится ошибкой. Ключ -N отключает создание одноимённой группы пользователя и никак не связан с добавлением в дополнительную группу.",
@@ -188,11 +188,11 @@
     "question": "Пользователь alice уже входит в группу developers. Требуется добавить его ещё и в группу auditors, сохранив членство в developers. Какая команда это сделает?",
     "options": [
       {
-        "text": "usermod -g auditors alice",
+        "text": "usermod -G auditors alice",
         "correct": false
       },
       {
-        "text": "usermod -G auditors alice",
+        "text": "usermod -g auditors alice",
         "correct": false
       },
       {
@@ -228,16 +228,16 @@
         "correct": false
       },
       {
+        "text": "userdel -R alice",
+        "correct": false
+      },
+      {
         "text": "userdel -f alice",
         "correct": false
       },
       {
         "text": "userdel -r alice",
         "correct": true
-      },
-      {
-        "text": "userdel -R alice",
-        "correct": false
       }
     ],
     "explanation": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. ВАЖНО: man-страница userdel для ключа -f утверждает, что он тоже удаляет домашний каталог и почтовый ящик, однако на Rocky 9.8 это неверно — userdel -f удаляет только учётную запись, а каталог остаётся на месте (проверено эмпирически). Ключ -R задаёт каталог chroot-окружения, а не рекурсивное удаление, поэтому к удалению каталога он отношения не имеет. Вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте.",
@@ -269,8 +269,8 @@
     "question": "Требуется создать группу developers с конкретным числовым идентификатором 5000. Какая команда это выполнит?",
     "options": [
       {
-        "text": "groupadd -g 5000 developers",
-        "correct": true
+        "text": "groupadd -i 5000 developers",
+        "correct": false
       },
       {
         "text": "groupadd -u 5000 developers",
@@ -281,8 +281,8 @@
         "correct": false
       },
       {
-        "text": "groupadd -i 5000 developers",
-        "correct": false
+        "text": "groupadd -g 5000 developers",
+        "correct": true
       }
     ],
     "explanation": "Ключ -g (--gid) задаёт числовой идентификатор создаваемой группы, поэтому -g 5000 создаёт группу именно с этим GID. Ключ -r создаёт системную группу с автоматически выбранным GID из диапазона системных, поэтому число 5000 в такой записи было бы воспринято как параметр ключа -r и вызов завершился бы ошибкой. Ключа -u у команды groupadd не существует, так как этот ключ относится к пользователям. Ключа -i у команды groupadd также не существует.",
@@ -305,7 +305,7 @@
     "question": "Какая команда задаст пользователю alice максимальный срок действия пароля в 90 дней?",
     "options": [
       {
-        "text": "chage -d 90 alice",
+        "text": "chage -E 90 alice",
         "correct": false
       },
       {
@@ -317,7 +317,7 @@
         "correct": false
       },
       {
-        "text": "chage -E 90 alice",
+        "text": "chage -d 90 alice",
         "correct": false
       }
     ],
@@ -341,10 +341,6 @@
     "question": "Какая команда установит дату, после которой учётная запись alice станет недействительной?",
     "options": [
       {
-        "text": "chage -W 2099-12-31 alice",
-        "correct": false
-      },
-      {
         "text": "chage -I 2099-12-31 alice",
         "correct": false
       },
@@ -354,6 +350,10 @@
       },
       {
         "text": "chage -M 2099-12-31 alice",
+        "correct": false
+      },
+      {
+        "text": "chage -W 2099-12-31 alice",
         "correct": false
       }
     ],
@@ -377,15 +377,15 @@
     "question": "Пользователь alice входит в основную группу и в дополнительные группы. Какая команда выведет имена всех групп, в которые он входит?",
     "options": [
       {
-        "text": "id -g alice",
-        "correct": false
-      },
-      {
         "text": "id -nG alice",
         "correct": true
       },
       {
         "text": "id -gn alice",
+        "correct": false
+      },
+      {
+        "text": "id -g alice",
         "correct": false
       },
       {
@@ -413,19 +413,19 @@
     "question": "Поля в файле /etc/passwd разделены двоеточиями. В каком поле хранится путь к домашнему каталогу пользователя?",
     "options": [
       {
-        "text": "В пятом поле, перед домашним каталогом",
-        "correct": false
-      },
-      {
         "text": "В шестом поле, между GECOS и командной оболочкой",
         "correct": true
+      },
+      {
+        "text": "Во втором поле, сразу после имени пользователя",
+        "correct": false
       },
       {
         "text": "В третьем поле, между именем пользователя и GID",
         "correct": false
       },
       {
-        "text": "Во втором поле, сразу после имени пользователя",
+        "text": "В пятом поле, перед домашним каталогом",
         "correct": false
       }
     ],

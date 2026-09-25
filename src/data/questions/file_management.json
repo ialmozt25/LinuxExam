@@ -43,12 +43,12 @@
         "correct": false
       },
       {
-        "text": "find /etc -newer /etc",
-        "correct": false
-      },
-      {
         "text": "find /etc -mtime -1",
         "correct": true
+      },
+      {
+        "text": "find /etc -newer /etc",
+        "correct": false
       }
     ],
     "explanation": "Тест -mtime -1 выбирает файлы, изменённые менее чем за последние 24 часа. Запись +1 означает обратное — файлы, изменённые более 24 часов назад. Тест -mmin -1 считает время в минутах, поэтому ограничился бы последней минутой. Тест -newer /etc сравнивает время модификации с самим файлом /etc, а не с суточным интервалом."
@@ -89,7 +89,7 @@
     "question": "Какая команда создаст gzip-архив из /var/log?",
     "options": [
       {
-        "text": "tar -cjf archive.tar.gz /var/log",
+        "text": "tar -xzf archive.tar.gz /var/log",
         "correct": false
       },
       {
@@ -101,7 +101,7 @@
         "correct": true
       },
       {
-        "text": "tar -xzf archive.tar.gz /var/log",
+        "text": "tar -cjf archive.tar.gz /var/log",
         "correct": false
       }
     ],
@@ -116,7 +116,11 @@
     "question": "Как направить вывод и ошибки команды в один файл log.txt с перезаписью?",
     "options": [
       {
-        "text": "command > log.txt 2>1",
+        "text": "command > log.txt 2>&1",
+        "correct": true
+      },
+      {
+        "text": "command 2>&1 > log.txt",
         "correct": false
       },
       {
@@ -124,12 +128,8 @@
         "correct": false
       },
       {
-        "text": "command 2>&1 > log.txt",
+        "text": "command > log.txt 2>1",
         "correct": false
-      },
-      {
-        "text": "command > log.txt 2>&1",
-        "correct": true
       }
     ],
     "explanation": "Конструкция 2>&1 перенаправляет дескриптор ошибок туда же, куда указывает дескриптор 1. Запись 2>1 создаст файл с именем 1, а не соберёт ошибки. Ключ >> дописывает в конец файла вместо перезаписи. Порядок 2>&1 > log.txt оставит ошибки в терминале."
@@ -143,6 +143,10 @@
     "question": "Какая команда скопирует директорию рекурсивно с правами и метками времени?",
     "options": [
       {
+        "text": "mv /src /dst",
+        "correct": false
+      },
+      {
         "text": "cp -a /src /dst",
         "correct": true
       },
@@ -152,10 +156,6 @@
       },
       {
         "text": "cp -p /src /dst",
-        "correct": false
-      },
-      {
-        "text": "mv /src /dst",
         "correct": false
       }
     ],
@@ -170,7 +170,11 @@
     "question": "Какая команда найдёт файлы, изменённые строго больше семи суток назад?",
     "options": [
       {
-        "text": "find . -type f -mtime -7",
+        "text": "find . -type f -mtime +7",
+        "correct": true
+      },
+      {
+        "text": "find . -type f -atime +7",
         "correct": false
       },
       {
@@ -178,11 +182,7 @@
         "correct": false
       },
       {
-        "text": "find . -type f -mtime +7",
-        "correct": true
-      },
-      {
-        "text": "find . -type f -atime +7",
+        "text": "find . -type f -mtime -7",
         "correct": false
       }
     ],
@@ -197,10 +197,6 @@
     "question": "Какая команда обновляет базу данных для locate?",
     "options": [
       {
-        "text": "locate -c",
-        "correct": false
-      },
-      {
         "text": "locate -b",
         "correct": false
       },
@@ -211,6 +207,10 @@
       {
         "text": "updatedb",
         "correct": true
+      },
+      {
+        "text": "locate -c",
+        "correct": false
       }
     ],
     "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. Ключи -b, -c и -r у locate управляют выборкой (базовое имя, подсчёт совпадений, регулярное выражение), но саму базу данных не перестраивают."
@@ -224,7 +224,7 @@
     "question": "Какая команда корректно обработает имена с пробелами через xargs?",
     "options": [
       {
-        "text": "find . -type f | xargs -n 0 rm",
+        "text": "find . -type f -print | xargs rm",
         "correct": false
       },
       {
@@ -232,12 +232,12 @@
         "correct": false
       },
       {
-        "text": "find . -type f -print0 | xargs -0 rm",
-        "correct": true
+        "text": "find . -type f | xargs -n 0 rm",
+        "correct": false
       },
       {
-        "text": "find . -type f -print | xargs rm",
-        "correct": false
+        "text": "find . -type f -print0 | xargs -0 rm",
+        "correct": true
       }
     ],
     "explanation": "Ключ -print0 выводит имена, разделённые нулевым байтом, а -0 в xargs читает именно такой формат. Без этой пары xargs разбивает ввод по пробелам и передаст rm обрывки имён. У find нет ключа -exec0, а -n 0 не имеет смысла."
@@ -251,12 +251,12 @@
     "question": "Какая команда покажет тип файла по его содержимому?",
     "options": [
       {
-        "text": "stat data.bin",
-        "correct": false
-      },
-      {
         "text": "file data.bin",
         "correct": true
+      },
+      {
+        "text": "stat data.bin",
+        "correct": false
       },
       {
         "text": "ls -l data.bin",
@@ -278,20 +278,20 @@
     "question": "Какая команда создаст архив, сжатый bzip2?",
     "options": [
       {
-        "text": "tar -czf backup.tar.bz2 /home",
-        "correct": false
-      },
-      {
         "text": "tar -cJf backup.tar.bz2 /home",
         "correct": false
       },
       {
-        "text": "tar -cf backup.tar.bz2 --bzip2 /home",
+        "text": "tar -czf backup.tar.bz2 /home",
         "correct": false
       },
       {
         "text": "tar -cjf backup.tar.bz2 /home",
         "correct": true
+      },
+      {
+        "text": "tar -cf backup.tar.bz2 --bzip2 /home",
+        "correct": false
       }
     ],
     "explanation": "Сжатие bzip2 включает ключ j, ключ z даёт gzip, а J — xz. Ключ --long-option с именем файла без -f не создаст архив нужного вида, поэтому верен только вариант с -cjf."
@@ -305,19 +305,19 @@
     "question": "Чем символическая ссылка отличается от жёсткой?",
     "options": [
       {
-        "text": "Символическая указывает на путь, а жёсткая — на тот же inode",
-        "correct": true
-      },
-      {
         "text": "Жёсткая ссылка может быть на другом разделе, а символическая — нет",
         "correct": false
       },
       {
-        "text": "Жёсткую ссылку можно создать только на директорию, но не на файл",
-        "correct": false
+        "text": "Символическая указывает на путь, а жёсткая — на тот же inode",
+        "correct": true
       },
       {
         "text": "Символическая ссылка увеличивает счётчик ссылок до двух",
+        "correct": false
+      },
+      {
+        "text": "Жёсткую ссылку можно создать только на директорию, но не на файл",
         "correct": false
       }
     ],

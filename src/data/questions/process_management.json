@@ -8,6 +8,10 @@
     "question": "Сигнал SIGKILL имеет номер 9. Какое утверждение верно?",
     "options": [
       {
+        "text": "SIGKILL полностью эквивалентен SIGTERM, никаких различий между ними нет",
+        "correct": false
+      },
+      {
         "text": "SIGKILL отправляется командой kill по умолчанию, то есть без аргументов",
         "correct": false
       },
@@ -17,10 +21,6 @@
       },
       {
         "text": "Процесс может перехватить SIGKILL и корректно освободить все ресурсы",
-        "correct": false
-      },
-      {
-        "text": "SIGKILL полностью эквивалентен SIGTERM, никаких различий между ними нет",
         "correct": false
       }
     ],
@@ -35,15 +35,15 @@
     "question": "Что означает состояние процесса Z в выводе ps?",
     "options": [
       {
-        "text": "Процесс выполняется в фоновом режиме, без управляющего терминала",
-        "correct": false
-      },
-      {
         "text": "Процесс ожидает ввода-вывода и не потребляет процессор",
         "correct": false
       },
       {
         "text": "Процесс заблокирован на диске и не может быть завершён",
+        "correct": false
+      },
+      {
+        "text": "Процесс выполняется в фоновом режиме, без управляющего терминала",
         "correct": false
       },
       {
@@ -62,11 +62,7 @@
     "question": "Какая команда запустит httpd немедленно и добавит в автозапуск одной командой?",
     "options": [
       {
-        "text": "systemctl start --enable httpd.service",
-        "correct": false
-      },
-      {
-        "text": "systemctl enable httpd --also-start-now",
+        "text": "systemctl start httpd; systemctl enable httpd",
         "correct": false
       },
       {
@@ -74,7 +70,11 @@
         "correct": true
       },
       {
-        "text": "systemctl start httpd; systemctl enable httpd",
+        "text": "systemctl enable httpd --also-start-now",
+        "correct": false
+      },
+      {
+        "text": "systemctl start --enable httpd.service",
         "correct": false
       }
     ],
@@ -89,7 +89,7 @@
     "question": "Какая команда покажет процессы пользователя dev1?",
     "options": [
       {
-        "text": "ps -C dev1",
+        "text": "ps -e dev1",
         "correct": false
       },
       {
@@ -101,7 +101,7 @@
         "correct": false
       },
       {
-        "text": "ps -e dev1",
+        "text": "ps -C dev1",
         "correct": false
       }
     ],
@@ -116,20 +116,20 @@
     "question": "Какая команда покажет записи журнала для sshd за текущую загрузку?",
     "options": [
       {
-        "text": "journalctl -u sshd -f",
-        "correct": false
-      },
-      {
-        "text": "journalctl -u sshd -n 10",
-        "correct": false
-      },
-      {
         "text": "journalctl -u sshd -S today",
         "correct": false
       },
       {
         "text": "journalctl -u sshd -b",
         "correct": true
+      },
+      {
+        "text": "journalctl -u sshd -n 10",
+        "correct": false
+      },
+      {
+        "text": "journalctl -u sshd -f",
+        "correct": false
       }
     ],
     "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущей загрузкой. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузке, а -S today задаёт интервал времени, а не загрузку."
@@ -147,16 +147,16 @@
         "correct": false
       },
       {
-        "text": "renice -p 1234 10",
-        "correct": false
+        "text": "renice -n 10 -p 1234",
+        "correct": true
       },
       {
         "text": "renice -n -10 -p 1234",
         "correct": false
       },
       {
-        "text": "renice -n 10 -p 1234",
-        "correct": true
+        "text": "renice -p 1234 10",
+        "correct": false
       }
     ],
     "explanation": "Команда renice изменяет приоритет уже работающего процесса, номер задаётся ключом -p. Команда nice только запускает новый процесс с заданным приоритетом и ключа -p не имеет. Отрицательное значение наоборот повышает приоритет и требует прав root."
@@ -174,7 +174,7 @@
         "correct": true
       },
       {
-        "text": "./backup.sh && bg",
+        "text": "./backup.sh &",
         "correct": false
       },
       {
@@ -182,7 +182,7 @@
         "correct": false
       },
       {
-        "text": "./backup.sh &",
+        "text": "./backup.sh && bg",
         "correct": false
       }
     ],
@@ -197,7 +197,7 @@
     "question": "Какой сигнал нельзя перехватить или проигнорировать?",
     "options": [
       {
-        "text": "SIGTERM (15)",
+        "text": "SIGHUP (1)",
         "correct": false
       },
       {
@@ -205,7 +205,7 @@
         "correct": false
       },
       {
-        "text": "SIGHUP (1)",
+        "text": "SIGTERM (15)",
         "correct": false
       },
       {
@@ -224,6 +224,10 @@
     "question": "Какая команда показывает динамически обновляемый список процессов с сортировкой по нагрузке?",
     "options": [
       {
+        "text": "uptime -p",
+        "correct": false
+      },
+      {
         "text": "ps aux -w",
         "correct": false
       },
@@ -233,10 +237,6 @@
       },
       {
         "text": "jobs -l -r",
-        "correct": false
-      },
-      {
-        "text": "uptime -p",
         "correct": false
       }
     ],
@@ -251,8 +251,8 @@
     "question": "Чем systemctl mask отличается от systemctl disable?",
     "options": [
       {
-        "text": "Замаскированный юнит нельзя запустить даже вручную, а отключённый — можно",
-        "correct": true
+        "text": "mask удаляет файл юнита с диска навсегда, а disable — нет",
+        "correct": false
       },
       {
         "text": "mask действует только до перезагрузки, а disable — навсегда",
@@ -263,8 +263,8 @@
         "correct": false
       },
       {
-        "text": "mask удаляет файл юнита с диска навсегда, а disable — нет",
-        "correct": false
+        "text": "Замаскированный юнит нельзя запустить даже вручную, а отключённый — можно",
+        "correct": true
       }
     ],
     "explanation": "mask создаёт ссылку на /dev/null вместо файла юнита, поэтому запуск блокируется полностью, даже если его вызвать вручную. disable лишь убирает автозапуск, и такой юнит по-прежнему можно запустить командой systemctl start."
@@ -278,20 +278,20 @@
     "question": "Какой сигнал отправляет kill по умолчанию, если сигнал не указан?",
     "options": [
       {
-        "text": "SIGKILL (9)",
-        "correct": false
-      },
-      {
         "text": "SIGHUP (1)",
         "correct": false
       },
       {
-        "text": "SIGINT (2)",
+        "text": "SIGKILL (9)",
         "correct": false
       },
       {
         "text": "SIGTERM (15)",
         "correct": true
+      },
+      {
+        "text": "SIGINT (2)",
+        "correct": false
       }
     ],
     "explanation": "Без явного указания kill отправляет SIGTERM — корректный запрос на завершение, который процесс может обработать и освободить ресурсы. SIGKILL надо запрашивать явно через kill -9. SIGHUP по умолчанию не отправляется, а SIGINT генерирует сочетание Ctrl+C."

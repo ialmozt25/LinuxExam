@@ -15,9 +15,20 @@ import { fileURLToPath } from 'node:url';
 //   node tools/shuffle-bank.mjs --apply            # rewrite all 12 topic files
 //   node tools/shuffle-bank.mjs --apply <topic>    # rewrite one topic file
 //
-// Algorithm: seed = cyrb53(question.id); options = fisherYates(base(options), seed),
-// where `base` is a content-derived canonical order (see below). Mulberry32 PRNG,
-// no Math.random anywhere.
+// Algorithm: per topic, the tool first searches a salt in 0..99 and keeps the
+// first one whose shuffles hold the topic's correct-answer positions at or
+// below BALANCE_SHARE (40%), falling back to FALLBACK_SHARE (50%), then to 0.
+// Every question is then ordered by
+// fisherYates(canonicalBase(options), cyrb53(id [NUL salt])) with mulberry32.
+// Salt 0 keeps the original pre-2026-09-28 seed, so an already-balanced topic is
+// not rewritten for nothing. The salt is internal and is never written to JSON.
+//
+// Why per topic: a single global seed is deterministic but does not constrain
+// the per-topic distribution - on an 8-question topic a fluctuation can put
+// 62.5% of keys on one position, which `--check` reports per topic even though
+// the bank-level spread (about 25% each) looks healthy.
+//
+// No Math.random anywhere.
 //
 // Idempotency: Fisher-Yates applied to the *current* array would not be idempotent -
 // P(arr) != P(P(arr)) in general, so a second --apply would keep rewriting files.
@@ -34,6 +45,12 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BANK_DIR = path.join(root, 'src', 'data', 'questions');
 const WARN_SHARE = 0.6;
+/** Preferred per-topic ceiling for one correct-answer position. */
+const BALANCE_SHARE = 0.4;
+/** Accepted per-topic ceiling when no salt reaches the preferred share. */
+const FALLBACK_SHARE = 0.5;
+/** Salt search space per topic (0 keeps the legacy seed). */
+const SALT_SEARCH_LIMIT = 100;
 
 /**
  * cyrb53 (Bryc, public domain). Standard 32-bit accumulator loop and avalanche;
@@ -83,9 +100,41 @@ function canonicalBase(options, id) {
     .map((entry) => entry.option);
 }
 
-/** Target stored order for one question. Pure function of the question content. */
-function targetOrder(question) {
-  return fisherYates(canonicalBase(question.options, question.id), cyrb53(question.id));
+/** Seed for one question at one salt; salt 0 keeps the legacy (unsalted) seed. */
+function saltSeed(id, salt) {
+  return salt === 0 ? cyrb53(id) : cyrb53(id + '\u0000' + String(salt));
+}
+
+/** Target stored order for one question under one salt. Pure in content + salt. */
+function targetOrder(question, salt) {
+  return fisherYates(canonicalBase(question.options, question.id), saltSeed(question.id, salt));
+}
+
+/** Correct-answer position this question would get under one salt. */
+function saltedCorrectPos(question, salt) {
+  return targetOrder(question, salt).findIndex((option) => option.correct === true);
+}
+
+/**
+ * First salt whose per-topic distribution is balanced. The search is a pure
+ * function of the topic's content, so the same input always picks the same salt
+ * and a second --apply rewrites nothing.
+ */
+function pickSalt(questions) {
+  let fallback = -1;
+  for (let salt = 0; salt < SALT_SEARCH_LIMIT; salt++) {
+    const counts = [0, 0, 0, 0];
+    for (const q of questions) {
+      const pos = saltedCorrectPos(q, salt);
+      if (pos < 0 || pos >= 4) throw new Error(`${q.id}: expected exactly one correct option at index 0..3`);
+      counts[pos]++;
+    }
+    const total = questions.length === 0 ? 1 : questions.length;
+    const share = Math.max(...counts) / total;
+    if (share <= BALANCE_SHARE) return salt;
+    if (fallback === -1 && share <= FALLBACK_SHARE) fallback = salt;
+  }
+  return fallback === -1 ? 0 : fallback;
 }
 
 function topicFiles() {
@@ -171,16 +220,17 @@ function apply(topics) {
   for (const topic of topics) {
     const file = path.join(BANK_DIR, topic + '.json');
     const questions = readBank(topic);
+    const salt = pickSalt(questions);
     let changed = 0;
     for (const q of questions) {
-      const target = targetOrder(q);
+      const target = targetOrder(q, salt);
       if (!sameOptions(q.options, target)) {
         q.options = target; // key order of each option object is preserved: same refs
         changed++;
       }
     }
     if (changed === 0) {
-      console.log(`unchanged ${topic}`);
+      console.log(`unchanged ${topic} (salt ${salt})`);
       continue;
     }
     const out = JSON.stringify(questions, null, 2) + '\n';
@@ -190,7 +240,7 @@ function apply(topics) {
     if (bytes.includes(13)) throw new Error(`${topic}: CR byte detected after write (expected LF)`);
     changedFiles++;
     changedQuestions += changed;
-    console.log(`shuffled ${topic}: ${changed} questions`);
+    console.log(`shuffled ${topic}: ${changed} questions (salt ${salt})`);
   }
   console.log(`--- files changed: ${changedFiles}, questions changed: ${changedQuestions}`);
 }

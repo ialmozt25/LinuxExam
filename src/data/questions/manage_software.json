@@ -12,12 +12,12 @@
         "correct": false
       },
       {
-        "text": "rpm -ivh tree",
-        "correct": false
-      },
-      {
         "text": "dnf install tree",
         "correct": true
+      },
+      {
+        "text": "rpm -ivh tree",
+        "correct": false
       },
       {
         "text": "dnf download tree",
@@ -39,16 +39,16 @@
         "correct": false
       },
       {
+        "text": "dnf makecache -y",
+        "correct": false
+      },
+      {
         "text": "dnf downgrade",
         "correct": false
       },
       {
         "text": "dnf upgrade -y",
         "correct": true
-      },
-      {
-        "text": "dnf makecache -y",
-        "correct": false
       }
     ],
     "explanation": "Ключ -y (--assumeyes) отвечает утвердительно на все вопросы, поэтому upgrade проходит без диалога. Команда makecache только обновляет метаданные репозиториев и ничего не устанавливает, поэтому пакеты остаются прежних версий. check-update только сообщает о доступных обновлениях и ничего не устанавливает. downgrade откатывает пакеты к прежним версиям, то есть выполняет обратную задачу."
@@ -70,12 +70,12 @@
         "correct": false
       },
       {
-        "text": "dnf info zsh",
-        "correct": true
-      },
-      {
         "text": "dnf search zsh",
         "correct": false
+      },
+      {
+        "text": "dnf info zsh",
+        "correct": true
       }
     ],
     "explanation": "info печатает описание, сводку и доступную версию пакета из метаданных репозитория. rpm -qi читает только базу установленных пакетов, а zsh не установлен, поэтому команда завершается ошибкой. search ищет по ключевым словам и выводит имена с краткими сводками, без полного описания и версии. list --installed перечисляет уже установленные пакеты, то есть отвечает не на тот вопрос."
@@ -89,20 +89,20 @@
     "question": "В репозитории есть модуль postgresql с потоками 15, 16 и 18. Нужно сделать поток 16 активным, чтобы его пакеты стали доступны для установки, но при этом сами пакеты не устанавливать. Какая команда это сделает?",
     "options": [
       {
-        "text": "dnf module enable postgresql:16",
-        "correct": true
-      },
-      {
-        "text": "dnf module install postgresql:16",
-        "correct": false
-      },
-      {
         "text": "dnf module disable postgresql",
         "correct": false
       },
       {
         "text": "dnf module enable postgresql-16",
         "correct": false
+      },
+      {
+        "text": "dnf module install postgresql:16",
+        "correct": false
+      },
+      {
+        "text": "dnf module enable postgresql:16",
+        "correct": true
       }
     ],
     "explanation": "module enable включает указанный поток и делает его пакеты видимыми для dnf, ничего не устанавливая. Поток записывается через двоеточие, как postgresql:16, а форма с дефисом модулем не является, поэтому команда завершается ошибкой. module install не только включает поток, но и сразу ставит профили по умолчанию вместе с пакетами модуля. module disable, наоборот, отключает модуль и убирает его потоки из набора доступных пакетов."
@@ -116,23 +116,23 @@
     "question": "Нужно определить, какой установленный пакет владеет файлом /usr/bin/ldd, не зная заранее имя пакета. Какая команда это сделает?",
     "options": [
       {
-        "text": "rpm -qR glibc-common",
-        "correct": false
-      },
-      {
-        "text": "rpm -qi glibc-common.x86_64",
-        "correct": false
-      },
-      {
         "text": "rpm -qf /usr/bin/ldd",
         "correct": true
+      },
+      {
+        "text": "rpm -qi ldd.x86_64",
+        "correct": false
+      },
+      {
+        "text": "rpm -qR glibc-common",
+        "correct": false
       },
       {
         "text": "dnf list installed",
         "correct": false
       }
     ],
-    "explanation": "Ключ -f вместе с -q ищет пакет по файлу на диске и печатает имя владельца. Ключ -R выводит зависимости указанного пакета, поэтому rpm -qR glibc-common покажет, от чего зависит этот пакет, но не ответит на вопрос, какому пакету принадлежит конкретный файл. dnf list installed перечисляет установленные пакеты и о владельце файла ничего не сообщает. rpm -qi выводит сведения о заранее названном пакете, то есть подставляет ответ вместо его поиска."
+    "explanation": "Ключ -f вместе с -q ищет пакет по файлу на диске и печатает имя владельца. Ключ -R выводит зависимости указанного пакета, поэтому rpm -qR glibc-common покажет, от чего зависит этот пакет, но не ответит на вопрос, какому пакету принадлежит конкретный файл. dnf list installed перечисляет установленные пакеты и о владельце файла ничего не сообщает. rpm -qi выводит сведения о заранее названном пакете, поэтому rpm -qi ldd.x86_64 ищет пакет с именем файла — такого пакета нет, и команда завершается ошибкой."
   },
   {
     "id": "ms_006",
@@ -147,15 +147,15 @@
         "correct": false
       },
       {
-        "text": "dnf config-manager --dump epel",
-        "correct": false
-      },
-      {
         "text": "dnf config-manager --set-enabled epel",
         "correct": true
       },
       {
         "text": "dnf config-manager --set-disabled epel",
+        "correct": false
+      },
+      {
+        "text": "dnf config-manager --dump epel",
         "correct": false
       }
     ],
@@ -170,20 +170,20 @@
     "question": "Пакеты репозитория local подписаны, но открытый ключ сервера подписи не импортирован в систему, поэтому установка завершается ошибкой на проверке GPG. Нужно отключить проверку подписи только для этого репозитория через его секцию в /etc/yum.repos.d/local.repo. Какая строка это сделает?",
     "options": [
       {
-        "text": "nogpgcheck=1",
-        "correct": false
+        "text": "gpgcheck=0",
+        "correct": true
       },
       {
         "text": "gpgcheck=1",
         "correct": false
       },
       {
-        "text": "repo_gpgcheck=0",
+        "text": "nogpgcheck=1",
         "correct": false
       },
       {
-        "text": "gpgcheck=0",
-        "correct": true
+        "text": "repo_gpgcheck=0",
+        "correct": false
       }
     ],
     "explanation": "Параметр gpgcheck задаётся в секции репозитория и отвечает за проверку подписи пакетов: значение 0 отключает её только для этого репозитория, поэтому gpgcheck=0 — верный ответ для этого стема. Параметр repo_gpgcheck отвечает за подпись метаданных, а не пакетов, и установку не разблокирует. Опции nogpgcheck в схеме опций секции .repo нет: это ключ командной строки dnf, поэтому dnf принимает такой файл без ошибки и оставляет проверку подписи пакетов включённой. Штатный путь вместо отключения проверки — импортировать открытый ключ командой rpm --import <ключ> и оставить gpgcheck=1; значение 1 включает ту самую проверку, на которой установка завершается ошибкой, пока ключ не импортирован."
@@ -201,15 +201,15 @@
         "correct": true
       },
       {
+        "text": "dnf history --undo last",
+        "correct": false
+      },
+      {
         "text": "dnf history info last",
         "correct": false
       },
       {
         "text": "dnf history redo last",
-        "correct": false
-      },
-      {
-        "text": "dnf history --undo last",
         "correct": false
       }
     ],

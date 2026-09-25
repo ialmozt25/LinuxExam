@@ -8,19 +8,19 @@
     "question": "Нужно, чтобы система после загрузки по умолчанию запускала текстовый режим (без графики) вместо графического. Какая команда задаст это постоянной целью загрузки?",
     "options": [
       {
-        "text": "systemctl get-default multi-user.target",
-        "correct": false
-      },
-      {
         "text": "systemctl set-default multi-user.target",
         "correct": true
       },
       {
-        "text": "systemctl isolate multi-user.target",
+        "text": "systemctl enable multi-user.target",
         "correct": false
       },
       {
-        "text": "systemctl enable multi-user.target",
+        "text": "systemctl get-default multi-user.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl isolate multi-user.target",
         "correct": false
       }
     ],
@@ -35,7 +35,7 @@
     "question": "В файле службы systemd нужно указать команду, которая запускает саму программу. Какая директива раздела службы это делает?",
     "options": [
       {
-        "text": "Restart=",
+        "text": "ExecStop=",
         "correct": false
       },
       {
@@ -43,11 +43,11 @@
         "correct": true
       },
       {
-        "text": "WantedBy=",
+        "text": "Restart=",
         "correct": false
       },
       {
-        "text": "ExecStop=",
+        "text": "WantedBy=",
         "correct": false
       }
     ],
@@ -62,7 +62,7 @@
     "question": "Скрипту нужно командой проверить именно автозапуск службы sshd (по коду возврата). Какая команда подходит?",
     "options": [
       {
-        "text": "systemctl status sshd",
+        "text": "systemctl list-units --all",
         "correct": false
       },
       {
@@ -70,7 +70,7 @@
         "correct": false
       },
       {
-        "text": "systemctl list-units --all",
+        "text": "systemctl status sshd",
         "correct": false
       },
       {
@@ -89,10 +89,6 @@
     "question": "Служба httpd не запускается, и нужно увидеть сообщения журнала, относящиеся именно к этой службе. Какая команда это сделает?",
     "options": [
       {
-        "text": "journalctl -p err",
-        "correct": false
-      },
-      {
         "text": "journalctl -u httpd",
         "correct": true
       },
@@ -102,6 +98,10 @@
       },
       {
         "text": "journalctl -n 20",
+        "correct": false
+      },
+      {
+        "text": "journalctl -p err",
         "correct": false
       }
     ],
@@ -143,20 +143,20 @@
     "question": "Нужно запретить случайный запуск службы telnet.socket, не удаляя её unit-файл. Какая команда это сделает?",
     "options": [
       {
-        "text": "systemctl stop telnet.socket",
+        "text": "systemctl unmask telnet.socket",
         "correct": false
       },
       {
-        "text": "systemctl mask telnet.socket",
-        "correct": true
-      },
-      {
-        "text": "systemctl unmask telnet.socket",
+        "text": "systemctl stop telnet.socket",
         "correct": false
       },
       {
         "text": "systemctl disable telnet.socket",
         "correct": false
+      },
+      {
+        "text": "systemctl mask telnet.socket",
+        "correct": true
       }
     ],
     "explanation": "mask подменяет unit-файл ссылкой на /dev/null, поэтому службу нельзя запустить ни вручную, ни как зависимость. disable убирает только автозапуск, и службу по-прежнему можно запустить вручную. stop останавливает службу сейчас, но не мешает запустить её снова. unmask снимает запрет, то есть делает обратное."
@@ -170,6 +170,10 @@
     "question": "После правки файла службы нужно, чтобы systemd перечитал изменённые unit-файлы, не прерывая работу уже запущенной службы. Какая команда это сделает?",
     "options": [
       {
+        "text": "systemctl restart sshd",
+        "correct": false
+      },
+      {
         "text": "systemctl daemon-reload",
         "correct": true
       },
@@ -179,10 +183,6 @@
       },
       {
         "text": "systemctl reload sshd",
-        "correct": false
-      },
-      {
-        "text": "systemctl restart sshd",
         "correct": false
       }
     ],
@@ -197,15 +197,15 @@
     "question": "Система загрузилась, но нужно перейти в режим однопользовательского обслуживания (rescue) без перезагрузки. Какая команда это сделает?",
     "options": [
       {
-        "text": "systemctl set-default rescue.target",
-        "correct": false
-      },
-      {
         "text": "systemctl isolate rescue.target",
         "correct": true
       },
       {
         "text": "systemctl enable rescue.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl set-default rescue.target",
         "correct": false
       },
       {
@@ -228,15 +228,15 @@
         "correct": false
       },
       {
-        "text": "$$",
-        "correct": false
-      },
-      {
         "text": "$!",
         "correct": true
       },
       {
         "text": "$0",
+        "correct": false
+      },
+      {
+        "text": "$$",
         "correct": false
       }
     ],
@@ -251,16 +251,16 @@
     "question": "Нужно проверить, включена ли служба httpd в автозапуск, не меняя её состояние. Какая команда это сделает?",
     "options": [
       {
+        "text": "systemctl is-enabled httpd",
+        "correct": true
+      },
+      {
         "text": "systemctl enable httpd",
         "correct": false
       },
       {
         "text": "systemctl status httpd",
         "correct": false
-      },
-      {
-        "text": "systemctl is-enabled httpd",
-        "correct": true
       },
       {
         "text": "systemctl is-active httpd",

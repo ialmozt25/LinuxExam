@@ -8,7 +8,7 @@
     "question": "Требуется найти в файле строки, содержащие последовательность . * буквально, без интерпретации символов как шаблон регулярного выражения. Какой ключ grep задаст такой режим поиска?",
     "options": [
       {
-        "text": "grep -v '. *' file",
+        "text": "grep -E '. *' file",
         "correct": false
       },
       {
@@ -16,11 +16,11 @@
         "correct": true
       },
       {
-        "text": "grep -w '. *' file",
+        "text": "grep -v '. *' file",
         "correct": false
       },
       {
-        "text": "grep -E '. *' file",
+        "text": "grep -w '. *' file",
         "correct": false
       }
     ],
@@ -116,20 +116,20 @@
     "question": "Список путей list.txt нужно передать команде rm так, чтобы за один запуск команда получала группу из нескольких аргументов, а не по одному файлу за запуск. Какой ключ xargs задаёт такой режим?",
     "options": [
       {
-        "text": "xargs -n 20 rm < list.txt",
-        "correct": true
+        "text": "xargs -I 20 rm < list.txt",
+        "correct": false
       },
       {
         "text": "xargs -p 20 rm < list.txt",
         "correct": false
       },
       {
-        "text": "xargs -I 20 rm < list.txt",
+        "text": "xargs -t 20 rm < list.txt",
         "correct": false
       },
       {
-        "text": "xargs -t 20 rm < list.txt",
-        "correct": false
+        "text": "xargs -n 20 rm < list.txt",
+        "correct": true
       }
     ],
     "explanation": "Ключ -n задаёт максимальное число аргументов, передаваемых команде за один запуск, поэтому -n 20 передаёт пути группой до двадцати штук за вызов. Ключ -I подставляет входные строки в указанное место команды и подразумевает по одному элементу на запуск, то есть даёт ровно противоположное поведение. Ключ -p включает интерактивный запрос подтверждения перед каждым запуском и число аргументов не задаёт. Ключ -t лишь печатает формируемую команду перед выполнением.",
@@ -156,12 +156,12 @@
         "correct": false
       },
       {
-        "text": "stat -c '%A' file",
-        "correct": true
-      },
-      {
         "text": "stat -c '%n' file",
         "correct": false
+      },
+      {
+        "text": "stat -c '%A' file",
+        "correct": true
       },
       {
         "text": "stat -c '%a' file",
@@ -188,11 +188,7 @@
     "question": "Каталог /etc/nginx требуется упаковать в один архивный файл с именем nginx.tar.gz, сжатый gzip, вместе со всем содержимым каталога. Какая команда это выполнит?",
     "options": [
       {
-        "text": "tar -czf nginx.tar.gz /etc/nginx",
-        "correct": true
-      },
-      {
-        "text": "tar -tf nginx.tar.gz /etc/nginx",
+        "text": "tar -cjf nginx.tar.gz /etc/nginx",
         "correct": false
       },
       {
@@ -200,7 +196,11 @@
         "correct": false
       },
       {
-        "text": "tar -cjf nginx.tar.gz /etc/nginx",
+        "text": "tar -czf nginx.tar.gz /etc/nginx",
+        "correct": true
+      },
+      {
+        "text": "tar -tf nginx.tar.gz /etc/nginx",
         "correct": false
       }
     ],
@@ -228,12 +228,12 @@
         "correct": false
       },
       {
-        "text": "grep -v 'error' app.log",
-        "correct": false
-      },
-      {
         "text": "grep -c 'error' app.log",
         "correct": true
+      },
+      {
+        "text": "grep -v 'error' app.log",
+        "correct": false
       },
       {
         "text": "grep -l 'error' app.log",
