@@ -22,14 +22,13 @@
     "note": "recalibrated on the 106-question bank (2026-09-25); --self-check compares global max cosine, not whitelist-filtered max"
   },
   "distribution": {
-    "gt_0_80": 10,
-    "gt_0_78": 15,
-    "gt_0_75": 25,
+    "gt_0_80": 9,
+    "gt_0_78": 14,
+    "gt_0_75": 24,
     "gt_0_70": 21,
     "note": "gt_0_80/gt_0_78/gt_0_75 measured on the 106-question bank over 5565 stem pairs (2026-09-25, per-text embedding), after the S2b rewrites of rs_010, fm_002, fp_010 and tf_006. gt_0_70 is the older 54-question-bank figure (see _historical_note)."
   },
   "known_exceptions": [
-    "fm_002~fm_003",
     "ug_005~ug_006"
   ],
   "thresholds": {
@@ -54,10 +53,10 @@
     "threshold": 0.8,
     "background_max": 0.9020,
     "margin": -0.1020,
-    "verdict": "13 pairs exceed threshold (as of 2026-09-25, bank 106)"
+    "verdict": "9 pairs exceed threshold (as of 2026-09-25, bank 106)"
   },
   "threshold_warning": "0.80 < background_max. New pairs > 0.80 will be auto-rejected. L5c (intra-batch manual review) required before accepting new batches.",
-  "calibration_note": "Recalibrated after the batch-independence fix (per-text embedding). ug_003~ug_004 dropped out of the whitelist (0.7661); fm_002~fm_003 (0.8040) and ug_005~ug_006 (0.8085) stay whitelisted. Threshold unchanged at 0.80 by explicit decision.",
+  "calibration_note": "Recalibrated after the batch-independence fix (per-text embedding). ug_003~ug_004 dropped out of the whitelist (0.7661); ug_005~ug_006 (0.8085) stays whitelisted. fm_002~fm_003 was removed from known_exceptions after the S2b stem rewrites dropped it below 0.80. Threshold unchanged at 0.80 by explicit decision.",
   "justification": "The pre-fix embed() scored a padded batch, so a text's vector depended on the longest text beside it and the measured maximum was a property of batch composition, not of the corpus. per-text embedding (batch=1) removes padding entirely and is reproducible: ug_003~ug_004 returns 0.7661 in a 2-question file, inside the 12-question pending batch and inside the 54-question bank. On the recalibrated 54-question bank the maximum is ug_005~ug_006 = 0.8085 with 2 pairs above 0.80, 2 above 0.78, 5 above 0.75 and 21 above 0.70. Under the old batched embedding the same bank reported 1 pair above 0.80 (ug_003~ug_004 = 0.8043).",
   "note": "The cosine threshold remains 0.80 by explicit decision and was not changed. Because background_max 0.8085 now exceeds it, any future batch containing a pair at that similarity will be auto-rejected unless it is listed in known_exceptions.",
   "caveat": "all-MiniLM-L6-v2 is an English model; cosine scores on Russian text are compressed (paraphrase 0.49 vs unrelated 0.42 in a short probe), so the dynamic range is much narrower than for English. This is why topically-related but distinct questions can reach 0.80.",

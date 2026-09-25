@@ -30,7 +30,7 @@
 | **Bundle entry gzip** | **51.69 kB** (watch 137 kB, запас ×2.6) |
 | **Тесты** | 133 unit + 18 e2e зелёные |
 | **TS** | 0 ошибок |
-| **QC** | `tools/qc.cjs` — Fails 0, Warns 2 (fm_002, fm_003) |
+| **QC** | `tools/qc.cjs` — Fails 0, Warns 1 (fm_003) |
 | **Среда** | **Windows-side** (`C:\Users\Alexey Udotov\LinuxExam`); `node.exe` (`C:\Program Files\nodejs\node.exe`), `git.exe` (`C:\Program Files\Git\cmd\git.exe`); WSL Rocky 9.8 (Blue Onyx), WSL `Rocky-9` — только для man |
 | **Cosine** | РАБОТАЕТ через `node.exe` (кэш `node_modules/@xenova/transformers/.cache/Xenova/all-MiniLM-L6-v2`) |
 
