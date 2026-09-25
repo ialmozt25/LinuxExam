@@ -1,0 +1,45 @@
+name: writer_to_qc
+version: 1.0.0
+from_role: content-writer
+to_role: qc-auditor
+description: |
+  Writer передаёт готовый батч MCQ-вопросов в QC Auditor для независимой
+  верификации. QC не доверяет evidence Writer'а — перезапускает проверки сам.
+  QC не правит контент, только возвращает issues.
+
+input:
+  batch_id: string
+  topic: string
+  subtopic: string
+  batch_size: integer
+  questions: list of objects in LinuxExam bank format
+  evidence:
+    man_pages: list of strings
+    distractor_runs: list of objects
+    cosine_result: object
+    qc_result: object
+  goal_invariant: string
+
+output:
+  verdict: PASS or FAIL
+  issues: list of objects
+  issues_format:
+    question_id: string
+    severity: CRITICAL or SUBSTANTIAL or MINOR
+    pass: fact-check or objective or language or beginner-view or skeptic-view
+    description: string
+  evidence_verified:
+    qc_rerun: list of strings
+    man_recheck: list of strings
+  goal_invariant_check: boolean
+  notes: string
+
+failure_modes:
+  - batch_size greater than 20
+  - batch_size less than 1
+  - topic not in available
+  - goal_invariant missing
+  - evidence.man_pages missing
+  - hard_blocker triggered (fact-check, objective)
+  - QC model equals Writer model (diversity violation)
+  - questions malformed

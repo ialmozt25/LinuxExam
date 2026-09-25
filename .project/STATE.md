@@ -14,7 +14,7 @@ M1.5 закрыт (content-pipeline skill). Следующий шаг — M2: QC
 - [x] База знаний docs/knowledge/ создана (M0.5)
 - [x] Разграничены журналы решений (docs/ENGINEERING-DECISIONS.md)
 - [x] M0.7 (мост) и M3/M3.5 (Центр разработки) зафиксированы в PLAN.md
-- [x] Всё запушено на origin/main (HEAD = 63c28ee)
+- [x] Всё запушено на origin/main (HEAD = f280eb2)
 - [x] M1: пресет linuxexam-content-writer создан
 - [x] M1: Agent Contract orchestrator_to_writer.yaml создан
 - [x] M1: handoff-тест — PASS (2 вопроса, evidence list, gates ok)
