@@ -22,11 +22,11 @@
     "note": "recalibrated on the 106-question bank (2026-09-25); --self-check compares global max cosine, not whitelist-filtered max"
   },
   "distribution": {
-    "gt_0_80": 13,
-    "gt_0_78": 17,
-    "gt_0_75": 28,
+    "gt_0_80": 10,
+    "gt_0_78": 15,
+    "gt_0_75": 25,
     "gt_0_70": 21,
-    "note": "measured on 1431 pairs of the 54-question bank with per-text embedding. gt_0_80 counts ug_005~ug_006 (0.8085) and fm_002~fm_003 (0.8040). Both are whitelisted as known exceptions."
+    "note": "gt_0_80/gt_0_78/gt_0_75 measured on the 106-question bank over 5565 stem pairs (2026-09-25, per-text embedding), after the S2b rewrites of rs_010, fm_002, fp_010 and tf_006. gt_0_70 is the older 54-question-bank figure (see _historical_note)."
   },
   "known_exceptions": [
     "fm_002~fm_003",
