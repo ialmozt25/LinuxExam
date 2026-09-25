@@ -1,7 +1,7 @@
 'use strict';
 
 // Автоматический скоринг MCQ по 10 критериям Haladyna (docs/HALADYNA.md).
-// 6 AUTO (детерминированные) + 2 SEMI (полуавтомат, помечаются) + 2 MANUAL (человек).
+// 5 AUTO (детерминированные) + 3 SEMI (полуавтомат, помечаются) + 2 MANUAL (человек).
 //
 // CLI:
 //   node tools/haladyna.cjs <id>              — один вопрос из банка
@@ -9,7 +9,7 @@
 //   node tools/haladyna.cjs --batch file.json — массив вопросов (схема банка)
 //   --auto-only                               — exit только по AUTO (SEMI печатается, но не влияет)
 //
-// Exit code: 0 если у ВСЕХ обработанных вопросов auto=6/6 (и semi=2/2, если не указан
+// Exit code: 0 если у ВСЕХ обработанных вопросов auto=5/5 (и semi=3/3, если не указан
 // --auto-only), иначе 1.
 
 const fs = require('fs');
@@ -66,13 +66,6 @@ function auto3StemIsQuestion(q) {
   return startsLike(stem, ['Какая', 'Какой', 'Какое', 'Что', 'Как', 'Нужно', 'Требуется', 'Дано', 'Скрипту']);
 }
 
-// Критерий 4 — только STEM. «все ресурсы»/«оба режима» в опциях-дистракторах
-// легальны; absolute terms опасны именно в стеме.
-function auto4NoAllBoth(q) {
-  const re = /(?<![а-яё])(все|оба|ни одно|ни один)(?![а-яё])/iu;
-  return !re.test(String(q.question || ''));
-}
-
 function auto5NoLengthHint(q) {
   const opts = q.options || [];
   const correct = opts.filter((o) => o && o.correct === true);
@@ -89,6 +82,14 @@ function auto6Explanation(q) {
 }
 
 // --- SEMI -------------------------------------------------------------------
+
+// Критерий 4 — только STEM. «все ресурсы»/«оба режима» в опциях-дистракторах
+// легальны; absolute terms опасны именно в стеме. Перенесён из AUTO 2026-09-25:
+// absolute term в стеме — сигнал человеку, а не автоматический блокер.
+function semi4NoAllBoth(q) {
+  const re = /(?<![а-яё])(все|оба|ни одно|ни один)(?![а-яё])/iu;
+  return !re.test(String(q.question || ''));
+}
 
 function semi7SameCategory(q) {
   const opts = q.options || [];
@@ -126,15 +127,15 @@ function scoreQuestion(q) {
   if (!auto1OneCorrect(q)) autoFails.push(1);
   if (!auto2Balanced(q)) autoFails.push(2);
   if (!auto3StemIsQuestion(q)) autoFails.push(3);
-  if (!auto4NoAllBoth(q)) autoFails.push(4);
   if (!auto5NoLengthHint(q)) autoFails.push(5);
   if (!auto6Explanation(q)) autoFails.push(6);
 
+  if (!semi4NoAllBoth(q)) semiFails.push(4);
   if (!semi7SameCategory(q)) semiFails.push(7);
   if (!semi8StemHasContext(q)) semiFails.push(8);
 
-  const autoPassed = 6 - autoFails.length;
-  const semiPassed = 2 - semiFails.length;
+  const autoPassed = 5 - autoFails.length;
+  const semiPassed = 3 - semiFails.length;
   const perfect = autoFails.length === 0 && semiFails.length === 0;
 
   return { autoPassed, semiPassed, autoFails, semiFails, perfect };
@@ -143,7 +144,7 @@ function scoreQuestion(q) {
 function printQuestion(q) {
   const r = scoreQuestion(q);
   const score = r.autoPassed + r.semiPassed;
-  console.log(`${q.id}: score=${score}/10 (auto=${r.autoPassed}/6, semi=${r.semiPassed}/2)`);
+  console.log(`${q.id}: score=${score}/10 (auto=${r.autoPassed}/5, semi=${r.semiPassed}/3)`);
   console.log(`AUTO_FAIL: ${r.autoFails.length ? '[' + r.autoFails.join(', ') + ']' : 'нет'}`);
   console.log(`SEMI_FAIL: ${r.semiFails.length ? '[' + r.semiFails.join(', ') + ']' : 'нет'}`);
   console.log(`MANUAL: [${MANUAL.join(', ')}]`);
@@ -202,8 +203,8 @@ function main() {
   }
 
   if (targets.length > 1) {
-    console.log(`\n---\nPerfect (auto 6/6 and semi 2/2): ${perfect}/${targets.length}`);
-    console.log(`Auto-perfect (6/6): ${autoPerfect}/${targets.length}`);
+    console.log(`\n---\nPerfect (auto 5/5 and semi 3/3): ${perfect}/${targets.length}`);
+    console.log(`Auto-perfect (5/5): ${autoPerfect}/${targets.length}`);
   }
   process.exitCode = (autoOnly ? autoPerfect : perfect) === targets.length ? 0 : 1;
 }

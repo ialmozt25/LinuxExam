@@ -170,9 +170,12 @@ for (const q of questions) {
     if (typeof text !== 'string') return;
     if (/в течении/iu.test(text)) warn(q.id, `stopword "в течении" in ${label}`, 'stopword');
     if (/ {2,}/.test(text)) warn(q.id, `double space in ${label}`, 'stopword');
-    // Пробел перед знаком препинания. Точка НЕ считается нарушением, если за ней
-    // идёт имя расширения/глоба (`.conf`, `.txt`), — иначе «файлы .conf» ложно падало.
-    if (/\s+[,;:!?]/.test(text) || /\s+\.(?![A-Za-zА-Яа-яЁё0-9])/.test(text)) {
+    // Пробел перед знаком препинания.
+    // `,;:!?` — без guard: fp_012 («rw------- : владелец») реальный дефект.
+    // Точка — только после кириллицы И только висячая (за ней пробел или конец строки),
+    // иначе shell-пути (`find . -type f`, `./run.sh`, `. *`) дают ложные срабатывания;
+    // расширение (`.conf`) тоже не дефект.
+    if (/\s+[,;:!?]/.test(text) || /[а-яА-ЯёЁ]\s+\.(?=\s|$)/.test(text)) {
       warn(q.id, `space before punctuation in ${label}`, 'stopword');
     }
   };
