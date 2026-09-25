@@ -295,5 +295,167 @@
       }
     ],
     "explanation": "Без явного указания kill отправляет SIGTERM — корректный запрос на завершение, который процесс может обработать и освободить ресурсы. SIGKILL надо запрашивать явно через kill -9. SIGHUP по умолчанию не отправляется, а SIGINT генерирует сочетание Ctrl+C."
+  },
+  {
+    "id": "pm_012",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "3",
+    "subtopic": "pgrep / pkill by command line",
+    "question": "Какая команда завершит процессы, в командной строке которых встречается слово worker?",
+    "options": [
+      {
+        "text": "pkill -F worker",
+        "correct": false
+      },
+      {
+        "text": "pkill -f worker",
+        "correct": true
+      },
+      {
+        "text": "pkill worker",
+        "correct": false
+      },
+      {
+        "text": "pgrep -f worker",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда pkill завершает процессы по заданному шаблону, а ключ -f заставляет её сравнивать шаблон с полной командной строкой. Без этого ключа сравнение идёт только с именем процесса, поэтому pkill worker не найдёт процесс, у которого слово worker стоит в аргументах. Ключ -F читает список идентификаторов из файла и к поиску по командной строке отношения не имеет."
+  },
+  {
+    "id": "pm_013",
+    "topic": "process_management",
+    "difficulty": "easy",
+    "objective_domain": "3",
+    "subtopic": "/proc/PID introspection",
+    "question": "В каком файле каталога /proc хранятся переменные окружения процесса с идентификатором 1234?",
+    "options": [
+      {
+        "text": "/proc/1234/cmdline",
+        "correct": false
+      },
+      {
+        "text": "/proc/1234/environment",
+        "correct": false
+      },
+      {
+        "text": "/proc/1234/environ",
+        "correct": true
+      },
+      {
+        "text": "/proc/1234/status",
+        "correct": false
+      }
+    ],
+    "explanation": "Переменные окружения процесса лежат в файле /proc/PID/environ в виде строк, разделённых нулевыми байтами. Файл cmdline содержит аргументы запуска, а status — сведения о состоянии процесса и потреблении памяти. Файла environment в каталоге /proc не существует, хотя имя кажется логичным."
+  },
+  {
+    "id": "pm_014",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemd-analyze startup analysis",
+    "question": "Какая команда покажет юниты, которые дольше всего запускались при старте системы?",
+    "options": [
+      {
+        "text": "systemd-analyze blame",
+        "correct": true
+      },
+      {
+        "text": "systemd-analyze blames",
+        "correct": false
+      },
+      {
+        "text": "systemd-analyze plot",
+        "correct": false
+      },
+      {
+        "text": "journalctl -b --no-pager",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда systemd-analyze blame выводит список юнитов, отсортированный по времени их запуска при старте системы. Вариант systemd-analyze plot рисует общую диаграмму старта в формате SVG, а journalctl -b показывает журнал текущего старта без измерения времени. Слова blames у этой команды нет."
+  },
+  {
+    "id": "pm_015",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "objective_domain": "6",
+    "subtopic": "systemctl --user units",
+    "question": "Какая команда включит пользовательский юнит backup.timer для текущего пользователя?",
+    "options": [
+      {
+        "text": "systemctl --user start backup.timer",
+        "correct": false
+      },
+      {
+        "text": "systemctl --user enable-now backup.timer",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable --now backup.timer",
+        "correct": false
+      },
+      {
+        "text": "systemctl --user enable --now backup.timer",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ --user переключает systemctl на пользовательский менеджер служб, поэтому юнит включается в конфигурации текущего пользователя. Флаг --now сразу запускает юнит, не дожидаясь следующего входа в систему. Вариант без --user включит системный юнит, а start только запустит юнит, не добавляя его в автозапуск."
+  },
+  {
+    "id": "pm_016",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "coredumpctl and core dumps",
+    "question": "Какая команда покажет список сохранённых дампов памяти упавших процессов?",
+    "options": [
+      {
+        "text": "coredumpctl lists",
+        "correct": false
+      },
+      {
+        "text": "journalctl -b -k",
+        "correct": false
+      },
+      {
+        "text": "coredumpctl info",
+        "correct": false
+      },
+      {
+        "text": "coredumpctl list",
+        "correct": true
+      }
+    ],
+    "explanation": "Команда coredumpctl list показывает сохранённые дампы памяти вместе с идентификатором процесса и временем падения. Подкоманда info выводит подробности только об одном, последнем дампе, поэтому для обзора она не подходит. Сообщения ядра через journalctl -b -k говорят о падениях, но списка дампов не содержат."
+  },
+  {
+    "id": "pm_017",
+    "topic": "process_management",
+    "difficulty": "hard",
+    "objective_domain": "7",
+    "subtopic": "job control: disown",
+    "question": "Что произойдёт с фоновым заданием после команды disown %1 в текущей оболочке?",
+    "options": [
+      {
+        "text": "Задание будет переведено на передний план текущего терминала",
+        "correct": false
+      },
+      {
+        "text": "Задание получит сигнал SIGHUP и завершится вместе с оболочкой",
+        "correct": false
+      },
+      {
+        "text": "Задание остановится, но останется в таблице заданий оболочки",
+        "correct": false
+      },
+      {
+        "text": "Задание исчезнет из таблицы заданий, а процесс продолжит работу",
+        "correct": true
+      }
+    ],
+    "explanation": "Команда disown убирает задание из таблицы заданий оболочки, при этом сам процесс продолжает работу независимо от неё. При закрытии терминала такое задание не получает сигнал SIGHUP, поскольку оболочка больше его не отслеживает. Команда bg продолжает остановленное задание в фоне, оставляя его в таблице, а kill %1 завершает процесс."
   }
 ]

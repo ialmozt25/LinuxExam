@@ -1,5 +1,5 @@
 {
-  "total": 154,
+  "total": 160,
   "byTopic": {
     "deploy_systems": 8,
     "essential_tools": 7,
@@ -9,7 +9,7 @@
     "local_storage": 8,
     "manage_software": 8,
     "networking": 10,
-    "process_management": 11,
+    "process_management": 17,
     "running_systems": 10,
     "security": 20,
     "shell_scripts": 10,
