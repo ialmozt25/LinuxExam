@@ -70,7 +70,7 @@
         "correct": false
       },
       {
-        "text": "ls -R /etc | grep -E '\\.conf$'",
+        "text": "ls -R /etc | grep --conf '\\.conf$'",
         "correct": false
       },
       {
