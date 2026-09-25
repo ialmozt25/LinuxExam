@@ -1,0 +1,29 @@
+---
+name: orchestrator_to_writer
+version: 1.0.0
+from_role: orchestrator
+to_role: content_writer
+description: Handoff от Orchestrator к Content Writer для генерации MCQ-вопросов.
+
+input:
+  topic: string
+  subtopic: string
+  batch_size: integer
+  constraints: list
+  goal_invariant:
+    intent: string
+    constraints: list
+    evaluative_criteria: list
+
+output:
+  questions: list
+  evidence: list
+  status: enum
+  goal_invariant_check: boolean
+  notes: string
+
+failure_modes:
+  - batch_size > 20 — отклонить, попросить разбить
+  - topic not in available topics — status FAILED
+  - goal_invariant missing — status FAILED
+  - qc/haladyna/cosine не пройдены — status PARTIAL, evidence с деталями
