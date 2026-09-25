@@ -45,7 +45,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'available', Icon: HardDrive },
   { key: 'file_systems', title: 'Файловые системы',
     description: 'ext4, xfs, NFS, autofs, fstab',
-    status: 'planned', Icon: Database },
+    status: 'available', Icon: Database },
   { key: 'deploy_systems', title: 'Развёртывание систем',
     description: 'at, cron, systemd services, tuning',
     status: 'planned', Icon: Settings },

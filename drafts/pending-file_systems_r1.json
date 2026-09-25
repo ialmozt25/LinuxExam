@@ -1,0 +1,224 @@
+{
+  "batch_id": "file_systems_r1",
+  "meta": {
+    "checks": {}
+  },
+  "questions": [
+    {
+      "id": "fs_001",
+      "topic": "file_systems",
+      "difficulty": "easy",
+      "objective_domain": "5",
+      "subtopic": "mkfs: создание файловой системы",
+      "question": "Новый раздел /dev/sdb1 нужно отформатировать в XFS. Какая команда создаст файловую систему?",
+      "options": [
+        {
+          "text": "mkfs.ext4 /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "mkfs.xfs --new /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "mkfs.xfs /dev/sdb1",
+          "correct": true
+        },
+        {
+          "text": "xfs_growfs /dev/sdb1",
+          "correct": false
+        }
+      ],
+      "explanation": "mkfs.xfs создаёт файловую систему XFS на указанном устройстве. mkfs.ext4 создаёт ext4, то есть другую файловую систему. xfs_growfs ничего не создаёт, а растягивает уже существующую XFS и принимает точку монтирования, а не устройство. Опции --new у mkfs.xfs нет: команда завершается ошибкой разбора аргументов."
+    },
+    {
+      "id": "fs_002",
+      "topic": "file_systems",
+      "difficulty": "medium",
+      "objective_domain": "5",
+      "subtopic": "fstab: поля dump и fsck pass",
+      "question": "В записи /etc/fstab после списка опций стоят два числа. Что задаёт последнее из них?",
+      "options": [
+        {
+          "text": "резерв блоков для root",
+          "correct": false
+        },
+        {
+          "text": "порядок проверки fsck",
+          "correct": true
+        },
+        {
+          "text": "приоритет монтирования",
+          "correct": false
+        },
+        {
+          "text": "уровень журнала ФС",
+          "correct": false
+        }
+      ],
+      "explanation": "Последнее, шестое поле строки fstab задаёт порядок проверки файловой системы утилитой fsck: 0 — не проверять, 1 — корень, 2 — остальные. Пятое поле (fs_freq) использует dump, и почти всегда оно равно нулю. Приоритет монтирования задают опциями, а долю зарезервированных блоков меняет tune2fs -m. Уровень журнала в fstab не указывают."
+    },
+    {
+      "id": "fs_003",
+      "topic": "file_systems",
+      "difficulty": "medium",
+      "objective_domain": "5",
+      "subtopic": "NFS: монтирование через mount -t nfs",
+      "question": "Каталог /export с сервера nfs1 нужно смонтировать в /mnt/data по NFS. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "mount -t nfs /export /mnt/data",
+          "correct": false
+        },
+        {
+          "text": "mount -t cifs nfs1:/export /mnt/data",
+          "correct": false
+        },
+        {
+          "text": "mount -t nfs nfs1:/export /mnt/data",
+          "correct": true
+        },
+        {
+          "text": "mount --nfs nfs1:/export /mnt/data",
+          "correct": false
+        }
+      ],
+      "explanation": "Для NFS тип файловой системы указывают как nfs, а источник записывают в форме сервер:/каталог. Тип cifs относится к SMB-ресурсам и с NFS не работает. Без имени сервера mount не может определить источник экспорта. Отдельной опции --nfs у mount нет: команда завершается ошибкой разбора аргументов."
+    },
+    {
+      "id": "fs_004",
+      "topic": "file_systems",
+      "difficulty": "medium",
+      "objective_domain": "5",
+      "subtopic": "CIFS/SMB: монтирование общего ресурса",
+      "question": "Нужно смонтировать SMB-ресурс //srv/share в /mnt/smb с логином user1. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "mount -t cifs //srv/share /mnt/smb -o username=user1",
+          "correct": true
+        },
+        {
+          "text": "mount -t nfs //srv/share /mnt/smb -o username=user1",
+          "correct": false
+        },
+        {
+          "text": "mount --cifs //srv/share /mnt/smb -o username=user1",
+          "correct": false
+        },
+        {
+          "text": "mount -t smbfs //srv/share /mnt/smb -o username=user1",
+          "correct": false
+        }
+      ],
+      "explanation": "Общий ресурс SMB монтируют типом cifs, а логин передают опцией username. Тип nfs относится к другому протоколу и по SMB-пути не работает. Типа smbfs в RHEL 9 нет, поэтому такая команда завершается ошибкой неизвестного типа файловой системы. Отдельной опции --cifs у mount нет."
+    },
+    {
+      "id": "fs_005",
+      "topic": "file_systems",
+      "difficulty": "medium",
+      "objective_domain": "5",
+      "subtopic": "tune2fs: метка файловой системы",
+      "question": "Нужно сменить метку существующей файловой системы ext4 на томе /dev/sdb1 на data. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "tune2fs -L data /dev/sdb1",
+          "correct": true
+        },
+        {
+          "text": "tune2fs -m 1 /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "tune2fs -o data /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "tune2fs -l /dev/sdb1",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -L задаёт новую метку файловой системы: tune2fs -L data /dev/sdb1. Ключ -l только печатает параметры суперблока и ничего не меняет. Ключ -m управляет долей блоков, зарезервированных для root. Ключ -o задаёт опции монтирования по умолчанию, и значение data для него некорректно."
+    },
+    {
+      "id": "fs_006",
+      "topic": "file_systems",
+      "difficulty": "medium",
+      "objective_domain": "5",
+      "subtopic": "fsck: проверка файловой системы",
+      "question": "Файловая система ext4 на разделе /dev/sdb1 не смонтирована и подозревается в повреждении. Какая команда проверит её?",
+      "options": [
+        {
+          "text": "mount /dev/sdb1 /mnt",
+          "correct": false
+        },
+        {
+          "text": "fsck.ext4 -f /dev/sdb1",
+          "correct": true
+        },
+        {
+          "text": "fsck -Z /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "mkfs.ext4 /dev/sdb1",
+          "correct": false
+        }
+      ],
+      "explanation": "fsck запускает проверку файловой системы, для ext4 это e2fsck, а ключ -f требует проверку даже у чистой ФС. mount только подключает раздел к системе и ничего не проверяет. mkfs.ext4 не проверяет, а заново создаёт файловую систему и уничтожает данные. Опции -Z у fsck нет: команда завершается ошибкой разбора аргументов."
+    },
+    {
+      "id": "fs_007",
+      "topic": "file_systems",
+      "difficulty": "medium",
+      "objective_domain": "5",
+      "subtopic": "mount -o remount,rw: смена режима монтирования",
+      "question": "Каталог /srv/app смонтирован только для чтения. Нужно разрешить запись без размонтирования. Какая команда это сделает?",
+      "options": [
+        {
+          "text": "mount -o remount,rw /srv/app",
+          "correct": true
+        },
+        {
+          "text": "mount -o noatime,rw /srv/app",
+          "correct": false
+        },
+        {
+          "text": "mount -o remount,ro /srv/app",
+          "correct": false
+        },
+        {
+          "text": "mount --remount=rw /srv/app",
+          "correct": false
+        }
+      ],
+      "explanation": "Ключ -o remount меняет опции уже смонтированной файловой системы, поэтому запись включается без размонтирования. Форма remount,ro выполняет обратное действие и запись запрещает. Опция noatime,rw без remount пытается смонтировать каталог заново и завершается ошибкой, потому что он уже смонтирован. Отдельной опции --remount у mount нет."
+    },
+    {
+      "id": "fs_008",
+      "topic": "file_systems",
+      "difficulty": "medium",
+      "objective_domain": "5",
+      "subtopic": "autofs: монтирование по обращению",
+      "question": "Каталог /srv/backup должен монтироваться при первом обращении и отключаться после простоя. Что для этого используют?",
+      "options": [
+        {
+          "text": "fstab с опцией nofail для /srv/backup",
+          "correct": false
+        },
+        {
+          "text": "autofs с картой в /etc/auto.master",
+          "correct": true
+        },
+        {
+          "text": "systemd timer с расписанием OnCalendar",
+          "correct": false
+        },
+        {
+          "text": "systemd mount unit с опцией noauto",
+          "correct": false
+        }
+      ],
+      "explanation": "Автомонтирование по обращению обеспечивает autofs: карта в /etc/auto.master описывает точки и подключает их при первом обращении, а после простоя каталог отключается. Юнит mount с опцией noauto, наоборот, не монтируется автоматически. Таймер выполняет команды по расписанию, но каталог при обращении не подключает. Опция nofail позволяет лишь не останавливать загрузку, если устройство недоступно."
+    }
+  ]
+}
