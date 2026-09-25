@@ -77,3 +77,9 @@
 - **Why:** Воспроизводимость генерации. Writer больше не импровизирует — следует протоколу (draft в $env:TEMP, man-верификация, cosine до интеграции, snapshot-проверка, gates как блокеры). Handoff-тест M1 подтвердил, что пресет работает в правильном workspace.
 - **Alternatives:** Оставить pipeline как практику в голове (отклонено — теряется); вынести в общий skill для всех агентов (отложено — Writer специфичен).
 - **Decided-by:** Капитан + Orchestrator.
+
+## 2026-09-26 · Архитектура M2: QC Auditor
+- **Decision:** QC Auditor — третий агент MAS. 4 skills (`bootstrap`, `adversarial-verification`, `man-verification`, `verdict-rules`). Протокол: ratification by re-execution (перезапускает gates сам, не доверяет evidence Writer'а) + adversarial-refutation-vote (5 проходов). Периодичность: после 3-4 батчей, не ежебатчно.
+- **Why:** Независимая верификация требует другого фрейма и модели. Research показывает: verifier на той же модели с тем же фреймом — фейковый гейт. Diversity фреймов (5 проходов) + diversity моделей (QC ≠ Writer) + детерминированные gates в приоритете над LLM-судьёй.
+- **Alternatives:** MAS v2 с 6 отдельными ролями (дороже, coordination overhead); ежебатчный QC (теряет diversity); LLM-судья без re-execution (независимость падает).
+- **Decided-by:** Капитан + Orchestrator.

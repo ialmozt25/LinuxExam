@@ -42,9 +42,27 @@
 - [x] Проверено: пресет Content Writer загружает 4/4 skills
 
 ### M2: Третий агент — QC Auditor
-- [ ] Создать пресет `linuxexam-qc-auditor`
-- [ ] Agent Contract `writer_to_qc.yaml`
-- [ ] Полный цикл: writer → qc → verdict
+- [ ] M2.1: расширить PLAN.md архитектурой QC (этот шаг)
+- [ ] M2.2: создать пресет `linuxexam-qc-auditor` + 4 skills
+- [ ] M2.3: создать контракт `writer_to_qc.yaml`
+- [ ] M2.4: создать контракт `qc_to_orchestrator.yaml`
+- [ ] M2.5: перезапуск DSH + проверка пресета QC
+- [ ] M2.6: тест цикла Writer → QC → Orchestrator
+- [ ] M2.7: закрыть M2 в `.project/`
+
+**Архитектура QC:**
+- 4 skills: `bootstrap`, `adversarial-verification`, `man-verification`, `verdict-rules`
+- Протокол: ratification by re-execution + adversarial-refutation-vote
+- 5 проходов: fact-check, objective, language, beginner-view, skeptic-view
+- Hard blockers только от fact-check и objective (advisory — остальные)
+- Периодичность: после 3-4 батчей (не ежебатчно)
+- Модель: другая, чем у Writer — для diversity
+
+**Ключевое отличие от Writer:**
+- QC НЕ доверяет evidence Writer'а — перезапускает gates сам
+- QC НЕ правит контент — возвращает issues Writer'у
+- QC НЕ принимает финальное решение — Orchestrator принимает
+- Adversarial stance: default FAIL, докажи обратное
 
 ### M3: Центр разработки — MVP (локальное веб-приложение)
 - [ ] Архитектура: React + Vite + тонкий Node backend + WebSocket
