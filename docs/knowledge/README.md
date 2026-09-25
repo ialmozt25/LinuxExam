@@ -11,6 +11,7 @@
 ## Что здесь
 - `dsh/` — работа с DeepSeek Harness (пресеты, skills, permissions)
 - `mas/` — мультиагентные системы (появится позже)
+- `PROJECT-GOALS.md` — цели проекта на четырёх уровнях (продукт, процесс, инфраструктура, мета)
 
 ## Что сюда НЕ идёт
 - Решения по коду (React/store/CSS) → `docs/ENGINEERING-DECISIONS.md`
