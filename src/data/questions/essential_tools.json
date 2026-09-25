@@ -8,19 +8,19 @@
     "question": "Требуется найти в файле строки, содержащие последовательность . * буквально, без интерпретации символов как шаблон регулярного выражения. Какой ключ grep задаст такой режим поиска?",
     "options": [
       {
-        "text": "grep -F '. *' file",
-        "correct": true
+        "text": "grep -v '. *' file",
+        "correct": false
       },
       {
-        "text": "grep -E '. *' file",
-        "correct": false
+        "text": "grep -F '. *' file",
+        "correct": true
       },
       {
         "text": "grep -w '. *' file",
         "correct": false
       },
       {
-        "text": "grep -v '. *' file",
+        "text": "grep -E '. *' file",
         "correct": false
       }
     ],
@@ -44,20 +44,20 @@
     "question": "Нужно найти в каталоге /var/log обычные файлы, размер которых строго больше 100 МиБ (100 МБ в двоичных единицах). Какое условие find отберёт именно такие файлы?",
     "options": [
       {
-        "text": "find /var/log -type f -size +100M",
-        "correct": true
-      },
-      {
-        "text": "find /var/log -type f -size 100M",
-        "correct": false
-      },
-      {
         "text": "find /var/log -type f -size -100M",
         "correct": false
       },
       {
         "text": "find /var/log -type d -size +100M",
         "correct": false
+      },
+      {
+        "text": "find /var/log -type f -size 100M",
+        "correct": false
+      },
+      {
+        "text": "find /var/log -type f -size +100M",
+        "correct": true
       }
     ],
     "explanation": "Суффикс M в выражении -size задаёт единицу измерения в МиБ, а знак плюс означает строго больше указанного размера, поэтому +100M отбирает файлы крупнее 100 МиБ, то есть более 104857600 байт. Запись без знака 100M отбирает файлы ровно такого размера, причём сравнение идёт с округлением вверх. Знак минус в -100M означает строго меньше указанного размера. Условие -type d отбирает каталоги, а не обычные файлы, для которых предназначен -type f.",
@@ -152,19 +152,19 @@
     "question": "Команда stat показывает права файла в восьмеричном виде в поле %a. Какой спецификатор формата выведет права в символическом виде, например -rw-r--r--?",
     "options": [
       {
-        "text": "stat -c '%A' file",
-        "correct": true
+        "text": "stat -c '%s' file",
+        "correct": false
       },
       {
-        "text": "stat -c '%a' file",
-        "correct": false
+        "text": "stat -c '%A' file",
+        "correct": true
       },
       {
         "text": "stat -c '%n' file",
         "correct": false
       },
       {
-        "text": "stat -c '%s' file",
+        "text": "stat -c '%a' file",
         "correct": false
       }
     ],
@@ -192,15 +192,15 @@
         "correct": true
       },
       {
-        "text": "tar -cjf nginx.tar.gz /etc/nginx",
-        "correct": false
-      },
-      {
         "text": "tar -tf nginx.tar.gz /etc/nginx",
         "correct": false
       },
       {
         "text": "tar -xzf nginx.tar.gz /etc/nginx",
+        "correct": false
+      },
+      {
+        "text": "tar -cjf nginx.tar.gz /etc/nginx",
         "correct": false
       }
     ],
@@ -224,16 +224,16 @@
     "question": "Нужно узнать, сколько строк в файле app.log содержат слово error. Какая команда выведет именно количество таких строк?",
     "options": [
       {
-        "text": "grep -c 'error' app.log",
-        "correct": true
+        "text": "grep -n 'error' app.log",
+        "correct": false
       },
       {
         "text": "grep -v 'error' app.log",
         "correct": false
       },
       {
-        "text": "grep -n 'error' app.log",
-        "correct": false
+        "text": "grep -c 'error' app.log",
+        "correct": true
       },
       {
         "text": "grep -l 'error' app.log",

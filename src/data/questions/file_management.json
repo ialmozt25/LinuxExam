@@ -12,15 +12,15 @@
         "correct": true
       },
       {
+        "text": "mv -r dir1 dir2",
+        "correct": false
+      },
+      {
         "text": "cp dir1 dir2",
         "correct": false
       },
       {
         "text": "copy dir1 dir2",
-        "correct": false
-      },
-      {
-        "text": "mv -r dir1 dir2",
         "correct": false
       }
     ],
@@ -35,20 +35,20 @@
     "question": "Какой командой найти в /etc файлы, изменённые за последние 24 часа?",
     "options": [
       {
-        "text": "find /etc -mtime -1",
-        "correct": true
+        "text": "find /etc -mmin -1",
+        "correct": false
       },
       {
         "text": "find /etc -mtime +1",
         "correct": false
       },
       {
-        "text": "find /etc -mmin -1",
+        "text": "find /etc -newer /etc",
         "correct": false
       },
       {
-        "text": "find /etc -newer /etc",
-        "correct": false
+        "text": "find /etc -mtime -1",
+        "correct": true
       }
     ],
     "explanation": "Тест -mtime -1 выбирает файлы, изменённые менее чем за последние 24 часа. Запись +1 означает обратное — файлы, изменённые более 24 часов назад. Тест -mmin -1 считает время в минутах, поэтому ограничился бы последней минутой. Тест -newer /etc сравнивает время модификации с самим файлом /etc, а не с суточным интервалом."
@@ -62,20 +62,20 @@
     "question": "Какая команда найдёт все файлы .conf в /etc и поддиректориях?",
     "options": [
       {
-        "text": "find /etc -type f -name '*.conf'",
-        "correct": true
+        "text": "ls -R /etc | grep --conf '\\.conf$'",
+        "correct": false
       },
       {
         "text": "find /etc -name '*.conf' -maxdepth 1",
         "correct": false
       },
       {
-        "text": "ls -R /etc | grep --conf '\\.conf$'",
+        "text": "locate -i /etc -name '*.conf'",
         "correct": false
       },
       {
-        "text": "locate -i /etc -name '*.conf'",
-        "correct": false
+        "text": "find /etc -type f -name '*.conf'",
+        "correct": true
       }
     ],
     "explanation": "Ключ -type f ограничивает выборку обычными файлами, а -name задаёт шаблон имени, который нужно брать в кавычки. Ключ -maxdepth 1 наоборот запретит рекурсию, а locate не поддерживает -name."
@@ -89,11 +89,7 @@
     "question": "Какая команда создаст gzip-архив из /var/log?",
     "options": [
       {
-        "text": "tar -czf archive.tar.gz /var/log",
-        "correct": true
-      },
-      {
-        "text": "tar -xzf archive.tar.gz /var/log",
+        "text": "tar -cjf archive.tar.gz /var/log",
         "correct": false
       },
       {
@@ -101,7 +97,11 @@
         "correct": false
       },
       {
-        "text": "tar -cjf archive.tar.gz /var/log",
+        "text": "tar -czf archive.tar.gz /var/log",
+        "correct": true
+      },
+      {
+        "text": "tar -xzf archive.tar.gz /var/log",
         "correct": false
       }
     ],
@@ -116,10 +116,6 @@
     "question": "Как направить вывод и ошибки команды в один файл log.txt с перезаписью?",
     "options": [
       {
-        "text": "command > log.txt 2>&1",
-        "correct": true
-      },
-      {
         "text": "command > log.txt 2>1",
         "correct": false
       },
@@ -130,6 +126,10 @@
       {
         "text": "command 2>&1 > log.txt",
         "correct": false
+      },
+      {
+        "text": "command > log.txt 2>&1",
+        "correct": true
       }
     ],
     "explanation": "Конструкция 2>&1 перенаправляет дескриптор ошибок туда же, куда указывает дескриптор 1. Запись 2>1 создаст файл с именем 1, а не соберёт ошибки. Ключ >> дописывает в конец файла вместо перезаписи. Порядок 2>&1 > log.txt оставит ошибки в терминале."
@@ -170,16 +170,16 @@
     "question": "Какая команда найдёт файлы, изменённые строго больше семи суток назад?",
     "options": [
       {
-        "text": "find . -type f -mtime +7",
-        "correct": true
-      },
-      {
         "text": "find . -type f -mtime -7",
         "correct": false
       },
       {
         "text": "find . -type f -mtime 7",
         "correct": false
+      },
+      {
+        "text": "find . -type f -mtime +7",
+        "correct": true
       },
       {
         "text": "find . -type f -atime +7",
@@ -197,20 +197,20 @@
     "question": "Какая команда обновляет базу данных для locate?",
     "options": [
       {
-        "text": "updatedb",
-        "correct": true
+        "text": "locate -c",
+        "correct": false
       },
       {
         "text": "locate -b",
         "correct": false
       },
       {
-        "text": "locate -c",
+        "text": "mlocate -r",
         "correct": false
       },
       {
-        "text": "mlocate -r",
-        "correct": false
+        "text": "updatedb",
+        "correct": true
       }
     ],
     "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. Ключи -b, -c и -r у locate управляют выборкой (базовое имя, подсчёт совпадений, регулярное выражение), но саму базу данных не перестраивают."
@@ -224,11 +224,7 @@
     "question": "Какая команда корректно обработает имена с пробелами через xargs?",
     "options": [
       {
-        "text": "find . -type f -print0 | xargs -0 rm",
-        "correct": true
-      },
-      {
-        "text": "find . -type f -print | xargs rm",
+        "text": "find . -type f | xargs -n 0 rm",
         "correct": false
       },
       {
@@ -236,7 +232,11 @@
         "correct": false
       },
       {
-        "text": "find . -type f | xargs -n 0 rm",
+        "text": "find . -type f -print0 | xargs -0 rm",
+        "correct": true
+      },
+      {
+        "text": "find . -type f -print | xargs rm",
         "correct": false
       }
     ],
@@ -251,12 +251,12 @@
     "question": "Какая команда покажет тип файла по его содержимому?",
     "options": [
       {
-        "text": "file data.bin",
-        "correct": true
-      },
-      {
         "text": "stat data.bin",
         "correct": false
+      },
+      {
+        "text": "file data.bin",
+        "correct": true
       },
       {
         "text": "ls -l data.bin",
@@ -278,10 +278,6 @@
     "question": "Какая команда создаст архив, сжатый bzip2?",
     "options": [
       {
-        "text": "tar -cjf backup.tar.bz2 /home",
-        "correct": true
-      },
-      {
         "text": "tar -czf backup.tar.bz2 /home",
         "correct": false
       },
@@ -292,6 +288,10 @@
       {
         "text": "tar -cf backup.tar.bz2 --bzip2 /home",
         "correct": false
+      },
+      {
+        "text": "tar -cjf backup.tar.bz2 /home",
+        "correct": true
       }
     ],
     "explanation": "Сжатие bzip2 включает ключ j, ключ z даёт gzip, а J — xz. Ключ --long-option с именем файла без -f не создаст архив нужного вида, поэтому верен только вариант с -cjf."
@@ -313,11 +313,11 @@
         "correct": false
       },
       {
-        "text": "Символическая ссылка увеличивает счётчик ссылок до двух",
+        "text": "Жёсткую ссылку можно создать только на директорию, но не на файл",
         "correct": false
       },
       {
-        "text": "Жёсткую ссылку можно создать только на директорию, но не на файл",
+        "text": "Символическая ссылка увеличивает счётчик ссылок до двух",
         "correct": false
       }
     ],

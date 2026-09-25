@@ -16,11 +16,11 @@
         "correct": false
       },
       {
-        "text": "nmcli connection add eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "text": "nmcli connection modify eth0 ipv4.method auto ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
         "correct": false
       },
       {
-        "text": "nmcli connection modify eth0 ipv4.method auto ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "text": "nmcli connection add eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
         "correct": false
       }
     ],
@@ -35,19 +35,19 @@
     "question": "Какая команда на Rocky 9 изменит статическое имя хоста на db1.example.com и сохранит его после перезагрузки?",
     "options": [
       {
-        "text": "hostnamectl set-hostname db1.example.com",
-        "correct": true
-      },
-      {
-        "text": "hostnamectl --transient db1.example.com",
-        "correct": false
-      },
-      {
         "text": "sysctl hostname set db1.example.com",
         "correct": false
       },
       {
         "text": "hostname db1.example.com --set-static",
+        "correct": false
+      },
+      {
+        "text": "hostnamectl set-hostname db1.example.com",
+        "correct": true
+      },
+      {
+        "text": "hostnamectl --transient db1.example.com",
         "correct": false
       }
     ],
@@ -62,8 +62,8 @@
     "question": "В каком файле на Rocky 9 хранятся адреса DNS-серверов, которые система использует для разрешения имён?",
     "options": [
       {
-        "text": "/etc/resolv.conf",
-        "correct": true
+        "text": "/etc/host.conf",
+        "correct": false
       },
       {
         "text": "/etc/hosts.allow",
@@ -74,8 +74,8 @@
         "correct": false
       },
       {
-        "text": "/etc/host.conf",
-        "correct": false
+        "text": "/etc/resolv.conf",
+        "correct": true
       }
     ],
     "explanation": "Адреса DNS-серверов перечисляются именно в /etc/resolv.conf: строки nameserver <IP> задают серверы имён, к которым резолвер обращается за разрешением. /etc/nsswitch.conf задаёт только порядок источников разрешения (например, «hosts: files dns»), но адресов серверов не содержит. /etc/hosts.allow относится к TCP wrappers и управляет доступом к службам, а не разрешением имён; на типовой Rocky 9 пакет tcp_wrappers не установлен, поэтому файла в системе нет. /etc/host.conf — устаревший файл glibc (в Rocky 9 содержит, например, «multi on») и адреса серверов имён тоже не хранит."
@@ -93,11 +93,11 @@
         "correct": true
       },
       {
-        "text": "ss --tcp state time-wait --numeric",
+        "text": "ss --tcp state listening --numeric",
         "correct": false
       },
       {
-        "text": "ss --tcp state listening --numeric",
+        "text": "ss --tcp state time-wait --numeric",
         "correct": false
       },
       {
@@ -120,15 +120,15 @@
         "correct": true
       },
       {
-        "text": "firewall-cmd --permanent --add-service=8080",
-        "correct": false
-      },
-      {
         "text": "firewall-cmd --add-rich-rule='open port 8080'",
         "correct": false
       },
       {
         "text": "firewall-cmd --set-default-port=8080/tcp",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --permanent --add-service=8080",
         "correct": false
       }
     ],
@@ -143,11 +143,11 @@
     "question": "Требуется, чтобы имя db1 разрешалось в 192.168.1.10 без обращения к DNS-серверу. Какая команда это обеспечит?",
     "options": [
       {
-        "text": "echo '192.168.1.10 db1' >> /etc/hosts",
-        "correct": true
+        "text": "echo '192.168.1.10 db1' >> /etc/resolv.conf",
+        "correct": false
       },
       {
-        "text": "echo '192.168.1.10 db1' >> /etc/resolv.conf",
+        "text": "echo 'nameserver db1' >> /etc/resolv.conf",
         "correct": false
       },
       {
@@ -155,8 +155,8 @@
         "correct": false
       },
       {
-        "text": "echo 'nameserver db1' >> /etc/resolv.conf",
-        "correct": false
+        "text": "echo '192.168.1.10 db1' >> /etc/hosts",
+        "correct": true
       }
     ],
     "explanation": "В /etc/resolv.conf хранятся адреса DNS-серверов, а не пары «адрес — имя», поэтому добавленная туда строка не будет разобрана и файл может быть перезаписан NetworkManager. В /etc/hosts формат строго «IP-адрес, затем имена», поэтому перестановка местами делает строку недопустимой. Директива nameserver ожидает IP-адрес сервера, а не имя db1, к тому же запись в /etc/resolv.conf не создаёт статическую привязку имени."
@@ -170,19 +170,19 @@
     "question": "Маска подсети записана как 255.255.255.0. Какому префиксу длины сети она соответствует?",
     "options": [
       {
-        "text": "/24",
-        "correct": true
-      },
-      {
-        "text": "/16",
-        "correct": false
-      },
-      {
         "text": "/25",
         "correct": false
       },
       {
         "text": "/33",
+        "correct": false
+      },
+      {
+        "text": "/24",
+        "correct": true
+      },
+      {
+        "text": "/16",
         "correct": false
       }
     ],
@@ -197,19 +197,19 @@
     "question": "Какая команда покажет таблицу маршрутизации, включая маршрут по умолчанию?",
     "options": [
       {
-        "text": "ip route show",
-        "correct": true
-      },
-      {
-        "text": "ip addr show",
-        "correct": false
-      },
-      {
         "text": "ip link show",
         "correct": false
       },
       {
         "text": "ip rule list",
+        "correct": false
+      },
+      {
+        "text": "ip route show",
+        "correct": true
+      },
+      {
+        "text": "ip addr show",
         "correct": false
       }
     ],
@@ -224,20 +224,20 @@
     "question": "Какая команда выведет список доступных Wi-Fi сетей (точек доступа) через NetworkManager?",
     "options": [
       {
-        "text": "nmcli device wifi list",
-        "correct": true
+        "text": "nmcli connection show",
+        "correct": false
       },
       {
         "text": "nmcli device status",
         "correct": false
       },
       {
-        "text": "nmcli connection show",
+        "text": "nmcli general status",
         "correct": false
       },
       {
-        "text": "nmcli general status",
-        "correct": false
+        "text": "nmcli device wifi list",
+        "correct": true
       }
     ],
     "explanation": "Подкоманда device wifi list выполняет сканирование эфира Wi-Fi-адаптером и печатает доступные точки доступа (SSID, BSSID, канал, уровень сигнала). Команда device status показывает список устройств (тип, состояние, профиль подключения), но найденные сети не перечисляет. Команда connection show перечисляет профили подключений, то есть уже сохранённые конфигурации, а не найденные сети. Команда general status показывает общее состояние NetworkManager и уровень связности и точек доступа не перечисляет."
@@ -255,15 +255,15 @@
         "correct": true
       },
       {
-        "text": "firewall-cmd --zone=internal --add-interface=ens18",
-        "correct": false
-      },
-      {
         "text": "firewall-cmd --permanent --new-zone=internal --interface=ens18",
         "correct": false
       },
       {
         "text": "firewall-cmd --set-interface=ens18 --zone=internal",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --zone=internal --add-interface=ens18",
         "correct": false
       }
     ],

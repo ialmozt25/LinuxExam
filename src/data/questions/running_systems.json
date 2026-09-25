@@ -8,6 +8,10 @@
     "question": "Нужно, чтобы система после загрузки по умолчанию запускала текстовый режим (без графики) вместо графического. Какая команда задаст это постоянной целью загрузки?",
     "options": [
       {
+        "text": "systemctl get-default multi-user.target",
+        "correct": false
+      },
+      {
         "text": "systemctl set-default multi-user.target",
         "correct": true
       },
@@ -17,10 +21,6 @@
       },
       {
         "text": "systemctl enable multi-user.target",
-        "correct": false
-      },
-      {
-        "text": "systemctl get-default multi-user.target",
         "correct": false
       }
     ],
@@ -35,19 +35,19 @@
     "question": "В файле службы systemd нужно указать команду, которая запускает саму программу. Какая директива раздела службы это делает?",
     "options": [
       {
-        "text": "ExecStart=",
-        "correct": true
-      },
-      {
-        "text": "ExecStop=",
-        "correct": false
-      },
-      {
         "text": "Restart=",
         "correct": false
       },
       {
+        "text": "ExecStart=",
+        "correct": true
+      },
+      {
         "text": "WantedBy=",
+        "correct": false
+      },
+      {
+        "text": "ExecStop=",
         "correct": false
       }
     ],
@@ -62,20 +62,20 @@
     "question": "Скрипту нужно командой проверить именно автозапуск службы sshd (по коду возврата). Какая команда подходит?",
     "options": [
       {
-        "text": "systemctl is-enabled sshd",
-        "correct": true
+        "text": "systemctl status sshd",
+        "correct": false
       },
       {
         "text": "systemctl is-active sshd",
         "correct": false
       },
       {
-        "text": "systemctl status sshd",
+        "text": "systemctl list-units --all",
         "correct": false
       },
       {
-        "text": "systemctl list-units --all",
-        "correct": false
+        "text": "systemctl is-enabled sshd",
+        "correct": true
       }
     ],
     "explanation": "is-enabled сообщает состояние автозапуска (enabled, disabled, static, masked и другие) и возвращает ненулевой код для disabled и masked, поэтому подходит для проверки в скрипте. is-active показывает текущее состояние запуска. status печатает подробный отчёт для человека, а его код возврата отражает активность юнита, а не автозапуск. list-units --all выводит таблицу юнитов со столбцами LOAD, ACTIVE и SUB, но состояния автозапуска в ней нет."
@@ -89,12 +89,12 @@
     "question": "Служба httpd не запускается, и нужно увидеть сообщения журнала, относящиеся именно к этой службе. Какая команда это сделает?",
     "options": [
       {
-        "text": "journalctl -u httpd",
-        "correct": true
-      },
-      {
         "text": "journalctl -p err",
         "correct": false
+      },
+      {
+        "text": "journalctl -u httpd",
+        "correct": true
       },
       {
         "text": "journalctl -b 0",
@@ -116,12 +116,12 @@
     "question": "Нужно посмотреть сообщения журнала за предыдущую загрузку системы. Какая команда это сделает?",
     "options": [
       {
-        "text": "journalctl --boot -1",
-        "correct": true
-      },
-      {
         "text": "journalctl --boot",
         "correct": false
+      },
+      {
+        "text": "journalctl --boot -1",
+        "correct": true
       },
       {
         "text": "journalctl --boot 1",
@@ -143,19 +143,19 @@
     "question": "Нужно запретить случайный запуск службы telnet.socket, не удаляя её unit-файл. Какая команда это сделает?",
     "options": [
       {
-        "text": "systemctl mask telnet.socket",
-        "correct": true
-      },
-      {
-        "text": "systemctl disable telnet.socket",
-        "correct": false
-      },
-      {
         "text": "systemctl stop telnet.socket",
         "correct": false
       },
       {
+        "text": "systemctl mask telnet.socket",
+        "correct": true
+      },
+      {
         "text": "systemctl unmask telnet.socket",
+        "correct": false
+      },
+      {
+        "text": "systemctl disable telnet.socket",
         "correct": false
       }
     ],
@@ -174,15 +174,15 @@
         "correct": true
       },
       {
+        "text": "systemctl reset-failed",
+        "correct": false
+      },
+      {
         "text": "systemctl reload sshd",
         "correct": false
       },
       {
         "text": "systemctl restart sshd",
-        "correct": false
-      },
-      {
-        "text": "systemctl reset-failed",
         "correct": false
       }
     ],
@@ -197,19 +197,19 @@
     "question": "Система загрузилась, но нужно перейти в режим однопользовательского обслуживания (rescue) без перезагрузки. Какая команда это сделает?",
     "options": [
       {
-        "text": "systemctl isolate rescue.target",
-        "correct": true
-      },
-      {
         "text": "systemctl set-default rescue.target",
         "correct": false
       },
       {
-        "text": "systemctl start rescue.target",
-        "correct": false
+        "text": "systemctl isolate rescue.target",
+        "correct": true
       },
       {
         "text": "systemctl enable rescue.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl start rescue.target",
         "correct": false
       }
     ],
@@ -224,19 +224,19 @@
     "question": "Команда long-task запущена в фоне как long-task &. Какая переменная содержит PID этого фонового процесса?",
     "options": [
       {
-        "text": "$!",
-        "correct": true
+        "text": "$#",
+        "correct": false
       },
       {
         "text": "$$",
         "correct": false
       },
       {
-        "text": "$0",
-        "correct": false
+        "text": "$!",
+        "correct": true
       },
       {
-        "text": "$#",
+        "text": "$0",
         "correct": false
       }
     ],
@@ -251,11 +251,7 @@
     "question": "Нужно проверить, включена ли служба httpd в автозапуск, не меняя её состояние. Какая команда это сделает?",
     "options": [
       {
-        "text": "systemctl is-enabled httpd",
-        "correct": true
-      },
-      {
-        "text": "systemctl is-active httpd",
+        "text": "systemctl enable httpd",
         "correct": false
       },
       {
@@ -263,7 +259,11 @@
         "correct": false
       },
       {
-        "text": "systemctl enable httpd",
+        "text": "systemctl is-enabled httpd",
+        "correct": true
+      },
+      {
+        "text": "systemctl is-active httpd",
         "correct": false
       }
     ],

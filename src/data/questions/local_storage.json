@@ -12,11 +12,11 @@
         "correct": true
       },
       {
-        "text": "vgcreate /dev/sdb1",
+        "text": "blkid /dev/sdb1",
         "correct": false
       },
       {
-        "text": "blkid /dev/sdb1",
+        "text": "vgcreate /dev/sdb1",
         "correct": false
       },
       {
@@ -35,19 +35,19 @@
     "question": "Логический том /dev/data/lv_app с файловой системой XFS нужно увеличить на 5 ГБ вместе с файловой системой; свободное место в группе томов есть. Какая пара команд это сделает?",
     "options": [
       {
-        "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs /app",
-        "correct": true
+        "text": "lvextend -L 5G /dev/data/lv_app; xfs_growfs /app",
+        "correct": false
       },
       {
-        "text": "lvextend -L +5G /dev/data/lv_app; resize2fs /app",
-        "correct": false
+        "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs /app",
+        "correct": true
       },
       {
         "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs -n /app",
         "correct": false
       },
       {
-        "text": "lvextend -L 5G /dev/data/lv_app; xfs_growfs /app",
+        "text": "lvextend -L +5G /dev/data/lv_app; resize2fs /app",
         "correct": false
       }
     ],
@@ -62,19 +62,19 @@
     "question": "Раздел /dev/sdb2 отведён под подкачку и ещё не размечен как swap. Какая команда подготовит его как область подкачки?",
     "options": [
       {
-        "text": "mkswap /dev/sdb2",
-        "correct": true
-      },
-      {
         "text": "swapon /dev/sdb2",
         "correct": false
       },
       {
-        "text": "cat /proc/swaps",
-        "correct": false
+        "text": "mkswap /dev/sdb2",
+        "correct": true
       },
       {
         "text": "swapoff /dev/sdb2",
+        "correct": false
+      },
+      {
+        "text": "cat /proc/swaps",
         "correct": false
       }
     ],
@@ -93,15 +93,15 @@
         "correct": true
       },
       {
-        "text": "blkid -U /dev/sdb1",
-        "correct": false
-      },
-      {
         "text": "lsblk /dev/sdb1",
         "correct": false
       },
       {
         "text": "mount /dev/sdb1 /mnt",
+        "correct": false
+      },
+      {
+        "text": "blkid -U /dev/sdb1",
         "correct": false
       }
     ],
@@ -116,20 +116,20 @@
     "question": "Раздел /data смонтирован, и нужно проверить, из какого источника он взят и какие опции действуют сейчас. Какая команда покажет статус монтирования точки /data?",
     "options": [
       {
-        "text": "findmnt -T /data",
-        "correct": true
-      },
-      {
-        "text": "findmnt -Q /data",
-        "correct": false
-      },
-      {
         "text": "stat -f /data",
         "correct": false
       },
       {
         "text": "umount -l /data",
         "correct": false
+      },
+      {
+        "text": "findmnt -Q /data",
+        "correct": false
+      },
+      {
+        "text": "findmnt -T /data",
+        "correct": true
       }
     ],
     "explanation": "findmnt с опцией -T смотрит на точку монтирования и печатает источник, тип файловой системы и действующие опции. Опции -Q у findmnt нет, такая команда завершается ошибкой разбора аргументов. stat -f показывает статистику файловой системы, то есть тип, размер блока и свободные индексы, но не источник и не список опций. umount -l откладывает размонтирование, то есть выполняет обратное действие."
@@ -147,11 +147,11 @@
         "correct": true
       },
       {
-        "text": "fdisk --label gpt /dev/sdb",
+        "text": "sfdisk --dump /dev/sdb",
         "correct": false
       },
       {
-        "text": "sfdisk --dump /dev/sdb",
+        "text": "fdisk --label gpt /dev/sdb",
         "correct": false
       },
       {
@@ -170,19 +170,19 @@
     "question": "Раздел /dev/sdc1 не монтируется. Какой командой посмотреть, что за файловая система на нём и есть ли метка?",
     "options": [
       {
-        "text": "lsblk -f /dev/sdc1",
-        "correct": true
+        "text": "grep -i sdc1 /etc/fstab",
+        "correct": false
       },
       {
-        "text": "lsblk -fstype /dev/sdc1",
-        "correct": false
+        "text": "lsblk -f /dev/sdc1",
+        "correct": true
       },
       {
         "text": "blkid -s LABEL /dev/sdc1",
         "correct": false
       },
       {
-        "text": "grep -i sdc1 /etc/fstab",
+        "text": "lsblk -fstype /dev/sdc1",
         "correct": false
       }
     ],
@@ -197,20 +197,20 @@
     "question": "Новая строка с опцией nofail добавлена в /etc/fstab. Какую команду нужно выполнить, чтобы применить /etc/fstab без перезагрузки?",
     "options": [
       {
-        "text": "mount -a",
-        "correct": true
+        "text": "mount -fa",
+        "correct": false
       },
       {
         "text": "mount -A",
         "correct": false
       },
       {
-        "text": "mount -fa",
+        "text": "umount -a",
         "correct": false
       },
       {
-        "text": "umount -a",
-        "correct": false
+        "text": "mount -a",
+        "correct": true
       }
     ],
     "explanation": "mount -a читает /etc/fstab и монтирует записи, которые ещё не смонтированы, поэтому новая строка с nofail применяется без перезагрузки. У mount нет опции -A: ключи регистрозависимы, и заглавная буква приводит к ошибке разбора аргументов. Пара ключей -fa выполняет действия, кроме самого системного вызова монтирования, то есть реально ничего не монтирует. umount -a размонтирует смонтированное, то есть выполняет обратное действие."

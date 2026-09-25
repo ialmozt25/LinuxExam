@@ -8,11 +8,11 @@
     "question": "В файле config.txt нужно заменить первое в каждой строке вхождение строки old на new и записать результат в новый файл result.txt, не изменяя исходный файл. Какая команда это сделает?",
     "options": [
       {
-        "text": "sed 's/old/new/' config.txt > result.txt",
-        "correct": true
+        "text": "sed 's/old/new/g' config.txt > result.txt",
+        "correct": false
       },
       {
-        "text": "sed 's/old/new/g' config.txt > result.txt",
+        "text": "sed -i 's/old/new/' config.txt > result.txt",
         "correct": false
       },
       {
@@ -20,8 +20,8 @@
         "correct": false
       },
       {
-        "text": "sed -i 's/old/new/' config.txt > result.txt",
-        "correct": false
+        "text": "sed 's/old/new/' config.txt > result.txt",
+        "correct": true
       }
     ],
     "explanation": "Команда s/old/new/ без флага g заменяет только первое вхождение в каждой строке, а перенаправление > записывает результат в result.txt, оставляя config.txt нетронутым. Флаг g заменил бы каждое вхождение в строке. Ключ -n отключает автоматическую печать, поэтому в result.txt не попадёт ничего. Ключ -i правит файл на месте, и для перенаправления вывода уже ничего не остаётся."
@@ -35,19 +35,19 @@
     "question": "Нужно заменить каждое вхождение строки old на new прямо в файле config.txt, оставив результат в том же файле. Какая команда это сделает?",
     "options": [
       {
-        "text": "sed -i 's/old/new/g' config.txt",
-        "correct": true
-      },
-      {
         "text": "sed 's/old/new/g' config.txt",
         "correct": false
       },
       {
-        "text": "sed -i -n 's/old/new/g' config.txt",
-        "correct": false
+        "text": "sed -i 's/old/new/g' config.txt",
+        "correct": true
       },
       {
         "text": "sed -e 's/old/new/g' config.txt",
+        "correct": false
+      },
+      {
+        "text": "sed -i -n 's/old/new/g' config.txt",
         "correct": false
       }
     ],
@@ -89,19 +89,19 @@
     "question": "Файл /etc/passwd разделён двоеточиями. Нужно вывести строки, у которых поле оболочки пользователя равно /bin/bash. Какая команда это сделает?",
     "options": [
       {
-        "text": "awk -F: '$7==\"/bin/bash\"' /etc/passwd",
-        "correct": true
-      },
-      {
-        "text": "awk -F: '$7=\"/bin/bash\"' /etc/passwd",
-        "correct": false
-      },
-      {
         "text": "awk -F: '$1==\"/bin/bash\"' /etc/passwd",
         "correct": false
       },
       {
         "text": "awk -F: '$6==\"/bin/bash\"' /etc/passwd",
+        "correct": false
+      },
+      {
+        "text": "awk -F: '$7==\"/bin/bash\"' /etc/passwd",
+        "correct": true
+      },
+      {
+        "text": "awk -F: '$7=\"/bin/bash\"' /etc/passwd",
         "correct": false
       }
     ],
@@ -116,19 +116,19 @@
     "question": "Нужно вывести первое и третье поля каждой строки файла data.txt, разделённые двоеточиями. Какая команда это сделает?",
     "options": [
       {
-        "text": "cut -d: -f1,3 data.txt",
-        "correct": true
-      },
-      {
-        "text": "cut -d: -f1-3 data.txt",
-        "correct": false
-      },
-      {
         "text": "cut -d: -f1 data.txt",
         "correct": false
       },
       {
         "text": "cut -c1,3 data.txt",
+        "correct": false
+      },
+      {
+        "text": "cut -d: -f1,3 data.txt",
+        "correct": true
+      },
+      {
+        "text": "cut -d: -f1-3 data.txt",
         "correct": false
       }
     ],
@@ -143,11 +143,7 @@
     "question": "Нужно вырезать ровно символы с 3-го по 7-й в каждой строке файла data.txt, отбросив символы за пределами диапазона. Какая команда это сделает?",
     "options": [
       {
-        "text": "cut -c3-7 data.txt",
-        "correct": true
-      },
-      {
-        "text": "cut -c3,7 data.txt",
+        "text": "cut -c3- data.txt",
         "correct": false
       },
       {
@@ -155,7 +151,11 @@
         "correct": false
       },
       {
-        "text": "cut -c3- data.txt",
+        "text": "cut -c3-7 data.txt",
+        "correct": true
+      },
+      {
+        "text": "cut -c3,7 data.txt",
         "correct": false
       }
     ],
@@ -178,11 +178,11 @@
         "correct": false
       },
       {
-        "text": "sort list.txt",
+        "text": "uniq -u list.txt",
         "correct": false
       },
       {
-        "text": "uniq -u list.txt",
+        "text": "sort list.txt",
         "correct": false
       }
     ],
@@ -201,15 +201,15 @@
         "correct": true
       },
       {
+        "text": "uniq -i list.txt",
+        "correct": false
+      },
+      {
         "text": "uniq -d list.txt",
         "correct": false
       },
       {
         "text": "uniq -u list.txt",
-        "correct": false
-      },
-      {
-        "text": "uniq -i list.txt",
         "correct": false
       }
     ],
@@ -224,10 +224,6 @@
     "question": "Нужно перевести строчные латинские буквы файла в заглавные. Какая команда это сделает?",
     "options": [
       {
-        "text": "tr 'a-z' 'A-Z' < file.txt",
-        "correct": true
-      },
-      {
         "text": "tr 'A-Z' 'a-z' < file.txt",
         "correct": false
       },
@@ -238,6 +234,10 @@
       {
         "text": "tr -s 'a-z' < file.txt",
         "correct": false
+      },
+      {
+        "text": "tr 'a-z' 'A-Z' < file.txt",
+        "correct": true
       }
     ],
     "explanation": "Первое множество задаёт символы, которые нужно заменить, второе — на что заменять, поэтому пары a-z и A-Z переводят строчные буквы в заглавные. Перестановка множеств делает обратное. Ключ -d удаляет символы первого множества вместо замены. Ключ -s сжимает повторы символов и замену регистра не выполняет."
@@ -259,11 +259,11 @@
         "correct": false
       },
       {
-        "text": "tail -n +20 log.txt",
+        "text": "head -n -20 log.txt",
         "correct": false
       },
       {
-        "text": "head -n -20 log.txt",
+        "text": "tail -n +20 log.txt",
         "correct": false
       }
     ],

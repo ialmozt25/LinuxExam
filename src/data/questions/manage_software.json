@@ -8,19 +8,19 @@
     "question": "Пакет tree в системе отсутствует, и его нужно установить из настроенного репозитория вместе с зависимостями. Какая команда это сделает?",
     "options": [
       {
-        "text": "dnf install tree",
-        "correct": true
+        "text": "dnf remove tree",
+        "correct": false
       },
       {
         "text": "rpm -ivh tree",
         "correct": false
       },
       {
-        "text": "dnf download tree",
-        "correct": false
+        "text": "dnf install tree",
+        "correct": true
       },
       {
-        "text": "dnf remove tree",
+        "text": "dnf download tree",
         "correct": false
       }
     ],
@@ -35,12 +35,12 @@
     "question": "Скрипт должен привести пакеты системы к последним версиям из подключённых репозиториев без интерактивного подтверждения. Какая команда это сделает?",
     "options": [
       {
-        "text": "dnf upgrade -y",
-        "correct": true
-      },
-      {
         "text": "dnf upgrade --yes",
         "correct": false
+      },
+      {
+        "text": "dnf upgrade -y",
+        "correct": true
       },
       {
         "text": "dnf check-update",
@@ -62,19 +62,19 @@
     "question": "Пакет zsh ещё не установлен. Нужно прочитать его описание и посмотреть доступные версии из репозитория. Какая команда это выведет?",
     "options": [
       {
-        "text": "dnf info zsh",
-        "correct": true
+        "text": "dnf list --installed",
+        "correct": false
       },
       {
         "text": "rpm -qi zsh",
         "correct": false
       },
       {
-        "text": "dnf search zsh",
-        "correct": false
+        "text": "dnf info zsh",
+        "correct": true
       },
       {
-        "text": "dnf list --installed",
+        "text": "dnf search zsh",
         "correct": false
       }
     ],
@@ -93,15 +93,15 @@
         "correct": true
       },
       {
-        "text": "dnf module enable postgresql-16",
-        "correct": false
-      },
-      {
         "text": "dnf module install postgresql:16",
         "correct": false
       },
       {
         "text": "dnf module disable postgresql",
+        "correct": false
+      },
+      {
+        "text": "dnf module enable postgresql-16",
         "correct": false
       }
     ],
@@ -116,11 +116,7 @@
     "question": "Нужно определить, какой установленный пакет владеет файлом /usr/bin/ldd, не зная заранее имя пакета. Какая команда это сделает?",
     "options": [
       {
-        "text": "rpm -qf /usr/bin/ldd",
-        "correct": true
-      },
-      {
-        "text": "rpm -ql /usr/bin/ldd",
+        "text": "rpm -qi glibc-common.x86_64",
         "correct": false
       },
       {
@@ -128,8 +124,12 @@
         "correct": false
       },
       {
-        "text": "rpm -qi glibc-common.x86_64",
+        "text": "rpm -ql /usr/bin/ldd",
         "correct": false
+      },
+      {
+        "text": "rpm -qf /usr/bin/ldd",
+        "correct": true
       }
     ],
     "explanation": "Ключ -f вместе с -q ищет пакет по файлу на диске и печатает имя владельца. Ключ -l перечисляет файлы указанного пакета, но путь к файлу пакетом не является, поэтому команда завершается ошибкой. dnf list installed перечисляет установленные пакеты и о владельце файла ничего не сообщает. rpm -qi выводит сведения о заранее названном пакете, то есть подставляет ответ вместо его поиска."
@@ -143,16 +143,16 @@
     "question": "Репозиторий epel описан в /etc/yum.repos.d/epel.repo, но в его секции стоит enabled=0. Нужно включить репозиторий так, чтобы он остался включённым и при следующих запусках dnf. Какая команда это сделает?",
     "options": [
       {
-        "text": "dnf config-manager --set-enabled epel",
-        "correct": true
-      },
-      {
         "text": "dnf config-manager --set-enabeled epel",
         "correct": false
       },
       {
         "text": "dnf --enablerepo=epel repolist",
         "correct": false
+      },
+      {
+        "text": "dnf config-manager --set-enabled epel",
+        "correct": true
       },
       {
         "text": "dnf config-manager --set-disabled epel",
@@ -170,11 +170,11 @@
     "question": "Пакеты репозитория local подписаны, но открытый ключ сервера подписи не импортирован в систему, поэтому установка падает на проверке GPG. Нужно отключить проверку подписи пакетов только для этого репозитория через его секцию в /etc/yum.repos.d/local.repo. Какая строка это сделает?",
     "options": [
       {
-        "text": "gpgcheck=0",
-        "correct": true
+        "text": "nogpgcheck=1",
+        "correct": false
       },
       {
-        "text": "nogpgcheck=1",
+        "text": "gpgcheck=1",
         "correct": false
       },
       {
@@ -182,8 +182,8 @@
         "correct": false
       },
       {
-        "text": "gpgcheck=1",
-        "correct": false
+        "text": "gpgcheck=0",
+        "correct": true
       }
     ],
     "explanation": "Параметр gpgcheck задаётся в секции репозитория, и значение 0 отключает проверку подписи пакетов именно этого репозитория. Опции nogpgcheck в схеме опций репозитория нет, этот ключ существует только у командной строки dnf, поэтому dnf принимает такой файл без ошибки и оставляет проверку подписи включённой. repo_gpgcheck отвечает за подпись метаданных, а не пакетов, и установку не разблокирует. Значение 1, наоборот, включает ту самую проверку, на которой установка падает."
@@ -201,15 +201,15 @@
         "correct": true
       },
       {
-        "text": "dnf history --undo last",
-        "correct": false
-      },
-      {
         "text": "dnf history info last",
         "correct": false
       },
       {
         "text": "dnf history redo last",
+        "correct": false
+      },
+      {
+        "text": "dnf history --undo last",
         "correct": false
       }
     ],

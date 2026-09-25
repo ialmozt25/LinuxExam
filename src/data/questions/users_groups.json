@@ -8,16 +8,16 @@
     "question": "Требуется создать пользователя alice с конкретным числовым идентификатором 4200. Какой ключ useradd задаёт этот идентификатор?",
     "options": [
       {
-        "text": "useradd -u 4200 alice",
-        "correct": true
-      },
-      {
         "text": "useradd -g 4200 alice",
         "correct": false
       },
       {
         "text": "useradd -G 4200 alice",
         "correct": false
+      },
+      {
+        "text": "useradd -u 4200 alice",
+        "correct": true
       },
       {
         "text": "useradd -i 4200 alice",
@@ -44,11 +44,7 @@
     "question": "Какой ключ useradd явно создаёт домашний каталог независимо от настроек системы?",
     "options": [
       {
-        "text": "useradd -m alice",
-        "correct": true
-      },
-      {
-        "text": "useradd -n alice",
+        "text": "useradd -d alice",
         "correct": false
       },
       {
@@ -56,7 +52,11 @@
         "correct": false
       },
       {
-        "text": "useradd -d alice",
+        "text": "useradd -m alice",
+        "correct": true
+      },
+      {
+        "text": "useradd -n alice",
         "correct": false
       }
     ],
@@ -80,19 +80,19 @@
     "question": "Какой ключ useradd указывает путь к домашнему каталогу нового пользователя?",
     "options": [
       {
-        "text": "useradd -d /srv/home/alice alice",
-        "correct": true
+        "text": "useradd -c /srv/home/alice alice",
+        "correct": false
       },
       {
         "text": "useradd -h /srv/home/alice alice",
         "correct": false
       },
       {
-        "text": "useradd -p /srv/home/alice alice",
-        "correct": false
+        "text": "useradd -d /srv/home/alice alice",
+        "correct": true
       },
       {
-        "text": "useradd -c /srv/home/alice alice",
+        "text": "useradd -p /srv/home/alice alice",
         "correct": false
       }
     ],
@@ -116,19 +116,19 @@
     "question": "Какой ключ useradd задаёт командную оболочку нового пользователя?",
     "options": [
       {
-        "text": "useradd -s /bin/bash alice",
-        "correct": true
+        "text": "useradd -e /bin/bash alice",
+        "correct": false
       },
       {
         "text": "useradd -S /bin/bash alice",
         "correct": false
       },
       {
-        "text": "useradd -f /bin/bash alice",
-        "correct": false
+        "text": "useradd -s /bin/bash alice",
+        "correct": true
       },
       {
-        "text": "useradd -e /bin/bash alice",
+        "text": "useradd -f /bin/bash alice",
         "correct": false
       }
     ],
@@ -152,11 +152,11 @@
     "question": "Как при создании пользователя alice сразу добавить его в дополнительную группу developers, не меняя основную группу?",
     "options": [
       {
-        "text": "useradd -m -G developers alice",
-        "correct": true
+        "text": "useradd -m -g developers alice",
+        "correct": false
       },
       {
-        "text": "useradd -m -g developers alice",
+        "text": "useradd -m -N developers alice",
         "correct": false
       },
       {
@@ -164,8 +164,8 @@
         "correct": false
       },
       {
-        "text": "useradd -m -N developers alice",
-        "correct": false
+        "text": "useradd -m -G developers alice",
+        "correct": true
       }
     ],
     "explanation": "Ключ -G задаёт список дополнительных групп, поэтому -G developers добавляет пользователя в developers, оставляя основной группу, созданную по умолчанию. Ключ -g задаёт основную группу, то есть developers стала бы основной вместо дополнительной. Ключ -a у команды useradd отсутствует и применяется только в usermod в паре с -G, поэтому такой вызов завершится ошибкой. Ключ -N отключает создание одноимённой группы пользователя и никак не связан с добавлением в дополнительную группу.",
@@ -188,16 +188,16 @@
     "question": "Пользователь alice уже входит в группу developers. Требуется добавить его ещё и в группу auditors, сохранив членство в developers. Какая команда это сделает?",
     "options": [
       {
-        "text": "usermod -aG auditors alice",
-        "correct": true
+        "text": "usermod -g auditors alice",
+        "correct": false
       },
       {
         "text": "usermod -G auditors alice",
         "correct": false
       },
       {
-        "text": "usermod -g auditors alice",
-        "correct": false
+        "text": "usermod -aG auditors alice",
+        "correct": true
       },
       {
         "text": "usermod -a auditors alice",
@@ -224,16 +224,16 @@
     "question": "Какая команда удалит пользователя alice вместе с его домашним каталогом?",
     "options": [
       {
-        "text": "userdel -r alice",
-        "correct": true
+        "text": "userdel alice",
+        "correct": false
       },
       {
         "text": "userdel -f alice",
         "correct": false
       },
       {
-        "text": "userdel alice",
-        "correct": false
+        "text": "userdel -r alice",
+        "correct": true
       },
       {
         "text": "userdel -R alice",
@@ -273,11 +273,11 @@
         "correct": true
       },
       {
-        "text": "groupadd -r 5000 developers",
+        "text": "groupadd -u 5000 developers",
         "correct": false
       },
       {
-        "text": "groupadd -u 5000 developers",
+        "text": "groupadd -r 5000 developers",
         "correct": false
       },
       {
@@ -305,19 +305,19 @@
     "question": "Какая команда задаст пользователю alice максимальный срок действия пароля в 90 дней?",
     "options": [
       {
-        "text": "chage -M 90 alice",
-        "correct": true
-      },
-      {
-        "text": "chage -E 90 alice",
-        "correct": false
-      },
-      {
         "text": "chage -d 90 alice",
         "correct": false
       },
       {
+        "text": "chage -M 90 alice",
+        "correct": true
+      },
+      {
         "text": "chage -m 90 alice",
+        "correct": false
+      },
+      {
+        "text": "chage -E 90 alice",
         "correct": false
       }
     ],
@@ -341,11 +341,7 @@
     "question": "Какая команда установит дату, после которой учётная запись alice станет недействительной?",
     "options": [
       {
-        "text": "chage -E 2099-12-31 alice",
-        "correct": true
-      },
-      {
-        "text": "chage -M 2099-12-31 alice",
+        "text": "chage -W 2099-12-31 alice",
         "correct": false
       },
       {
@@ -353,7 +349,11 @@
         "correct": false
       },
       {
-        "text": "chage -W 2099-12-31 alice",
+        "text": "chage -E 2099-12-31 alice",
+        "correct": true
+      },
+      {
+        "text": "chage -M 2099-12-31 alice",
         "correct": false
       }
     ],
@@ -377,19 +377,19 @@
     "question": "Пользователь alice входит в основную группу и в дополнительные группы. Какая команда выведет имена всех групп, в которые он входит?",
     "options": [
       {
-        "text": "id -nG alice",
-        "correct": true
+        "text": "id -g alice",
+        "correct": false
       },
       {
-        "text": "id -G alice",
-        "correct": false
+        "text": "id -nG alice",
+        "correct": true
       },
       {
         "text": "id -gn alice",
         "correct": false
       },
       {
-        "text": "id -g alice",
+        "text": "id -G alice",
         "correct": false
       }
     ],
@@ -413,15 +413,15 @@
     "question": "Поля в файле /etc/passwd разделены двоеточиями. В каком поле хранится путь к домашнему каталогу пользователя?",
     "options": [
       {
+        "text": "В пятом поле, перед домашним каталогом",
+        "correct": false
+      },
+      {
         "text": "В шестом поле, между GECOS и командной оболочкой",
         "correct": true
       },
       {
         "text": "В третьем поле, между именем пользователя и GID",
-        "correct": false
-      },
-      {
-        "text": "В пятом поле, перед домашним каталогом",
         "correct": false
       },
       {

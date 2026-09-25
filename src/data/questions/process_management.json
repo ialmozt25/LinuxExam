@@ -8,15 +8,15 @@
     "question": "Сигнал SIGKILL имеет номер 9. Какое утверждение верно?",
     "options": [
       {
+        "text": "SIGKILL отправляется командой kill по умолчанию, то есть без аргументов",
+        "correct": false
+      },
+      {
         "text": "Процесс не может перехватить или игнорировать SIGKILL — он завершается принудительно",
         "correct": true
       },
       {
         "text": "Процесс может перехватить SIGKILL и корректно освободить все ресурсы",
-        "correct": false
-      },
-      {
-        "text": "SIGKILL отправляется командой kill по умолчанию, то есть без аргументов",
         "correct": false
       },
       {
@@ -35,8 +35,8 @@
     "question": "Что означает состояние процесса Z в выводе ps?",
     "options": [
       {
-        "text": "Процесс завершился, но родитель ещё не прочитал его код завершения",
-        "correct": true
+        "text": "Процесс выполняется в фоновом режиме, без управляющего терминала",
+        "correct": false
       },
       {
         "text": "Процесс ожидает ввода-вывода и не потребляет процессор",
@@ -47,8 +47,8 @@
         "correct": false
       },
       {
-        "text": "Процесс выполняется в фоновом режиме, без управляющего терминала",
-        "correct": false
+        "text": "Процесс завершился, но родитель ещё не прочитал его код завершения",
+        "correct": true
       }
     ],
     "explanation": "Z — зомби: процесс уже завершился, но запись о нём остаётся в таблице, пока родитель не вызовет wait. Ожидание на диске — это D, ожидание ввода-вывода — S, а выполнение — R."
@@ -62,11 +62,7 @@
     "question": "Какая команда запустит httpd немедленно и добавит в автозапуск одной командой?",
     "options": [
       {
-        "text": "systemctl enable --now httpd.service",
-        "correct": true
-      },
-      {
-        "text": "systemctl start httpd; systemctl enable httpd",
+        "text": "systemctl start --enable httpd.service",
         "correct": false
       },
       {
@@ -74,7 +70,11 @@
         "correct": false
       },
       {
-        "text": "systemctl start --enable httpd.service",
+        "text": "systemctl enable --now httpd.service",
+        "correct": true
+      },
+      {
+        "text": "systemctl start httpd; systemctl enable httpd",
         "correct": false
       }
     ],
@@ -89,19 +89,19 @@
     "question": "Какая команда покажет процессы пользователя dev1?",
     "options": [
       {
-        "text": "ps -u dev1",
-        "correct": true
-      },
-      {
-        "text": "ps -e dev1",
-        "correct": false
-      },
-      {
         "text": "ps -C dev1",
         "correct": false
       },
       {
+        "text": "ps -u dev1",
+        "correct": true
+      },
+      {
         "text": "ps -U dev1 -e",
+        "correct": false
+      },
+      {
+        "text": "ps -e dev1",
         "correct": false
       }
     ],
@@ -116,10 +116,6 @@
     "question": "Какая команда покажет записи журнала для sshd за текущую загрузку?",
     "options": [
       {
-        "text": "journalctl -u sshd -b",
-        "correct": true
-      },
-      {
         "text": "journalctl -u sshd -f",
         "correct": false
       },
@@ -130,6 +126,10 @@
       {
         "text": "journalctl -u sshd -S today",
         "correct": false
+      },
+      {
+        "text": "journalctl -u sshd -b",
+        "correct": true
       }
     ],
     "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущей загрузкой. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузке, а -S today задаёт интервал времени, а не загрузку."
@@ -143,20 +143,20 @@
     "question": "Какая команда снижает приоритет уже запущенного процесса 1234 до значения 10?",
     "options": [
       {
-        "text": "renice -n 10 -p 1234",
-        "correct": true
+        "text": "nice -n 10 -p 1234",
+        "correct": false
       },
       {
         "text": "renice -p 1234 10",
         "correct": false
       },
       {
-        "text": "nice -n 10 -p 1234",
+        "text": "renice -n -10 -p 1234",
         "correct": false
       },
       {
-        "text": "renice -n -10 -p 1234",
-        "correct": false
+        "text": "renice -n 10 -p 1234",
+        "correct": true
       }
     ],
     "explanation": "Команда renice изменяет приоритет уже работающего процесса, номер задаётся ключом -p. Команда nice только запускает новый процесс с заданным приоритетом и ключа -p не имеет. Отрицательное значение наоборот повышает приоритет и требует прав root."
@@ -174,15 +174,15 @@
         "correct": true
       },
       {
-        "text": "./backup.sh &",
-        "correct": false
-      },
-      {
         "text": "./backup.sh && bg",
         "correct": false
       },
       {
         "text": "jobs ./backup.sh",
+        "correct": false
+      },
+      {
+        "text": "./backup.sh &",
         "correct": false
       }
     ],
@@ -197,11 +197,11 @@
     "question": "Какой сигнал нельзя перехватить или проигнорировать?",
     "options": [
       {
-        "text": "SIGKILL (9)",
-        "correct": true
+        "text": "SIGTERM (15)",
+        "correct": false
       },
       {
-        "text": "SIGTERM (15)",
+        "text": "SIGUSR1 (10)",
         "correct": false
       },
       {
@@ -209,8 +209,8 @@
         "correct": false
       },
       {
-        "text": "SIGUSR1 (10)",
-        "correct": false
+        "text": "SIGKILL (9)",
+        "correct": true
       }
     ],
     "explanation": "SIGKILL обрабатывается ядром напрямую: процесс не может ни перехватить его, ни заблокировать. В отличие от него SIGTERM, SIGHUP и SIGUSR1 можно перехватить, поэтому именно SIGTERM считается штатным способом завершения."
@@ -224,12 +224,12 @@
     "question": "Какая команда показывает динамически обновляемый список процессов с сортировкой по нагрузке?",
     "options": [
       {
-        "text": "top -d 1",
-        "correct": true
-      },
-      {
         "text": "ps aux -w",
         "correct": false
+      },
+      {
+        "text": "top -d 1",
+        "correct": true
       },
       {
         "text": "jobs -l -r",
@@ -255,15 +255,15 @@
         "correct": true
       },
       {
-        "text": "mask удаляет файл юнита с диска навсегда, а disable — нет",
-        "correct": false
-      },
-      {
         "text": "mask действует только до перезагрузки, а disable — навсегда",
         "correct": false
       },
       {
         "text": "disable требует прав root, а mask доступна обычному пользователю",
+        "correct": false
+      },
+      {
+        "text": "mask удаляет файл юнита с диска навсегда, а disable — нет",
         "correct": false
       }
     ],
@@ -278,10 +278,6 @@
     "question": "Какой сигнал отправляет kill по умолчанию, если сигнал не указан?",
     "options": [
       {
-        "text": "SIGTERM (15)",
-        "correct": true
-      },
-      {
         "text": "SIGKILL (9)",
         "correct": false
       },
@@ -292,6 +288,10 @@
       {
         "text": "SIGINT (2)",
         "correct": false
+      },
+      {
+        "text": "SIGTERM (15)",
+        "correct": true
       }
     ],
     "explanation": "Без явного указания kill отправляет SIGTERM — корректный запрос на завершение, который процесс может обработать и освободить ресурсы. SIGKILL надо запрашивать явно через kill -9. SIGHUP по умолчанию не отправляется, а SIGINT генерирует сочетание Ctrl+C."

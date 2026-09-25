@@ -35,19 +35,19 @@
     "question": "Какая команда установит setgid-бит на директорию /shared?",
     "options": [
       {
-        "text": "chmod 2755 /shared",
-        "correct": true
-      },
-      {
         "text": "chmod 1755 /shared",
         "correct": false
       },
       {
-        "text": "chmod 4755 /shared",
-        "correct": false
+        "text": "chmod 2755 /shared",
+        "correct": true
       },
       {
         "text": "chmod +setgid /shared",
+        "correct": false
+      },
+      {
+        "text": "chmod 4755 /shared",
         "correct": false
       }
     ],
@@ -62,11 +62,7 @@
     "question": "Чем отличается режим 640 от режима 600 для файла?",
     "options": [
       {
-        "text": "В режиме 640 группа получает право на чтение, а в 600 у группы прав нет",
-        "correct": true
-      },
-      {
-        "text": "В режиме 640 группа получает право на запись, а в 600 — нет",
+        "text": "В режиме 640 владелец теряет право на запуск файла, а в 600 — нет",
         "correct": false
       },
       {
@@ -74,7 +70,11 @@
         "correct": false
       },
       {
-        "text": "В режиме 640 владелец теряет право на запуск файла, а в 600 — нет",
+        "text": "В режиме 640 группа получает право на чтение, а в 600 у группы прав нет",
+        "correct": true
+      },
+      {
+        "text": "В режиме 640 группа получает право на запись, а в 600 — нет",
         "correct": false
       }
     ],
@@ -89,8 +89,8 @@
     "question": "Какая команда изменит владельца и группу директории /data рекурсивно на user1:devs?",
     "options": [
       {
-        "text": "chown -R user1:devs /data",
-        "correct": true
+        "text": "chgrp -R user1:devs /data",
+        "correct": false
       },
       {
         "text": "chown -r user1:devs /data",
@@ -101,8 +101,8 @@
         "correct": false
       },
       {
-        "text": "chgrp -R user1:devs /data",
-        "correct": false
+        "text": "chown -R user1:devs /data",
+        "correct": true
       }
     ],
     "explanation": "У команды chown рекурсивный ключ — заглавная -R, строчной -r не существует. Формат владелец:группа задаётся именно в chown. chmod меняет только права доступа, а chgrp — только группу."
@@ -116,10 +116,6 @@
     "question": "Какая команда добавит владельцу право на выполнение файла script.sh?",
     "options": [
       {
-        "text": "chmod u+x script.sh",
-        "correct": true
-      },
-      {
         "text": "chmod +x script.sh",
         "correct": false
       },
@@ -130,6 +126,10 @@
       {
         "text": "chmod u=+x script.sh",
         "correct": false
+      },
+      {
+        "text": "chmod u+x script.sh",
+        "correct": true
       }
     ],
     "explanation": "Запись u+x добавляет бит выполнения только владельцу, поэтому права владельца становятся rwx и команда решает задачу. Записи +x и a+x без указания класса применяют изменение ко всем классам одновременно, поэтому право на выполнение получают и группа, и остальные — это шире, чем требуется в условии. Запись u=+x синтаксически допустима, но не решает задачу: знак = сбрасывает текущие права владельца и присваивает новые, поэтому владелец получает только право на выполнение, теряя чтение и запись. Права группы и остальных при этом не изменяются — например, для файла с правами 644 результат будет ---xr--r--. Такой итог не соответствует условию задачи, хотя команда и завершается без ошибки."
@@ -143,20 +143,20 @@
     "question": "Значение umask равно 022. Какие права получит обычный файл?",
     "options": [
       {
-        "text": "rw-r--r-- (644)",
-        "correct": true
-      },
-      {
-        "text": "rw-rw-r-- (664)",
-        "correct": false
-      },
-      {
         "text": "rwxr-xr-x (755)",
         "correct": false
       },
       {
         "text": "rw------- (600)",
         "correct": false
+      },
+      {
+        "text": "rw-rw-r-- (664)",
+        "correct": false
+      },
+      {
+        "text": "rw-r--r-- (644)",
+        "correct": true
       }
     ],
     "explanation": "Для файлов базовый режим 666, из которого вычитаются биты umask: 666 минус 022 = 644. У директорий база 777, поэтому там получилось бы 755. Вариант 664 соответствует umask 002 — это ближайший правдоподобный неверный ответ."
@@ -170,12 +170,12 @@
     "question": "Какая команда покажет ACL-записи файла report.txt?",
     "options": [
       {
-        "text": "getfacl report.txt",
-        "correct": true
-      },
-      {
         "text": "setfacl report.txt",
         "correct": false
+      },
+      {
+        "text": "getfacl report.txt",
+        "correct": true
       },
       {
         "text": "ls -l report.txt",
@@ -197,6 +197,10 @@
     "question": "Какие последствия имеет бит setuid на исполняемом файле?",
     "options": [
       {
+        "text": "Файл можно удалить только владельцу директории, где он лежит",
+        "correct": false
+      },
+      {
         "text": "Процесс запускается с правами владельца файла, а не запустившего пользователя",
         "correct": true
       },
@@ -206,10 +210,6 @@
       },
       {
         "text": "Файл защищён от изменения даже своим владельцем, включая содержимое",
-        "correct": false
-      },
-      {
-        "text": "Файл можно удалить только владельцу директории, где он лежит",
         "correct": false
       }
     ],
@@ -224,10 +224,6 @@
     "question": "Какая команда задаст директории /projects ACL по умолчанию для новых файлов?",
     "options": [
       {
-        "text": "setfacl -d -m u:dev1:rwx /projects",
-        "correct": true
-      },
-      {
         "text": "setfacl -m u:dev1:rwx /projects",
         "correct": false
       },
@@ -238,6 +234,10 @@
       {
         "text": "setfacl -default u:dev1:rwx /projects",
         "correct": false
+      },
+      {
+        "text": "setfacl -d -m u:dev1:rwx /projects",
+        "correct": true
       }
     ],
     "explanation": "Ключ -d задаёт именно default ACL, который наследуется новыми файлами внутри директории. Без -d запись касается только самой директории. Ключ -R распространяет изменение на уже существующие данные, а не на будущие."
@@ -255,15 +255,15 @@
         "correct": true
       },
       {
-        "text": "chmod +s /projects",
-        "correct": false
-      },
-      {
         "text": "chmod +sticky /projects",
         "correct": false
       },
       {
         "text": "chmod 2755 /projects",
+        "correct": false
+      },
+      {
+        "text": "chmod +s /projects",
         "correct": false
       }
     ],
@@ -282,15 +282,15 @@
         "correct": true
       },
       {
+        "text": "Уберёт у группы все права, включая чтение и выполнение",
+        "correct": false
+      },
+      {
         "text": "Уберёт право на запись у владельца файла и у группы",
         "correct": false
       },
       {
         "text": "Выдаст группе право на запись вместо того, чтобы его убрать",
-        "correct": false
-      },
-      {
-        "text": "Уберёт у группы все права, включая чтение и выполнение",
         "correct": false
       }
     ],
@@ -305,12 +305,12 @@
     "question": "Какая команда оставит доступ только владельцу?",
     "options": [
       {
-        "text": "chmod 600 file",
-        "correct": true
-      },
-      {
         "text": "chmod 644 file",
         "correct": false
+      },
+      {
+        "text": "chmod 600 file",
+        "correct": true
       },
       {
         "text": "chmod 640 file",

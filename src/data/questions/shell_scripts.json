@@ -8,11 +8,7 @@
     "question": "Скрипту перед чтением нужно убедиться, что путь /etc/app.conf указывает именно на обычный файл, а не на каталог или устройство. Какое условие test это проверит?",
     "options": [
       {
-        "text": "test -f /etc/app.conf",
-        "correct": true
-      },
-      {
-        "text": "test -e /etc/app.conf",
+        "text": "test -r /etc/app.conf",
         "correct": false
       },
       {
@@ -20,7 +16,11 @@
         "correct": false
       },
       {
-        "text": "test -r /etc/app.conf",
+        "text": "test -f /etc/app.conf",
+        "correct": true
+      },
+      {
+        "text": "test -e /etc/app.conf",
         "correct": false
       }
     ],
@@ -35,19 +35,19 @@
     "question": "Скрипту нужно вывести ok, если каталог /var/log существует, и fail в противном случае. Какая конструкция это сделает?",
     "options": [
       {
-        "text": "if test -d /var/log; then echo ok; else echo fail; fi",
-        "correct": true
-      },
-      {
-        "text": "if test -d /var/log; then echo fail; else echo ok; fi",
-        "correct": false
-      },
-      {
         "text": "if test -f /var/log; then echo ok; else echo fail; fi",
         "correct": false
       },
       {
+        "text": "if test -d /var/log; then echo ok; else echo fail; fi",
+        "correct": true
+      },
+      {
         "text": "if test -d /var/log; then echo ok; else echo ok; fi",
+        "correct": false
+      },
+      {
+        "text": "if test -d /var/log; then echo fail; else echo ok; fi",
         "correct": false
       }
     ],
@@ -62,11 +62,7 @@
     "question": "Скрипту нужно по очереди выполнить команду backup для каждого каталога из переменной dirs. Какая конструкция переберёт их?",
     "options": [
       {
-        "text": "for d in $dirs; do backup $d; done",
-        "correct": true
-      },
-      {
-        "text": "for d in dirs; do backup $d; done",
+        "text": "for d in $dirs; do backup; done",
         "correct": false
       },
       {
@@ -74,7 +70,11 @@
         "correct": false
       },
       {
-        "text": "for d in $dirs; do backup; done",
+        "text": "for d in $dirs; do backup $d; done",
+        "correct": true
+      },
+      {
+        "text": "for d in dirs; do backup $d; done",
         "correct": false
       }
     ],
@@ -89,19 +89,19 @@
     "question": "Скрипту нужно обработать файл list.txt строка за строкой, пока в нём остаются непрочитанные строки. Какая конструкция это делает?",
     "options": [
       {
-        "text": "while read line; do process $line; done < list.txt",
-        "correct": true
-      },
-      {
         "text": "while read line; do process $line; done > list.txt",
         "correct": false
       },
       {
-        "text": "until read line; do process $line; done < list.txt",
-        "correct": false
+        "text": "while read line; do process $line; done < list.txt",
+        "correct": true
       },
       {
         "text": "for line in list.txt; do process $line; done",
+        "correct": false
+      },
+      {
+        "text": "until read line; do process $line; done < list.txt",
         "correct": false
       }
     ],
@@ -116,19 +116,19 @@
     "question": "Скрипт запущен как ./run.sh alpha beta gamma. Какая подстановка содержит третий аргумент, то есть gamma?",
     "options": [
       {
-        "text": "\"$3\"",
-        "correct": true
+        "text": "\"$#\"",
+        "correct": false
       },
       {
-        "text": "\"$2\"",
-        "correct": false
+        "text": "\"$3\"",
+        "correct": true
       },
       {
         "text": "\"$0\"",
         "correct": false
       },
       {
-        "text": "\"$#\"",
+        "text": "\"$2\"",
         "correct": false
       }
     ],
@@ -143,16 +143,16 @@
     "question": "Скрипту нужно убедиться, что при запуске передали ровно два аргумента, и иначе завершиться с ошибкой. Какое условие проверяет количество аргументов?",
     "options": [
       {
-        "text": "test $# -eq 2",
-        "correct": true
-      },
-      {
         "text": "test $# -eq 0",
         "correct": false
       },
       {
         "text": "test $? -eq 2",
         "correct": false
+      },
+      {
+        "text": "test $# -eq 2",
+        "correct": true
       },
       {
         "text": "test $# -ge 2",
@@ -170,11 +170,11 @@
     "question": "Скрипту нужно записать в переменную count только число строк файла list.txt, без имени файла. Какая конструкция это сделает?",
     "options": [
       {
-        "text": "count=$(wc -l < list.txt)",
-        "correct": true
+        "text": "count=$(wc -l list.txt)",
+        "correct": false
       },
       {
-        "text": "count=$(wc -l list.txt)",
+        "text": "count=$wc -l list.txt",
         "correct": false
       },
       {
@@ -182,8 +182,8 @@
         "correct": false
       },
       {
-        "text": "count=$wc -l list.txt",
-        "correct": false
+        "text": "count=$(wc -l < list.txt)",
+        "correct": true
       }
     ],
     "explanation": "Подстановка $() заменяет команду её стандартным выводом, а знак < подаёт файл на вход wc, поэтому в переменную попадёт одно число. Запись wc -l list.txt без перенаправления добавляет к числу имя файла, и в переменной окажется строка вида «3 list.txt». Обратные кавычки дают тот же результат, что и $(), поэтому имя файла сохранится и там. В последнем варианте слово -l с аргументом list.txt воспринимается как команда и даёт ошибку command not found, а переменная count сохраняет прежнее значение."
@@ -201,15 +201,15 @@
         "correct": true
       },
       {
+        "text": "cmd && exit 0",
+        "correct": false
+      },
+      {
         "text": "cmd && exit $?",
         "correct": false
       },
       {
         "text": "cmd || exit 0",
-        "correct": false
-      },
-      {
-        "text": "cmd && exit 0",
         "correct": false
       }
     ],
@@ -232,11 +232,11 @@
         "correct": false
       },
       {
-        "text": "count=0; count=1; echo $count",
+        "text": "declare -g count=0; echo $count",
         "correct": false
       },
       {
-        "text": "declare -g count=0; echo $count",
+        "text": "count=0; count=1; echo $count",
         "correct": false
       }
     ],
@@ -251,20 +251,20 @@
     "question": "Скрипту нужно прочитать введённое пользователем имя в переменную user, показав приглашение. Какая команда это сделает?",
     "options": [
       {
-        "text": "read -p \"Имя: \" user",
-        "correct": true
-      },
-      {
-        "text": "read -p \"Имя: \" name",
-        "correct": false
-      },
-      {
         "text": "read -p \"Имя: \" $user",
         "correct": false
       },
       {
         "text": "echo -p \"Имя: \" user",
         "correct": false
+      },
+      {
+        "text": "read -p \"Имя: \" name",
+        "correct": false
+      },
+      {
+        "text": "read -p \"Имя: \" user",
+        "correct": true
       }
     ],
     "explanation": "Ключ -p задаёт приглашение, а следующий за ним обычный аргумент — имя переменной, поэтому строка читает ответ в user и показывает приглашение. Вариант с именем name читает ответ в другую переменную, и user остаётся пустой. Знак доллара заставляет оболочку подставить значение переменной user вместо её имени. Команда echo ничего не читает: она только печатает свои аргументы."
