@@ -36,6 +36,7 @@ const LOADERS: Record<string, () => Promise<JsonModule>> = {
   essential_tools: () => import('./essential_tools.json'),
   file_management: () => import('./file_management.json'),
   file_permissions: () => import('./file_permissions.json'),
+  local_storage: () => import('./local_storage.json'),
   manage_software: () => import('./manage_software.json'),
   networking: () => import('./networking.json'),
   process_management: () => import('./process_management.json'),

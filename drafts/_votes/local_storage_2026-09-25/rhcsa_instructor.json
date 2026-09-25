@@ -1,0 +1,17 @@
+{
+  "role": "rhcsa_instructor",
+  "batch_id": "local_storage_2026-09-25",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "ls_002",
+      "severity": "minor",
+      "comment": "Пара lvextend + xfs_growfs — точный кейс EX200 (расширение LV вместе с ФС), но lvextend проверен только по man: в образе нет loop-устройств. Прогнаны только resize2fs /tmp (exit 1) и xfs_growfs -n / (exit 1, здесь ФС не XFS)."
+    },
+    {
+      "id": "ls_006",
+      "severity": "minor",
+      "comment": "parted отсутствует в образе (man parted exit 16), поэтому сабтопик «разметка» закрыт sfdisk/fdisk — это соответствует BLUEPRINT L119 (parted/fdisk), но покрытие parted-синтаксиса отложено. Сознательное сужение для пилота."
+    }
+  ]
+}

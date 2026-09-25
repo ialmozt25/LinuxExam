@@ -42,7 +42,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'available', Icon: Package },
   { key: 'local_storage', title: 'Локальное хранилище',
     description: 'partitions, LVM, mount by UUID, swap',
-    status: 'planned', Icon: HardDrive },
+    status: 'available', Icon: HardDrive },
   { key: 'file_systems', title: 'Файловые системы',
     description: 'ext4, xfs, NFS, autofs, fstab',
     status: 'planned', Icon: Database },

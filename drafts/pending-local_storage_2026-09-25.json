@@ -1,0 +1,345 @@
+{
+  "batch": "local_storage-1",
+  "date": "2026-09-25",
+  "pipeline": "v2.0",
+  "topic": "local_storage",
+  "topic_status_at_generation": "planned",
+  "objective_domain": "4",
+  "objective_domain_note": "Домен 4 назначен по BLUEPRINT L46, где local_storage прямо помечен как закрывающий домен 4 (а file_systems — домен 5). Это же согласуется с порядком доменов RHCSA: Configure local storage.",
+  "subtopics_used": [
+    "LVM: создание физического тома",
+    "LVM: расширение LV вместе с файловой системой XFS",
+    "swap: mkswap и подготовка области подкачки",
+    "fstab: монтирование по UUID",
+    "mount / findmnt: текущие опции монтирования",
+    "разметка: таблица разделов GPT через sfdisk",
+    "lsblk / blkid: тип ФС, метка и UUID раздела",
+    "fstab: применение записей, опция nofail"
+  ],
+  "subtopic_coverage": {
+    "LVM: PV / VG / LV — создание": [
+      "ls_001",
+      "ls_002"
+    ],
+    "LVM: расширение LV (lvextend + xfs_growfs/resize2fs)": [
+      "ls_002"
+    ],
+    "swap: mkswap / swapon / /etc/fstab": [
+      "ls_003"
+    ],
+    "/etc/fstab: UUID, mount -a": [
+      "ls_004",
+      "ls_008"
+    ],
+    "mount / umount / findmnt": [
+      "ls_005"
+    ],
+    "разметка: parted / fdisk": [
+      "ls_006"
+    ],
+    "df / du / lsblk / blkid": [
+      "ls_004",
+      "ls_007"
+    ],
+    "persistent mount: defaults, nofail, _netdev": [
+      "ls_008"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ls_001",
+      "topic": "local_storage",
+      "difficulty": "medium",
+      "objective_domain": "4",
+      "subtopic": "LVM: создание физического тома",
+      "question": "Диск /dev/sdb1 отведён под LVM и должен стать физическим томом для новой группы томов. Какая команда инициализирует его как PV?",
+      "options": [
+        {
+          "text": "pvcreate /dev/sdb1",
+          "correct": true
+        },
+        {
+          "text": "vgcreate /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "blkid /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "pvremove /dev/sdb1",
+          "correct": false
+        }
+      ],
+      "explanation": "pvcreate инициализирует Physical Volume на устройстве, после чего устройство распознаётся как принадлежащее LVM. vgcreate создаёт группу томов и требует имени VG и списка PV, поэтому с единственным аргументом команда завершается ошибкой разбора. blkid только печатает тип файловой системы и UUID, метку PV не создавая. pvremove стирает метку PV, то есть выполняет обратное действие."
+    },
+    {
+      "id": "ls_002",
+      "topic": "local_storage",
+      "difficulty": "medium",
+      "objective_domain": "4",
+      "subtopic": "LVM: расширение LV вместе с файловой системой XFS",
+      "question": "Логический том /dev/data/lv_app с файловой системой XFS нужно увеличить на 5 ГБ вместе с файловой системой; свободное место в группе томов есть. Какая пара команд это сделает?",
+      "options": [
+        {
+          "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs /app",
+          "correct": true
+        },
+        {
+          "text": "lvextend -L +5G /dev/data/lv_app; resize2fs /app",
+          "correct": false
+        },
+        {
+          "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs -n /app",
+          "correct": false
+        },
+        {
+          "text": "lvextend -L 5G /dev/data/lv_app; xfs_growfs /app",
+          "correct": false
+        }
+      ],
+      "explanation": "lvextend -L +5G увеличивает логический том на 5 ГБ относительно текущего размера, а xfs_growfs растягивает файловую систему XFS на новое место, принимая точку монтирования. resize2fs работает только с ext2, ext3 и ext4, поэтому на XFS команда завершается ошибкой. Ключ -n у xfs_growfs только печатает геометрию и ничего не меняет. Форма -L 5G задаёт абсолютный размер 5 ГБ вместо приращения и не выполняет условие задачи."
+    },
+    {
+      "id": "ls_003",
+      "topic": "local_storage",
+      "difficulty": "medium",
+      "objective_domain": "4",
+      "subtopic": "swap: mkswap и подготовка области подкачки",
+      "question": "Раздел /dev/sdb2 отведён под подкачку и ещё не размечен как swap. Какая команда подготовит его как область подкачки?",
+      "options": [
+        {
+          "text": "mkswap /dev/sdb2",
+          "correct": true
+        },
+        {
+          "text": "swapon /dev/sdb2",
+          "correct": false
+        },
+        {
+          "text": "cat /proc/swaps",
+          "correct": false
+        },
+        {
+          "text": "swapoff /dev/sdb2",
+          "correct": false
+        }
+      ],
+      "explanation": "mkswap создаёт на устройстве или в файле область подкачки, после чего её можно включить. swapon включает уже готовую область и без метки mkswap падает с сообщением о неудачном чтении заголовка подкачки. Чтение /proc/swaps только перечисляет активные сейчас области подкачки и ничего не готовит. swapoff отключает подкачку, то есть выполняет обратное действие."
+    },
+    {
+      "id": "ls_004",
+      "topic": "local_storage",
+      "difficulty": "easy",
+      "objective_domain": "4",
+      "subtopic": "fstab: монтирование по UUID",
+      "question": "Имя устройства /dev/sdb1 может измениться после перестановки диска в другой слот. Какая команда покажет постоянный идентификатор этого раздела?",
+      "options": [
+        {
+          "text": "blkid /dev/sdb1",
+          "correct": true
+        },
+        {
+          "text": "blkid -U /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "lsblk /dev/sdb1",
+          "correct": false
+        },
+        {
+          "text": "mount /dev/sdb1 /mnt",
+          "correct": false
+        }
+      ],
+      "explanation": "blkid без опций печатает для устройства тип файловой системы, метку и UUID. Опция -U у blkid означает поиск устройства по заданному UUID, поэтому в такой записи команда ищет UUID, равный строке с именем устройства, и завершается ошибкой. Колонки lsblk по умолчанию показывают размер и тип, но UUID в них не входит. mount монтирует раздел по имени устройства в /mnt, но записи в /etc/fstab с UUID не создаёт."
+    },
+    {
+      "id": "ls_005",
+      "topic": "local_storage",
+      "difficulty": "medium",
+      "objective_domain": "4",
+      "subtopic": "mount / findmnt: текущие опции монтирования",
+      "question": "Раздел /data смонтирован, и нужно проверить, из какого источника он взят и какие опции действуют сейчас. Какая команда покажет статус монтирования точки /data?",
+      "options": [
+        {
+          "text": "findmnt -T /data",
+          "correct": true
+        },
+        {
+          "text": "findmnt -Q /data",
+          "correct": false
+        },
+        {
+          "text": "stat -f /data",
+          "correct": false
+        },
+        {
+          "text": "umount -l /data",
+          "correct": false
+        }
+      ],
+      "explanation": "findmnt с опцией -T смотрит на точку монтирования и печатает источник, тип файловой системы и действующие опции. Опции -Q у findmnt нет, такая команда завершается ошибкой разбора аргументов. stat -f показывает статистику файловой системы, то есть тип, размер блока и свободные индексы, но не источник и не список опций. umount -l откладывает размонтирование, то есть выполняет обратное действие."
+    },
+    {
+      "id": "ls_006",
+      "topic": "local_storage",
+      "difficulty": "medium",
+      "objective_domain": "4",
+      "subtopic": "разметка: таблица разделов GPT через sfdisk",
+      "question": "Новый диск /dev/sdb нужно разметить под GPT. Какая команда создаст на диске таблицу разделов GPT без интерактивной работы?",
+      "options": [
+        {
+          "text": "sfdisk --label gpt /dev/sdb",
+          "correct": true
+        },
+        {
+          "text": "fdisk --label gpt /dev/sdb",
+          "correct": false
+        },
+        {
+          "text": "sfdisk --dump /dev/sdb",
+          "correct": false
+        },
+        {
+          "text": "sfdisk --label dos /dev/sdb",
+          "correct": false
+        }
+      ],
+      "explanation": "sfdisk создаёт метку диска неинтерактивно, и значение gpt даёт таблицу разделов GPT. У fdisk опции --label нет: метка создаётся в интерактивном режиме, поэтому команда падает на разборе аргументов. sfdisk --dump только печатает существующую таблицу в виде скрипта и ничего не создаёт. Значение dos создаёт таблицу MBR вместо GPT, то есть не выполняет требование задачи."
+    },
+    {
+      "id": "ls_007",
+      "topic": "local_storage",
+      "difficulty": "easy",
+      "objective_domain": "4",
+      "subtopic": "lsblk / blkid: тип ФС, метка и UUID раздела",
+      "question": "Раздел /dev/sdc1 не монтируется. Какой командой посмотреть, что за файловая система на нём и есть ли метка?",
+      "options": [
+        {
+          "text": "lsblk -f /dev/sdc1",
+          "correct": true
+        },
+        {
+          "text": "lsblk -fstype /dev/sdc1",
+          "correct": false
+        },
+        {
+          "text": "blkid -s LABEL /dev/sdc1",
+          "correct": false
+        },
+        {
+          "text": "grep -i sdc1 /etc/fstab",
+          "correct": false
+        }
+      ],
+      "explanation": "lsblk -f выводит для устройства колонки FSTYPE, LABEL, UUID и точку монтирования. Длинная форма этой опции — --fs, поэтому ни --fstype, ни короткой опции с буквой y у lsblk нет, и команда завершается ошибкой разбора аргументов. blkid -s LABEL печатает только метку и не показывает ни тип, ни UUID. Поиск по /etc/fstab показывает то, что записано в файле, а не то, что реально находится на разделе."
+    },
+    {
+      "id": "ls_008",
+      "topic": "local_storage",
+      "difficulty": "medium",
+      "objective_domain": "4",
+      "subtopic": "fstab: применение записей, опция nofail",
+      "question": "Новая строка с опцией nofail добавлена в /etc/fstab. Какую команду нужно выполнить, чтобы применить /etc/fstab без перезагрузки?",
+      "options": [
+        {
+          "text": "mount -a",
+          "correct": true
+        },
+        {
+          "text": "mount -A",
+          "correct": false
+        },
+        {
+          "text": "mount -fa",
+          "correct": false
+        },
+        {
+          "text": "umount -a",
+          "correct": false
+        }
+      ],
+      "explanation": "mount -a читает /etc/fstab и монтирует записи, которые ещё не смонтированы, поэтому новая строка с nofail применяется без перезагрузки. У mount нет опции -A: ключи регистрозависимы, и заглавная буква приводит к ошибке разбора аргументов. Пара ключей -fa выполняет действия, кроме самого системного вызова монтирования, то есть реально ничего не монтирует. umount -a размонтирует смонтированное, то есть выполняет обратное действие."
+    }
+  ],
+  "meta": {
+    "man_locale": "Rocky 9.8 WSL (man + выборочный прогон)",
+    "man_absence": "parted отсутствует в образе (man parted -> exit 16, No manual entry); сабтопик разметки закрыт через sfdisk/fdisk.",
+    "nfs_note": "NFS исключён из батча: BLUEPRINT L121 относит NFS-монтирование к теме file_systems, чтобы не создать дубль в будущем батче.",
+    "man_pages": {
+      "ls_001": "man pvcreate, man vgcreate (exit 0)",
+      "ls_002": "man lvextend, man xfs_growfs, man resize2fs (exit 0)",
+      "ls_003": "man mkswap, man swapon (exit 0)",
+      "ls_004": "man blkid, man lsblk (exit 0)",
+      "ls_005": "man findmnt, man stat, man umount (exit 0)",
+      "ls_006": "man sfdisk, man fdisk (exit 0)",
+      "ls_007": "man lsblk, man blkid (exit 0)",
+      "ls_008": "man mount, man umount, man systemd.mount (exit 0)"
+    },
+    "runs": {
+      "ls_001": "vgcreate /dev/sdb1 -> exit 3 (No command with matching syntax recognised)",
+      "ls_002": "resize2fs /tmp -> exit 1 (open: Is a directory); xfs_growfs -n / -> exit 1 (не XFS в этом образе, man: -n = no change)",
+      "ls_003": "swapon на неподготовленном файле -> exit 255 (read swap header failed); mkswap файла -> exit 0",
+      "ls_004": "blkid -U /dev/sdb1 -> exit 2; lsblk -f -> exit 0 (колонки FSTYPE/LABEL/UUID/MOUNTPOINTS)",
+      "ls_005": "findmnt -T / -> exit 0; findmnt -Q /data -> exit 1 (invalid option -Q); stat -f / -> exit 0",
+      "ls_006": "fdisk --label gpt /dev/sdb -> exit 1 (unrecognized option --label)",
+      "ls_007": "lsblk -f -> exit 0; lsblk -fstype -> exit 1 (invalid option y)",
+      "ls_008": "mount -f -A -> exit 1 (invalid option A); mount -fa -> exit 0, ничего не смонтировано (fake); mount -a и umount -a — man",
+      "lvcreate/vgextend/lvextend": "только man: loop-устройств в образе нет"
+    },
+    "mas": {
+      "roles": 6,
+      "run_mode": "6 текстовых проходов одним агентом (осознанное упрощение для пилота)",
+      "iterations": "1 у всех шести ролей; ex200_examiner прогнан повторно (2-й проход) после cosine-реформулировки стемов ls_004/ls_007/ls_008",
+      "verdict": "6/6 PASS, ru_editor PASS",
+      "votes_dir": "drafts/_votes/local_storage_2026-09-25/"
+    },
+    "distractor_types": {
+      "note": "Синтаксический = команда невалидна как написана (проверено прогоном, exit != 0); поведенческий = валидная команда, не решающая стем; семантический = валидная форма с ложной посылкой (обратное действие или подмена источника данных).",
+      "ls_001": "синт.: vgcreate /dev/sdb1 (exit 3) | повед.: blkid | семант.: pvremove",
+      "ls_002": "синт.: resize2fs /app (exit 1) | повед.: xfs_growfs -n | семант.: lvextend -L 5G",
+      "ls_003": "синт.: swapon без mkswap (exit 255) | повед.: cat /proc/swaps | семант.: swapoff",
+      "ls_004": "синт.: blkid -U /dev/sdb1 (exit 2) | повед.: lsblk без -f | семант.: mount по имени устройства",
+      "ls_005": "синт.: findmnt -Q (exit 1) | повед.: stat -f | семант.: umount -l",
+      "ls_006": "синт.: fdisk --label (exit 1) | повед.: sfdisk --dump | семант.: sfdisk --label dos",
+      "ls_007": "синт.: lsblk -fstype (exit 1) | повед.: blkid -s LABEL | семант.: grep по /etc/fstab",
+      "ls_008": "синт.: mount -A (exit 1) | повед.: mount -fa | семант.: umount -a"
+    },
+    "checks": {
+      "qc": "Fails=0, Warns=14 (0 новых: ни один ls_* не даёт warn), exit 0",
+      "haladyna_batch": "node tools/haladyna.cjs --auto-only --batch drafts/pending-local_storage_2026-09-25.json -> exit 0, Perfect 8/8 (auto 5/5 и semi 3/3 у всех восьми)",
+      "haladyna_all": "node tools/haladyna.cjs --auto-only all -> exit 0, auto-perfect 122/122, Perfect 51/122",
+      "cosine_pending": "pre-pilot (bank=114, обе свои копии выведены): rejected 0/8, exit 0; максимум против банка cos=0.7818 (ls_005), jaccard не выше 0.1",
+      "cosine_intra_batch": "первая версия батча дала 3 пары > 0.80 (ls_004~ls_007 0.8952, ls_004~ls_008 0.8457, ls_007~ls_008 0.8151) -> стемы ls_004/ls_007/ls_008 переформулированы; итог: пар > 0.80 нет, max 0.7580 (ls_004~ls_007), exit 0",
+      "cosine_self_check": "exit 0, MATCH, max 0.9020 (tf_001~tf_002) = background.max, пар >0.80: 11 (как до батча), пар с ls_*: 0, калибровка не менялась",
+      "loaders_guard": "npx vitest run src/data/questions/__tests__/loaders-invariant.test.ts -> 5/5 pass, exit 0",
+      "man_absent": "man parted -> exit 16 (No manual entry): сабтопик разметки закрыт sfdisk/fdisk"
+    }
+  },
+  "pipeline_status": "generated, mas_passed, checks_passed, cosine_reformulated, committed",
+  "revisions": [
+    {
+      "stage": "post_integration_cosine_intra_batch",
+      "reason": "tools/cosine.cjs --intra-batch дал 3 пары выше порога 0.80: ls_004~ls_007 = 0.8952, ls_004~ls_008 = 0.8457, ls_007~ls_008 = 0.8151. Общий источник — /dev/sdb1, /etc/fstab и «файловая система» в стемах.",
+      "ids": [
+        "ls_004",
+        "ls_007",
+        "ls_008"
+      ],
+      "before_after": {
+        "ls_004": "было: «Раздел /dev/sdb1 нужно закрепить в /etc/fstab по UUID вместо имени устройства. Какая команда покажет UUID файловой системы этого раздела?» -> стало: «Имя устройства /dev/sdb1 может измениться после перестановки диска в другой слот. Какая команда покажет постоянный идентификатор этого раздела?»",
+        "ls_007": "было: «Нужно проверить тип файловой системы, метку и UUID раздела /dev/sdb1 перед переносом его в /etc/fstab. Какая команда выведет эти сведения?» -> стало: «Раздел /dev/sdc1 не монтируется. Какой командой посмотреть, что за файловая система на нём и есть ли метка?» (устройство сменено на sdc1, вопрос переформулирован)",
+        "ls_008": "было: «Запись о разделе /dev/sdb1 с опцией nofail добавлена в /etc/fstab. Какую команду нужно выполнить, чтобы применить /etc/fstab без перезагрузки?» -> стало: «Новая строка с опцией nofail добавлена в /etc/fstab. Какую команду нужно выполнить, чтобы применить /etc/fstab без перезагрузки?»"
+      },
+      "second_pass": "Первый прогон реформулировки дал остаточную пару ls_004~ls_007 = 0.8882, поэтому стем ls_007 дополнительно переписан с другим устройством (/dev/sdc1) и другой формой вопроса.",
+      "mas_note": "Опции, ключи и типы дистракторов не менялись; ex200_examiner прогнан повторно (2-я итерация) по новым стемам, остальные пять ролей не переспрашивались: их замечания не касаются стемов ls_004/ls_007/ls_008."
+    }
+  ],
+  "open_verification_points": [
+    "lvcreate/vgextend/lvextend проверены только по man: в образе нет loop-устройств для реального прогона LVM.",
+    "ls_002 прогнан частично: resize2fs и xfs_growfs -n дали exit 1 на этом образе; сам lvextend не запускался.",
+    "parted отсутствует в образе (exit 16), сабтопик разметки закрыт sfdisk/fdisk.",
+    "NFS исключён по BLUEPRINT L121 (тема file_systems)."
+  ]
+}

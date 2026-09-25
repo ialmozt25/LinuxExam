@@ -1,0 +1,17 @@
+{
+  "role": "skeptic",
+  "batch_id": "local_storage_2026-09-25",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "ls_001",
+      "severity": "minor",
+      "comment": "pvcreate не запускался: в образе нет loop-устройств, поэтому утверждение «инициализирует PV» опирается только на man pvcreate. Прогнана лишь обманка: vgcreate /dev/sdb1 даёт exit 3 («No command with matching syntax recognised»)."
+    },
+    {
+      "id": "ls_005",
+      "severity": "minor",
+      "comment": "`stat -f /data` и `umount -l /data` предполагают существующую точку монтирования; в образе /data нет, так что эти варианты проверены только по man и на подстановке / (stat -f / -> exit 0). Стем задаёт смонтированный /data явно, поэтому логика сохраняется."
+    }
+  ]
+}
