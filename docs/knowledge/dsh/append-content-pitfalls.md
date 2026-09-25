@@ -67,3 +67,34 @@
 ## Связанные
 
 - pwsh-git-pitfalls.md — про try/catch и exit 128.
+
+## @'...'@ теряет trailing LF
+
+Single-quoted here-string `@'...'@` съедает завершающий перевод строки
+перед закрывающим `'@`. Если последняя содержательная строка контента — `text`,
+то после WriteAllText файл закончится на `text`, без LF.
+
+Следствие: следующий append через `+=` даст `textNextContent` (склейка
+без разделителя), что ломает Markdown и последующие diff.
+
+Правильно:
+  $content = @'
+  ...многострочный текст...
+  '@
+  # добавить LF вручную, если нужно:
+  $content += "`n"
+  [System.IO.File]::WriteAllText($path, $content, [System.Text.UTF8Encoding]::new($false))
+
+Проверка после записи:
+  $bytes = [System.IO.File]::ReadAllBytes($path)
+  $lastIsLF = ($bytes[$bytes.Length - 1] -eq 0x0A)
+  if (-not $lastIsLF) { throw "trailing LF отсутствует" }
+
+## Три случая в проекте — одна семья
+
+1. Add-Content не ставит \n перед содержимым (см. выше).
+2. Set-Content добавляет CRLF на Windows.
+3. @'...'@ срезает trailing LF.
+
+Все три — про потерю контроля над переводом строки на границе записи.
+Общее правило: после WriteAllText ВСЕГДА проверять последний байт = 0x0A.
