@@ -13,3 +13,4 @@
 - [pwsh-cyrillic-escaped-parens](./pwsh-cyrillic-escaped-parens.md) — pwsh + Cyrillic + экранированные скобки в regex → parse error
 - [presets/linuxexam-qc-auditor](./presets/linuxexam-qc-auditor/) — reference copy of QC Auditor preset (agent.cordis.yml + preset.yml + 4 skills)
 - [why-pwsh](./why-pwsh.md) — почему pwsh, а не Python: причины, грабли, когда пересмотрим
+- [temp-node-require-pitfall](./temp-node-require-pitfall.md) — node-скрипт из %TEMP% не видит node_modules из $DSH_HOME\profiles
