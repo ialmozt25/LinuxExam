@@ -1,0 +1,218 @@
+[
+  {
+    "id": "ms_001",
+    "topic": "manage_software",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "dnf install: установка пакета из репозитория",
+    "question": "Пакет tree в системе отсутствует, и его нужно установить из настроенного репозитория вместе с зависимостями. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "dnf install tree",
+        "correct": true
+      },
+      {
+        "text": "rpm -ivh tree",
+        "correct": false
+      },
+      {
+        "text": "dnf download tree",
+        "correct": false
+      },
+      {
+        "text": "dnf remove tree",
+        "correct": false
+      }
+    ],
+    "explanation": "install разрешает зависимости по метаданным репозитория и ставит пакет вместе с ними. rpm -ivh ожидает файл пакета, а не имя, поэтому с аргументом tree команда падает при открытии файла. download только скачивает rpm в текущий каталог и установку не выполняет. remove удаляет пакет, то есть решает обратную задачу."
+  },
+  {
+    "id": "ms_002",
+    "topic": "manage_software",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "dnf upgrade: обновление пакетов без подтверждения",
+    "question": "Скрипт должен привести пакеты системы к последним версиям из подключённых репозиториев без интерактивного подтверждения. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "dnf upgrade -y",
+        "correct": true
+      },
+      {
+        "text": "dnf upgrade --yes",
+        "correct": false
+      },
+      {
+        "text": "dnf check-update",
+        "correct": false
+      },
+      {
+        "text": "dnf downgrade",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -y (--assumeyes) отвечает утвердительно на все вопросы, поэтому upgrade проходит без диалога. Опции --yes у dnf нет, такая команда завершается ошибкой разбора аргументов. check-update только сообщает о доступных обновлениях и ничего не устанавливает. downgrade откатывает пакеты к прежним версиям, то есть выполняет обратную задачу."
+  },
+  {
+    "id": "ms_003",
+    "topic": "manage_software",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "dnf info / search: описание и версии пакета",
+    "question": "Пакет tree ещё не установлен. Нужно прочитать его описание и посмотреть доступные версии из репозитория. Какая команда это выведет?",
+    "options": [
+      {
+        "text": "dnf info tree",
+        "correct": true
+      },
+      {
+        "text": "rpm -qi tree",
+        "correct": false
+      },
+      {
+        "text": "dnf search tree",
+        "correct": false
+      },
+      {
+        "text": "dnf list --installed",
+        "correct": false
+      }
+    ],
+    "explanation": "info печатает описание, сводку и доступные версии пакета из метаданных репозитория. rpm -qi читает только базу установленных пакетов, а tree не установлен, поэтому команда завершается ошибкой. search ищет по ключевым словам и выводит имена с краткими сводками, без полного описания и списка версий. list --installed перечисляет уже установленные пакеты, то есть отвечает не на тот вопрос."
+  },
+  {
+    "id": "ms_004",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "dnf module: активный поток модуля",
+    "question": "В репозитории есть модуль postgresql с потоками 13 и 16. Нужно сделать поток 16 активным, чтобы его пакеты стали доступны для установки, но сами пакеты пока не ставить. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "dnf module enable postgresql:16",
+        "correct": true
+      },
+      {
+        "text": "dnf module enable postgresql-16",
+        "correct": false
+      },
+      {
+        "text": "dnf module install postgresql:16",
+        "correct": false
+      },
+      {
+        "text": "dnf module disable postgresql",
+        "correct": false
+      }
+    ],
+    "explanation": "module enable включает указанный поток и делает его пакеты видимыми для dnf, ничего не устанавливая. Поток записывается через двоеточие, как postgresql:16, а форма с дефисом модулем не является, поэтому команда завершается ошибкой. module install не только включает поток, но и сразу ставит профили по умолчанию вместе с пакетами модуля. module disable, наоборот, отключает модуль и убирает его потоки из набора доступных пакетов."
+  },
+  {
+    "id": "ms_005",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "rpm -qf: владелец файла",
+    "question": "Нужно определить, какой установленный пакет владеет файлом /usr/bin/ldd, не зная заранее имя пакета. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "rpm -qf /usr/bin/ldd",
+        "correct": true
+      },
+      {
+        "text": "rpm -ql /usr/bin/ldd",
+        "correct": false
+      },
+      {
+        "text": "dnf list installed",
+        "correct": false
+      },
+      {
+        "text": "rpm -qi glibc.x86_64",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -f вместе с -q ищет пакет по файлу на диске и печатает имя владельца. Ключ -l перечисляет файлы указанного пакета, но путь к файлу пакетом не является, поэтому команда завершается ошибкой. dnf list installed перечисляет установленные пакеты и о владельце файла ничего не сообщает. rpm -qi выводит сведения о заранее названном пакете, то есть подставляет ответ вместо его поиска."
+  },
+  {
+    "id": "ms_006",
+    "topic": "manage_software",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "репозитории: dnf config-manager",
+    "question": "Репозиторий epel описан в /etc/yum.repos.d/epel.repo, но в его секции стоит enabled=0. Нужно включить репозиторий так, чтобы он остался включённым и при следующих запусках dnf. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "dnf config-manager --set-enabled epel",
+        "correct": true
+      },
+      {
+        "text": "dnf config-manager --set-enable epel",
+        "correct": false
+      },
+      {
+        "text": "dnf --enablerepo=epel repolist",
+        "correct": false
+      },
+      {
+        "text": "dnf config-manager --set-disabled epel",
+        "correct": false
+      }
+    ],
+    "explanation": "config-manager --set-enabled включает репозиторий и сохраняет это в его repo-файле, поэтому состояние переживает следующие запуски. Опции --set-enable у плагина нет, есть --set-enabled, поэтому такая команда падает с ошибкой разбора аргументов. --enablerepo включает репозиторий только на один запуск и файл настройки не меняет. --set-disabled выполняет обратное действие и репозиторий отключает."
+  },
+  {
+    "id": "ms_007",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "GPG: gpgcheck в секции репозитория",
+    "question": "Пакеты репозитория local подписаны, но открытого ключа на сервере подписи нет, поэтому установка падает на проверке GPG. Нужно отключить проверку подписи пакетов только для этого репозитория через его секцию в /etc/yum.repos.d/local.repo. Какая строка это сделает?",
+    "options": [
+      {
+        "text": "gpgcheck=0",
+        "correct": true
+      },
+      {
+        "text": "nogpgcheck=1",
+        "correct": false
+      },
+      {
+        "text": "repo_gpgcheck=0",
+        "correct": false
+      },
+      {
+        "text": "gpgcheck=1",
+        "correct": false
+      }
+    ],
+    "explanation": "Параметр gpgcheck задаётся в секции репозитория, и значение 0 отключает проверку подписи пакетов именно этого репозитория. Опции nogpgcheck в конфигурации репозитория не существует, этот ключ есть только у командной строки dnf, поэтому такой файл отвергается. repo_gpgcheck отвечает за подпись метаданных, а не пакетов, и установку не разблокирует. Значение 1, наоборот, включает ту самую проверку, на которой установка падает."
+  },
+  {
+    "id": "ms_008",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "dnf history: отмена транзакции",
+    "question": "После обновления из репозитория перестал запускаться сервис. Нужно отменить последнюю транзакцию dnf и вернуть прежние версии пакетов. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "dnf history undo last",
+        "correct": true
+      },
+      {
+        "text": "dnf history --undo last",
+        "correct": false
+      },
+      {
+        "text": "dnf history info last",
+        "correct": false
+      },
+      {
+        "text": "dnf history redo last",
+        "correct": false
+      }
+    ],
+    "explanation": "history undo выполняет обратные операции для указанной транзакции, поэтому последняя транзакция откатывается и возвращаются прежние версии. Опции --undo у dnf нет, отмена оформлена подкомандой history undo, а не ключом. history info только описывает транзакцию и систему не меняет. history redo повторяет транзакцию заново, то есть снова ставит те же обновления."
+  }
+]

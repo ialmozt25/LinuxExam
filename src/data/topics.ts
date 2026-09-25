@@ -39,7 +39,7 @@ export const TOPICS: TopicConfig[] = [
     status: 'available', Icon: Activity },
   { key: 'manage_software', title: 'Управление ПО',
     description: 'dnf, rpm, repositories, Flatpak',
-    status: 'planned', Icon: Package },
+    status: 'available', Icon: Package },
   { key: 'local_storage', title: 'Локальное хранилище',
     description: 'partitions, LVM, mount by UUID, swap',
     status: 'planned', Icon: HardDrive },

@@ -1,0 +1,17 @@
+{
+  "role": "rhcsa_instructor",
+  "batch_id": "manage_software_2026-09-25",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "ms_005",
+      "severity": "minor",
+      "comment": "Покрытие сабтопика неполное: ключ закрывает -qf, дистракторы -ql и -qi, а -qa и -qp (BLUEPRINT L117: rpm -q/-ql/-qf/-qp) в батче не встречаются. Для методической полноты их стоит добавить следующим инкрементом."
+    },
+    {
+      "id": "ms_004",
+      "severity": "minor",
+      "comment": "Модульные потоки входят в EX200 (Manage software) и в BLUEPRINT (dnf module list/enable/install); вопрос разводит enable и install корректно. Замечаний по соответствию objectives нет, отмечаю покрытие module disable как достаточное."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "role": "sysadmin_10y",
+  "batch_id": "manage_software_2026-09-25",
+  "verdict": "PASS",
+  "issues": [
+    {
+      "id": "ms_006",
+      "severity": "minor",
+      "comment": "`dnf --enablerepo=epel repolist` в том же запуске покажет epel включённым, поэтому дистрактор выглядит рабочим решением. Проверено по man dnf: --enablerepo действует только на текущий запуск и repo-файл не переписывает, а стем требует сохранения состояния. Дистрактор корректен."
+    },
+    {
+      "id": "ms_001",
+      "severity": "minor",
+      "comment": "Практика: чаще путают `dnf install ./tree.rpm` и `dnf localinstall` (в man dnf localinstall помечен deprecated alias), а не `rpm -ivh tree`. Текущий синтаксический дистрактор верен, но на будущее можно взять локальный rpm-файл как отдельный вопрос."
+    }
+  ]
+}

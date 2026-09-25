@@ -1,9 +1,10 @@
 {
-  "total": 106,
+  "total": 114,
   "byTopic": {
     "essential_tools": 7,
     "file_management": 12,
     "file_permissions": 12,
+    "manage_software": 8,
     "networking": 10,
     "process_management": 11,
     "running_systems": 10,
