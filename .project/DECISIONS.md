@@ -71,3 +71,9 @@
 - **Why:** `qc.cjs --batch` молча игнорируется (проверяет весь банк); `cosine.cjs --batch` падает с ENOENT (рабочая форма — `--intra-batch`). Оба найдены на handoff-тесте M1.
 - **Alternatives:** Фиксить сейчас (отклонено — вне зоны M1).
 - **Decided-by:** Капитан + Orchestrator.
+
+## 2026-09-26 · M1.5 закрыт: content-pipeline формализован
+- **Decision:** Зафиксировать 7-этапный pipeline как skill `content-pipeline` у Content Writer. Раньше pipeline применялся неформально.
+- **Why:** Воспроизводимость генерации. Writer больше не импровизирует — следует протоколу (draft в $env:TEMP, man-верификация, cosine до интеграции, snapshot-проверка, gates как блокеры). Handoff-тест M1 подтвердил, что пресет работает в правильном workspace.
+- **Alternatives:** Оставить pipeline как практику в голове (отклонено — теряется); вынести в общий skill для всех агентов (отложено — Writer специфичен).
+- **Decided-by:** Капитан + Orchestrator.

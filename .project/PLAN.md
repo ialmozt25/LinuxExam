@@ -35,6 +35,12 @@
 - [x] Agent Contract `orchestrator_to_writer.yaml`
 - [x] Проверить handoff
 
+### M1.5: Content Writer — pipeline skill (закрыт 2026-09-26)
+**Закрыт:** 2026-09-26
+- [x] Skill `content-pipeline` создан (7 этапов: pre-flight, draft, cosine, integration, shuffle, gates, push)
+- [x] Persona обновлена: 4 skills в автозагрузке
+- [x] Проверено: пресет Content Writer загружает 4/4 skills
+
 ### M2: Третий агент — QC Auditor
 - [ ] Создать пресет `linuxexam-qc-auditor`
 - [ ] Agent Contract `writer_to_qc.yaml`
