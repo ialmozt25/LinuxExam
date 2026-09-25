@@ -26,7 +26,7 @@ const DEFAULT_COSINE_THRESHOLD = CALIBRATION && CALIBRATION.thresholds && typeof
   : 0.8;
 
 const ROOT = path.join(__dirname, '..');
-const BANK = path.join(ROOT, 'src/data/questions.json');
+const BANK_DIR = path.join(ROOT, 'src/data/questions');
 
 let _enc = null;
 
@@ -177,10 +177,25 @@ function loadDraftQuestions() {
   return out;
 }
 
-/** Read the bank (same shape as drafts). */
+/**
+ * Read the bank (same shape as drafts).
+ *
+ * The bank used to be a single questions.json. It is now split into one file per
+ * topic (src/data/questions/<topic>.json) plus two manifests that hold no questions
+ * (_order.json = quiz order, _topics.json = counters). Same assembly rule as
+ * tools/qc.cjs: file names sorted, question order inside a file kept as is.
+ */
 function loadBank() {
-  const json = JSON.parse(fs.readFileSync(BANK, 'utf8'));
-  return json.map((q) => ({ ...q, _source: 'src/data/questions.json' }));
+  const files = fs
+    .readdirSync(BANK_DIR)
+    .filter((f) => f.endsWith('.json') && f !== '_order.json' && f !== '_topics.json')
+    .sort();
+  return files.flatMap((f) =>
+    JSON.parse(fs.readFileSync(path.join(BANK_DIR, f), 'utf8')).map((q) => ({
+      ...q,
+      _source: path.relative(ROOT, path.join(BANK_DIR, f)),
+    }))
+  );
 }
 
 /**
