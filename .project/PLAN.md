@@ -13,6 +13,11 @@
 - [x] Написать skill `bootstrap.md`
 - [x] Проверить: агент читает `.project/`
 
+### M0.5: База знаний DSH
+- [x] Создать docs/knowledge/ структуру
+- [x] Первая запись: preset-common-errors
+- [ ] Дополнять по мере работы (каждая значимая находка → запись)
+
 ### M1: Второй агент — Content Writer
 - [ ] Создать пресет `linuxexam-content-writer`
 - [ ] Agent Contract `orchestrator_to_writer.yaml`
