@@ -1,7 +1,7 @@
 # LinuxExam — Текущее состояние
 
 ## Что делаем сейчас
-M1.5 закрыт (content-pipeline skill). Следующий шаг — M2: QC Auditor.
+M2 закрыт (M2.1–M2.7). Следующий шаг — M2.8: первая реальная генерация.
 
 ## Что сделано
 - [x] 160 вопросов сгенерированы
@@ -22,6 +22,10 @@ M1.5 закрыт (content-pipeline skill). Следующий шаг — M2: QC
 - [x] M1.5: skill content-pipeline создан (7 этапов)
 - [x] M1.5: persona Writer обновлена (4 skills в автозагрузке)
 - [x] M1.5: проверено в пресете Content Writer (4/4 skills)
+- [x] M2: пресет `linuxexam-qc-auditor` + 4 skills (M2.2)
+- [x] M2: 3 контракта MAS — orchestrator_to_writer, writer_to_qc, qc_to_orchestrator (M2.3/M2.4)
+- [x] M2: цикл Writer → QC → Orchestrator замкнут на тестовом батче (M2.6, decision=rework)
+- [x] M2: milestone закрыт в `.project/` (M2.7, commit 32d9d5e)
 
 ## Блокеры
 | # | Блокер | Критичность | Ответственный |
@@ -31,6 +35,7 @@ M1.5 закрыт (content-pipeline skill). Следующий шаг — M2: QC
 | 3 | Paywall dead-end (нет выхода) | Высокая | — |
 
 ## Следующие шаги
-1. M2: создать пресет `linuxexam-qc-auditor`
-2. M2: создать Agent Contract `writer_to_qc.yaml`
-3. M2: замкнуть цикл writer -> qc -> orchestrator
+1. M2.8: первая реальная генерация через полный MAS-цикл (Writer → QC → Orchestrator)
+2. M2.8: отработать rework_targets=[um-001, um-002] из M2.6 (дубликат ug_006, дистрактор groupmod -U)
+3. M2.8: Orchestrator валидирует topic по src/data/topics.ts перед выдачей задачи Writer'у
+<!-- M2.8-prep completed -->

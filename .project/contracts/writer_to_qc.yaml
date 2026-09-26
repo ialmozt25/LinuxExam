@@ -44,3 +44,14 @@ failure_modes:
   - hard_blocker triggered (fact-check, objective)
   - QC model equals Writer model (diversity violation)
   - questions malformed
+
+# Orchestrator MUST verify topic before submitting to Writer.
+# Canonical topics are in src/data/topics.ts (export AVAILABLE_TOPICS, 14 keys, status=available).
+# Known keys include:
+#   users_groups, file_permissions, local_storage, networking, running_systems, security.
+# If topic not in available — Orchestrator requests a valid topic from the captain.
+# This prevents the M2.6 failure where topic=user_management (non-existent).
+topic_validation:
+  required: true
+  source: src/data/topics.ts
+  on_mismatch: ask_captain_for_valid_topic
