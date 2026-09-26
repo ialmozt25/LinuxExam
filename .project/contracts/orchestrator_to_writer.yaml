@@ -2,7 +2,7 @@
 name: orchestrator_to_writer
 version: 1.0.0
 from_role: orchestrator
-to_role: content_writer
+to_role: content-writer
 description: Handoff от Orchestrator к Content Writer для генерации MCQ-вопросов.
 
 input:

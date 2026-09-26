@@ -1,0 +1,39 @@
+---
+name: qc_to_orchestrator
+version: 1.0.0
+from_role: qc-auditor
+to_role: orchestrator
+description: |
+  QC Auditor передаёт Orchestrator'у вердикт по батчу MCQ-вопросов.
+  Orchestrator принимает финальное решение: accept / reject / rework.
+  QC не принимает решение — он возвращает issues и evidence.
+  Orchestrator не доверяет слепо вердикту — проверяет evidence_verified.
+
+input:
+  batch_id: string
+  verdict: PASS or FAIL
+  issues: list of objects
+  issues_format:
+    question_id: string
+    severity: CRITICAL or SUBSTANTIAL or MINOR
+    pass: fact-check or objective or language or beginner-view or skeptic-view
+    description: string
+  evidence_verified:
+    qc_rerun: list of strings
+    man_recheck: list of strings
+  goal_invariant_check: boolean
+  notes: string
+
+output:
+  decision: accept or reject or rework
+  next_action: string
+  rework_targets: list of question_ids
+  message: string
+
+failure_modes:
+  - batch_id mismatch with writer_to_qc input
+  - verdict not in PASS or FAIL
+  - evidence_verified empty (ratification by re-execution skipped)
+  - goal_invariant_check false but verdict PASS
+  - hard_blocker present but verdict PASS
+  - rework_targets empty when decision rework
