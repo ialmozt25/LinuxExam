@@ -83,10 +83,10 @@ async function loadState() {
   }
 }
 
-// Рендер V2: KPI-row + focus-row + свёрнутые details. Идемпотентен: повторный
-// вызов заменяет содержимое, но сохраняет состояние открытости <details>.
+// Рендер V5: hero-прогресс + dual-карточки + список внимания + свёрнутые details.
+// Идемпотентен: повторный вызов заменяет содержимое, но сохраняет состояние
+// открытости <details>, чтобы auto-refresh не схлопывал раскрытые блоки.
 function render(state) {
-  // Состояние <details> предыдущего рендера (auto-refresh не должен схлопывать).
   const prevMil = document.getElementById("details-milestones");
   const prevAct = document.getElementById("details-activity");
   const openMil = !!(prevMil && prevMil.open);
@@ -99,42 +99,29 @@ function render(state) {
   const ms = asArray(state.milestones);
   const issues = asArray(state.issues_open);
   const commits = asArray(state.recent_commits);
-  const gates = state.gates || {};
 
-  // KPI-ROW
-  const kpiRow = el("section", "kpi-row");
+  // === HERO ===
+  const hero = el("section", "hero");
+  hero.appendChild(el("div", "hero__title", "Вопросов в базе"));
 
-  // KPI 1: Вопросов
-  const k1 = el("div", "kpi");
-  k1.appendChild(el("div", "kpi__label", "Вопросов"));
-  k1.appendChild(el("div", "kpi__value mono",
-    asText(goal.current_questions, "—") + " / " + asText(goal.target_questions, "—")));
-  const bar = el("div", "progress__bar");
-  const fill = el("div", "progress__fill");
+  const heroMain = el("div", "hero__main");
+  const cur = goal.current_questions || 0;
+  const tgt = goal.target_questions || 300;
+  const num = el("div", "hero__number");
+  num.appendChild(el("span", "hero__number-current", String(cur)));
+  num.appendChild(el("span", "hero__number-sep", "/"));
+  num.appendChild(el("span", null, String(tgt)));
+  heroMain.appendChild(num);
+  heroMain.appendChild(el("div", "hero__remaining", "осталось " + Math.max(0, tgt - cur)));
+  hero.appendChild(heroMain);
+
+  const bar = el("div", "hero__bar");
+  const fill = el("div", "hero__fill");
   fill.style.width = (goal.progress_percent || 0) + "%";
   bar.appendChild(fill);
-  k1.appendChild(bar);
-  const pctTxt = typeof goal.progress_percent === "number"
-    ? goal.progress_percent + "%" : "—";
-  k1.appendChild(el("div", "kpi__sub", pctTxt));
-  kpiRow.appendChild(k1);
+  hero.appendChild(bar);
 
-  // KPI 2: Готово — последний completed milestone (человеческое имя).
-  let lastIdx = -1;
-  for (let i = 0; i < ms.length; i += 1) {
-    if (ms[i].status === "completed") lastIdx = i;
-  }
-  const lastCompleted = lastIdx >= 0 ? ms[lastIdx] : null;
-
-  const k2 = el("div", "kpi");
-  k2.appendChild(el("div", "kpi__label", "Готово"));
-  const k2value = lastCompleted
-    ? milestoneLabel(lastCompleted.id, lastCompleted.title)
-    : "—";
-  k2.appendChild(el("div", "kpi__value", k2value));
-  kpiRow.appendChild(k2);
-
-  // KPI 3: Сегодня — сколько вопросов добавлено (локальная дата, не UTC).
+  // Локальная дата (не UTC) — «сегодня» для метрики темпа.
   const d = new Date();
   const today = d.getFullYear() + "-" +
     String(d.getMonth() + 1).padStart(2, "0") + "-" +
@@ -147,109 +134,107 @@ function render(state) {
       const m = asText(c.message, "").match(/(\d+)\s+questions?/i);
       return sum + (m ? parseInt(m[1], 10) : 0);
     }, 0);
+  const meta = qAdded > 0
+    ? "Сегодня добавили " + qAdded + (qAdded === 1 ? " вопрос" : " вопросов")
+    : "Сегодня пока без изменений";
+  hero.appendChild(el("div", "hero__meta", meta));
 
-  const k3 = el("div", "kpi");
-  k3.appendChild(el("div", "kpi__label", "Сегодня"));
-  k3.appendChild(el("div", "kpi__value mono", qAdded > 0 ? "+" + qAdded : "—"));
-  k3.appendChild(el("div", "kpi__sub", "вопросов добавлено"));
-  kpiRow.appendChild(k3);
+  mount.appendChild(hero);
 
-  // KPI 4: Проверки
-  // ВНИМАНИЕ: severity-сортировка (в focus-row) работает только для
-  // 'SUBSTANTIAL'. Если появятся другие значения (CRITICAL, HIGH) — обновить
-  // логику (BACKLOG).
-  const order = ["qc", "typecheck", "vitest", "shuffle_bank"];
-  let passCount = 0;
-  const dotsWrap = el("div", "gate-dots");
-  for (const name of order) {
-    const g = gates[name] || {};
-    const st = g.status || "unknown";
-    if (st === "pass") passCount += 1;
-    const cls = st === "pass" ? "pass" : st === "fail" ? "fail" : "warn";
-    dotsWrap.appendChild(el("span", "gate-dot gate-dot--" + cls));
+  // === DUAL ===
+  let lastIdx = -1;
+  for (let i = 0; i < ms.length; i += 1) {
+    if (ms[i].status === "completed") lastIdx = i;
   }
-  const k4 = el("div", "kpi");
-  k4.appendChild(el("div", "kpi__label", "Проверки"));
-  k4.appendChild(dotsWrap);
-  k4.appendChild(el("div", "kpi__sub", passCount + " из 4 ок"));
-  kpiRow.appendChild(k4);
-
-  mount.appendChild(kpiRow);
-
-  // FOCUS-ROW
-  const focusRow = el("section", "focus-row");
+  const lastCompleted = lastIdx >= 0 ? ms[lastIdx] : null;
   const next = lastIdx >= 0 && lastIdx + 1 < ms.length ? ms[lastIdx + 1] : null;
-  const cur = goal.current_questions || 0;
 
-  const f1 = el("div", "focus");
-  f1.appendChild(el("div", "focus__title", "Следующий этап"));
-  const f1main = next ? milestoneLabel(next.id, next.title) : "—";
-  f1.appendChild(el("div", "focus__main", f1main));
-  f1.appendChild(el("div", "focus__sub",
-    "Осталось до цели: " + Math.max(0, 300 - cur) + " вопросов"));
-  focusRow.appendChild(f1);
+  const dual = el("div", "dual");
 
-  const sorted = issues.slice().sort(function (a, b) {
-    return (a.severity === "SUBSTANTIAL" ? 0 : 1) - (b.severity === "SUBSTANTIAL" ? 0 : 1);
-  });
-  const f2 = el("div", "focus");
-  f2.appendChild(el("div", "focus__title", "Проблемы"));
-  const top3 = sorted.slice(0, 3);
-  if (top3.length === 0) {
-    f2.appendChild(el("div", "focus__sub", "всё чисто"));
+  const left = el("div", "dual-card dual-card--done");
+  left.appendChild(el("div", "dual-card__title", "Последнее достижение"));
+  left.appendChild(el("div", "dual-card__main",
+    lastCompleted ? milestoneLabel(lastCompleted.id, lastCompleted.title) : "—"));
+  left.appendChild(el("div", "dual-card__sub", "готово"));
+  dual.appendChild(left);
+
+  const right = el("div", "dual-card dual-card--next");
+  right.appendChild(el("div", "dual-card__title", "Следующий этап"));
+  right.appendChild(el("div", "dual-card__main",
+    next ? milestoneLabel(next.id, next.title) : "—"));
+  right.appendChild(el("div", "dual-card__sub", next ? "по плану" : "план завершён"));
+  dual.appendChild(right);
+
+  mount.appendChild(dual);
+
+  // === ATTENTION ===
+  const attention = el("section", "attention");
+  attention.appendChild(el("div", "attention__title", "Требует внимания"));
+  if (issues.length === 0) {
+    attention.appendChild(el("div", "attention__more", "Проблем нет"));
   } else {
-    for (const iss of top3) {
-      const line = el("div", "issue-line");
-      line.appendChild(el("span",
-        "issue-line__sev" + (iss.severity === "MINOR" ? " issue-line__sev--minor" : ""),
-        SEVERITY_LABELS[iss.severity] || asText(iss.severity, "—")));
-      const note = asText(iss.note, "").replace(/^explanation про\s*/, "");
-      line.appendChild(el("span", "issue-line__txt", note.slice(0, 80)));
-      f2.appendChild(line);
-    }
-    if (sorted.length > 3) {
-      const rest = sorted.length - 3;
-      const restMinor = sorted.slice(3).every(function (x) { return x.severity === "MINOR"; });
-      f2.appendChild(el("div", "focus__sub",
-        restMinor ? "+" + rest + " мелких" : "+" + rest + " ещё"));
+    const list = el("ol", "attention__list");
+    issues.slice(0, 3).forEach(function (iss, i) {
+      const li = el("li", "attention__item");
+      li.appendChild(el("span", "attention__num", (i + 1) + "."));
+      const txt = asText(iss.note, "").replace(/^explanation про\s*/, "");
+      li.appendChild(el("span", null, txt));
+      list.appendChild(li);
+    });
+    attention.appendChild(list);
+    if (issues.length > 3) {
+      attention.appendChild(el("div", "attention__more",
+        "Ещё " + (issues.length - 3) + " — в деталях"));
     }
   }
-  focusRow.appendChild(f2);
-  mount.appendChild(focusRow);
+  mount.appendChild(attention);
 
-  // DETAILS: Milestones (свёрнуто по умолчанию, состояние переносится)
+  // === DETAILS: Пройденные этапы ===
   const dMil = el("details", "details");
   dMil.id = "details-milestones";
   if (openMil) dMil.open = true;
-  dMil.appendChild(el("summary", null, "Milestones (" + ms.length + ")"));
+  dMil.appendChild(el("summary", null, "Пройденные этапы (" + ms.length + ")"));
   const milList = el("div", "milestones-list");
   for (const m of ms) {
-    const row = el("div", "milestone-row status-" + asText(m.status, "planned"));
-    const statusText = STATUS_LABELS[m.status] || asText(m.status, "—");
-    row.appendChild(el("span", null,
-      milestoneLabel(m.id, m.title) + "  (" + statusText + ")"));
+    const row = el("div", "milestone-row");
+    row.appendChild(el("span", null, milestoneLabel(m.id, m.title) + " "));
+    row.appendChild(el("span", "milestone-row__status",
+      "(" + (STATUS_LABELS[m.status] || asText(m.status, "—")) + ")"));
     milList.appendChild(row);
   }
   dMil.appendChild(milList);
   mount.appendChild(dMil);
 
-  // DETAILS: Activity (топ-5 коммитов)
+  // === DETAILS: Последние изменения ===
   const dAct = el("details", "details");
   dAct.id = "details-activity";
   if (openAct) dAct.open = true;
-  dAct.appendChild(el("summary", null, "Activity"));
+  dAct.appendChild(el("summary", null, "Последние изменения"));
   const actList = el("div", "activity-list");
   for (const c of commits.slice(0, 5)) {
     const row = el("div", "activity-row");
-    row.appendChild(el("span", "mono", asText(c.hash, "") + "  "));
-    row.appendChild(el("span", "mono", relativeTime(c.date) + "  "));
-    row.appendChild(el("span", null, asText(c.message, "").slice(0, 60)));
+    row.appendChild(el("span", "mono", asText(c.hash, "").slice(0, 7)));
+    row.appendChild(el("span", "mono", relativeTime(c.date)));
+    row.appendChild(el("span", null, humanizeCommit(c.message)));
     actList.appendChild(row);
   }
   dAct.appendChild(actList);
   mount.appendChild(dAct);
 
+  // === last_update ===
   if (lastUpdate) lastUpdate.textContent = relativeTime(state.last_update);
+}
+
+// Технические префиксы коммитов → человеческий язык.
+function humanizeCommit(msg) {
+  if (!msg) return "";
+  return String(msg)
+    .replace(/^feat\(bank\):\s*/i, "Добавлены вопросы: ")
+    .replace(/^docs\(project\):\s*/i, "Документация: ")
+    .replace(/^feat\(dashboard\):\s*/i, "Дашборд: ")
+    .replace(/^feat\(tools\):\s*/i, "Инструменты: ")
+    .replace(/^fix\(parser\):\s*/i, "Исправление: ")
+    .replace(/^chore\(repo\):\s*/i, "Обслуживание: ");
 }
 
 // Обновление по успешной загрузке: таймстемп + перерисовка.
