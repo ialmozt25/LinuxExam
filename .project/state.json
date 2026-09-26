@@ -1,0 +1,151 @@
+{
+  "goal": {
+    "current_questions": 166,
+    "target_deadline": null,
+    "target_questions": 300,
+    "progress_percent": 55.3
+  },
+  "milestones": [
+    {
+      "id": "M2.1",
+      "title": "расширить PLAN.md архитектурой QC (этот шаг)",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M2.2",
+      "title": "создать пресет `linuxexam-qc-auditor` + 4 skills",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M2.3",
+      "title": "создать контракт `writer_to_qc.yaml`",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M2.4",
+      "title": "создать контракт `qc_to_orchestrator.yaml`",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M2.5",
+      "title": "перезапуск DSH + проверка пресета QC",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M2.6",
+      "title": "тест цикла Writer → QC → Orchestrator",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M2.7",
+      "title": "закрыть M2 в `.project/`",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M2.8",
+      "title": "первая реальная генерация через MAS (банк 160 → 166, commit d73c016)",
+      "commit": null,
+      "status": "completed"
+    },
+    {
+      "id": "M3.1",
+      "title": "Create state.json",
+      "commit": null,
+      "status": "in_progress"
+    }
+  ],
+  "issues_open": [
+    {
+      "id": "ug_013",
+      "severity": "SUBSTANTIAL",
+      "note": "explanation про usermod -U — правка текста, не блокер"
+    },
+    {
+      "id": "ug_018",
+      "severity": "SUBSTANTIAL",
+      "note": "перекрытие с ug_002 (useradd -m); принято как known; QC не блокирует"
+    },
+    {
+      "id": "ug_014",
+      "severity": "MINOR",
+      "note": "не предлагать ug_014 и ug_006 в одной сессии"
+    },
+    {
+      "id": "ug_016",
+      "severity": "MINOR",
+      "note": "тавтологичный стем"
+    },
+    {
+      "id": "ug_013",
+      "severity": "MINOR",
+      "note": "-e/-d как незавершённые вызовы"
+    },
+    {
+      "id": "ug_017",
+      "severity": "MINOR",
+      "note": "2 из 3 дистракторов = correct ug_009/ug_010"
+    },
+    {
+      "id": "ug_018",
+      "severity": "MINOR",
+      "note": "ratio_chars в evidence не совпал с фактическим замером"
+    }
+  ],
+  "gates": {
+    "shuffle_bank": {
+      "last_run": "2026-09-26T06:16:07.6530895Z",
+      "status": "pass"
+    },
+    "qc": {
+      "last_run": "2026-09-26T06:16:07.6530895Z",
+      "status": "pass",
+      "total": 166,
+      "fails": 0
+    },
+    "vitest": {
+      "status": "pass",
+      "last_run": "2026-09-26T06:16:07.6530895Z",
+      "tests_total": 137,
+      "tests_passed": 137
+    },
+    "typecheck": {
+      "last_run": "2026-09-26T06:16:07.6530895Z",
+      "status": "pass"
+    }
+  },
+  "last_update": "2026-09-26T06:16:07.6530895Z",
+  "recent_commits": [
+    {
+      "date": "2026-09-26",
+      "message": "docs(project): close M2.8 — first real MAS generation (6 questions)",
+      "hash": "3da4eb0"
+    },
+    {
+      "date": "2026-09-26",
+      "message": "feat(bank): integrate 6 questions from first MAS cycle (users_groups)",
+      "hash": "d73c016"
+    },
+    {
+      "date": "2026-09-26",
+      "message": "docs(project): sync STATE narrative + add topic_validation to writer_to_qc",
+      "hash": "834eb10"
+    },
+    {
+      "date": "2026-09-26",
+      "message": "docs(project): close milestone M2, replace STATE HEAD with sync date",
+      "hash": "32d9d5e"
+    },
+    {
+      "date": "2026-09-26",
+      "message": "fix(presets): restore persona suffix in QC + capture SHA256 lesson",
+      "hash": "af47a95"
+    }
+  ]
+}

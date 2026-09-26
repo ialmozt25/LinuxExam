@@ -1,0 +1,55 @@
+{
+  "run": "cleanup-inventory",
+  "date": "2026-09-26",
+  "repo": "C:\\Users\\Alexey Udotov\\LinuxExam",
+  "head_before": "3da4eb0",
+  "ahead_behind_before": "0/0",
+  "actions": [
+    { "op": "ARCHIVE", "target": ".project/drafts/handoff-test-1.yaml", "to": ".project/archive/drafts/", "bytes": 893, "class": "M1 handoff-test artifact (M1 closed)", "reason": "no references from active files" },
+    { "op": "ARCHIVE", "target": ".project/drafts/handoff-test-1-questions.json", "to": ".project/archive/drafts/", "bytes": 3904, "class": "M1 handoff-test artifact (M1 closed)", "reason": "no references from active files" },
+    { "op": "ARCHIVE", "target": ".project/drafts/handoff-test-1-output.yaml", "to": ".project/archive/drafts/", "bytes": 7300, "class": "M1 handoff-test artifact (M1 closed)", "reason": "no references from active files" },
+    { "op": "ARCHIVE", "target": ".project/drafts/test-m2.6-input.yaml", "to": ".project/archive/drafts/", "bytes": 488, "class": "M2.6 closed test-cycle artifact", "reason": "M2.6 closed; M2.8 superseded it" },
+    { "op": "ARCHIVE", "target": ".project/drafts/test-m2.6-writer-output.yaml", "to": ".project/archive/drafts/", "bytes": 6965, "class": "M2.6 closed test-cycle artifact", "reason": "M2.6 closed; M2.8 superseded it" },
+    { "op": "ARCHIVE", "target": ".project/drafts/test-m2.6-qc-verdict.yaml", "to": ".project/archive/drafts/", "bytes": 9643, "class": "M2.6 closed test-cycle artifact", "reason": "M2.6 closed; M2.8 superseded it" },
+    { "op": "ARCHIVE", "target": ".project/drafts/test-m2.6-final.yaml", "to": ".project/archive/drafts/", "bytes": 5555, "class": "M2.6 closed test-cycle artifact", "reason": "M2.6 closed; M2.8 superseded it" },
+    { "op": "ARCHIVE", "target": ".project/drafts/m2.8-input.yaml", "to": ".project/archive/drafts/", "bytes": 1982, "class": "M2.8 closed pipeline evidence", "reason": "M2.8 closed (commit d73c016); evidence retained, not deleted" },
+    { "op": "ARCHIVE", "target": ".project/drafts/m2.8-writer-output.yaml", "to": ".project/archive/drafts/", "bytes": 19141, "class": "M2.8 closed pipeline evidence", "reason": "M2.8 closed; v2 superseded v1" },
+    { "op": "ARCHIVE", "target": ".project/drafts/m2.8-qc-verdict.yaml", "to": ".project/archive/drafts/", "bytes": 16578, "class": "M2.8 closed pipeline evidence", "reason": "M2.8 closed; v2 superseded v1" },
+    { "op": "ARCHIVE", "target": ".project/drafts/m2.8-candidates-v2.json", "to": ".project/archive/drafts/", "bytes": 9460, "class": "M2.8 closed pipeline evidence", "reason": "questions already integrated into the bank" },
+    { "op": "ARCHIVE", "target": ".project/drafts/m2.8-final.yaml", "to": ".project/archive/drafts/", "bytes": 4514, "class": "M2.8 closed pipeline evidence", "reason": "decision=v2 rework superseded; final decision is m2.8g (tracked)" },
+    { "op": "ARCHIVE", "target": ".project/drafts/m2.8-writer-output-v2.yaml", "to": ".project/archive/drafts/", "bytes": 23078, "class": "M2.8 closed pipeline evidence", "reason": "M2.8 closed; content integrated" },
+    { "op": "ARCHIVE", "target": ".project/drafts/m2.8-qc-verdict-v2.yaml", "to": ".project/archive/drafts/", "bytes": 20583, "class": "M2.8 closed pipeline evidence", "reason": "M2.8 closed; verdict PASS recorded in DECISIONS.md" },
+    { "op": "DELETE", "target": ".tmp-audit/", "to": null, "bytes": 1232452, "class": "M0-era scratch workspace (2026-09-23/24)", "reason": "gitignored by .tmp-* rule; 97 files; zero references in docs/.project/src/tools" },
+    { "op": "DELETE", "target": "src/data/questions.json.bak", "to": null, "bytes": 4522, "class": "pre-split monolithic bank backup (2026-09-21)", "reason": "gitignored; bank split into 14 files; referenced only as a historical note in docs" },
+    { "op": "DELETE", "target": "drafts/pending-local_storage_r2.json", "to": null, "bytes": 13074, "class": "orphan untracked pending draft", "reason": "not tracked, not in the batch history table, superseded by pending-local_storage_2026-09-25.json" }
+  ],
+  "pending": [
+    { "target": "AUDIT.md", "tracked": true, "bytes": 8167, "reason": "stale M0-era audit (says 5 questions, questions.json, branch df42450); tracked - decision left to the captain" },
+    { "target": "README.md", "tracked": true, "bytes": 17, "reason": "empty scaffold (only the title); tracked - decision left to the captain" },
+    { "target": "docs/BLUEPRINT-300.md", "tracked": true, "bytes": 21999, "reason": "stale numbers (66 questions, src/data/questions.json path, count 66299); tracked - decision left to the captain" },
+    { "target": "docs/STATE-SNAPSHOT-2026-09-24.md", "tracked": true, "bytes": 37698, "reason": "dated snapshot, superseded by .project/state.json; tracked - decision left to the captain" },
+    { "target": "docs/session-log.md", "tracked": true, "bytes": 12143, "reason": "dated session log; overlap with DECISIONS.md; tracked - decision left to the captain" },
+    { "target": "docs/HANDOFF-2026-09-23.md", "tracked": true, "bytes": 7498, "reason": "dated handoff, superseded by docs/HANDOFF.md; tracked - decision left to the captain" },
+    { "target": "docs/content-generation-20260921-1403.md", "tracked": true, "bytes": 4222, "reason": "M0-era generation report referencing the removed .bak; tracked - decision left to the captain" },
+    { "target": "drafts/_coherence/, drafts/_votes/, drafts/_tools/", "tracked": true, "bytes": 0, "reason": "268 tracked batch artifacts; retention policy not defined; tracked - decision left to the captain" }
+  ],
+  "keep": [
+    { "target": ".project/PLAN.md|SPEC.md|STATE.md|DECISIONS.md|BACKLOG.md|goal_invariants.json", "reason": "project state per bootstrap protocol" },
+    { "target": ".project/contracts/*.yaml (3)", "reason": "active MAS contracts" },
+    { "target": ".project/drafts/m2.8g-decision.yaml", "reason": "tracked; explicitly referenced by DECISIONS.md L175" },
+    { "target": "docs/** (32 files)", "reason": "living docs + docs/knowledge base" },
+    { "target": ".project/state.json", "reason": "M3.1 foundation for M3.2" },
+    { "target": "drafts/pending-*.json (tracked) + drafts/_votes/_coherence/_tools", "reason": "batch datastore per MAS-PLAYBOOK; policy TBD -> PENDING" },
+    { "target": "drafts/_mas-results/", "reason": "canonical MAS result store per MAS-PLAYBOOK L152-156; listed in BACKLOG as untracked" },
+    { "target": "tools/*, src/*, e2e/*, public/*, configs", "reason": "production code and gates" },
+    { "target": "dist/, test-results/, .vscode/*.json, scripts/, node_modules/", "reason": "gitignored build/runtime artifacts (scripts/ is empty)" }
+  ],
+  "anomalies": [
+    ".project/state.json (M3.1) is untracked - will not exist for a fresh clone",
+    ".project/drafts/ mixes a tracked decision file with untracked run artifacts",
+    "docs/BLUEPRINT-300.md still refers to src/data/questions.json and 66 questions (bank is 166)",
+    "scripts/ is an empty gitignored directory",
+    "AUDIT.md predates the M0-M2 restructuring (2026-02-19) and is stale",
+    ".gitignore ignores .tmp-* while .tmp-audit/ was expected (~20 files reported, actually 97)"
+  ]
+}
