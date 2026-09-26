@@ -71,6 +71,7 @@
 - [x] M3.3: dashboard.css — дизайн-токены
 - [x] M3.4: dashboard.html + dashboard.js — рендер 4 модулей
 - [x] M3.5: auto-sync state.json → docs/dashboard/ (в gen-state.mjs)
+- [x] M3.6: закрытие M3 — STATE, DECISIONS, sync
 - [ ] Архитектура: React + Vite + тонкий Node backend + WebSocket
 - [ ] Configuration-based widgets (JSON-описание, а не хардкод)
 - [ ] Модуль Overview: прогресс к цели, текущий milestone, % выполнения
