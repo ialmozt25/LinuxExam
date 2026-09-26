@@ -431,6 +431,11 @@ function main() {
   const reparsed = JSON.parse(bytes.toString('utf8'));
   if (bytes[bytes.length - 1] !== 0x0a) throw new Error('state.json: последний байт не 0x0A');
   if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) throw new Error('state.json: BOM обнаружен');
+  // --- M3.5: byte-for-byte синхронизация state.json для дашборда
+  const dashboardDir = path.join(ROOT, 'docs', 'dashboard');
+  const dashboardPath = path.join(dashboardDir, 'state.json');
+  fs.mkdirSync(dashboardDir, { recursive: true });
+  fs.copyFileSync(STATE_PATH, dashboardPath);
 
   // --- self-check
   const requiredKeys = ['goal', 'milestones', 'gates', 'issues_open', 'recent_commits', 'last_update'];

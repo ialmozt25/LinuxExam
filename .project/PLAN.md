@@ -69,7 +69,8 @@
 - [x] M3.1: Create state.json (M3.1)
 - [x] M3.2: tools/gen-state.mjs — сборщик данных
 - [x] M3.3: dashboard.css — дизайн-токены
-- [ ] M3.4: dashboard.html + dashboard.js — рендер 4 модулей
+- [x] M3.4: dashboard.html + dashboard.js — рендер 4 модулей
+- [x] M3.5: auto-sync state.json → docs/dashboard/ (в gen-state.mjs)
 - [ ] Архитектура: React + Vite + тонкий Node backend + WebSocket
 - [ ] Configuration-based widgets (JSON-описание, а не хардкод)
 - [ ] Модуль Overview: прогресс к цели, текущий milestone, % выполнения
@@ -82,7 +83,7 @@
 - [ ] Dark mode: near-black, layered elevation, contrast ≥ 4.5:1
 - [ ] Progressive disclosure: Tier 1 (видно) → Tier 2 (клик) → Tier 3 (навигация)
 
-### M3.5: Центр разработки — переиспользование
+### M3.7: Центр разработки — переиспользование
 - [ ] Вынести общее ядро (widgets, layout, reader .project/) в отдельный пакет
 - [ ] Документировать: как подключить к новому проекту
 - [ ] Patterns Library: 5+ переиспользуемых паттернов (SKILL.md)
