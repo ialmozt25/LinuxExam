@@ -13,6 +13,7 @@
     "shuffle-bank:check": "node tools/shuffle-bank.mjs --check",
     "manifest": "node tools/gen-topics-manifest.mjs",
     "state:update": "node tools/gen-state.mjs",
+    "dashboard": "start http://localhost:3000/dashboard.html && npx --no-install serve docs/dashboard",
     "cosine:intra": "node tools/cosine.cjs --intra-batch",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test:run": "vitest run",

@@ -4,6 +4,9 @@
 const mount = document.getElementById("dashboard");
 const lastUpdate = document.getElementById("last-update");
 
+// Таймстемп последнего успешного обновления (0 = ещё не обновлялся).
+let lastUpdateTs = 0;
+
 // Утилита: создать узел с классом и текстом (только createElement/textContent).
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -28,10 +31,12 @@ function showError(e) {
 async function loadState() {
   try {
     const r = await fetch("./state.json");
-    if (!r.ok) throw new Error(r.status);
+    if (!r.ok) throw new Error("HTTP " + r.status);
     return await r.json();
   } catch (e) {
-    showError(e);
+    // Ошибка не стирает уже отрисованные данные: текст идёт в строку обновления.
+    if (lastUpdate) lastUpdate.textContent = "ошибка: " + e.message;
+    if (lastUpdateTs === 0) showError(e);
     return null;
   }
 }
@@ -124,19 +129,52 @@ function issuesModule(state) {
   return c;
 }
 
-// Рендер: ровно 4 модуля-карточки.
+// Рендер: ровно 4 модуля-карточки. Идемпотентен: повторный вызов заменяет
+// содержимое, а не дописывает карточки (иначе auto-refresh дублировал бы их).
 function render(state) {
+  mount.replaceChildren();
+  if (lastUpdate && state.last_update) lastUpdate.textContent = state.last_update;
   mount.appendChild(progressModule(state));
   mount.appendChild(milestonesModule(state));
   mount.appendChild(gatesModule(state));
   mount.appendChild(issuesModule(state));
 }
 
+// Обновление по успешной загрузке: таймстемп + перерисовка.
+function renderIfOk(s) {
+  if (s !== null && s !== undefined) {
+    lastUpdateTs = Date.now();
+    render(s);
+  }
+}
+
+// Счётчик «N сек назад» (0 = ещё не обновлялся).
+setInterval(() => {
+  const el = document.getElementById("last-updated-ago");
+  if (!el) return;
+  if (lastUpdateTs === 0) {
+    el.textContent = "—";
+    return;
+  }
+  el.textContent = Math.floor((Date.now() - lastUpdateTs) / 1000) + " сек назад";
+}, 1000);
+
+// Ручное обновление кнопкой.
+const refreshBtn = document.getElementById("refresh-btn");
+if (refreshBtn) {
+  refreshBtn.addEventListener("click", () => {
+    loadState().then(renderIfOk);
+  });
+}
+
+// Автообновление раз в 30 секунд; в скрытой вкладке не выполняется.
+setInterval(() => {
+  if (document.hidden) return;
+  loadState().then(renderIfOk);
+}, 30000);
+
 async function init() {
-  const state = await loadState();
-  if (!state) return;
-  if (state.last_update) lastUpdate.textContent = state.last_update;
-  render(state);
+  renderIfOk(await loadState());
 }
 
 init();

@@ -331,3 +331,19 @@ a:hover {
   font-size: var(--fs-xs);
   padding: var(--sp-2) 0;
 }
+
+/* refresh control */
+
+.btn {
+  background: var(--bg-elev, #222);
+  border: 1px solid var(--border, #444);
+  border-radius: 4px;
+  color: var(--fg, #eee);
+  cursor: pointer;
+  font: inherit;
+  padding: 6px 12px;
+}
+
+.btn:hover {
+  border-color: var(--accent, #5aa9ff);
+}
