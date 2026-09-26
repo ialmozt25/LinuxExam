@@ -1,4 +1,7 @@
-"use strict";
+// Dashboard V5/V6/V7 — ES-модуль (подключается как <script type="module">).
+// Модули и так strict по спецификации, явный "use strict" не нужен.
+
+import { humanizeCommit } from './humanize.mjs';
 
 // Монтирование: main#dashboard и строка обновления в header.
 const mount = document.getElementById("dashboard");
@@ -121,21 +124,11 @@ function render(state) {
   bar.appendChild(fill);
   hero.appendChild(bar);
 
-  // Локальная дата (не UTC) — «сегодня» для метрики темпа.
-  const d = new Date();
-  const today = d.getFullYear() + "-" +
-    String(d.getMonth() + 1).padStart(2, "0") + "-" +
-    String(d.getDate()).padStart(2, "0");
-  const qAdded = commits
-    .filter(function (c) {
-      return c.date === today && asText(c.message, "").startsWith("feat(bank)");
-    })
-    .reduce(function (sum, c) {
-      const m = asText(c.message, "").match(/(\d+)\s+questions?/i);
-      return sum + (m ? parseInt(m[1], 10) : 0);
-    }, 0);
-  const meta = qAdded > 0
-    ? "Сегодня добавили " + qAdded + (qAdded === 1 ? " вопрос" : " вопросов")
+  // «Сегодня добавлено» считает gen-state.mjs (goal.added_today) — окно
+  // recent_commits (5 шт.) для этой метрики больше не используется.
+  const addedToday = goal.added_today || 0;
+  const meta = addedToday > 0
+    ? "Сегодня добавили " + addedToday + (addedToday === 1 ? " вопрос" : " вопросов")
     : "Сегодня пока без изменений";
   hero.appendChild(el("div", "hero__meta", meta));
 
@@ -225,17 +218,7 @@ function render(state) {
   if (lastUpdate) lastUpdate.textContent = relativeTime(state.last_update);
 }
 
-// Технические префиксы коммитов → человеческий язык.
-function humanizeCommit(msg) {
-  if (!msg) return "";
-  return String(msg)
-    .replace(/^feat\(bank\):\s*/i, "Добавлены вопросы: ")
-    .replace(/^docs\(project\):\s*/i, "Документация: ")
-    .replace(/^feat\(dashboard\):\s*/i, "Дашборд: ")
-    .replace(/^feat\(tools\):\s*/i, "Инструменты: ")
-    .replace(/^fix\(parser\):\s*/i, "Исправление: ")
-    .replace(/^chore\(repo\):\s*/i, "Обслуживание: ");
-}
+// humanizeCommit — в ./humanize.mjs (импортируется в начале файла).
 
 // Обновление по успешной загрузке: таймстемп + перерисовка.
 function renderIfOk(s) {

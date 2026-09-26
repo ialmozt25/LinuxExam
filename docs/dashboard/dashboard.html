@@ -24,22 +24,22 @@
   </head>
   <body>
     <header class="dashboard-header">
-      <div>
+      <div class="dashboard-header__left">
         <h1 class="dashboard-title">LinuxExam — Центр Управления</h1>
         <p class="dashboard-subtitle">Обновлено: <span id="last-update">—</span></p>
-        <p class="dashboard-subtitle">
-          <button id="refresh-btn" type="button" class="btn">Обновить</button>
-          <button id="theme-btn" type="button" class="theme-toggle" aria-label="Переключить тему">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-            </svg>
-          </button>
-        </p>
+      </div>
+      <div class="dashboard-header__right">
+        <button id="refresh-btn" type="button" class="btn">Обновить</button>
+        <button id="theme-btn" type="button" class="theme-toggle" aria-label="Переключить тему">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+        </button>
       </div>
     </header>
     <main id="dashboard" class="dashboard"></main>
     <noscript class="dashboard-subtitle">Для работы Центра Управления нужен JavaScript.</noscript>
-    <script src="dashboard.js" defer></script>
+    <script type="module" src="dashboard.js"></script>
   </body>
 </html>

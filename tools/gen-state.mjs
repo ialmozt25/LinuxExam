@@ -84,6 +84,31 @@ function readRecentCommits() {
   return commits;
 }
 
+/**
+ * V7: сколько вопросов добавлено в банк за сегодня (локальная полночь).
+ * Источник — все коммиты дня (`git log --since=midnight`), а НЕ окно
+ * recent_commits (5 шт.): окно слишком короткое и метрика обнулялась, как
+ * только feat(bank) вытеснялся из топ-5.
+ * Формат сообщения: "feat(bank): ... N questions ...".
+ * При любой ошибке git — 0 (метрика не должна ронять сборку состояния).
+ */
+function readAddedToday() {
+  try {
+    const raw = git(['log', '--since=midnight', '--pretty=format:%s']);
+    let sum = 0;
+    for (const line of raw.split('\n')) {
+      const msg = line.trim();
+      if (!/^feat\(bank\)/i.test(msg)) continue;
+      const m = msg.match(/(\d+)\s+questions?/i);
+      if (m) sum += parseInt(m[1], 10);
+    }
+    return sum;
+  } catch (e) {
+    warn(`goal.added_today: git log не удался (${e.message}) — 0`);
+    return 0;
+  }
+}
+
 /* ------------------------------------------------------ PLAN.md  -> milestones */
 
 /**
@@ -389,6 +414,9 @@ function main() {
   // --- recent commits
   const recentCommits = readRecentCommits();
 
+  // --- сколько вопросов добавлено сегодня (V7, hero-метрика дашборда)
+  const addedToday = readAddedToday();
+
   // --- gates
   const stamp = nowIso();
   let gates;
@@ -415,6 +443,7 @@ function main() {
       current_questions: currentQuestions,
       progress_percent: progressPercent,
       target_deadline: null,
+      added_today: addedToday,
     },
     milestones,
     gates,
@@ -451,6 +480,7 @@ function main() {
   steps.push(`issues_open: ${issuesOpen.length}`);
   steps.push(`recent_commits: ${recentCommits.length}`);
   steps.push(`goal: ${currentQuestions}/${TARGET_QUESTIONS} (${progressPercent}%)`);
+  steps.push(`added_today: ${addedToday}`);
   if (exits) {
     steps.push(
       `gates exits: qc=${exits.qc} typecheck=${exits.typecheck} vitest=${exits.vitest} shuffle=${exits.shuffle_bank}`,

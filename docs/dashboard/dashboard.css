@@ -148,10 +148,25 @@ body {
 }
 
 .dashboard-header {
-  align-items: baseline;
   display: flex;
-  gap: var(--sp-2);
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.dashboard-header__left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.dashboard-header__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .dashboard-title {
