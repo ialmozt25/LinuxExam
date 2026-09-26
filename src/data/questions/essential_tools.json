@@ -250,5 +250,221 @@
       "reference": "man grep",
       "status": "active"
     }
+  },
+  {
+    "id": "et_008",
+    "topic": "essential_tools",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "grep: case-insensitive matching",
+    "question": "В файле app.log нужно найти строки, содержащие слово error в любом регистре, чтобы находились и error, и Error, и ERROR. Какой ключ grep задаст поиск без учёта регистра?",
+    "options": [
+      {
+        "text": "grep -E 'error' app.log",
+        "correct": false
+      },
+      {
+        "text": "grep -i 'error' app.log",
+        "correct": true
+      },
+      {
+        "text": "grep -w 'error' app.log",
+        "correct": false
+      },
+      {
+        "text": "grep -Q 'error' app.log",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -i включает поиск без учёта регистра, поэтому найдутся строки с error, Error и ERROR. Ключ -E лишь включает расширенные регулярные выражения и регистр не отменяет, поэтому совпадут только строки со строчным словом error. Ключ -w ограничивает совпадение границами слова и тоже не отключает учёт регистра. Ключ -Q у grep отсутствует, поэтому команда завершится ошибкой неверной опции.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T08:57:07Z",
+      "source": "m2.9-batch1-essential_tools",
+      "reference": "man grep",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_009",
+    "topic": "essential_tools",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "man: keyword search",
+    "question": "Точное имя команды неизвестно, но нужно найти man-страницы, в названии или кратком описании которых встречается слово tcp. Какой ключ команды man выполнит такой поиск по ключевым словам?",
+    "options": [
+      {
+        "text": "man -f tcp",
+        "correct": false
+      },
+      {
+        "text": "man -w tcp",
+        "correct": false
+      },
+      {
+        "text": "man -k tcp",
+        "correct": true
+      },
+      {
+        "text": "man -q tcp",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -k, он же --apropos, ищет слово tcp в именах и кратких описаниях всех man-страниц и выводит список подходящих, аналогично команде apropos. Ключ -f, он же --whatis, показывает краткое описание страницы с уже известным точным именем и поиск по ключевым словам не выполняет. Ключ -w печатает путь к файлу man-страницы, а не ищет страницы по описанию. Ключ -q у команды man отсутствует, поэтому вызов завершится ошибкой неверной опции.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T08:57:07Z",
+      "source": "m2.9-batch1-essential_tools",
+      "reference": "man man",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_010",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "find: limiting search depth",
+    "question": "Нужно найти файлы с расширением .conf только в самом каталоге /etc, не спускаясь во вложенные подкаталоги. Какой ключ find ограничит поиск верхним уровнем каталога?",
+    "options": [
+      {
+        "text": "find /etc -maxdepth 1 -name '*.conf'",
+        "correct": true
+      },
+      {
+        "text": "find /etc -mindepth 1 -name '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "find /etc -depth -name '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "find /etc -max-depth 1 -name '*.conf'",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -maxdepth 1 разрешает обход только до первого уровня, поэтому find проверит сам каталог /etc и его непосредственные элементы, не заходя глубже. Ключ -mindepth 1 задаёт лишь минимальную глубину и верхний предел не ограничивает, поэтому поиск всё равно пойдёт во вложенные подкаталоги. Ключ -depth меняет порядок обхода содержимого каталога и глубину не ограничивает. Форма -max-depth с дефисом в GNU find отсутствует, поэтому команда завершится ошибкой неизвестного предиката.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T08:57:07Z",
+      "source": "m2.9-batch1-essential_tools",
+      "reference": "man find",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_011",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "sort: sorting by a specific field",
+    "question": "В файле /etc/passwd поля записей разделены двоеточием, а третье поле содержит числовой UID. Нужно вывести записи, отсортированные по возрастанию UID. Какая команда отсортирует строки по третьему полю как по числу?",
+    "options": [
+      {
+        "text": "sort -t ':' -k 3 -n /etc/passwd",
+        "correct": true
+      },
+      {
+        "text": "sort -t ':' -k 3 /etc/passwd",
+        "correct": false
+      },
+      {
+        "text": "sort -t ':' -k 3 -r /etc/passwd",
+        "correct": false
+      },
+      {
+        "text": "sort -t ':' -k 3 -x /etc/passwd",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -t задаёт двоеточие как разделитель полей, -k 3 выбирает третье поле в качестве ключа, а -n включает числовое сравнение, поэтому записи выстроятся по возрастанию UID. Без -n третье поле сравнивается как текст, и UID 1000 окажется раньше UID 2, что неверно для числовой сортировки. Ключ -r меняет порядок на обратный и выведет записи по убыванию, а не по возрастанию. Ключ -x у sort отсутствует, поэтому команда завершится ошибкой неверной опции.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T08:57:07Z",
+      "source": "m2.9-batch1-essential_tools",
+      "reference": "man sort",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_012",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "ssh: installing a public key",
+    "question": "Нужно установить свой открытый SSH-ключ на удалённый сервер, чтобы затем входить по ключу без пароля. Какая команда добавит локальный публичный ключ в authorized_keys удалённого пользователя?",
+    "options": [
+      {
+        "text": "ssh-keygen -t ed25519",
+        "correct": false
+      },
+      {
+        "text": "ssh-add ~/.ssh/id_ed25519",
+        "correct": false
+      },
+      {
+        "text": "ssh-copy-id user@server",
+        "correct": true
+      },
+      {
+        "text": "ssh-copyid user@server",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда ssh-copy-id копирует локальный открытый ключ на сервер и добавляет его в файл authorized_keys указанного пользователя, при необходимости создавая каталог .ssh и сам файл. Команда ssh-keygen лишь генерирует новую пару ключей на локальной машине и ничего на сервер не копирует. Команда ssh-add регистрирует ключ в локальном агенте аутентификации, а не на удалённой машине. Вариант ssh-copyid написан без дефиса, такой команды не существует, и запуск завершится ошибкой «command not found».",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T08:57:07Z",
+      "source": "m2.9-batch1-essential_tools",
+      "reference": "man ssh-copy-id",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_013",
+    "topic": "essential_tools",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "tar: extracting a gzip archive",
+    "question": "Имеется сжатый gzip-архив backup.tar.gz. Нужно извлечь его содержимое в текущий каталог. Какая команда распакует архив в текущий каталог?",
+    "options": [
+      {
+        "text": "tar -czf backup.tar.gz",
+        "correct": false
+      },
+      {
+        "text": "tar -xjf backup.tar.gz",
+        "correct": false
+      },
+      {
+        "text": "tar -tf backup.tar.gz",
+        "correct": false
+      },
+      {
+        "text": "tar -xzf backup.tar.gz",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ -x распаковывает архив, -z включает обработку gzip, а -f задаёт имя файла, поэтому -xzf извлечёт содержимое backup.tar.gz в текущий каталог. Ключ -c создаёт новый архив, то есть -czf попытается перезаписать файл, а не распаковать его. Ключ -j выбирает bzip2, и попытка распаковать gzip-архив как bzip2 завершится ошибкой распаковки. Ключ -t лишь выводит список файлов внутри архива, ничего не извлекая.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T08:57:07Z",
+      "source": "m2.9-batch1-essential_tools",
+      "reference": "man tar",
+      "status": "active"
+    }
   }
 ]
