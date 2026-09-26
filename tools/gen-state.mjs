@@ -5,7 +5,8 @@
  * M3.2: единый источник правды о состоянии проекта.
  *
  * Источники:
- *   - src/data/questions/_topics.json          -> goal.current_questions
+ *   - src/data/questions/_topics.json          -> goal.current_questions + topics[].count
+ *   - src/data/topics.ts                       -> topics[].label (человеческие имена тем)
  *   - .project/PLAN.md                         -> milestones (чек-листы + заголовки-секции)
  *   - .project/drafts/m2.8g-decision.yaml      -> issues_open (js-yaml, !!js -> !!str)
  *   - git log -5                               -> recent_commits
@@ -32,6 +33,7 @@ const TARGET_QUESTIONS = 300;
 const STATE_PATH = rel('.project/state.json');
 const PLAN_PATH = rel('.project/PLAN.md');
 const TOPICS_PATH = rel('src/data/questions/_topics.json');
+const TOPICS_TS_PATH = rel('src/data/topics.ts');
 const DECISION_PATH = rel('.project/drafts/m2.8g-decision.yaml');
 
 const messages = [];
@@ -107,6 +109,53 @@ function readAddedToday() {
     warn(`goal.added_today: git log не удался (${e.message}) — 0`);
     return 0;
   }
+}
+
+/**
+ * V8: продуктовые данные для дашборда владельца.
+ *
+ * _topics.json    -> { total, byTopic: { slug: count } }
+ * src/data/topics.ts -> { key: 'slug', title: 'Человеческое имя' }
+ *
+ * ВАЛИДАЦИЯ: тем должно быть ровно 14 — эталон проекта (src/data/topics.ts,
+ * TOPICS). Меньше/больше = сломанный парсер или неожиданное состояние: сборка
+ * состояния падает, а не публикует кривые цифры.
+ */
+const EXPECTED_TOPIC_COUNT = 14;
+
+const TOPIC_ENTRY_RE = /\{\s*key:\s*'([^']+)'\s*,\s*title:\s*'([^']+)'/g;
+
+function parseTopicLabels(text) {
+  const labels = new Map();
+  let m;
+  while ((m = TOPIC_ENTRY_RE.exec(text)) !== null) {
+    labels.set(m[1], m[2]);
+  }
+  return labels;
+}
+
+function buildTopics(topicsJson, labels, perTopicTarget) {
+  const byTopic = topicsJson?.byTopic;
+  if (!byTopic || typeof byTopic !== 'object') {
+    throw new Error('_topics.json: отсутствует объект byTopic');
+  }
+  const entries = Object.entries(byTopic);
+  if (entries.length !== EXPECTED_TOPIC_COUNT) {
+    throw new Error(
+      `_topics.json: тем ${entries.length}, ожидалось ${EXPECTED_TOPIC_COUNT} — STOP`,
+    );
+  }
+  const topics = entries.map(([slug, count]) => ({
+    slug,
+    label: labels.get(slug) ?? slug,
+    count: Number(count),
+    target: perTopicTarget,
+  }));
+  const noLabel = topics.filter((t) => t.label === t.slug).map((t) => t.slug);
+  if (noLabel.length > 0) {
+    warn(`topics: нет label в src/data/topics.ts для ${noLabel.join(', ')} — использован slug`);
+  }
+  return topics;
 }
 
 /* ------------------------------------------------------ PLAN.md  -> milestones */
@@ -404,6 +453,11 @@ function main() {
   const currentQuestions = topics.total;
   const progressPercent = Math.round((currentQuestions / TARGET_QUESTIONS) * 1000) / 10;
 
+  // --- продуктовые темы (V8): 14 тем с count/label/target
+  const topicLabels = parseTopicLabels(readText(TOPICS_TS_PATH, 'topics.ts'));
+  const perTopicTarget = Math.ceil(TARGET_QUESTIONS / EXPECTED_TOPIC_COUNT);
+  const topicsList = buildTopics(topics, topicLabels, perTopicTarget);
+
   // --- milestones
   const planText = readText(PLAN_PATH, 'PLAN.md');
   const milestones = parsePlan(planText);
@@ -444,7 +498,9 @@ function main() {
       progress_percent: progressPercent,
       target_deadline: null,
       added_today: addedToday,
+      per_topic_target: perTopicTarget,
     },
+    topics: topicsList,
     milestones,
     gates,
     issues_open: issuesOpen,
@@ -467,9 +523,26 @@ function main() {
   fs.copyFileSync(STATE_PATH, dashboardPath);
 
   // --- self-check
-  const requiredKeys = ['goal', 'milestones', 'gates', 'issues_open', 'recent_commits', 'last_update'];
+  const requiredKeys = ['goal', 'milestones', 'gates', 'issues_open', 'recent_commits', 'last_update', 'topics'];
   const missing = requiredKeys.filter((k) => !(k in reparsed));
   if (missing.length > 0) throw new Error(`state.json: нет ключей ${missing.join(', ')}`);
+  if (!Array.isArray(reparsed.topics)) throw new Error('state.json: topics не массив');
+  if (reparsed.topics.length !== EXPECTED_TOPIC_COUNT) {
+    throw new Error(
+      `state.json: topics.length=${reparsed.topics.length}, ожидалось ${EXPECTED_TOPIC_COUNT}`,
+    );
+  }
+  for (const t of reparsed.topics) {
+    if (typeof t.slug !== 'string' || typeof t.label !== 'string') {
+      throw new Error('state.json: topics: slug/label должны быть строками');
+    }
+    if (typeof t.count !== 'number' || typeof t.target !== 'number') {
+      throw new Error('state.json: topics: count/target должны быть числами');
+    }
+  }
+  if (reparsed.goal.per_topic_target !== perTopicTarget) {
+    throw new Error('state.json: goal.per_topic_target не совпадает с расчётом');
+  }
   if (!isIsoUtc(reparsed.last_update)) throw new Error('state.json: last_update не ISO-8601 UTC');
   for (const g of Object.values(reparsed.gates)) {
     if (!['pass', 'fail'].includes(g.status)) throw new Error('state.json: некорректный статус гейта');
@@ -480,6 +553,7 @@ function main() {
   steps.push(`issues_open: ${issuesOpen.length}`);
   steps.push(`recent_commits: ${recentCommits.length}`);
   steps.push(`goal: ${currentQuestions}/${TARGET_QUESTIONS} (${progressPercent}%)`);
+  steps.push(`topics: ${topicsList.length} (target ${perTopicTarget} на тему)`);
   steps.push(`added_today: ${addedToday}`);
   if (exits) {
     steps.push(
