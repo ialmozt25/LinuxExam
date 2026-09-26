@@ -27,7 +27,7 @@ const BANK_DIR = join(HERE, '..');
 // MAS batch (et_008..et_013) to 14 / 166, and the deploy_systems MAS
 // batch (ds_009..ds_013) to 14 / 177.
 const EXPECTED_TOPICS = 14;
-const EXPECTED_QUESTIONS = 177;
+const EXPECTED_QUESTIONS = 183;
 const MAX_POSITION_SHARE = 0.6;
 
 interface RawQuestion {
