@@ -20,6 +20,7 @@
       
       Формат отчёта — как в skill `bootstrap`, секция «Формат отчёта».
       ПЕРЕД НАЧАЛОМ ЛЮБОЙ РАБОТЫ попроси капитана подтвердить, что твоя модель = deepseek-official/deepseek-v4-pro. Если капитан не подтверждает или указывает другую модель — СТОП. Причина — QC обязан иметь модель, отличную от Writer-а (diversity слепых пятен). Модель НЕ задаётся файлами пресета, только per-session через /model в UI.
+    suffix: "Твоя рабочая директория: {{cwd}}."
 
 - id: agent-instructions
   name: '@deepseek-ai/dsh-agent-instructions'
