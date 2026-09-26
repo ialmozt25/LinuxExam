@@ -66,6 +66,8 @@
 - Adversarial stance: default FAIL, докажи обратное
 
 ### M3: Центр разработки — MVP (локальное веб-приложение)
+- [x] M3.1: Create state.json (M3.1)
+- [x] M3.2: tools/gen-state.mjs — сборщик данных
 - [ ] Архитектура: React + Vite + тонкий Node backend + WebSocket
 - [ ] Configuration-based widgets (JSON-описание, а не хардкод)
 - [ ] Модуль Overview: прогресс к цели, текущий milestone, % выполнения

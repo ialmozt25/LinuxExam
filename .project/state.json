@@ -1,66 +1,161 @@
 {
+  "last_update": "2026-09-26T06:48:05.132Z",
   "goal": {
-    "current_questions": 166,
-    "target_deadline": null,
     "target_questions": 300,
-    "progress_percent": 55.3
+    "current_questions": 166,
+    "progress_percent": 55.3,
+    "target_deadline": null
   },
   "milestones": [
     {
+      "id": "M0",
+      "title": "Фундамент (закрыт 2026-09-25)",
+      "status": "completed",
+      "commit": null
+    },
+    {
+      "id": "M0.5",
+      "title": "База знаний DSH",
+      "status": "planned",
+      "commit": null
+    },
+    {
+      "id": "M0.7",
+      "title": "Мост «браузерный DeepSeek ↔ DSH» — рабочий процесс",
+      "status": "planned",
+      "commit": null
+    },
+    {
+      "id": "M1",
+      "title": "Второй агент — Content Writer (закрыт 2026-09-26)",
+      "status": "completed",
+      "commit": null
+    },
+    {
+      "id": "M1.5",
+      "title": "Content Writer — pipeline skill (закрыт 2026-09-26)",
+      "status": "completed",
+      "commit": null
+    },
+    {
+      "id": "M2",
+      "title": "Третий агент — QC Auditor",
+      "status": "completed",
+      "commit": null
+    },
+    {
       "id": "M2.1",
       "title": "расширить PLAN.md архитектурой QC (этот шаг)",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M2.2",
       "title": "создать пресет `linuxexam-qc-auditor` + 4 skills",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M2.3",
       "title": "создать контракт `writer_to_qc.yaml`",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M2.4",
       "title": "создать контракт `qc_to_orchestrator.yaml`",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M2.5",
       "title": "перезапуск DSH + проверка пресета QC",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M2.6",
       "title": "тест цикла Writer → QC → Orchestrator",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M2.7",
       "title": "закрыть M2 в `.project/`",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M2.8",
       "title": "первая реальная генерация через MAS (банк 160 → 166, commit d73c016)",
-      "commit": null,
-      "status": "completed"
+      "status": "completed",
+      "commit": null
+    },
+    {
+      "id": "M3",
+      "title": "Центр разработки — MVP (локальное веб-приложение)",
+      "status": "completed",
+      "commit": null
     },
     {
       "id": "M3.1",
-      "title": "Create state.json",
-      "commit": null,
-      "status": "in_progress"
+      "title": "Create state.json (M3.1)",
+      "status": "completed",
+      "commit": null
+    },
+    {
+      "id": "M3.2",
+      "title": "tools/gen-state.mjs — сборщик данных",
+      "status": "completed",
+      "commit": null
+    },
+    {
+      "id": "M3.5",
+      "title": "Центр разработки — переиспользование",
+      "status": "planned",
+      "commit": null
+    },
+    {
+      "id": "M4",
+      "title": "NAS-бэкап + Patterns Library",
+      "status": "planned",
+      "commit": null
+    },
+    {
+      "id": "M5",
+      "title": "Монетизация",
+      "status": "planned",
+      "commit": null
+    },
+    {
+      "id": "M6",
+      "title": "Масштабирование MAS",
+      "status": "planned",
+      "commit": null
     }
   ],
+  "gates": {
+    "qc": {
+      "status": "pass",
+      "total": 166,
+      "fails": 0,
+      "last_run": "2026-09-26T06:48:05.132Z"
+    },
+    "typecheck": {
+      "status": "pass",
+      "last_run": "2026-09-26T06:48:05.132Z"
+    },
+    "vitest": {
+      "status": "pass",
+      "tests_passed": 137,
+      "tests_total": 137,
+      "last_run": "2026-09-26T06:48:05.132Z"
+    },
+    "shuffle_bank": {
+      "status": "pass",
+      "last_run": "2026-09-26T06:48:05.132Z"
+    }
+  },
   "issues_open": [
     {
       "id": "ug_013",
@@ -98,54 +193,31 @@
       "note": "ratio_chars в evidence не совпал с фактическим замером"
     }
   ],
-  "gates": {
-    "shuffle_bank": {
-      "last_run": "2026-09-26T06:16:07.6530895Z",
-      "status": "pass"
-    },
-    "qc": {
-      "last_run": "2026-09-26T06:16:07.6530895Z",
-      "status": "pass",
-      "total": 166,
-      "fails": 0
-    },
-    "vitest": {
-      "status": "pass",
-      "last_run": "2026-09-26T06:16:07.6530895Z",
-      "tests_total": 137,
-      "tests_passed": 137
-    },
-    "typecheck": {
-      "last_run": "2026-09-26T06:16:07.6530895Z",
-      "status": "pass"
-    }
-  },
-  "last_update": "2026-09-26T06:16:07.6530895Z",
   "recent_commits": [
     {
+      "hash": "db70c0a",
       "date": "2026-09-26",
-      "message": "docs(project): close M2.8 — first real MAS generation (6 questions)",
-      "hash": "3da4eb0"
+      "message": "chore(repo): close cleanup — remove stale tmp-audit, archive M1/M2 evidence, commit state.json"
     },
     {
+      "hash": "3da4eb0",
       "date": "2026-09-26",
-      "message": "feat(bank): integrate 6 questions from first MAS cycle (users_groups)",
-      "hash": "d73c016"
+      "message": "docs(project): close M2.8 — first real MAS generation (6 questions)"
     },
     {
+      "hash": "d73c016",
       "date": "2026-09-26",
-      "message": "docs(project): sync STATE narrative + add topic_validation to writer_to_qc",
-      "hash": "834eb10"
+      "message": "feat(bank): integrate 6 questions from first MAS cycle (users_groups)"
     },
     {
+      "hash": "834eb10",
       "date": "2026-09-26",
-      "message": "docs(project): close milestone M2, replace STATE HEAD with sync date",
-      "hash": "32d9d5e"
+      "message": "docs(project): sync STATE narrative + add topic_validation to writer_to_qc"
     },
     {
+      "hash": "32d9d5e",
       "date": "2026-09-26",
-      "message": "fix(presets): restore persona suffix in QC + capture SHA256 lesson",
-      "hash": "af47a95"
+      "message": "docs(project): close milestone M2, replace STATE HEAD with sync date"
     }
   ]
 }
