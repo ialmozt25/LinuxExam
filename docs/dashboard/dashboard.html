@@ -5,11 +5,11 @@
     <script>
       (function () {
         try {
-          var t = localStorage.getItem('linuxexam-theme');
-          if (!t) {
+          var t = localStorage.getItem('lx-theme');
+          if (t !== 'light' && t !== 'dark') {
             t = (window.matchMedia &&
-                 window.matchMedia('(prefers-color-scheme: light)').matches)
-                ? 'light' : 'dark';
+                 window.matchMedia('(prefers-color-scheme: dark)').matches)
+                ? 'dark' : 'light';
           }
           document.documentElement.setAttribute('data-theme', t);
         } catch (err) {
@@ -29,7 +29,12 @@
         <p class="dashboard-subtitle">Обновлено: <span id="last-update">—</span></p>
         <p class="dashboard-subtitle">
           <button id="refresh-btn" type="button" class="btn">Обновить</button>
-          <button id="theme-btn" type="button" class="btn">Тема: тёмная</button>
+          <button id="theme-btn" type="button" class="theme-toggle" aria-label="Переключить тему">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+          </button>
         </p>
       </div>
     </header>
