@@ -49,6 +49,7 @@
 - [x] M2.5: перезапуск DSH + проверка пресета QC
 - [x] M2.6: тест цикла Writer → QC → Orchestrator
 - [x] M2.7: закрыть M2 в `.project/`
+- [x] M2.8: первая реальная генерация через MAS (банк 160 → 166, commit d73c016)
 
 **Архитектура QC:**
 - 4 skills: `bootstrap`, `adversarial-verification`, `man-verification`, `verdict-rules`

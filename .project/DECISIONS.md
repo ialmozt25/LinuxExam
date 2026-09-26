@@ -152,3 +152,50 @@ M2.1–M2.7. Создан и проверен полный цикл мульти
 Раньше: HEAD = <hex> — требовало финального коммита на каждый milestone.
 Теперь: sync <дата> — не требует синхронизации HEAD после коммита.
 Реальные хеши видны через git log.
+
+## 2026-09-26 — M2.8 закрыт: первая реальная генерация через MAS
+
+**Что закрыто:**
+M2.8. Полный цикл Orchestrator → Writer → QC → Orchestrator отработал
+на реальном контенте.
+
+**Что сделано:**
+- 6 вопросов по теме users_groups прошли полный pipeline.
+- Writer (M2.8b): v1, man-верификация + 18 прогонов + cosine + haladyna + qc.
+- QC (M2.8c): FAIL, 1 CRITICAL (m28-004 — второй верный ответ через -u 250).
+- Orchestrator (M2.8d): rework на все 6.
+- Writer (M2.8e): v2, cosine intra 0.6910, bank 0.7217, rejected 0/6.
+- QC re-check (M2.8f): PASS, 0 CRITICAL, 2 SUBSTANTIAL, 5 MINOR.
+- Orchestrator (M2.8g): accept, интеграция.
+
+**Артефакты:**
+- users_groups.json (12 → 18).
+- _order.json (160 → 166). _topics.json (total 166, users_groups 18).
+- Guard: positional-distribution.test.ts EXPECTED_QUESTIONS 160 → 166.
+- Решение: .project/drafts/m2.8g-decision.yaml.
+- Commit: d73c016.
+
+**Gates после интеграции:**
+- qc: Total 166, Fails 0.
+- shuffle-bank:check: BANK 166 = 48/41/32/45.
+- typecheck exit 0, vitest 137/137.
+
+**Known issues (7, technical debt):**
+2 SUBSTANTIAL: ug_013 (explanation про usermod -U),
+ug_018 (перекрытие с ug_002 — useradd -m).
+5 MINOR: ug_014 (пересечение с ug_006), ug_016 (тавтологичный стем),
+ug_013 (дистракторы -e/-d), ug_017 (2 дистрактора = correct ug_009/ug_010),
+ug_018 (ratio_chars evidence ≠ замер).
+
+**Уроки M2.8:**
+1. QC-атака с другой стороны ловит то, что Writer пропускает: CRITICAL
+   m28-004 (второй верный ответ) найден adversarial-проходом.
+2. Writer и QC могут расходиться: QC снял CRITICAL ug_016 через /etc/shadow.
+3. Orchestrator расширил rework с 3 до 6 вопросов — MINOR дешевле в одном
+   проходе.
+4. Правило контракта (verdict=PASS → accept) сработало: 2 SUBSTANTIAL
+   не блокируют, фиксируются как known.
+
+**Следующие шаги:**
+- M2.9 (массовая генерация) или M3 (дашборд).
+- 7 known issues — в BACKLOG для отдельной итерации.
