@@ -22,10 +22,12 @@ const BANK_DIR = join(HERE, '..');
 // Counts grow with every integrated topic: file_systems r1 raised them to 13 / 130,
 // deploy_systems r1 (the last planned topic) to 14 / 138, the security
 // expansion batch (sec_013..sec_020) to 14 / 146, the file_permissions
-// expansion batch (fp_013..fp_020) to 14 / 154, and the process_management
-// expansion batch (pm_012..pm_017) to 14 / 160.
+// expansion batch (fp_013..fp_020) to 14 / 154, the process_management
+// expansion batch (pm_012..pm_017) to 14 / 160, the essential_tools
+// MAS batch (et_008..et_013) to 14 / 166, and the deploy_systems MAS
+// batch (ds_009..ds_013) to 14 / 177.
 const EXPECTED_TOPICS = 14;
-const EXPECTED_QUESTIONS = 172;
+const EXPECTED_QUESTIONS = 177;
 const MAX_POSITION_SHARE = 0.6;
 
 interface RawQuestion {

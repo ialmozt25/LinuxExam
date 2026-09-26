@@ -214,5 +214,185 @@
       }
     ],
     "explanation": "Контекст порта задаётся подкомандой semanage port, а тип http_port_t и протокол tcp указывают ключами -t и -p. Порт 80 уже помечен как http_port_t, поэтому его добавление завершается ошибкой, а сервису нужен 8080. Подкоманда fcontext управляет контекстами файлов, а не портов. Без ключа -t команда завершается ошибкой: тип для добавления обязателен."
+  },
+  {
+    "id": "ds_009",
+    "topic": "deploy_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl: автозапуск сервиса (enable)",
+    "question": "Сервис nginx.service установлен и работает, но после перезагрузки системы не запускается автоматически. Какая команда включит автозапуск сервиса при загрузке?",
+    "options": [
+      {
+        "text": "systemctl enable nginx.service",
+        "correct": true
+      },
+      {
+        "text": "systemctl start nginx.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl activate nginx.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl restart nginx.service",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда systemctl enable создаёт символические ссылки для юнита в каталогах .wants и включает его автозапуск при загрузке системы. Команда start лишь запускает сервис немедленно, но настройку автозапуска не меняет, поэтому после перезагрузки сервис снова не поднимется. Подкоманды activate у systemctl нет, и такой вызов завершится ошибкой разбора аргументов. Команда restart перезапускает уже запущенный сервис и тоже не влияет на автозапуск.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T11:49:52Z",
+      "source": "m2.9-batch2-deploy_systems",
+      "reference": "man systemctl",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ds_010",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl: маскирование юнита (mask)",
+    "question": "Юнит legacy.service нужно запретить к запуску полностью — ни автоматически при загрузке, ни вручную командой systemctl start. Какая команда обеспечит такой запрет?",
+    "options": [
+      {
+        "text": "systemctl disable legacy.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl mask legacy.service",
+        "correct": true
+      },
+      {
+        "text": "systemctl hide legacy.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl stop legacy.service",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда systemctl mask связывает файл юнита с /dev/null, поэтому systemd отказывается запускать его и при загрузке, и вручную — попытка systemctl start завершится ошибкой. Команда disable только убирает автозапуск, но вручную юнит запустить по-прежнему можно. Подкоманды hide у systemctl нет, и вызов завершится ошибкой разбора аргументов. Команда stop останавливает текущий запущенный процесс, но не запрещает запуск в будущем.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T11:49:52Z",
+      "source": "m2.9-batch2-deploy_systems",
+      "reference": "man systemctl",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ds_011",
+    "topic": "deploy_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl: цель загрузки по умолчанию",
+    "question": "После установки сервер загружается в многопользовательском режиме без графики. Нужно, чтобы при каждой загрузке система по умолчанию стартовала в графическом режиме. Какая команда назначит graphical.target целью по умолчанию?",
+    "options": [
+      {
+        "text": "systemctl isolate graphical.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl set-default graphical.target",
+        "correct": true
+      },
+      {
+        "text": "systemctl get-default graphical.target",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable graphical.target",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда systemctl set-default меняет цель по умолчанию, обновляя символическую ссылку /etc/systemd/system/default.target на указанный target, поэтому система будет стартовать в графическом режиме. Команда isolate лишь переключает систему на цель сейчас и настройку по умолчанию не сохраняет. Команда get-default только выводит текущую цель и её не меняет. Команда enable включает target, но ссылку default.target не обновляет, поэтому цель загрузки останется прежней.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T11:49:52Z",
+      "source": "m2.9-batch2-deploy_systems",
+      "reference": "man systemctl",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ds_012",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "journalctl: фильтр по приоритету",
+    "question": "Администратору нужны только записи журнала, обозначающие ошибку или более серьёзные события: err, crit, alert и emerg. Какая команда journalctl выведет записи с приоритетом не ниже err?",
+    "options": [
+      {
+        "text": "journalctl -p err",
+        "correct": true
+      },
+      {
+        "text": "journalctl -p info",
+        "correct": false
+      },
+      {
+        "text": "journalctl -l err",
+        "correct": false
+      },
+      {
+        "text": "journalctl -P err",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -p (--priority) задаёт нижний порог приоритета: одиночное значение err отбирает записи от err до emerg включительно, то есть ошибки и более серьёзные события. Приоритет info ниже err, поэтому -p info добавит в вывод и менее серьёзные записи info, notice и warning. Ключ -l означает --full и лишь отключает сокращение длинных строк, а слово err тогда трактуется как шаблон совпадения в записи, а не как порог приоритета. Опции -P у journalctl нет, и вызов завершится ошибкой.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T11:49:52Z",
+      "source": "m2.9-batch2-deploy_systems",
+      "reference": "man journalctl",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ds_013",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemd-analyze: время инициализации юнитов (blame)",
+    "question": "Загрузка системы стала заметно медленнее. Нужно получить список юнитов systemd, отсортированный по убыванию времени их инициализации, чтобы найти самый медленный. Какая команда выведет такой список?",
+    "options": [
+      {
+        "text": "systemd-analyze time",
+        "correct": false
+      },
+      {
+        "text": "systemd-analyze critical-chain",
+        "correct": false
+      },
+      {
+        "text": "systemd-analyze blame",
+        "correct": true
+      },
+      {
+        "text": "systemd-analyze plot",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда systemd-analyze blame печатает все юниты, отсортированные по убыванию времени их инициализации, поэтому самые медленные юниты оказываются в начале списка. Подкоманда time выводит суммарное время загрузки на этапах ядра, initrd и пользовательского пространства, а не время отдельных юнитов. Подкоманда critical-chain показывает цепочку юнитов на критическом пути загрузки, но не полный отсортированный список всех юнитов. Подкоманда plot генерирует график загрузки в файле SVG, а не текстовый список с временем.",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-26T11:49:52Z",
+      "source": "m2.9-batch2-deploy_systems",
+      "reference": "man systemd-analyze",
+      "status": "active"
+    }
   }
 ]

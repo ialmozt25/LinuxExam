@@ -1,7 +1,7 @@
 {
-  "total": 172,
+  "total": 177,
   "byTopic": {
-    "deploy_systems": 8,
+    "deploy_systems": 13,
     "essential_tools": 13,
     "file_management": 12,
     "file_permissions": 20,

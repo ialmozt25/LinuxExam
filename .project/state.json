@@ -1,9 +1,9 @@
 {
-  "last_update": "2026-09-26T11:17:01.023Z",
+  "last_update": "2026-09-26T11:59:43.583Z",
   "goal": {
     "target_questions": 300,
-    "current_questions": 172,
-    "progress_percent": 57.3,
+    "current_questions": 177,
+    "progress_percent": 59,
     "target_deadline": null,
     "added_today": 12,
     "per_topic_target": 22
@@ -12,7 +12,7 @@
     {
       "slug": "deploy_systems",
       "label": "Развёртывание систем",
-      "count": 8,
+      "count": 13,
       "target": 22
     },
     {
@@ -255,23 +255,23 @@
   "gates": {
     "qc": {
       "status": "pass",
-      "total": 172,
+      "total": 177,
       "fails": 0,
-      "last_run": "2026-09-26T11:17:01.023Z"
+      "last_run": "2026-09-26T11:59:43.583Z"
     },
     "typecheck": {
       "status": "pass",
-      "last_run": "2026-09-26T11:17:01.023Z"
+      "last_run": "2026-09-26T11:59:43.583Z"
     },
     "vitest": {
       "status": "pass",
       "tests_passed": 149,
       "tests_total": 149,
-      "last_run": "2026-09-26T11:17:01.023Z"
+      "last_run": "2026-09-26T11:59:43.583Z"
     },
     "shuffle_bank": {
       "status": "pass",
-      "last_run": "2026-09-26T11:17:01.023Z"
+      "last_run": "2026-09-26T11:59:43.583Z"
     }
   },
   "issues_open": [
@@ -313,6 +313,11 @@
   ],
   "recent_commits": [
     {
+      "hash": "da237eb",
+      "date": "2026-09-26",
+      "message": "feat(dashboard): V8 - product owner view (topics distribution, no process)"
+    },
+    {
       "hash": "c3a2759",
       "date": "2026-09-26",
       "message": "fix(dashboard): V7 - header layout + today-added metric + humanizeCommit module and test"
@@ -331,11 +336,6 @@
       "hash": "325f5a4",
       "date": "2026-09-26",
       "message": "feat(dashboard): V4 - human-readable labels (drop jargon)"
-    },
-    {
-      "hash": "44a786d",
-      "date": "2026-09-26",
-      "message": "feat(dashboard): V3 - light/dark theme toggle (no-FOUC, localStorage)"
     }
   ]
 }
