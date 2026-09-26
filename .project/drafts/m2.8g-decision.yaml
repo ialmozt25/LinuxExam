@@ -1,0 +1,39 @@
+batch_id: m2.8-001-v2
+decision: accept
+rework_targets: []
+issues_known:
+  - question_id: ug_013
+    severity: SUBSTANTIAL
+    pass: fact-check
+    note: "explanation про usermod -U — правка текста, не блокер"
+  - question_id: ug_018
+    severity: SUBSTANTIAL
+    pass: objective
+    note: "перекрытие с ug_002 (useradd -m); принято как known; QC не блокирует"
+  - question_id: ug_014
+    severity: MINOR
+    pass: objective
+    note: "не предлагать ug_014 и ug_006 в одной сессии"
+  - question_id: ug_016
+    severity: MINOR
+    pass: language
+    note: "тавтологичный стем"
+  - question_id: ug_013
+    severity: MINOR
+    pass: beginner-view
+    note: "-e/-d как незавершённые вызовы"
+  - question_id: ug_017
+    severity: MINOR
+    pass: skeptic-view
+    note: "2 из 3 дистракторов = correct ug_009/ug_010"
+  - question_id: ug_018
+    severity: MINOR
+    pass: skeptic-view
+    note: "ratio_chars в evidence не совпал с фактическим замером"
+next_action: |
+  Интегрировано в src/data/questions/users_groups.json.
+  Банк 160 → 166. Issues 7 (0 CRITICAL) — known, не блокируют.
+message: |
+  Первая реальная генерация MAS принята. QC снял CRITICAL ug_016 через
+  /etc/shadow (aging-поля). ug_018 принят с перекрытием ug_002 — известно.
+  Коммит — см. git log HEAD.

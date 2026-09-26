@@ -25,7 +25,7 @@ const BANK_DIR = join(HERE, '..');
 // expansion batch (fp_013..fp_020) to 14 / 154, and the process_management
 // expansion batch (pm_012..pm_017) to 14 / 160.
 const EXPECTED_TOPICS = 14;
-const EXPECTED_QUESTIONS = 160;
+const EXPECTED_QUESTIONS = 166;
 const MAX_POSITION_SHARE = 0.6;
 
 interface RawQuestion {
