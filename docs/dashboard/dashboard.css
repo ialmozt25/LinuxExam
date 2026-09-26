@@ -347,3 +347,37 @@ a:hover {
 .btn:hover {
   border-color: var(--accent, #5aa9ff);
 }
+
+/* hero: where we are now (B1) */
+
+.hero {
+  background: var(--bg-elev, #131924);
+  border: 1px solid var(--border, #2a2a30);
+  border-radius: var(--r-md, 8px);
+  margin-bottom: var(--sp-4, 16px);
+  padding: var(--sp-4, 16px);
+}
+
+.hero__title {
+  color: var(--fg);
+  font-size: var(--fs-lg, 1.15rem);
+  margin: 0 0 var(--sp-2, 8px) 0;
+}
+
+.hero__grid {
+  display: grid;
+  gap: var(--sp-1, 4px) var(--sp-3, 12px);
+  grid-template-columns: max-content 1fr;
+  margin: 0;
+}
+
+.hero__grid dt {
+  color: var(--fg-muted);
+  font-size: var(--fs-sm, 0.9rem);
+}
+
+.hero__grid dd {
+  color: var(--fg);
+  font-family: var(--font-mono, monospace);
+  margin: 0;
+}

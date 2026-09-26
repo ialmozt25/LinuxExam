@@ -23,6 +23,25 @@ function asText(value, fallback) {
   return value === undefined || value === null || value === "" ? fallback : String(value);
 }
 
+// Относительное время: с временем — минуты/часы, без времени (YYYY-MM-DD) — дни.
+function relativeTime(iso) {
+  if (!iso) return "—";
+  const hasTime = /\dT\d/.test(iso);
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return iso;
+  const s = Math.floor((Date.now() - d.getTime()) / 1000);
+  if (s < 0) return "сейчас";
+  if (hasTime) {
+    if (s < 60) return "только что";
+    if (s < 3600) return Math.floor(s / 60) + " мин назад";
+    if (s < 86400) return Math.floor(s / 3600) + " ч назад";
+  }
+  const days = Math.floor(s / 86400);
+  if (days === 0) return "сегодня";
+  if (days === 1) return "вчера";
+  return days + " дн назад";
+}
+
 // Ошибка загрузки показывается вместо модулей.
 function showError(e) {
   mount.textContent = "state.json недоступен: " + e.message;
@@ -129,6 +148,33 @@ function issuesModule(state) {
   return c;
 }
 
+// Hero (B1): последний completed milestone, последний коммит, следующий шаг.
+// «Следующий» = элемент сразу ПОСЛЕ последнего completed, а не первый planned.
+function renderHero(state) {
+  const ms = state.milestones || [];
+  let lastIdx = -1;
+  for (let i = 0; i < ms.length; i += 1) {
+    if (ms[i].status === "completed") lastIdx = i;
+  }
+  const lastCompleted = lastIdx >= 0 ? ms[lastIdx] : null;
+  const next = lastIdx >= 0 && lastIdx + 1 < ms.length ? ms[lastIdx + 1] : null;
+  const lastCommit = (state.recent_commits && state.recent_commits[0]) || null;
+
+  const elM = document.getElementById("hero-milestone");
+  const elL = document.getElementById("hero-last-commit");
+  const elN = document.getElementById("hero-next");
+
+  if (elM) {
+    elM.textContent = lastCompleted ? lastCompleted.id + " — " + lastCompleted.title : "—";
+  }
+  if (elL) {
+    elL.textContent = lastCommit ? lastCommit.hash + " · " + relativeTime(lastCommit.date) : "—";
+  }
+  if (elN) {
+    elN.textContent = next ? next.id + " — " + next.title : "—";
+  }
+}
+
 // Рендер: ровно 4 модуля-карточки. Идемпотентен: повторный вызов заменяет
 // содержимое, а не дописывает карточки (иначе auto-refresh дублировал бы их).
 function render(state) {
@@ -138,6 +184,7 @@ function render(state) {
   mount.appendChild(milestonesModule(state));
   mount.appendChild(gatesModule(state));
   mount.appendChild(issuesModule(state));
+  renderHero(state);
 }
 
 // Обновление по успешной загрузке: таймстемп + перерисовка.
