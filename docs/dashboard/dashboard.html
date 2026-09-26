@@ -2,6 +2,21 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('linuxexam-theme');
+          if (!t) {
+            t = (window.matchMedia &&
+                 window.matchMedia('(prefers-color-scheme: light)').matches)
+                ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (err) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="LinuxExam — Центр Управления: прогресс банка вопросов, статусы milestones, гейты и открытые проблемы.">
     <title>LinuxExam — Центр Управления</title>
@@ -15,6 +30,7 @@
         <p class="dashboard-subtitle">
           <span id="last-updated-ago">—</span>
           <button id="refresh-btn" type="button" class="btn">Обновить</button>
+          <button id="theme-btn" type="button" class="btn">Тема: тёмная</button>
         </p>
       </div>
     </header>

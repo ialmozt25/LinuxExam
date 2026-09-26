@@ -253,6 +253,29 @@ if (refreshBtn) {
   });
 }
 
+// Переключатель темы: значение из <html data-theme>, запись в localStorage.
+const themeBtn = document.getElementById("theme-btn");
+
+function updateThemeLabel() {
+  if (!themeBtn) return;
+  const t = document.documentElement.getAttribute("data-theme") || "dark";
+  themeBtn.textContent = "Тема: " + (t === "light" ? "светлая" : "тёмная");
+}
+
+function applyTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  try { localStorage.setItem("linuxexam-theme", t); } catch (e) { /* ignore */ }
+  updateThemeLabel();
+}
+
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme") || "dark";
+    applyTheme(cur === "light" ? "dark" : "light");
+  });
+}
+updateThemeLabel();
+
 // Автообновление раз в 30 секунд; в скрытой вкладке не выполняется.
 setInterval(() => {
   if (document.hidden) return;
