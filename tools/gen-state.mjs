@@ -129,7 +129,9 @@ function parsePlan(text) {
   const checklist = [];
   const sections = [];
 
-  for (const line of text.split('\n')) {
+  const lines = text.split('\n');
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
     const c = CHECKLIST_RE.exec(line);
     if (c) {
       checklist.push({
@@ -141,7 +143,7 @@ function parsePlan(text) {
     }
     const s = SECTION_RE.exec(line);
     if (s) {
-      sections.push({ id: s[1].trim(), title: s[2].trim() });
+      sections.push({ id: s[1].trim(), title: s[2].trim(), line: i });
     }
   }
 
@@ -169,20 +171,57 @@ function parsePlan(text) {
     push({ id: c.id, title: c.title, status: c.status, commit: null, from: 'checklist' });
   }
 
-  for (const s of sections) {
-    if (seen.has(s.id)) continue;
+  // bare-чекбоксы секции: "- [ ]" / "- [x]" без milestone-id перед текстом
+  const BARE_OPEN_RE = /^\s*-\s*\[ \]\s*\S/;
+  const BARE_DONE_RE = /^\s*-\s*\[[xX]\]\s*\S/;
+
+  const pushSection = (s) => {
     const children = checklist.filter((c) => isChildOf(c.id, s.id));
+    const kidsOpen = children.filter((c) => c.status === 'planned').length;
+    // доказательство начатой работы: id-ребёнок или bare "- [x]"
+    const work = children.length > 0 || s.bareDone > 0;
     let status;
-    if (children.length === 0) {
-      status = 'planned';
-    } else if (children.some((c) => c.status === 'planned')) {
+    if (s.closed) {
+      // 1) "[закрыт YYYY-MM-DD]" -> completed (приоритет)
+      status = 'completed';
+    } else if (s.bareOpen > 0 && work) {
+      // 2) открытые bare + доказательство работы -> in_progress
+      status = 'in_progress';
+    } else if (children.length > 0 && kidsOpen === 0 && s.bareOpen === 0) {
+      // 3) все id-дети completed, открытых bare нет -> completed
+      status = 'completed';
+    } else if (kidsOpen > 0) {
+      // 4) есть id-ребёнок в planned -> in_progress
       status = 'in_progress';
     } else {
-      status = 'completed';
+      // 5) иначе -> planned (пустая секция больше НЕ completed)
+      status = 'planned';
     }
-    const closed = closedRe.exec(s.title);
-    if (closed) status = 'completed';
     push({ id: s.id, title: s.title, status, commit: null, from: 'section' });
+  };
+
+  // Секции — диапазоны строк: bare-чекбоксы считаются ВНУТРИ своей секции.
+  for (let i = 0; i < sections.length; i += 1) {
+    const sec = sections[i];
+    if (seen.has(sec.id)) continue;
+    const end = i + 1 < sections.length ? sections[i + 1].line : lines.length;
+    let bareOpen = 0;
+    let bareDone = 0;
+    for (let k = sec.line + 1; k < end; k += 1) {
+      if (BARE_OPEN_RE.test(lines[k])) {
+        bareOpen += 1;
+      } else if (BARE_DONE_RE.test(lines[k])) {
+        bareDone += 1;
+      }
+    }
+    pushSection({
+      id: sec.id,
+      title: sec.title,
+      line: sec.line,
+      closed: closedRe.test(sec.title),
+      bareOpen,
+      bareDone,
+    });
   }
 
   return ordered
