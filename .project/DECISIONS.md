@@ -113,3 +113,42 @@
 Позволяет ловить структурные ошибки ДО перезапуска DSH (M2.5).
 
 **Новая pwsh-ловушка:** см. `docs/knowledge/dsh/pwsh-cyrillic-escaped-parens.md`.
+
+## 2026-09-26 — Milestone M2 закрыт: MAS из 3 агентов работает
+
+**Что закрыто:**
+M2.1–M2.7. Создан и проверен полный цикл мультиагентной системы:
+  Orchestrator → Writer → QC → Orchestrator.
+
+**Артефакты:**
+- Пресет `linuxexam-qc-auditor` (вне репо): agent.cordis.yml + preset.yml + 4 скилла.
+- Reference-копия в репо: docs/knowledge/dsh/presets/linuxexam-qc-auditor/.
+- 3 контракта в .project/contracts/: orchestrator_to_writer, writer_to_qc, qc_to_orchestrator.
+- Knowledge-base: 8 файлов + reference (см. docs/knowledge/dsh/README.md).
+
+**Проверено в M2.6:**
+Цикл Writer → QC → Orchestrator отработал за один оборот. QC нашёл CRITICAL
+(um-001 — структурный дубликат активного ug_006) и SUBSTANTIAL (um-002 —
+дистрактор groupmod -U). Orchestrator независимо перепроверил ug_006,
+подтвердил и принял decision=rework с rework_targets=[um-001, um-002].
+Ни один вопрос в банк не принят — цикл работает как задумано.
+
+**Модель QC:** deepseek-official/deepseek-v4-pro (per-session через /model).
+Модель Writer: tier-router/smart (default). Diversity слепых пятен обеспечена.
+
+**Ограничение (подтверждено в M2.2c-1):** модель НЕ задаётся файлами пресета.
+Только per-session через /model в UI.
+
+**Уроки M2.6:**
+1. Orchestrator обязан сверять topic с банком ПЕРЕД выдачей задачи Writer'у.
+   В M2.6 topic user_management из задания не существует; канон — users_groups
+   (src/data/topics.ts).
+2. workspace-write блокирует WSL (Wsl/Service/E_ACCESSDENIED). man-верификация
+   требует danger-full-access.
+3. STATE.md хронически отставал (4+ коммитов). Решение: убрать хардкод HEAD,
+   заменить на дату sync. Лаг устранён архитектурно.
+
+**STATE.md — изменение политики:**
+Раньше: HEAD = <hex> — требовало финального коммита на каждый milestone.
+Теперь: sync <дата> — не требует синхронизации HEAD после коммита.
+Реальные хеши видны через git log.

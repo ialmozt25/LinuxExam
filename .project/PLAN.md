@@ -44,11 +44,11 @@
 ### M2: Третий агент — QC Auditor
 - [x] M2.1: расширить PLAN.md архитектурой QC (этот шаг)
 - [x] M2.2: создать пресет `linuxexam-qc-auditor` + 4 skills
-- [ ] M2.3: создать контракт `writer_to_qc.yaml`
-- [ ] M2.4: создать контракт `qc_to_orchestrator.yaml`
-- [ ] M2.5: перезапуск DSH + проверка пресета QC
-- [ ] M2.6: тест цикла Writer → QC → Orchestrator
-- [ ] M2.7: закрыть M2 в `.project/`
+- [x] M2.3: создать контракт `writer_to_qc.yaml`
+- [x] M2.4: создать контракт `qc_to_orchestrator.yaml`
+- [x] M2.5: перезапуск DSH + проверка пресета QC
+- [x] M2.6: тест цикла Writer → QC → Orchestrator
+- [x] M2.7: закрыть M2 в `.project/`
 
 **Архитектура QC:**
 - 4 skills: `bootstrap`, `adversarial-verification`, `man-verification`, `verdict-rules`
