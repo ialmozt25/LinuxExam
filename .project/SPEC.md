@@ -4,12 +4,13 @@
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
 <!--volatile:start-->- HEAD: `f67c512f1e10cbaad3889734f37294c1a564a685`<!--volatile:end-->
-- Спек: 16
+- Спек: 17
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
 |---|---|---|---|---|---|
 | 014 | `subagent-push-lockdown` | docs | approved | — | 2026-09-28 |
+| 017 | `gen-state-schema-v2` | infra | approved | — | 2026-09-28 |
 | 010 | `jsdom-smoke-center` | feature | draft | — | 2026-09-28 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 001 | `file-management-batch-4` | content | done | f4e2538 | 2026-09-27 |
