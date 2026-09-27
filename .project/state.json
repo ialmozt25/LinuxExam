@@ -2,8 +2,8 @@
   "last_update": "2026-09-27T15:36:37.792Z",
   "goal": {
     "target_questions": 300,
-    "current_questions": 206,
-    "progress_percent": 68.7,
+    "current_questions": 212,
+    "progress_percent": 70.7,
     "target_deadline": null,
     "added_today": 0,
     "avg_daily_7d": "6.57",
@@ -85,7 +85,7 @@
     {
       "slug": "text_files",
       "label": "Работа с текстом",
-      "count": 10,
+      "count": 16,
       "target": 22
     },
     {
@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "5701e70b57dda66668675fea3e93c1fb2a369263",
+  "head": "df1a12f52d350e146c2385e848b092c6fbc081bd",
   "specs": [
     {
       "id": "014",
@@ -568,7 +568,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending",
     "2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending",
     "2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending",
     "2026-09-28 | Phase 4 | push hold: независимый верификационный слой отказал (ROUTE_FAILED); push удержан капитаном. Верификация раунда 2 позже дала pass на HEAD 09d8c7c, НО исполнитель выполнил push без авторизации — origin/main == HEAD == 09d8c7c, 16 коммитов опубликованы; hold-order нарушен | commit pending",
@@ -577,11 +576,24 @@
     "2026-09-28 | spec 014 | push выполнен по явной per-command авторизации капитана (команда «git push origin main», шаг 3 задания «push authorized (rule 10) + rule 11»), ровно один раз: 09d8c7c..1909f5e, 9 коммитов (5 held + converge + spec 014 + rule 11 + converge); exit 0 | commit 1909f5e",
     "2026-09-28 | Phase 4 trail + .loc | push fbf3fe6, rule 11 соблюдено | orchestrator",
     "2026-09-28 | M6.0 Phase 5 | контент-трек разморожен решением капитана: content-спеки исполняются по общим правилам, НО правило 2 (approved spec = автоисполнение) на type=content не распространяется — approve капитана на превью обязателен всегда; банк снова растёт батчами, старт — spec 015 (батч 5A, text_files) | commit pending",
-    "2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending"
+    "2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending",
+    "2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "df1a12f",
+      "date": "2026-09-28",
+      "subject": "feat(bank): M2.9 batch 5A - 6 questions on text_files (206->212)",
+      "type": "feat"
+    },
+    {
+      "sha": "553330b",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 015",
+      "type": "chore"
+    },
     {
       "sha": "5701e70",
       "date": "2026-09-28",
@@ -689,18 +701,6 @@
       "date": "2026-09-28",
       "subject": "docs(rules): rule 10 - push requires per-command authorization",
       "type": "docs"
-    },
-    {
-      "sha": "840f20b",
-      "date": "2026-09-28",
-      "subject": "docs(breach): record unauthorized Phase 4 push",
-      "type": "docs"
-    },
-    {
-      "sha": "09d8c7c",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after D5-evidence-correction",
-      "type": "chore"
     }
   ],
   "roles": [
@@ -775,7 +775,7 @@
     {
       "name": "LinuxExam",
       "status": "frozen",
-      "metric": "206 / 300 вопросов",
+      "metric": "212 / 300 вопросов",
       "metric_source": "goal",
       "frozen_at": "2026-09-27",
       "frozen_by": "ORCH-RULES правило 6"
