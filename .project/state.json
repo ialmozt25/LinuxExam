@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "8209331a4610732d8ef24964e76e24276565696b",
+  "head": "2459e458637e6db5d218737fab0af876de32e63f",
   "specs": [
     {
       "id": "010",
@@ -538,6 +538,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "2459e45",
+      "date": "2026-09-28",
+      "subject": "docs(factory): correct convergence-tax evidence (7 not 8, no HEAD binding)",
+      "type": "docs"
+    },
+    {
+      "sha": "b35f6c0",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after D5-lesson-fix",
+      "type": "chore"
+    },
+    {
       "sha": "8209331",
       "date": "2026-09-28",
       "subject": "docs(factory): fix Phase 4 lessons evidence + captain decision on commit subjects",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after Phase 3 pilot (gates snapshot)",
       "type": "chore"
-    },
-    {
-      "sha": "bd75f88",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after Phase 3 pilot reports",
-      "type": "chore"
-    },
-    {
-      "sha": "e92bef4",
-      "date": "2026-09-28",
-      "subject": "docs(spec): record commit SHA for spec 007",
-      "type": "docs"
     }
   ],
   "roles": [
