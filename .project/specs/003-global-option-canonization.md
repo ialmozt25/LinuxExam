@@ -1,12 +1,17 @@
 ---
 id: 003
 slug: global-option-canonization
-status: draft
+status: rejected
 type: content
 created: 2026-09-27
 updated: 2026-09-27
 commit: null
 ---
+
+> **ОТКЛОНЕНО (2026-09-27, freeze контент-трека).** Глобальная канонизация порядка
+> опций в банк не входит: контент-трек закрыт на 206 вопросах, а канонизация не
+> добавляет вопросов и несёт риск сдвига позиций `correct` у 206 существующих
+> вопросов. Разморозка — по решению капитана (см. `.project/ORCH-RULES.md`, правило 6).
 
 > **Почему здесь нет `commit_format` / `commit_regex`.** Эти поля обязательны для
 > `type=content`, потому что `tools/gen-state.mjs:97-136` считает `goal.added_today`

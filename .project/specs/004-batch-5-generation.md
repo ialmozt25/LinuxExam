@@ -1,16 +1,24 @@
 ---
 id: 004
 slug: batch-5-generation
-status: draft
+status: done
 type: content
 created: 2026-09-27
 updated: 2026-09-27
-commit: null
+commit: 12c8439
 commit_format: "feat(bank): M2.9 batch 5 - <N> questions on local_storage (<A>-><B>)"
 commit_regex:  "^feat\\(bank\\), (\\d+)\\s+questions?"
 ---
 
 # DRAFT ONLY — не запускать до approve капитана
+
+> **РЕЗУЛЬТАТ (2026-09-27, freeze): `done`, commit `12c8439`.**
+> Тема `local_storage` подтверждена. Сгенерировано 6 кандидатов (`lsl_009`…`lsl_014`),
+> интегрировано **5**: `lsl_009`, `lsl_010`, `lsl_011`, `lsl_012`, `lsl_014`.
+> `lsl_013` отклонён QC (дистрактор `lvremove -y lv_temp` даёт второй верный ответ;
+> подтвердить live нельзя — в WSL нет `lvm2`). Банк 189 → 206 суммарно по трём батчам.
+> Вопросы вышли с 4 warn-ами (3 ratio, 1 absolute-term) и 0 fail — разбор в
+> `.project/drafts/batch-5-7-full-preview.md`.
 
 > **Нумерация согласована с планом ночной смены 2026-09-27:** batch 5 = `local_storage`,
 > batch 6 = `manage_software` (spec 005), batch 7 = `networking` (spec 006).

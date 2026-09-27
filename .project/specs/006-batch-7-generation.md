@@ -1,16 +1,24 @@
 ---
 id: 006
 slug: batch-7-generation
-status: draft
+status: done
 type: content
 created: 2026-09-27
 updated: 2026-09-27
-commit: null
+commit: 12c8439
 commit_format: "feat(bank): M2.9 batch 7 - <N> questions on networking (<A>-><B>)"
 commit_regex:  "^feat\\(bank\\), (\\d+)\\s+questions?"
 ---
 
 # DRAFT ONLY — не запускать до approve капитана
+
+> **РЕЗУЛЬТАТ (2026-09-27, freeze): `done`, commit `12c8439`.**
+> Тема `networking` подтверждена. Сгенерировано и интегрировано **6 из 6**:
+> `ntw_011`…`ntw_016`. Лучший батч смены по метрикам: cos против банка max 0.7614,
+> cos intra-batch max 0.6274, ratio max 1.1455. Гейт дал 1 warn на `ntw_014`
+> (absolute term) при 0 fail.
+> **Ограничение:** `ntw_014` (firewalld) опирается на man-страницу firewalld **2.x**,
+> тогда как RHEL 9 несёт **1.x**; построчный diff не сверен.
 
 Это бумага. Никакой генерации, никакого Writer'а, никакого коммита по этой спеке
 не происходит до явного approve. Approve переводит спеку в `running`.

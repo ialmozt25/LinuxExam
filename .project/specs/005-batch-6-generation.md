@@ -1,16 +1,24 @@
 ---
 id: 005
 slug: batch-6-generation
-status: draft
+status: done
 type: content
 created: 2026-09-27
 updated: 2026-09-27
-commit: null
+commit: 12c8439
 commit_format: "feat(bank): M2.9 batch 6 - <N> questions on manage_software (<A>-><B>)"
 commit_regex:  "^feat\\(bank\\), (\\d+)\\s+questions?"
 ---
 
 # DRAFT ONLY — не запускать до approve капитана
+
+> **РЕЗУЛЬТАТ (2026-09-27, freeze): `done`, commit `12c8439`.**
+> Тема `manage_software` подтверждена, `objective_domain = "6"` подтверждён по файлу темы.
+> Сгенерировано и интегрировано **6 из 6**: `msw_009`…`msw_014`. Все ratio — `ok`
+> (максимум 1.3333 при пороге `mixed` 1.5), cos против банка ≤ 0.7356, warn-ов от
+> новых вопросов этой темы гейт не дал вообще.
+> **Ограничение:** в WSL этого хоста нет `dnf`/`rpm`/`yum`, поэтому поведение проверено
+> по официальной документации и бинарной улике, а не исполнением.
 
 > **Нумерация согласована с планом ночной смены 2026-09-27:** batch 5 = `local_storage`
 > (spec 004), batch 6 = `manage_software`, batch 7 = `networking` (spec 006).
