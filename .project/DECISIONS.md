@@ -539,3 +539,46 @@ entry). Rework требовать было нельзя без риска вне
 записи становится забытым шумом).
 
 *Decided-by:* Капитан.
+
+## 2026-09-28 · M6.0 Фаза 4 — роли DevOps/Designer и spec 010 (вариант 2)
+
+**Контекст:** Фаза 3 закрыта как `2/3 done` (spec `010` остановлен запретом на правки
+`sync.mjs`). Фаза 4 закрывает хвост: спекa `010` переписана без требования правок
+генератора, роли DevOps и Designer описаны артефактами, `blocked`-WARN принят как шум.
+
+**1. Spec 010 переписан под вариант 2.** Smoke-тест центра читает **готовый**
+`docs/index.html` (`fs.readFileSync` + `jsdom`) и **не импортирует** генератор
+`.project/sync.mjs`; раздел «Что делать» описывает именно это. Frontmatter:
+`status: blocked → draft`, `note: "rewritten as variant 2, execution in Phase 5"`,
+`commit: null` сохранён. В Phase 4 тест **не создаётся** — исполнение в Phase 5.
+Побочный эффект: WARN «статус "blocked" вне схемы» в `sync:check` исчез сам, потому что
+причина была в статусе спеки, а не в схеме `sync.mjs`.
+
+**2. `blocked`-WARN в `sync:check` принят как шум, не блокер.** Подробная запись — выше
+(«WARN о статусе вне схемы в `sync:check` — принят как шум»). `sync.mjs` не менялся,
+схема статусов не расширялась.
+
+**3. Роль `devops`: `planned → active` (капитан авторизовал).** Триггер
+`"deploy failed 3+"` интерпретирован как **«пилот завершён»**: Фаза 3 довела
+инфраструктурный трек до состояния, когда у роли появилась реальная работа (гейты перед
+релизом, гигиена `deploy.yml`, зависимости). Пресет **не создаётся**: `preset: null`,
+`note: "preset pending"`; роль существует документом (`docs/knowledge/ops/devops-role.md`)
+и артефактами `.project/factory/roles/devops/{SKILL,DOD,TRIGGER}.md`, которые ссылаются на
+`.project/factory/CONTRACTS.md` §4.1 `orchestrator_to_devops` без копирования его текста.
+`roles.yaml` — источник истины; зеркало `state.json.roles[]` обновлено `npm run sync`.
+
+**4. Роль `designer` остаётся `planned`.** Триггер `"second UI task"` (`check: null` —
+ручной) **не сработал**: UI-задач по самостоятельному контракту ноль, первая UI-задача по
+исходному решению идёт Orchestrator'у. `preset: null` сохранён. Артефакты заготовлены:
+`.project/factory/roles/designer/{SKILL,DOD,TRIGGER}.md` со ссылкой на
+`.project/factory/CONTRACTS.md` §4.2 `orchestrator_to_designer` без копирования текста.
+
+**Отклонения от задания (зафиксированы честно):** (а) в MEMORY-FACTORY урок про
+конвергентный налог записан как «8/15 коммитов Фазы 3» (формулировка задания) с замером
+«8 `chore(state)` из 16 в диапазоне `a5c74ae..HEAD`» — расхождение только в границе
+диапазона; (б) задача D6 названа «handoff-decisions», но конвергентный коммит по правилу 9
+идёт **после** коммита задачи, поэтому HANDOFF и DECISIONS уехали одним коммитом
+`docs: Phase 4 decisions`, затем `chore(state): converge after D6 handoff-decisions`.
+
+*Decided-by:* Капитан (авторизация ролей и spec 010 → вариант 2) + исполнитель Phase 4
+(артефакты, переписывание спеки, прогон гейтов).
