@@ -6,3 +6,6 @@
 Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.
 
 2026-09-27 | M4.0 | solid base + dev center | commit pending
+2026-09-27 | M2.9 batch 4 | file_management +6 (183→189), MAS Writer→QC(reject fm_016)→rework→QC PASS | commit pending
+2026-09-27 | M2.9 batch 4 | guard test hardcode bump 183→189 | tech debt → spec 002
+2026-09-27 | M2.9 batch 4 | commit format adjusted for gen-state.mjs | spec 001 deviation

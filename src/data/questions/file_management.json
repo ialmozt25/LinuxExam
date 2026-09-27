@@ -43,12 +43,12 @@
         "correct": false
       },
       {
-        "text": "find /etc -mtime -1",
-        "correct": true
-      },
-      {
         "text": "find /etc -newer /etc",
         "correct": false
+      },
+      {
+        "text": "find /etc -mtime -1",
+        "correct": true
       }
     ],
     "explanation": "Тест -mtime -1 выбирает файлы, изменённые менее чем за последние 24 часа. Запись +1 означает обратное — файлы, изменённые более 24 часов назад. Тест -mmin -1 считает время в минутах, поэтому ограничился бы последней минутой. Тест -newer /etc сравнивает время модификации с самим файлом /etc, а не с суточным интервалом."
@@ -89,7 +89,7 @@
     "question": "Какая команда создаст gzip-архив из /var/log?",
     "options": [
       {
-        "text": "tar -xzf archive.tar.gz /var/log",
+        "text": "tar -cjf archive.tar.gz /var/log",
         "correct": false
       },
       {
@@ -101,7 +101,7 @@
         "correct": true
       },
       {
-        "text": "tar -cjf archive.tar.gz /var/log",
+        "text": "tar -xzf archive.tar.gz /var/log",
         "correct": false
       }
     ],
@@ -116,11 +116,7 @@
     "question": "Как направить вывод и ошибки команды в один файл log.txt с перезаписью?",
     "options": [
       {
-        "text": "command > log.txt 2>&1",
-        "correct": true
-      },
-      {
-        "text": "command 2>&1 > log.txt",
+        "text": "command > log.txt 2>1",
         "correct": false
       },
       {
@@ -128,8 +124,12 @@
         "correct": false
       },
       {
-        "text": "command > log.txt 2>1",
+        "text": "command 2>&1 > log.txt",
         "correct": false
+      },
+      {
+        "text": "command > log.txt 2>&1",
+        "correct": true
       }
     ],
     "explanation": "Конструкция 2>&1 перенаправляет дескриптор ошибок туда же, куда указывает дескриптор 1. Запись 2>1 создаст файл с именем 1, а не соберёт ошибки. Ключ >> дописывает в конец файла вместо перезаписи. Порядок 2>&1 > log.txt оставит ошибки в терминале."
@@ -143,10 +143,6 @@
     "question": "Какая команда скопирует директорию рекурсивно с правами и метками времени?",
     "options": [
       {
-        "text": "mv /src /dst",
-        "correct": false
-      },
-      {
         "text": "cp -a /src /dst",
         "correct": true
       },
@@ -156,6 +152,10 @@
       },
       {
         "text": "cp -p /src /dst",
+        "correct": false
+      },
+      {
+        "text": "mv /src /dst",
         "correct": false
       }
     ],
@@ -170,11 +170,7 @@
     "question": "Какая команда найдёт файлы, изменённые строго больше семи суток назад?",
     "options": [
       {
-        "text": "find . -type f -mtime +7",
-        "correct": true
-      },
-      {
-        "text": "find . -type f -atime +7",
+        "text": "find . -type f -mtime -7",
         "correct": false
       },
       {
@@ -182,7 +178,11 @@
         "correct": false
       },
       {
-        "text": "find . -type f -mtime -7",
+        "text": "find . -type f -mtime +7",
+        "correct": true
+      },
+      {
+        "text": "find . -type f -atime +7",
         "correct": false
       }
     ],
@@ -197,6 +197,10 @@
     "question": "Какая команда обновляет базу данных для locate?",
     "options": [
       {
+        "text": "locate -c",
+        "correct": false
+      },
+      {
         "text": "locate -b",
         "correct": false
       },
@@ -207,10 +211,6 @@
       {
         "text": "updatedb",
         "correct": true
-      },
-      {
-        "text": "locate -c",
-        "correct": false
       }
     ],
     "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. Ключи -b, -c и -r у locate управляют выборкой (базовое имя, подсчёт совпадений, регулярное выражение), но саму базу данных не перестраивают."
@@ -224,7 +224,7 @@
     "question": "Какая команда корректно обработает имена с пробелами через xargs?",
     "options": [
       {
-        "text": "find . -type f -print | xargs rm",
+        "text": "find . -type f | xargs -n 0 rm",
         "correct": false
       },
       {
@@ -232,12 +232,12 @@
         "correct": false
       },
       {
-        "text": "find . -type f | xargs -n 0 rm",
-        "correct": false
-      },
-      {
         "text": "find . -type f -print0 | xargs -0 rm",
         "correct": true
+      },
+      {
+        "text": "find . -type f -print | xargs rm",
+        "correct": false
       }
     ],
     "explanation": "Ключ -print0 выводит имена, разделённые нулевым байтом, а -0 в xargs читает именно такой формат. Без этой пары xargs разбивает ввод по пробелам и передаст rm обрывки имён. У find нет ключа -exec0, а -n 0 не имеет смысла."
@@ -251,12 +251,12 @@
     "question": "Какая команда покажет тип файла по его содержимому?",
     "options": [
       {
-        "text": "file data.bin",
-        "correct": true
-      },
-      {
         "text": "stat data.bin",
         "correct": false
+      },
+      {
+        "text": "file data.bin",
+        "correct": true
       },
       {
         "text": "ls -l data.bin",
@@ -278,20 +278,20 @@
     "question": "Какая команда создаст архив, сжатый bzip2?",
     "options": [
       {
+        "text": "tar -czf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
         "text": "tar -cJf backup.tar.bz2 /home",
         "correct": false
       },
       {
-        "text": "tar -czf backup.tar.bz2 /home",
+        "text": "tar -cf backup.tar.bz2 --bzip2 /home",
         "correct": false
       },
       {
         "text": "tar -cjf backup.tar.bz2 /home",
         "correct": true
-      },
-      {
-        "text": "tar -cf backup.tar.bz2 --bzip2 /home",
-        "correct": false
       }
     ],
     "explanation": "Сжатие bzip2 включает ключ j, ключ z даёт gzip, а J — xz. Ключ --long-option с именем файла без -f не создаст архив нужного вида, поэтому верен только вариант с -cjf."
@@ -305,22 +305,238 @@
     "question": "Чем символическая ссылка отличается от жёсткой?",
     "options": [
       {
-        "text": "Жёсткая ссылка может быть на другом разделе, а символическая — нет",
-        "correct": false
-      },
-      {
         "text": "Символическая указывает на путь, а жёсткая — на тот же inode",
         "correct": true
       },
       {
-        "text": "Символическая ссылка увеличивает счётчик ссылок до двух",
+        "text": "Жёсткая ссылка может быть на другом разделе, а символическая — нет",
         "correct": false
       },
       {
         "text": "Жёсткую ссылку можно создать только на директорию, но не на файл",
         "correct": false
+      },
+      {
+        "text": "Символическая ссылка увеличивает счётчик ссылок до двух",
+        "correct": false
       }
     ],
     "explanation": "Жёсткая ссылка — это ещё одно имя для того же inode, поэтому она работает только в пределах одной файловой системы. Символическая ссылка — отдельный объект со своим inode, хранящий путь. Жёсткие ссылки на директории запрещены."
+  },
+  {
+    "id": "fm_013",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "rsync: синхронизация каталогов с удалением лишних файлов",
+    "question": "Какая команда синхронизирует содержимое каталога src/ в dst/, удаляя из dst/ файлы, которых больше нет в src/?",
+    "options": [
+      {
+        "text": "rsync -a --existing src/ dst/",
+        "correct": false
+      },
+      {
+        "text": "rsync -a --backup src/ dst/",
+        "correct": false
+      },
+      {
+        "text": "rsync -a --delete src/ dst/",
+        "correct": true
+      },
+      {
+        "text": "rsync -a --update src/ dst/",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ --delete удаляет из приёмника файлы, отсутствующие в источнике, поэтому именно он даёт точное зеркало. Без него rsync -a только копирует новые и изменённые файлы, оставляя лишние. --update пропускает файлы, которые новее на приёмнике, ничего не удаляя. --existing не создаёт на приёмнике новые файлы, а --backup лишь переименовывает заменяемые, лишние файлы оба ключа не трогают.",
+    "_meta": {
+      "added_at": "2026-09-27",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-27T01:17:15Z",
+      "source": "m2.9-batch4-file_management",
+      "reference": "man rsync",
+      "status": "active"
+    }
+  },
+  {
+    "id": "fm_014",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "dd: создание файла заданного размера",
+    "question": "Какая команда создаст файл disk.img размером 100 МБ, заполненный нулями?",
+    "options": [
+      {
+        "text": "dd if=/dev/zero of=disk.img bs=1M size=100",
+        "correct": false
+      },
+      {
+        "text": "dd if=/dev/null of=disk.img bs=1M count=100",
+        "correct": false
+      },
+      {
+        "text": "dd if=/dev/zero of=disk.img bs=1K count=100",
+        "correct": false
+      },
+      {
+        "text": "dd if=/dev/zero of=disk.img bs=1M count=100",
+        "correct": true
+      }
+    ],
+    "explanation": "bs задаёт размер блока, count — их количество: bs=1M и count=100 дают ровно 100 МБ нулей из /dev/zero. Чтение из /dev/null не выдаёт данных, поэтому файл останется пустым. При bs=1K и count=100 получится только 100 КБ, а операнда size у dd нет — размер определяется только через bs и count.",
+    "_meta": {
+      "added_at": "2026-09-27",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-27T01:17:15Z",
+      "source": "m2.9-batch4-file_management",
+      "reference": "man dd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "fm_015",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "split -b: разбиение файла на части заданного размера",
+    "question": "Какая команда разделит большой файл на части по 10 МБ каждая?",
+    "options": [
+      {
+        "text": "split -l 10M data.log",
+        "correct": false
+      },
+      {
+        "text": "split -b 10M data.log",
+        "correct": true
+      },
+      {
+        "text": "split -c 10M data.log",
+        "correct": false
+      },
+      {
+        "text": "split -n 10M data.log",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -b задаёт размер части в байтах (суффикс M означает мегабайты), поэтому split -b 10M делит файл на куски по 10 МБ. Ключ -l разбивает по числу строк, а -n — на заданное количество частей, поэтому значение 10M в них некорректно. Опции -c в GNU split нет — такая команда завершится ошибкой.",
+    "_meta": {
+      "added_at": "2026-09-27",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-27T01:17:15Z",
+      "source": "m2.9-batch4-file_management",
+      "reference": "man split",
+      "status": "active"
+    }
+  },
+  {
+    "id": "fm_016",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "truncate -s 0: обнуление содержимого файла без удаления",
+    "question": "Какой командой очистить файл до нулевой длины, не удаляя его?",
+    "options": [
+      {
+        "text": "truncate -s 0 data.log",
+        "correct": true
+      },
+      {
+        "text": "rm --force -- data.log",
+        "correct": false
+      },
+      {
+        "text": "truncate -s 100 data.log",
+        "correct": false
+      },
+      {
+        "text": "touch -c -m data.log",
+        "correct": false
+      }
+    ],
+    "explanation": "truncate -s 0 устанавливает размер файла в ноль байт, полностью очищая содержимое, но сохраняя сам файл и его inode. Команда truncate -s 100 оставит файл размером 100 байт, а не пустым. touch лишь обновляет метки времени, не трогая данные. Команда rm удаляет файл, что нарушает условие «не удаляя».",
+    "_meta": {
+      "added_at": "2026-09-27",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-27T01:17:15Z",
+      "source": "m2.9-batch4-file_management",
+      "reference": "man truncate",
+      "status": "active"
+    }
+  },
+  {
+    "id": "fm_017",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "mktemp -d: создание безопасного временного каталога",
+    "question": "Какая команда безопасно создаст временный каталог с уникальным именем в /tmp?",
+    "options": [
+      {
+        "text": "mkdir -m 700 /tmp/tmp.$$",
+        "correct": false
+      },
+      {
+        "text": "mktemp /tmp/tmp.XXXXXX",
+        "correct": false
+      },
+      {
+        "text": "mktemp -p /tmp tmp.XXXXXX",
+        "correct": false
+      },
+      {
+        "text": "mktemp -d /tmp/tmp.XXXXXX",
+        "correct": true
+      }
+    ],
+    "explanation": "mktemp -d создаёт каталог и заменяет XXXXXX случайными символами, что исключает коллизии и гонки. Без -d mktemp создаёт файл, а не каталог; ключ -p лишь задаёт базовый каталог, поэтому каталога тоже не получится. Команда mkdir с $$ использует PID вместо случайности и завершится ошибкой, если такой каталог уже существует.",
+    "_meta": {
+      "added_at": "2026-09-27",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-27T01:17:15Z",
+      "source": "m2.9-batch4-file_management",
+      "reference": "man mktemp",
+      "status": "active"
+    }
+  },
+  {
+    "id": "fm_018",
+    "topic": "file_management",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "basename / dirname: извлечение компонентов пути",
+    "question": "Какая команда извлечёт из пути /etc/ssh/sshd_config только имя файла?",
+    "options": [
+      {
+        "text": "basename /etc/ssh/sshd_config",
+        "correct": true
+      },
+      {
+        "text": "realpath /etc/ssh/sshd_config",
+        "correct": false
+      },
+      {
+        "text": "dirname /etc/ssh/sshd_config",
+        "correct": false
+      },
+      {
+        "text": "readlink /etc/ssh/sshd_config",
+        "correct": false
+      }
+    ],
+    "explanation": "basename отбрасывает путь и возвращает последний компонент — имя файла sshd_config. Команда dirname, наоборот, вернёт каталог /etc/ssh. realpath выводит полный канонический путь, а не короткое имя. readlink работает только с символическими ссылками, а sshd_config — обычный файл.",
+    "_meta": {
+      "added_at": "2026-09-27",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-27T01:17:15Z",
+      "source": "m2.9-batch4-file_management",
+      "reference": "man basename",
+      "status": "active"
+    }
   }
 ]

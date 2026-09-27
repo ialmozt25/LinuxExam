@@ -199,3 +199,66 @@ ug_018 (ratio_chars evidence ≠ замер).
 **Следующие шаги:**
 - M2.9 (массовая генерация) или M3 (дашборд).
 - 7 known issues — в BACKLOG для отдельной итерации.
+
+## 2026-09-27 — M2.9 batch 4: гейты, порог ratio, объём shuffle
+
+**Контекст:** spec `001-file-management-batch-4` (банк 183 → 189, тема
+`file_management`). Pre-flight дал 4 расхождения; решения капитана и находки
+Оркестратора:
+
+**1. Гейт `npm run shuffle` из spec не существует.**
+`npm error Missing script: "shuffle"` (exit 1). Реальные скрипты:
+`shuffle-bank` (`--apply`) и `shuffle-bank:check` (`--check`).
+*Решение капитана:* исполнять `npm run qc`, `npm run shuffle-bank:check`,
+`npm run shuffle-bank` (apply). Алиас `shuffle` в `package.json` НЕ добавлять
+(вне скоупа). DOD `content` называет именно `qc` + `shuffle-bank:check`, то
+есть spec противоречил DOD.
+
+**2. `tools/qc.cjs` считает option ratio по символам, а порог берёт по классу слов.**
+`RATIO_UNIT='chars'`, но `classifyOptions` (tools/_lib/ratio.cjs) определяет
+класс по ЧИСЛУ СЛОВ: все 4 опции ≥ 4 слов → `sentences` → порог FAIL **1.30**
+(warn 1.25); все ≤ 3 слов → `token` → **2.0**; иначе `mixed` → **1.5**.
+Порог 1.5 из DOD — только внешняя граница. *Следствие:* `fm_016` batch 4 с
+ratio 1.4118 формально проходил DOD, но валил фактический гейт `npm run qc`
+(`Fails 1`). Исправлено rework'ом до 1.2000. *Урок:* проверять ratio тем же
+кодом (`checkRatio(options,'chars')`), а не арифметикой по DOD.
+
+**3. `tools/qc.cjs` не принимает аргументов** — всегда проверяет весь банк
+(подтверждение известного бага из M1). QC кандидатов до интеграции возможен
+только через зеркало банка во временном каталоге; так и было сделано в раундах
+1 и 2.
+
+**4. `tools/cosine.cjs` читает только JSON** (`JSON.parse`) — YAML ему подавать
+нельзя, нужен промежуточный pending-JSON.
+
+**5. Объём `shuffle-bank --apply`.** Глобальный `--apply` переупорядочил опции
+не только в `file_management`, но и в `deploy_systems`, `essential_tools`,
+`file_systems` — 40 существующих вопросов вне батча (все изменения —
+чистая перестановка опций, `contentChanged=0`). *Решение Оркестратора:*
+ограничить скоуп батчем — `shuffle-bank --apply file_management`; три
+посторонние темы возвращены к HEAD. Обе ветки дают `shuffle-bank:check` exit 0
+(полная нормализация: BANK 189 = 51/44/37/57; минимальная: 55/45/36/53).
+Полная канонизация банка — отдельная задача.
+
+**6. Формат коммита конфликтует с инструментарием.**
+`tools/gen-state.mjs` считает `goal.added_today` и `goal.avg_daily_7d`, грепая
+subject'ы коммитов на `/^feat\(bank\)/i` И `/(\d+)\s+questions?/i`. Формат из
+spec 001 (`M2.9 batch 4: file_management +6 (183→189)`) не матчит ни один
+regex → метрики центра молча обнулятся. История использует
+`feat(bank): M2.9 batch N - X questions on <topic>`. Рекомендация — гибрид
+`feat(bank): M2.9 batch 4 - 6 questions on file_management (183->189)`.
+
+**7. `docs/dashboard/state.json` не коммитить.**
+`npm run state:update` (M3.5 auto-sync) перезаписывает его, но spec 001
+запрещает трогать `docs/dashboard/*`. `sync:check` мониторит только 4 пути
+(`.project/state.json`, `STATE.md`, `SPEC.md`, `docs/index.html`), поэтому файл
+старого дашборда возвращён к HEAD без влияния на гейт.
+
+**8. Артефакт QC раунда 2 — невалидный YAML.** В
+`.project/drafts/m2.9-batch4-qc-output-v2.yaml` ключ `method:` стоял с отступом
+внутри последовательности `ratio_rerun` → `js-yaml` падал на строке 100.
+Исправлено Оркестратором минимально (ключ вынесен на верхний уровень как
+`ratio_method:`), текст QC сохранён дословно; семантика не менялась.
+
+*Decided-by:* Капитан (пункты 1, 3) + Оркестратор (пункты 2, 4–8).
+

@@ -82,8 +82,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 3dcd59a3f88c90f5cdd2b4dc4ada56cec1d6adf0</span>
-      <span class="mono">last_sync 2026-09-27T00:51:03.536Z</span>
+      <span class="mono">HEAD e01cd02a4754d1d95c8f602154f6e6b7d2d439e6</span>
+      <span class="mono">last_sync 2026-09-27T01:40:58.685Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
   </section>
@@ -91,11 +91,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="progress" id="progress">
     <h2>Прогресс банка</h2>
     <div class="progress__nums">
-      <span class="progress__cur">183</span>
+      <span class="progress__cur">189</span>
       <span class="progress__tot">/ 300</span>
-      <span class="progress__pct">61% · осталось 117</span>
+      <span class="progress__pct">63% · осталось 111</span>
     </div>
-    <div class="progress__bar"><div class="progress__fill" style="width:61%"></div></div>
+    <div class="progress__bar"><div class="progress__fill" style="width:63%"></div></div>
         <div class="topic topic--gap">
           <div class="topic__label">Локальное хранилище</div>
           <div class="topic__bar"><div class="topic__fill" style="width:36%"></div></div>
@@ -127,11 +127,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <div class="topic__count">10 / 22</div>
         </div>
         <div class="topic">
-          <div class="topic__label">Управление файлами</div>
-          <div class="topic__bar"><div class="topic__fill" style="width:55%"></div></div>
-          <div class="topic__count">12 / 22</div>
-        </div>
-        <div class="topic">
           <div class="topic__label">Развёртывание систем</div>
           <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
           <div class="topic__count">13 / 22</div>
@@ -150,6 +145,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <div class="topic__label">Управление процессами</div>
           <div class="topic__bar"><div class="topic__fill" style="width:77%"></div></div>
           <div class="topic__count">17 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Управление файлами</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:82%"></div></div>
+          <div class="topic__count">18 / 22</div>
         </div>
         <div class="topic">
           <div class="topic__label">Пользователи и группы</div>
@@ -180,7 +180,22 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr><th>id</th><th>slug</th><th>type</th><th>status</th><th>commit</th><th>updated</th></tr>
       </thead>
       <tbody>
-        <tr><td colspan="6" class="muted">Спек пока нет — шаблон: <code>.project/specs/README.md</code></td></tr>
+        <tr>
+          <td class="mono">001</td>
+          <td class="mono">file-management-batch-4</td>
+          <td>content</td>
+          <td><span class="chip chip--draft">draft</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">002</td>
+          <td class="mono">dehardcode-positional-test</td>
+          <td>feature</td>
+          <td><span class="chip chip--draft">draft</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-27</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -193,6 +208,9 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>Формат: `YYYY-MM-DD | milestone | что решено | commit &lt;sha|pending&gt;`</li>
         <li>Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.</li>
         <li>2026-09-27 | M4.0 | solid base + dev center | commit pending</li>
+        <li>2026-09-27 | M2.9 batch 4 | file_management +6 (183→189), MAS Writer→QC(reject fm_016)→rework→QC PASS | commit pending</li>
+        <li>2026-09-27 | M2.9 batch 4 | guard test hardcode bump 183→189 | tech debt → spec 002</li>
+        <li>2026-09-27 | M2.9 batch 4 | commit format adjusted for gen-state.mjs | spec 001 deviation</li>
     </ul>
   </section>
 

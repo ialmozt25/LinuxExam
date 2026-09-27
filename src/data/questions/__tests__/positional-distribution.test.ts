@@ -26,8 +26,9 @@ const BANK_DIR = join(HERE, '..');
 // expansion batch (pm_012..pm_017) to 14 / 160, the essential_tools
 // MAS batch (et_008..et_013) to 14 / 166, and the deploy_systems MAS
 // batch (ds_009..ds_013) to 14 / 177.
+// the file_management MAS batch (fm_013..fm_018) to 14 / 189.
 const EXPECTED_TOPICS = 14;
-const EXPECTED_QUESTIONS = 183;
+const EXPECTED_QUESTIONS = 189;
 const MAX_POSITION_SHARE = 0.6;
 
 interface RawQuestion {
