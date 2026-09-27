@@ -116,7 +116,7 @@ commit: null
 | `schema_version` | **2** |
 | `goal.added_today` | **0 → 6** |
 | `goal.avg_daily_7d` | **6.57 → 7.43** |
-| `docs/dashboard/state.json` | byte-identical копия `state.json` ✔ |
+| `docs/dashboard/state.json` | byte-identical копия `state.json` **на момент записи** (см. ниже) |
 | идемпотентность: прогон №2 | **байт-идентичен прогону №1** (sha256 `1FE6CB6D361DDE84…`), в логе `идемпотентно: семантика не изменилась` |
 | v1-ключи (`goal`, `gates` вкл. `shuffle_bank`, `topics`, `milestones`, `issues_open`, `recent_commits`) | на месте, семантика прежняя |
 | `sync:check` после `state:update` → `sync` → коммита | **exit 0** |
@@ -140,3 +140,15 @@ commit: null
 
 *Отклонений от merge-контракта нет:* `sync.mjs` не изменялся ни на байт
 (`git diff --stat -- .project/sync.mjs` пуст), контент банка и contracts не тронуты.
+
+**Про копию дашборда — точная формулировка (уточнено после замера).**
+`gen-state.mjs` пишет `state.json` и сразу копирует его в `docs/dashboard/state.json`
+(`:546-549`) — **на этот момент** файлы байт-идентичны (проверено сразу после прогона:
+`byte-identical: true`). Инвариант **не переживает** последующий `npm run sync`:
+`sync.mjs` перезаписывает `.project/state.json` (`head`, `specs`, `log_tail`, `commits`,
+`last_sync`), а legacy-копию для дашборда V1–V9 не обновляет. Проверено, что это
+**не регрессия этой спеки**: файлы расходились уже до неё — на `8505522` (до фикса)
+`state.json` = `bcad3965…`, `docs/dashboard/state.json` = `5bdf3ce3…`. В рабочем дереве
+сейчас расходятся ровно четыре поля владельца `sync.mjs`: `head`, `specs`, `log_tail`,
+`commits`. Устранение требует правки `sync.mjs`, которая заданием запрещена, поэтому
+это **находка**, а не «поправлено походя».
