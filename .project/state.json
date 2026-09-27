@@ -339,16 +339,16 @@
       "message": "feat(dashboard): V8 - product owner view (topics distribution, no process)"
     }
   ],
-  "head": "f4e25381b060be041615f863d63c2c35fc26058a",
+  "head": "1790919ce6dafa8b0e228599a5499f07fe7258ca",
   "specs": [
     {
       "id": "001",
       "slug": "file-management-batch-4",
-      "status": "draft",
+      "status": "done",
       "type": "content",
       "created": "2026-09-27",
       "updated": "2026-09-27",
-      "commit": null,
+      "commit": "f4e2538",
       "file": "specs/001-file-management-batch-4.md",
       "goal": "Банк 183 → 189. +6 новых вопросов по канонической теме «управление файлами» (см. pre-flight п.3).",
       "acceptance": "[ ] N новых вопросов (N ≤ 6), topic = канон из pre-flight п.3",
@@ -358,16 +358,16 @@
     {
       "id": "002",
       "slug": "dehardcode-positional-test",
-      "status": "draft",
+      "status": "done",
       "type": "feature",
       "created": "2026-09-27",
       "updated": "2026-09-27",
-      "commit": null,
+      "commit": "cd6ce8d",
       "file": "specs/002-dehardcode-positional-test.md",
       "goal": "Убрать хардкод ожидаемого размера банка из guard-теста",
-      "acceptance": "[ ] `EXPECTED_QUESTIONS` больше не хардкод: число берётся из источника",
+      "acceptance": "[x] `EXPECTED_QUESTIONS` больше не хардкод: число берётся из источника",
       "noTouch": "Саму логику проверки позиционного распределения (порог `MAX_POSITION_SHARE`,",
-      "preview": "До/после `EXPECTED_QUESTIONS` в тесте + вывод `npm run test:run` на банке 189"
+      "preview": "*До** (было в тесте):"
     }
   ],
   "log_tail": [

@@ -1,11 +1,11 @@
 ---
 id: 001
 slug: file-management-batch-4
-status: draft
+status: done
 type: content
 created: 2026-09-27
 updated: 2026-09-27
-commit: null
+commit: f4e2538
 ---
 
 ## Pre-flight — STOP и доклад при любом расхождении
