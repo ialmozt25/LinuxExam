@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 016"
     }
   ],
-  "head": "4fe4abf2304cdd9719b66c257264cc0b5f92ad91",
+  "head": "f80c65bf7954d59826ac0bc946f80e6652b0a3b4",
   "specs": [
     {
       "id": "014",
@@ -613,6 +613,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "f80c65b",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 017",
+      "type": "chore"
+    },
+    {
+      "sha": "5706b10",
+      "date": "2026-09-28",
+      "subject": "docs(spec): close 017 as done",
+      "type": "docs"
+    },
+    {
       "sha": "4fe4abf",
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 017 fix",
@@ -718,18 +730,6 @@
       "sha": "b299170",
       "date": "2026-09-28",
       "subject": "chore(local): switch .local -> .loc + report",
-      "type": "chore"
-    },
-    {
-      "sha": "c1a6b61",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge commits window",
-      "type": "chore"
-    },
-    {
-      "sha": "ad943a9",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after push record",
       "type": "chore"
     }
   ],
