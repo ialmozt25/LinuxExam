@@ -5,7 +5,7 @@ status: done
 type: docs
 created: 2026-09-27
 updated: 2026-09-28
-commit: pending
+commit: 041d4a8
 ---
 
 ## Цель
