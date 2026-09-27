@@ -340,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "7278078000d2a11440459bbe474bea05d795d670",
+  "head": "22989613d001484059fa3d7fde152696a9b908df",
   "specs": [
     {
       "id": "007",
@@ -539,6 +539,24 @@
   "spec_commit": "e01cd02",
   "commits": [
     {
+      "sha": "2298961",
+      "date": "2026-09-28",
+      "subject": "docs(rules): accept +1 convergence commit as permanent cost",
+      "type": "docs"
+    },
+    {
+      "sha": "7836f12",
+      "date": "2026-09-28",
+      "subject": "docs(report): spec 012 closure",
+      "type": "docs"
+    },
+    {
+      "sha": "ab501b1",
+      "date": "2026-09-28",
+      "subject": "chore(state): sync after spec 012 rejection",
+      "type": "chore"
+    },
+    {
       "sha": "cf1939e",
       "date": "2026-09-28",
       "subject": "chore(state): re-sync after spec 012 rejection",
@@ -638,24 +656,6 @@
       "sha": "1156ff0",
       "date": "2026-09-27",
       "subject": "docs(factory): center spec - full work visibility",
-      "type": "docs"
-    },
-    {
-      "sha": "92d3bcd",
-      "date": "2026-09-27",
-      "subject": "chore(state): sync after M6.0 factory research",
-      "type": "chore"
-    },
-    {
-      "sha": "622e70d",
-      "date": "2026-09-27",
-      "subject": "docs(factory): definition of done",
-      "type": "docs"
-    },
-    {
-      "sha": "2dc4170",
-      "date": "2026-09-27",
-      "subject": "docs(factory): role contracts",
       "type": "docs"
     }
   ],
