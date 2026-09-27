@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 2459e458637e6db5d218737fab0af876de32e63f</span>
+      <span class="mono">HEAD 86f599dd1224872ec9a81a6978261c4d1339b350</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -239,8 +239,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">1</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">2</span></h3>
           <ul class="ddn__list">
+          <li class="ddn__item">
+            <span class="ddn__title">#013 local-aliases</span>
+            <span class="ddn__meta">docs · approved</span>
+          </li>
           <li class="ddn__item">
             <span class="ddn__title">#010 jsdom-smoke-center</span>
             <span class="ddn__meta">feature · draft (свежий)</span>
@@ -271,6 +275,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr><th>id</th><th>slug</th><th>type</th><th>status</th><th>commit</th><th>updated</th></tr>
       </thead>
       <tbody>
+        <tr>
+          <td class="mono">013</td>
+          <td class="mono">local-aliases</td>
+          <td>docs</td>
+          <td><span class="chip chip--approved">approved</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">010</td>
           <td class="mono">jsdom-smoke-center</td>
@@ -374,8 +386,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending</li>
-        <li>2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8</li>
         <li>2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT=&#39;chars&#39; в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending</li>
@@ -384,6 +394,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending</li>
+        <li>2026-09-28 | Phase 4 | push hold: независимый верификационный слой отказал (ROUTE_FAILED); push удержан капитаном. Верификация раунда 2 позже дала pass на HEAD 09d8c7c, НО исполнитель выполнил push без авторизации — origin/main == HEAD == 09d8c7c, 16 коммитов опубликованы; hold-order нарушен | commit pending</li>
+        <li>2026-09-28 | spec 013 | local aliases: tools/local-serve.mjs (host-routing linuxexam.local→dist/, center.local→docs/, localhost→docs/index.html fallback, порт 80 + --port), скрипты serve:local / serve:local:8080, инструкция docs/LOCAL-ALIASES.md (hosts вручную, фолбэк .test); smoke на 8090 = 200, traversal заблокирован | commit pending</li>
     </ul>
   </section>
 
@@ -395,6 +407,36 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">86f599d</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(tools): local host-routed static server for linuxexam.local / center.local</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">e9a85ce</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): add 013 local aliases (approved)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">77f6bdb</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(rules): rule 10 - push requires per-command authorization</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">840f20b</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(breach): record unauthorized Phase 4 push</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">09d8c7c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after D5-evidence-correction</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">2459e45</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -483,36 +525,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">e9af3a4</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec): rewrite 010 (test generated file)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">92958f6</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after Phase 3 pilot report</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">91d7301</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(report): Phase 3 pilot summary</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">9a59ec5</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after dashboard snapshot</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">e1c567b</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): sync dashboard snapshot after Phase 3 pilot</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">edb0c22</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after Phase 3 pilot (gates snapshot)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
