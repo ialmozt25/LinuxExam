@@ -340,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "fd6a5c2186caefad1895d2d875c804a1d25c9dc9",
+  "head": "33a3402093dac6e19cba51b7ce780f56d0faa1f9",
   "specs": [
     {
       "id": "007",
@@ -439,9 +439,9 @@
       "type": "docs",
       "created": "2026-09-27",
       "updated": "2026-09-28",
-      "commit": "pending",
+      "commit": "041d4a8",
       "file": "specs/008-devops-role-document.md",
-      "mtime": 1790522572818.3882,
+      "mtime": 1790522601297.6555,
       "goal": "Описать ответственность роли **DevOps/ops** как **документ в базе знаний**, а не как",
       "acceptance": "[ ] Создан `docs/knowledge/ops/devops-role.md`; структура — по шаблону",
       "noTouch": "`src/**` — код приложения; задача чисто документационная.",
@@ -524,7 +524,6 @@
     }
   ],
   "log_tail": [
-    "Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.",
     "2026-09-27 | M4.0 | solid base + dev center | commit pending",
     "2026-09-27 | M2.9 batch 4 | file_management +6 (183→189), MAS Writer→QC(reject fm_016)→rework→QC PASS | commit pending",
     "2026-09-27 | M2.9 batch 4 | guard test hardcode bump 183→189 | tech debt → spec 002",
@@ -533,11 +532,24 @@
     "2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending",
     "2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d",
     "2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending",
-    "2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending"
+    "2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending",
+    "2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8"
   ],
   "last_sync": "2026-09-27T06:44:33.729Z",
   "spec_commit": "e01cd02",
   "commits": [
+    {
+      "sha": "33a3402",
+      "date": "2026-09-28",
+      "subject": "docs(spec): record commit SHA for spec 008",
+      "type": "docs"
+    },
+    {
+      "sha": "041d4a8",
+      "date": "2026-09-28",
+      "subject": "docs(knowledge): document DevOps role (spec 008)",
+      "type": "docs"
+    },
     {
       "sha": "fd6a5c2",
       "date": "2026-09-28",
@@ -645,18 +657,6 @@
       "date": "2026-09-27",
       "subject": "Revert \"docs(factory): probe non-sync commit (temporary)\"",
       "type": "revert"
-    },
-    {
-      "sha": "ad5276f",
-      "date": "2026-09-27",
-      "subject": "docs(factory): probe non-sync commit (temporary)",
-      "type": "docs"
-    },
-    {
-      "sha": "d9aa0fe",
-      "date": "2026-09-27",
-      "subject": "chore(state): schema_version 2 + factory keys",
-      "type": "chore"
     }
   ],
   "roles": [

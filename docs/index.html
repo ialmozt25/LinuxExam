@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD fd6a5c2186caefad1895d2d875c804a1d25c9dc9</span>
+      <span class="mono">HEAD 33a3402093dac6e19cba51b7ce780f56d0faa1f9</span>
       <span class="mono">last_sync 2026-09-27T06:44:33.729Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -206,7 +206,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#008 devops-role-document</span>
-            <span class="ddn__meta">docs · commit pending</span>
+            <span class="ddn__meta">docs · commit 041d4a8</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#001 file-management-batch-4</span>
@@ -320,7 +320,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">devops-role-document</td>
           <td>docs</td>
           <td><span class="chip chip--done">done</span></td>
-          <td class="mono">pending</td>
+          <td class="mono">041d4a8</td>
           <td class="mono">2026-09-28</td>
         </tr>
         <tr>
@@ -370,7 +370,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.</li>
         <li>2026-09-27 | M4.0 | solid base + dev center | commit pending</li>
         <li>2026-09-27 | M2.9 batch 4 | file_management +6 (183→189), MAS Writer→QC(reject fm_016)→rework→QC PASS | commit pending</li>
         <li>2026-09-27 | M2.9 batch 4 | guard test hardcode bump 183→189 | tech debt → spec 002</li>
@@ -380,6 +379,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending</li>
+        <li>2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8</li>
     </ul>
   </section>
 
@@ -391,6 +391,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">33a3402</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): record commit SHA for spec 008</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">041d4a8</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(knowledge): document DevOps role (spec 008)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">fd6a5c2</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -497,18 +509,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">69ef27a</td>
           <td><span class="ctype ctype--revert">revert</span></td>
           <td>Revert &quot;docs(factory): probe non-sync commit (temporary)&quot;</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">ad5276f</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(factory): probe non-sync commit (temporary)</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">d9aa0fe</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): schema_version 2 + factory keys</td>
           <td class="mono muted">2026-09-27</td>
         </tr>
 <!--volatile:end-->
