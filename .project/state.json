@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "f2617f1ee5fe12ab1639d6b67e9bcaafc84b1505",
+  "head": "aaf05d7f1128bb933905bf3e98d541ce21ef51cd",
   "specs": [
     {
       "id": "010",
@@ -538,6 +538,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "aaf05d7",
+      "date": "2026-09-28",
+      "subject": "docs(memory): add three Phase 3 lessons",
+      "type": "docs"
+    },
+    {
+      "sha": "40f02a5",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after D4 Designer-role",
+      "type": "chore"
+    },
+    {
       "sha": "f2617f1",
       "date": "2026-09-28",
       "subject": "docs(factory): add designer role artifacts",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "docs(spec): record spec 007 closure and Phase 3 decisions",
       "type": "docs"
-    },
-    {
-      "sha": "a50347f",
-      "date": "2026-09-28",
-      "subject": "fix(qc): single ratio unit and threshold table (spec 007)",
-      "type": "fix"
-    },
-    {
-      "sha": "6ec39d8",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 008",
-      "type": "chore"
     }
   ],
   "roles": [
