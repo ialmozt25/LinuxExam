@@ -15,6 +15,8 @@
     "state:update": "node tools/gen-state.mjs",
     "sync": "node .project/sync.mjs",
     "sync:check": "node .project/sync.mjs --check",
+    "serve:local": "node tools/local-serve.mjs",
+    "serve:local:8080": "node tools/local-serve.mjs --port 8080",
     "dashboard": "start http://localhost:3000/dashboard.html && npx --no-install serve docs/dashboard",
     "cosine:intra": "node tools/cosine.cjs --intra-batch",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
