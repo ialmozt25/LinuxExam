@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "93082f4f800fb7e69a949c4a631066ebd9ba2c7b",
+  "head": "f2617f1ee5fe12ab1639d6b67e9bcaafc84b1505",
   "specs": [
     {
       "id": "010",
@@ -523,7 +523,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d",
     "2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8",
@@ -532,11 +531,24 @@
     "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending",
     "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending",
     "2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending",
-    "2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending"
+    "2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending",
+    "2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f2617f1",
+      "date": "2026-09-28",
+      "subject": "docs(factory): add designer role artifacts",
+      "type": "docs"
+    },
+    {
+      "sha": "be8f709",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after D3 DevOps-role",
+      "type": "chore"
+    },
     {
       "sha": "93082f4",
       "date": "2026-09-28",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 008",
       "type": "chore"
-    },
-    {
-      "sha": "33a3402",
-      "date": "2026-09-28",
-      "subject": "docs(spec): record commit SHA for spec 008",
-      "type": "docs"
-    },
-    {
-      "sha": "041d4a8",
-      "date": "2026-09-28",
-      "subject": "docs(knowledge): document DevOps role (spec 008)",
-      "type": "docs"
     }
   ],
   "roles": [

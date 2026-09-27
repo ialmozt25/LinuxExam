@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 93082f4f800fb7e69a949c4a631066ebd9ba2c7b</span>
+      <span class="mono">HEAD f2617f1ee5fe12ab1639d6b67e9bcaafc84b1505</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -374,7 +374,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8</li>
@@ -384,6 +383,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending</li>
+        <li>2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending</li>
     </ul>
   </section>
 
@@ -395,6 +395,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">f2617f1</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): add designer role artifacts</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">be8f709</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after D3 DevOps-role</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">93082f4</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -501,18 +513,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">6ec39d8</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after spec 008</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">33a3402</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): record commit SHA for spec 008</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">041d4a8</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(knowledge): document DevOps role (spec 008)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
