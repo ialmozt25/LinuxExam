@@ -573,6 +573,16 @@ entry). Rework требовать было нельзя без риска вне
 `.project/factory/roles/designer/{SKILL,DOD,TRIGGER}.md` со ссылкой на
 `.project/factory/CONTRACTS.md` §4.2 `orchestrator_to_designer` без копирования текста.
 
+**5. Subjects коммитов D2–D5 приняты капитаном как канонические (2026-09-28).** Четыре
+task-коммита Phase 4 остаются **без изменений**: `docs(decisions): accept blocked WARN in
+sync` (D2), `docs(factory): activate devops role with artifacts` (D3), `docs(factory): add
+designer role artifacts` (D4), `docs(memory): add three Phase 3 lessons` (D5). Контракт `t1`
+пиннил точные subject'ы **только для D1 и D6**, поэтому для D2–D5 они были выбраны
+исполнителем и заявлены как отклонение; сама находка — в контракте, не в коммитах.
+Переписывание истории (reword/rebase/amend) **отклонено** по ORCH-RULES правилу 8: откат —
+только `git revert`, история не переписывается. Subjects семантически корректны и
+зафиксированы как есть.
+
 **Отклонения от задания (зафиксированы честно):** (а) в MEMORY-FACTORY урок про
 конвергентный налог записан как «8/15 коммитов Фазы 3» (формулировка задания) с замером
 «8 `chore(state)` из 16 в диапазоне `a5c74ae..HEAD`» — расхождение только в границе
