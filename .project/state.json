@@ -553,6 +553,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "dd89573",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 013 local-aliases",
+      "type": "chore"
+    },
+    {
       "sha": "86f599d",
       "date": "2026-09-28",
       "subject": "feat(tools): local host-routed static server for linuxexam.local / center.local",
@@ -665,12 +671,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after D1 spec-010-rewrite",
       "type": "chore"
-    },
-    {
-      "sha": "e9af3a4",
-      "date": "2026-09-28",
-      "subject": "docs(spec): rewrite 010 (test generated file)",
-      "type": "docs"
     }
   ],
   "roles": [
