@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "4cb29a9a98f0285bd5cd6659582c146beabcba77",
+  "head": "b299170b0c7badf9111e1413f7a50aa24b56fb48",
   "specs": [
     {
       "id": "013",
@@ -568,6 +568,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "b299170",
+      "date": "2026-09-28",
+      "subject": "chore(local): switch .local -> .loc + report",
+      "type": "chore"
+    },
+    {
+      "sha": "c1a6b61",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge commits window",
+      "type": "chore"
+    },
+    {
       "sha": "ad943a9",
       "date": "2026-09-28",
       "subject": "chore(state): converge after push record",
@@ -673,18 +685,6 @@
       "sha": "9796543",
       "date": "2026-09-28",
       "subject": "chore(state): converge after D5 lessons",
-      "type": "chore"
-    },
-    {
-      "sha": "aaf05d7",
-      "date": "2026-09-28",
-      "subject": "docs(memory): add three Phase 3 lessons",
-      "type": "docs"
-    },
-    {
-      "sha": "40f02a5",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after D4 Designer-role",
       "type": "chore"
     }
   ],
