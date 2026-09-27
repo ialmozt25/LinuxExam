@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "b99c5746c27bb84203bb611d34ac8a695f47f700",
+  "head": "d00dfe9b5d25ae8816729eadebc2ad2d0c37a339",
   "specs": [
     {
       "id": "014",
@@ -370,6 +370,21 @@
       "acceptance": "[ ] Существует `docs/__tests__/center-smoke.test.mjs`; все утверждения выше реализованы",
       "noTouch": "**`.project/sync.mjs`** — ни одной строки: генератор остаётся CLI-точкой входа;",
       "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
+    },
+    {
+      "id": "016",
+      "slug": "tf-cosine-debt",
+      "status": "draft",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/016-tf-cosine-debt.md",
+      "mtime": 1790550071290.5945,
+      "goal": "Снять «мягкий» cosine-долг темы `text_files`: пары, которые не нарушают DOD-порог",
+      "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/text_files.json` →",
+      "noTouch": "Пара `tf_001`~`tf_002` — отдельный долг (spec 011 `rejected`, решение капитана).",
+      "preview": "Перед approve капитан видит: (1) таблицу `до` (пары > 0.80 с числами) и `после`"
     },
     {
       "id": "001",
@@ -583,6 +598,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "d00dfe9",
+      "date": "2026-09-28",
+      "subject": "docs(spec): backlog 016 tf-cosine-debt",
+      "type": "docs"
+    },
+    {
+      "sha": "40191eb",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 015",
+      "type": "chore"
+    },
+    {
       "sha": "b99c574",
       "date": "2026-09-28",
       "subject": "docs(spec): close 015 as done",
@@ -689,18 +716,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge before authorized push",
       "type": "chore"
-    },
-    {
-      "sha": "dd89573",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 013 local-aliases",
-      "type": "chore"
-    },
-    {
-      "sha": "86f599d",
-      "date": "2026-09-28",
-      "subject": "feat(tools): local host-routed static server for linuxexam.local / center.local",
-      "type": "feat"
     }
   ],
   "roles": [
