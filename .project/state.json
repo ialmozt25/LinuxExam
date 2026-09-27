@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 016"
     }
   ],
-  "head": "b77c25b20e569705a7b80cedcfe4c93b00839641",
+  "head": "3a4533f202f2d54f3e1a50c129c0940271ede5a3",
   "specs": [
     {
       "id": "014",
@@ -545,7 +545,7 @@
       "updated": "2026-09-28",
       "commit": null,
       "file": "specs/017-gen-state-schema-v2.md",
-      "mtime": 1790551560149.3796,
+      "mtime": 1790551745218.0505,
       "goal": "Сделать `tools/gen-state.mjs` совместимым со схемой `state.json` v2: `npm run state:update`",
       "acceptance": "[ ] `npm run state:update` → **exit 0**.",
       "noTouch": "`.project/sync.mjs` — **ни одной правки** (задание: `НЕ делать`).",
@@ -612,6 +612,18 @@
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3a4533f",
+      "date": "2026-09-28",
+      "subject": "docs(spec): 017 - precise wording on dashboard copy invariant",
+      "type": "docs"
+    },
+    {
+      "sha": "5660d89",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after push 017 record",
+      "type": "chore"
+    },
     {
       "sha": "b77c25b",
       "date": "2026-09-28",
@@ -718,18 +730,6 @@
       "sha": "73312b9",
       "date": "2026-09-28",
       "subject": "docs(rules): unfreeze content track (Phase 5)",
-      "type": "docs"
-    },
-    {
-      "sha": "9ce80e2",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 013 closure",
-      "type": "chore"
-    },
-    {
-      "sha": "79bd72f",
-      "date": "2026-09-28",
-      "subject": "docs(spec): close 013 as done, document .loc deviation",
       "type": "docs"
     }
   ],
