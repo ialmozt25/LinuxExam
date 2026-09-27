@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "e9af3a477dc9e2b768b9e2b2e4de52bbd1b26e53",
+  "head": "f5cdfb365c75c0211c480d3319b562e8914cc9b8",
   "specs": [
     {
       "id": "010",
@@ -523,7 +523,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending",
     "2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending",
     "2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d",
     "2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending",
@@ -532,11 +531,24 @@
     "2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT='chars' в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f",
     "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending",
-    "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending"
+    "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending",
+    "2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f5cdfb3",
+      "date": "2026-09-28",
+      "subject": "docs(decisions): accept blocked WARN in sync",
+      "type": "docs"
+    },
+    {
+      "sha": "a73850d",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after D1 spec-010-rewrite",
+      "type": "chore"
+    },
     {
       "sha": "e9af3a4",
       "date": "2026-09-28",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "chore(spec): approve 007, 008, 010 for Phase 3 pilot",
       "type": "chore"
-    },
-    {
-      "sha": "0ea1d32",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after Фаза 2 rules",
-      "type": "chore"
-    },
-    {
-      "sha": "2298961",
-      "date": "2026-09-28",
-      "subject": "docs(rules): accept +1 convergence commit as permanent cost",
-      "type": "docs"
     }
   ],
   "roles": [
