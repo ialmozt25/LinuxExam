@@ -1,0 +1,92 @@
+---
+# roles.yaml — ИСТОЧНИК ИСТИНЫ о составе ролей фабрики (M6.0 Phase 2, D2).
+#
+# Читается `.project/sync.mjs` при сборке центра (секция «Роли»).
+# Зеркало `state.json.roles[]` — производное: при расхождении истина ЗДЕСЬ,
+# а sync перегенерирует зеркало. Обратное неверно.
+#
+# Пресеты ролей живут ВНЕ репозитория (в конфигурации DSH), поэтому `preset`
+# может быть null: роль существует как документ/контракт, а не как пресет.
+# Это осознанное состояние, а не отсутствие данных.
+
+version: 1.0.0
+updated: 2026-09-27
+
+# --- type спеки -> роль-исполнитель.
+# Используется колонкой `role` в секции «Все specs» центра.
+# Спека НЕ хранит исполнителя: смена роли не должна требовать правки каждой спеки.
+type_map:
+  content: writer
+  ui: designer
+  feature: orchestrator
+  infra: orchestrator
+  docs: orchestrator
+
+# --- Правила заполнения (проверяются на ревью):
+#   status: active | planned | deferred
+#   trigger.human  — человеческое описание триггера (обязательно)
+#   trigger.check  — машинночитаемое условие ИЛИ null.
+#                    null означает «триггер РУЧНОЙ»: центр обязан пометить это,
+#                    а не изобретать псевдо-условие ради заполненности поля.
+#   blocked_by     — правило или условие, которое блокирует роль сейчас.
+
+roles:
+  - name: orchestrator
+    title: Orchestrator
+    status: active
+    preset: linuxexam-orchestrator
+    skills: [bootstrap]
+    trigger:
+      human: "старт сессии; заявка капитана на задачу"
+      check: "session_start"
+    model_note: "модель задаётся per-session, не пресетом (DECISIONS M2.2c-1)"
+
+  - name: writer
+    title: Content Writer
+    status: active
+    preset: linuxexam-content-writer
+    skills: [bootstrap, content-pipeline, man-verification, verdict-rules]
+    trigger:
+      human: "спека type=content перешла в approved"
+      check: "specs.any(type==content && status==approved)"
+    blocked_by: "ORCH-RULES правило 6 — контент-трек заморожен (банк 206)"
+    model_note: "обычно tier-router/smart; diversity с QC обеспечивается per-session"
+
+  - name: qc
+    title: QC Auditor
+    status: active
+    preset: linuxexam-qc-auditor
+    skills: [bootstrap, adversarial-verification, man-verification, verdict-rules]
+    trigger:
+      human: "Writer вернул DONE или PARTIAL"
+      check: "handoff(writer_to_qc).received"
+    periodic: "каждые 3-4 контент-батча — аудит уже принятого"
+    model_note: "deepseek-official/deepseek-v4-pro — стабильно другой tier, чем Writer"
+
+  - name: devops
+    title: DevOps
+    status: planned
+    preset: null
+    trigger:
+      human: "deploy failed 3+"
+      check: null
+    spec: 008-devops-role-document
+    note: "пресет не создаётся; сначала документ (spec 008). Триггер ручной."
+
+  - name: designer
+    title: Designer
+    status: planned
+    preset: null
+    trigger:
+      human: "second UI task"
+      check: null
+    note: "первая UI-задача решается Orchestrator'ом; роль появляется на второй. Триггер ручной."
+
+  - name: test
+    title: Test
+    status: planned
+    preset: null
+    trigger:
+      human: "tools/** or sync.mjs changed"
+      check: "git diff --name-only HEAD~1 | grep -E '^tools/|sync.mjs'"
+    note: "единственный машинночитаемый триггер среди planned-ролей"
