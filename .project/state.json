@@ -339,7 +339,7 @@
       "message": "docs(spec): 017 - precise wording on dashboard copy invariant"
     }
   ],
-  "head": "477fbc9c73966ed2b5ec8102ef0116887d7b6ea9",
+  "head": "a487cb8bca7965cbc0554775da3eab1c14d9881c",
   "specs": [
     {
       "id": "014",
@@ -385,6 +385,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/text_files.json` →",
       "noTouch": "Пара `tf_001`~`tf_002` — отдельный долг (spec 011 `rejected`, решение капитана).",
       "preview": "Перед approve капитан видит: (1) таблицу `до` (пары > 0.80 с числами) и `после`"
+    },
+    {
+      "id": "019",
+      "slug": "sh-cosine-debt",
+      "status": "draft",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/019-sh-cosine-debt.md",
+      "mtime": 1790552923038.5662,
+      "goal": "Снять «мягкий» cosine-долг темы `shell_scripts`: пару, которая не нарушает DOD-порог",
+      "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/shell_scripts.json` →",
+      "noTouch": "Вопросы батча 5B (`sh_011`..`sh_016`) — приняты, отдельной правки не требуют.",
+      "preview": "Перед approve капитан видит: (1) таблицу «до» (пары > 0.80 с числами) и «после»"
     },
     {
       "id": "001",
@@ -628,6 +643,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "a487cb8",
+      "date": "2026-09-28",
+      "subject": "docs(spec): backlog 019 sh-cosine-debt",
+      "type": "docs"
+    },
+    {
+      "sha": "e22baa9",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 018",
+      "type": "chore"
+    },
+    {
       "sha": "477fbc9",
       "date": "2026-09-28",
       "subject": "docs(spec): close 018 as done",
@@ -733,18 +760,6 @@
       "sha": "8505522",
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 016",
-      "type": "chore"
-    },
-    {
-      "sha": "d00dfe9",
-      "date": "2026-09-28",
-      "subject": "docs(spec): backlog 016 tf-cosine-debt",
-      "type": "docs"
-    },
-    {
-      "sha": "40191eb",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 015",
       "type": "chore"
     }
   ],
