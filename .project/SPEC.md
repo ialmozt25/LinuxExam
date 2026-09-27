@@ -3,12 +3,13 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `91d7301cec076f588f7597ef24c31d7ea33c1620`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `e9af3a477dc9e2b768b9e2b2e4de52bbd1b26e53`<!--volatile:end-->
 - Спек: 12
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
 |---|---|---|---|---|---|
+| 010 | `jsdom-smoke-center` | feature | draft | — | 2026-09-28 |
 | 001 | `file-management-batch-4` | content | done | f4e2538 | 2026-09-27 |
 | 002 | `dehardcode-positional-test` | feature | done | cd6ce8d | 2026-09-27 |
 | 004 | `batch-5-generation` | content | done | 12c8439 | 2026-09-27 |
@@ -20,4 +21,3 @@
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
 | 012 | `fix-state-head-volatile` | fix | rejected | — | 2026-09-27 |
-| 010 | `jsdom-smoke-center` | feature | blocked | — | 2026-09-27 |

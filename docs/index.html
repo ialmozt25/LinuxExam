@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 91d7301cec076f588f7597ef24c31d7ea33c1620</span>
+      <span class="mono">HEAD e9af3a477dc9e2b768b9e2b2e4de52bbd1b26e53</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -239,8 +239,13 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">0</span></h3>
-          <p class="ddn__empty">Ничего не в работе</p>
+          <h3 class="ddn__h">Doing <span class="ddn__count">1</span></h3>
+          <ul class="ddn__list">
+          <li class="ddn__item">
+            <span class="ddn__title">#010 jsdom-smoke-center</span>
+            <span class="ddn__meta">feature · draft (свежий)</span>
+          </li>
+          </ul>
         </div>
         <div class="ddn__col ddn__col--next">
           <h3 class="ddn__h">Next <span class="ddn__count">1</span></h3>
@@ -266,6 +271,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr><th>id</th><th>slug</th><th>type</th><th>status</th><th>commit</th><th>updated</th></tr>
       </thead>
       <tbody>
+        <tr>
+          <td class="mono">010</td>
+          <td class="mono">jsdom-smoke-center</td>
+          <td>feature</td>
+          <td><span class="chip chip--draft">draft</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">001</td>
           <td class="mono">file-management-batch-4</td>
@@ -354,14 +367,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">—</td>
           <td class="mono">2026-09-27</td>
         </tr>
-        <tr>
-          <td class="mono">010</td>
-          <td class="mono">jsdom-smoke-center</td>
-          <td>feature</td>
-          <td><span class="chip chip--blocked">blocked</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
       </tbody>
     </table>
   </section>
@@ -369,7 +374,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-27 | M2.9 batch 4 | commit format adjusted for gen-state.mjs | spec 001 deviation</li>
         <li>2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending</li>
         <li>2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending</li>
         <li>2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d</li>
@@ -379,6 +383,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT=&#39;chars&#39; в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f</li>
         <li>2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending</li>
+        <li>2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending</li>
     </ul>
   </section>
 
@@ -390,6 +395,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">e9af3a4</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): rewrite 010 (test generated file)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">92958f6</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after Phase 3 pilot report</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">91d7301</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -496,18 +513,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">2298961</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(rules): accept +1 convergence commit as permanent cost</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">7836f12</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(report): spec 012 closure</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">ab501b1</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): sync after spec 012 rejection</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->

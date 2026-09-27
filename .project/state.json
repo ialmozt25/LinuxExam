@@ -339,8 +339,23 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "91d7301cec076f588f7597ef24c31d7ea33c1620",
+  "head": "e9af3a477dc9e2b768b9e2b2e4de52bbd1b26e53",
   "specs": [
+    {
+      "id": "010",
+      "slug": "jsdom-smoke-center",
+      "status": "draft",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/010-jsdom-smoke-center.md",
+      "mtime": 1790539159516.6636,
+      "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру — **по готовому",
+      "acceptance": "[ ] Существует `docs/__tests__/center-smoke.test.mjs`; все утверждения выше реализованы",
+      "noTouch": "**`.project/sync.mjs`** — ни одной строки: генератор остаётся CLI-точкой входа;",
+      "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
+    },
     {
       "id": "001",
       "slug": "file-management-batch-4",
@@ -505,25 +520,9 @@
       "acceptance": "[ ] `state.head` в `STATE.md` и `SPEC.md` находится **внутри** volatile-маркеров;",
       "noTouch": "`docs/index.html` и логику центра (D3 работает) — генератор центра не меняется;",
       "preview": "1. Diff `sync.mjs`: две строки рендера + комментарий с обоснованием."
-    },
-    {
-      "id": "010",
-      "slug": "jsdom-smoke-center",
-      "status": "blocked",
-      "type": "feature",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/010-jsdom-smoke-center.md",
-      "mtime": 1790522552893.1316,
-      "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру. Файл",
-      "acceptance": "[ ] Существует `docs/__tests__/center.test.mjs`; все утверждения выше реализованы",
-      "noTouch": "Содержимое и вёрстку центра (разметка, CSS-токены, тексты) — задача про тесты,",
-      "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
     }
   ],
   "log_tail": [
-    "2026-09-27 | M2.9 batch 4 | commit format adjusted for gen-state.mjs | spec 001 deviation",
     "2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending",
     "2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending",
     "2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d",
@@ -532,11 +531,24 @@
     "2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8",
     "2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT='chars' в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f",
-    "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending"
+    "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending",
+    "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e9af3a4",
+      "date": "2026-09-28",
+      "subject": "docs(spec): rewrite 010 (test generated file)",
+      "type": "docs"
+    },
+    {
+      "sha": "92958f6",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after Phase 3 pilot report",
+      "type": "chore"
+    },
     {
       "sha": "91d7301",
       "date": "2026-09-28",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "docs(rules): accept +1 convergence commit as permanent cost",
       "type": "docs"
-    },
-    {
-      "sha": "7836f12",
-      "date": "2026-09-28",
-      "subject": "docs(report): spec 012 closure",
-      "type": "docs"
-    },
-    {
-      "sha": "ab501b1",
-      "date": "2026-09-28",
-      "subject": "chore(state): sync after spec 012 rejection",
-      "type": "chore"
     }
   ],
   "roles": [
