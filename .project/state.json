@@ -1,4 +1,5 @@
 {
+  "schema_version": 2,
   "last_update": "2026-09-27T06:43:04.543Z",
   "goal": {
     "target_questions": 300,
@@ -339,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "1156ff0f650768fb77af305a353598e8e6bc00f2",
+  "head": "561aaf6d0bc86b108a22c5fefda2a9388f034e00",
   "specs": [
     {
       "id": "007",
@@ -508,5 +509,9 @@
     "2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending"
   ],
   "last_sync": "2026-09-27T06:44:33.729Z",
-  "spec_commit": "e01cd02"
+  "spec_commit": "e01cd02",
+  "commits": [],
+  "roles": [],
+  "products": [],
+  "audits": []
 }
