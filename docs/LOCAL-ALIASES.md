@@ -1,11 +1,11 @@
-# Локальные адреса без порта — `linuxexam.local` / `center.local`
+# Локальные адреса без порта — `linuxexam.loc` / `center.loc`
 
 Инструкция для Windows. Даёт два человеческих адреса вместо «порт помню, а иногда нет»:
 
 | Адрес | Что отдаёт | Каталог |
 |---|---|---|
-| `http://linuxexam.local` | сборка приложения | `dist/` |
-| `http://center.local` | центр разработки | `docs/` |
+| `http://linuxexam.loc` | сборка приложения | `dist/` |
+| `http://center.loc` | центр разработки | `docs/` |
 
 Оба адреса — **без порта**. Сервер: `tools/local-serve.mjs` (маршрутизация по хосту,
 только встроенные модули Node).
@@ -31,7 +31,7 @@ C:\Windows\System32\drivers\etc\hosts
 Добавить в конец файла **одну строку** (два имени на одной строке — этого достаточно):
 
 ```
-127.0.0.1 linuxexam.local center.local
+127.0.0.1 linuxexam.loc center.loc
 ```
 
 ### 3. Сохранить
@@ -41,19 +41,19 @@ C:\Windows\System32\drivers\etc\hosts
 Проверка того, что BOM не попал и файл читается:
 
 ```powershell
-Get-Content "C:\Windows\System32\drivers\etc\hosts" | Select-String "linuxexam.local"
+Get-Content "C:\Windows\System32\drivers\etc\hosts" | Select-String "linuxexam.loc"
 ```
 
 ### 4. Собрать приложение (если `dist/` пуст)
 
-`linuxexam.local` отдаёт **сборку**, а не исходники:
+`linuxexam.loc` отдаёт **сборку**, а не исходники:
 
 ```powershell
 npm run build
 ```
 
 Если каталог `dist/` пуст или отсутствует, сервер при старте предупредит:
-`dist/ пуст — для linuxexam.local сначала выполните: npm run build`.
+`dist/ пуст — для linuxexam.loc сначала выполните: npm run build`.
 
 ### 5. Запустить сервер
 
@@ -69,17 +69,17 @@ npm run serve:local
 npm run serve:local:8080
 ```
 
-> При `--port 8080` адреса становятся с портом (`http://center.local:8080`), потому что
+> При `--port 8080` адреса становятся с портом (`http://center.loc:8080`), потому что
 > «без порта» возможно только на 80.
 
 ### 6. Открыть в браузере
 
 ```
-http://linuxexam.local
-http://center.local
+http://linuxexam.loc
+http://center.loc
 ```
 
-**Префикс `http://` обязателен.** Если ввести `center.local` без схемы, браузер
+**Префикс `http://` обязателен.** Если ввести `center.loc` без схемы, браузер
 воспринимает это как поисковый запрос и уходит в интернет, а не на локальный сервер.
 
 ---
@@ -88,17 +88,17 @@ http://center.local
 
 ```powershell
 # имена разрешаются в 127.0.0.1?
-Resolve-DnsName center.local
+Resolve-DnsName center.loc
 
 # сервер отвечает?
-Invoke-WebRequest http://center.local -UseBasicParsing | Select-Object StatusCode
+Invoke-WebRequest http://center.loc -UseBasicParsing | Select-Object StatusCode
 ```
 
 Лог сервера печатает по строке на запрос: `Host`, путь, статус и миллисекунды, например:
 
 ```
-center.local GET / 200 3ms
-linuxexam.local GET / 404 1ms dist is empty — run npm run build
+center.loc GET / 200 3ms
+linuxexam.loc GET / 404 1ms dist is empty — run npm run build
 ```
 
 ---
@@ -106,7 +106,7 @@ linuxexam.local GET / 404 1ms dist is empty — run npm run build
 ## Фолбэк: `.test` вместо `.local`
 
 На Windows `.local` зарезервирован под **mDNS** (Bonjour/Zeroconf, часто приходит с
-iTunes, Adobe, принтерами). Если `linuxexam.local` ведёт себя нестабильно или
+iTunes, Adobe, принтерами). Если `linuxexam.loc` ведёт себя нестабильно или
 разрешается не туда — замените домен на `.test`:
 
 ```
@@ -123,11 +123,11 @@ iTunes, Adobe, принтерами). Если `linuxexam.local` ведёт се
 
 | Симптом | Причина | Что сделать |
 |---|---|---|
-| Браузер ищет в интернете | забыт префикс `http://` | ввести `http://center.local` |
+| Браузер ищет в интернете | забыт префикс `http://` | ввести `http://center.loc` |
 | `ERR_CONNECTION_REFUSED` | сервер не запущен | `npm run serve:local:8080` |
 | `EACCES` при старте | порт 80 без admin | запустить от admin или взять 8080 |
 | `EADDRINUSE` | порт занят (IIS, Skype и др.) | `npm run serve:local:8080` |
-| Пустая страница на `linuxexam.local` | не собран `dist/` | `npm run build` |
+| Пустая страница на `linuxexam.loc` | не собран `dist/` | `npm run build` |
 | Ничего не помогло | mDNS конфликтует с `.local` | перейти на `.test` (раздел выше) |
 
 ---

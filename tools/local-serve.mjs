@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url';
 // local-serve.mjs — статический сервер с маршрутизацией ПО ХОСТУ.
 // Назначение: человеческие адреса без порта для двух локальных артефактов.
 //
-//   Host: linuxexam.local        → ./dist/   (сборка приложения)
-//   Host: center.local           → ./docs/   (центр разработки)
+//   Host: linuxexam.loc        → ./dist/   (сборка приложения)
+//   Host: center.loc           → ./docs/   (центр разработки)
 //   Host: localhost / 127.0.0.1  → ./docs/index.html (фолбэк, не зависит от hosts)
 //
 // Порт по умолчанию 80 (круглые адреса без порта), переопределяется `--port <n>`.
@@ -22,8 +22,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
  * `dir` — каталог, отдаваемый целиком; `index` — файл по умолчанию для `/`.
  */
 const ROUTES = [
-  { host: 'linuxexam.local', dir: 'dist', index: 'index.html' },
-  { host: 'center.local', dir: 'docs', index: 'index.html' },
+  { host: 'linuxexam.loc', dir: 'dist', index: 'index.html' },
+  { host: 'center.loc', dir: 'docs', index: 'index.html' },
   { host: '*', dir: 'docs', index: 'index.html' },
 ];
 
@@ -62,7 +62,7 @@ if (!Number.isInteger(PORT) || PORT < 0 || PORT > 65535) {
 
 // --- Маршрутизация -----------------------------------------------------------
 
-/** `Host` без порта и без регистра: "Center.Local:8080" → "center.local". */
+/** `Host` без порта и без регистра: "center.loc:8080" → "center.loc". */
 function normalizeHost(header) {
   if (!header) return '';
   const host = header.split(':')[0].trim().toLowerCase();
@@ -194,12 +194,12 @@ server.on('error', (e) => {
 
 server.listen(PORT, () => {
   if (distIsEmpty()) {
-    console.warn('dist/ пуст — для linuxexam.local сначала выполните: npm run build');
+    console.warn('dist/ пуст — для linuxexam.loc сначала выполните: npm run build');
   }
-  const marked = PORT === DEFAULT_PORT ? `http://center.local` : `http://center.local:${PORT}`;
+  const marked = PORT === DEFAULT_PORT ? `http://center.loc` : `http://center.loc:${PORT}`;
   process.stdout.write(`local-serve: порт ${PORT}\n`);
-  process.stdout.write(`  linuxexam.local  → ${path.join(ROOT, 'dist')}\n`);
-  process.stdout.write(`  center.local     → ${path.join(ROOT, 'docs')}\n`);
+  process.stdout.write(`  linuxexam.loc  → ${path.join(ROOT, 'dist')}\n`);
+  process.stdout.write(`  center.loc     → ${path.join(ROOT, 'docs')}\n`);
   process.stdout.write(`  фолбэк localhost → ${path.join(ROOT, 'docs', 'index.html')}\n`);
   process.stdout.write(`  открой: ${marked}\n`);
 });
