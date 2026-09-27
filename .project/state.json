@@ -340,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "34fb0eb18c7e1ecc48a6aa18264de22462d83bbd",
+  "head": "e92bef43a0e9d18bcb70416151e47af24cd8812e",
   "specs": [
     {
       "id": "001",
@@ -424,9 +424,9 @@
       "type": "feature",
       "created": "2026-09-27",
       "updated": "2026-09-28",
-      "commit": "pending",
+      "commit": "a50347f",
       "file": "specs/007-qc-ratio-semantics.md",
-      "mtime": 1790523311776.9534,
+      "mtime": 1790523371385.7988,
       "goal": "Убрать расхождение между DOD, инструментом и ожиданиями Writer'а в проверке",
       "acceptance": "[ ] Единица измерения ровно одна и объявлена в одном месте: `RATIO_UNIT = 'chars'`",
       "noTouch": "Значения порогов и условия классов (`1.30/1.25`, `2.00/1.35`, `1.50/1.35`; ≥4/≤3 слова).",
@@ -524,7 +524,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-27 | M2.9 batch 4 | guard test hardcode bump 183→189 | tech debt → spec 002",
     "2026-09-27 | M2.9 batch 4 | commit format adjusted for gen-state.mjs | spec 001 deviation",
     "2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending",
     "2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending",
@@ -533,11 +532,24 @@
     "2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8",
     "2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT='chars' в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending",
-    "2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f"
+    "2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f",
+    "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending"
   ],
   "last_sync": "2026-09-27T06:44:33.729Z",
   "spec_commit": "e01cd02",
   "commits": [
+    {
+      "sha": "e92bef4",
+      "date": "2026-09-28",
+      "subject": "docs(spec): record commit SHA for spec 007",
+      "type": "docs"
+    },
+    {
+      "sha": "e3dce64",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after Phase 3 pilot",
+      "type": "chore"
+    },
     {
       "sha": "34fb0eb",
       "date": "2026-09-28",
@@ -645,18 +657,6 @@
       "date": "2026-09-27",
       "subject": "docs(rules): autonomy model (rule 2 + 7 + 8)",
       "type": "docs"
-    },
-    {
-      "sha": "c7f0036",
-      "date": "2026-09-27",
-      "subject": "docs(factory): MEMORY-FACTORY init",
-      "type": "docs"
-    },
-    {
-      "sha": "220f4d1",
-      "date": "2026-09-27",
-      "subject": "fix(sync): exclude self-referential commit list from --check comparison",
-      "type": "fix"
     }
   ],
   "roles": [
