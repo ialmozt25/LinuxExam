@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "bd75f88a3aa545d21e0e9bff1eae51fbae4aba33",
+  "head": "e1c567b32f21cc12e57008aa6dd143ca26af58ab",
   "specs": [
     {
       "id": "001",
@@ -538,6 +538,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "e1c567b",
+      "date": "2026-09-28",
+      "subject": "chore(state): sync dashboard snapshot after Phase 3 pilot",
+      "type": "chore"
+    },
+    {
+      "sha": "edb0c22",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after Phase 3 pilot (gates snapshot)",
+      "type": "chore"
+    },
+    {
       "sha": "bd75f88",
       "date": "2026-09-28",
       "subject": "chore(state): converge after Phase 3 pilot reports",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "docs(spec): reject spec 012 (time-box exceeded)",
       "type": "docs"
-    },
-    {
-      "sha": "b760016",
-      "date": "2026-09-27",
-      "subject": "fix(sync): volatile-wrap state.head in STATE.md/SPEC.md (spec 012)",
-      "type": "fix"
-    },
-    {
-      "sha": "3c39d22",
-      "date": "2026-09-27",
-      "subject": "chore(state): sync after Phase 2 deliverables",
-      "type": "chore"
     }
   ],
   "roles": [
