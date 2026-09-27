@@ -1,7 +1,7 @@
 ---
 id: 008
 slug: devops-role-document
-status: draft
+status: approved
 type: docs
 created: 2026-09-27
 updated: 2026-09-27

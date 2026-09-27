@@ -1,7 +1,7 @@
 ---
 id: 007
 slug: qc-ratio-semantics
-status: draft
+status: approved
 type: feature
 created: 2026-09-27
 updated: 2026-09-27
