@@ -4,6 +4,9 @@
 // (milestones / commits / гейты) больше не рендерятся, поэтому import
 // humanizeCommit отсюда убран — сам модуль humanize.mjs остаётся (12 тестов).
 
+// V9: сводка человеческим языком над V8-блоками — нужен humanizeCommit.
+import { humanizeCommit } from './humanize.mjs';
+
 // Монтирование: main#dashboard и строка обновления в header.
 const mount = document.getElementById("dashboard");
 const lastUpdate = document.getElementById("last-update");
@@ -86,6 +89,51 @@ function render(state) {
   bar.appendChild(fill);
   prog.appendChild(bar);
   mount.appendChild(prog);
+  // === СВОДКА (V9): 3 строки человеческим языком — выводы, а не цифры ===
+  const summary = el('section', 'summary');
+  const rem = Math.max(0, tgt - cur);
+  const rate = parseFloat(goal.avg_daily_7d) || 0;
+
+  const l1 = el('div', 'summary__line');
+  l1.appendChild(el('span', 'summary__muted', 'Осталось '));
+  l1.appendChild(el('span', 'summary__strong', String(rem)));
+  l1.appendChild(el('span', 'summary__muted', ' вопросов до цели.'));
+  summary.appendChild(l1);
+
+  const l2 = el('div', 'summary__line');
+  if (rem === 0) {
+    l2.appendChild(el('span', 'summary__strong', 'Цель достигнута.'));
+  } else if (rate > 0) {
+    const days = Math.ceil(rem / rate);
+    const eta = new Date(Date.now() + days * 86400000);
+    const M = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+    l2.appendChild(el('span', 'summary__muted', 'Темп: '));
+    l2.appendChild(el('span', 'summary__strong', '+' + goal.avg_daily_7d));
+    l2.appendChild(el('span', 'summary__muted', ' / день. Прогноз: '));
+    l2.appendChild(el('span', 'summary__strong',
+      'через ' + days + (days === 1 ? ' день' : (days < 5 ? ' дня' : ' дней'))));
+    l2.appendChild(el('span', 'summary__muted',
+      ' (~' + eta.getDate() + ' ' + M[eta.getMonth()] + ' ' + eta.getFullYear() + ').'));
+  } else {
+    l2.appendChild(el('span', 'summary__muted', 'Темп неизвестен.'));
+  }
+  summary.appendChild(l2);
+
+  const l3 = el('div', 'summary__line');
+  const lc = (state.recent_commits && state.recent_commits[0]) || null;
+  if (lc) {
+    const msg = String(lc.message || '');
+    const m = msg.match(/^feat\(bank\):\s*M2\.9 batch \d+\s*-\s*(\d+)\s+questions?\s+on\s+(\S+)/i);
+    const short = m ? ('батч: +' + m[1] + ' (' + m[2] + ')') : humanizeCommit(msg).slice(0, 60);
+    l3.appendChild(el('span', 'summary__muted', 'Последнее: '));
+    l3.appendChild(el('span', 'summary__strong', short));
+    l3.appendChild(el('span', 'summary__muted', ' (' + relativeTime(lc.date) + ').'));
+  } else {
+    l3.appendChild(el('span', 'summary__muted', 'Действий пока не было.'));
+  }
+  summary.appendChild(l3);
+
+  mount.appendChild(summary);
 
   // === ТЕМЫ (дыры сверху: сортировка по count ASC — намеренно) ===
   const grid = el("section", "topics-grid");

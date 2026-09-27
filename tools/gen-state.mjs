@@ -110,6 +110,30 @@ function readAddedToday() {
     return 0;
   }
 }
+/**
+ * V9: средний темп наполнения банка за последние 7 дней (вопросов/день).
+ * Источник — коммиты за 7 дней (`git log --since=7.days.ago`), а не окно
+ * recent_commits (5 шт.): темп должен считаться по всему недельному окну.
+ * Формат сообщения: "feat(bank): ... N questions ...".
+ * Значение — строка с 2 знаками ('0.00'), дашборд не форматирует сам.
+ * При любой ошибке git — '0.00' (метрика не должна ронять сборку состояния).
+ */
+function readAvgDaily7d() {
+  try {
+    const raw = git(['log', '--since=7.days.ago', '--pretty=format:%s']);
+    let sum = 0;
+    for (const line of raw.split('\n')) {
+      const msg = line.trim();
+      if (!/^feat\(bank\)/i.test(msg)) continue;
+      const m = msg.match(/(\d+)\s+questions?/i);
+      if (m) sum += parseInt(m[1], 10);
+    }
+    return (sum / 7).toFixed(2);
+  } catch (e) {
+    warn(`goal.avg_daily_7d: git log не удался (${e.message}) — 0.00`);
+    return '0.00';
+  }
+}
 
 /**
  * V8: продуктовые данные для дашборда владельца.
@@ -470,6 +494,7 @@ function main() {
 
   // --- сколько вопросов добавлено сегодня (V7, hero-метрика дашборда)
   const addedToday = readAddedToday();
+  const avgDaily7d = readAvgDaily7d();
 
   // --- gates
   const stamp = nowIso();
@@ -498,6 +523,7 @@ function main() {
       progress_percent: progressPercent,
       target_deadline: null,
       added_today: addedToday,
+      avg_daily_7d: avgDaily7d,
       per_topic_target: perTopicTarget,
     },
     topics: topicsList,
@@ -555,6 +581,7 @@ function main() {
   steps.push(`goal: ${currentQuestions}/${TARGET_QUESTIONS} (${progressPercent}%)`);
   steps.push(`topics: ${topicsList.length} (target ${perTopicTarget} на тему)`);
   steps.push(`added_today: ${addedToday}`);
+  steps.push(`avg_daily_7d: ${avgDaily7d}`);
   if (exits) {
     steps.push(
       `gates exits: qc=${exits.qc} typecheck=${exits.typecheck} vitest=${exits.vitest} shuffle=${exits.shuffle_bank}`,

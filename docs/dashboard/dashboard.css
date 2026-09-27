@@ -557,3 +557,29 @@ a:hover {
   color: var(--accent);
   font-weight: 600;
 }
+
+/* V9: сводка человеческим языком (3 строки) над V8-блоками */
+.summary {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+.summary__line {
+  color: var(--fg);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.summary__strong {
+  color: var(--accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary__muted {
+  color: var(--fg-muted);
+}
