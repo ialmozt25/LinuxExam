@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD df1a12f52d350e146c2385e848b092c6fbc081bd</span>
+      <span class="mono">HEAD b99c5746c27bb84203bb611d34ac8a695f47f700</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -202,7 +202,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Done / Doing / Next</h2>
     <div class="ddn__grid">
         <div class="ddn__col ddn__col--done">
-          <h3 class="ddn__h">Done <span class="ddn__count">9</span></h3>
+          <h3 class="ddn__h">Done <span class="ddn__count">10</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#007 qc-ratio-semantics</span>
@@ -215,6 +215,10 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <li class="ddn__item">
             <span class="ddn__title">#013 local-aliases</span>
             <span class="ddn__meta">docs</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#015 batch5a-text-files</span>
+            <span class="ddn__meta">content</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#001 file-management-batch-4</span>
@@ -243,15 +247,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">2</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">1</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#014 subagent-push-lockdown</span>
             <span class="ddn__meta">docs · approved</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#015 batch5a-text-files</span>
-            <span class="ddn__meta">content · approved</span>
           </li>
           </ul>
         </div>
@@ -287,14 +287,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">014</td>
           <td class="mono">subagent-push-lockdown</td>
           <td>docs</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">015</td>
-          <td class="mono">batch5a-text-files</td>
-          <td>content</td>
           <td><span class="chip chip--approved">approved</span></td>
           <td class="mono">—</td>
           <td class="mono">2026-09-28</td>
@@ -380,6 +372,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">2026-09-28</td>
         </tr>
         <tr>
+          <td class="mono">015</td>
+          <td class="mono">batch5a-text-files</td>
+          <td>content</td>
+          <td><span class="chip chip--done">done</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
+        <tr>
           <td class="mono">003</td>
           <td class="mono">global-option-canonization</td>
           <td>content</td>
@@ -431,6 +431,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">b99c574</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): close 015 as done</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">96a419f</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after batch 5A</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">df1a12f</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -537,18 +549,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">86f599d</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(tools): local host-routed static server for linuxexam.local / center.local</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">e9a85ce</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): add 013 local aliases (approved)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">77f6bdb</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(rules): rule 10 - push requires per-command authorization</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->

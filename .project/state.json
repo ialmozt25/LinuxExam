@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "df1a12f52d350e146c2385e848b092c6fbc081bd",
+  "head": "b99c5746c27bb84203bb611d34ac8a695f47f700",
   "specs": [
     {
       "id": "014",
@@ -355,21 +355,6 @@
       "acceptance": "[ ] `.project/specs/014-subagent-push-lockdown.md` существует, frontmatter валиден,",
       "noTouch": "`.project/sync.mjs` — ни одной правки.",
       "preview": "1. Diff `.project/ORCH-RULES.md`: добавленный раздел `## 11.` целиком + строка заголовка."
-    },
-    {
-      "id": "015",
-      "slug": "batch5a-text-files",
-      "status": "approved",
-      "type": "content",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "commit": null,
-      "file": "specs/015-batch5a-text-files.md",
-      "mtime": 1790548759147.642,
-      "goal": "Банк **206 → 212**: добавить **6** вопросов по канонической теме `text_files`",
-      "acceptance": "[ ] 6 вопросов, `topic = text_files` — канон из `src/data/topics.ts` (одна из 14 тем).",
-      "noTouch": "`.project/sync.mjs` — ни одной правки.",
-      "preview": "Превью обязательно (правило 6, редакция 2026-09-28). Файл"
     },
     {
       "id": "010",
@@ -522,6 +507,21 @@
       "preview": "1. Дерево маршрутизации и таблица MIME (из кода)."
     },
     {
+      "id": "015",
+      "slug": "batch5a-text-files",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/015-batch5a-text-files.md",
+      "mtime": 1790550032609.28,
+      "goal": "Банк **206 → 212**: добавить **6** вопросов по канонической теме `text_files`",
+      "acceptance": "[ ] 6 вопросов, `topic = text_files` — канон из `src/data/topics.ts` (одна из 14 тем).",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "Превью обязательно (правило 6, редакция 2026-09-28). Файл"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -582,6 +582,18 @@
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "b99c574",
+      "date": "2026-09-28",
+      "subject": "docs(spec): close 015 as done",
+      "type": "docs"
+    },
+    {
+      "sha": "96a419f",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after batch 5A",
+      "type": "chore"
+    },
     {
       "sha": "df1a12f",
       "date": "2026-09-28",
@@ -689,18 +701,6 @@
       "date": "2026-09-28",
       "subject": "feat(tools): local host-routed static server for linuxexam.local / center.local",
       "type": "feat"
-    },
-    {
-      "sha": "e9a85ce",
-      "date": "2026-09-28",
-      "subject": "docs(spec): add 013 local aliases (approved)",
-      "type": "docs"
-    },
-    {
-      "sha": "77f6bdb",
-      "date": "2026-09-28",
-      "subject": "docs(rules): rule 10 - push requires per-command authorization",
-      "type": "docs"
     }
   ],
   "roles": [
