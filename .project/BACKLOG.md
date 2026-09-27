@@ -16,3 +16,7 @@
       — проверить и обновить зависимости
 - [ ] `tools/qc.cjs`: добавить поддержку `--batch <file>` (сейчас молча игнорирует; проверяет весь банк)
 - [ ] `tools/cosine.cjs`: добавить поддержку `--batch <file>` (сейчас падает с ENOENT; рабочий режим — `--intra-batch`)
+
+> Владелец пунктов «Dependabot» и «`paths-ignore`» — роль **DevOps**:
+> `docs/knowledge/ops/devops-role.md` (spec 008). Владелец пункта не меняет правило 6
+> (content freeze) и не даёт права на push в прод без approve капитана.
