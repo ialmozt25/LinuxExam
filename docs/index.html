@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD d4acc43b4e4bc477b8b2b395f6979d4148ab964b</span>
+      <span class="mono">HEAD 48c88e225eb38dcb8e953cc54279a513525ebfd4</span>
       <span class="mono">last_sync 2026-09-27T06:44:33.729Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -365,7 +365,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li># .project/log.md — журнал решений (append-only)</li>
         <li>Одна строка = одно решение. Только добавление в конец, правки запрещены.</li>
         <li>Формат: `YYYY-MM-DD | milestone | что решено | commit &lt;sha|pending&gt;`</li>
         <li>Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.</li>
@@ -374,6 +373,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-27 | M2.9 batch 4 | guard test hardcode bump 183→189 | tech debt → spec 002</li>
         <li>2026-09-27 | M2.9 batch 4 | commit format adjusted for gen-state.mjs | spec 001 deviation</li>
         <li>2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending</li>
+        <li>2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending</li>
+        <li>2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d</li>
     </ul>
   </section>
 
@@ -385,6 +386,24 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">48c88e2</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(rules): autonomy model (rule 2 + 7 + 8)</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">c7f0036</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): MEMORY-FACTORY init</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">220f4d1</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(sync): exclude self-referential commit list from --check comparison</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
         <tr>
           <td class="mono">8da90a4</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -487,24 +506,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>chore(state): sync after content freeze</td>
           <td class="mono muted">2026-09-27</td>
         </tr>
-        <tr>
-          <td class="mono">7c74672</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(rules): freeze content track</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">5c1ad2d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): sync after batches 5-7 integration</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">70804bf</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(spec): close batches 5-7 as done, reject 003 and 011 (content freeze)</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -583,11 +584,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </li>
         <li>
           <code>.project/log.md</code>
-          <span class="muted">журнал решений, последние 9 строк ниже</span>
+          <span class="muted">журнал решений, последние 10 строк ниже</span>
         </li>
         <li>
           <code>.project/factory/MEMORY-FACTORY.md</code>
-          <span class="muted">память фабрики: решения / уроки / открытые вопросы</span> <span class="muted">(нет файла)</span>
+          <span class="muted">память фабрики: решения / уроки / открытые вопросы</span>
         </li>
         <li>
           <code>.project/agents/</code>
