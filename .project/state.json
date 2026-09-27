@@ -340,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "561aaf6d0bc86b108a22c5fefda2a9388f034e00",
+  "head": "f9d7e43780d4a6be55776f1b5d60679fe4e3f941",
   "specs": [
     {
       "id": "007",
@@ -369,20 +369,6 @@
       "acceptance": "[ ] Создан `docs/knowledge/ops/devops-role.md`; структура — по шаблону",
       "noTouch": "`src/**` — код приложения; задача чисто документационная.",
       "preview": "1. Полный текст `docs/knowledge/ops/devops-role.md` (или ссылка на файл)."
-    },
-    {
-      "id": "009",
-      "slug": "state-update-single-run",
-      "status": "draft",
-      "type": "feature",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/009-state-update-single-run.md",
-      "goal": "Один вход, который прогоняет гейты, обновляет `.project/state.json` и пересобирает",
-      "acceptance": "[ ] Один документированный вход (npm-скрипт) выполняет всё: гейты → `state.json` →",
-      "noTouch": "Состав и пороги гейтов, сам `tools/qc.cjs` (его ratio-долг — spec 007), `tools/shuffle-bank.mjs`.",
-      "preview": "1. Точный список команд входа и вывод одного полного прогона (с видимым однократным"
     },
     {
       "id": "010",
@@ -467,6 +453,20 @@
       "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = networking`, id из фактически свободных номеров.",
       "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
       "preview": "Файл `.project/drafts/batch-7-preview.md`:"
+    },
+    {
+      "id": "009",
+      "slug": "state-update-single-run",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "d61112d",
+      "file": "specs/009-state-update-single-run.md",
+      "goal": "Один вход, который прогоняет гейты, обновляет `.project/state.json` и пересобирает",
+      "acceptance": "[ ] Один документированный вход (npm-скрипт) выполняет всё: гейты → `state.json` →",
+      "noTouch": "Состав и пороги гейтов, сам `tools/qc.cjs` (его ratio-долг — spec 007), `tools/shuffle-bank.mjs`.",
+      "preview": "1. Точный список команд входа и вывод одного полного прогона (с видимым однократным"
     },
     {
       "id": "003",
