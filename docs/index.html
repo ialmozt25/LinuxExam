@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 79bd72fab723c68a67a6b5166d6168d2b3b61dc0</span>
+      <span class="mono">HEAD 73312b90f9aef697b64a415aa3265a0ff45e309e</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -398,7 +398,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending</li>
@@ -408,6 +407,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | spec 014 | rule 11: subagent НЕ пушит даже с авторизацией, push — только orchestrator и только per-command authorization капитана (rule 10); технически ограничить нельзя (git identity общая) — контур процедурный: запись SHA push + ссылка на команду капитана в log.md по каждой phase, authorization trail в DECISIONS.md, нарушение = breach 2026-09-28 | commit 49fec29</li>
         <li>2026-09-28 | spec 014 | push выполнен по явной per-command авторизации капитана (команда «git push origin main», шаг 3 задания «push authorized (rule 10) + rule 11»), ровно один раз: 09d8c7c..1909f5e, 9 коммитов (5 held + converge + spec 014 + rule 11 + converge); exit 0 | commit 1909f5e</li>
         <li>2026-09-28 | Phase 4 trail + .loc | push fbf3fe6, rule 11 соблюдено | orchestrator</li>
+        <li>2026-09-28 | M6.0 Phase 5 | контент-трек разморожен решением капитана: content-спеки исполняются по общим правилам, НО правило 2 (approved spec = автоисполнение) на type=content не распространяется — approve капитана на превью обязателен всегда; банк снова растёт батчами, старт — spec 015 (батч 5A, text_files) | commit pending</li>
     </ul>
   </section>
 
@@ -419,6 +419,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">73312b9</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(rules): unfreeze content track (Phase 5)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">9ce80e2</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec 013 closure</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">79bd72f</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -525,18 +537,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">b35f6c0</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after D5-lesson-fix</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">8209331</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(factory): fix Phase 4 lessons evidence + captain decision on commit subjects</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">1cc6413</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after D6 handoff-decisions</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
