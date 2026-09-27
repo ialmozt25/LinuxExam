@@ -568,6 +568,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "ad943a9",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after push record",
+      "type": "chore"
+    },
+    {
       "sha": "4cb29a9",
       "date": "2026-09-28",
       "subject": "docs(log): record authorized push SHA and report",
@@ -680,12 +686,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after D4 Designer-role",
       "type": "chore"
-    },
-    {
-      "sha": "f2617f1",
-      "date": "2026-09-28",
-      "subject": "docs(factory): add designer role artifacts",
-      "type": "docs"
     }
   ],
   "roles": [
