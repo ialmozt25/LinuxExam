@@ -1,7 +1,7 @@
 ---
 id: 015
 slug: batch5a-text-files
-status: approved
+status: done
 type: content
 created: 2026-09-28
 updated: 2026-09-28
@@ -100,3 +100,45 @@ commit: null
 3. Unfreeze: SHA коммита.
 4. Батч 5A: 6 кандидатов, сколько accept / reject по QC.
 5. Превью: путь + сводная таблица.
+
+## Закрытие (2026-09-28)
+
+Интеграция выполнена после явного approve капитана на превью (правило 6, редакция
+2026-09-28). `commit: null` в frontmatter — это осознанно: SHA коммитов не
+самоссылочны к спеке (ср. spec 013), они приведены в отчёте капитану.
+
+**Коммиты (SHA — в отчёте):** `feat(bank): M2.9 batch 5A - 6 questions on text_files
+(206->212)` → `chore(state): converge after batch 5A` → `docs(spec): close 015 as done`
+→ `chore(state): converge after spec 015`.
+
+**Что сделано:** `tf_011..tf_016` дописаны в конец массива
+`src/data/questions/text_files.json` (10 → 16) и в конец `_order.json` (206 → 212,
+существующий порядок не нормализован — HANDOFF §7.1); `_topics.json` пересобран
+генератором (`npm run manifest` → Total 212, `text_files` 16); банк 206 → 212.
+
+**Гейты (все exit 0):** `typecheck`, `test:run` (26 файлов / 167 тестов), `build`,
+`qc` (Total **212**, Fails **0**, Warns 22 — столько же, сколько до батча),
+`shuffle-bank:check` (правка порядка не потребовалась), `sync:check` (после
+конвергентного коммита).
+
+**Отклонения от буквы задания (две, обе по существу):**
+
+1. **Путь интеграции.** Задание называло `src/data/questions/text_files/tf_011..tf_016.json`;
+   такого каталога в репозитории нет — банк хранит один агрегирующий файл на тему
+   (`src/data/questions/text_files.json`, единственный потребитель — `index.ts:48`).
+   Интеграция выполнена по исправленному адресу, как и требует сама эта спека
+   (раздел «Что делать»). Детали — `.project/agents/orchestrator-report-2026-09-28-batch5a-preflight-stop.md`.
+2. **`_topics.json`.** Задание относило его к «через `npm run sync`», но `sync.mjs`
+   `_topics.json` только **читает** (строки 68, 279–289); файл генерирует
+   `tools/gen-topics-manifest.mjs`. Запущен генератор, результат добавлен в
+   коммит батча. Ручной правки не было.
+
+**Находка (не входит в эту спеку).** `npm run state:update`
+(`tools/gen-state.mjs`) пишет `state.json` фиксированным набором ключей схемы v1
+(`last_update/goal/topics/milestones/gates/issues_open/recent_commits`) — он **не
+переносит** v2-поля (`head`, `specs`, `log_tail`, `schema_version`, `commits`,
+`roles`, `products`, `audits`) и после прогона `sync:check` стал бы красным
+(`schema_version < 2`). Пункт 4 плана интеграции в превью («`npm run state:update`»)
+поэтому **не исполнялся**; банк-метрика обновлена в `state.json` (`goal.current_questions`
+206 → 212, `progress_percent` 68.7 → 70.7) и далее выведена через `npm run sync`.
+Задевает ли находка spec 009 — решает капитан; здесь только зафиксирована.
