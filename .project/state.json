@@ -539,6 +539,12 @@
   "spec_commit": "e01cd02",
   "commits": [
     {
+      "sha": "cf1939e",
+      "date": "2026-09-28",
+      "subject": "chore(state): re-sync after spec 012 rejection",
+      "type": "chore"
+    },
+    {
       "sha": "7278078",
       "date": "2026-09-28",
       "subject": "docs(spec): reject spec 012 (time-box exceeded)",
@@ -650,12 +656,6 @@
       "sha": "2dc4170",
       "date": "2026-09-27",
       "subject": "docs(factory): role contracts",
-      "type": "docs"
-    },
-    {
-      "sha": "b7c3879",
-      "date": "2026-09-27",
-      "subject": "docs(factory): architecture design",
       "type": "docs"
     }
   ],
