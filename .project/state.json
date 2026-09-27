@@ -343,6 +343,21 @@
   "head": "48c88e225eb38dcb8e953cc54279a513525ebfd4",
   "specs": [
     {
+      "id": "012",
+      "slug": "fix-state-head-volatile",
+      "status": "running",
+      "type": "fix",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/012-fix-state-head-volatile.md",
+      "mtime": 1790496530307.1548,
+      "goal": "Убрать самоссылочную зависимость гейта `sync:check` от поля `state.head`:",
+      "acceptance": "[ ] `state.head` в `STATE.md` и `SPEC.md` находится **внутри** volatile-маркеров;",
+      "noTouch": "`docs/index.html` и логику центра (D3 работает) — генератор центра не меняется;",
+      "preview": "1. Diff `sync.mjs`: две строки рендера + комментарий с обоснованием."
+    },
+    {
       "id": "007",
       "slug": "qc-ratio-semantics",
       "status": "draft",
@@ -524,6 +539,12 @@
   "spec_commit": "e01cd02",
   "commits": [
     {
+      "sha": "3c39d22",
+      "date": "2026-09-27",
+      "subject": "chore(state): sync after Phase 2 deliverables",
+      "type": "chore"
+    },
+    {
       "sha": "48c88e2",
       "date": "2026-09-27",
       "subject": "docs(rules): autonomy model (rule 2 + 7 + 8)",
@@ -635,12 +656,6 @@
       "sha": "84ce2cc",
       "date": "2026-09-27",
       "subject": "chore(state): correct bank metric to 206 after integration",
-      "type": "chore"
-    },
-    {
-      "sha": "91f5757",
-      "date": "2026-09-27",
-      "subject": "chore(state): sync after content freeze",
       "type": "chore"
     }
   ],

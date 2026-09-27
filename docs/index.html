@@ -231,8 +231,13 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">0</span></h3>
-          <p class="ddn__empty">Ничего не в работе</p>
+          <h3 class="ddn__h">Doing <span class="ddn__count">1</span></h3>
+          <ul class="ddn__list">
+          <li class="ddn__item">
+            <span class="ddn__title">#012 fix-state-head-volatile</span>
+            <span class="ddn__meta">fix · running</span>
+          </li>
+          </ul>
         </div>
         <div class="ddn__col ddn__col--next">
           <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
@@ -270,6 +275,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr><th>id</th><th>slug</th><th>type</th><th>status</th><th>commit</th><th>updated</th></tr>
       </thead>
       <tbody>
+        <tr>
+          <td class="mono">012</td>
+          <td class="mono">fix-state-head-volatile</td>
+          <td>fix</td>
+          <td><span class="chip chip--running">running</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-27</td>
+        </tr>
         <tr>
           <td class="mono">007</td>
           <td class="mono">qc-ratio-semantics</td>
@@ -387,6 +400,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">3c39d22</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): sync after Phase 2 deliverables</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
           <td class="mono">48c88e2</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(rules): autonomy model (rule 2 + 7 + 8)</td>
@@ -498,12 +517,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">84ce2cc</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): correct bank metric to 206 after integration</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">91f5757</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): sync after content freeze</td>
           <td class="mono muted">2026-09-27</td>
         </tr>
 <!--volatile:end-->

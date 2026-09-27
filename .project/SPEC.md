@@ -3,12 +3,13 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-- HEAD: `48c88e225eb38dcb8e953cc54279a513525ebfd4`
-- Спек: 11
+<!--volatile:start-->- HEAD: `48c88e225eb38dcb8e953cc54279a513525ebfd4`<!--volatile:end-->
+- Спек: 12
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
 |---|---|---|---|---|---|
+| 012 | `fix-state-head-volatile` | fix | running | — | 2026-09-27 |
 | 007 | `qc-ratio-semantics` | feature | draft | — | 2026-09-27 |
 | 008 | `devops-role-document` | docs | draft | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | draft | — | 2026-09-27 |
