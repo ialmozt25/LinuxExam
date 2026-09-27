@@ -340,52 +340,22 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "22989613d001484059fa3d7fde152696a9b908df",
+  "head": "fd6a5c2186caefad1895d2d875c804a1d25c9dc9",
   "specs": [
     {
       "id": "007",
       "slug": "qc-ratio-semantics",
-      "status": "draft",
+      "status": "approved",
       "type": "feature",
       "created": "2026-09-27",
       "updated": "2026-09-27",
       "commit": null,
       "file": "specs/007-qc-ratio-semantics.md",
-      "mtime": 1790474855632.1228,
+      "mtime": 1790522152328.1704,
       "goal": "Убрать расхождение между DOD, инструментом и ожиданиями Writer'а в проверке",
       "acceptance": "[ ] Единица измерения ровно одна и объявлена в одном месте: `RATIO_UNIT = 'chars'`",
       "noTouch": "Значения порогов и условия классов (`1.30/1.25`, `2.00/1.35`, `1.50/1.35`; ≥4/≤3 слова).",
       "preview": "1. Вывод зонда «до» (текущее поведение на живом примере):"
-    },
-    {
-      "id": "008",
-      "slug": "devops-role-document",
-      "status": "draft",
-      "type": "docs",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/008-devops-role-document.md",
-      "mtime": 1790474877137.9001,
-      "goal": "Описать ответственность роли **DevOps/ops** как **документ в базе знаний**, а не как",
-      "acceptance": "[ ] Создан `docs/knowledge/ops/devops-role.md`; структура — по шаблону",
-      "noTouch": "`src/**` — код приложения; задача чисто документационная.",
-      "preview": "1. Полный текст `docs/knowledge/ops/devops-role.md` (или ссылка на файл)."
-    },
-    {
-      "id": "010",
-      "slug": "jsdom-smoke-center",
-      "status": "draft",
-      "type": "feature",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/010-jsdom-smoke-center.md",
-      "mtime": 1790474910101.7083,
-      "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру. Файл",
-      "acceptance": "[ ] Существует `docs/__tests__/center.test.mjs`; все утверждения выше реализованы",
-      "noTouch": "Содержимое и вёрстку центра (разметка, CSS-токены, тексты) — задача про тесты,",
-      "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
     },
     {
       "id": "001",
@@ -463,6 +433,21 @@
       "preview": "Файл `.project/drafts/batch-7-preview.md`:"
     },
     {
+      "id": "008",
+      "slug": "devops-role-document",
+      "status": "done",
+      "type": "docs",
+      "created": "2026-09-27",
+      "updated": "2026-09-28",
+      "commit": "pending",
+      "file": "specs/008-devops-role-document.md",
+      "mtime": 1790522572818.3882,
+      "goal": "Описать ответственность роли **DevOps/ops** как **документ в базе знаний**, а не как",
+      "acceptance": "[ ] Создан `docs/knowledge/ops/devops-role.md`; структура — по шаблону",
+      "noTouch": "`src/**` — код приложения; задача чисто документационная.",
+      "preview": "1. Полный текст `docs/knowledge/ops/devops-role.md` (или ссылка на файл)."
+    },
+    {
       "id": "009",
       "slug": "state-update-single-run",
       "status": "done",
@@ -521,11 +506,24 @@
       "acceptance": "[ ] `state.head` в `STATE.md` и `SPEC.md` находится **внутри** volatile-маркеров;",
       "noTouch": "`docs/index.html` и логику центра (D3 работает) — генератор центра не меняется;",
       "preview": "1. Diff `sync.mjs`: две строки рендера + комментарий с обоснованием."
+    },
+    {
+      "id": "010",
+      "slug": "jsdom-smoke-center",
+      "status": "blocked",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/010-jsdom-smoke-center.md",
+      "mtime": 1790522552893.1316,
+      "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру. Файл",
+      "acceptance": "[ ] Существует `docs/__tests__/center.test.mjs`; все утверждения выше реализованы",
+      "noTouch": "Содержимое и вёрстку центра (разметка, CSS-токены, тексты) — задача про тесты,",
+      "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
     }
   ],
   "log_tail": [
-    "Одна строка = одно решение. Только добавление в конец, правки запрещены.",
-    "Формат: `YYYY-MM-DD | milestone | что решено | commit <sha|pending>`",
     "Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.",
     "2026-09-27 | M4.0 | solid base + dev center | commit pending",
     "2026-09-27 | M2.9 batch 4 | file_management +6 (183→189), MAS Writer→QC(reject fm_016)→rework→QC PASS | commit pending",
@@ -533,11 +531,31 @@
     "2026-09-27 | M2.9 batch 4 | commit format adjusted for gen-state.mjs | spec 001 deviation",
     "2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending",
     "2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending",
-    "2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d"
+    "2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d",
+    "2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending",
+    "2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending"
   ],
   "last_sync": "2026-09-27T06:44:33.729Z",
   "spec_commit": "e01cd02",
   "commits": [
+    {
+      "sha": "fd6a5c2",
+      "date": "2026-09-28",
+      "subject": "chore(spec): block 010 - requires sync.mjs refactor (Phase 3)",
+      "type": "chore"
+    },
+    {
+      "sha": "a5c74ae",
+      "date": "2026-09-28",
+      "subject": "chore(spec): approve 007, 008, 010 for Phase 3 pilot",
+      "type": "chore"
+    },
+    {
+      "sha": "0ea1d32",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after Фаза 2 rules",
+      "type": "chore"
+    },
     {
       "sha": "2298961",
       "date": "2026-09-28",
@@ -639,24 +657,6 @@
       "date": "2026-09-27",
       "subject": "chore(state): schema_version 2 + factory keys",
       "type": "chore"
-    },
-    {
-      "sha": "d61112d",
-      "date": "2026-09-27",
-      "subject": "fix(sync): make --check read-only (spec 009)",
-      "type": "fix"
-    },
-    {
-      "sha": "561aaf6",
-      "date": "2026-09-27",
-      "subject": "chore(state): sync after center spec",
-      "type": "chore"
-    },
-    {
-      "sha": "1156ff0",
-      "date": "2026-09-27",
-      "subject": "docs(factory): center spec - full work visibility",
-      "type": "docs"
     }
   ],
   "roles": [

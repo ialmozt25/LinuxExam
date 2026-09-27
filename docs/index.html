@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 22989613d001484059fa3d7fde152696a9b908df</span>
+      <span class="mono">HEAD fd6a5c2186caefad1895d2d875c804a1d25c9dc9</span>
       <span class="mono">last_sync 2026-09-27T06:44:33.729Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -202,8 +202,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Done / Doing / Next</h2>
     <div class="ddn__grid">
         <div class="ddn__col ddn__col--done">
-          <h3 class="ddn__h">Done <span class="ddn__count">6</span></h3>
+          <h3 class="ddn__h">Done <span class="ddn__count">7</span></h3>
           <ul class="ddn__list">
+          <li class="ddn__item">
+            <span class="ddn__title">#008 devops-role-document</span>
+            <span class="ddn__meta">docs · commit pending</span>
+          </li>
           <li class="ddn__item">
             <span class="ddn__title">#001 file-management-batch-4</span>
             <span class="ddn__meta">content · commit f4e2538</span>
@@ -231,24 +235,17 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">0</span></h3>
-          <p class="ddn__empty">Ничего не в работе</p>
-        </div>
-        <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">1</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#007 qc-ratio-semantics</span>
-            <span class="ddn__meta">feature · draft</span>
+            <span class="ddn__meta">feature · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#008 devops-role-document</span>
-            <span class="ddn__meta">docs · draft</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#010 jsdom-smoke-center</span>
-            <span class="ddn__meta">feature · draft</span>
-          </li>
+          </ul>
+        </div>
+        <div class="ddn__col ddn__col--next">
+          <h3 class="ddn__h">Next <span class="ddn__count">1</span></h3>
+          <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">продукт: &lt;next&gt;</span>
             <span class="ddn__meta">запланирован</span>
@@ -274,23 +271,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">007</td>
           <td class="mono">qc-ratio-semantics</td>
           <td>feature</td>
-          <td><span class="chip chip--draft">draft</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">008</td>
-          <td class="mono">devops-role-document</td>
-          <td>docs</td>
-          <td><span class="chip chip--draft">draft</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">010</td>
-          <td class="mono">jsdom-smoke-center</td>
-          <td>feature</td>
-          <td><span class="chip chip--draft">draft</span></td>
+          <td><span class="chip chip--approved">approved</span></td>
           <td class="mono">—</td>
           <td class="mono">2026-09-27</td>
         </tr>
@@ -335,6 +316,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">2026-09-27</td>
         </tr>
         <tr>
+          <td class="mono">008</td>
+          <td class="mono">devops-role-document</td>
+          <td>docs</td>
+          <td><span class="chip chip--done">done</span></td>
+          <td class="mono">pending</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
+        <tr>
           <td class="mono">009</td>
           <td class="mono">state-update-single-run</td>
           <td>feature</td>
@@ -366,6 +355,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">—</td>
           <td class="mono">2026-09-27</td>
         </tr>
+        <tr>
+          <td class="mono">010</td>
+          <td class="mono">jsdom-smoke-center</td>
+          <td>feature</td>
+          <td><span class="chip chip--blocked">blocked</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-27</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -373,8 +370,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>Одна строка = одно решение. Только добавление в конец, правки запрещены.</li>
-        <li>Формат: `YYYY-MM-DD | milestone | что решено | commit &lt;sha|pending&gt;`</li>
         <li>Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.</li>
         <li>2026-09-27 | M4.0 | solid base + dev center | commit pending</li>
         <li>2026-09-27 | M2.9 batch 4 | file_management +6 (183→189), MAS Writer→QC(reject fm_016)→rework→QC PASS | commit pending</li>
@@ -383,6 +378,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-27 | content freeze | контент-трек закрыт на 206 вопросах, переход на MAS фабрику; 003 и 011 rejected | commit pending</li>
         <li>2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending</li>
         <li>2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d</li>
+        <li>2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending</li>
+        <li>2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending</li>
     </ul>
   </section>
 
@@ -394,6 +391,24 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">fd6a5c2</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec): block 010 - requires sync.mjs refactor (Phase 3)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">a5c74ae</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec): approve 007, 008, 010 for Phase 3 pilot</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">0ea1d32</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after Фаза 2 rules</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">2298961</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -494,24 +509,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">d9aa0fe</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): schema_version 2 + factory keys</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">d61112d</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(sync): make --check read-only (spec 009)</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">561aaf6</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): sync after center spec</td>
-          <td class="mono muted">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">1156ff0</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(factory): center spec - full work visibility</td>
           <td class="mono muted">2026-09-27</td>
         </tr>
 <!--volatile:end-->

@@ -1,11 +1,11 @@
 ---
 id: 008
 slug: devops-role-document
-status: approved
+status: done
 type: docs
 created: 2026-09-27
-updated: 2026-09-27
-commit: null
+updated: 2026-09-28
+commit: pending
 ---
 
 ## Цель
