@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "e9b784eb0a354b967fcfaf368703f152f8a83398",
+  "head": "8209331a4610732d8ef24964e76e24276565696b",
   "specs": [
     {
       "id": "010",
@@ -538,6 +538,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "8209331",
+      "date": "2026-09-28",
+      "subject": "docs(factory): fix Phase 4 lessons evidence + captain decision on commit subjects",
+      "type": "docs"
+    },
+    {
+      "sha": "1cc6413",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after D6 handoff-decisions",
+      "type": "chore"
+    },
+    {
       "sha": "e9b784e",
       "date": "2026-09-28",
       "subject": "docs: Phase 4 decisions",
@@ -643,18 +655,6 @@
       "sha": "e92bef4",
       "date": "2026-09-28",
       "subject": "docs(spec): record commit SHA for spec 007",
-      "type": "docs"
-    },
-    {
-      "sha": "e3dce64",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after Phase 3 pilot",
-      "type": "chore"
-    },
-    {
-      "sha": "34fb0eb",
-      "date": "2026-09-28",
-      "subject": "docs(decisions): record Phase 3 pilot outcome (007 done, 008 done, 010 blocked)",
       "type": "docs"
     }
   ],
