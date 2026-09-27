@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "e1c567b32f21cc12e57008aa6dd143ca26af58ab",
+  "head": "91d7301cec076f588f7597ef24c31d7ea33c1620",
   "specs": [
     {
       "id": "001",
@@ -538,6 +538,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "91d7301",
+      "date": "2026-09-28",
+      "subject": "docs(report): Phase 3 pilot summary",
+      "type": "docs"
+    },
+    {
+      "sha": "9a59ec5",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after dashboard snapshot",
+      "type": "chore"
+    },
+    {
       "sha": "e1c567b",
       "date": "2026-09-28",
       "subject": "chore(state): sync dashboard snapshot after Phase 3 pilot",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): sync after spec 012 rejection",
       "type": "chore"
-    },
-    {
-      "sha": "cf1939e",
-      "date": "2026-09-28",
-      "subject": "chore(state): re-sync after spec 012 rejection",
-      "type": "chore"
-    },
-    {
-      "sha": "7278078",
-      "date": "2026-09-28",
-      "subject": "docs(spec): reject spec 012 (time-box exceeded)",
-      "type": "docs"
     }
   ],
   "roles": [
