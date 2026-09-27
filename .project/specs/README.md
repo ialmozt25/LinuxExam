@@ -38,6 +38,14 @@ commit: null
 Что капитан увидит перед approve (скриншот, URL, дамп вывода).
 ```
 
+Для `type=content` в frontmatter добавляются ещё два поля (см.
+[`commit_format`](#commit_format--обязательное-поле-для-typecontent)):
+
+```yaml
+commit_format: "feat(bank): M2.9 batch 4 - 6 questions on file_management (183->189)"
+commit_regex:  "^feat\\(bank\\), (\\d+)\\s+questions?"
+```
+
 ## Поля frontmatter
 
 | Поле | Обязательно | Значения |
@@ -49,6 +57,54 @@ commit: null
 | `created` | да | `YYYY-MM-DD` |
 | `updated` | да | `YYYY-MM-DD` |
 | `commit` | нет | короткий SHA после коммита, иначе `null` |
+| `commit_format` | для `type=content` | шаблон subject'а коммита, см. ниже |
+| `commit_regex` | для `type=content` | regex, которым этот subject матчится в `tools/gen-state.mjs` |
+
+## Lifecycle спека
+
+Три перехода, каждая правка frontmatter'а идёт **в том же коммите**, что и сама задача:
+
+| момент | `status` | `commit` |
+|---|---|---|
+| спека создана | `draft` | `null` |
+| работа начата (approve) | `running` | `null` |
+| работа закоммичена | `done` | короткий SHA этого коммита |
+
+- Правка `status`/`commit` — часть коммита задачи, а не отдельный коммит. Иначе
+  SHA коммита спека не существует и `done` приходится ставить задним числом.
+- После правки frontmatter'а обязателен `npm run sync` (индекс `SPEC.md` и центр
+  читают `status`/`commit` из спеки).
+- Упрощение: если задача выполнена в том же коммите, что и правка спеки, —
+  ставить `done` + SHA сразу, без промежуточного `running`. Для мелких задач
+  (docs/refactor) это норма, для content-батчей — нет: там нужен `running`
+  на время генерации и QC, иначе индекс покажет `done` до появления вопросов.
+
+## `commit_format` — обязательное поле для `type=content`
+
+`tools/gen-state.mjs` считает `goal.added_today` и `goal.avg_daily_7d`, грепая
+subject'ы коммитов двумя регулярками:
+
+```js
+/^feat\(bank\)/i                  // tools/gen-state.mjs:103, :127
+/(\d+)\s+questions?/i             // tools/gen-state.mjs:104, :128
+```
+
+Коммит, который не матчит **обе**, молча даёт `0` в метриках центра: гейт
+остаётся зелёным, ошибка не видна. Поэтому для `type=content` спека обязана
+объявить:
+
+```yaml
+commit_format: "feat(bank): M2.9 batch 4 - 6 questions on file_management (183->189)"
+commit_regex:  "^feat\\(bank\\), (\\d+)\\s+questions?"
+```
+
+- `commit_format` — человекочитаемый шаблон; подставь `<milestone>`, `<N>`,
+  `<topic>`, `<A>`, `<B>`.
+- `commit_regex` — **точная** копия пары регулярок из `tools/gen-state.mjs`
+  (объединённых через `,`), чтобы расхождение формата и парсера ловилось
+  глазами при написании спеки, а не молча обнуляло метрику.
+- Если формат коммита меняется — правь спеку, парсер и раздел «Коммит»
+  одновременно: две стороны одного контракта.
 
 ## Статусы
 
