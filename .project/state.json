@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "f5cdfb365c75c0211c480d3319b562e8914cc9b8",
+  "head": "93082f4f800fb7e69a949c4a631066ebd9ba2c7b",
   "specs": [
     {
       "id": "010",
@@ -523,7 +523,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-27 | M6.0 Phase 2 | autonomy model: approved spec = авторизация исполнения, промежуточные approve не требуются (правило 2); добавлены правила 7 (центр — интерфейс капитана) и 8 (откат git revert) | commit pending",
     "2026-09-27 | spec 009 | sync:check стал READ-ONLY; снят гейт head==HEAD, устранён convergence-коммит (5 лишних коммитов за смену) | commit d61112d",
     "2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending",
@@ -532,11 +531,24 @@
     "2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f",
     "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending",
     "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending",
-    "2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending"
+    "2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending",
+    "2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "93082f4",
+      "date": "2026-09-28",
+      "subject": "docs(factory): activate devops role with artifacts",
+      "type": "docs"
+    },
+    {
+      "sha": "308f000",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after D2 blocked-WARN",
+      "type": "chore"
+    },
     {
       "sha": "f5cdfb3",
       "date": "2026-09-28",
@@ -644,18 +656,6 @@
       "date": "2026-09-28",
       "subject": "docs(knowledge): document DevOps role (spec 008)",
       "type": "docs"
-    },
-    {
-      "sha": "fd6a5c2",
-      "date": "2026-09-28",
-      "subject": "chore(spec): block 010 - requires sync.mjs refactor (Phase 3)",
-      "type": "chore"
-    },
-    {
-      "sha": "a5c74ae",
-      "date": "2026-09-28",
-      "subject": "chore(spec): approve 007, 008, 010 for Phase 3 pilot",
-      "type": "chore"
     }
   ],
   "roles": [
@@ -695,7 +695,7 @@
     {
       "name": "devops",
       "title": "DevOps",
-      "status": "planned",
+      "status": "active",
       "preset": "null",
       "trigger": {
         "human": "deploy failed 3+",
