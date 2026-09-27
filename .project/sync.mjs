@@ -21,9 +21,21 @@
  *
  * Режимы:
  *   node .project/sync.mjs           — регенерировать, exit 0 при успешной записи
- *   node .project/sync.mjs --check   — только проверка дрейфа:
+ *   node .project/sync.mjs --check   — READ-ONLY: только сравнение, ничего не пишет
  *                                      exit 0 — производные совпали с источником
  *                                      exit 2 — SYNC DRIFT (расхождение)
+ *
+ * Почему --check READ-ONLY (spec 009, M6.0 Phase 2):
+ *   Гейт обязан отвечать на вопрос «состояние согласовано?», а не менять его.
+ *   Проверка зафиксирована тестом: hash state.json до == после.
+ *
+ * Почему --check больше НЕ требует head == HEAD:
+ *   Раньше `state.head` был якорем, и любой не-sync коммит (спека, отчёт, документ)
+ *   двигал HEAD → гейт краснел при полностью корректных производных → закрыть его
+ *   можно было только ЕЩЁ одним коммитом (head пишется лишь в ветке записи).
+ *   За смену 2026-09-27 это стоило 5 лишних коммитов. Теперь head информационное:
+ *   «из какого коммита собрано состояние», а дрейф определяется тем, что реально
+ *   означает расхождение — производные на диске совпадают с источником и закоммичены.
  *
  * Почему --check не использует `git diff` целиком:
  *   `git diff` сравнивает с индексом/HEAD, а гейт должен отвечать на вопрос
@@ -60,6 +72,20 @@ const OUT_CENTER = rel('docs/index.html');
 const LOG_TAIL_LINES = 10;
 const EXPECTED_TOPIC_COUNT = 14;
 const DEFAULT_TARGET_QUESTIONS = 300;
+
+/**
+ * Минимальная поддерживаемая версия схемы `state.json` (spec 009 / D1 M6.0 Phase 2).
+ *
+ * v1 — историческая схема: head/goal/topics/specs/log_tail.
+ * v2 — расширение фабрикой: commits/roles/products/audits + schema_version,
+ *      центр читает их для секций «Коммиты», «Роли», «Продукты», «Аудит».
+ *
+ * `--check` падает при версии ниже минимальной: старый state.json не даст центру
+ * новые секции, и молчаливая деградация «секция пустая» неотличима от «данных нет».
+ */
+const MIN_SCHEMA_VERSION = 2;
+/** Центральные секции «Коммиты» — сколько последних показывать. */
+const COMMITS_IN_CENTER = 20;
 
 /** Порядок статусов в индексе и таблице центра (SPEC.md §Сортировка). */
 const STATUS_ORDER = ['preview', 'running', 'approved', 'draft', 'done', 'rejected'];
@@ -689,9 +715,21 @@ function main() {
   const topics = buildTopics(state);
   const milestonesRaw = readMilestoneProgress();
 
-  // --- закрепление HEAD: держим прежнее значение, пока сдвинулись только
-  // синхронизируемые выходы (иначе поле head становится самоссылкой и гейт
-  // невозможно закрыть); при реальном движении базы обновляем.
+  // --- HEAD, зафиксированный в состоянии (ИНФОРМАЦИОННОЕ поле, не гейт).
+  //
+  // Поле обязано быть СТАБИЛЬНЫМ: производные (STATE.md, docs/index.html) содержат
+  // его значение, а `--check` сравнивает производные побайтово. Если писать сюда
+  // всегда текущий HEAD, то после коммита синхронизации head отстаёт на один коммит
+  // → побайтовое сравнение всегда краснеет → снова вечный convergence-цикл.
+  //
+  // Поэтому: пока сдвинулись ТОЛЬКО синхронизируемые выходы, head сохраняется
+  // прежним; при реальном движении базы (любой не-sync файл) — обновляется.
+  //
+  // ЧТО ИЗМЕНИЛ spec 009: раньше `--check` требовал head == HEAD, и это был ГЕЙТ.
+  // Любой не-sync коммит (спека, отчёт, документ) делал гейт красным при полностью
+  // корректных производных, а закрыть его можно было только ещё одним коммитом.
+  // За смену 2026-09-27 это стоило 5 лишних коммитов. Теперь это требование снято:
+  // проверяется реальный дрейф (производные совпадают с источником и закоммичены).
   const pinnedHead = state.head ?? null;
   let head = fullHead;
   if (pinnedHead === null || pinnedHead === undefined) {
@@ -699,7 +737,7 @@ function main() {
   } else if (movesOnlySyncFiles(pinnedHead)) {
     head = pinnedHead;
   } else {
-    info(`база изменилась: head ${pinnedHead} → ${fullHead}`);
+    info(`база изменилась: head ${pinnedHead.slice(0, 7)} → ${fullHead.slice(0, 7)}`);
   }
 
   const goal = state.goal ?? {};
@@ -760,32 +798,42 @@ function main() {
     .map((t) => t.path);
 
   if (CHECK) {
+    // --- READ-ONLY. Никаких записей: ни state.json, ни производных. Ранний
+    // return ниже — единственная защита, ветка записи недостижима.
     const problems = [];
+
+    // 1) схема state.json: обязательные ключи + версия схемы (spec 009 / D1)
     for (const key of ['head', 'specs', 'log_tail', 'last_sync']) {
       if (!(key in state)) problems.push(`.project/state.json: нет поля "${key}"`);
     }
-    // state.head может отставать ровно на один синхронизируемый коммит:
-    // такой коммит трогает только state.json/STATE.md/SPEC.md/docs/index.html,
-    // то есть базу не меняет. Любое другое расхождение — реальный дрейф.
-    const pin = String(state.head ?? '');
-    if (fullHead.startsWith(pin)) {
-      // закреплённый HEAD — текущий
-    } else if (head === pin) {
-      info(`state.head ${pin} отстаёт на синхронизируемый коммит (${fullHead}) — это ожидаемо, база не менялась`);
-    } else {
+    const sv = Number(state.schema_version ?? 1);
+    if (sv < MIN_SCHEMA_VERSION) {
       problems.push(
-        `.project/state.json: head=${pin} != якорь ${head} (git HEAD ${fullHead}) — база изменилась, нужен npm run sync`,
+        `.project/state.json: schema_version=${sv} < ${MIN_SCHEMA_VERSION} — нужен npm run state:update`,
       );
     }
-    // 1) производные на диске должны совпадать с тем, что даёт источник
+
+    // 2) производные на диске должны совпадать с тем, что даёт источник
     for (const p of diverged) {
       problems.push(`${path.relative(ROOT, p)} отстал от state.json — нужен npm run sync`);
     }
-    // 2) сами производные + state.json должны быть зафиксированы коммитом
+
+    // 3) производные + state.json должны быть зафиксированы коммитом
     const uncommitted = diffHead([STATE_PATH, ...targets.map((t) => t.path)]);
     if (uncommitted === true) {
       problems.push('state.json/производные изменены и не закоммичены — sync → git add → commit');
     }
+
+    // 4) ИНФОРМАЦИОННО (не гейт): из какого коммита собрано состояние.
+    // Раньше это было жёсткое требование head == HEAD, из-за которого каждый
+    // не-sync коммит требовал ещё одного sync-коммита для обновления head.
+    const pin = String(state.head ?? '');
+    if (pin !== fullHead) {
+      info(
+        `state.head ${pin.slice(0, 7)} — состояние собрано на этом коммите; git HEAD ${fullHead.slice(0, 7)} (не гейт, см. spec 009)`,
+      );
+    }
+
     if (problems.length > 0) {
       process.stderr.write('SYNC DRIFT: state.json и производные разошлись\n');
       for (const p of problems) process.stderr.write(`  - ${p}\n`);
@@ -793,7 +841,7 @@ function main() {
       return;
     }
     process.stdout.write(
-      `sync: ok (check) — производные совпадают с источником, HEAD ${fullHead}\n`,
+      `sync: ok (check) — производные совпадают с источником, HEAD ${fullHead} (read-only)\n`,
     );
     for (const n of notes) process.stdout.write(`  ${n}\n`);
     process.exitCode = 0;
