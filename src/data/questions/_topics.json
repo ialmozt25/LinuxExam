@@ -1,5 +1,5 @@
 {
-  "total": 206,
+  "total": 212,
   "byTopic": {
     "deploy_systems": 13,
     "essential_tools": 13,
@@ -13,7 +13,7 @@
     "running_systems": 10,
     "security": 20,
     "shell_scripts": 10,
-    "text_files": 10,
+    "text_files": 16,
     "users_groups": 18
   }
 }
