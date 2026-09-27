@@ -340,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "b760016e4fe945d0eff5bcc9ed4be332aea2675e",
+  "head": "7278078000d2a11440459bbe474bea05d795d670",
   "specs": [
     {
       "id": "007",
@@ -539,6 +539,12 @@
   "spec_commit": "e01cd02",
   "commits": [
     {
+      "sha": "7278078",
+      "date": "2026-09-28",
+      "subject": "docs(spec): reject spec 012 (time-box exceeded)",
+      "type": "docs"
+    },
+    {
       "sha": "b760016",
       "date": "2026-09-27",
       "subject": "fix(sync): volatile-wrap state.head in STATE.md/SPEC.md (spec 012)",
@@ -650,12 +656,6 @@
       "sha": "b7c3879",
       "date": "2026-09-27",
       "subject": "docs(factory): architecture design",
-      "type": "docs"
-    },
-    {
-      "sha": "bbd81f4",
-      "date": "2026-09-27",
-      "subject": "docs(factory): research - 30+ sources on MAS patterns",
       "type": "docs"
     }
   ],
