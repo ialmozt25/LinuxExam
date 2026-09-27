@@ -43,19 +43,19 @@
     {
       "slug": "local_storage",
       "label": "Локальное хранилище",
-      "count": 8,
+      "count": 13,
       "target": 22
     },
     {
       "slug": "manage_software",
       "label": "Управление ПО",
-      "count": 8,
+      "count": 14,
       "target": 22
     },
     {
       "slug": "networking",
       "label": "Сеть",
-      "count": 10,
+      "count": 16,
       "target": 22
     },
     {
@@ -339,64 +339,8 @@
       "message": "feat(dashboard): V8 - product owner view (topics distribution, no process)"
     }
   ],
-  "head": "5413ebadb1bce0e6217001783379fd19870f2f72",
+  "head": "70804bf60466b010ddd4315a57084887e714cd49",
   "specs": [
-    {
-      "id": "003",
-      "slug": "global-option-canonization",
-      "status": "draft",
-      "type": "content",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/003-global-option-canonization.md",
-      "goal": "Одна согласованная, отревьюенная канонизация порядка опций **по всему банку**.",
-      "acceptance": "[ ] `npm run shuffle-bank` (то есть `node tools/shuffle-bank.mjs --apply` **без**",
-      "noTouch": "Контент вопросов: `question`, `options[].text`, `options[].correct`,",
-      "preview": "1. Вывод `npm run shuffle-bank` целиком (какие темы и сколько вопросов затронуты)."
-    },
-    {
-      "id": "004",
-      "slug": "batch-5-generation",
-      "status": "draft",
-      "type": "content",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/004-batch-5-generation.md",
-      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `local_storage`.",
-      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = local_storage`, id с первого свободного номера.",
-      "noTouch": "`src/data/questions/*` других тем — только файл темы + манифесты `_order.json`/`_topics.json`.",
-      "preview": "Файл `.project/drafts/batch-5-preview.md`:"
-    },
-    {
-      "id": "005",
-      "slug": "batch-6-generation",
-      "status": "draft",
-      "type": "content",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/005-batch-6-generation.md",
-      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `manage_software`.",
-      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = manage_software`, id `msw_009`..`msw_014`.",
-      "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
-      "preview": "Файл `.project/drafts/batch-6-preview.md`:"
-    },
-    {
-      "id": "006",
-      "slug": "batch-7-generation",
-      "status": "draft",
-      "type": "content",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/006-batch-7-generation.md",
-      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `networking`.",
-      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = networking`, id из фактически свободных номеров.",
-      "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
-      "preview": "Файл `.project/drafts/batch-7-preview.md`:"
-    },
     {
       "id": "007",
       "slug": "qc-ratio-semantics",
@@ -480,6 +424,76 @@
       "acceptance": "[x] `EXPECTED_QUESTIONS` больше не хардкод: число берётся из источника",
       "noTouch": "Саму логику проверки позиционного распределения (порог `MAX_POSITION_SHARE`,",
       "preview": "*До** (было в тесте):"
+    },
+    {
+      "id": "004",
+      "slug": "batch-5-generation",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "12c8439",
+      "file": "specs/004-batch-5-generation.md",
+      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `local_storage`.",
+      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = local_storage`, id с первого свободного номера.",
+      "noTouch": "`src/data/questions/*` других тем — только файл темы + манифесты `_order.json`/`_topics.json`.",
+      "preview": "Файл `.project/drafts/batch-5-preview.md`:"
+    },
+    {
+      "id": "005",
+      "slug": "batch-6-generation",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "12c8439",
+      "file": "specs/005-batch-6-generation.md",
+      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `manage_software`.",
+      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = manage_software`, id `msw_009`..`msw_014`.",
+      "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
+      "preview": "Файл `.project/drafts/batch-6-preview.md`:"
+    },
+    {
+      "id": "006",
+      "slug": "batch-7-generation",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "12c8439",
+      "file": "specs/006-batch-7-generation.md",
+      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `networking`.",
+      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = networking`, id из фактически свободных номеров.",
+      "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
+      "preview": "Файл `.project/drafts/batch-7-preview.md`:"
+    },
+    {
+      "id": "003",
+      "slug": "global-option-canonization",
+      "status": "rejected",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/003-global-option-canonization.md",
+      "goal": "Одна согласованная, отревьюенная канонизация порядка опций **по всему банку**.",
+      "acceptance": "[ ] `npm run shuffle-bank` (то есть `node tools/shuffle-bank.mjs --apply` **без**",
+      "noTouch": "Контент вопросов: `question`, `options[].text`, `options[].correct`,",
+      "preview": "1. Вывод `npm run shuffle-bank` целиком (какие темы и сколько вопросов затронуты)."
+    },
+    {
+      "id": "011",
+      "slug": "text-files-duplicate-repair",
+      "status": "rejected",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/011-text-files-duplicate-repair.md",
+      "goal": "Устранить **единственную пару банка, реально пробивающую порог дублирования**:",
+      "acceptance": "[ ] Cosine `tf_001` ~ `tf_002` ≤ 0.85 после правки (перезамер тем же",
+      "noTouch": "`src/data/topics.ts`, `.project/contracts/*`, `package.json`.",
+      "preview": "До/после текста обоих вопросов (`tf_001`, `tf_002`) + таблица: cosine, Jaccard,"
     }
   ],
   "log_tail": [
