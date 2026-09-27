@@ -15,14 +15,15 @@
 
 const fs = require('fs');
 const path = require('path');
-const { checkRatio } = require('./_lib/ratio.cjs');
+const { checkRatio, RATIO_UNIT } = require('./_lib/ratio.cjs');
 
 const ROOT = path.join(__dirname, '..');
 const BANK_DIR = path.join(ROOT, 'src/data/questions');
 
-// Единица измерения для ratio: банк 106 выверялся по символам (см. qc.cjs).
-// Аудит 2026-09-25: по словам 10 вопросов дают FAIL, по символам — 0.
-const RATIO_UNIT = 'chars';
+// Единица измерения для ratio импортируется из общей библиотеки
+// (tools/_lib/ratio.cjs, RATIO_UNIT = 'chars') — собственного литерала нет.
+// Банк 106 выверялся по символам (см. qc.cjs). Аудит 2026-09-25: по словам
+// 10 вопросов дают FAIL, по символам — 0.
 
 const MANUAL = [9, 10];
 

@@ -6,7 +6,16 @@
 ## content (MCQ-вопрос)
 
 - [ ] 4 опции, ровно 1 верная.
-- [ ] ratio длин опций ≤ 1.5 (самая длинная / самая короткая).
+- [ ] ratio длин опций (самая длинная / самая короткая) — в **символах** (`RATIO_UNIT = 'chars'`),
+      порог зависит от класса вопроса по **числу слов**; таблица `RATIO_TABLE` в
+      `tools/_lib/ratio.cjs` — единственный источник истины:
+      `sentences` — все 4 опции ≥ 4 слов — FAIL при ratio > 1.30, WARN при ratio > 1.25 — символы;
+      `token` — все 4 опции ≤ 3 слов — FAIL при ratio > 2.00, WARN при ratio > 1.35 — символы;
+      `mixed` — иначе — FAIL при ratio > 1.50, WARN при ratio > 1.35 — символы.
+      Формулировка «≤ 1.5» верна только для класса `mixed`: класс `sentences` валит гейт уже
+      при ratio > 1.30. Проверить кандидата тем же кодом, что и гейт:
+      `node tools/haladyna.cjs --batch <candidate.json>` (AUTO 2) или
+      `checkRatio(options, RATIO_UNIT)` из `tools/_lib/ratio.cjs`.
 - [ ] cosine против **всего** банка ≤ 0.85 (не только intra-batch).
 - [ ] тема — из канона (`src/data/topics.ts`, 14 тем), не выдуманная.
 - [ ] explanation ≤ 3 строк.

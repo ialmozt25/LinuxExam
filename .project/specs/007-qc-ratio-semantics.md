@@ -1,11 +1,11 @@
 ---
 id: 007
 slug: qc-ratio-semantics
-status: approved
+status: done
 type: feature
 created: 2026-09-27
-updated: 2026-09-27
-commit: null
+updated: 2026-09-28
+commit: pending
 ---
 
 ## Цель

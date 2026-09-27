@@ -1,16 +1,17 @@
 const fs = require('fs');
 const path = require('path');
-const { checkRatio, RULES } = require('./_lib/ratio.cjs');
+const { checkRatio, RULES, RATIO_UNIT, RATIO_UNIT_LABEL, RATIO_TABLE, describeRule } = require('./_lib/ratio.cjs');
 
 const BANK_DIR = path.join(__dirname, '..', 'src/data/questions');
 const TOPICS = path.join(__dirname, '..', 'src/data/topics.ts');
 
-// Единица измерения option ratio. Банк 106 выверялся по СИМВОЛАМ (исторически,
+// Единица измерения option ratio объявлена РОВНО ОДИН РАЗ — в общей библиотеке
+// (RATIO_UNIT = 'chars', tools/_lib/ratio.cjs) — и импортируется оттуда; здесь
+// собственного литерала нет. Банк 106 выверялся по СИМВОЛАМ (исторически,
 // см. tools/qc.cjs — o.text.length). Аудит 2026-09-25: по словам 10 вопросов
 // дают FAIL (в т.ч. fm_003, который должен остаться Warn), по символам — 0.
-// Поэтому здесь 'chars'; словесная шкала доступна как checkRatio(opts) в
-// tools/_lib/ratio.cjs и как --batch в tools/haladyna.cjs.
-const RATIO_UNIT = 'chars';
+// Словесная шкала доступна как checkRatio(opts) в tools/_lib/ratio.cjs
+// и как --batch в tools/haladyna.cjs. Пороги/классы — таблица RATIO_TABLE там же.
 
 // Cosine-буфер 0.75–0.80 (мягкий near-duplicate warn) СОЗНАТЕЛЬНО не здесь:
 // он требует прогона трансформера (5565 пар, ~1–2 мин) и превратил бы
@@ -40,6 +41,8 @@ let warns = 0;
 const MAX_WARNS_PRINT = 30;
 const failByCat = {};
 const warnByCat = {};
+// Сколько вопросов попало в каждый класс таблицы RATIO_TABLE (агрегат в сводке).
+const ratioByClass = {};
 
 function fail(id, msg, cat = 'other') {
   fails++;
@@ -140,19 +143,16 @@ for (const q of questions) {
   if (placeholder.test(q.question)) fail(q.id, 'placeholder in question', 'placeholder');
 
   // --- option ratio ---------------------------------------------------------
-  // Историческая проверка по символам (грубый порог 2.5) — сохранена.
-  const lens = q.options.map(o => o.text.length);
-  const minLen = Math.min(...lens);
-  if (minLen >= 20) {
-    const ratio = Math.max(...lens) / minLen;
-    if (ratio > 2.5) warn(q.id, `option length ratio ${ratio.toFixed(2)} > 2.5`, 'ratio-char');
-  }
-  // Новая проверка через общую библиотеку (тип + порог 1.30/2.0/1.5).
+  // Один вердикт на вопрос: метрика одна, её класс и пороги — таблица
+  // RATIO_TABLE в tools/_lib/ratio.cjs. Легаси-проверка по символам с грубым
+  // порогом 2.5 (категория ratio-char) удалена: она была недостижима (0
+  // срабатываний на банке) и давала бы второй диагноз той же метрике (audit A.5).
   const r = checkRatio(q.options, RATIO_UNIT);
+  ratioByClass[r.type] = (ratioByClass[r.type] || 0) + 1;
   if (r.verdict === 'fail') {
-    fail(q.id, `option ratio (${r.type}) ${r.ratio.toFixed(2)} > ${r.threshold}`, 'ratio');
+    fail(q.id, `option ratio (${r.type}, ${r.unit}) ${r.ratio.toFixed(2)} > ${r.threshold}`, 'ratio');
   } else if (r.verdict === 'warn') {
-    warn(q.id, `option ratio (${r.type}) ${r.ratio.toFixed(2)} > warn ${RULES[r.type].warnFrom}`, 'ratio');
+    warn(q.id, `option ratio (${r.type}, ${r.unit}) ${r.ratio.toFixed(2)} > warn ${RULES[r.type].warnFrom}`, 'ratio');
   }
 
   // --- подсказка по длине правильного ответа --------------------------------
@@ -200,4 +200,9 @@ const fmtCats = (obj) => Object.keys(obj).sort().map(k => `${k}=${obj[k]}`).join
 if (fails > 0) console.log(`FAIL by category: ${fmtCats(failByCat)}`);
 if (warns > 0) console.log(`WARN by category: ${fmtCats(warnByCat)}`);
 if (warns > MAX_WARNS_PRINT) console.log(`(показаны первые ${MAX_WARNS_PRINT} warns)`);
+// Агрегат по классам: видно, сколько вопросов проверено каждым классом, и какая
+// таблица применилась (единица, условие класса, пороги — из RATIO_TABLE).
+const ratioClassCounts = RATIO_TABLE.map(r => `${r.type}=${ratioByClass[r.type] || 0}`).join(' ');
+console.log(`RATIO by class (unit=${RATIO_UNIT}, ${RATIO_UNIT_LABEL}): ${ratioClassCounts}`);
+console.log(`RATIO table: ${RATIO_TABLE.map(r => describeRule(r.type)).join(' | ')}`);
 process.exitCode = fails > 0 ? 1 : 0;
