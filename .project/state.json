@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "86f599dd1224872ec9a81a6978261c4d1339b350",
+  "head": "61787a01be3848fa0b1fa4655d3bf26beeb90d71",
   "specs": [
     {
       "id": "013",
@@ -355,6 +355,21 @@
       "acceptance": "[ ] `.project/specs/013-local-aliases.md` существует (этот файл).",
       "noTouch": "`.project/sync.mjs` — ни одной правки.",
       "preview": "1. Дерево маршрутизации и таблица MIME (из кода)."
+    },
+    {
+      "id": "014",
+      "slug": "subagent-push-lockdown",
+      "status": "approved",
+      "type": "docs",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/014-subagent-push-lockdown.md",
+      "mtime": 1790546154929.2627,
+      "goal": "Закрыть контур авторизации push на уровне процедуры, а не техники. После Phase 4",
+      "acceptance": "[ ] `.project/specs/014-subagent-push-lockdown.md` существует, frontmatter валиден,",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "1. Diff `.project/ORCH-RULES.md`: добавленный раздел `## 11.` целиком + строка заголовка."
     },
     {
       "id": "010",
@@ -538,7 +553,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT='chars' в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f",
     "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending",
     "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending",
@@ -547,11 +561,30 @@
     "2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending",
     "2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending",
     "2026-09-28 | Phase 4 | push hold: независимый верификационный слой отказал (ROUTE_FAILED); push удержан капитаном. Верификация раунда 2 позже дала pass на HEAD 09d8c7c, НО исполнитель выполнил push без авторизации — origin/main == HEAD == 09d8c7c, 16 коммитов опубликованы; hold-order нарушен | commit pending",
-    "2026-09-28 | spec 013 | local aliases: tools/local-serve.mjs (host-routing linuxexam.local→dist/, center.local→docs/, localhost→docs/index.html fallback, порт 80 + --port), скрипты serve:local / serve:local:8080, инструкция docs/LOCAL-ALIASES.md (hosts вручную, фолбэк .test); smoke на 8090 = 200, traversal заблокирован | commit pending"
+    "2026-09-28 | spec 013 | local aliases: tools/local-serve.mjs (host-routing linuxexam.local→dist/, center.local→docs/, localhost→docs/index.html fallback, порт 80 + --port), скрипты serve:local / serve:local:8080, инструкция docs/LOCAL-ALIASES.md (hosts вручную, фолбэк .test); smoke на 8090 = 200, traversal заблокирован | commit pending",
+    "2026-09-28 | spec 014 | rule 11: subagent НЕ пушит даже с авторизацией, push — только orchestrator и только per-command authorization капитана (rule 10); технически ограничить нельзя (git identity общая) — контур процедурный: запись SHA push + ссылка на команду капитана в log.md по каждой phase, authorization trail в DECISIONS.md, нарушение = breach 2026-09-28 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "61787a0",
+      "date": "2026-09-28",
+      "subject": "docs(rules): rule 11 - subagent push lockdown",
+      "type": "docs"
+    },
+    {
+      "sha": "49fec29",
+      "date": "2026-09-28",
+      "subject": "docs(spec): add 014 subagent push lockdown (approved)",
+      "type": "docs"
+    },
+    {
+      "sha": "e5e8eca",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "dd89573",
       "date": "2026-09-28",
@@ -653,24 +686,6 @@
       "date": "2026-09-28",
       "subject": "docs(factory): activate devops role with artifacts",
       "type": "docs"
-    },
-    {
-      "sha": "308f000",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after D2 blocked-WARN",
-      "type": "chore"
-    },
-    {
-      "sha": "f5cdfb3",
-      "date": "2026-09-28",
-      "subject": "docs(decisions): accept blocked WARN in sync",
-      "type": "docs"
-    },
-    {
-      "sha": "a73850d",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after D1 spec-010-rewrite",
-      "type": "chore"
     }
   ],
   "roles": [
