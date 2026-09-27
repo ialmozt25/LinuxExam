@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "aaf05d7f1128bb933905bf3e98d541ce21ef51cd",
+  "head": "e9b784eb0a354b967fcfaf368703f152f8a83398",
   "specs": [
     {
       "id": "010",
@@ -523,7 +523,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | M6.0 Phase 3 | spec 008: роль DevOps описана документом docs/knowledge/ops/devops-role.md (владелец релиза/бэкапа/зависимостей/гейтов), пресет не создавался | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 010 blocked: рефакторинг sync.mjs (нет экспортов, main() на верхнем уровне, :1411) запрещён условием задания; smoke-тест центра не создан | commit pending",
     "2026-09-28 | M6.0 Phase 3 | spec 008 закрыт | commit 041d4a8",
     "2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT='chars' в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending",
@@ -532,11 +531,24 @@
     "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending",
     "2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending",
     "2026-09-28 | M6.0 Phase 4 | роль DevOps: planned → active (капитан авторизовал; триггер «deploy failed 3+» интерпретирован как «пилот завершён»); артефакты SKILL/DOD/TRIGGER в .project/factory/roles/devops/, пресет не создаётся (preset pending) | commit pending",
-    "2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending"
+    "2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending",
+    "2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e9b784e",
+      "date": "2026-09-28",
+      "subject": "docs: Phase 4 decisions",
+      "type": "docs"
+    },
+    {
+      "sha": "9796543",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after D5 lessons",
+      "type": "chore"
+    },
     {
       "sha": "aaf05d7",
       "date": "2026-09-28",
@@ -643,18 +655,6 @@
       "sha": "34fb0eb",
       "date": "2026-09-28",
       "subject": "docs(decisions): record Phase 3 pilot outcome (007 done, 008 done, 010 blocked)",
-      "type": "docs"
-    },
-    {
-      "sha": "e1658c3",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 007",
-      "type": "chore"
-    },
-    {
-      "sha": "03aeaca",
-      "date": "2026-09-28",
-      "subject": "docs(spec): record spec 007 closure and Phase 3 decisions",
       "type": "docs"
     }
   ],
