@@ -339,7 +339,7 @@
       "message": "docs(spec): 017 - precise wording on dashboard copy invariant"
     }
   ],
-  "head": "06223211ade741ea3c7783f7bcd9c138ea4d3d48",
+  "head": "31a4c87fc5e701f87fd0405e583ad361394a05d3",
   "specs": [
     {
       "id": "014",
@@ -628,6 +628,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "31a4c87",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after batch 5B",
+      "type": "chore"
+    },
+    {
       "sha": "0622321",
       "date": "2026-09-28",
       "subject": "feat(bank): M2.9 batch 5B - 6 questions on shell_scripts (212->218)",
@@ -740,12 +746,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after batch 5A",
       "type": "chore"
-    },
-    {
-      "sha": "df1a12f",
-      "date": "2026-09-28",
-      "subject": "feat(bank): M2.9 batch 5A - 6 questions on text_files (206->212)",
-      "type": "feat"
     }
   ],
   "roles": [
