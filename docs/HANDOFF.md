@@ -1,6 +1,8 @@
 # LinuxExam — HANDOFF для продолжения разработки
 
-> Полный контекст сессии от 2026-09-25. Для нового чата — читать первым.
+> Точка входа для нового чата. Обновлено ночной сменой **2026-09-27**.
+> Полный отчёт смены: `.project/audits/night-shift-2026-09-27.md`.
+> Аудиты: `.project/audits/bank-audit-2026-09-27.md`, `.project/audits/tools-audit-2026-09-27.md`.
 
 ---
 
@@ -10,62 +12,80 @@
 
 - **Аудитория:** начинающие и средние Linux-администраторы
 - **Формат:** MCQ, 4 опции, 1 правильная, UI на русском
-- **Стек:** React 18 + TypeScript + Vite + Zustand + Tailwind CSS + @telegram-apps/sdk + motion (framer-motion)
+- **Стек:** React 18 + TypeScript + Vite + Zustand + Tailwind CSS + @telegram-apps/sdk + motion
 - **Прод:** https://ialmozt25.github.io/LinuxExam/
 - **GitHub:** github.com/ialmozt25/LinuxExam
 - **Цель:** банк 300+ вопросов без потери качества, потом монетизация через Telegram-бота @linux_exam_bot
 
 ---
 
-## 2. Текущее состояние (на конец сессии)
+## 2. Текущее состояние (на конец ночной смены 2026-09-27)
 
 | Параметр | Значение |
 |---|---|
-| **HEAD** | `e33e02f` |
-| **Ветка** | main, ahead 6 (не запушено) |
-| **Дерево** | clean |
-| **Банк** | **106 вопросов**, 106 уникальных id |
-| **Тем** | 10 available / 4 planned |
-| **Сабтопиков** | 83 |
-| **Bundle entry gzip** | **51.69 kB** (watch 137 kB, запас ×2.6) |
-| **Тесты** | 133 unit + 18 e2e зелёные |
-| **TS** | 0 ошибок |
-| **QC** | `tools/qc.cjs` — Fails 0, Warns 1 (fm_003) |
-| **Среда** | **Windows-side** (`C:\Users\Alexey Udotov\LinuxExam`); `node.exe` (`C:\Program Files\nodejs\node.exe`), `git.exe` (`C:\Program Files\Git\cmd\git.exe`); WSL Rocky 9.8 (Blue Onyx), WSL `Rocky-9` — только для man |
-| **Cosine** | РАБОТАЕТ через `node.exe` (кэш `node_modules/@xenova/transformers/.cache/Xenova/all-MiniLM-L6-v2`) |
+| **HEAD** | `41b47c5` |
+| **Ветка** | main, **ahead 14** (не запушено) |
+| **Дерево** | только untracked артефакты батчей 1–4 в `.project/drafts/` и `drafts/_mas-results/` |
+| **Банк** | **189 вопросов**, 14 тем |
+| **Добавлено в смену** | 6 (batch 4, `f4e2538`) |
+| **Тесты** | 149 unit (25 файлов), `npm run test:run` exit 0 |
+| **TS** | 0 ошибок (`npm run typecheck` exit 0) |
+| **QC** | `npm run qc` — Total 189, **Fails 0, Warns 16** |
+| **shuffle-bank:check** | exit 0 (BANK 189 = 55/45/36/53) |
+| **sync:check** | exit 0 |
+| **Спек** | 10: `001`, `002` — `done`; `003`…`010` — `draft` |
+| **Cosine** | работает через `node.exe`, кэш `node_modules/@xenova/transformers/.cache/Xenova/all-MiniLM-L6-v2` |
+
+### ⚠️ Среда: правило #6 больше не соответствует факту
+
+HANDOFF §4.3 #6 и §5.4 объявляют **Rocky 9.8 WSL2 источником истины для man**.
+Фактически на хосте стоит **Ubuntu 26.04 LTS**, в котором **нет `dnf`, `rpm`, `yum`,
+`firewall-cmd`** (проверено: `command -v dnf rpm yum firewall-cmd` → пусто,
+`man rpm` → «No manual entry», `man lvremove` → «No manual entry»).
+WSL используется и работает для того, что в Ubuntu есть (`ip`, `ping`, `dig`, `swapon`,
+`wipefs`, `mount` и т. д.), но для RPM-семейства и firewalld man-верификация
+**невыполнима без установки Rocky**.
+
+**Следствия, зафиксированные в смене:**
+
+- batch 6 (`manage_software`): 6/6 вопросов верифицированы по официальной
+  документации + бинарной улике (Python-разбор RPM-заголовка), **не** исполнением.
+- batch 7 (`networking`): `ntw_014` (firewalld) опирается на man-страницу firewalld
+  **2.x**, тогда как RHEL 9 несёт **1.x** — построчного diff нет.
+- batch 5 (`local_storage`): LVM-вопросы опираются на upstream man-страницы
+  (lvm2 2.03.16), не на исполнение; именно поэтому `lsl_013` не удалось
+  разрешить и он отклонён.
 
 ---
 
 ## 3. Структура репозитория
 
 ```
-src/data/questions/{topic}.json    — 10 тематических файлов
-src/data/questions/_order.json     — 106 id, порядок regular-квиза
+src/data/questions/{topic}.json    — 14 тематических файлов
+src/data/questions/_order.json     — 189 id, порядок regular-квиза (новые id — в конец)
 src/data/questions/_topics.json    — счётчики {total, byTopic}
-src/data/questions/index.ts        — LOADERS (карта тем) + loadAll
-src/data/questions/__tests__/loaders-invariant.test.ts — guard-тест (5 тестов)
-src/data/topics.ts                 — 14 тем (10 available / 4 planned)
+src/data/questions/index.ts        — LOADERS (карта тем) + loadAll + getBankTotal()
+src/data/questions/__tests__/loaders-invariant.test.ts      — guard (5 тестов)
+src/data/questions/__tests__/positional-distribution.test.ts — guard (4 теста), размеры из данных
+src/data/topics.ts                 — 14 тем (канон)
 src/store/quizStore.ts             — Zustand + persist (rhcsa_progress)
 src/presentation/screens/*.tsx     — Dashboard, Question, Results, Paywall
 src/platform/telegram_adapter.ts   — SDK init
-src/platform/telegramTheme.ts      — мост темы (SDK-free)
-src/main.tsx                       — SDK-гейт (только для Telegram)
-tools/qc.cjs                       — детерминированный QC
-tools/cosine.cjs                   — duplicate detection (cosine + jaccard)
-tools/cosine-calibration.json      — пороги
-tools/gen-topics-manifest.mjs      — генератор _topics.json
-tools/split-questions.mjs          — splitter монолита (устарел)
-docs/HANDOFF.md                    — точка входа
-docs/BLUEPRINT-300.md              — план 300, сабтопики, числа
-docs/HALADYNA.md                   — 10 критериев MCQ
-docs/ENGINEERING-DECISIONS.md                  — 13 решений
-docs/DISTRACTOR-TYPES.md           — типы дистракторов (создаётся)
-docs/session-log.md                — журнал сессий
-drafts/pending-*.json              — черновики батчей
-drafts/_votes/*.json               — голоса 5 ролей (MAS)
-drafts/_coherence/*.json           — coherence-проверки
+tools/qc.cjs                       — детерминированный QC (весь банк, аргументов не принимает)
+tools/cosine.cjs                   — duplicate detection (cosine + jaccard), читает только JSON
+tools/cosine-calibration.json      — пороги (cosine threshold 0.80, background.max 0.9020)
+tools/_lib/ratio.cjs               — option ratio: единица «chars», порог по классу слов
+tools/shuffle-bank.mjs             — нормализация порядка опций (--apply / --check)
+tools/gen-topics-manifest.mjs      — генератор _topics.json (npm run manifest)
+tools/gen-state.mjs                — сборщик .project/state.json (npm run state:update)
+.project/sync.mjs                  — генератор STATE.md/SPEC.md/docs/index.html (npm run sync)
+.project/specs/                    — 10 спек + README (формат, lifecycle, commit_format)
+.project/audits/                   — аудиты и отчёты смен
+.project/drafts/m2.9-qc-batch.cjs  — QC-прогон батча кандидатов (Оркестратор)
+docs/index.html                    — центр разработки (сгенерирован, руками не править)
+docs/HANDOFF.md                    — точка входа (этот файл)
 
-# Разработка: Windows-side (node.exe). WSL Rocky — только man (правило #6).
+# Разработка: Windows-side (node.exe, git.exe). WSL — для man и live-проверок.
 ```
 
 ---
@@ -74,12 +94,14 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 4.1. Соглашения кода
 
-- **Среда:** разработка и запуск инструментов — Windows-side (`node.exe`, `git.exe`). WSL Rocky 9.8 — только `man` (HANDOFF #6). В WSL нет git/node, `cd` через `wsl -d` не работает (кириллический путь). cwd процессов — не репозиторий; работать через `git -C "C:\Users\Alexey Udotov\LinuxExam"` или явный `cd`.
-- **Файлы:** LF, UTF-8 без BOM. `[System.IO.File]::WriteAllText(..., $utf8NoBom)`.
-- **Кириллица:** НЕ использовать `node -e` — только `.mjs`-файлы.
-- **Regex:** НЕ использовать `\b` с кириллицей (не работает). Только `(?<![\p{L}])` / `(?![\p{L}])` с флагом `u`.
-- **WSL output:** очищать null-байты `-replace "\`0", ''`.
+- **Среда:** разработка и запуск инструментов — Windows-side (`node.exe`, `git.exe`).
+- **Файлы:** LF, UTF-8 без BOM. Проверка: `git diff --check`, либо байтовый счётчик CR.
+- **Кириллица в pwsh:** осторожно с `node -e` — многострочный код с кириллицей
+  ломается на экранировании. Для сложного — файл `.mjs`/`.cjs`.
+- **Regex:** НЕ использовать `\b` с кириллицей. Только `(?<![\p{L}])` / `(?![\p{L}])` с флагом `u`.
 - **Git:** атомарные коммиты (1 симптом = 1 коммит). Push — по явному одобрению капитана.
+- **Ловушка `--check`-гейтов:** команда, которая «только проверяет», может писать.
+  `npm run sync:check` **перезаписывает `.project/state.json`** — см. §7.7.
 
 ### 4.2. Стоп-правила
 
@@ -89,8 +111,11 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 4.3. HANDOFF-правила
 
-- **#6:** Rocky 9.8 WSL2 — источник истины для man. Не для node/git.
-- **#7:** Субагентам запрещён pwsh/man — только капитан.
+- **#6:** Rocky 9.8 WSL2 — источник истины для man. **⚠️ не выполнимо сейчас, см. §2.**
+- **#7:** Субагентам запрещён pwsh/man — только капитан. **⚠️ ослаблено в смене
+  2026-09-27:** Writer-субагентам разрешался `wsl man` и live-проверки, потому что
+  без этого три батча нельзя было бы верифицировать вовсе. Формальное правило
+  остаётся, практика смены — исключение для контент-батчей.
 
 ### 4.4. Что НЕ запускать
 
@@ -98,6 +123,9 @@ drafts/_coherence/*.json           — coherence-проверки
 - `git add --renormalize .` без `docs/`.
 - MAS-аудит без явной задачи.
 - Полный build без причины.
+- `tools/shuffle-bank.mjs --apply` **без имени темы** — переупорядочивает чужие темы.
+- `npm run state:update` — перезаписывает `.project/state.json` **и**
+  `docs/dashboard/state.json` (легаси-дашборд), который нельзя коммитить.
 
 ---
 
@@ -105,19 +133,25 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 5.1. Пайплайн v2.0 (8 уровней)
 
-**L1 Schema** → **L2 Man verification** (Rocky 9.8, capitain) → **L2.5 Blueprint** → **L3 QC** (`tools/qc.cjs`) → **L3.5 Duplicate** (Jaccard 0.9, cosine 0.8) → **L4 Coherence** (субагент, 3 интерпретации) → **L4.5 MAS-vote** (5 ролей, 5/5 PASS) → **L5 Haladyna ≥ 8/10**
+**L1 Schema** → **L2 Man verification** → **L2.5 Blueprint** → **L3 QC** (`tools/qc.cjs`) → **L3.5 Duplicate** (Jaccard 0.9, cosine 0.8) → **L4 Coherence** → **L4.5 MAS-vote** (5 ролей, 5/5 PASS) → **L5 Haladyna ≥ 8/10**
 
 **5 ролей MAS:** sysadmin_10y, rhcsa_instructor, ex200_examiner, beginner, skeptic.
 
 ### 5.2. Правило option ratio (актуальное)
 
-| Тип опций | Порог | Мягкое правило |
+| Тип опций | Порог FAIL | Мягкое правило |
 |---|---|---|
-| **sentences** (все ≥ 4 слов) | ≤ 1.30 | — |
-| **token** (команды, короткие) | ≤ 2.0 | править при > 1.35 |
-| **mixed** | ≤ 1.5 | разбор индивидуальный |
+| **sentences** (все ≥ 4 слов) | ≤ 1.30 | warn при > 1.25 |
+| **token** (все ≤ 3 слов) | ≤ 2.0 | warn при > 1.35 |
+| **mixed** | ≤ 1.5 | warn при > 1.35 |
 
-**Запрещено:** суффикс-паддинг (одинаковый хвост у всех опций) — использовался в C1 для sec_005/sec_012, требует rewrite в S2b.
+**Класс определяется по ЧИСЛУ СЛОВ, а ratio измеряется в СИМВОЛАХ** (`tools/_lib/ratio.cjs`).
+Это несоответствие — известный долг, spec `007-qc-ratio-semantics`. Практическое
+следствие: формулировка DOD «ratio ≤ 1.5» **недостаточна** — вопросы класса
+`sentences` валятся уже на 1.30. Проверяй `checkRatio(options, 'chars')` тем же кодом,
+а не арифметикой.
+
+**Запрещено:** суффикс-паддинг (одинаковый хвост у всех опций).
 
 ### 5.3. Правило дистракторов
 
@@ -127,24 +161,25 @@ drafts/_coherence/*.json           — coherence-проверки
 | **Поведенческий** | Валидная команда, не решает задачу | `exit == 0` допустим, но не удовлетворяет стему |
 | **Семантический** | Утверждение | Ложно при буквальном чтении стема |
 
-**Пример поведенческого:** `./backup.sh &` — синтаксически валидно, но не защищает от SIGHUP.
-
-**Запрещено:** делать дистрактор валидным **в смысле второго правильного ответа** (не путать с синтаксической валидностью).
+**Запрещено:** делать дистрактор валидным **в смысле второго правильного ответа**.
 
 ### 5.4. Обязательные проверки
 
-- Man-верификация каждой команды в Rocky 9.8.
-- Проверка, что дистрактор не удовлетворяет стему.
+- Man-верификация каждой команды (где среда позволяет — см. §2).
+- Проверка, что дистрактор не удовлетворяет стему **при буквальном чтении стема**.
 - Explanation не должен ссылаться на удалённые токены.
-- Стем, ключ, позиция — НЕ трогать (кроме вынужденных случаев с ⚠️KEY).
+- Explanation ≤ 3 строк; переводы строки внутри строки запрещены (в банке 0 таких).
 
 ### 5.5. Позиция правильного ответа
 
-- Банк хранит options в детерминированно перемешанном порядке: `tools/shuffle-bank.mjs`, seed = `cyrb53(id)`, Fisher-Yates на mulberry32, без `Math.random`.
-- Идемпотентность: перед перестановкой options приводятся к каноническому порядку по контенту (`cyrb53(id + option text)`), поэтому повторный `--apply` не меняет файлы (проверка: `npm run shuffle-bank` → diff пуст).
-- UI-shuffle (`shuffleOptions(options, seedFromId(id))` в `Question.tsx`) остаётся, но больше не компенсирует дефект данных: банк распределён сам (≈25% на позицию, ни одна позиция не >60%).
-- При добавлении новых вопросов — обязательно `npm run shuffle-bank` после экспорта; контроль — `npm run shuffle-bank:check` и `src/data/questions/__tests__/positional-distribution.test.ts`.
-- Правило 5.4 «позиция — НЕ трогать» относится к ручным правкам отдельного вопроса; массовая нормализация порядка выполняется только через `tools/shuffle-bank.mjs`.
+- Банк хранит options в детерминированно перемешанном порядке: `tools/shuffle-bank.mjs`,
+  seed = `cyrb53(id)`, Fisher-Yates на mulberry32, без `Math.random`.
+- Идемпотентность: повторный `--apply` не меняет файлы.
+- UI-shuffle остаётся, но не компенсирует дефект данных.
+- При добавлении вопросов — `npm run shuffle-bank --apply <topic>` после экспорта;
+  контроль — `npm run shuffle-bank:check` и `positional-distribution.test.ts`.
+- **Текущее состояние — не полная канонизация:** BANK 189 = 55/45/36/53.
+  Глобальный `--apply` дал бы 51/44/37/57. Это отдельная задача — spec `003`.
 
 ---
 
@@ -152,97 +187,138 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ### 6.1. Инфраструктура
 
-- HANDOFF.md, BLUEPRINT-300.md, HALADYNA.md, ENGINEERING-DECISIONS.md.
-- `.gitattributes` (LF нормализация).
-- Разбиение questions.json на 10 тематических файлов.
-- Lazy-load по темам (`import()`).
-- SDK-гейт в main.tsx.
-- Генераторы `tools/split-questions.mjs`, `tools/gen-topics-manifest.mjs`.
-- Guard-тест `loaders-invariant.test.ts` (5 тестов).
-- Bundle entry: 125.22 → 51.69 kB.
-- **`tools/cosine.cjs` починен** (`64995ce`) — читает банк из тематических файлов.
-- **`tools/cosine-calibration.json`**: `background.max` = 0.9020 (`0cbadb8`).
-- **`sh_007` explanation fix** (`37f2202`, S2a).
+- `.project/` файловое состояние: `state.json` (источник правды) → `STATE.md`,
+  `SPEC.md`, `docs/index.html` через `.project/sync.mjs`.
+- Разбиение банка на тематические файлы, lazy-load по темам (`import()`).
+- Guard-тесты: `loaders-invariant.test.ts`, `positional-distribution.test.ts`.
+- `tools/cosine.cjs` починен (читает банк из тематических файлов), калибровка 0.9020.
+- `tools/gen-topics-manifest.mjs`, `tools/shuffle-bank.mjs`.
 
-### 6.2. Контент (последние сессии)
+### 6.2. Контент
 
-- **P0-регресс:** running_systems добавлен в LOADERS (`6b18127`).
-- **fp_012:** дистрактор chmod 700 → 640 (`3cb5c24`).
-- **pm_005:** формулировка + дистрактор (`cc08e28`).
-- **C1 (16 id):** ratio > 1.5 → ≤ 1.30.
-- **C2 (3 из 12):** sentences ratio.
-- **C2b (4 id):** командные опции.
-- **A1 (1 из 3):** sec_006 ограничитель + ratio.
-- **S1 (3 из 4):** fm_003, fp_002, pm_007.
-- **S1b (2 правки):** fm_003 [2] невалиден + откат pm_007 [1].
+- Batches 1–4 через MAS: essential_tools (`et_008..et_013`), deploy_systems
+  (`ds_009..ds_013`), file_systems, file_management (`fm_013..fm_018`, 183→189).
+- Ранее: C1/C2/C2b/A1/S1/S1b/S2a правки ratio и стемов.
 
 ### 6.3. Что НЕ переделывать
 
 - Логика quizStore, shuffleOptions, persist.
 - Paywall логика (помечена INTENDED).
 - Async-загрузка банка (lazy-load).
-- Guard-тесты.
+- Guard-тесты (кроме осознанного расширения).
+- Spec `001` и `002` — закрыты.
 
 ---
 
 ## 7. Открытые задачи
 
-### 7.1. S2 — семантический rewrite
+### 7.1. Очередь капитану (приоритет) — батчи 5–7 в drafts
 
-**S2a — закрыто:** sh_007 explanation (`37f2202`).
+Три набора кандидатов сгенерированы и проверены, **НЕ интегрированы**.
+`src/data/*`, `_order.json`, `_topics.json` не тронуты.
 
-**S2b — открыто (следующая сессия):**
-- **sec_005** — `trusted (зона firewalld)`: суффикс-паддинг. Rewrite 4 опций без одинакового хвоста.
-- **sec_012** — `minlen в pwquality.conf`: то же.
-- **rs_010** — subtopic `is-active/is-enabled/status`, а ключ — `enable`. Rewrite в запрос состояния.
-- **fm_002** — стем неточен («в директории» ≠ рекурсия), ключ — подмножество fm_003. Rewrite на другой флаг `find`.
-- **fp_010** — дубль `fp_002` при cosine 0.7548 (ниже порога). Rewrite или удалить.
-- **tf_006** — совпадает с tf_003 по числам 5–10. Сменить числа.
+| batch | тема | файл превью | статус QC | остаток |
+|---|---|---|---|---|
+| **5** | `local_storage` | `.project/drafts/batch-5-preview.md` | 5/6 accept | `lsl_013` отклонён (риск 2-го верного) |
+| **6** | `manage_software` | `.project/drafts/batch-6-preview.md` | **6/6 accept** | — |
+| **7** | `networking` | `.project/drafts/batch-7-preview.md` | **6/6 accept** | `ntw_014` — man версии не сверена |
 
-### 7.2. Инфраструктурные долги
+Кандидаты (JSON) лежат в `%TEMP%`: `linuxexam-batch5-local_storage.json`,
+`linuxexam-batch6-manage_software.json`, `linuxexam-batch7-networking.json`.
+Drafts **намеренно не закоммичены как банк** — ждут approve.
 
-- **E1** — `networking`: сабтопик `ss: фильтр по состоянию сокета` отсутствует в BLUEPRINT дословно.
+**Интеграция после approve:** добавить вопросы в файл темы, дописать id в конец
+`_order.json`, `npm run manifest`, `npm run shuffle-bank --apply <topic>`,
+`npm run qc` (Fails 0), `npm run shuffle-bank:check`, `typecheck`, `test:run`, `build`,
+затем коммит формы `feat(bank): M2.9 batch N - <N> questions on <topic> (189->195)`.
+Образец helper'а: `.project/drafts/m2.9-batch4-integrate.mjs`.
+Инструмент проверки кандидатов: `.project/drafts/m2.9-qc-batch.cjs`.
+
+### 7.2. Backlog спек (все `status: draft`, не запускать без approve)
+
+| spec | тема | суть |
+|---|---|---|
+| `003-global-option-canonization` | глобальная канонизация опций банка | один approve на полный `--apply` + доказательство «изменился только порядок» |
+| `004-batch-5-generation` | batch 5 = `local_storage` | префикс `lsl_`, DRAFT ONLY |
+| `005-batch-6-generation` | batch 6 = `manage_software` | префикс `msw_`, `objective_domain=6`, DRAFT ONLY |
+| `006-batch-7-generation` | batch 7 = `networking` | префикс `ntw_` (дыры `net_004`/`net_009`), DRAFT ONLY |
+| `007-qc-ratio-semantics` | qc.cjs: единица и таблица порогов | убрать расхождение «chars vs words», синхронизировать DOD |
+| `008-devops-role-document` | DevOps как документ | `docs/knowledge/ops/devops-role.md`, триггеры эскалации до пресета |
+| `009-state-update-single-run` | `state:update` без двойного прогона | единый вход, non-zero при красных гейтах, решение по `docs/dashboard/state.json` |
+| `010-jsdom-smoke-center` | smoke-тесты центра | `docs/__tests__/`, требует рефакторинга `sync.mjs` в импортируемый модуль |
+
+### 7.3. Технические долги из `tools-audit-2026-09-27.md`
+
+16 позиций (0 blocker, 2 high, 8 medium, 4 low). Приоритет по выводам аудита:
+источник метрики `added_today`/`avg_daily_7d` (связка с commit message),
+единица/порог ratio, область проверки `qc.cjs` (`--topic`/`--ids`).
+
+### 7.4. Известные проблемы в банке (из `bank-audit-2026-09-27.md`)
+
+| id | Проблема | Статус |
+|---|---|---|
+| `tf_001` ~ `tf_002` | cos **0.9020** — выше порога 0.85, смысловой дубль, не в whitelist | **решить:** merge/rephrase |
+| `ms_002` ~ `ms_008` | cos 0.8527 — выше порога, но bigram Jaccard ≤ 0.225 (вероятный false positive модели на русском) | решить: whitelist или rephrase |
+| `ug_002` ~ `ug_018` | дубль текста верной опции `useradd -m alice` | merge/rephrase |
+| `ds_013` ~ `pm_014` | дубль текста верной опции `systemd-analyze blame` | merge/rephrase |
+| `net_001` | explanation разбирает дистрактор `ip addr add`, которого нет ни среди опций (все 4 — `nmcli`), ни в тексте; вдобавок самые длинные опции банка (130–135 символов) | fix |
+| `fm_011` | placeholder-подобное `--long-option` в explanation | fix |
+| `sec_006` | explanation противоречит верной опции при `FlushAllOnReload=no` | fix |
+| `ug_007` | explanation спорит с man-страницей `userdel` | fix |
+| `net_004`, `net_009` | пропуски в нумерации | подтвердить намеренность |
+| `ms_003` (1.818), `sec_012` (1.800) | char-ratio > 1.5 DOD, но класс `token` (порог 2.0) → warn, не fail | решить на spec 007 |
+| 132 вопроса | explanation > 300 символов (max `sec_006` = 824) | стилевой долг |
+
+Положительное: 0 вопросов с числом верных ответов != 1; 0 объяснений с переводами
+строки; ни одна тема не превышает 60% на одну позицию.
+
+### 7.5. Инфраструктурные долги (ранее)
+
+- **E1** — `networking`: сабтопик `ss: фильтр по состоянию сокета` отсутствует в BLUEPRINT.
 - **E4** — `ug_009` ↔ `sec_011` — семантический дубль `chage -M 90 alice`.
 - **Конвенция именования сабтопиков** — 44 legacy на латинице, pipeline на русском.
 
-### 7.3. Триаж cosine (сделан 2026-09-25)
-
-13 пар ≥ 0.80: 2 DUPLICATE (`pm_003~rs_010`, `fm_002~fm_003`), 6 NEAR, 5 DISTINCT. Отдельно вне порога: `fp_002~fp_010` (0.7548) — дубль, требует rewrite.
-
-### 7.4. Known pitfalls (в docs/DISTRACTOR-TYPES.md)
-
-- `renice -n 10 <pid>` без `-p` работает → второй верный ответ.
-- `setfacl` требует операцию (`-m|-M|-x|-X`).
-- `journalctl -t sshd -b` = `-u sshd -b` (syslog-identifier).
-- `chmod +setgid` — `+setgid` не режим.
-
-### 7.5. P0 монетизации (не сделано)
+### 7.6. P0 монетизации (не сделано)
 
 - **`StubPaymentProvider`** всегда возвращает успех → paywall обходится.
 - **Paywall dead-end** на 5-м вопросе регулярного потока.
 - **Токен @linux_exam_bot** — перевыпустить.
 
-### 7.6. Расширение банка
+### 7.7. ⚠️ Процессная ловушка: `sync:check` требует лишний коммит
 
-- **Planned-темы с 0 вопросов:** manage_software, local_storage, file_systems, deploy_systems.
-- **Расширение available** до +58 (fp→20, fm→22, pm→18, et→15, ug→19, sec→30).
-- **Цель:** 300 вопросов (сейчас 106, 35%).
+Найдено и воспроизведено дважды в ночной смене:
+
+1. Любой коммит, трогающий **не** sync-файлы (например, правка frontmatter'а спеки
+   или добавление спеки), двигает HEAD. `state.head` при этом остаётся прежним,
+   и `npm run sync:check` **краснеет с exit 2**, хотя производные корректны.
+2. **`npm run sync:check` сам перезаписывает `.project/state.json`** — «проверочная»
+   команда имеет побочный эффект записи (в её коде есть ветка записи до раннего return).
+
+**Как закрывать сейчас:** `npm run sync` → `git add` 4 файлов → коммит
+(`chore(state): converge pinned HEAD ...`) → снова `npm run sync:check` → exit 0.
+Ожидаемая строка в выводе: «state.head … отстаёт на синхронизируемый коммит — это
+ожидаемо, база не менялась».
+
+**Правильное решение** — spec `009-state-update-single-run` (один вход, честный
+exit-код, никакого скрытого пятого файла). До её выполнения закладывай
+**+1 коммит на каждую задачу**.
 
 ---
 
-## 8. Известные проблемы в банке
+## 8. Известные проблемы в банке (историческая таблица)
 
 | id | Проблема | Статус |
 |---|---|---|
 | `fp_007` | ratio 1.31 (token) | допустимо (≤ 1.35) |
 | `pm_007` | ratio 1.46 (token) | допустимо (обучающая ценность) |
-| `sec_005` | суффикс-паддинг | S2b |
-| `sec_012` | суффикс-паддинг | S2b |
+| `sec_005`, `sec_012` | суффикс-паддинг | открыто (ранее S2b) |
 | `sh_007` explanation | неточность | ЗАКРЫТО (`37f2202`) |
-| `fm_002`, `fm_003` | A1-класс стемов (Warns) | разведка: не A1, это «все» — warn по правилу |
-| `ug_009` ↔ `sec_011` | семантический дубль | E4, отложено |
-| `pm_003` ↔ `rs_010` | семантический дубль (subset) | S2b |
-| `fp_002` ↔ `fp_010` | дубль (cosine 0.7548) | S2b |
+| `fm_002`, `fm_003` | A1-класс стемов (Warns) | разведка: не A1, warn по правилу |
+| `ug_009` ↔ `sec_011` | семантический дубль | E4, открыто |
+| `pm_003` ↔ `rs_010` | семантический дубль (subset) | открыто |
+| `fp_002` ↔ `fp_010` | дубль (cosine 0.7548) | открыто |
+
+Актуальный полный список — в `.project/audits/bank-audit-2026-09-27.md`.
 
 ---
 
@@ -250,66 +326,77 @@ drafts/_coherence/*.json           — coherence-проверки
 
 - Логика quizStore, paywall, progress.
 - `_order.json`, `_topics.json`, `topics.ts` (без явной задачи).
-- `docs/HANDOFF.md` (обновляется по итогу каждой сессии).
-- `running_systems.json` содержимое (merged).
+- `docs/dashboard/*` — легаси-дашборд V1–V9.
+- `docs/HANDOFF.md` (обновляется по итогу сессии).
 - Другие темы банка, если задача не касается их.
+- `src/data/questions/*` — только добавление новых вопросов через approve.
 
 ---
 
-## 10. История последних сессий
+## 10. История сессий
 
 | Сессия | Коммиты | Результат |
 |---|---|---|
-| P0 + fp_012 + pm_005 | `6b18127`, `3cb5c24`, `cc08e28` | 106 вопросов грузятся, 2 вопроса исправлены |
-| C1 (16 id) | `9b80429`...`97328d9` | ratio > 1.5 → ≤ 1.30 |
-| C2 (3 id) | `33af337`...`641c629` | 3 sentences выровнены |
-| C2b (4 id) | `f6abba0`...`11a9f71` | командные опции |
-| A1 (1 id) | `9a3b36a` | sec_006 ограничитель + ratio |
-| S1 (3 id) | `2cf8cad`...`6660046` | fm_003, fp_002, pm_007 |
-| S1b (2 правки) | `30b70f5`, `4efb667` | fm_003 невалиден, pm_007 откат |
-| cosine fix | `64995ce` | read bank from topic files |
-| calibration 106 | `0cbadb8` | background.max = 0.9020 |
+| P0 + fp_012 + pm_005 | `6b18127`, `3cb5c24`, `cc08e28` | 106 вопросов грузятся, 2 исправлены |
+| C1 (16 id) | `9b80429`…`97328d9` | ratio > 1.5 → ≤ 1.30 |
+| C2 / C2b / A1 / S1 / S1b | `33af337`…`4efb667` | выравнивание ratio, стемов, дистракторов |
+| cosine fix + calibration | `64995ce`, `0cbadb8` | чтение банка из файлов тем, background.max 0.9020 |
 | sh_007 S2a | `37f2202` | explanation rewrite |
+| M0–M3 | …`e01cd02` | файловое состояние, MAS из 3 агентов, центр MVP |
+| M2.8 | `d73c016`, `3da4eb0` | первая реальная генерация (users_groups, 160→166) |
+| M2.9 batches 1–3 | `b6d5d36`, `a735741` | deploy_systems, file_systems |
+| M2.9 batch 4 | `f4e2538`, `edc5d24` | file_management +6 (183→189) |
+| **Ночная смена + дехардкод** | `1a4950b`…`41b47c5` | spec README lifecycle, дехардкод guard-теста, 2 аудита, 8 спек-drafts, 3 батча в drafts |
+
+Полный список коммитов смены — в `.project/audits/night-shift-2026-09-27.md`.
 
 ---
 
 ## 11. Следующие шаги
 
-### Прямо сейчас
+### Прямо сейчас (ждёт капитана)
 
-1. **Session B-bis** — HANDOFF + DISTRACTOR-TYPES + calibration sanitize (эта сессия).
+1. **Approve батчей 5–7.** Превью: `batch-5-preview.md`, `batch-6-preview.md`,
+   `batch-7-preview.md`. Решения: интегрировать / вернуть на rework / отклонить.
+   `lsl_013` требует rework (или исключения) — остальные 5 в batch 5 чистые.
+2. **Решение по двум парам выше порога cosine:** `tf_001`~`tf_002` (0.9020) и
+   `ms_002`~`ms_008` (0.8527).
+3. **Решение по ratio-замечаниям** batch 5 (4 вопроса выше мягкого порога).
 
-### После B-bis
+### После approve
 
-2. **Session C: S2b** — содержательные rewrite (rs_010, fm_002, fp_010, tf_006, sec_005, sec_012) с man-верификацией.
-3. **Генерация пилота** — один planned-топик (manage_software), проверка пайплайна.
-4. **Инфра** — E1, E4.
-5. **LLM-аудит** — 31 id.
-6. **Расширение банка** до 300.
-7. **P0 монетизации** — платёж, paywall, бот.
+4. **Spec `009`** — процессный долг, самый дорогой прямо сейчас: он добавляет
+   лишний коммит к каждой задаче (§7.7).
+5. **Spec `007`** — расхождение единицы ratio и порога (мешает всем будущим батчам).
+6. **Spec `003`** — глобальная канонизация опций.
+7. **Установить Rocky 9.8 в WSL** либо официально понизить правило #6 —
+   иначе контент по RPM-семейству (dnf/rpm) и firewalld остаётся без live-верификации.
+8. **P0 монетизации** — платёж, paywall, бот.
 
 ---
 
-## 12. Ключевые принципы (метавыводы)
+## 12. Ключевые принципы
 
 1. **1 задача = 1 сессия.** Не смешивать.
 2. **Ship > Perfect.** Коммит важнее итерации.
 3. **Не проверять промпт 10 раз.** 5 проходов максимум.
-4. **Последовательные subagent-вызовы.** Никогда `Promise.all`.
-5. **Token-бюджет 40/60%.** После каждой роли — проверка.
-6. **Инкрементальные коммиты.** После каждой роли/темы.
-7. **Man-верификация обязательна.** Rocky 9.8 — источник истины.
-8. **Не делать дистрактор валидным.** Проверка `exit != 0` для синтаксических.
-9. **Не применять суффикс-паддинг.** Даже если укладывается в ratio.
-10. **Лучше отложить, чем сломать.** Если нет кандидата — в отчёт.
+4. **Token-бюджет 40/60%.** После каждой роли — проверка.
+5. **Инкрементальные коммиты.** После каждой роли/темы.
+6. **Man-верификация обязательна** — где среда позволяет (§2).
+7. **Не делать дистрактор валидным.** Проверка при буквальном чтении стема.
+8. **Не применять суффикс-паддинг.**
+9. **Лучше отложить, чем сломать.** Нет кандидата — в отчёт, не в банк.
+10. **При «проверке» убедись, что команда не пишет.** `sync:check` пишет (§7.7).
 
 ---
 
 ## 13. Активные диалоги
 
-**Капитан** ведёт проект один, использует Claude как основного исполнителя. Все задачи проходят через промпты, которые капитан проверяет 5 раз перед запуском.
+**Капитан** ведёт проект один, использует браузерный чат как аналитика и DSH-агента
+как исполнителя. Задачи проходят через промпты, которые капитан проверяет перед запуском.
 
-**Стиль работы:** капитан даёт задачу — я собираю промпт — капитан проверяет 5 проходов — запускает — агент возвращает отчёт — я разбираю — собираю следующий промпт.
+**Стиль работы:** капитан даёт задачу — агент исполняет в проекте — капитан разбирает
+результат и принимает решение.
 
 **Ключевое правило:** не выдумывать факты, не галлюцинировать. Не знаю — сказать.
 
@@ -317,6 +404,8 @@ drafts/_coherence/*.json           — coherence-проверки
 
 ## 14. Прямой вопрос для нового чата
 
-> Капитан, после Session B-bis: запускаем **Session C (S2b)** — содержательные rewrite 6 вопросов с man-верификацией? Или **пилотную генерацию** одного planned-топика (manage_software)?
+> Капитан, апрувим батчи 5–7 в банк (189 → 207) или сначала закрываем процессный
+> долг `spec 009` + `spec 007`, чтобы следующие батчи не требовали лишнего коммита
+> и не спорили с гейтом о пороге ratio?
 
 **Готов собрать промпт на любую из задач по запросу.**
