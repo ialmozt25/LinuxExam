@@ -73,6 +73,36 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .policies { list-style: none; margin: 0; padding: 0; }
 .policies li { display: flex; flex-wrap: wrap; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .policy__title { color: var(--accent); font-weight: 600; min-width: 110px; }
+
+/* --- Done / Doing / Next (D3) */
+.ddn__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 820px) { .ddn__grid { grid-template-columns: 1fr; } }
+.ddn__col { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.ddn__h { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0 0 10px; }
+.ddn__col--doing .ddn__h { color: var(--accent); }
+.ddn__col--done .ddn__h { color: var(--ok); }
+.ddn__count { color: var(--fg-muted); font-family: var(--mono); }
+.ddn__list { list-style: none; margin: 0; padding: 0; }
+.ddn__item { padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
+.ddn__item:last-child { border-bottom: 0; }
+.ddn__title { font-family: var(--mono); font-size: 0.8125rem; }
+.ddn__meta { color: var(--fg-muted); font-size: 0.75rem; }
+.ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
+
+/* --- бейджи коммитов, ролей, продуктов */
+.ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
+.ctype--feat { color: var(--ok); border-color: var(--ok); }
+.ctype--fix { color: var(--accent); border-color: var(--accent); }
+.ctype--docs { color: var(--fg-muted); }
+.ctype--chore { color: var(--warn); border-color: var(--warn); }
+.rstatus { font-family: var(--mono); font-size: 0.75rem; }
+.rstatus--active { color: var(--ok); }
+.rstatus--planned { color: var(--warn); }
+.rstatus--deferred { color: var(--fg-muted); }
+.pstatus { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; }
+.pstatus--frozen { color: var(--warn); border-color: var(--warn); }
+.pstatus--active { color: var(--ok); border-color: var(--ok); }
+.pstatus--planned { color: var(--fg-muted); }
 </style>
 </head>
 <body>
@@ -82,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD f9d7e43780d4a6be55776f1b5d60679fe4e3f941</span>
+      <span class="mono">HEAD d4acc43b4e4bc477b8b2b395f6979d4148ab964b</span>
       <span class="mono">last_sync 2026-09-27T06:44:33.729Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -166,6 +196,66 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <div class="topic__bar"><div class="topic__fill" style="width:91%"></div></div>
           <div class="topic__count">20 / 22</div>
         </div>
+  </section>
+
+  <section class="ddn" id="ddn">
+    <h2>Done / Doing / Next</h2>
+    <div class="ddn__grid">
+        <div class="ddn__col ddn__col--done">
+          <h3 class="ddn__h">Done <span class="ddn__count">6</span></h3>
+          <ul class="ddn__list">
+          <li class="ddn__item">
+            <span class="ddn__title">#001 file-management-batch-4</span>
+            <span class="ddn__meta">content · commit f4e2538</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#002 dehardcode-positional-test</span>
+            <span class="ddn__meta">feature · commit cd6ce8d</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#004 batch-5-generation</span>
+            <span class="ddn__meta">content · commit 12c8439</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#005 batch-6-generation</span>
+            <span class="ddn__meta">content · commit 12c8439</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#006 batch-7-generation</span>
+            <span class="ddn__meta">content · commit 12c8439</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#009 state-update-single-run</span>
+            <span class="ddn__meta">feature · commit d61112d</span>
+          </li>
+          </ul>
+        </div>
+        <div class="ddn__col ddn__col--doing">
+          <h3 class="ddn__h">Doing <span class="ddn__count">0</span></h3>
+          <p class="ddn__empty">Ничего не в работе</p>
+        </div>
+        <div class="ddn__col ddn__col--next">
+          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
+          <ul class="ddn__list">
+          <li class="ddn__item">
+            <span class="ddn__title">#007 qc-ratio-semantics</span>
+            <span class="ddn__meta">feature · draft</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#008 devops-role-document</span>
+            <span class="ddn__meta">docs · draft</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#010 jsdom-smoke-center</span>
+            <span class="ddn__meta">feature · draft</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">продукт: &lt;next&gt;</span>
+            <span class="ddn__meta">запланирован</span>
+          </li>
+          </ul>
+        </div>
+    </div>
   </section>
 
   <section class="queue" id="queue">
@@ -287,6 +377,254 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     </ul>
   </section>
 
+  <section class="commits" id="commits">
+    <h2>Коммиты (последние 20)</h2>
+    <table>
+      <thead>
+        <tr><th>SHA</th><th>тип</th><th>сообщение</th><th>дата</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">d4acc43</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): roles.yaml</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">d2336c8</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): sync after spec 009 closure</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">f9d7e43</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec): close 009 (read-only --check, commit d61112d)</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">69ef27a</td>
+          <td><span class="ctype ctype--revert">revert</span></td>
+          <td>Revert &quot;docs(factory): probe non-sync commit (temporary)&quot;</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">ad5276f</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): probe non-sync commit (temporary)</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">d9aa0fe</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): schema_version 2 + factory keys</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">d61112d</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(sync): make --check read-only (spec 009)</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">561aaf6</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): sync after center spec</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">1156ff0</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): center spec - full work visibility</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">92d3bcd</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): sync after M6.0 factory research</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">622e70d</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): definition of done</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">2dc4170</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): role contracts</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">b7c3879</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): architecture design</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">bbd81f4</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): research - 30+ sources on MAS patterns</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">84ce2cc</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): correct bank metric to 206 after integration</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">91f5757</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): sync after content freeze</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">7c74672</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(rules): freeze content track</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">5c1ad2d</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): sync after batches 5-7 integration</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">70804bf</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec): close batches 5-7 as done, reject 003 and 011 (content freeze)</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+        <tr>
+          <td class="mono">12c8439</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189-&gt;206)</td>
+          <td class="mono muted">2026-09-27</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="roles" id="roles">
+    <h2>Роли</h2>
+    <table>
+      <thead>
+        <tr><th>роль</th><th>статус</th><th>триггер запуска</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Orchestrator</strong></td>
+          <td><span class="rstatus rstatus--active">активна</span></td>
+          <td><code>session_start</code></td>
+        </tr>
+        <tr>
+          <td><strong>Content Writer</strong></td>
+          <td><span class="rstatus rstatus--active">активна</span></td>
+          <td><code>specs.any(type==content &amp;&amp; status==approved)</code><div class="muted">⛔ ORCH-RULES правило 6 — контент-трек заморожен (банк 206)</div></td>
+        </tr>
+        <tr>
+          <td><strong>QC Auditor</strong></td>
+          <td><span class="rstatus rstatus--active">активна</span></td>
+          <td><code>handoff(writer_to_qc).received</code></td>
+        </tr>
+        <tr>
+          <td><strong>DevOps</strong></td>
+          <td><span class="rstatus rstatus--planned">запланирована</span></td>
+          <td><span class="muted">ручной</span> — deploy failed 3+</td>
+        </tr>
+        <tr>
+          <td><strong>Designer</strong></td>
+          <td><span class="rstatus rstatus--planned">запланирована</span></td>
+          <td><span class="muted">ручной</span> — second UI task</td>
+        </tr>
+        <tr>
+          <td><strong>Test</strong></td>
+          <td><span class="rstatus rstatus--planned">запланирована</span></td>
+          <td><code>git diff --name-only HEAD~1 | grep -E &#39;^tools/|sync.mjs&#39;</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="products" id="products">
+    <h2>Продукты</h2>
+    <table>
+      <thead>
+        <tr><th>продукт</th><th>статус</th><th>метрика</th><th>freeze</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>LinuxExam</strong></td>
+          <td><span class="pstatus pstatus--frozen">frozen</span></td>
+          <td class="mono">206 / 300 вопросов</td>
+          <td class="muted">ORCH-RULES правило 6 (2026-09-27)</td>
+        </tr>
+        <tr>
+          <td><strong>&lt;next&gt;</strong></td>
+          <td><span class="pstatus pstatus--planned">planned</span></td>
+          <td class="mono">—</td>
+          <td class="muted">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="memory" id="memory">
+    <h2>Память</h2>
+    <ul class="policies">
+        <li>
+          <code>.project/DECISIONS.md</code>
+          <span class="muted">решения (семантика, append-only)</span>
+        </li>
+        <li>
+          <code>.project/log.md</code>
+          <span class="muted">журнал решений, последние 9 строк ниже</span>
+        </li>
+        <li>
+          <code>.project/factory/MEMORY-FACTORY.md</code>
+          <span class="muted">память фабрики: решения / уроки / открытые вопросы</span> <span class="muted">(нет файла)</span>
+        </li>
+        <li>
+          <code>.project/agents/</code>
+          <span class="muted">отчёты сессий (session logs)</span>
+        </li>
+    </ul>
+  </section>
+
+  <section class="audits" id="audits">
+    <h2>Аудит и research</h2>
+    <table>
+      <thead>
+        <tr><th>файл</th><th>тип</th><th>строк</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">.project/factory/RESEARCH.md</td>
+          <td><span class="ctype">research</span></td>
+          <td class="mono muted">341</td>
+        </tr>
+        <tr>
+          <td class="mono">.project/audits/night-shift-2026-09-27.md</td>
+          <td><span class="ctype">audit</span></td>
+          <td class="mono muted">287</td>
+        </tr>
+        <tr>
+          <td class="mono">.project/audits/bank-audit-2026-09-27.md</td>
+          <td><span class="ctype">audit</span></td>
+          <td class="mono muted">500</td>
+        </tr>
+        <tr>
+          <td class="mono">.project/audits/tools-audit-2026-09-27.md</td>
+          <td><span class="ctype">audit</span></td>
+          <td class="mono muted">814</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="policies" id="policies">
     <h2>Политики</h2>
     <ul class="policies">
@@ -296,6 +634,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <span class="muted">Definition of Done: content / ui / feature</span>
         </li>
         <li>
+          <span class="policy__title">DOD (фабрика)</span>
+          <code>.project/factory/DOD.md</code>
+          <span class="muted">инварианты И1–И6, общий DOD, типы</span>
+        </li>
+        <li>
           <span class="policy__title">TOKENS</span>
           <code>.project/TOKENS.md</code>
           <span class="muted">дизайн-токены: формат, источник, владелец</span>
@@ -303,7 +646,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>
           <span class="policy__title">ORCH-RULES</span>
           <code>.project/ORCH-RULES.md</code>
-          <span class="muted">5 правил оркестратора</span>
+          <span class="muted">правила оркестратора (1–8)</span>
         </li>
     </ul>
   </section>

@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/state.json`.
 > Правки здесь затираются. Меняй источник: `.project/state.json` (или `npm run sync`).
 
-- HEAD: `f9d7e43780d4a6be55776f1b5d60679fe4e3f941`
+- HEAD: `d4acc43b4e4bc477b8b2b395f6979d4148ab964b`
 - last_sync: 2026-09-27T06:44:33.729Z
 
 ## Прогресс
@@ -41,7 +41,7 @@
 
 - Банк 206 / 300
 - новых тем-коммитов: 5 в recent_commits
-- HEAD (закреплён): `f9d7e43780d4a6be55776f1b5d60679fe4e3f941`
+- HEAD (закреплён): `d4acc43b4e4bc477b8b2b395f6979d4148ab964b`
 
 ## Следующие шаги
 

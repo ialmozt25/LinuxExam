@@ -340,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "f9d7e43780d4a6be55776f1b5d60679fe4e3f941",
+  "head": "d4acc43b4e4bc477b8b2b395f6979d4148ab964b",
   "specs": [
     {
       "id": "007",
@@ -351,6 +351,7 @@
       "updated": "2026-09-27",
       "commit": null,
       "file": "specs/007-qc-ratio-semantics.md",
+      "mtime": 1790474855632.1228,
       "goal": "Убрать расхождение между DOD, инструментом и ожиданиями Writer'а в проверке",
       "acceptance": "[ ] Единица измерения ровно одна и объявлена в одном месте: `RATIO_UNIT = 'chars'`",
       "noTouch": "Значения порогов и условия классов (`1.30/1.25`, `2.00/1.35`, `1.50/1.35`; ≥4/≤3 слова).",
@@ -365,6 +366,7 @@
       "updated": "2026-09-27",
       "commit": null,
       "file": "specs/008-devops-role-document.md",
+      "mtime": 1790474877137.9001,
       "goal": "Описать ответственность роли **DevOps/ops** как **документ в базе знаний**, а не как",
       "acceptance": "[ ] Создан `docs/knowledge/ops/devops-role.md`; структура — по шаблону",
       "noTouch": "`src/**` — код приложения; задача чисто документационная.",
@@ -379,6 +381,7 @@
       "updated": "2026-09-27",
       "commit": null,
       "file": "specs/010-jsdom-smoke-center.md",
+      "mtime": 1790474910101.7083,
       "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру. Файл",
       "acceptance": "[ ] Существует `docs/__tests__/center.test.mjs`; все утверждения выше реализованы",
       "noTouch": "Содержимое и вёрстку центра (разметка, CSS-токены, тексты) — задача про тесты,",
@@ -393,6 +396,7 @@
       "updated": "2026-09-27",
       "commit": "f4e2538",
       "file": "specs/001-file-management-batch-4.md",
+      "mtime": 1790474696711.995,
       "goal": "Банк 183 → 189. +6 новых вопросов по канонической теме «управление файлами» (см. pre-flight п.3).",
       "acceptance": "[ ] N новых вопросов (N ≤ 6), topic = канон из pre-flight п.3",
       "noTouch": "`src/data/questions/*` — только добавление новых файлов",
@@ -407,6 +411,7 @@
       "updated": "2026-09-27",
       "commit": "cd6ce8d",
       "file": "specs/002-dehardcode-positional-test.md",
+      "mtime": 1790474672040.8584,
       "goal": "Убрать хардкод ожидаемого размера банка из guard-теста",
       "acceptance": "[x] `EXPECTED_QUESTIONS` больше не хардкод: число берётся из источника",
       "noTouch": "Саму логику проверки позиционного распределения (порог `MAX_POSITION_SHARE`,",
@@ -421,6 +426,7 @@
       "updated": "2026-09-27",
       "commit": "12c8439",
       "file": "specs/004-batch-5-generation.md",
+      "mtime": 1790491207544.7808,
       "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `local_storage`.",
       "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = local_storage`, id с первого свободного номера.",
       "noTouch": "`src/data/questions/*` других тем — только файл темы + манифесты `_order.json`/`_topics.json`.",
@@ -435,6 +441,7 @@
       "updated": "2026-09-27",
       "commit": "12c8439",
       "file": "specs/005-batch-6-generation.md",
+      "mtime": 1790491207559.4714,
       "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `manage_software`.",
       "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = manage_software`, id `msw_009`..`msw_014`.",
       "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
@@ -449,6 +456,7 @@
       "updated": "2026-09-27",
       "commit": "12c8439",
       "file": "specs/006-batch-7-generation.md",
+      "mtime": 1790491207561.432,
       "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `networking`.",
       "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = networking`, id из фактически свободных номеров.",
       "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
@@ -463,6 +471,7 @@
       "updated": "2026-09-27",
       "commit": "d61112d",
       "file": "specs/009-state-update-single-run.md",
+      "mtime": 1790493948915.3472,
       "goal": "Один вход, который прогоняет гейты, обновляет `.project/state.json` и пересобирает",
       "acceptance": "[ ] Один документированный вход (npm-скрипт) выполняет всё: гейты → `state.json` →",
       "noTouch": "Состав и пороги гейтов, сам `tools/qc.cjs` (его ratio-долг — spec 007), `tools/shuffle-bank.mjs`.",
@@ -477,6 +486,7 @@
       "updated": "2026-09-27",
       "commit": null,
       "file": "specs/003-global-option-canonization.md",
+      "mtime": 1790491222905.2937,
       "goal": "Одна согласованная, отревьюенная канонизация порядка опций **по всему банку**.",
       "acceptance": "[ ] `npm run shuffle-bank` (то есть `node tools/shuffle-bank.mjs --apply` **без**",
       "noTouch": "Контент вопросов: `question`, `options[].text`, `options[].correct`,",
@@ -491,6 +501,7 @@
       "updated": "2026-09-27",
       "commit": null,
       "file": "specs/011-text-files-duplicate-repair.md",
+      "mtime": 1790491229720.0896,
       "goal": "Устранить **единственную пару банка, реально пробивающую порог дублирования**:",
       "acceptance": "[ ] Cosine `tf_001` ~ `tf_002` ≤ 0.85 после правки (перезамер тем же",
       "noTouch": "`src/data/topics.ts`, `.project/contracts/*`, `package.json`.",
@@ -510,8 +521,238 @@
   ],
   "last_sync": "2026-09-27T06:44:33.729Z",
   "spec_commit": "e01cd02",
-  "commits": [],
-  "roles": [],
-  "products": [],
-  "audits": []
+  "commits": [
+    {
+      "sha": "d4acc43",
+      "date": "2026-09-27",
+      "subject": "docs(factory): roles.yaml",
+      "type": "docs"
+    },
+    {
+      "sha": "d2336c8",
+      "date": "2026-09-27",
+      "subject": "chore(state): sync after spec 009 closure",
+      "type": "chore"
+    },
+    {
+      "sha": "f9d7e43",
+      "date": "2026-09-27",
+      "subject": "chore(spec): close 009 (read-only --check, commit d61112d)",
+      "type": "chore"
+    },
+    {
+      "sha": "69ef27a",
+      "date": "2026-09-27",
+      "subject": "Revert \"docs(factory): probe non-sync commit (temporary)\"",
+      "type": "revert"
+    },
+    {
+      "sha": "ad5276f",
+      "date": "2026-09-27",
+      "subject": "docs(factory): probe non-sync commit (temporary)",
+      "type": "docs"
+    },
+    {
+      "sha": "d9aa0fe",
+      "date": "2026-09-27",
+      "subject": "chore(state): schema_version 2 + factory keys",
+      "type": "chore"
+    },
+    {
+      "sha": "d61112d",
+      "date": "2026-09-27",
+      "subject": "fix(sync): make --check read-only (spec 009)",
+      "type": "fix"
+    },
+    {
+      "sha": "561aaf6",
+      "date": "2026-09-27",
+      "subject": "chore(state): sync after center spec",
+      "type": "chore"
+    },
+    {
+      "sha": "1156ff0",
+      "date": "2026-09-27",
+      "subject": "docs(factory): center spec - full work visibility",
+      "type": "docs"
+    },
+    {
+      "sha": "92d3bcd",
+      "date": "2026-09-27",
+      "subject": "chore(state): sync after M6.0 factory research",
+      "type": "chore"
+    },
+    {
+      "sha": "622e70d",
+      "date": "2026-09-27",
+      "subject": "docs(factory): definition of done",
+      "type": "docs"
+    },
+    {
+      "sha": "2dc4170",
+      "date": "2026-09-27",
+      "subject": "docs(factory): role contracts",
+      "type": "docs"
+    },
+    {
+      "sha": "b7c3879",
+      "date": "2026-09-27",
+      "subject": "docs(factory): architecture design",
+      "type": "docs"
+    },
+    {
+      "sha": "bbd81f4",
+      "date": "2026-09-27",
+      "subject": "docs(factory): research - 30+ sources on MAS patterns",
+      "type": "docs"
+    },
+    {
+      "sha": "84ce2cc",
+      "date": "2026-09-27",
+      "subject": "chore(state): correct bank metric to 206 after integration",
+      "type": "chore"
+    },
+    {
+      "sha": "91f5757",
+      "date": "2026-09-27",
+      "subject": "chore(state): sync after content freeze",
+      "type": "chore"
+    },
+    {
+      "sha": "7c74672",
+      "date": "2026-09-27",
+      "subject": "docs(rules): freeze content track",
+      "type": "docs"
+    },
+    {
+      "sha": "5c1ad2d",
+      "date": "2026-09-27",
+      "subject": "chore(state): sync after batches 5-7 integration",
+      "type": "chore"
+    },
+    {
+      "sha": "70804bf",
+      "date": "2026-09-27",
+      "subject": "chore(spec): close batches 5-7 as done, reject 003 and 011 (content freeze)",
+      "type": "chore"
+    },
+    {
+      "sha": "12c8439",
+      "date": "2026-09-27",
+      "subject": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)",
+      "type": "feat"
+    }
+  ],
+  "roles": [
+    {
+      "name": "orchestrator",
+      "title": "Orchestrator",
+      "status": "active",
+      "preset": "linuxexam-orchestrator",
+      "trigger": {
+        "human": "старт сессии; заявка капитана на задачу",
+        "check": "session_start"
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "writer",
+      "title": "Content Writer",
+      "status": "active",
+      "preset": "linuxexam-content-writer",
+      "trigger": {
+        "human": "спека type=content перешла в approved",
+        "check": "specs.any(type==content && status==approved)"
+      },
+      "blocked_by": "ORCH-RULES правило 6 — контент-трек заморожен (банк 206)"
+    },
+    {
+      "name": "qc",
+      "title": "QC Auditor",
+      "status": "active",
+      "preset": "linuxexam-qc-auditor",
+      "trigger": {
+        "human": "Writer вернул DONE или PARTIAL",
+        "check": "handoff(writer_to_qc).received"
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "devops",
+      "title": "DevOps",
+      "status": "planned",
+      "preset": "null",
+      "trigger": {
+        "human": "deploy failed 3+",
+        "check": null
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "designer",
+      "title": "Designer",
+      "status": "planned",
+      "preset": "null",
+      "trigger": {
+        "human": "second UI task",
+        "check": null
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "test",
+      "title": "Test",
+      "status": "planned",
+      "preset": "null",
+      "trigger": {
+        "human": "tools/** or sync.mjs changed",
+        "check": "git diff --name-only HEAD~1 | grep -E '^tools/|sync.mjs'"
+      },
+      "blocked_by": null
+    }
+  ],
+  "products": [
+    {
+      "name": "LinuxExam",
+      "status": "frozen",
+      "metric": "206 / 300 вопросов",
+      "metric_source": "goal",
+      "frozen_at": "2026-09-27",
+      "frozen_by": "ORCH-RULES правило 6"
+    },
+    {
+      "name": "<next>",
+      "status": "planned",
+      "metric": null,
+      "metric_source": null,
+      "frozen_at": null,
+      "frozen_by": null
+    }
+  ],
+  "audits": [
+    {
+      "path": ".project/factory/RESEARCH.md",
+      "kind": "research",
+      "lines": 341,
+      "mtime": "2026-09-27T07:04:00.775Z"
+    },
+    {
+      "path": ".project/audits/night-shift-2026-09-27.md",
+      "kind": "audit",
+      "lines": 287,
+      "mtime": "2026-09-27T02:31:11.591Z"
+    },
+    {
+      "path": ".project/audits/bank-audit-2026-09-27.md",
+      "kind": "audit",
+      "lines": 500,
+      "mtime": "2026-09-27T02:02:19.071Z"
+    },
+    {
+      "path": ".project/audits/tools-audit-2026-09-27.md",
+      "kind": "audit",
+      "lines": 814,
+      "mtime": "2026-09-27T01:59:54.654Z"
+    }
+  ]
 }

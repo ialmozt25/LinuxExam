@@ -91,8 +91,9 @@ const COMMITS_IN_CENTER = 20;
 const STATUS_ORDER = ['preview', 'running', 'approved', 'draft', 'done', 'rejected'];
 const POLICY_FILES = [
   { file: '.project/DOD.md', title: 'DOD', note: 'Definition of Done: content / ui / feature' },
+  { file: '.project/factory/DOD.md', title: 'DOD (фабрика)', note: 'инварианты И1–И6, общий DOD, типы' },
   { file: '.project/TOKENS.md', title: 'TOKENS', note: 'дизайн-токены: формат, источник, владелец' },
-  { file: '.project/ORCH-RULES.md', title: 'ORCH-RULES', note: '5 правил оркестратора' },
+  { file: '.project/ORCH-RULES.md', title: 'ORCH-RULES', note: 'правила оркестратора (1–8)' },
 ];
 
 const notes = [];
@@ -334,11 +335,20 @@ function readSpecs() {
     .sort();
   const specs = [];
   for (const file of files) {
-    const { meta, bodyLines } = parseFrontmatter(readText(path.join(SPECS_DIR, file)));
+    const full = path.join(SPECS_DIR, file);
+    const { meta, bodyLines } = parseFrontmatter(readText(full));
     const id = meta.id || file.replace(/\.md$/, '').split('-')[0];
     const status = (meta.status || 'draft').toLowerCase();
     if (!STATUS_ORDER.includes(status)) {
       warn(`specs/${file}: статус "${status}" вне схемы (${STATUS_ORDER.join('/')})`);
+    }
+    // mtime нужен секции «Doing»: «свежий draft» = работа, которая идёт, но ещё
+    // не переведена в running (spec 009 и фоновые задачи так и выглядят).
+    let mtime = null;
+    try {
+      mtime = fs.statSync(full).mtimeMs;
+    } catch {
+      mtime = null;
     }
     specs.push({
       id,
@@ -349,6 +359,7 @@ function readSpecs() {
       updated: meta.updated || null,
       commit: meta.commit && meta.commit !== 'null' ? meta.commit : null,
       file: `specs/${file}`,
+      mtime,
       goal: sectionPreview(bodyLines, 'Цель'),
       acceptance: sectionPreview(bodyLines, 'Критерии приёмки'),
       noTouch: sectionPreview(bodyLines, 'Что НЕ трогать'),
@@ -366,6 +377,150 @@ function sortSpecs(specs) {
   return specs
     .slice()
     .sort((a, b) => rank(a) - rank(b) || String(a.id).localeCompare(String(b.id)));
+}
+
+/* --------------------------------------------------------------- factory */
+
+/**
+ * Минимальный парсер `roles.yaml` БЕЗ внешней зависимости.
+ *
+ * Почему не js-yaml: `sync.mjs` — часть гейта (`npm run sync:check`), и он не должен
+ * зависеть от пакета, которого нет в `package.json` (js-yaml доступен только из
+ * профилей DSH, вне репозитория). Формат ролей — плоский список скаляров, поэтому
+ * парсер намеренно узкий: он понимает ровно ту структуру, которую пишем мы.
+ *
+ * Поддерживается: `version`, `updated`, мапа `type_map`, список `roles` c полями
+ * скаляр / inline-список / вложенный `trigger`. Комментарии и пустые строки
+ * игнорируются. Неизвестная строка верхнего уровня — предупреждение, не падение.
+ */
+function readRoles() {
+  if (!exists(ROLES_PATH)) {
+    warn('.project/factory/roles.yaml не найден — секция «Роли» пуста');
+    return { version: null, type_map: {}, roles: [] };
+  }
+  const lines = normalizeLf(readText(ROLES_PATH)).split('\n');
+  const out = { version: null, updated: null, type_map: {}, roles: [] };
+  let mode = null; // 'type_map' | 'roles'
+  let cur = null; // текущая роль
+  let sub = null; // 'trigger'
+  const strip = (s) => s.replace(/\s+#.*$/, '').trim();
+  const unquote = (s) => s.replace(/^["']|["']$/g, '');
+  const list = (s) =>
+    s
+      .replace(/^\[|\]$/g, '')
+      .split(',')
+      .map((x) => unquote(x.trim()))
+      .filter(Boolean);
+
+  for (const raw of lines) {
+    if (!raw.trim() || raw.trim().startsWith('#')) continue;
+    const indent = raw.length - raw.replace(/^\s+/, '').length;
+    const line = strip(raw);
+    if (!line) continue;
+
+    if (indent === 0) {
+      const kv = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
+      if (!kv) continue;
+      const [, key, val] = kv;
+      if (key === 'type_map') { mode = 'type_map'; cur = null; continue; }
+      if (key === 'roles') { mode = 'roles'; cur = null; continue; }
+      out[key] = val === '' ? null : unquote(val);
+      mode = null;
+      continue;
+    }
+
+    if (mode === 'type_map' && indent >= 2) {
+      const kv = /^([A-Za-z_][\w-]*):\s*(.+)$/.exec(line);
+      if (kv) out.type_map[kv[1]] = unquote(kv[2]);
+      continue;
+    }
+
+    if (mode === 'roles') {
+      if (indent === 2 && line.startsWith('- ')) {
+        cur = {};
+        out.roles.push(cur);
+        sub = null;
+        const kv = /^-\s*([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
+        if (kv) cur[kv[1]] = kv[2] === '' ? null : unquote(kv[2]);
+        continue;
+      }
+      if (!cur) continue;
+      if (indent === 4) {
+        const kv = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
+        if (!kv) continue;
+        const [, key, val] = kv;
+        if (key === 'trigger') { sub = 'trigger'; cur.trigger = {}; continue; }
+        sub = null;
+        if (val === '') cur[key] = null;
+        else if (val.startsWith('[')) cur[key] = list(val);
+        else cur[key] = unquote(val);
+        continue;
+      }
+      if (indent >= 6 && sub === 'trigger') {
+        const kv = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
+        if (!kv) continue;
+        const v = unquote(kv[2]);
+        cur.trigger[kv[1]] = v === 'null' || v === '' ? null : v;
+      }
+      continue;
+    }
+  }
+  if (out.roles.length === 0) warn('roles.yaml: список roles пуст');
+  return out;
+}
+
+/** `git log` — коммиты для секции центра и зеркала state.json.commits. */
+function readGitCommits(limit) {
+  try {
+    const raw = git(['log', `-${limit}`, '--pretty=format:%h%x09%ad%x09%s', '--date=short']);
+    return raw
+      .split('\n')
+      .map((l) => l.replace(/\r/g, ''))
+      .filter((l) => l.trim() !== '')
+      .map((l) => {
+        const [sha, date, subject = ''] = l.split('\t');
+        const t = /^(feat|fix|docs|chore|refactor|test|style|perf|build|ci|revert)\b/i.exec(subject);
+        return { sha: sha.trim(), date: (date || '').trim(), subject: subject.trim(), type: t ? t[1].toLowerCase() : null };
+      });
+  } catch (e) {
+    warn(`git log не удался (${e.message}) — секция «Коммиты» пуста`);
+    return [];
+  }
+}
+
+/** Файлы отчётов: аудиты + factory-research. Только шапка, не полный парс. */
+function readAuditIndex() {
+  const out = [];
+  const scan = (dir, kind) => {
+    if (!exists(dir)) return;
+    for (const name of fs.readdirSync(dir).sort()) {
+      if (!name.endsWith('.md')) continue;
+      const p = path.join(dir, name);
+      let lines = 0;
+      try {
+        lines = normalizeLf(readText(p)).split('\n').length;
+      } catch {
+        continue;
+      }
+      out.push({
+        path: path.relative(ROOT, p).split(path.sep).join('/'),
+        kind,
+        lines,
+        mtime: fs.statSync(p).mtime.toISOString(),
+      });
+    }
+  };
+  scan(AUDITS_DIR, 'audit');
+  if (exists(path.join(FACTORY_DIR, 'RESEARCH.md'))) {
+    const p = path.join(FACTORY_DIR, 'RESEARCH.md');
+    out.push({
+      path: path.relative(ROOT, p).split(path.sep).join('/'),
+      kind: 'research',
+      lines: normalizeLf(readText(p)).split('\n').length,
+      mtime: fs.statSync(p).mtime.toISOString(),
+    });
+  }
+  return out.sort((a, b) => (a.mtime < b.mtime ? 1 : -1));
 }
 
 /* --------------------------------------------------------------- counts */
@@ -500,8 +655,79 @@ function esc(v) {
   ));
 }
 
+/**
+ * Секция «Done / Doing / Next» — первый блок центра (M6.0 Phase 2, D3).
+ *
+ * Три колонки: что закрыто, что в работе, что дальше. Колонки видны ВСЕГДА,
+ * даже пустые: пустая колонка — это утверждение («ничего не в работе»), а её
+ * отсутствие — неизвестность. Капитану нужно различать эти два состояния.
+ *
+ * DOING = specs running/approved + черновики, изменённые за последние 2 часа
+ * (mtime файла спеки). «Свежий draft» — это работа, которая идёт, но ещё не
+ * переведена в running: ровно так выглядела ночная смена 2026-09-27.
+ */
+const DOING_DRAFT_WINDOW_MS = 2 * 60 * 60 * 1000;
+
+function renderDoneDoingNext(ctx) {
+  const { specs, roles, products, now } = ctx;
+
+  const done = specs
+    .filter((s) => s.status === 'done')
+    .sort((a, b) => String(b.updated ?? '').localeCompare(String(a.updated ?? '')))
+    .slice(0, 10);
+
+  const doing = specs.filter((s) => s.status === 'running' || s.status === 'approved');
+  const freshDrafts = specs.filter(
+    (s) =>
+      s.status === 'draft' &&
+      s.mtime != null &&
+      now - s.mtime <= DOING_DRAFT_WINDOW_MS,
+  );
+  const doingAll = [...doing, ...freshDrafts];
+
+  const nextSpecs = specs.filter((s) => s.status === 'draft' && !freshDrafts.includes(s));
+  const nextProducts = (products || []).filter((p) => p.status === 'planned');
+
+  const item = (title, meta) => [
+    '          <li class="ddn__item">',
+    `            <span class="ddn__title">${esc(title)}</span>`,
+    meta ? `            <span class="ddn__meta">${esc(meta)}</span>` : '',
+    '          </li>',
+  ].filter(Boolean).join('\n');
+
+  const specItem = (s, extra) =>
+    item(`#${s.id ?? '—'} ${s.slug ?? ''}`, `${s.type ?? ''}${extra ? ' · ' + extra : ''}`);
+
+  const col = (key, title, items, empty) => [
+    `        <div class="ddn__col ddn__col--${key}">`,
+    `          <h3 class="ddn__h">${esc(title)} <span class="ddn__count">${items.length}</span></h3>`,
+    items.length === 0
+      ? `          <p class="ddn__empty">${esc(empty)}</p>`
+      : ['          <ul class="ddn__list">', ...items, '          </ul>'].join('\n'),
+    '        </div>',
+  ].join('\n');
+
+  const doneItems = done.map((s) => specItem(s, s.commit ? `commit ${s.commit}` : ''));
+  const doingItems = [...doing.map((s) => specItem(s, s.status)), ...freshDrafts.map((s) => specItem(s, 'draft (свежий)'))];
+  const nextItems = [
+    ...nextSpecs.map((s) => specItem(s, 'draft')),
+    ...nextProducts.map((p) => item(`продукт: ${p.name}`, p.metric || 'запланирован')),
+  ];
+
+  return [
+    '  <section class="ddn" id="ddn">',
+    '    <h2>Done / Doing / Next</h2>',
+    '    <div class="ddn__grid">',
+    col('done', 'Done', doneItems, 'Ничего не закрыто'),
+    col('doing', 'Doing', doingItems, 'Ничего не в работе'),
+    col('next', 'Next', nextItems, 'Очередь пуста'),
+    '    </div>',
+    '  </section>',
+  ].join('\n');
+}
+
 function renderCenter(ctx) {
-  const { state, goal, topics, specs, head, inSync, logTail } = ctx;
+  const { state, goal, topics, specs, head, inSync, logTail, roles, products, commits, audits } = ctx;
   const circle = inSync ? 'ok' : 'bad';
   const statusText = inSync ? 'синхронизировано' : 'есть расхождение (запусти npm run sync)';
 
@@ -561,6 +787,91 @@ function renderCenter(ctx) {
       '        </li>',
     ].join('\n'))
     .join('\n');
+
+  /* --- D3: коммиты (20 из git log) */
+  const commitRows = (commits || []).length === 0
+    ? '        <tr><td colspan="4" class="muted">Нет данных git log.</td></tr>'
+    : commits
+      .map((c) => [
+        '        <tr>',
+        `          <td class="mono">${esc(c.sha)}</td>`,
+        `          <td>${c.type ? `<span class="ctype ctype--${esc(c.type)}">${esc(c.type)}</span>` : '<span class="muted">—</span>'}</td>`,
+        `          <td>${esc(c.subject)}</td>`,
+        `          <td class="mono muted">${esc(c.date)}</td>`,
+        '        </tr>',
+      ].join('\n'))
+      .join('\n');
+
+  /* --- D3: роли (из roles.yaml) */
+  const roleStatusRu = { active: 'активна', planned: 'запланирована', deferred: 'отложена' };
+  const roleRows = (roles || []).length === 0
+    ? '        <tr><td colspan="3" class="muted">roles.yaml не найден.</td></tr>'
+    : roles
+      .map((r) => {
+        const trig = r.trigger && r.trigger.check
+          ? `<code>${esc(r.trigger.check)}</code>`
+          : `<span class="muted">ручной</span> — ${esc((r.trigger && r.trigger.human) || '—')}`;
+        const blocked = r.blocked_by ? `<div class="muted">⛔ ${esc(r.blocked_by)}</div>` : '';
+        return [
+          '        <tr>',
+          `          <td><strong>${esc(r.title || r.name)}</strong></td>`,
+          `          <td><span class="rstatus rstatus--${esc(r.status)}">${esc(roleStatusRu[r.status] || r.status)}</span></td>`,
+          `          <td>${trig}${blocked}</td>`,
+          '        </tr>',
+        ].join('\n');
+      })
+      .join('\n');
+
+  /* --- D3: продукты */
+  const productStatusRu = { active: 'active', frozen: 'frozen', planned: 'planned' };
+  const productRows = (products || []).length === 0
+    ? '        <tr><td colspan="4" class="muted">Продукты не описаны.</td></tr>'
+    : products
+      .map((p) => [
+        '        <tr>',
+        `          <td><strong>${esc(p.name)}</strong></td>`,
+        `          <td><span class="pstatus pstatus--${esc(p.status)}">${esc(productStatusRu[p.status] || p.status)}</span></td>`,
+        `          <td class="mono">${esc(p.metric || '—')}</td>`,
+        `          <td class="muted">${esc(p.frozen_by || '—')}${p.frozen_at ? ` (${esc(p.frozen_at)})` : ''}</td>`,
+        '        </tr>',
+      ].join('\n'))
+      .join('\n');
+
+  /* --- D3: аудиты и research */
+  const auditRows = (audits || []).length === 0
+    ? '        <tr><td colspan="3" class="muted">Отчётов нет.</td></tr>'
+    : audits
+      .map((a) => [
+        '        <tr>',
+        `          <td class="mono">${esc(a.path)}</td>`,
+        `          <td><span class="ctype">${esc(a.kind)}</span></td>`,
+        `          <td class="mono muted">${esc(String(a.lines))}</td>`,
+        '        </tr>',
+      ].join('\n'))
+      .join('\n');
+
+  /* --- D3: память */
+  const memoryFiles = [
+    { file: '.project/DECISIONS.md', note: 'решения (семантика, append-only)' },
+    { file: '.project/log.md', note: `журнал решений, последние ${logTail.length} строк ниже` },
+    { file: '.project/factory/MEMORY-FACTORY.md', note: 'память фабрики: решения / уроки / открытые вопросы' },
+    { file: '.project/agents/', note: 'отчёты сессий (session logs)' },
+  ];
+  const memoryCards = memoryFiles
+    .map((m) => [
+      '        <li>',
+      `          <code>${esc(m.file)}</code>`,
+      `          <span class="muted">${esc(m.note)}</span>${exists(rel(m.file)) ? '' : ' <span class="muted">(нет файла)</span>'}`,
+      '        </li>',
+    ].join('\n'))
+    .join('\n');
+
+  const doneDoingNextHtml = renderDoneDoingNext({
+    specs,
+    roles,
+    products,
+    now: Date.now(),
+  });
 
   return `<!DOCTYPE html>
 <!--
@@ -637,6 +948,36 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .policies { list-style: none; margin: 0; padding: 0; }
 .policies li { display: flex; flex-wrap: wrap; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .policy__title { color: var(--accent); font-weight: 600; min-width: 110px; }
+
+/* --- Done / Doing / Next (D3) */
+.ddn__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 820px) { .ddn__grid { grid-template-columns: 1fr; } }
+.ddn__col { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.ddn__h { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0 0 10px; }
+.ddn__col--doing .ddn__h { color: var(--accent); }
+.ddn__col--done .ddn__h { color: var(--ok); }
+.ddn__count { color: var(--fg-muted); font-family: var(--mono); }
+.ddn__list { list-style: none; margin: 0; padding: 0; }
+.ddn__item { padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
+.ddn__item:last-child { border-bottom: 0; }
+.ddn__title { font-family: var(--mono); font-size: 0.8125rem; }
+.ddn__meta { color: var(--fg-muted); font-size: 0.75rem; }
+.ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
+
+/* --- бейджи коммитов, ролей, продуктов */
+.ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
+.ctype--feat { color: var(--ok); border-color: var(--ok); }
+.ctype--fix { color: var(--accent); border-color: var(--accent); }
+.ctype--docs { color: var(--fg-muted); }
+.ctype--chore { color: var(--warn); border-color: var(--warn); }
+.rstatus { font-family: var(--mono); font-size: 0.75rem; }
+.rstatus--active { color: var(--ok); }
+.rstatus--planned { color: var(--warn); }
+.rstatus--deferred { color: var(--fg-muted); }
+.pstatus { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; }
+.pstatus--frozen { color: var(--warn); border-color: var(--warn); }
+.pstatus--active { color: var(--ok); border-color: var(--ok); }
+.pstatus--planned { color: var(--fg-muted); }
 </style>
 </head>
 <body>
@@ -663,6 +1004,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 ${topicRows}
   </section>
 
+${doneDoingNextHtml}
+
   <section class="queue" id="queue">
     <h2>Очередь решений</h2>
 ${queueHtml}
@@ -687,6 +1030,61 @@ ${journalRows}
     </ul>
   </section>
 
+  <section class="commits" id="commits">
+    <h2>Коммиты (последние ${COMMITS_IN_CENTER})</h2>
+    <table>
+      <thead>
+        <tr><th>SHA</th><th>тип</th><th>сообщение</th><th>дата</th></tr>
+      </thead>
+      <tbody>
+${commitRows}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="roles" id="roles">
+    <h2>Роли</h2>
+    <table>
+      <thead>
+        <tr><th>роль</th><th>статус</th><th>триггер запуска</th></tr>
+      </thead>
+      <tbody>
+${roleRows}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="products" id="products">
+    <h2>Продукты</h2>
+    <table>
+      <thead>
+        <tr><th>продукт</th><th>статус</th><th>метрика</th><th>freeze</th></tr>
+      </thead>
+      <tbody>
+${productRows}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="memory" id="memory">
+    <h2>Память</h2>
+    <ul class="policies">
+${memoryCards}
+    </ul>
+  </section>
+
+  <section class="audits" id="audits">
+    <h2>Аудит и research</h2>
+    <table>
+      <thead>
+        <tr><th>файл</th><th>тип</th><th>строк</th></tr>
+      </thead>
+      <tbody>
+${auditRows}
+      </tbody>
+    </table>
+  </section>
+
   <section class="policies" id="policies">
     <h2>Политики</h2>
     <ul class="policies">
@@ -701,6 +1099,12 @@ ${policyCards}
 }
 
 /* ----------------------------------------------------------------- main */
+
+/** Дополнительные источники фабрики (M6.0 Phase 2, D3). */
+const FACTORY_DIR = rel('.project/factory');
+const ROLES_PATH = rel('.project/factory/roles.yaml');
+const AUDITS_DIR = rel('.project/audits');
+const MEMORY_FACTORY_PATH = rel('.project/factory/MEMORY-FACTORY.md');
 
 function fail(message) {
   process.stderr.write(`sync: FAIL — ${message}\n`);
@@ -760,6 +1164,31 @@ function main() {
     `HEAD (закреплён): \`${head}\``,
   ];
 
+  /* --- фабрика (D3): источники для секций центра «Роли», «Продукты»,
+   * «Коммиты», «Аудит». roles.yaml — ИСТОЧНИК ИСТИНЫ, state.roles — зеркало. */
+  const rolesDoc = readRoles();
+  const rolesMirror = rolesDoc.roles.map((r) => ({
+    name: r.name ?? null,
+    title: r.title ?? r.name ?? null,
+    status: r.status ?? 'planned',
+    preset: r.preset ?? null,
+    trigger: r.trigger ?? { human: null, check: null },
+    blocked_by: r.blocked_by ?? null,
+  }));
+  const commitLog = readGitCommits(COMMITS_IN_CENTER);
+  const auditIndex = readAuditIndex();
+  const productsMirror = [
+    {
+      name: 'LinuxExam',
+      status: 'frozen',
+      metric: `${current} / ${target} вопросов`,
+      metric_source: 'goal',
+      frozen_at: '2026-09-27',
+      frozen_by: 'ORCH-RULES правило 6',
+    },
+    { name: '<next>', status: 'planned', metric: null, metric_source: null, frozen_at: null, frozen_by: null },
+  ];
+
   // --- состояние после синхронизации
   const nextState = {
     ...state,
@@ -769,6 +1198,13 @@ function main() {
     last_sync: state.last_sync ?? new Date().toISOString(),
     goal: { ...goal, current_questions: current, progress_percent: percent, target_questions: target },
     topics: topics.slice().sort((a, b) => a.slug.localeCompare(b.slug)),
+    // --- зеркала фабрики (D1/D3). Истина: roles.yaml и git log; здесь — кэш для
+    // потребителей, которые читают только state.json (центр, дашборд).
+    schema_version: MIN_SCHEMA_VERSION,
+    commits: commitLog,
+    roles: rolesMirror,
+    products: productsMirror,
+    audits: auditIndex,
   };
   if (specCommit && nextState.specs.length > 0 && !nextState.spec_commit) {
     nextState.spec_commit = specCommit;
@@ -782,7 +1218,20 @@ function main() {
   }
 
   // --- генерируем производные (в памяти), затем сравниваем с диском
-  const ctxBase = { state, goal: goalView, topics, specs, head, milestonesRaw, topicsRaw, logTail };
+  const ctxBase = {
+    state,
+    goal: goalView,
+    topics,
+    specs,
+    head,
+    milestonesRaw,
+    topicsRaw,
+    logTail,
+    roles: rolesMirror,
+    products: productsMirror,
+    commits: commitLog,
+    audits: auditIndex,
+  };
   const stateMd = renderStateMd({ ...ctxBase, state: nextState });
   const specMd = renderSpecMd({ ...ctxBase, state: nextState });
   const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true });
