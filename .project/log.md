@@ -18,3 +18,4 @@
 2026-09-28 | phase3 | spec 007: единица ratio объявлена один раз (RATIO_UNIT='chars' в tools/_lib/ratio.cjs, потребители qc.cjs/haladyna.cjs импортируют), таблица RATIO_TABLE — единственный источник порогов/условий, DOD content ссылается на неё, легаси-проверка ratio-char (2.5) удалена, в сводке qc агрегат по классам, тест tools/__tests__/ratio.test.mjs (18 проверок) | commit pending
 2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f
 2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending
+2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending
