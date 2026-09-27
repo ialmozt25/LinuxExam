@@ -339,7 +339,7 @@
       "message": "docs(spec): 017 - precise wording on dashboard copy invariant"
     }
   ],
-  "head": "31a4c87fc5e701f87fd0405e583ad361394a05d3",
+  "head": "477fbc9c73966ed2b5ec8102ef0116887d7b6ea9",
   "specs": [
     {
       "id": "014",
@@ -355,21 +355,6 @@
       "acceptance": "[ ] `.project/specs/014-subagent-push-lockdown.md` существует, frontmatter валиден,",
       "noTouch": "`.project/sync.mjs` — ни одной правки.",
       "preview": "1. Diff `.project/ORCH-RULES.md`: добавленный раздел `## 11.` целиком + строка заголовка."
-    },
-    {
-      "id": "018",
-      "slug": "batch5b-shell-scripts",
-      "status": "approved",
-      "type": "content",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "commit": null,
-      "file": "specs/018-batch5b-shell-scripts.md",
-      "mtime": 1790552139692.879,
-      "goal": "Банк **212 → 218**: добавить **6** вопросов по канонической теме `shell_scripts`",
-      "acceptance": "[ ] 6 вопросов, `topic = shell_scripts` — канон из `src/data/topics.ts` (одна из 14 тем).",
-      "noTouch": "`.project/sync.mjs` — ни одной правки.",
-      "preview": "Превью обязательно (правило 6, редакция 2026-09-28). Файл"
     },
     {
       "id": "010",
@@ -567,6 +552,21 @@
       "preview": "До закрытия спеки капитан видит: (1) `diff` `tools/gen-state.mjs`; (2) `state.json`"
     },
     {
+      "id": "018",
+      "slug": "batch5b-shell-scripts",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/018-batch5b-shell-scripts.md",
+      "mtime": 1790552892514.5286,
+      "goal": "Банк **212 → 218**: добавить **6** вопросов по канонической теме `shell_scripts`",
+      "acceptance": "[ ] 6 вопросов, `topic = shell_scripts` — канон из `src/data/topics.ts` (одна из 14 тем).",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "Превью обязательно (правило 6, редакция 2026-09-28). Файл"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -627,6 +627,18 @@
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "477fbc9",
+      "date": "2026-09-28",
+      "subject": "docs(spec): close 018 as done",
+      "type": "docs"
+    },
+    {
+      "sha": "72bc1ec",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge head after batch 5B",
+      "type": "chore"
+    },
     {
       "sha": "31a4c87",
       "date": "2026-09-28",
@@ -733,18 +745,6 @@
       "sha": "40191eb",
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 015",
-      "type": "chore"
-    },
-    {
-      "sha": "b99c574",
-      "date": "2026-09-28",
-      "subject": "docs(spec): close 015 as done",
-      "type": "docs"
-    },
-    {
-      "sha": "96a419f",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after batch 5A",
       "type": "chore"
     }
   ],
