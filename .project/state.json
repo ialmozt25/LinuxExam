@@ -340,7 +340,7 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "03aeaca8c677d034c0ff702729cecbc3fa6c88cf",
+  "head": "34fb0eb18c7e1ecc48a6aa18264de22462d83bbd",
   "specs": [
     {
       "id": "001",
@@ -539,6 +539,18 @@
   "spec_commit": "e01cd02",
   "commits": [
     {
+      "sha": "34fb0eb",
+      "date": "2026-09-28",
+      "subject": "docs(decisions): record Phase 3 pilot outcome (007 done, 008 done, 010 blocked)",
+      "type": "docs"
+    },
+    {
+      "sha": "e1658c3",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 007",
+      "type": "chore"
+    },
+    {
       "sha": "03aeaca",
       "date": "2026-09-28",
       "subject": "docs(spec): record spec 007 closure and Phase 3 decisions",
@@ -645,18 +657,6 @@
       "date": "2026-09-27",
       "subject": "fix(sync): exclude self-referential commit list from --check comparison",
       "type": "fix"
-    },
-    {
-      "sha": "8da90a4",
-      "date": "2026-09-27",
-      "subject": "feat(center): Done/Doing/Next + roles + commits",
-      "type": "feat"
-    },
-    {
-      "sha": "d4acc43",
-      "date": "2026-09-27",
-      "subject": "docs(factory): roles.yaml",
-      "type": "docs"
     }
   ],
   "roles": [
