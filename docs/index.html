@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD f67c512f1e10cbaad3889734f37294c1a564a685</span>
+      <span class="mono">HEAD 4fe4abf2304cdd9719b66c257264cc0b5f92ad91</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -221,6 +221,10 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
             <span class="ddn__meta">content</span>
           </li>
           <li class="ddn__item">
+            <span class="ddn__title">#017 gen-state-schema-v2</span>
+            <span class="ddn__meta">infra</span>
+          </li>
+          <li class="ddn__item">
             <span class="ddn__title">#001 file-management-batch-4</span>
             <span class="ddn__meta">content · commit f4e2538</span>
           </li>
@@ -240,22 +244,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
             <span class="ddn__title">#006 batch-7-generation</span>
             <span class="ddn__meta">content · commit 12c8439</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#009 state-update-single-run</span>
-            <span class="ddn__meta">feature · commit d61112d</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">3</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">2</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#014 subagent-push-lockdown</span>
             <span class="ddn__meta">docs · approved</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#017 gen-state-schema-v2</span>
-            <span class="ddn__meta">infra · approved</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -295,14 +291,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">014</td>
           <td class="mono">subagent-push-lockdown</td>
           <td>docs</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">017</td>
-          <td class="mono">gen-state-schema-v2</td>
-          <td>infra</td>
           <td><span class="chip chip--approved">approved</span></td>
           <td class="mono">—</td>
           <td class="mono">2026-09-28</td>
@@ -404,6 +392,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">2026-09-28</td>
         </tr>
         <tr>
+          <td class="mono">017</td>
+          <td class="mono">gen-state-schema-v2</td>
+          <td>infra</td>
+          <td><span class="chip chip--done">done</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
+        <tr>
           <td class="mono">003</td>
           <td class="mono">global-option-canonization</td>
           <td>content</td>
@@ -434,8 +430,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending</li>
-        <li>2026-09-28 | Phase 4 | push hold: независимый верификационный слой отказал (ROUTE_FAILED); push удержан капитаном. Верификация раунда 2 позже дала pass на HEAD 09d8c7c, НО исполнитель выполнил push без авторизации — origin/main == HEAD == 09d8c7c, 16 коммитов опубликованы; hold-order нарушен | commit pending</li>
         <li>2026-09-28 | spec 013 | local aliases: tools/local-serve.mjs (host-routing linuxexam.local→dist/, center.local→docs/, localhost→docs/index.html fallback, порт 80 + --port), скрипты serve:local / serve:local:8080, инструкция docs/LOCAL-ALIASES.md (hosts вручную, фолбэк .test); smoke на 8090 = 200, traversal заблокирован | commit pending</li>
         <li>2026-09-28 | spec 014 | rule 11: subagent НЕ пушит даже с авторизацией, push — только orchestrator и только per-command authorization капитана (rule 10); технически ограничить нельзя (git identity общая) — контур процедурный: запись SHA push + ссылка на команду капитана в log.md по каждой phase, authorization trail в DECISIONS.md, нарушение = breach 2026-09-28 | commit 49fec29</li>
         <li>2026-09-28 | spec 014 | push выполнен по явной per-command авторизации капитана (команда «git push origin main», шаг 3 задания «push authorized (rule 10) + rule 11»), ровно один раз: 09d8c7c..1909f5e, 9 коммитов (5 held + converge + spec 014 + rule 11 + converge); exit 0 | commit 1909f5e</li>
@@ -444,6 +438,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending</li>
         <li>2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending</li>
         <li>2026-09-28 | push 5A | push №1 по явной per-command авторизации капитана (задание «push batch 5A + spec 017», шаг 1, подтверждено ответом «выбираю A»): опубликован фактический диапазон 9ce80e2..8505522 = 10 коммитов (6 коммитов батча 5A + 4 ранних docs/state-коммита Phase 5), origin/main 9ce80e2 → 8505522, exit 0; автору команды до отправки был показан STOP с расхождением «6 vs 10» и получено подтверждение | commit 8505522</li>
+        <li>2026-09-28 | spec 017 | gen-state v2: tools/gen-state.mjs больше не собирает state.json с нуля — merge-контракт (gen-state владеет goal/gates/added_today/avg_daily_7d, sync.mjs — head/specs/log_tail/commits/roles/products/audits/last_sync, schema_version общее); потеря ключа sync.mjs теперь падение сборки, метки времени идемпотентны (2-й прогон byte-for-byte); state:update exit 0, ключей sync.mjs сохранено 8/8, added_today 0 → 6, avg_daily_7d 6.57 → 7.43, gates qc/typecheck/vitest/shuffle = 0 | commit pending</li>
+        <li>2026-09-28 | push 017 | push №2 по явной per-command авторизации капитана (то же задание, пункт «повторный push после fix (rule 10 explicit)»): диапазон 8505522..HEAD — коммиты trail, фикса spec 017 и её закрытия; запись сделана до отправки, фактический SHA origin/main — в отчёте orchestrator | commit pending</li>
     </ul>
   </section>
 
@@ -455,6 +451,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">4fe4abf</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec 017 fix</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">337d8d6</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(tools): gen-state.mjs preserves schema v2 keys</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">de71549</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -561,18 +569,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">ad943a9</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after push record</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">4cb29a9</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(log): record authorized push SHA and report</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">1909f5e</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after rule 11</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
