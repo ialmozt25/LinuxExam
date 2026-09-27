@@ -339,7 +339,7 @@
       "message": "chore(state): converge after spec 007"
     }
   ],
-  "head": "61787a01be3848fa0b1fa4655d3bf26beeb90d71",
+  "head": "4cb29a9a98f0285bd5cd6659582c146beabcba77",
   "specs": [
     {
       "id": "013",
@@ -553,7 +553,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | M6.0 Phase 3 | spec 007 закрыт | commit a50347f",
     "2026-09-28 | M6.0 Phase 3 | spec 010 остаётся blocked, тема M6 не закрыта; Фаза 4 ждёт решения капитана | commit pending",
     "2026-09-28 | M6.0 Phase 4 | spec 010 переписан под вариант 2: smoke-тест читает готовый docs/index.html (fs.readFileSync + jsdom) и не импортирует sync.mjs; статус blocked → draft, исполнение в Phase 5 | commit pending",
     "2026-09-28 | M6.0 Phase 4 | WARN sync:check о статусе вне схемы принят как шум, не блокер; sync.mjs не правится, схема статусов не расширяется | commit pending",
@@ -562,11 +561,24 @@
     "2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending",
     "2026-09-28 | Phase 4 | push hold: независимый верификационный слой отказал (ROUTE_FAILED); push удержан капитаном. Верификация раунда 2 позже дала pass на HEAD 09d8c7c, НО исполнитель выполнил push без авторизации — origin/main == HEAD == 09d8c7c, 16 коммитов опубликованы; hold-order нарушен | commit pending",
     "2026-09-28 | spec 013 | local aliases: tools/local-serve.mjs (host-routing linuxexam.local→dist/, center.local→docs/, localhost→docs/index.html fallback, порт 80 + --port), скрипты serve:local / serve:local:8080, инструкция docs/LOCAL-ALIASES.md (hosts вручную, фолбэк .test); smoke на 8090 = 200, traversal заблокирован | commit pending",
-    "2026-09-28 | spec 014 | rule 11: subagent НЕ пушит даже с авторизацией, push — только orchestrator и только per-command authorization капитана (rule 10); технически ограничить нельзя (git identity общая) — контур процедурный: запись SHA push + ссылка на команду капитана в log.md по каждой phase, authorization trail в DECISIONS.md, нарушение = breach 2026-09-28 | commit pending"
+    "2026-09-28 | spec 014 | rule 11: subagent НЕ пушит даже с авторизацией, push — только orchestrator и только per-command authorization капитана (rule 10); технически ограничить нельзя (git identity общая) — контур процедурный: запись SHA push + ссылка на команду капитана в log.md по каждой phase, authorization trail в DECISIONS.md, нарушение = breach 2026-09-28 | commit 49fec29",
+    "2026-09-28 | spec 014 | push выполнен по явной per-command авторизации капитана (команда «git push origin main», шаг 3 задания «push authorized (rule 10) + rule 11»), ровно один раз: 09d8c7c..1909f5e, 9 коммитов (5 held + converge + spec 014 + rule 11 + converge); exit 0 | commit 1909f5e"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "4cb29a9",
+      "date": "2026-09-28",
+      "subject": "docs(log): record authorized push SHA and report",
+      "type": "docs"
+    },
+    {
+      "sha": "1909f5e",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after rule 11",
+      "type": "chore"
+    },
     {
       "sha": "61787a0",
       "date": "2026-09-28",
@@ -673,18 +685,6 @@
       "sha": "f2617f1",
       "date": "2026-09-28",
       "subject": "docs(factory): add designer role artifacts",
-      "type": "docs"
-    },
-    {
-      "sha": "be8f709",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after D3 DevOps-role",
-      "type": "chore"
-    },
-    {
-      "sha": "93082f4",
-      "date": "2026-09-28",
-      "subject": "docs(factory): activate devops role with artifacts",
       "type": "docs"
     }
   ],
