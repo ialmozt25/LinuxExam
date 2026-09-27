@@ -340,23 +340,8 @@
       "message": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)"
     }
   ],
-  "head": "48c88e225eb38dcb8e953cc54279a513525ebfd4",
+  "head": "b760016e4fe945d0eff5bcc9ed4be332aea2675e",
   "specs": [
-    {
-      "id": "012",
-      "slug": "fix-state-head-volatile",
-      "status": "running",
-      "type": "fix",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "commit": null,
-      "file": "specs/012-fix-state-head-volatile.md",
-      "mtime": 1790496530307.1548,
-      "goal": "Убрать самоссылочную зависимость гейта `sync:check` от поля `state.head`:",
-      "acceptance": "[ ] `state.head` в `STATE.md` и `SPEC.md` находится **внутри** volatile-маркеров;",
-      "noTouch": "`docs/index.html` и логику центра (D3 работает) — генератор центра не меняется;",
-      "preview": "1. Diff `sync.mjs`: две строки рендера + комментарий с обоснованием."
-    },
     {
       "id": "007",
       "slug": "qc-ratio-semantics",
@@ -521,6 +506,21 @@
       "acceptance": "[ ] Cosine `tf_001` ~ `tf_002` ≤ 0.85 после правки (перезамер тем же",
       "noTouch": "`src/data/topics.ts`, `.project/contracts/*`, `package.json`.",
       "preview": "До/после текста обоих вопросов (`tf_001`, `tf_002`) + таблица: cosine, Jaccard,"
+    },
+    {
+      "id": "012",
+      "slug": "fix-state-head-volatile",
+      "status": "rejected",
+      "type": "fix",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/012-fix-state-head-volatile.md",
+      "mtime": 1790521814973.2158,
+      "goal": "Убрать самоссылочную зависимость гейта `sync:check` от поля `state.head`:",
+      "acceptance": "[ ] `state.head` в `STATE.md` и `SPEC.md` находится **внутри** volatile-маркеров;",
+      "noTouch": "`docs/index.html` и логику центра (D3 работает) — генератор центра не меняется;",
+      "preview": "1. Diff `sync.mjs`: две строки рендера + комментарий с обоснованием."
     }
   ],
   "log_tail": [
@@ -538,6 +538,12 @@
   "last_sync": "2026-09-27T06:44:33.729Z",
   "spec_commit": "e01cd02",
   "commits": [
+    {
+      "sha": "b760016",
+      "date": "2026-09-27",
+      "subject": "fix(sync): volatile-wrap state.head in STATE.md/SPEC.md (spec 012)",
+      "type": "fix"
+    },
     {
       "sha": "3c39d22",
       "date": "2026-09-27",
@@ -651,12 +657,6 @@
       "date": "2026-09-27",
       "subject": "docs(factory): research - 30+ sources on MAS patterns",
       "type": "docs"
-    },
-    {
-      "sha": "84ce2cc",
-      "date": "2026-09-27",
-      "subject": "chore(state): correct bank metric to 206 after integration",
-      "type": "chore"
     }
   ],
   "roles": [
