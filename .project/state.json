@@ -339,7 +339,7 @@
       "message": "docs(spec): 017 - precise wording on dashboard copy invariant"
     }
   ],
-  "head": "a487cb8bca7965cbc0554775da3eab1c14d9881c",
+  "head": "6922d64eb4babf7b3a783d8e9f0f601e09c206ef",
   "specs": [
     {
       "id": "014",
@@ -628,7 +628,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | Phase 4 trail + .loc | push fbf3fe6, rule 11 соблюдено | orchestrator",
     "2026-09-28 | M6.0 Phase 5 | контент-трек разморожен решением капитана: content-спеки исполняются по общим правилам, НО правило 2 (approved spec = автоисполнение) на type=content не распространяется — approve капитана на превью обязателен всегда; банк снова растёт батчами, старт — spec 015 (батч 5A, text_files) | commit pending",
     "2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending",
     "2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending",
@@ -637,11 +636,24 @@
     "2026-09-28 | push 017 | push №2 по явной per-command авторизации капитана (то же задание, пункт «повторный push после fix (rule 10 explicit)»): диапазон 8505522..HEAD — коммиты trail, фикса spec 017 и её закрытия; запись сделана до отправки, фактический SHA origin/main — в отчёте orchestrator | commit pending",
     "2026-09-28 | push 017 | push №2 выполнен: 8505522..ec48622, 7 коммитов (запись trail 5A, fix spec 017, закрытие 017, конвергенты), exit 0; origin/main = ec48622454a93e199027fbc891e68c7e5475957d, sync:check после push exit 0 | commit pending",
     "2026-09-28 | spec 018 | батч 5B: тема shell_scripts (count 10 — минимум вместе с running_systems, батчами 1-7 не затронута, по канону topics.ts идёт сразу после text_files), 6 кандидатов sh_011..sh_016 на новые механизмы (case / getopts / trap / set -e / source / bash -n), банк 212 → 218; QC: Haladyna 6/6 perfect, cosine 0/6 reject (max 0.7094 против банка), ratio ≤ 1.138 при порогах 1.30/2.00, независимое ревью 6/6 OK; превью собрано, ждёт approve капитана; в src/data/** ничего не коммитилось | commit pending",
-    "2026-09-28 | spec 018 | батч 5B интегрирован: approve капитана на превью получен, sh_011..sh_016 дописаны в конец src/data/questions/shell_scripts.json (10 → 16) и в конец _order.json (212 → 218; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 218, shell_scripts 16); QC на интегрированном банке сначала дал Fails 2 — bigram jaccard 1.00 у sh_012, потому что токенизатор qc срезает двоеточие на границе токена и опции с двоеточием в конце строки становятся идентичными, плюс 4 WARN у sh_011 (пробел перед двойной точкой с запятой) → rework двух вопросов в разрешённом скоупе sh_011..sh_016 (убран пробел перед двойной точкой с запятой; у sh_012 заменены две дистракторные опции и explanation) → QC PASS: Total 218, Fails 0, Warns 22 как в базлайне | commit pending"
+    "2026-09-28 | spec 018 | батч 5B интегрирован: approve капитана на превью получен, sh_011..sh_016 дописаны в конец src/data/questions/shell_scripts.json (10 → 16) и в конец _order.json (212 → 218; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 218, shell_scripts 16); QC на интегрированном банке сначала дал Fails 2 — bigram jaccard 1.00 у sh_012, потому что токенизатор qc срезает двоеточие на границе токена и опции с двоеточием в конце строки становятся идентичными, плюс 4 WARN у sh_011 (пробел перед двойной точкой с запятой) → rework двух вопросов в разрешённом скоупе sh_011..sh_016 (убран пробел перед двойной точкой с запятой; у sh_012 заменены две дистракторные опции и explanation) → QC PASS: Total 218, Fails 0, Warns 22 как в базлайне | commit pending",
+    "2026-09-28 | spec 018 | batch 5B закрыт: spec 018 → done (SHA в отчёте orchestrator), spec 019 создана как backlog (долг sh_004~sh_007 0.8311, триггер «после batch 5C»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 13 коммитов, диапазон ec48622..534da4c = 9 коммитов батча 5B + 4 ранее неотправленных коммита прошлой задачи (trail push 017, уточнение спеки 017, конвергенты), origin/main = 534da4c9d053a781525f2a218e99e51ee106c2f0, exit 0; sync:check после push exit 0 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "6922d64",
+      "date": "2026-09-28",
+      "subject": "docs(rules): record authorized push 5B (rule 10/11 trail)",
+      "type": "docs"
+    },
+    {
+      "sha": "534da4c",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 019",
+      "type": "chore"
+    },
     {
       "sha": "a487cb8",
       "date": "2026-09-28",
@@ -748,18 +760,6 @@
       "sha": "de71549",
       "date": "2026-09-28",
       "subject": "chore(state): converge after push 5A record",
-      "type": "chore"
-    },
-    {
-      "sha": "f67c512",
-      "date": "2026-09-28",
-      "subject": "docs(rules): record authorized push 5A (rule 10/11 trail)",
-      "type": "docs"
-    },
-    {
-      "sha": "8505522",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 016",
       "type": "chore"
     }
   ],
