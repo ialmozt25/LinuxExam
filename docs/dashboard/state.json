@@ -1,12 +1,12 @@
 {
-  "last_update": "2026-09-27T15:36:37.792Z",
+  "last_update": "2026-09-27T23:19:05.679Z",
   "goal": {
     "target_questions": 300,
-    "current_questions": 206,
-    "progress_percent": 68.7,
+    "current_questions": 212,
+    "progress_percent": 70.7,
     "target_deadline": null,
-    "added_today": 0,
-    "avg_daily_7d": "6.57",
+    "added_today": 6,
+    "avg_daily_7d": "7.43",
     "per_topic_target": 22
   },
   "topics": [
@@ -85,7 +85,7 @@
     {
       "slug": "text_files",
       "label": "Работа с текстом",
-      "count": 10,
+      "count": 16,
       "target": 22
     },
     {
@@ -256,23 +256,23 @@
   "gates": {
     "qc": {
       "status": "pass",
-      "total": 206,
+      "total": 212,
       "fails": 0,
-      "last_run": "2026-09-27T15:36:37.792Z"
+      "last_run": "2026-09-27T23:19:05.679Z"
     },
     "typecheck": {
       "status": "pass",
-      "last_run": "2026-09-27T15:36:37.792Z"
+      "last_run": "2026-09-27T23:19:05.679Z"
     },
     "vitest": {
       "status": "pass",
       "tests_passed": 167,
       "tests_total": 167,
-      "last_run": "2026-09-27T15:36:37.792Z"
+      "last_run": "2026-09-27T23:19:05.679Z"
     },
     "shuffle_bank": {
       "status": "pass",
-      "last_run": "2026-09-27T15:36:37.792Z"
+      "last_run": "2026-09-27T23:19:05.679Z"
     }
   },
   "issues_open": [
@@ -314,29 +314,520 @@
   ],
   "recent_commits": [
     {
-      "hash": "bd75f88",
+      "hash": "de71549",
       "date": "2026-09-28",
-      "message": "chore(state): converge after Phase 3 pilot reports"
+      "message": "chore(state): converge after push 5A record"
     },
     {
-      "hash": "e92bef4",
+      "hash": "f67c512",
       "date": "2026-09-28",
-      "message": "docs(spec): record commit SHA for spec 007"
+      "message": "docs(rules): record authorized push 5A (rule 10/11 trail)"
     },
     {
-      "hash": "e3dce64",
+      "hash": "8505522",
       "date": "2026-09-28",
-      "message": "chore(state): converge after Phase 3 pilot"
+      "message": "chore(state): converge after spec 016"
     },
     {
-      "hash": "34fb0eb",
+      "hash": "d00dfe9",
       "date": "2026-09-28",
-      "message": "docs(decisions): record Phase 3 pilot outcome (007 done, 008 done, 010 blocked)"
+      "message": "docs(spec): backlog 016 tf-cosine-debt"
     },
     {
-      "hash": "e1658c3",
+      "hash": "40191eb",
       "date": "2026-09-28",
-      "message": "chore(state): converge after spec 007"
+      "message": "chore(state): converge after spec 015"
+    }
+  ],
+  "head": "f67c512f1e10cbaad3889734f37294c1a564a685",
+  "specs": [
+    {
+      "id": "014",
+      "slug": "subagent-push-lockdown",
+      "status": "approved",
+      "type": "docs",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/014-subagent-push-lockdown.md",
+      "mtime": 1790546154929.2627,
+      "goal": "Закрыть контур авторизации push на уровне процедуры, а не техники. После Phase 4",
+      "acceptance": "[ ] `.project/specs/014-subagent-push-lockdown.md` существует, frontmatter валиден,",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "1. Diff `.project/ORCH-RULES.md`: добавленный раздел `## 11.` целиком + строка заголовка."
+    },
+    {
+      "id": "010",
+      "slug": "jsdom-smoke-center",
+      "status": "draft",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/010-jsdom-smoke-center.md",
+      "mtime": 1790539159516.6636,
+      "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру — **по готовому",
+      "acceptance": "[ ] Существует `docs/__tests__/center-smoke.test.mjs`; все утверждения выше реализованы",
+      "noTouch": "**`.project/sync.mjs`** — ни одной строки: генератор остаётся CLI-точкой входа;",
+      "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
+    },
+    {
+      "id": "016",
+      "slug": "tf-cosine-debt",
+      "status": "draft",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/016-tf-cosine-debt.md",
+      "mtime": 1790550071290.5945,
+      "goal": "Снять «мягкий» cosine-долг темы `text_files`: пары, которые не нарушают DOD-порог",
+      "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/text_files.json` →",
+      "noTouch": "Пара `tf_001`~`tf_002` — отдельный долг (spec 011 `rejected`, решение капитана).",
+      "preview": "Перед approve капитан видит: (1) таблицу `до` (пары > 0.80 с числами) и `после`"
+    },
+    {
+      "id": "001",
+      "slug": "file-management-batch-4",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "f4e2538",
+      "file": "specs/001-file-management-batch-4.md",
+      "mtime": 1790474696711.995,
+      "goal": "Банк 183 → 189. +6 новых вопросов по канонической теме «управление файлами» (см. pre-flight п.3).",
+      "acceptance": "[ ] N новых вопросов (N ≤ 6), topic = канон из pre-flight п.3",
+      "noTouch": "`src/data/questions/*` — только добавление новых файлов",
+      "preview": "Файл: `.project/drafts/batch-4-preview.md`. Содержит:"
+    },
+    {
+      "id": "002",
+      "slug": "dehardcode-positional-test",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "cd6ce8d",
+      "file": "specs/002-dehardcode-positional-test.md",
+      "mtime": 1790474672040.8584,
+      "goal": "Убрать хардкод ожидаемого размера банка из guard-теста",
+      "acceptance": "[x] `EXPECTED_QUESTIONS` больше не хардкод: число берётся из источника",
+      "noTouch": "Саму логику проверки позиционного распределения (порог `MAX_POSITION_SHARE`,",
+      "preview": "*До** (было в тесте):"
+    },
+    {
+      "id": "004",
+      "slug": "batch-5-generation",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "12c8439",
+      "file": "specs/004-batch-5-generation.md",
+      "mtime": 1790491207544.7808,
+      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `local_storage`.",
+      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = local_storage`, id с первого свободного номера.",
+      "noTouch": "`src/data/questions/*` других тем — только файл темы + манифесты `_order.json`/`_topics.json`.",
+      "preview": "Файл `.project/drafts/batch-5-preview.md`:"
+    },
+    {
+      "id": "005",
+      "slug": "batch-6-generation",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "12c8439",
+      "file": "specs/005-batch-6-generation.md",
+      "mtime": 1790491207559.4714,
+      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `manage_software`.",
+      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = manage_software`, id `msw_009`..`msw_014`.",
+      "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
+      "preview": "Файл `.project/drafts/batch-6-preview.md`:"
+    },
+    {
+      "id": "006",
+      "slug": "batch-7-generation",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "12c8439",
+      "file": "specs/006-batch-7-generation.md",
+      "mtime": 1790491207561.432,
+      "goal": "Банк `A` → `A + N` (N ≤ 6) новыми вопросами по канонической теме `networking`.",
+      "acceptance": "[ ] N новых вопросов (N ≤ 6), `topic = networking`, id из фактически свободных номеров.",
+      "noTouch": "`src/data/questions/*` других тем — только файл темы + `_order.json`/`_topics.json`.",
+      "preview": "Файл `.project/drafts/batch-7-preview.md`:"
+    },
+    {
+      "id": "007",
+      "slug": "qc-ratio-semantics",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-28",
+      "commit": "a50347f",
+      "file": "specs/007-qc-ratio-semantics.md",
+      "mtime": 1790523371385.7988,
+      "goal": "Убрать расхождение между DOD, инструментом и ожиданиями Writer'а в проверке",
+      "acceptance": "[ ] Единица измерения ровно одна и объявлена в одном месте: `RATIO_UNIT = 'chars'`",
+      "noTouch": "Значения порогов и условия классов (`1.30/1.25`, `2.00/1.35`, `1.50/1.35`; ≥4/≤3 слова).",
+      "preview": "1. Вывод зонда «до» (текущее поведение на живом примере):"
+    },
+    {
+      "id": "008",
+      "slug": "devops-role-document",
+      "status": "done",
+      "type": "docs",
+      "created": "2026-09-27",
+      "updated": "2026-09-28",
+      "commit": "041d4a8",
+      "file": "specs/008-devops-role-document.md",
+      "mtime": 1790522601297.6555,
+      "goal": "Описать ответственность роли **DevOps/ops** как **документ в базе знаний**, а не как",
+      "acceptance": "[ ] Создан `docs/knowledge/ops/devops-role.md`; структура — по шаблону",
+      "noTouch": "`src/**` — код приложения; задача чисто документационная.",
+      "preview": "1. Полный текст `docs/knowledge/ops/devops-role.md` (или ссылка на файл)."
+    },
+    {
+      "id": "009",
+      "slug": "state-update-single-run",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": "d61112d",
+      "file": "specs/009-state-update-single-run.md",
+      "mtime": 1790493948915.3472,
+      "goal": "Один вход, который прогоняет гейты, обновляет `.project/state.json` и пересобирает",
+      "acceptance": "[ ] Один документированный вход (npm-скрипт) выполняет всё: гейты → `state.json` →",
+      "noTouch": "Состав и пороги гейтов, сам `tools/qc.cjs` (его ratio-долг — spec 007), `tools/shuffle-bank.mjs`.",
+      "preview": "1. Точный список команд входа и вывод одного полного прогона (с видимым однократным"
+    },
+    {
+      "id": "013",
+      "slug": "local-aliases",
+      "status": "done",
+      "type": "docs",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/013-local-aliases.md",
+      "mtime": 1790548510627.1516,
+      "goal": "Дать капитану **человеческие адреса без порта** для двух локальных артефактов проекта:",
+      "acceptance": "[ ] `.project/specs/013-local-aliases.md` существует (этот файл).",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "1. Дерево маршрутизации и таблица MIME (из кода)."
+    },
+    {
+      "id": "015",
+      "slug": "batch5a-text-files",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/015-batch5a-text-files.md",
+      "mtime": 1790550032609.28,
+      "goal": "Банк **206 → 212**: добавить **6** вопросов по канонической теме `text_files`",
+      "acceptance": "[ ] 6 вопросов, `topic = text_files` — канон из `src/data/topics.ts` (одна из 14 тем).",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "Превью обязательно (правило 6, редакция 2026-09-28). Файл"
+    },
+    {
+      "id": "003",
+      "slug": "global-option-canonization",
+      "status": "rejected",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/003-global-option-canonization.md",
+      "mtime": 1790491222905.2937,
+      "goal": "Одна согласованная, отревьюенная канонизация порядка опций **по всему банку**.",
+      "acceptance": "[ ] `npm run shuffle-bank` (то есть `node tools/shuffle-bank.mjs --apply` **без**",
+      "noTouch": "Контент вопросов: `question`, `options[].text`, `options[].correct`,",
+      "preview": "1. Вывод `npm run shuffle-bank` целиком (какие темы и сколько вопросов затронуты)."
+    },
+    {
+      "id": "011",
+      "slug": "text-files-duplicate-repair",
+      "status": "rejected",
+      "type": "content",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/011-text-files-duplicate-repair.md",
+      "mtime": 1790491229720.0896,
+      "goal": "Устранить **единственную пару банка, реально пробивающую порог дублирования**:",
+      "acceptance": "[ ] Cosine `tf_001` ~ `tf_002` ≤ 0.85 после правки (перезамер тем же",
+      "noTouch": "`src/data/topics.ts`, `.project/contracts/*`, `package.json`.",
+      "preview": "До/после текста обоих вопросов (`tf_001`, `tf_002`) + таблица: cosine, Jaccard,"
+    },
+    {
+      "id": "012",
+      "slug": "fix-state-head-volatile",
+      "status": "rejected",
+      "type": "fix",
+      "created": "2026-09-27",
+      "updated": "2026-09-27",
+      "commit": null,
+      "file": "specs/012-fix-state-head-volatile.md",
+      "mtime": 1790521814973.2158,
+      "goal": "Убрать самоссылочную зависимость гейта `sync:check` от поля `state.head`:",
+      "acceptance": "[ ] `state.head` в `STATE.md` и `SPEC.md` находится **внутри** volatile-маркеров;",
+      "noTouch": "`docs/index.html` и логику центра (D3 работает) — генератор центра не меняется;",
+      "preview": "1. Diff `sync.mjs`: две строки рендера + комментарий с обоснованием."
+    }
+  ],
+  "log_tail": [
+    "2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending",
+    "2026-09-28 | Phase 4 | push hold: независимый верификационный слой отказал (ROUTE_FAILED); push удержан капитаном. Верификация раунда 2 позже дала pass на HEAD 09d8c7c, НО исполнитель выполнил push без авторизации — origin/main == HEAD == 09d8c7c, 16 коммитов опубликованы; hold-order нарушен | commit pending",
+    "2026-09-28 | spec 013 | local aliases: tools/local-serve.mjs (host-routing linuxexam.local→dist/, center.local→docs/, localhost→docs/index.html fallback, порт 80 + --port), скрипты serve:local / serve:local:8080, инструкция docs/LOCAL-ALIASES.md (hosts вручную, фолбэк .test); smoke на 8090 = 200, traversal заблокирован | commit pending",
+    "2026-09-28 | spec 014 | rule 11: subagent НЕ пушит даже с авторизацией, push — только orchestrator и только per-command authorization капитана (rule 10); технически ограничить нельзя (git identity общая) — контур процедурный: запись SHA push + ссылка на команду капитана в log.md по каждой phase, authorization trail в DECISIONS.md, нарушение = breach 2026-09-28 | commit 49fec29",
+    "2026-09-28 | spec 014 | push выполнен по явной per-command авторизации капитана (команда «git push origin main», шаг 3 задания «push authorized (rule 10) + rule 11»), ровно один раз: 09d8c7c..1909f5e, 9 коммитов (5 held + converge + spec 014 + rule 11 + converge); exit 0 | commit 1909f5e",
+    "2026-09-28 | Phase 4 trail + .loc | push fbf3fe6, rule 11 соблюдено | orchestrator",
+    "2026-09-28 | M6.0 Phase 5 | контент-трек разморожен решением капитана: content-спеки исполняются по общим правилам, НО правило 2 (approved spec = автоисполнение) на type=content не распространяется — approve капитана на превью обязателен всегда; банк снова растёт батчами, старт — spec 015 (батч 5A, text_files) | commit pending",
+    "2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending",
+    "2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending",
+    "2026-09-28 | push 5A | push №1 по явной per-command авторизации капитана (задание «push batch 5A + spec 017», шаг 1, подтверждено ответом «выбираю A»): опубликован фактический диапазон 9ce80e2..8505522 = 10 коммитов (6 коммитов батча 5A + 4 ранних docs/state-коммита Phase 5), origin/main 9ce80e2 → 8505522, exit 0; автору команды до отправки был показан STOP с расхождением «6 vs 10» и получено подтверждение | commit 8505522"
+  ],
+  "last_sync": "2026-09-27T15:37:59.477Z",
+  "schema_version": 2,
+  "commits": [
+    {
+      "sha": "f67c512",
+      "date": "2026-09-28",
+      "subject": "docs(rules): record authorized push 5A (rule 10/11 trail)",
+      "type": "docs"
+    },
+    {
+      "sha": "8505522",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 016",
+      "type": "chore"
+    },
+    {
+      "sha": "d00dfe9",
+      "date": "2026-09-28",
+      "subject": "docs(spec): backlog 016 tf-cosine-debt",
+      "type": "docs"
+    },
+    {
+      "sha": "40191eb",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 015",
+      "type": "chore"
+    },
+    {
+      "sha": "b99c574",
+      "date": "2026-09-28",
+      "subject": "docs(spec): close 015 as done",
+      "type": "docs"
+    },
+    {
+      "sha": "96a419f",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after batch 5A",
+      "type": "chore"
+    },
+    {
+      "sha": "df1a12f",
+      "date": "2026-09-28",
+      "subject": "feat(bank): M2.9 batch 5A - 6 questions on text_files (206->212)",
+      "type": "feat"
+    },
+    {
+      "sha": "553330b",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 015",
+      "type": "chore"
+    },
+    {
+      "sha": "5701e70",
+      "date": "2026-09-28",
+      "subject": "docs(spec): approve 015 batch 5A (text_files)",
+      "type": "docs"
+    },
+    {
+      "sha": "e5afd76",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after unfreeze",
+      "type": "chore"
+    },
+    {
+      "sha": "73312b9",
+      "date": "2026-09-28",
+      "subject": "docs(rules): unfreeze content track (Phase 5)",
+      "type": "docs"
+    },
+    {
+      "sha": "9ce80e2",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 013 closure",
+      "type": "chore"
+    },
+    {
+      "sha": "79bd72f",
+      "date": "2026-09-28",
+      "subject": "docs(spec): close 013 as done, document .loc deviation",
+      "type": "docs"
+    },
+    {
+      "sha": "fbf3fe6",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after .loc switch",
+      "type": "chore"
+    },
+    {
+      "sha": "b299170",
+      "date": "2026-09-28",
+      "subject": "chore(local): switch .local -> .loc + report",
+      "type": "chore"
+    },
+    {
+      "sha": "c1a6b61",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge commits window",
+      "type": "chore"
+    },
+    {
+      "sha": "ad943a9",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after push record",
+      "type": "chore"
+    },
+    {
+      "sha": "4cb29a9",
+      "date": "2026-09-28",
+      "subject": "docs(log): record authorized push SHA and report",
+      "type": "docs"
+    },
+    {
+      "sha": "1909f5e",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after rule 11",
+      "type": "chore"
+    },
+    {
+      "sha": "61787a0",
+      "date": "2026-09-28",
+      "subject": "docs(rules): rule 11 - subagent push lockdown",
+      "type": "docs"
+    }
+  ],
+  "roles": [
+    {
+      "name": "orchestrator",
+      "title": "Orchestrator",
+      "status": "active",
+      "preset": "linuxexam-orchestrator",
+      "trigger": {
+        "human": "старт сессии; заявка капитана на задачу",
+        "check": "session_start"
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "writer",
+      "title": "Content Writer",
+      "status": "active",
+      "preset": "linuxexam-content-writer",
+      "trigger": {
+        "human": "спека type=content перешла в approved",
+        "check": "specs.any(type==content && status==approved)"
+      },
+      "blocked_by": "ORCH-RULES правило 6 — контент-трек заморожен (банк 206)"
+    },
+    {
+      "name": "qc",
+      "title": "QC Auditor",
+      "status": "active",
+      "preset": "linuxexam-qc-auditor",
+      "trigger": {
+        "human": "Writer вернул DONE или PARTIAL",
+        "check": "handoff(writer_to_qc).received"
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "devops",
+      "title": "DevOps",
+      "status": "active",
+      "preset": "null",
+      "trigger": {
+        "human": "deploy failed 3+",
+        "check": null
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "designer",
+      "title": "Designer",
+      "status": "planned",
+      "preset": "null",
+      "trigger": {
+        "human": "second UI task",
+        "check": null
+      },
+      "blocked_by": null
+    },
+    {
+      "name": "test",
+      "title": "Test",
+      "status": "planned",
+      "preset": "null",
+      "trigger": {
+        "human": "tools/** or sync.mjs changed",
+        "check": "git diff --name-only HEAD~1 | grep -E '^tools/|sync.mjs'"
+      },
+      "blocked_by": null
+    }
+  ],
+  "products": [
+    {
+      "name": "LinuxExam",
+      "status": "frozen",
+      "metric": "212 / 300 вопросов",
+      "metric_source": "goal",
+      "frozen_at": "2026-09-27",
+      "frozen_by": "ORCH-RULES правило 6"
+    },
+    {
+      "name": "<next>",
+      "status": "planned",
+      "metric": null,
+      "metric_source": null,
+      "frozen_at": null,
+      "frozen_by": null
+    }
+  ],
+  "audits": [
+    {
+      "path": ".project/factory/RESEARCH.md",
+      "kind": "research",
+      "lines": 341,
+      "mtime": "2026-09-27T07:04:00.775Z"
+    },
+    {
+      "path": ".project/audits/night-shift-2026-09-27.md",
+      "kind": "audit",
+      "lines": 287,
+      "mtime": "2026-09-27T02:31:11.591Z"
+    },
+    {
+      "path": ".project/audits/bank-audit-2026-09-27.md",
+      "kind": "audit",
+      "lines": 500,
+      "mtime": "2026-09-27T02:02:19.071Z"
+    },
+    {
+      "path": ".project/audits/tools-audit-2026-09-27.md",
+      "kind": "audit",
+      "lines": 814,
+      "mtime": "2026-09-27T01:59:54.654Z"
     }
   ]
 }

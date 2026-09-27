@@ -14,6 +14,26 @@
  *
  * Запись: UTF-8 без BOM, LF-only, корень — объект, последний байт 0x0A.
  *
+ * Merge-контракт со схемой v2 (spec 017) — два writer'а одного файла:
+ *
+ *   gen-state.mjs ВЛАДЕЕТ:  goal (incl. added_today / avg_daily_7d), gates (incl.
+ *                           shuffle_bank), topics, milestones, issues_open,
+ *                           recent_commits, last_update
+ *   sync.mjs ВЛАДЕЕТ:       head, specs, log_tail, last_sync, commits, roles,
+ *                           products, audits
+ *   ОБЩЕЕ:                  schema_version — gen-state.mjs пишет 2, если поля нет,
+ *                           существующее значение сохраняет
+ *
+ * Ключи чужого владельца НЕ трогаются: прежний state.json читается и переносится
+ * как есть. Раньше файл собирался с нуля фиксированным набором v1-ключей, из-за чего
+ * `npm run state:update` вычищал v2-контур и делал `sync:check` красным
+ * (`schema_version < 2`, sync.mjs:1309-1314). Потеря любого ключа sync.mjs теперь —
+ * падение с ошибкой, а не молчаливая деградация центра.
+ *
+ * Идемпотентность: если семантика не изменилась, метки времени (`last_update`,
+ * `gates.*.last_run`) сохраняются прежними — иначе второй прогон оставлял бы
+ * `state.json` изменённым и валил `sync:check` на «изменён и не закоммичен».
+ *
  * Флаги:
  *   --no-gates   пропустить прогон гейтов (переиспользовать прошлые значения gates)
  */
@@ -30,6 +50,32 @@ const rel = (p) => path.join(ROOT, p);
 const NO_GATES = process.argv.includes('--no-gates');
 
 const TARGET_QUESTIONS = 300;
+/**
+ * Минимальная версия схемы state.json (spec 017 / sync.mjs:MIN_SCHEMA_VERSION).
+ * gen-state.mjs пишет её, если поля нет: без него `sync:check` падает с
+ * `schema_version=1 < 2` и центр теряет секции v2.
+ */
+const MIN_SCHEMA_VERSION = 2;
+/**
+ * Ключи, которыми владеет sync.mjs (spec 017). gen-state.mjs обязан переносить их
+ * из прежнего файла без изменений; потеря любого — ошибка, а не деградация.
+ */
+const SYNC_OWNED_KEYS = [
+  'head',
+  'specs',
+  'log_tail',
+  'last_sync',
+  'commits',
+  'roles',
+  'products',
+  'audits',
+];
+/**
+ * Поля, меняющиеся от прогона к прогону при том же состоянии. Исключаются из
+ * сравнения «семантика изменилась?», чтобы второй `state:update` был byte-for-byte
+ * идемпотентен (иначе sync:check краснеет на незакоммиченном state.json).
+ */
+const VOLATILE_KEYS = ['last_update'];
 const STATE_PATH = rel('.project/state.json');
 const PLAN_PATH = rel('.project/PLAN.md');
 const TOPICS_PATH = rel('src/data/questions/_topics.json');
@@ -464,6 +510,37 @@ function previousGates() {
   }
 }
 
+/**
+ * Прежний state.json целиком — основа merge-контракта (spec 017).
+ * Ключи, которыми владеет sync.mjs, переносятся отсюда как есть.
+ * Битый/нечитаемый файл — не повод падать: тогда пишем только свои ключи,
+ * а `schema_version` выставляем сами.
+ */
+function previousState() {
+  if (!fs.existsSync(STATE_PATH)) return null;
+  try {
+    const prev = JSON.parse(fs.readFileSync(STATE_PATH, 'utf8'));
+    return prev && typeof prev === 'object' && !Array.isArray(prev) ? prev : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Семантический отпечаток состояния: метки времени вырезаны, всё остальное — байт
+ * в байт. Равенство отпечатков = «прогон ничего не изменил по существу».
+ */
+function semanticKey(obj) {
+  const copy = JSON.parse(JSON.stringify(obj ?? {}));
+  for (const key of VOLATILE_KEYS) delete copy[key];
+  if (copy.gates && typeof copy.gates === 'object') {
+    for (const gate of Object.values(copy.gates)) {
+      if (gate && typeof gate === 'object') delete gate.last_run;
+    }
+  }
+  return JSON.stringify(copy);
+}
+
 /* ------------------------------------------------------------------- main */
 
 function main() {
@@ -515,7 +592,11 @@ function main() {
     exits = res.exits;
   }
 
-  const state = {
+  /* --- merge-контракт (spec 017): пишем свои ключи поверх прежнего файла, ключи
+   * sync.mjs переносятся как есть. Раньше объект собирался с нуля и v2-контур
+   * (head/specs/log_tail/schema_version/commits/roles/products/audits) вычищался. */
+  const prevState = previousState();
+  const owned = {
     last_update: stamp,
     goal: {
       target_questions: TARGET_QUESTIONS,
@@ -532,6 +613,23 @@ function main() {
     issues_open: issuesOpen,
     recent_commits: recentCommits,
   };
+  const state = { ...(prevState ?? {}), ...owned };
+
+  // schema_version — общее поле: пишем 2, если его нет или он старше минимального.
+  if (!Number.isFinite(Number(state.schema_version)) || Number(state.schema_version) < MIN_SCHEMA_VERSION) {
+    state.schema_version = MIN_SCHEMA_VERSION;
+  }
+
+  // Идемпотентность: семантика та же → метки времени остаются прежними, файл
+  // побайтово не меняется, sync:check не требует лишнего коммита.
+  if (prevState && semanticKey(prevState) === semanticKey(state)) {
+    state.last_update = prevState.last_update ?? state.last_update;
+    for (const [name, gate] of Object.entries(state.gates)) {
+      const before = prevState.gates?.[name];
+      if (before && typeof before.last_run === 'string') gate.last_run = before.last_run;
+    }
+    info('идемпотентно: семантика не изменилась, метки времени сохранены');
+  }
 
   // --- запись: UTF-8 без BOM, LF-only, корень — объект
   const json = JSON.stringify(state, null, 2).replace(/\r\n/g, '\n') + '\n';
@@ -542,6 +640,19 @@ function main() {
   const reparsed = JSON.parse(bytes.toString('utf8'));
   if (bytes[bytes.length - 1] !== 0x0a) throw new Error('state.json: последний байт не 0x0A');
   if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) throw new Error('state.json: BOM обнаружен');
+  // --- spec 017: контур v2 не должен теряться. Потеря ключа, которым владеет
+  // sync.mjs, — ошибка сборки, а не молчаливая деградация секций центра.
+  if (Number(reparsed.schema_version) < MIN_SCHEMA_VERSION) {
+    throw new Error(
+      `state.json: schema_version=${reparsed.schema_version} < ${MIN_SCHEMA_VERSION} — нужен npm run state:update (spec 017)`,
+    );
+  }
+  if (prevState) {
+    const lost = SYNC_OWNED_KEYS.filter((key) => key in prevState && !(key in reparsed));
+    if (lost.length > 0) {
+      throw new Error(`state.json: потеряны ключи sync.mjs: ${lost.join(', ')} (spec 017)`);
+    }
+  }
   // --- M3.5: byte-for-byte синхронизация state.json для дашборда
   const dashboardDir = path.join(ROOT, 'docs', 'dashboard');
   const dashboardPath = path.join(dashboardDir, 'state.json');
@@ -582,6 +693,10 @@ function main() {
   steps.push(`topics: ${topicsList.length} (target ${perTopicTarget} на тему)`);
   steps.push(`added_today: ${addedToday}`);
   steps.push(`avg_daily_7d: ${avgDaily7d}`);
+  steps.push(`schema_version: ${reparsed.schema_version}`);
+  steps.push(
+    `ключей sync.mjs сохранено: ${SYNC_OWNED_KEYS.filter((k) => k in reparsed).length}/${SYNC_OWNED_KEYS.length}`,
+  );
   if (exits) {
     steps.push(
       `gates exits: qc=${exits.qc} typecheck=${exits.typecheck} vitest=${exits.vitest} shuffle=${exits.shuffle_bank}`,
