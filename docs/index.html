@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!--
+  docs/index.html — ЦЕНТР РАЗРАБОТКИ LinuxExam.
+  ФАЙЛ СГЕНЕРИРОВАН: .project/sync.mjs из .project/state.json. Правки затираются.
+  Без фреймворков, без билда, без кнопок — только видимость состояния.
+  Старый дашборд V1–V9 остаётся в docs/dashboard/ для сравнения.
+-->
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinuxExam — Центр разработки</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #1E1E1E;
+  --bg-elev: #252525;
+  --fg: #FFFFFF;
+  --fg-muted: #B0B0B0;
+  --accent: #2196F3;
+  --ok: #4CAF50;
+  --warn: #FF9800;
+  --fail: #FF5C4A;
+  --border: rgba(255, 255, 255, 0.12);
+  --mono: 'JetBrains Mono', Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+code { font-family: var(--mono); font-size: 0.8125rem; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+section { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; }
+h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0 0 12px; }
+.muted { color: var(--fg-muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.head__row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 8px; color: var(--fg-muted); }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.dot--ok { background: var(--ok); }
+.dot--bad { background: var(--fail); }
+.progress__nums { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.progress__cur { font-size: 2.25rem; font-weight: 700; color: var(--accent); line-height: 1; }
+.progress__tot { font-size: 2.25rem; font-weight: 700; line-height: 1; }
+.progress__pct { color: var(--fg-muted); margin-left: auto; }
+.progress__bar { height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+.progress__fill { height: 100%; background: var(--accent); }
+.topic { display: grid; grid-template-columns: 180px 1fr 80px; gap: 16px; align-items: center; padding: 4px 0; }
+.topic__bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.topic__fill { height: 100%; background: var(--ok); }
+.topic--gap .topic__fill { background: var(--fail); }
+.topic__count { text-align: right; color: var(--fg-muted); font-family: var(--mono); font-size: 0.8125rem; }
+.empty { color: var(--fg-muted); margin: 0; }
+.queue-item { border-left: 2px solid var(--accent); padding: 2px 0 2px 12px; margin-bottom: 12px; }
+.queue-item__id { font-family: var(--mono); }
+.queue-item__goal { color: var(--fg); }
+.queue-item__meta { color: var(--fg-muted); font-size: 0.8125rem; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.chip { border: 1px solid var(--border); border-radius: 6px; padding: 1px 8px; font-family: var(--mono); font-size: 0.75rem; }
+.chip--preview { color: var(--warn); border-color: var(--warn); }
+.chip--running { color: var(--accent); border-color: var(--accent); }
+.chip--approved, .chip--done { color: var(--ok); border-color: var(--ok); }
+.chip--rejected { color: var(--fail); border-color: var(--fail); }
+.log { margin: 0; padding-left: 18px; }
+.log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
+.policies { list-style: none; margin: 0; padding: 0; }
+.policies li { display: flex; flex-wrap: wrap; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.policy__title { color: var(--accent); font-weight: 600; min-width: 110px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="head" id="head">
+    <h1>Центр разработки</h1>
+    <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
+    <div class="head__row">
+      <span class="mono">HEAD 3dcd59a3f88c90f5cdd2b4dc4ada56cec1d6adf0</span>
+      <span class="mono">last_sync 2026-09-27T00:51:03.536Z</span>
+      <span><span class="dot dot--ok"></span>синхронизировано</span>
+    </div>
+  </section>
+
+  <section class="progress" id="progress">
+    <h2>Прогресс банка</h2>
+    <div class="progress__nums">
+      <span class="progress__cur">183</span>
+      <span class="progress__tot">/ 300</span>
+      <span class="progress__pct">61% · осталось 117</span>
+    </div>
+    <div class="progress__bar"><div class="progress__fill" style="width:61%"></div></div>
+        <div class="topic topic--gap">
+          <div class="topic__label">Локальное хранилище</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:36%"></div></div>
+          <div class="topic__count">8 / 22</div>
+        </div>
+        <div class="topic topic--gap">
+          <div class="topic__label">Управление ПО</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:36%"></div></div>
+          <div class="topic__count">8 / 22</div>
+        </div>
+        <div class="topic topic--gap">
+          <div class="topic__label">Сеть</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:45%"></div></div>
+          <div class="topic__count">10 / 22</div>
+        </div>
+        <div class="topic topic--gap">
+          <div class="topic__label">Управление системами</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:45%"></div></div>
+          <div class="topic__count">10 / 22</div>
+        </div>
+        <div class="topic topic--gap">
+          <div class="topic__label">Shell-скрипты</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:45%"></div></div>
+          <div class="topic__count">10 / 22</div>
+        </div>
+        <div class="topic topic--gap">
+          <div class="topic__label">Работа с текстом</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:45%"></div></div>
+          <div class="topic__count">10 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Управление файлами</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:55%"></div></div>
+          <div class="topic__count">12 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Развёртывание систем</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
+          <div class="topic__count">13 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Базовые инструменты</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
+          <div class="topic__count">13 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Файловые системы</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:64%"></div></div>
+          <div class="topic__count">14 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Управление процессами</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:77%"></div></div>
+          <div class="topic__count">17 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Пользователи и группы</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:82%"></div></div>
+          <div class="topic__count">18 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Права доступа</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:91%"></div></div>
+          <div class="topic__count">20 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Безопасность</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:91%"></div></div>
+          <div class="topic__count">20 / 22</div>
+        </div>
+  </section>
+
+  <section class="queue" id="queue">
+    <h2>Очередь решений</h2>
+        <p class="empty">Решений не ждёт</p>
+  </section>
+
+  <section class="specs" id="specs">
+    <h2>Все спеки</h2>
+    <table>
+      <thead>
+        <tr><th>id</th><th>slug</th><th>type</th><th>status</th><th>commit</th><th>updated</th></tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="6" class="muted">Спек пока нет — шаблон: <code>.project/specs/README.md</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="journal" id="journal">
+    <h2>Журнал (последние 10 строк log.md)</h2>
+    <ul class="log">
+        <li># .project/log.md — журнал решений (append-only)</li>
+        <li>Одна строка = одно решение. Только добавление в конец, правки запрещены.</li>
+        <li>Формат: `YYYY-MM-DD | milestone | что решено | commit &lt;sha|pending&gt;`</li>
+        <li>Последние 10 строк попадают в `state.json.log_tail` и в секцию «Журнал» центра.</li>
+        <li>2026-09-27 | M4.0 | solid base + dev center | commit pending</li>
+    </ul>
+  </section>
+
+  <section class="policies" id="policies">
+    <h2>Политики</h2>
+    <ul class="policies">
+        <li>
+          <span class="policy__title">DOD</span>
+          <code>.project/DOD.md</code>
+          <span class="muted">Definition of Done: content / ui / feature</span>
+        </li>
+        <li>
+          <span class="policy__title">TOKENS</span>
+          <code>.project/TOKENS.md</code>
+          <span class="muted">дизайн-токены: формат, источник, владелец</span>
+        </li>
+        <li>
+          <span class="policy__title">ORCH-RULES</span>
+          <code>.project/ORCH-RULES.md</code>
+          <span class="muted">5 правил оркестратора</span>
+        </li>
+    </ul>
+  </section>
+
+</div>
+</body>
+</html>

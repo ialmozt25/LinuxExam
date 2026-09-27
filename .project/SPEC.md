@@ -1,25 +1,12 @@
-# LinuxExam — Спецификация
+# LinuxExam — Индекс спецификаций
 
-## Что это
-Веб-тренажёр для подготовки к RHCSA EX200 (Red Hat Certified System Administrator).
+> ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
+> Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-## Аудитория
-Начинающие и средние Linux-администраторы.
+- HEAD: `3dcd59a3f88c90f5cdd2b4dc4ada56cec1d6adf0`
+- Спек: 0
+- Порядок: preview → running → approved → draft → done → rejected
 
-## Формат
-MCQ, 4 опции, 1 правильная, UI на русском.
+Спек пока нет.
 
-## Цель
-Банк 300+ вопросов, монетизация через Telegram-бота @linux_exam_bot.
-
-## Текущее состояние (2026-09-26)
-- Банк: 160 вопросов, 14 topics (все available)
-- HEAD: `9dda3ea`
-- QC: Fails=0, Warns=15
-- Cosine: MATCH, max 0.9020
-- Тесты: 137 passed / 0 failed
-- Guard-тесты: 9/9 pass
-- TS: 0 ошибок
-
-## Блокер
-Монетизация не реализована. `StubPaymentProvider` всегда возвращает успех → paywall обходится. Telegram Stars не интегрированы.
+Шаблон: `.project/specs/README.md`.

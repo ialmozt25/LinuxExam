@@ -1,49 +1,57 @@
 # LinuxExam — Текущее состояние
 
-## Что делаем сейчас
-M3 «Центр Управления» закрыт: M3.1–M3.6 доставлены и запушены (sync 2026-09-26). Дашборд читает `.project/state.json` через автокопию в `docs/dashboard/`. Открыт M3.7 «Переиспользование» (planned). Следующие шаги — кандидаты ниже.
+> ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/state.json`.
+> Правки здесь затираются. Меняй источник: `.project/state.json` (или `npm run sync`).
 
-## Что сделано
-- [x] 160 вопросов сгенерированы
-- [x] QC/Haladyna/Cosine настроены
-- [x] Guard-тесты проходят
-- [x] Файловое состояние `.project/`
-- [x] Пресет `linuxexam-orchestrator`
-- [x] Skill `bootstrap`
-- [x] Пресет проверен: агент читает `.project/` при старте
-- [x] База знаний docs/knowledge/ создана (M0.5)
-- [x] Разграничены журналы решений (docs/ENGINEERING-DECISIONS.md)
-- [x] M0.7 (мост) и M3/M3.5 (Центр разработки) зафиксированы в PLAN.md
-- [x] Всё запушено на origin/main (sync 2026-09-26)
-- [x] M1: пресет linuxexam-content-writer создан
-- [x] M1: Agent Contract orchestrator_to_writer.yaml создан
-- [x] M1: handoff-тест — PASS (2 вопроса, evidence list, gates ok)
-- [x] docs/knowledge/PROJECT-GOALS.md создан
-- [x] M1.5: skill content-pipeline создан (7 этапов)
-- [x] M1.5: persona Writer обновлена (4 skills в автозагрузке)
-- [x] M1.5: проверено в пресете Content Writer (4/4 skills)
-- [x] M2: пресет `linuxexam-qc-auditor` + 4 skills (M2.2)
-- [x] M2: 3 контракта MAS — orchestrator_to_writer, writer_to_qc, qc_to_orchestrator (M2.3/M2.4)
-- [x] M2: цикл Writer → QC → Orchestrator замкнут на тестовом батче (M2.6, decision=rework)
-- [x] M2: milestone закрыт в `.project/` (M2.7, commit 32d9d5e)
-- [x] M2.8: первая реальная генерация через MAS (6 вопросов users_groups, банк 160 → 166, commit d73c016)
-- [x] M3.1: `.project/state.json` — файловое состояние для дашборда
-- [x] M3.2: `tools/gen-state.mjs` — сборщик данных (qc/typecheck/vitest/shuffle)
-- [x] M3.3: `docs/dashboard/dashboard.css` — дизайн-токены (dark-first)
-- [x] M3.4: `docs/dashboard/dashboard.html` + `dashboard.js` — рендер 4 модулей
-- [x] M3.5: auto-sync `state.json` → `docs/dashboard/` (в gen-state.mjs)
-- [x] M3.6: закрытие M3 — STATE, DECISIONS, sync
-- [x] M3: milestone закрыт (M3.6, sync 2026-09-26)
+- HEAD: `3dcd59a3f88c90f5cdd2b4dc4ada56cec1d6adf0`
+- last_sync: 2026-09-27T00:51:03.536Z
 
-## Блокеры
-| # | Блокер | Критичность | Ответственный |
-|---|---|---|---|
-| 1 | StubPaymentProvider всегда успех | Критическая | — |
-| 2 | Telegram Stars не реализованы | Критическая | — |
-| 3 | Paywall dead-end (нет выхода) | Высокая | — |
+## Прогресс
+
+- Банк: **183 / 300** (61%)
+- Осталось: 117
+- Добавлено сегодня: 6
+- Темп (7 дней): 3.29 в день
+
+## Банк по темам (по возрастанию — дыры сверху)
+
+| count / target | тема | slug |
+|---|---|---|
+| 8 / 22 | Локальное хранилище | `local_storage` |
+| 8 / 22 | Управление ПО | `manage_software` |
+| 10 / 22 | Сеть | `networking` |
+| 10 / 22 | Управление системами | `running_systems` |
+| 10 / 22 | Shell-скрипты | `shell_scripts` |
+| 10 / 22 | Работа с текстом | `text_files` |
+| 12 / 22 | Управление файлами | `file_management` |
+| 13 / 22 | Развёртывание систем | `deploy_systems` |
+| 13 / 22 | Базовые инструменты | `essential_tools` |
+| 14 / 22 | Файловые системы | `file_systems` |
+| 17 / 22 | Управление процессами | `process_management` |
+| 18 / 22 | Пользователи и группы | `users_groups` |
+| 20 / 22 | Права доступа | `file_permissions` |
+| 20 / 22 | Безопасность | `security` |
+
+## Milestone
+
+- Чек-листов в PLAN.md: 15 выполнено из 26
+— нет —
+
+## Коммиты банка (M4.0)
+
+- Банк 183 / 300
+- новых тем-коммитов: 5 в recent_commits
+- HEAD (закреплён): `3dcd59a3f88c90f5cdd2b4dc4ada56cec1d6adf0`
 
 ## Следующие шаги
-1. Кандидат: M3.7 — «Центр разработки — переиспользование» (planned)
-2. Кандидат: M2.9 — массовая генерация вопросов через MAS
-3. Кандидат: M5 — монетизация (Cloudflare Worker, Telegram Stars)
-<!-- M2.8-prep completed -->
+
+- M4.0: держать базу зелёной — `npm run sync` после каждой задачи, `npm run sync:check` как гейт.
+- M2.9: массовая генерация (банк 183/300).
+- M5: монетизация (Cloudflare Worker, Telegram Stars) — по approve капитана.
+
+## Ссылки
+
+- Центр разработки: `docs/index.html` (сгенерирован)
+- Спеки: `.project/specs/` · индекс: `.project/SPEC.md`
+- Журнал решений: `.project/log.md`
+- Политики: `.project/DOD.md`, `.project/TOKENS.md`, `.project/ORCH-RULES.md`
