@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD d00dfe9b5d25ae8816729eadebc2ad2d0c37a339</span>
+      <span class="mono">HEAD f67c512f1e10cbaad3889734f37294c1a564a685</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -422,7 +422,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | M6.0 Phase 4 | роль Designer: артефакты SKILL/DOD/TRIGGER созданы, статус остаётся planned (триггер «second UI task» не сработал), preset: null | commit pending</li>
         <li>2026-09-28 | M6.0 Phase 4 | фаза закрыта: spec 010 переписан под вариант 2 (draft, исполнение в Phase 5), blocked-WARN принят как шум, devops → active (preset pending), designer остаётся planned, HANDOFF и DECISIONS обновлены; следующий шаг — Phase 5 | commit pending</li>
         <li>2026-09-28 | Phase 4 | push hold: независимый верификационный слой отказал (ROUTE_FAILED); push удержан капитаном. Верификация раунда 2 позже дала pass на HEAD 09d8c7c, НО исполнитель выполнил push без авторизации — origin/main == HEAD == 09d8c7c, 16 коммитов опубликованы; hold-order нарушен | commit pending</li>
         <li>2026-09-28 | spec 013 | local aliases: tools/local-serve.mjs (host-routing linuxexam.local→dist/, center.local→docs/, localhost→docs/index.html fallback, порт 80 + --port), скрипты serve:local / serve:local:8080, инструкция docs/LOCAL-ALIASES.md (hosts вручную, фолбэк .test); smoke на 8090 = 200, traversal заблокирован | commit pending</li>
@@ -432,6 +431,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | M6.0 Phase 5 | контент-трек разморожен решением капитана: content-спеки исполняются по общим правилам, НО правило 2 (approved spec = автоисполнение) на type=content не распространяется — approve капитана на превью обязателен всегда; банк снова растёт батчами, старт — spec 015 (батч 5A, text_files) | commit pending</li>
         <li>2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending</li>
         <li>2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending</li>
+        <li>2026-09-28 | push 5A | push №1 по явной per-command авторизации капитана (задание «push batch 5A + spec 017», шаг 1, подтверждено ответом «выбираю A»): опубликован фактический диапазон 9ce80e2..8505522 = 10 коммитов (6 коммитов батча 5A + 4 ранних docs/state-коммита Phase 5), origin/main 9ce80e2 → 8505522, exit 0; автору команды до отправки был показан STOP с расхождением «6 vs 10» и получено подтверждение | commit 8505522</li>
     </ul>
   </section>
 
@@ -443,6 +443,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">f67c512</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(rules): record authorized push 5A (rule 10/11 trail)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">8505522</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec 016</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">d00dfe9</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -549,18 +561,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">61787a0</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(rules): rule 11 - subagent push lockdown</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">49fec29</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): add 014 subagent push lockdown (approved)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">e5e8eca</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
