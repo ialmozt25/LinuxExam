@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-- HEAD: `622e70d6636b7b6e65457b33995542eeb646e235`
+- HEAD: `1156ff0f650768fb77af305a353598e8e6bc00f2`
 - Спек: 11
 - Порядок: preview → running → approved → draft → done → rejected
 
