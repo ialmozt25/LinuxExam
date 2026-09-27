@@ -1,14 +1,14 @@
 {
-  "total": 189,
+  "total": 206,
   "byTopic": {
     "deploy_systems": 13,
     "essential_tools": 13,
     "file_management": 18,
     "file_permissions": 20,
     "file_systems": 14,
-    "local_storage": 8,
-    "manage_software": 8,
-    "networking": 10,
+    "local_storage": 13,
+    "manage_software": 14,
+    "networking": 16,
     "process_management": 17,
     "running_systems": 10,
     "security": 20,

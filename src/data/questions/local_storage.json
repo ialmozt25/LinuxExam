@@ -12,7 +12,7 @@
         "correct": true
       },
       {
-        "text": "blkid /dev/sdb1",
+        "text": "pvremove /dev/sdb1",
         "correct": false
       },
       {
@@ -20,7 +20,7 @@
         "correct": false
       },
       {
-        "text": "pvremove /dev/sdb1",
+        "text": "blkid /dev/sdb1",
         "correct": false
       }
     ],
@@ -39,16 +39,16 @@
         "correct": false
       },
       {
-        "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs /app",
-        "correct": true
-      },
-      {
         "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs -n /app",
         "correct": false
       },
       {
         "text": "lvextend -L +5G /dev/data/lv_app; resize2fs /app",
         "correct": false
+      },
+      {
+        "text": "lvextend -L +5G /dev/data/lv_app; xfs_growfs /app",
+        "correct": true
       }
     ],
     "explanation": "lvextend -L +5G увеличивает логический том на 5 ГБ относительно текущего размера, а xfs_growfs растягивает файловую систему XFS на новое место, принимая точку монтирования /app. resize2fs работает только с ext2, ext3 и ext4, поэтому на XFS команда завершается ошибкой. Ключ -n у xfs_growfs только печатает геометрию и ничего не меняет. Форма -L 5G задаёт абсолютный размер 5 ГБ вместо приращения; при текущем размере больше 5 ГБ команда завершится ошибкой, а не увеличением."
@@ -62,7 +62,11 @@
     "question": "Раздел /dev/sdb2 отведён под подкачку и ещё не размечен как swap. Какая команда подготовит его как область подкачки?",
     "options": [
       {
-        "text": "swapon /dev/sdb2",
+        "text": "cat /proc/swaps",
+        "correct": false
+      },
+      {
+        "text": "swapoff /dev/sdb2",
         "correct": false
       },
       {
@@ -70,11 +74,7 @@
         "correct": true
       },
       {
-        "text": "swapoff /dev/sdb2",
-        "correct": false
-      },
-      {
-        "text": "cat /proc/swaps",
+        "text": "swapon /dev/sdb2",
         "correct": false
       }
     ],
@@ -89,11 +89,7 @@
     "question": "Имя устройства /dev/sdb1 может измениться после перестановки диска в другой слот. Какая команда покажет постоянный идентификатор этого раздела?",
     "options": [
       {
-        "text": "blkid /dev/sdb1",
-        "correct": true
-      },
-      {
-        "text": "lsblk /dev/sdb1",
+        "text": "blkid -U /dev/sdb1",
         "correct": false
       },
       {
@@ -101,7 +97,11 @@
         "correct": false
       },
       {
-        "text": "blkid -U /dev/sdb1",
+        "text": "blkid /dev/sdb1",
+        "correct": true
+      },
+      {
+        "text": "lsblk /dev/sdb1",
         "correct": false
       }
     ],
@@ -116,15 +116,15 @@
     "question": "Раздел /data смонтирован, и нужно проверить, из какого источника он взят и какие опции действуют сейчас. Какая команда покажет статус монтирования точки /data?",
     "options": [
       {
+        "text": "umount -l /data",
+        "correct": false
+      },
+      {
         "text": "stat -f /data",
         "correct": false
       },
       {
         "text": "findmnt -T /",
-        "correct": false
-      },
-      {
-        "text": "umount -l /data",
         "correct": false
       },
       {
@@ -174,15 +174,15 @@
         "correct": false
       },
       {
+        "text": "lsblk -fstype /dev/sdc1",
+        "correct": false
+      },
+      {
         "text": "lsblk -f /dev/sdc1",
         "correct": true
       },
       {
         "text": "blkid -s LABEL /dev/sdc1",
-        "correct": false
-      },
-      {
-        "text": "lsblk -fstype /dev/sdc1",
         "correct": false
       }
     ],
@@ -197,22 +197,157 @@
     "question": "Новая строка с опцией nofail добавлена в /etc/fstab. Какую команду нужно выполнить, чтобы применить /etc/fstab без перезагрузки?",
     "options": [
       {
-        "text": "mount -fa",
-        "correct": false
-      },
-      {
-        "text": "mount -A",
-        "correct": false
-      },
-      {
         "text": "umount -a",
         "correct": false
       },
       {
         "text": "mount -a",
         "correct": true
+      },
+      {
+        "text": "mount -A",
+        "correct": false
+      },
+      {
+        "text": "mount -fa",
+        "correct": false
       }
     ],
     "explanation": "mount -a читает /etc/fstab и монтирует записи, которые ещё не смонтированы, поэтому новая строка с nofail применяется без перезагрузки. У mount нет опции -A: ключи регистрозависимы, и заглавная буква приводит к ошибке разбора аргументов. Пара ключей -fa выполняет действия, кроме самого системного вызова монтирования, то есть реально ничего не монтирует. umount -a размонтирует смонтированное, то есть выполняет обратное действие."
+  },
+  {
+    "id": "lsl_009",
+    "topic": "local_storage",
+    "difficulty": "easy",
+    "objective_domain": "4",
+    "subtopic": "swap: включение области подкачки в текущей сессии",
+    "question": "Раздел /dev/sdb2 размечен как область подкачки, но сейчас не активен. Нужно включить подкачку именно на этом разделе и только на нём, без перезагрузки и без правки /etc/fstab. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "swapoff -a",
+        "correct": false
+      },
+      {
+        "text": "swapon /dev/sdb2",
+        "correct": true
+      },
+      {
+        "text": "swapon --show",
+        "correct": false
+      },
+      {
+        "text": "swapon -a",
+        "correct": false
+      }
+    ],
+    "explanation": "swapon с именем устройства включает подкачку на указанном разделе немедленно, не дожидаясь перезагрузки. Ключ -a включает все области подкачки, перечисленные в /etc/fstab, то есть захватывает и другие устройства, а не только /dev/sdb2. Форма swapon --show лишь печатает таблицу активных областей и ничего не включает, а swapoff -a выполняет обратное действие и выключает подкачку на всех известных областях."
+  },
+  {
+    "id": "lsl_010",
+    "topic": "local_storage",
+    "difficulty": "hard",
+    "objective_domain": "4",
+    "subtopic": "LVM: восстановление метаданных группы томов из резервной копии",
+    "question": "После сбоя группа томов datavg пропала из вывода vgs, при этом резервные копии её метаданных в /etc/lvm/backup уцелели. Какой командой восстановить метаданные группы томов из последней такой копии?",
+    "options": [
+      {
+        "text": "vgcfgrestore datavg",
+        "correct": true
+      },
+      {
+        "text": "pvscan datavg",
+        "correct": false
+      },
+      {
+        "text": "vgscan datavg",
+        "correct": false
+      },
+      {
+        "text": "vgimport datavg",
+        "correct": false
+      }
+    ],
+    "explanation": "vgcfgrestore записывает метаданные группы томов обратно на устройства из файла, созданного vgcfgbackup, и без ключа --file берёт самую свежую копию из /etc/lvm/backup. vgscan только ищет существующие группы томов на блочных устройствах и метаданные не пишет, поэтому повреждённую группу сам не восстановит; pvscan перечисляет физические тома и о группе томов не сообщает. vgimport лишь регистрирует ранее экспортированную группу в системе и тоже ничего не восстанавливает."
+  },
+  {
+    "id": "lsl_011",
+    "topic": "local_storage",
+    "difficulty": "medium",
+    "objective_domain": "4",
+    "subtopic": "LVM: создание снимка логического тома",
+    "question": "Нужно получить снимок логического тома /dev/datavg/lv_data с именем lv_snap — мгновенную копию состояния на текущий момент. Какая команда создаст этот снимок?",
+    "options": [
+      {
+        "text": "lvcreate -s -n lv_snap datavg/lv_data",
+        "correct": true
+      },
+      {
+        "text": "lvcreate -s -n lv_snap datavg",
+        "correct": false
+      },
+      {
+        "text": "lvconvert --merge datavg/lv_data",
+        "correct": false
+      },
+      {
+        "text": "lvcreate -n lv_snap datavg/lv_data",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -s создаёт снимок указанного логического тома, а -n задаёт имя нового тома, поэтому lvcreate -s -n lv_snap datavg/lv_data даёт моментальную копию. Та же команда без -s создаёт обычный линейный том, а не снимок; lvconvert --merge выполняет обратную операцию и вливает существующий снимок в оригинал. В последнем варианте вместо логического тома указана группа томов datavg, а снимок целой группы томов создать нельзя."
+  },
+  {
+    "id": "lsl_012",
+    "topic": "local_storage",
+    "difficulty": "medium",
+    "objective_domain": "4",
+    "subtopic": "swap-файл: подготовка файла подкачки",
+    "question": "Файл /swapfile уже создан нужного размера, и на нём нужно создать заголовок подкачки, чтобы затем включить его командой swapon. Какая команда создаст на этом файле область подкачки?",
+    "options": [
+      {
+        "text": "chmod 0600 /swapfile",
+        "correct": false
+      },
+      {
+        "text": "mkswap /swapfile",
+        "correct": true
+      },
+      {
+        "text": "mkswap --file /swapfile",
+        "correct": false
+      },
+      {
+        "text": "mkfs.ext4 /swapfile",
+        "correct": false
+      }
+    ],
+    "explanation": "mkswap записывает в файл заголовок области подкачки, после чего файл можно включать командой swapon. chmod лишь меняет права доступа и заголовка подкачки не создаёт, хотя без прав 0600 swapon откажется работать. Ключ --file у mkswap создаёт новый файл подкачки, а не размечает уже существующий, а mkfs.ext4 создаёт на файле файловую систему ext4, то есть готовит совсем другое содержимое."
+  },
+  {
+    "id": "lsl_014",
+    "topic": "local_storage",
+    "difficulty": "medium",
+    "objective_domain": "4",
+    "subtopic": "wipefs --all: удаление старых подписей с раздела",
+    "question": "На разделе /dev/sdb1 остались подписи прежних файловых систем, поэтому blkid видит там старое содержимое. Требуется разом стереть с раздела все обнаруженные подписи. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "wipefs /dev/sdb1",
+        "correct": false
+      },
+      {
+        "text": "wipefs -f /dev/sdb1",
+        "correct": false
+      },
+      {
+        "text": "wipefs -b /dev/sdb1",
+        "correct": false
+      },
+      {
+        "text": "wipefs -a /dev/sdb1",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ -a удаляет все подписи, которые видит libblkid на устройстве, поэтому blkid перестаёт показывать старое содержимое. Без ключей wipefs только перечисляет найденные подписи с их смещениями и ничего не стирает, а ключ -b лишь создаёт резервную копию подписи в файл .bak. Ключ -f сам подписи не выбирает: он разрешает стирание подписи таблицы разделов и работу со смонтированным устройством."
   }
 ]

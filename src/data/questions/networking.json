@@ -268,5 +268,167 @@
       }
     ],
     "explanation": "Без ключа --permanent изменение попадает только в runtime-конфигурацию и теряется при firewall-cmd --reload или перезагрузке, то есть требование постоянства не выполняется. Форма --new-zone --interface неверна: --new-zone только создаёт пустую зону, а интерфейс добавляют отдельным ключом --add-interface. Ключа --set-interface у firewall-cmd не существует; за привязку интерфейса отвечают --add-interface и --change-interface."
+  },
+  {
+    "id": "ntw_011",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "ip neigh: таблица соседей (ARP-кэш)",
+    "question": "На сервере нужно увидеть, каким MAC-адресам соответствуют IP-адреса соседей в локальном сегменте, то есть содержимое ARP-кэша. Какая команда выведет эту таблицу?",
+    "options": [
+      {
+        "text": "ip neigh show",
+        "correct": true
+      },
+      {
+        "text": "ip addr show",
+        "correct": false
+      },
+      {
+        "text": "ip route show",
+        "correct": false
+      },
+      {
+        "text": "ip link show",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда ip neigh show печатает таблицу соседей: для каждого адреса видны интерфейс, MAC-адрес (lladdr) и состояние записи, например REACHABLE или STALE. Команда ip link show описывает сами интерфейсы — флаги, MTU и собственный MAC интерфейса, но чужие IP-адреса с MAC-адресами не сопоставляет. Команда ip route show выводит таблицу маршрутизации, а ip addr show — адреса, назначенные интерфейсам, и сведений о соседях ни та, ни другая не содержат."
+  },
+  {
+    "id": "ntw_012",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "dig: запрос MX-записей",
+    "question": "Нужно получить MX-записи домена example.com, то есть список его почтовых серверов. Какая команда выполнит такой запрос к DNS?",
+    "options": [
+      {
+        "text": "dig A example.com",
+        "correct": false
+      },
+      {
+        "text": "dig -x example.com",
+        "correct": false
+      },
+      {
+        "text": "dig MX example.com",
+        "correct": true
+      },
+      {
+        "text": "dig NS example.com",
+        "correct": false
+      }
+    ],
+    "explanation": "В dig тип запроса задаётся отдельным аргументом, поэтому dig MX example.com запрашивает записи типа MX и печатает их в разделе ANSWER SECTION. Команда dig A example.com запрашивает адресную запись, а dig NS example.com — серверы имён домена, и к почтовым серверам ни одна из них не относится. Ключ -x включает обратный запрос и ожидает на входе IP-адрес, а не имя домена, поэтому MX-записи он не вернёт."
+  },
+  {
+    "id": "ntw_013",
+    "topic": "networking",
+    "difficulty": "hard",
+    "objective_domain": "7",
+    "subtopic": "ip route get: выбор маршрута для адреса",
+    "question": "На сервере несколько маршрутов. Нужно заранее узнать, какой именно маршрут и через какой интерфейс ядро выберет для пакета к адресу 10.20.30.40, не просматривая таблицу целиком. Какая команда это покажет?",
+    "options": [
+      {
+        "text": "ip route show table main",
+        "correct": false
+      },
+      {
+        "text": "ip route get 10.20.30.40",
+        "correct": true
+      },
+      {
+        "text": "ip link show dev ens18",
+        "correct": false
+      },
+      {
+        "text": "ip addr show dev ens18",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда ip route get выполняет поиск по таблице маршрутизации для одного адреса и печатает выбранный маршрут так, как его видит ядро: шлюз, интерфейс и адрес источника. Команда ip route show table main выводит всю основную таблицу, и нужную строку из неё пришлось бы выбирать вручную. Команды ip link show dev ens18 и ip addr show dev ens18 показывают состояние и адреса интерфейса, но по ним нельзя узнать, какой маршрут будет использован для конкретного адреса."
+  },
+  {
+    "id": "ntw_014",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "firewalld: masquerade для NAT",
+    "question": "Сервер должен раздавать интернет в подсеть 192.168.50.0/24: адреса из неё должны подменяться адресом внешнего интерфейса ens18, который отнесён к зоне public. Какую команду нужно выполнить, чтобы включить такую подмену в постоянной конфигурации?",
+    "options": [
+      {
+        "text": "firewall-cmd --permanent --zone=public --add-forward-port",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --permanent --zone=public --remove-masquerade",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --permanent --zone=public --add-service=masquerade",
+        "correct": false
+      },
+      {
+        "text": "firewall-cmd --permanent --zone=public --add-masquerade",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ --add-masquerade включает в зоне маскарадинг IPv4, то есть подмену адресов источника адресом внешнего интерфейса, а ip_forward при этом включается неявно. Ключ --remove-masquerade выключает маскарадинг, то есть делает обратное. Ключ --add-forward-port служит для перенаправления портов и требует значения вида port=8080:proto=tcp, поэтому без него команда завершится ошибкой, а --add-service принимает имя службы из набора firewalld (http, ssh и подобные), среди которых службы masquerade нет."
+  },
+  {
+    "id": "ntw_015",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "ip link set: MTU интерфейса",
+    "question": "Через интерфейс ens18 идёт туннель, в котором теряются пакеты крупнее 1400 байт. Нужно сразу понизить MTU самого интерфейса до 1400, не правя файлы конфигурации. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "ip link set dev ens18 mtu 1500",
+        "correct": false
+      },
+      {
+        "text": "ip link set dev ens18 mtu 1400",
+        "correct": true
+      },
+      {
+        "text": "ip addr set dev ens18 mtu 1400",
+        "correct": false
+      },
+      {
+        "text": "ip link show dev ens18 mtu 1400",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда ip link set изменяет параметры интерфейса, а параметр mtu задаёт новый размер, поэтому ip link set dev ens18 mtu 1400 сразу понизит MTU до 1400 байт (такой же пример есть в man ip-link). Команда ip link show только выводит сведения об интерфейсе и MTU не меняет: аргумента mtu у неё нет, и такой вызов завершится ошибкой; подкоманды set у объекта ip addr тоже не существует, поэтому и она не сработает. Вариант с mtu 1500 устанавливает другое значение, то есть задачу с понижением до 1400 байт не решает."
+  },
+  {
+    "id": "ntw_016",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "ping: ограничение числа запросов",
+    "question": "Скрипт проверки связи должен отправить ровно три ICMP-запроса к узлу 8.8.8.8 и завершиться сам, без ожидания Ctrl-C. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "ping -W 3 8.8.8.8",
+        "correct": false
+      },
+      {
+        "text": "ping -i 3 8.8.8.8",
+        "correct": false
+      },
+      {
+        "text": "ping -t 3 8.8.8.8",
+        "correct": false
+      },
+      {
+        "text": "ping -c 3 8.8.8.8",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ -c count останавливает ping после отправки указанного числа запросов, поэтому ping -c 3 отправит ровно три пакета и завершится сам. Ключ -i 3 задаёт интервал в три секунды между запросами, но их число не ограничивает. Ключ -t задаёт TTL, а -W — время ожидания ответа, поэтому такие команды продолжают работу до прерывания."
   }
 ]
