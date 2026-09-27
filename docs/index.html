@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 3a4533f202f2d54f3e1a50c129c0940271ede5a3</span>
+      <span class="mono">HEAD 0f654c240b1a6940c2823e44129dfd9037e095b1</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -247,11 +247,15 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">2</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">3</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#014 subagent-push-lockdown</span>
             <span class="ddn__meta">docs · approved</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#018 batch5b-shell-scripts</span>
+            <span class="ddn__meta">content · approved</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -291,6 +295,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">014</td>
           <td class="mono">subagent-push-lockdown</td>
           <td>docs</td>
+          <td><span class="chip chip--approved">approved</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">018</td>
+          <td class="mono">batch5b-shell-scripts</td>
+          <td>content</td>
           <td><span class="chip chip--approved">approved</span></td>
           <td class="mono">—</td>
           <td class="mono">2026-09-28</td>
@@ -430,7 +442,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | spec 014 | rule 11: subagent НЕ пушит даже с авторизацией, push — только orchestrator и только per-command authorization капитана (rule 10); технически ограничить нельзя (git identity общая) — контур процедурный: запись SHA push + ссылка на команду капитана в log.md по каждой phase, authorization trail в DECISIONS.md, нарушение = breach 2026-09-28 | commit 49fec29</li>
         <li>2026-09-28 | spec 014 | push выполнен по явной per-command авторизации капитана (команда «git push origin main», шаг 3 задания «push authorized (rule 10) + rule 11»), ровно один раз: 09d8c7c..1909f5e, 9 коммитов (5 held + converge + spec 014 + rule 11 + converge); exit 0 | commit 1909f5e</li>
         <li>2026-09-28 | Phase 4 trail + .loc | push fbf3fe6, rule 11 соблюдено | orchestrator</li>
         <li>2026-09-28 | M6.0 Phase 5 | контент-трек разморожен решением капитана: content-спеки исполняются по общим правилам, НО правило 2 (approved spec = автоисполнение) на type=content не распространяется — approve капитана на превью обязателен всегда; банк снова растёт батчами, старт — spec 015 (батч 5A, text_files) | commit pending</li>
@@ -440,6 +451,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | spec 017 | gen-state v2: tools/gen-state.mjs больше не собирает state.json с нуля — merge-контракт (gen-state владеет goal/gates/added_today/avg_daily_7d, sync.mjs — head/specs/log_tail/commits/roles/products/audits/last_sync, schema_version общее); потеря ключа sync.mjs теперь падение сборки, метки времени идемпотентны (2-й прогон byte-for-byte); state:update exit 0, ключей sync.mjs сохранено 8/8, added_today 0 → 6, avg_daily_7d 6.57 → 7.43, gates qc/typecheck/vitest/shuffle = 0 | commit pending</li>
         <li>2026-09-28 | push 017 | push №2 по явной per-command авторизации капитана (то же задание, пункт «повторный push после fix (rule 10 explicit)»): диапазон 8505522..HEAD — коммиты trail, фикса spec 017 и её закрытия; запись сделана до отправки, фактический SHA origin/main — в отчёте orchestrator | commit pending</li>
         <li>2026-09-28 | push 017 | push №2 выполнен: 8505522..ec48622, 7 коммитов (запись trail 5A, fix spec 017, закрытие 017, конвергенты), exit 0; origin/main = ec48622454a93e199027fbc891e68c7e5475957d, sync:check после push exit 0 | commit pending</li>
+        <li>2026-09-28 | spec 018 | батч 5B: тема shell_scripts (count 10 — минимум вместе с running_systems, батчами 1-7 не затронута, по канону topics.ts идёт сразу после text_files), 6 кандидатов sh_011..sh_016 на новые механизмы (case / getopts / trap / set -e / source / bash -n), банк 212 → 218; QC: Haladyna 6/6 perfect, cosine 0/6 reject (max 0.7094 против банка), ratio ≤ 1.138 при порогах 1.30/2.00, независимое ревью 6/6 OK; превью собрано, ждёт approve капитана; в src/data/** ничего не коммитилось | commit pending</li>
     </ul>
   </section>
 
@@ -451,6 +463,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">0f654c2</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): approve 018 batch 5B (shell_scripts)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">35dc55d</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec 017 wording</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">3a4533f</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -557,18 +581,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">5701e70</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec): approve 015 batch 5A (text_files)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">e5afd76</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after unfreeze</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">73312b9</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(rules): unfreeze content track (Phase 5)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->

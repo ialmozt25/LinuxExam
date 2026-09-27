@@ -3,13 +3,14 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `3a4533f202f2d54f3e1a50c129c0940271ede5a3`<!--volatile:end-->
-- Спек: 17
+<!--volatile:start-->- HEAD: `0f654c240b1a6940c2823e44129dfd9037e095b1`<!--volatile:end-->
+- Спек: 18
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
 |---|---|---|---|---|---|
 | 014 | `subagent-push-lockdown` | docs | approved | — | 2026-09-28 |
+| 018 | `batch5b-shell-scripts` | content | approved | — | 2026-09-28 |
 | 010 | `jsdom-smoke-center` | feature | draft | — | 2026-09-28 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 001 | `file-management-batch-4` | content | done | f4e2538 | 2026-09-27 |
