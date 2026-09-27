@@ -247,7 +247,35 @@ HEAD, банк 189, дерево, гейты, 10 спек, очередь бат
 Fails 0 / Warns 16, `npm run shuffle-bank:check` exit 0, `npm run sync:check` exit 0
 после завершающего sync-коммита.
 
-**Итог:** _см. запись в конце файла, добавленную после push._
+**Итог: PUSH ВЫПОЛНЕН** — `git push origin main`, `03491f2..13204b3`, exit 0.
+
+- До push `origin/main` стоял на `03491f2` — то есть на удалённый репозиторий **не уехали
+  и коммиты batch 4** (`f4e2538`, `edc5d24`), которые лежали локально с прошлой сессии.
+  Этот push отправил всё: и их, и 18 коммитов смены.
+- Сеть/доступ проверены заранее: `git ls-remote origin main` → `03491f2`, ahead 18.
+- **Побочный эффект:** `.github/workflows/deploy.yml` триггерится на **любой** push в
+  `main` (`branches: [main]`, без `paths-ignore`), поэтому doc-only push запустил деплой
+  GitHub Pages. Это уже зафиксировано в `.project/BACKLOG.md` как техдолг
+  (`paths-ignore: ['docs/**', '*.md', '.project/**']`).
+- GitHub в ответе на push напомнил про **52 уязвимости** в default branch
+  (1 critical, 23 high, 24 moderate, 4 low) — совпадает с записью в BACKLOG
+  (Dependabot), решения по ним в смене не принимались.
+
+**Состояние после push:** локальная ветка совпадает с `origin/main` на коммите `13204b3`;
+`npm run sync:check` — exit 0. Запись этого результата идёт отдельным коммитом
+(сам отчёт уже отправлен в push).
+
+### Проверка гейтов перед push (все exit 0)
+
+| гейт | результат |
+|---|---|
+| `npm run typecheck` | exit 0 |
+| `npm run test:run` | **149 passed / 149**, 25 файлов, exit 0 |
+| `npm run qc` | Total 189, **Fails 0, Warns 16**, exit 0 |
+| `npm run shuffle-bank:check` | BANK 189 = 55/45/36/53, exit 0 |
+| `npm run build` | exit 0 (entry gzip 51.77 kB) |
+| `npm run sync:check` | exit 0 |
+| `git status` tracked | пусто (изменений нет) |
 
 ---
 
