@@ -523,6 +523,12 @@
   "spec_commit": "e01cd02",
   "commits": [
     {
+      "sha": "8da90a4",
+      "date": "2026-09-27",
+      "subject": "feat(center): Done/Doing/Next + roles + commits",
+      "type": "feat"
+    },
+    {
       "sha": "d4acc43",
       "date": "2026-09-27",
       "subject": "docs(factory): roles.yaml",
@@ -635,12 +641,6 @@
       "date": "2026-09-27",
       "subject": "chore(spec): close batches 5-7 as done, reject 003 and 011 (content freeze)",
       "type": "chore"
-    },
-    {
-      "sha": "12c8439",
-      "date": "2026-09-27",
-      "subject": "feat(bank): M2.9 batches 5-7 - 17 questions on local_storage/manage_software/networking (189->206)",
-      "type": "feat"
     }
   ],
   "roles": [

@@ -100,6 +100,37 @@ const notes = [];
 const warn = (m) => notes.push('WARN: ' + m);
 const info = (m) => notes.push(m);
 
+/* ------------------------------------------------------------------ volatile */
+/**
+ * Маркеры самоссылочных участков производных (spec 009, D3).
+ *
+ * Проблема: центр показывает последние коммиты. Сам факт коммита синхронизации
+ * добавляет в список новую строку, поэтому регенерированный HTML ВСЕГДА чуть-чуть
+ * отличается от закоммиченного → `--check` краснеет → требуется ещё один коммит.
+ * Это не ошибка генератора, а самоссылка данных: артефакт содержит отпечаток
+ * истории репозитория, в который его же и коммитят.
+ *
+ * Решение: участки между маркерами исключаются из побайтового сравнения `--check`.
+ * Реальный дрейф (структура, цифры, спеки, роли, продукты) по-прежнему ловится.
+ * Осознанный компромисс: самоссылочный участок может остаться несинхронизированным
+ * на один коммит — это видно в отчёте и лечится следующим `npm run sync`.
+ */
+const VOLATILE = {
+  start: '<!--volatile:start-->',
+  end: '<!--volatile:end-->',
+};
+
+/** Убирает все участки между маркерами нестабильности — для сравнения в --check. */
+function stripVolatile(text) {
+  const re = new RegExp(
+    VOLATILE.start.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
+      '[\\s\\S]*?' +
+      VOLATILE.end.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+    'g',
+  );
+  return String(text).replace(re, VOLATILE.start + VOLATILE.end);
+}
+
 /* ------------------------------------------------------------------ io */
 
 const readText = (p) => fs.readFileSync(p, 'utf8');
@@ -788,7 +819,9 @@ function renderCenter(ctx) {
     ].join('\n'))
     .join('\n');
 
-  /* --- D3: коммиты (20 из git log) */
+  /* --- D3: коммиты (20 из git log).
+   * Самоссылочный участок: см. VOLATILE выше. Обёрнут маркерами, чтобы `--check`
+   * не требовал лишнего коммита из-за появления в списке самого коммита sync. */
   const commitRows = (commits || []).length === 0
     ? '        <tr><td colspan="4" class="muted">Нет данных git log.</td></tr>'
     : commits
@@ -1037,7 +1070,9 @@ ${journalRows}
         <tr><th>SHA</th><th>тип</th><th>сообщение</th><th>дата</th></tr>
       </thead>
       <tbody>
+${VOLATILE.start}
 ${commitRows}
+${VOLATILE.end}
       </tbody>
     </table>
   </section>
@@ -1242,8 +1277,16 @@ function main() {
     { path: OUT_CENTER, content: centerHtml },
   ];
 
+  // Для ГЕЙТА (`--check`) самоссылочные участки вырезаются: иначе каждый коммит
+  // делает проверку красной и требует ещё одного коммита. См. VOLATILE.
+  // ВАЖНО: решение о ЗАПИСИ ниже принимается по точному сравнению (`:809-816`),
+  // иначе самоссылочный участок никогда не обновился бы.
   const diverged = targets
-    .filter((t) => !exists(t.path) || normalizeLf(readText(t.path)) !== normalizeLf(t.content))
+    .filter(
+      (t) =>
+        !exists(t.path) ||
+        stripVolatile(normalizeLf(readText(t.path))) !== stripVolatile(normalizeLf(t.content)),
+    )
     .map((t) => t.path);
 
   if (CHECK) {
@@ -1314,7 +1357,10 @@ function main() {
   }
 
   // --- контроль: всё ли теперь совпадает (для честного индикатора)
-  const stillDiverged = targets.filter((t) => normalizeLf(readText(t.path)) !== normalizeLf(t.content));
+  // Учитывает самоссылочные участки так же, как гейт (см. VOLATILE).
+  const stillDiverged = targets.filter(
+    (t) => stripVolatile(normalizeLf(readText(t.path))) !== stripVolatile(normalizeLf(t.content)),
+  );
   const inSync = stillDiverged.length === 0;
   if (!inSync) {
     for (const t of stillDiverged) warn(`не удалось привести к источнику: ${path.relative(ROOT, t.path)}`);
