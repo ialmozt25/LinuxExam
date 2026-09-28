@@ -56,10 +56,6 @@ h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; co
 .topic--gap .topic__fill { background: var(--fail); }
 .topic__count { text-align: right; color: var(--fg-muted); font-family: var(--mono); font-size: 0.8125rem; }
 .empty { color: var(--fg-muted); margin: 0; }
-.queue-item { border-left: 2px solid var(--accent); padding: 2px 0 2px 12px; margin-bottom: 12px; }
-.queue-item__id { font-family: var(--mono); }
-.queue-item__goal { color: var(--fg); }
-.queue-item__meta { color: var(--fg-muted); font-size: 0.8125rem; }
 table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
 th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
@@ -74,11 +70,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .entry:first-child { border-top: none; }
 .entry__title { font-weight: 600; }
 .entry__body { font-size: 0.85rem; margin-top: 2px; }
-/* F2.4 (spec 028): «Тревоги» — сворачиваемая секция, card-стиль как у section */
-details.alerts { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
-details.alerts > summary { cursor: pointer; list-style: none; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0; }
-details.alerts > summary::-webkit-details-marker { display: none; }
-details.alerts[open] > summary { margin-bottom: 12px; }
+/* F2.4 (spec 028): «Тревоги» — сворачиваемая секция, card-стиль как у section.
+   C2b-2: тот же card-стиль нужен commits/notebooks/policies, поэтому селектор
+   обобщён на класс collapsible (единый паттерн details class="collapsible …");
+   правила НЕ дублируются по секциям. */
+details.collapsible { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
+details.collapsible > summary { cursor: pointer; list-style: none; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0; }
+details.collapsible > summary::-webkit-details-marker { display: none; }
+details.collapsible[open] > summary { margin-bottom: 12px; }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -101,20 +100,12 @@ details.alerts[open] > summary { margin-bottom: 12px; }
 .ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
 .ddn__plans { margin-top: 14px; font-size: 0.75rem; }
 
-/* --- бейджи коммитов, ролей, продуктов */
+/* --- бейджи типов коммитов (секция «Коммиты») */
 .ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
 .ctype--feat { color: var(--ok); border-color: var(--ok); }
 .ctype--fix { color: var(--accent); border-color: var(--accent); }
 .ctype--docs { color: var(--fg-muted); }
 .ctype--chore { color: var(--warn); border-color: var(--warn); }
-.rstatus { font-family: var(--mono); font-size: 0.75rem; }
-.rstatus--active { color: var(--ok); }
-.rstatus--planned { color: var(--warn); }
-.rstatus--deferred { color: var(--fg-muted); }
-.pstatus { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; }
-.pstatus--frozen { color: var(--warn); border-color: var(--warn); }
-.pstatus--active { color: var(--ok); border-color: var(--ok); }
-.pstatus--planned { color: var(--fg-muted); }
 </style>
 </head>
 <body>
@@ -124,7 +115,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 19e1d662a159a9db79ab8829304c68e3e517700b</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 760ad53e8aeaadb218821fa93f994b77590f894c</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -539,14 +530,20 @@ details.alerts[open] > summary { margin-bottom: 12px; }
     </table>
   </section>
 
-  <section class="commits" id="commits">
-    <h2>Коммиты (последние 20)</h2>
+  <details class="collapsible commits" id="commits">
+    <summary>Коммиты · последних 20</summary>
     <table>
       <thead>
         <tr><th>SHA</th><th>тип</th><th>сообщение</th><th>дата</th></tr>
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">760ad53</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after C2b-1</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">19e1d66</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -661,19 +658,13 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td>docs(dev-plan): DEV-PLAN v1.0 + sync aggregates two plans</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">ef4d485</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(cleanup): remove junk, fix stale links, spec 025</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
-  </section>
+  </details>
 
-  <section class="notebooks" id="notebooks">
-    <h2>Память — тетради</h2>
+  <details class="collapsible notebooks" id="notebooks">
+    <summary>Память · тетрадей: 5</summary>
     <div class="muted">Свежесть: 🟢 &lt;1 фазы (&lt;72 ч) · 🟡 1–2 фазы (72–144 ч) · 🔴 &gt;2 фаз (&gt;144 ч)</div>
     <table>
       <thead>
@@ -684,7 +675,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">17</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -705,7 +696,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -717,9 +708,35 @@ details.alerts[open] > summary { margin-bottom: 12px; }
         </tr><!--volatile:end-->
       </tbody>
     </table>
-  </section>
+  </details>
 
-  <details class="alerts" id="alerts">
+  <details class="collapsible policies" id="policies">
+    <summary>Политики · документов: 4</summary>
+    <ul class="policies">
+        <li>
+          <span class="policy__title">DOD</span>
+          <code>.project/DOD.md</code>
+          <span class="muted">Definition of Done: content / ui / feature</span>
+        </li>
+        <li>
+          <span class="policy__title">DOD (фабрика)</span>
+          <code>.project/factory/DOD.md</code>
+          <span class="muted">инварианты И1–И6, общий DOD, типы</span>
+        </li>
+        <li>
+          <span class="policy__title">TOKENS</span>
+          <code>.project/TOKENS.md</code>
+          <span class="muted">дизайн-токены: формат, источник, владелец</span>
+        </li>
+        <li>
+          <span class="policy__title">ORCH-RULES</span>
+          <code>.project/ORCH-RULES.md</code>
+          <span class="muted">правила оркестратора (1–8)</span>
+        </li>
+    </ul>
+  </details>
+
+  <details class="collapsible alerts" id="alerts">
     <summary>Тревоги · записей: 19</summary>
     <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 19</div>
         <div class="entry">

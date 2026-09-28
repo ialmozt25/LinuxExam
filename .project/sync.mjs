@@ -89,6 +89,18 @@ const COMMITS_IN_CENTER = 20;
 
 /** Порядок статусов в индексе и таблице центра (SPEC.md §Сортировка). */
 const STATUS_ORDER = ['preview', 'running', 'approved', 'draft', 'done', 'rejected'];
+/**
+ * Документы политик для свёрнутого блока «Политики» (spec 029: COLLAPSE).
+ * Оглавление, а не данные: правится руками только при появлении/переезде файла.
+ * Ссылка — путь в `<code>`, а не `<a href>`: центр открывается с диска (file://),
+ * и «открыть файл» из браузера не работает; путь читается и копируется.
+ */
+const POLICY_FILES = [
+  { file: '.project/DOD.md', title: 'DOD', note: 'Definition of Done: content / ui / feature' },
+  { file: '.project/factory/DOD.md', title: 'DOD (фабрика)', note: 'инварианты И1–И6, общий DOD, типы' },
+  { file: '.project/TOKENS.md', title: 'TOKENS', note: 'дизайн-токены: формат, источник, владелец' },
+  { file: '.project/ORCH-RULES.md', title: 'ORCH-RULES', note: 'правила оркестратора (1–8)' },
+];
 
 const notes = [];
 const warn = (m) => notes.push('WARN: ' + m);
@@ -1221,6 +1233,16 @@ function renderCenter(ctx) {
     })
     .join('\n');
 
+  const policyCards = POLICY_FILES
+    .map((p) => [
+      '        <li>',
+      `          <span class="policy__title">${esc(p.title)}</span>`,
+      `          <code>${esc(p.file)}</code>`,
+      `          <span class="muted">${esc(p.note)}</span>`,
+      '        </li>',
+    ].join('\n'))
+    .join('\n');
+
   /* --- D3: коммиты (20 из git log).
    * Самоссылочный участок: см. VOLATILE выше. Обёрнут маркерами, чтобы `--check`
    * не требовал лишнего коммита из-за появления в списке самого коммита sync. */
@@ -1344,10 +1366,6 @@ h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; co
 .topic--gap .topic__fill { background: var(--fail); }
 .topic__count { text-align: right; color: var(--fg-muted); font-family: var(--mono); font-size: 0.8125rem; }
 .empty { color: var(--fg-muted); margin: 0; }
-.queue-item { border-left: 2px solid var(--accent); padding: 2px 0 2px 12px; margin-bottom: 12px; }
-.queue-item__id { font-family: var(--mono); }
-.queue-item__goal { color: var(--fg); }
-.queue-item__meta { color: var(--fg-muted); font-size: 0.8125rem; }
 table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
 th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
@@ -1362,11 +1380,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .entry:first-child { border-top: none; }
 .entry__title { font-weight: 600; }
 .entry__body { font-size: 0.85rem; margin-top: 2px; }
-/* F2.4 (spec 028): «Тревоги» — сворачиваемая секция, card-стиль как у section */
-details.alerts { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
-details.alerts > summary { cursor: pointer; list-style: none; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0; }
-details.alerts > summary::-webkit-details-marker { display: none; }
-details.alerts[open] > summary { margin-bottom: 12px; }
+/* F2.4 (spec 028): «Тревоги» — сворачиваемая секция, card-стиль как у section.
+   C2b-2: тот же card-стиль нужен commits/notebooks/policies, поэтому селектор
+   обобщён на класс collapsible (единый паттерн details class="collapsible …");
+   правила НЕ дублируются по секциям. */
+details.collapsible { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
+details.collapsible > summary { cursor: pointer; list-style: none; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0; }
+details.collapsible > summary::-webkit-details-marker { display: none; }
+details.collapsible[open] > summary { margin-bottom: 12px; }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -1389,20 +1410,12 @@ details.alerts[open] > summary { margin-bottom: 12px; }
 .ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
 .ddn__plans { margin-top: 14px; font-size: 0.75rem; }
 
-/* --- бейджи коммитов, ролей, продуктов */
+/* --- бейджи типов коммитов (секция «Коммиты») */
 .ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
 .ctype--feat { color: var(--ok); border-color: var(--ok); }
 .ctype--fix { color: var(--accent); border-color: var(--accent); }
 .ctype--docs { color: var(--fg-muted); }
 .ctype--chore { color: var(--warn); border-color: var(--warn); }
-.rstatus { font-family: var(--mono); font-size: 0.75rem; }
-.rstatus--active { color: var(--ok); }
-.rstatus--planned { color: var(--warn); }
-.rstatus--deferred { color: var(--fg-muted); }
-.pstatus { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; }
-.pstatus--frozen { color: var(--warn); border-color: var(--warn); }
-.pstatus--active { color: var(--ok); border-color: var(--ok); }
-.pstatus--planned { color: var(--fg-muted); }
 </style>
 </head>
 <body>
@@ -1443,8 +1456,8 @@ ${specsRows}
     </table>
   </section>
 
-  <section class="commits" id="commits">
-    <h2>Коммиты (последние ${COMMITS_IN_CENTER})</h2>
+  <details class="collapsible commits" id="commits">
+    <summary>Коммиты · последних ${COMMITS_IN_CENTER}</summary>
     <table>
       <thead>
         <tr><th>SHA</th><th>тип</th><th>сообщение</th><th>дата</th></tr>
@@ -1455,10 +1468,10 @@ ${commitRows}
 ${VOLATILE.end}
       </tbody>
     </table>
-  </section>
+  </details>
 
-  <section class="notebooks" id="notebooks">
-    <h2>Память — тетради</h2>
+  <details class="collapsible notebooks" id="notebooks">
+    <summary>Память · тетрадей: ${NOTEBOOKS.length}</summary>
     <div class="muted">Свежесть: 🟢 &lt;1 фазы (&lt;72 ч) · 🟡 1–2 фазы (72–144 ч) · 🔴 &gt;2 фаз (&gt;144 ч)</div>
     <table>
       <thead>
@@ -1468,9 +1481,16 @@ ${VOLATILE.end}
 ${VOLATILE.start}${notebookRows}${VOLATILE.end}
       </tbody>
     </table>
-  </section>
+  </details>
 
-  <details class="alerts" id="alerts">
+  <details class="collapsible policies" id="policies">
+    <summary>Политики · документов: ${POLICY_FILES.length}</summary>
+    <ul class="policies">
+${policyCards}
+    </ul>
+  </details>
+
+  <details class="collapsible alerts" id="alerts">
     <summary>Тревоги · записей: ${alertsDoc.total}</summary>
     <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: ${alertsDoc.total}</div>
 ${alertsHtml}

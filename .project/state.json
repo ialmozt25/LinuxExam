@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "19e1d662a159a9db79ab8829304c68e3e517700b",
+  "head": "760ad53e8aeaadb218821fa93f994b77590f894c",
   "specs": [
     {
       "id": "022",
@@ -763,6 +763,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "760ad53",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2b-1",
+      "type": "chore"
+    },
+    {
       "sha": "19e1d66",
       "date": "2026-09-29",
       "subject": "chore(state): converge after C2b-1",
@@ -875,12 +881,6 @@
       "date": "2026-09-28",
       "subject": "docs(dev-plan): DEV-PLAN v1.0 + sync aggregates two plans",
       "type": "docs"
-    },
-    {
-      "sha": "ef4d485",
-      "date": "2026-09-28",
-      "subject": "chore(cleanup): remove junk, fix stale links, spec 025",
-      "type": "chore"
     }
   ],
   "roles": [
