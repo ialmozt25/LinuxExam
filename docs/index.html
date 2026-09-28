@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD e7c4026cd39aab799ab8c8ab5fc357abbd0a459a</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 70263107e8019b8d2c557d64188ddeea3f864a5a</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -514,7 +514,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->
         <tr>
-          <td class="mono">e7c4026</td>
+          <td class="mono">7026310</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec): 023 F4 keepers + plan v2.12 (F4.1)</td>
           <td class="mono muted">2026-09-28</td>
@@ -750,20 +750,20 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">3 ч</td>
+          <td class="muted">4 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-28T06:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T05:33:00Z</td>
-          <td class="mono">6</td>
+          <td class="mono">7</td>
           <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
@@ -803,7 +803,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 
   <section class="alerts" id="alerts">
     <h2>Тревоги</h2>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 6</div>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 7</div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | Критерий 8 спеки 022 не проверен прогоном</div>
           <div class="entry__body muted">Критерий 8 спеки 022 (фаза известна, но не `staged|running` → в `class` попадает только базовый `chip` без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значением `phase` не удалось записать в edge-кейс-прогоне F3.0b — запись значения режется политикой оболочки. Не блокер F3. Кандидат: unit-тест `sync.mjs` (чистая функция рендера команды) в F4.</div>
@@ -827,6 +827,10 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <div class="entry">
           <div class="entry__title">2026-09-28 | sync.mjs self-reference</div>
           <div class="entry__body muted">`sync.mjs` self-reference. `state.head` и `commits[]` всегда отстают на 1 от HEAD после verify-шага: pinned head (`STATE.md:44`) лежит вне volatile-маркеров, а любой прогон verify добавляет текущий коммит в `commits[]` — производные уезжают, `sync:check` даёт exit 2. Принято как налог правила 9. Лечение — F2 (volatile-маркеры). Конвергентами не биться. Взято в работу в F2.1. [closed F2.1b/F2.2b — volatile]</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | [f4-checker] результат</div>
+          <div class="entry__body muted">Сверка 4 пунктов (задание F4-checker).</div>
         </div>
   </section>
 
@@ -877,8 +881,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.12</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F4 · F4.1 — спека 023</div>
+    <h2>План · v2.13</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F4 · F4.2a-ii — keepers scripts</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>

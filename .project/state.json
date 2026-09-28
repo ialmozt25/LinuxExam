@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "e7c4026cd39aab799ab8c8ab5fc357abbd0a459a",
+  "head": "70263107e8019b8d2c557d64188ddeea3f864a5a",
   "specs": [
     {
       "id": "022",
@@ -410,11 +410,11 @@
       "updated": "2026-09-28",
       "commit": null,
       "file": "specs/023-f4-keepers.md",
-      "mtime": 1790575415825.286,
+      "mtime": 1790578861355.7588,
       "goal": "Четыре хранителя — **Сверщик, Летописец, Будильник, Чистильщик** — периодически",
       "acceptance": "",
       "noTouch": "`sync.mjs` — блок 6 и прочие секции (F3 закрыта).",
-      "preview": "Для infra-спеки превью — diff sync-производных (`.project/state.json`,"
+      "preview": "Первый ручной прогон `checker.ps1` (F4.2a-ii, 2026-09-28): **exit 0**, 72.8 с, запись в `docs/memory/alerts.md`:"
     },
     {
       "id": "001",
@@ -703,7 +703,7 @@
   "schema_version": 2,
   "commits": [
     {
-      "sha": "e7c4026",
+      "sha": "7026310",
       "date": "2026-09-28",
       "subject": "docs(spec): 023 F4 keepers + plan v2.12 (F4.1)",
       "type": "docs"
@@ -936,9 +936,9 @@
     }
   ],
   "plan": {
-    "version": "2.12",
+    "version": "2.13",
     "phase": "F4",
-    "step": "F4.1 — спека 023",
+    "step": "F4.2a-ii — keepers scripts",
     "phases": [
       {
         "id": "F0",
