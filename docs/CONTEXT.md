@@ -58,11 +58,11 @@
 ## Правила работы
 
 1. Одна задача = одна сессия агента
-2. Pre-read: session-log (3) + CONTEXT + ENGINEERING-DECISIONS + последний report
+2. Pre-read: `docs/archive/session-log-2026-09-28.md` (3) + `docs/memory/` + CONTEXT + ENGINEERING-DECISIONS + последний report
 3. Context guard: usage > 500K → новая сессия
 4. Не пушить без ahead=1 (перед push — fetch)
 5. Атомарные коммиты: один симптом = один коммит
-6. В session-log — append после каждой сессии
+6. В `docs/archive/session-log-2026-09-28.md` — append после каждой сессии (файл в архиве, закрыт)
 7. Промпт на 10 проходов — не более 2 итераций (diminishing returns)
 8. Rocky Linux 9.8 в WSL2 — источник истины для man
 9. Агент не может видеть свой context usage — если harness предупреждает, СТОП
@@ -78,7 +78,7 @@
 ## Ссылки
 
 - ENGINEERING-DECISIONS: docs/ENGINEERING-DECISIONS.md
-- Session-log: docs/session-log.md
+- Session-log: docs/archive/session-log-2026-09-28.md
 - Audits: docs/audit-*.md
 - Reports: drafts/report-*.md
 - Calibration: tools/cosine-calibration.json

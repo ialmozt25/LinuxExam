@@ -4,7 +4,7 @@
 
 ---
 
-2026-09-28 | F1.1 в работе
-F1.1 в работе. Пять тетрадей созданы (episodic, semantic, procedural, working, alerts), план переведён на v2.3, правила 12–13 добавлены в `.project/ORCH-RULES.md`. Дальше F1.2 (`docs/memory/trends.jsonl` + `tools/check-episodic.mjs`).
+2026-09-28 | F1 закрыта, F2 в очереди
+F1 закрыта. F2 в очереди: ремонт `sync.mjs` (self-reference + путь к памяти), парсинг YAML-шапки плана для дашборда.
 
-<!-- meta updated: 2026-09-28T02:37:25Z entries_count: 1 -->
+<!-- meta updated: 2026-09-28T02:56:14Z entries_count: 1 -->

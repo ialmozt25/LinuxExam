@@ -4,6 +4,9 @@
 
 ---
 
+## 2026-09-28 | F1 закрыта
+F1 (память) закрыта 5/5. Тетради: episodic, semantic, procedural, working, alerts. trends.jsonl, check-episodic.mjs. MEMORY-FACTORY.md и session-log.md в архив. Числа верифицированы (ahead 9→11). Открытый долг: sync.mjs:898/:1150 — устаревший путь, правка в F2.1.
+
 2026-09-28 | F0.1 финал: фиксация налога правила 9
 Закоммичены `.project/state.json` + `docs/index.html` как финальный snapshot F0.1 (`96303a2`), затем запись правила 5 в `.project/log.md` (`4fc2ce1`). Диагноз: self-reference `state.head` — структурный, правка `sync.mjs` отложена в F2, третий converge не делался. Дерево tracked чистое, остались только 4 согласованных untracked пути.
 
@@ -19,4 +22,4 @@
 2026-09-28 | Спеки 014 и 010 закрыты формально
 Коммит `3a6266a`: spec 014 (`subagent-push-lockdown`) → `done` — правило 11 реализовано коммитом `61787a0`, спека добавлена `49fec29`; spec 010 (`jsdom-smoke-center`) → `rejected` — отменена по факту, подменена контент-батчами 5A/5B/5C, артефакт `docs/__tests__/center-smoke.test.mjs` не создан. Перед этим `5a806d1` — запись авторизованного push 5C (правила 10/11), `2dd251e` — converge после неё.
 
-<!-- meta updated: 2026-09-28T02:37:25Z entries_count: 5 -->
+<!-- meta updated: 2026-09-28T02:56:14Z entries_count: 6 -->
