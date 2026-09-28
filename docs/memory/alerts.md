@@ -3,6 +3,20 @@
 Что пошло не так: открытые проблемы, налоги, известные ловушки.
 
 ---
+
+## 2026-09-28 | renderAgentTeamCard не обёрнут VOLATILE
+`.project/sync.mjs:884-918` (секция «Пульс агентов») рендерит
+`.agent-teams/*/team.json`. Любое изменение storage → `sync:check`
+exit 2. Кандидат: volatile-маркеры или игнор.
+
+## 2026-09-28 | Quality-gates контракты не применяются
+Все задачи в D4 — `kind: work`. Harness не требует `objective`/
+`acceptance`/`verify`/`reviewedTaskId`. Кандидат: усилить SKILL.md.
+
+## 2026-09-28 | D5-порядок в шаблонах промптов
+`sync:check` до коммита всегда exit 2. Правильный порядок:
+A/B → F1 → D2/D3 → D4/D5/D6 → H. Кандидат: procedural.md.
+
 ## 2026-09-28 | rule2-exception cumulative
 F5.0b — второй случай `rule2-exception` (после spec 023 в F4.3). Если паттерн повторится — пересмотреть правило 2 (возможно, embedded approve — норма, а не исключение). Кандидат в F5.3 или в ORCH-RULES-правку.
 
@@ -73,4 +87,4 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 
 *Вне 4 пунктов (наблюдение, не расхождение задания):* шапка плана и `state.plan` держат `F5` как `pending` `0/4`, тогда как CHANGELOG v2.20 и git (`923b427`) фиксируют F5.1a/F5.1b сделанными, а `current_step` = F5.2 — прогресс фазы в машиночитаемых полях отстаёт от факта.
 
-<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 15 -->
+<!-- meta updated: 2026-09-28T20:40:00Z entries_count: 18 -->

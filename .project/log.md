@@ -81,3 +81,6 @@
 2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending
 2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending
 2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `<details class="alerts" id="alerts">` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending
+2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending
+2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending
+2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]
