@@ -1529,6 +1529,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .entry:first-child { border-top: none; }
 .entry__title { font-weight: 600; }
 .entry__body { font-size: 0.85rem; margin-top: 2px; }
+/* F2.4 (spec 028): «Тревоги» — сворачиваемая секция, card-стиль как у section */
+details.alerts { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
+details.alerts > summary { cursor: pointer; list-style: none; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0; }
+details.alerts > summary::-webkit-details-marker { display: none; }
+details.alerts[open] > summary { margin-bottom: 12px; }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -1695,11 +1700,11 @@ ${decisionRows}
     </ul>
   </section>
 
-  <section class="alerts" id="alerts">
-    <h2>Тревоги</h2>
+  <details class="alerts" id="alerts">
+    <summary>Тревоги · записей: ${alertsDoc.total}</summary>
     <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: ${alertsDoc.total}</div>
 ${alertsHtml}
-  </section>
+  </details>
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>

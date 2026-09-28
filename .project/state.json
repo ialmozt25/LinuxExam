@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "6fe81fd8ffb0b7b3c78fce5781332c6bfc96fcaa",
+  "head": "a71f21bd66e4d6ab8c10d6af067e174e1e4ff9f3",
   "specs": [
     {
       "id": "022",
@@ -399,6 +399,21 @@
       "goal": "Очистить рабочее дерево после закрытия проекта: убрать мусорные остатки",
       "acceptance": "1. Удалены 6 путей (все `Test-Path` → False), защищённые не тронуты.",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "028",
+      "slug": "hide-alerts-details",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/028-hide-alerts-details.md",
+      "mtime": 1790626878282.0193,
+      "goal": "В docs/index.html блок <section class=\"alerts\"> свернуть в",
+      "acceptance": "1. В docs/index.html есть <details class=\"alerts\"> или",
+      "noTouch": "src/, tools/, templates/, .agent-teams/.",
       "preview": ""
     },
     {
@@ -733,6 +748,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "a71f21b",
+      "date": "2026-09-28",
+      "subject": "docs(dev-plan): D3 close (v1.3)",
+      "type": "docs"
+    },
+    {
       "sha": "dcca5e4",
       "date": "2026-09-28",
       "subject": "chore(state): converge after D3b",
@@ -845,12 +866,6 @@
       "date": "2026-09-28",
       "subject": "docs(spec): 023 F4 keepers + plan v2.12 (F4.1)",
       "type": "docs"
-    },
-    {
-      "sha": "2fb5b88",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after push F3",
-      "type": "chore"
     }
   ],
   "roles": [

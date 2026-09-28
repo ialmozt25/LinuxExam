@@ -3,8 +3,8 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `6fe81fd8ffb0b7b3c78fce5781332c6bfc96fcaa`<!--volatile:end-->
-- Спек: 25
+<!--volatile:start-->- HEAD: `a71f21bd66e4d6ab8c10d6af067e174e1e4ff9f3`<!--volatile:end-->
+- Спек: 26
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
@@ -13,6 +13,7 @@
 | 023 | `f4-keepers` | infra | approved | — | 2026-09-28 |
 | 024 | `factory-export` | infra | approved | — | 2026-09-28 |
 | 025 | `cleanup-project` | infra | approved | — | 2026-09-28 |
+| 028 | `hide-alerts-details` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |

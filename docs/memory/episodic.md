@@ -77,4 +77,10 @@ episodic появилась, шаг 8b прошёл с первой попытк
 Коммиты D3: 6fe81fd, dcca5e4.
 Evidence: .agent-teams/spec-027-memory-test (оставлена).
 
-<!-- meta updated: 2026-09-28T12:27:00Z entries_count: 13 -->
+## 2026-09-28 | spec-028-hide-alerts
+Прогон skill `spec-to-team` по спеке 028 (type: infra, approved) — первая **реальная** задача skill'а после smoke-серий. Команда `spec-028-hide-alerts`: 4 агента (architect/builder/tester/reviewer — pro/flash/flash/pro, effort high), 4 задачи completed по цепочке t1 design → t2 implement → t3 test → t4 review, verdict reviewer = PASS.
+Что сделано: `.project/sync.mjs` — секция «Тревоги» (`renderCenter`) свёрнута в `<details class="alerts" id="alerts">` + `<summary>Тревоги · записей: N</summary>`; `id="alerts"` и класс `.alerts` сохранены, CSS добавлен точечно (`details.alerts`); производный `docs/index.html` регенерирован `npm run sync`; 15 записей alerts не потеряны.
+Гейты: `npm run sync` exit 0 (идемпотентно), `check:episodic` exit 0 (OK F0–F5, D0–D3); `sync:check` → exit 2 «изменены и не закоммичены» — корректный предкоммитный результат (правило 9, converge отдельным коммитом).
+Evidence: `.agent-teams/spec-028-hide-alerts` (оставлена как evidence). D4 остаётся `pending`: это прогон-тест, закрытие фазы — отдельный шаг D4-close.
+
+<!-- meta updated: 2026-09-28T20:31:00Z entries_count: 14 -->

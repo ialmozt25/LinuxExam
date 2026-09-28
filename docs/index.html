@@ -74,6 +74,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .entry:first-child { border-top: none; }
 .entry__title { font-weight: 600; }
 .entry__body { font-size: 0.85rem; margin-top: 2px; }
+/* F2.4 (spec 028): «Тревоги» — сворачиваемая секция, card-стиль как у section */
+details.alerts { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
+details.alerts > summary { cursor: pointer; list-style: none; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0; }
+details.alerts > summary::-webkit-details-marker { display: none; }
+details.alerts[open] > summary { margin-bottom: 12px; }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -118,7 +123,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 6fe81fd8ffb0b7b3c78fce5781332c6bfc96fcaa</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD a71f21bd66e4d6ab8c10d6af067e174e1e4ff9f3</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -253,7 +258,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">4</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">5</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -269,6 +274,10 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#025 cleanup-project</span>
+            <span class="ddn__meta">infra · approved</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#028 hide-alerts-details</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
           </ul>
@@ -340,6 +349,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td><span class="chip chip--approved">approved</span></td>
           <td class="mono">—</td>
           <td class="mono">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">028</td>
+          <td class="mono">hide-alerts-details</td>
+          <td>infra</td>
+          <td><span class="chip chip--approved">approved</span></td>
+          <td class="mono">—</td>
+          <td class="mono">—</td>
         </tr>
         <tr>
           <td class="mono">016</td>
@@ -516,7 +533,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending</li>
         <li>2026-09-28 | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | commit pending</li>
         <li>2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending</li>
         <li>2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]</li>
@@ -526,6 +542,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending</li>
         <li>2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending</li>
         <li>2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending</li>
+        <li>2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `&lt;details class=&quot;alerts&quot; id=&quot;alerts&quot;&gt;` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending</li>
     </ul>
   </section>
 
@@ -537,6 +554,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">a71f21b</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(dev-plan): D3 close (v1.3)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">dcca5e4</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -651,12 +674,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>docs(spec): 023 F4 keepers + plan v2.12 (F4.1)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">2fb5b88</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after push F3</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -758,8 +775,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-28T12:27:00Z</td>
-          <td class="mono">13</td>
+          <td class="mono muted">2026-09-28T20:31:00Z</td>
+          <td class="mono">14</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
@@ -767,19 +784,19 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">2 ч</td>
+          <td class="muted">10 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">10 ч</td>
+          <td class="muted">18 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T12:27:00Z</td>
+          <td class="mono muted">2026-09-28T20:31:00Z</td>
           <td class="mono">1</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
@@ -788,7 +805,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T05:33:00Z</td>
           <td class="mono">15</td>
-          <td class="muted">7 ч</td>
+          <td class="muted">15 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -817,16 +834,16 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]</li>
         <li><span class="mono muted">2026-09-28</span> | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в st…</li>
         <li><span class="mono muted">2026-09-28</span> | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформули…</li>
         <li><span class="mono muted">2026-09-28</span> | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1…</li>
         <li><span class="mono muted">2026-09-28</span> | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIV…</li>
+        <li><span class="mono muted">2026-09-28</span> | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Трево…</li>
     </ul>
   </section>
 
-  <section class="alerts" id="alerts">
-    <h2>Тревоги</h2>
+  <details class="alerts" id="alerts">
+    <summary>Тревоги · записей: 15</summary>
     <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 15</div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | rule2-exception cumulative</div>
@@ -888,11 +905,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <div class="entry__title">2026-09-28 | [f4-checker] результат</div>
           <div class="entry__body muted">Сверка 4 пунктов. **все проверки OK.**</div>
         </div>
-  </section>
+  </details>
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 4</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 5</div>
         <div class="entry">
           <div class="entry__title">linuxexam-f3-smoke · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: writer (·) · qc (·)</div>
@@ -910,6 +927,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </div>
         <div class="entry">
           <div class="entry__title">spec-027-memory-test · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: architect (·) · builder (·) · tester (·) · reviewer (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">spec-028-hide-alerts · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: architect (·) · builder (·) · tester (·) · reviewer (·)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
         </div>

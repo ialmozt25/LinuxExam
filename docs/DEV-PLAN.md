@@ -49,7 +49,7 @@ budget:
 Развиваем **поверх** закрытой фабрики, не переписывая её:
 
 - `docs/FACTORY-PLAN.md` — исторический план (v2.23, F0–F5 done), не редактируется;
-- `docs/DEV-PLAN.md` — этот файл, активный план (v1.2, D0–D4);
+- `docs/DEV-PLAN.md` — этот файл, активный план (v1.3, D0–D4);
 - оба плана парсятся `.project/sync.mjs` и агрегируются в
   `.project/state.json` → `plan.allPhases` (11 фаз: F0–F5 + D0–D4);
 - `npm run check:episodic` читает `allPhases`, поэтому правило 12 (запись
