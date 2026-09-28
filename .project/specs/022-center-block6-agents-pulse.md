@@ -49,11 +49,23 @@ commit: null
 
 ## Превью
 
-<!-- Заполняется в шаге B: цитата HTML-блока 6 из docs/index.html (10-20 строк) + вывод гейтов. -->
+Сгенерировано `npm run sync` при HEAD `9718583` из реального `.agent-teams/linuxexam-m6-phase4/team.json` (секция `#agents` в `docs/index.html`):
 
+```html
+  <section class="agents" id="agents">
+    <h2>Пульс агентов</h2>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 1</div>
+        <div class="entry">
+          <div class="entry__title">linuxexam-m6-phase4 · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: phase4-writer (·) · phase4-verifier (·) · phase4-verifier-2 (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✗ · t3 ✓ · t4 ⊘ · t5 ✓ · t6 ✓</div>
+        </div>
+  </section>
 ```
-(ожидает шага B — реализации)
-```
+
+Гейты (B7, все exit 0): `npm run typecheck` → 0; `npm run test:run` → 0 (26 файлов / 167 тестов); `npm run qc` → 0 (224 вопроса, Fails: 0, Warns: 22); `npm run sync` → 0; `npm run sync:check` → 0 (`sync: ok (check) — производные совпадают с источником, HEAD 9718583`); `npm run check:episodic` → 0 (`OK F0 / OK F1 / OK F2`). Конвергентный коммит (правило 9) не потребовался.
+
+Edge-кейс-прогон (критерии 1–5; изолированная копия `sync.mjs` в temp-каталоге с фикстурами `.agent-teams/`, репозиторий не затронут): битый JSON → `a-team · нечитаем`; каталог без `team.json` → `c-team · нечитаем`; файл `stray.txt` проигнорирован; `B <team>` отрендерился как `B &lt;team&gt;` (экранирование); неизвестные статусы → `?`; `claimed` → `◇`; `phase: staged` → `chip--staged` + метка «— ожидает approve»; пустые массивы → `агенты: —` / `задачи: —`; нет каталога → `нет данных — каталог .agent-teams/ отсутствует`; пустой каталог → `нет данных — команд нет`; сортировка — `a-team` → `b-team` → `c-team`.
 
 ## Зафиксированные решения
 
