@@ -1,12 +1,12 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.20
+plan_version: 2.21
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
 current_phase: F5
-current_step: "F5.2 — FACTORY-USAGE + проверка пустышки"
+current_step: "F5.3 — закрытие фазы + push"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
@@ -28,7 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.20 (2026-09-28):** F5.1b — factory:scaffold работает, 4 сценария проверены (несуществующий/пустой/непустой/--force); smoke на развёрнутом шаблоне пройден.
+**v2.21 (2026-09-28):** F5.2 — FACTORY-USAGE.md написан; scaffold на node:fs (без fs-extra); полный цикл на пустышке с git init + commit пройден.
 **v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE; + титул/паспорт/футер выровнены под v2.9.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
@@ -47,9 +47,9 @@ captain_timezone: "Europe/Moscow"
 |---|---|
 | Продукт | LinuxExam — тренажёр RHCSA EX200 |
 | Фабрика | MAS Factory — переиспользуемая система разработки |
-| Текущий шаг | **F5.2** — FACTORY-USAGE + проверка пустышки |
-| Цель шага | Документ USAGE + репо-пустышка разворачивается |
-| Ближайший результат | F5.3 — закрытие фазы + push |
+| Текущий шаг | **F5.3** — закрытие фазы + push |
+| Цель шага | episodic + log + **план v2.22 (F5 done 4/4)** + push |
+| Ближайший результат | Проект завершён: фабрика экспортируема |
 | Бюджет фазы | 500K токенов, 3 дня, без новых платных API |
 
 **Где что живёт:**

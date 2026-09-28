@@ -40,7 +40,7 @@ npm run factory:scaffold -- ../my-product --product="My Product"
 |---|---|---|
 | `--product=NAME` | название продукта (`{{PRODUCT}}`) | `basename <target-dir>` |
 | `--factory=NAME` | название фабрики (`{{FACTORY}}`) | `MAS Factory` |
-| `--captain-tz=TZ` | часовой пояс капитана (`{{CAPTAIN_TZ}}`) | `{{CAPTAIN_TZ}}` |
+| `--captain-tz=TZ` | часовой пояс капитана (`{{CAPTAIN_TZ}}`) | `Europe/Moscow` |
 | `--dsh-bin=PATH` | путь к `bin.js` DSH (`{{DSH_BIN}}`) | `dsh` (голая команда) |
 | `--github-owner=NAME` | владелец репозитория (`{{GITHUB_OWNER}}`) | пусто |
 | `--force` | разворачивать поверх непустого каталога | выключен |
@@ -82,8 +82,8 @@ npm run factory:sync-template
 ```
 
 Скрипт копирует фабричные файлы в `templates/factory/`, заменяет продуктовые
-строки на плейсхолдеры (`{{PRODUCT}}` → `{{PRODUCT}}`, `{{GITHUB_OWNER}}` →
-`{{GITHUB_OWNER}}`, `{{CAPTAIN_TZ}}` → `{{CAPTAIN_TZ}}`, абсолютные пути →
+строки на плейсхолдеры (`LinuxExam` → `{{PRODUCT}}`, `ialmozt25` →
+`{{GITHUB_OWNER}}`, `Europe/Moscow` → `{{CAPTAIN_TZ}}`, абсолютные пути →
 `{{PROJECT_ROOT}}` / `{{DSH_BIN}}`) и не трогает файлы, которые в шаблоне живут
 собственной жизнью (`sync.mjs`, `state.json`, план, `START-HERE.md`, тетради,
 `package.json`, `README.md`, этот документ). Запускать после изменений фабрики.

@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "dfc85c789c1dd9525fc3367621c92184c46b6fe8",
+  "head": "923b42715c6f00a77f26d3ce8406c63ae6045243",
   "specs": [
     {
       "id": "022",
@@ -380,7 +380,7 @@
       "updated": "2026-09-28",
       "commit": null,
       "file": "specs/024-factory-export.md",
-      "mtime": 1790582245505.9185,
+      "mtime": 1790582742523.3052,
       "goal": "Экспортировать фабрику (правила, память, дашборд, гейты) в переиспользуемый",
       "acceptance": "1. `templates/factory/` содержит файлы из «Входит», НЕ содержит из «НЕ входит».",
       "noTouch": "`.project/specs/001-023`",
@@ -703,7 +703,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —",
     "2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]",
     "2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending",
     "2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending",
@@ -712,11 +711,18 @@
     "2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending",
     "2026-09-28 | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-й случай rule2-exception) | commit pending",
     "2026-09-28 | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — урезанная версия (smoke ok) | commit pending",
-    "2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending"
+    "2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending",
+    "2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "923b427",
+      "date": "2026-09-28",
+      "subject": "feat(factory): F5.1b — factory:scaffold + 4 scenarios verified",
+      "type": "feat"
+    },
     {
       "sha": "dfc85c7",
       "date": "2026-09-28",
@@ -829,12 +835,6 @@
       "sha": "8b7b6e6",
       "date": "2026-09-28",
       "subject": "docs(plan): sync body/footer to v2.9, working head after F2.5",
-      "type": "docs"
-    },
-    {
-      "sha": "8abebfc",
-      "date": "2026-09-28",
-      "subject": "docs(memory): F2.5 — START-HERE, working head, alerts cleanup",
       "type": "docs"
     }
   ],
@@ -951,9 +951,9 @@
     }
   ],
   "plan": {
-    "version": "2.20",
+    "version": "2.21",
     "phase": "F5",
-    "step": "F5.2 — FACTORY-USAGE + проверка пустышки",
+    "step": "F5.3 — закрытие фазы + push",
     "phases": [
       {
         "id": "F0",

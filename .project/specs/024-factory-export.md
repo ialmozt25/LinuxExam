@@ -45,7 +45,7 @@ commit: null
   `{plan: {version: "1.0", phases: [F0..F5 pending], product: "{{PRODUCT}}"}}`
 - `docs/FACTORY-USAGE.md` — инструкция для пользователя шаблона
 - `package.json` — минимальный: `scripts.sync`, `scripts.check:episodic`,
-  devDeps для `sync.mjs` (`fs-extra`, **без** `js-yaml`)
+  без внешних зависимостей (`sync.mjs` использует только `node:*`)
 - `README.md` — шаблон
 
 ## Состав (что НЕ входит)
@@ -131,7 +131,8 @@ commit: null
 
 - **Не отдельный репо / npm-пакет** — over-engineering для одного продукта
   (обоснование в плане, ЧАСТЬ 4, блок F5).
-- **Кросс-платформенность:** `fs-extra.copySync`.
+- **Кросс-платформенность:** `node:fs.cpSync` (Node 16.7+). Внешние зависимости
+  для `factory:scaffold` не требуются.
 - **Плейсхолдеры:** `{{PRODUCT}}`, `{{FACTORY}}`, `{{DATE}}`, `{{CAPTAIN_TZ}}`.
 - **Changelog плана в шаблоне — пустой** (только «v1.0 — initial»).
 - **STOP — не шаблон, а флаг** (создаётся по требованию).

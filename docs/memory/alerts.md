@@ -62,4 +62,15 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 
 **Итог:** расхождений нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания).
 
-<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 14 -->
+## 2026-09-28 | [f4-checker] результат
+Сверка 4 пунктов. **все проверки OK.**
+1. **OK.** `state.head` = `dfc85c789c1dd9525fc3367621c92184c46b6fe8`; `git log -1` = `923b42715c6f00a77f26d3ce8406c63ae6045243` («feat(factory): F5.1b — factory:scaffold + 4 scenarios verified»). `git log --oneline dfc85c7..HEAD` → ровно 1 коммит — отставание в допуске (самоссылка spec 009, следствие amend).
+2. **OK.** Все фазы `status: done` из YAML-шапки (`F0`, `F1`, `F2`, `F3`, `F4`) имеют запись в `docs/memory/episodic.md`; `node tools/check-episodic.mjs` → `OK F0 / OK F1 / OK F2 / OK F3 / OK F4`, exit 0.
+3. **OK.** Файлы ЧАСТИ 4, упомянутые как созданные, на месте: `docs/FACTORY-PLAN.md`; `docs/memory/{episodic,semantic,procedural,working,alerts}.md`; `docs/memory/trends.jsonl`; `tools/check-episodic.mjs`; `.githooks/pre-commit`; `docs/index.html`; `docs/dashboard/state.json`; `.agent-teams/linuxexam-f3-smoke/team.json`; `.project/scripts/keepers/{checker.ps1,cleaner.ps1,watchdog.ps1,run-headless.mjs}`; `templates/factory/` + `templates/factory/README.md` (F5.1a). Не создан только `docs/FACTORY-USAGE.md` — это deliverable текущего шага F5.2 (ещё не выполнен), расхождением не является.
+4. **OK.** Отставание `state.head` от HEAD ровно 1 коммит — в допуске (≤ 1). `sync:check` не вызывался (sandbox блокирует `spawnSync git`).
+
+**Итог:** расхождений по 4 пунктам нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания).
+
+*Вне 4 пунктов (наблюдение, не расхождение задания):* шапка плана и `state.plan` держат `F5` как `pending` `0/4`, тогда как CHANGELOG v2.20 и git (`923b427`) фиксируют F5.1a/F5.1b сделанными, а `current_step` = F5.2 — прогресс фазы в машиночитаемых полях отстаёт от факта.
+
+<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 15 -->

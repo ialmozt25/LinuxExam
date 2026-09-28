@@ -36,6 +36,10 @@ const SKIP = [
   '.project/specs/',
   '.project/log.md',
   '.project/DECISIONS.md',
+  // Производные sync: в шаблоне их нет (генерируются в развёрнутом репо),
+  // иначе после `npm run sync` они вернулись бы в шаблон.
+  '.project/STATE.md',
+  '.project/SPEC.md',
   '.project/factory/RESEARCH.md',
   '.project/factory/snapshots/',
   'docs/archive/',
@@ -110,7 +114,6 @@ const OURS = new Set([
   'docs/memory/trends.jsonl',
   'package.json',
   'README.md',
-  'docs/FACTORY-USAGE.md',
 ]);
 
 function copyWithReplacements(srcRel, dstRel) {
@@ -150,6 +153,7 @@ const MANIFEST = [
   '.project/factory/roles',
   '.githooks/pre-commit',
   'tools/check-episodic.mjs',
+  'docs/FACTORY-USAGE.md',
 ];
 
 fs.mkdirSync(TEMPLATE, { recursive: true });
