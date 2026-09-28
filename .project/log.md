@@ -47,3 +47,4 @@
 2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending
 2026-09-28 | F1.2 | trends.jsonl + check-episodic.mjs + npm check:episodic; правило 12 теперь checkable | commit pending
 2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending
+2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending
