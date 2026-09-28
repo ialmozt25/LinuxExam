@@ -3,6 +3,18 @@
 Что пошло не так: открытые проблемы, налоги, известные ловушки.
 
 ---
+## 2026-09-28 | headless: junction на web-профиль
+Хранители (`DSH-Checker`/`DSH-Cleaner`) работают через `dsh --profile headless`. Профиль headless требует junction `node_modules/dsh-tier-router → web/node_modules/dsh-tier-router` (создан в F4.2a-i). Сломается, если web-профиль обновится/удалится. Кандидат: `dsh plugin --profile headless add dsh-tier-router`.
+
+## 2026-09-28 | headless: package.json вне версионного контроля
+`headless/package.json` (`dependencies` + `dsh.profile.bundles`) правился в F4.2a-i вне репо и вне git. Перезапишется при обновлении DSH. Кандидат: зафиксировать baseline в `docs/memory/semantic.md`.
+
+## 2026-09-28 | headless sandbox: spawnSync EPERM
+Песочница headless-профиля блокирует `spawnSync` с piped stdio (`git EPERM`). `npm run sync:check` внутри headless-агента не работает — гейт остаётся за оркестратором. Сверщик проверяет только отставание `state.head` > 1.
+
+## 2026-09-28 | правило 2 узаконено; правило 13 смягчено (F5.0a)
+F4.3 использовал embedded approve для перевода spec 023 в approved. В F5.0a правило 2 дополнено исключением (embedded approve для spec-перевода), правило 13 смягчено (правка ORCH-RULES через embedded approve, если файл и суть названы явно). Записи `rule2-exception` и `rule13-exception` — в `log.md`. [closed F5.0a]
+
 ## 2026-09-28 | Критерий 8 спеки 022 не проверен прогоном
 Критерий 8 спеки 022 (фаза известна, но не `staged|running` → в `class` попадает только базовый `chip` без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значением `phase` не удалось записать в edge-кейс-прогоне F3.0b — запись значения режется политикой оболочки. Не блокер F3. Кандидат: unit-тест `sync.mjs` (чистая функция рендера команды) в F4.
 
@@ -47,4 +59,4 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 
 **Итог:** расхождений нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания).
 
-<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 9 -->
+<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 13 -->

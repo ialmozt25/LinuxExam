@@ -65,3 +65,5 @@
 2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending
 2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending
 2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]
+2026-09-28 | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; долги F4 записаны | commit pending
+2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending

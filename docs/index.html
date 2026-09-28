@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD aa5d577d772caa96c748ef81c95ee92bc4d9316e</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 9a924a0dfc035bd7965820115cd6764184182e87</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -492,8 +492,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending</li>
-        <li>2026-09-28 | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]</li>
         <li>2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending</li>
         <li>2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031</li>
         <li>2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067</li>
@@ -502,6 +500,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending</li>
         <li>2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending</li>
         <li>2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]</li>
+        <li>2026-09-28 | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; долги F4 записаны | commit pending</li>
+        <li>2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending</li>
     </ul>
   </section>
 
@@ -513,6 +513,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">9a924a0</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(memory): F4.3 — close F4, plan v2.16, spec 023 approved</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">aa5d577</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -625,12 +631,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">f8384d6</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(factory): F2.4 — close F2, plan v2.8, F3 in progress</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">d5c2eaa</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(sync): F2.4 — dashboard blocks + pre-commit hook</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
@@ -763,7 +763,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T05:33:00Z</td>
-          <td class="mono">9</td>
+          <td class="mono">13</td>
           <td class="muted">2 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
@@ -793,17 +793,33 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельны…</li>
-        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]</li>
         <li><span class="mono muted">2026-09-28</span> | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Бу…</li>
         <li><span class="mono muted">2026-09-28</span> | rule2-exception | авторизован перевод spec 023 в approved через embedded approv…</li>
         <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]</li>
+        <li><span class="mono muted">2026-09-28</span> | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; до…</li>
+        <li><span class="mono muted">2026-09-28</span> | rule13-exception | авторизована правка ORCH-RULES через embedded approve | comm…</li>
     </ul>
   </section>
 
   <section class="alerts" id="alerts">
     <h2>Тревоги</h2>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 9</div>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 13</div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | headless: junction на web-профиль</div>
+          <div class="entry__body muted">Хранители (`DSH-Checker`/`DSH-Cleaner`) работают через `dsh --profile headless`. Профиль headless требует junction `node_modules/dsh-tier-router → web/node_modules/dsh-tier-router` (создан в F4.2a-i). Сломается, если web-профиль обновится/удалится. Кандидат: `dsh plugin --profile headless add dsh-tier-router`.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | headless: package.json вне версионного контроля</div>
+          <div class="entry__body muted">`headless/package.json` (`dependencies` + `dsh.profile.bundles`) правился в F4.2a-i вне репо и вне git. Перезапишется при обновлении DSH. Кандидат: зафиксировать baseline в `docs/memory/semantic.md`.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | headless sandbox: spawnSync EPERM</div>
+          <div class="entry__body muted">Песочница headless-профиля блокирует `spawnSync` с piped stdio (`git EPERM`). `npm run sync:check` внутри headless-агента не работает — гейт остаётся за оркестратором. Сверщик проверяет только отставание `state.head` &gt; 1.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | правило 2 узаконено; правило 13 смягчено (F5.0a)</div>
+          <div class="entry__body muted">F4.3 использовал embedded approve для перевода spec 023 в approved. В F5.0a правило 2 дополнено исключением (embedded approve для spec-перевода), правило 13 смягчено (правка ORCH-RULES через embedded approve, если файл и суть названы явно). Записи `rule2-exception` и `rule13-exception` — в `log.md`. [closed F5.0a]</div>
+        </div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | Критерий 8 спеки 022 не проверен прогоном</div>
           <div class="entry__body muted">Критерий 8 спеки 022 (фаза известна, но не `staged|running` → в `class` попадает только базовый `chip` без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значением `phase` не удалось записать в edge-кейс-прогоне F3.0b — запись значения режется политикой оболочки. Не блокер F3. Кандидат: unit-тест `sync.mjs` (чистая функция рендера команды) в F4.</div>
@@ -889,8 +905,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.16</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · F5.0 — план экспорта</div>
+    <h2>План · v2.17</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · F5.0a — долги F4 + правила 2/13</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>

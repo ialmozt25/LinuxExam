@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "aa5d577d772caa96c748ef81c95ee92bc4d9316e",
+  "head": "9a924a0dfc035bd7965820115cd6764184182e87",
   "specs": [
     {
       "id": "022",
@@ -688,8 +688,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending",
-    "2026-09-28 | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]",
     "2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending",
     "2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031",
     "2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067",
@@ -697,11 +695,19 @@
     "2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]",
     "2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending",
     "2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending",
-    "2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]"
+    "2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]",
+    "2026-09-28 | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; долги F4 записаны | commit pending",
+    "2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "9a924a0",
+      "date": "2026-09-28",
+      "subject": "docs(memory): F4.3 — close F4, plan v2.16, spec 023 approved",
+      "type": "docs"
+    },
     {
       "sha": "aa5d577",
       "date": "2026-09-28",
@@ -815,12 +821,6 @@
       "date": "2026-09-28",
       "subject": "docs(factory): F2.4 — close F2, plan v2.8, F3 in progress",
       "type": "docs"
-    },
-    {
-      "sha": "d5c2eaa",
-      "date": "2026-09-28",
-      "subject": "feat(sync): F2.4 — dashboard blocks + pre-commit hook",
-      "type": "feat"
     }
   ],
   "roles": [
@@ -936,9 +936,9 @@
     }
   ],
   "plan": {
-    "version": "2.16",
+    "version": "2.17",
     "phase": "F5",
-    "step": "F5.0 — план экспорта",
+    "step": "F5.0a — долги F4 + правила 2/13",
     "phases": [
       {
         "id": "F0",

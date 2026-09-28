@@ -24,7 +24,9 @@ dist-ssr
 src/data/questions.json.bak
 .tmp-step6/
 .tmp-verify/
-scripts/
+# Только корневой scripts/ (черновики); паттерн без анкера блокировал
+# .project/scripts/ (хранители F4) — сужено в F5.0a.
+/scripts/
 *.pre-step6-final
 test-results/
 playwright-report/

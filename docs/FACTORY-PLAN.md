@@ -1,12 +1,12 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.16
+plan_version: 2.17
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
 current_phase: F5
-current_step: "F5.0 — план экспорта"
+current_step: "F5.0a — долги F4 + правила 2/13"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
@@ -28,7 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.16 (2026-09-28):** F4 закрыта 4/4 (2 авто + 2 процедурных). Headless-хранители через Task Scheduler; skip-логика по SHA. Правило 2 — введено исключение (embedded approve переводит spec в approved). Старт F5.
+**v2.17 (2026-09-28):** F5.0a — правило 2 (embedded approve для spec-перевода) и правило 13 (правка ORCH-RULES через embedded approve) формализованы; .gitignore сужен; долги F4 в alerts.md. Продолжение F5.
 **v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE; + титул/паспорт/футер выровнены под v2.9.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
@@ -47,9 +47,9 @@ captain_timezone: "Europe/Moscow"
 |---|---|
 | Продукт | LinuxExam — тренажёр RHCSA EX200 |
 | Фабрика | MAS Factory — переиспользуемая система разработки |
-| Текущий шаг | **F5.0** — план экспорта |
-| Цель шага | Спека F5.0 — состав template factory |
-| Ближайший результат | F5.0 draft в `.project/specs/` |
+| Текущий шаг | **F5.0a** — долги F4 + правила 2/13 |
+| Цель шага | Правила узаконены; `.gitignore` сужен; долги в `alerts` |
+| Ближайший результат | F5.0b — спека 024 (Factory Export) |
 | Бюджет фазы | 500K токенов, 3 дня, без новых платных API |
 
 **Где что живёт:**
