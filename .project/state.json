@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "fbb045362d575a5407fda936bfa327c9e01dea64",
+  "head": "6edb2c82492e506ce5b1baee42823eb8949afe17",
   "specs": [
     {
       "id": "014",
@@ -400,6 +400,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/shell_scripts.json` →",
       "noTouch": "Вопросы батча 5B (`sh_011`..`sh_016`) — приняты, отдельной правки не требуют.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (пары > 0.80 с числами) и «после»"
+    },
+    {
+      "id": "021",
+      "slug": "rs-cosine-debt",
+      "status": "draft",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/021-rs-cosine-debt.md",
+      "mtime": 1790554800046.5442,
+      "goal": "Снять «мягкий» cosine-долг темы `running_systems`: **три** пары, которые не нарушают",
+      "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
+      "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
+      "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
     },
     {
       "id": "001",
@@ -658,6 +673,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "6edb2c8",
+      "date": "2026-09-28",
+      "subject": "docs(spec): backlog 021 rs-cosine-debt",
+      "type": "docs"
+    },
+    {
+      "sha": "7e90e34",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 020",
+      "type": "chore"
+    },
+    {
       "sha": "fbb0453",
       "date": "2026-09-28",
       "subject": "docs(spec): close 020 as done",
@@ -763,18 +790,6 @@
       "sha": "35dc55d",
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 017 wording",
-      "type": "chore"
-    },
-    {
-      "sha": "3a4533f",
-      "date": "2026-09-28",
-      "subject": "docs(spec): 017 - precise wording on dashboard copy invariant",
-      "type": "docs"
-    },
-    {
-      "sha": "5660d89",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after push 017 record",
       "type": "chore"
     }
   ],
