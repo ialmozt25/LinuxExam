@@ -66,4 +66,15 @@ Evidence: .agent-teams/spec-026-smoke (оставлена, как F3.2).
 Правок в репо прогон не внёс: целевой `.project/scripts/factory-sync-template.mjs` не изменён (blob 55c80283 = HEAD), поэтому эта запись — единственное содержимое, добавленное прогоном.
 Evidence: `.agent-teams/spec-027-memory-test` (оставлена как evidence).
 
-<!-- meta updated: 2026-09-28T22:08:00Z entries_count: 12 -->
+## 2026-09-28 | D3 закрыта
+D3 (память и контекст) закрыта 1/1. Два дефекта выявлены и устранены:
+(1) S2 — skill не писал в episodic; усилен SKILL.md (шаг 8 безусловный,
+8b — evidence-check `M docs/memory/episodic.md`). (2) S3 — agent_teams_create
+работает один раз на сессию капитана; добавлен п.5 предусловий
+(TEAM-ALREADY-ACTIVE). Проверено прогоном spec-027-memory-test в новой
+DSH-сессии: 4 агента, 4 задачи completed, reviewer PASS, запись в
+episodic появилась, шаг 8b прошёл с первой попытки.
+Коммиты D3: 6fe81fd, dcca5e4.
+Evidence: .agent-teams/spec-027-memory-test (оставлена).
+
+<!-- meta updated: 2026-09-28T12:27:00Z entries_count: 13 -->

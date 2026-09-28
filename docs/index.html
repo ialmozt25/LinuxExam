@@ -516,7 +516,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending</li>
         <li>2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending</li>
         <li>2026-09-28 | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | commit pending</li>
         <li>2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending</li>
@@ -526,6 +525,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в state.json; check:episodic читает allPhases | commit pending</li>
         <li>2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending</li>
         <li>2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending</li>
+        <li>2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending</li>
     </ul>
   </section>
 
@@ -537,6 +537,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">dcca5e4</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after D3b</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">6fe81fd</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -651,12 +657,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>chore(state): converge after push F3</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">5c61356</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push F3 (rule 10)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -758,8 +758,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-28T22:08:00Z</td>
-          <td class="mono">12</td>
+          <td class="mono muted">2026-09-28T12:27:00Z</td>
+          <td class="mono">13</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
@@ -779,7 +779,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T22:08:00Z</td>
+          <td class="mono muted">2026-09-28T12:27:00Z</td>
           <td class="mono">1</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
@@ -817,11 +817,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | cleanup | удалено 6 путей (.backup-tld, filelists-BaseOS.xml.gz, .tmp, scripts/…</li>
         <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]</li>
         <li><span class="mono muted">2026-09-28</span> | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в st…</li>
         <li><span class="mono muted">2026-09-28</span> | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформули…</li>
         <li><span class="mono muted">2026-09-28</span> | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1…</li>
+        <li><span class="mono muted">2026-09-28</span> | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIV…</li>
     </ul>
   </section>
 
@@ -995,8 +995,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan-dev">
-    <h2>План · Развитие · v1.2 🔵</h2>
-    <div class="muted">Источник: <code>docs/DEV-PLAN.md</code> (YAML-шапка) · фаза D3 · D3 — Память и контекст</div>
+    <h2>План · Развитие · v1.3 🔵</h2>
+    <div class="muted">Источник: <code>docs/DEV-PLAN.md</code> (YAML-шапка) · фаза D4 · D4 — Финальный тест и доработка</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
@@ -1023,8 +1023,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr>
           <td class="mono">D3</td>
           <td>Память и контекст</td>
-          <td><span class="chip chip--pending">ожидает</span></td>
-          <td class="mono">0/1</td>
+          <td><span class="chip chip--done">закрыта</span></td>
+          <td class="mono">1/1</td>
         </tr>
         <tr>
           <td class="mono">D4</td>

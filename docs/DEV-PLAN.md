@@ -1,20 +1,22 @@
 ---
 schema_version: 1
-plan_version: 1.2
+plan_version: 1.3
 updated: 2026-09-28
 product: "MAS Factory Development"
-current_phase: D3
-current_step: "D3 — Память и контекст"
+current_phase: D4
+current_step: "D4 — Финальный тест и доработка"
 phases:
   - { id: D0, name: "Разведка skills и выбор инструмента", status: done,        progress: "1/1" }
   - { id: D1, name: "Написание skill spec-to-team",        status: done,        progress: "1/1" }
   - { id: D2, name: "Мост чат → DSH (выполнено в D1.5)",   status: done,        progress: "1/1" }
-  - { id: D3, name: "Память и контекст",                    status: pending,     progress: "0/1" }
+  - { id: D3, name: "Память и контекст",                    status: done,        progress: "1/1" }
   - { id: D4, name: "Финальный тест и доработка",           status: pending,     progress: "0/1" }
 budget:
   tokens_per_phase: 200000
   wall_clock_per_phase: "2 дня"
 ---
+
+**v1.3 (2026-09-28):** D3 закрыта — skill spec-to-team пишет в память (S2 подтверждён); S3 (одна команда на сессию) закрыт п.5 предусловий.
 
 **v1.2 (2026-09-28):** D1 закрыта — skill spec-to-team создан, smoke пройден (spec-026-smoke, 4 агента, PASS). D2 закрыта как выполненная в D1.5 (/spec-to-team активируется из чата).
 
@@ -116,7 +118,7 @@ dsh-ops-mcp, dsh-hermes-link; выбор — при активации фазы,
 **Статус:** закрыта в D1.5. Мост /spec-to-team NNN работает
 из чата без рестарта DSH.
 
-### D3 — Память и контекст
+### D3 ✅ — Память и контекст
 
 **Проблема.** Память проекта ведётся (`semantic`, `working`, `episodic`,
 `procedural`, `alerts`), но проверяется вручную: гейта на *устаревание* нет —
@@ -129,6 +131,9 @@ dsh-ops-mcp, dsh-hermes-link; выбор — при активации фазы,
 
 **Готово, когда.** Устаревшая тетрадь видна как сигнал в центре и в гейтах,
 а не обнаруживается задним числом; старт сессии собирает контекст сам.
+
+**Статус:** закрыта 2026-09-28. Прогон spec-027-memory-test: запись
+в episodic появилась, шаг 8b отработал. S2 + S3 устранены.
 
 ### D4 — Финальный тест и доработка
 

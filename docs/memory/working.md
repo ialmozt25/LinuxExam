@@ -4,16 +4,16 @@
 
 ---
 
-2026-09-28 | работа по DEV-PLAN (v1.2)
+2026-09-28 | работа по DEV-PLAN (v1.3)
 
-HEAD: 1499400 (на момент записи; E1-коммит — если C1 = ДА)
+HEAD: pending
 
-ahead: 0/5 (на момент записи)
+ahead: 0/8 (после D3-close; при converge — 0/9)
 
-План: DEV-PLAN v1.2
+План: DEV-PLAN v1.3
 
-Фаза: D3 — Память и контекст · D3b: прогон spec-027-memory-test через skill spec-to-team завершён (4/4 задачи, verdict PASS)
+Фаза: D4 — Финальный тест и доработка
 
-Дальше: approve капитана по D3b-отчёту (S2 — запись в episodic — подтверждён); D4 — cleanup .agent-teams (4 команды)
+Дальше: D4 — реальный прогон skill'а на задаче «спрячь Тревоги под кат». Потребуется новая DSH-сессия (spec-027 уже занял captain-binding в своей сессии).
 
-<!-- meta updated: 2026-09-28T22:08:00Z entries_count: 1 -->
+<!-- meta updated: 2026-09-28T12:27:00Z entries_count: 1 -->
