@@ -1,0 +1,13 @@
+{
+  "name": "{{PRODUCT_KEBAB}}",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node .project/sync.mjs",
+    "sync:check": "node .project/sync.mjs --check",
+    "check:episodic": "node .project/scripts/check-episodic.mjs"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.0.0"
+  }
+}

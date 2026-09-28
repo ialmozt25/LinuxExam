@@ -1,0 +1,8 @@
+# node_modules и логи
+node_modules/
+*.log
+
+# Производные `npm run sync` — генерируются, не хранятся в репозитории
+.project/STATE.md
+.project/SPEC.md
+docs/index.html

@@ -27,16 +27,20 @@ commit: null
 - `.project/scripts/keepers/` — шаблоны скриптов, **БЕЗ** `.last-checked`,
   **БЕЗ** `*.log`
 - `.githooks/pre-commit`
-- `docs/memory/{episodic,semantic,procedural,working,alerts}.md` — пустые,
+- `.project/scripts/check-episodic.mjs` (копия `tools/check-episodic.mjs` из
+  источника; фабричный инструмент, не продуктовый)
+- docs/memory/{episodic,semantic,procedural,working,alerts}.md — пустые,
   с meta-заголовком (`updated`, `entries_count: 0`)
 - `docs/memory/trends.jsonl` — пустой
 - `docs/FACTORY-PLAN.md` — шаблон: плейсхолдеры `{{PRODUCT}}`, `{{FACTORY}}`,
   `{{DATE}}`, `{{CAPTAIN_TZ}}`; фазы F0–F5 все `pending`; changelog пустой
   (только строка «v1.0 — initial»)
 - `docs/START-HERE.md` — шаблон с плейсхолдером `{{PRODUCT}}`
-- `.project/sync.mjs` — **БЕЗ блока 6** (AgentTeams) и без путей, специфичных
-  для LinuxExam (проверить `grep` на `LinuxExam`, `src/data`, `224`, `300`).
-  Если блок 6 нужен — сделать **skip-if-absent** по `.agent-teams/`
+- `.project/sync.mjs` — **урезанная версия (~300–500 строк)**.
+  Продуктово-нейтральные секции: шапка, фазы, память, тренды, решения,
+  тревоги, коммиты. **БЕЗ**: блока 6, банка, тем, аудитов, продуктов, спек.
+  Функции `readAgentTeams` и `renderAgentBlock` **УДАЛЕНЫ** (не закомментированы).
+  Обновляется вручную.
 - `.project/state.json` — минимальный:
   `{plan: {version: "1.0", phases: [F0..F5 pending], product: "{{PRODUCT}}"}}`
 - `docs/FACTORY-USAGE.md` — инструкция для пользователя шаблона
@@ -46,7 +50,7 @@ commit: null
 
 ## Состав (что НЕ входит)
 
-- `src/`, `e2e/`, `tools/` (продуктовые)
+- `src/`, `e2e/`, `tools/` — **кроме** `check-episodic.mjs` (он копируется)
 - `docs/index.html` (генерируется `sync`)
 - `.agent-teams/**` (runtime AgentTeams)
 - `drafts/`, отчёты, аудиты, snapshots
@@ -81,7 +85,9 @@ commit: null
 4. Плейсхолдеры `{{PRODUCT}}`, `{{FACTORY}}`, `{{DATE}}`, `{{CAPTAIN_TZ}}`
    заменены значениями из `--args` или дефолтами. `{{DATE}}` — текущая дата ISO.
 5. В развёрнутом репо: `npm run sync` → exit 0; `npm run check:episodic` → exit 0
-   (нет `done`-фаз); `npm run sync:check` → exit 0.
+   (нет `done`-фаз); `npm run sync:check` → exit 0. **Smoke-тест:** `npm run sync`
+   в шаблоне → exit 0; `sync:check` → exit 0 (урезанный `sync.mjs` генерирует
+   HTML без ошибок на пустом `state.json`).
 6. `docs/FACTORY-USAGE.md` описывает: что такое шаблон, как развернуть, как
    обновлять, что делать после развёртывания.
 
@@ -109,3 +115,5 @@ commit: null
 - **Changelog плана в шаблоне — пустой** (только «v1.0 — initial»).
 - **STOP — не шаблон, а флаг** (создаётся по требованию).
 - **F5.1 уточняет список плейсхолдеров** при реализации.
+- **`sync.mjs` в шаблоне — урезанная версия.** Продуктовые секции не переносятся.
+  Smoke-тест обязателен перед коммитом.

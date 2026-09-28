@@ -1,0 +1,33 @@
+#!/bin/sh
+# F2.4 — pre-commit hook {{PRODUCT}} (POSIX sh, работает в git-bash и MSYS).
+#
+# Активация (один раз на клон):
+#   git config core.hooksPath .githooks
+#
+# Задача: НЕ блокировать коммит, а показать, что производные разошлись
+# с источником. Гейт (`npm run sync:check`) остаётся явным шагом; hook —
+# напоминание, поэтому любой исход, кроме ошибки запуска, даёт exit 0.
+
+if [ ! -f ".project/sync.mjs" ]; then
+  exit 0
+fi
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "pre-commit: node не найден — sync:check пропущен"
+  exit 0
+fi
+
+node .project/sync.mjs --check
+status=$?
+
+if [ "$status" -eq 0 ]; then
+  exit 0
+fi
+
+if [ "$status" -eq 2 ]; then
+  echo "sync:check drift — запусти npm run sync"
+  exit 0
+fi
+
+echo "pre-commit: sync:check завершился с кодом $status — коммит не блокируем"
+exit 0

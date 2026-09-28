@@ -14,6 +14,7 @@
     "manifest": "node tools/gen-topics-manifest.mjs",
     "state:update": "node tools/gen-state.mjs",
     "sync": "node .project/sync.mjs",
+    "factory:sync-template": "node .project/scripts/factory-sync-template.mjs",
     "sync:check": "node .project/sync.mjs --check",
     "check:episodic": "node tools/check-episodic.mjs",
     "serve:local": "node tools/local-serve.mjs",

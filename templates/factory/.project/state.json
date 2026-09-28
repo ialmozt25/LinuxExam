@@ -1,0 +1,18 @@
+{
+  "head": "",
+  "plan": {
+    "version": "1.0",
+    "product": "{{PRODUCT}}",
+    "phases": [
+      { "id": "F0", "status": "pending", "progress": "0/0" },
+      { "id": "F1", "status": "pending", "progress": "0/0" },
+      { "id": "F2", "status": "pending", "progress": "0/0" },
+      { "id": "F3", "status": "pending", "progress": "0/0" },
+      { "id": "F4", "status": "pending", "progress": "0/0" },
+      { "id": "F5", "status": "pending", "progress": "0/0" }
+    ]
+  },
+  "commits": [],
+  "specs": [],
+  "log_tail": []
+}
