@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `85d96f64291d5b79aa06dcc345bf629baaa840f5`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `013aaae8bfa758ba2f6c29534e16df6b453836f9`<!--volatile:end-->
 - Спек: 27
 - Порядок: preview → running → approved → draft → done → rejected
 
