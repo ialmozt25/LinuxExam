@@ -88,6 +88,6 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 *Вне 4 пунктов (наблюдение, не расхождение задания):* шапка плана и `state.plan` держат `F5` как `pending` `0/4`, тогда как CHANGELOG v2.20 и git (`923b427`) фиксируют F5.1a/F5.1b сделанными, а `current_step` = F5.2 — прогресс фазы в машиночитаемых полях отстаёт от факта.
 
 ## 2026-09-28 | C2a-3 (inSync) отложен
-`inSync: true` в `renderCenter` (`sync.mjs:1808` — вызов `renderCenter({ ...ctxBase, state: nextState, inSync: true })`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.
+`inSync: true` в `renderCenter` (строка `const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true })` в `main()`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.
 
 <!-- meta updated: 2026-09-28T22:40:00Z entries_count: 19 -->

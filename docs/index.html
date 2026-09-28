@@ -124,7 +124,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 013aaae8bfa758ba2f6c29534e16df6b453836f9</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 19e1d662a159a9db79ab8829304c68e3e517700b</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -548,6 +548,18 @@ details.alerts[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">19e1d66</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after C2b-1</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">8288519</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after C2b-1</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">013aaae</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(center): C2b-1 — 10 секций удалены из рендера</td>
@@ -655,18 +667,6 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td>chore(cleanup): remove junk, fix stale links, spec 025</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">c80b9bc</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(memory): F5.3 — close F5, project complete, plan v2.22</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">a52b531</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(factory): F5.2 — FACTORY-USAGE + scaffold verification</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -698,7 +698,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">19 ч</td>
+          <td class="muted">20 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -796,7 +796,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | C2a-3 (inSync) отложен</div>
-          <div class="entry__body muted">`inSync: true` в `renderCenter` (`sync.mjs:1808` — вызов `renderCenter({ ...ctxBase, state: nextState, inSync: true })`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.</div>
+          <div class="entry__body muted">`inSync: true` в `renderCenter` (строка `const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true })` в `main()`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.</div>
         </div>
   </details>
 

@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "013aaae8bfa758ba2f6c29534e16df6b453836f9",
+  "head": "19e1d662a159a9db79ab8829304c68e3e517700b",
   "specs": [
     {
       "id": "022",
@@ -763,6 +763,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "19e1d66",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2b-1",
+      "type": "chore"
+    },
+    {
+      "sha": "8288519",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2b-1",
+      "type": "chore"
+    },
+    {
       "sha": "013aaae",
       "date": "2026-09-29",
       "subject": "feat(center): C2b-1 — 10 секций удалены из рендера",
@@ -869,18 +881,6 @@
       "date": "2026-09-28",
       "subject": "chore(cleanup): remove junk, fix stale links, spec 025",
       "type": "chore"
-    },
-    {
-      "sha": "c80b9bc",
-      "date": "2026-09-28",
-      "subject": "docs(memory): F5.3 — close F5, project complete, plan v2.22",
-      "type": "docs"
-    },
-    {
-      "sha": "a52b531",
-      "date": "2026-09-28",
-      "subject": "docs(factory): F5.2 — FACTORY-USAGE + scaffold verification",
-      "type": "docs"
     }
   ],
   "roles": [
