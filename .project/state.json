@@ -673,6 +673,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "b0c9c5f",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after F0.1 log record",
+      "type": "chore"
+    },
+    {
       "sha": "ef9ed33",
       "date": "2026-09-28",
       "subject": "docs(log): F0.1 record (rule 5)",
@@ -785,12 +791,6 @@
       "date": "2026-09-28",
       "subject": "docs(spec): backlog 019 sh-cosine-debt",
       "type": "docs"
-    },
-    {
-      "sha": "e22baa9",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 018",
-      "type": "chore"
     }
   ],
   "roles": [
