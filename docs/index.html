@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD ce46c104bca0e48d40ab3f74b884e1d6cdb21042</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 6fe81fd8ffb0b7b3c78fce5781332c6bfc96fcaa</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -538,6 +538,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">6fe81fd</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(memory): D3b — verify skill memory integration</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">1499400</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(dev-plan): D1-close-patch — D0 ✅, working count, context v1.2</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
           <td class="mono">ce46c10</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(dev-plan): D1 close + D2 close (v1.2)</td>
@@ -645,18 +657,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>chore(log): authorize push F3 (rule 10)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">fb02abf</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(memory): F3.3 — close F3, plan v2.11, spec 022 commit</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">71eec57</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(log): F3.2 — record live AgentTeams smoke (rule 5)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -758,8 +758,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-28T11:31:00Z</td>
-          <td class="mono">11</td>
+          <td class="mono muted">2026-09-28T22:08:00Z</td>
+          <td class="mono">12</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
@@ -767,19 +767,19 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">2 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">9 ч</td>
+          <td class="muted">10 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T11:31:00Z</td>
+          <td class="mono muted">2026-09-28T22:08:00Z</td>
           <td class="mono">1</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
@@ -788,7 +788,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T05:33:00Z</td>
           <td class="mono">15</td>
-          <td class="muted">6 ч</td>
+          <td class="muted">7 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -892,7 +892,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 3</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 4</div>
         <div class="entry">
           <div class="entry__title">linuxexam-f3-smoke · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: writer (·) · qc (·)</div>
@@ -905,6 +905,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </div>
         <div class="entry">
           <div class="entry__title">spec-026-smoke · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: architect (·) · builder (·) · tester (·) · reviewer (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">spec-027-memory-test · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: architect (·) · builder (·) · tester (·) · reviewer (·)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
         </div>

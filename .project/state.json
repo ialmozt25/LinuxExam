@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "ce46c104bca0e48d40ab3f74b884e1d6cdb21042",
+  "head": "6fe81fd8ffb0b7b3c78fce5781332c6bfc96fcaa",
   "specs": [
     {
       "id": "022",
@@ -733,6 +733,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "6fe81fd",
+      "date": "2026-09-28",
+      "subject": "docs(memory): D3b — verify skill memory integration",
+      "type": "docs"
+    },
+    {
+      "sha": "1499400",
+      "date": "2026-09-28",
+      "subject": "docs(dev-plan): D1-close-patch — D0 ✅, working count, context v1.2",
+      "type": "docs"
+    },
+    {
       "sha": "ce46c10",
       "date": "2026-09-28",
       "subject": "docs(dev-plan): D1 close + D2 close (v1.2)",
@@ -839,18 +851,6 @@
       "date": "2026-09-28",
       "subject": "chore(log): authorize push F3 (rule 10)",
       "type": "chore"
-    },
-    {
-      "sha": "fb02abf",
-      "date": "2026-09-28",
-      "subject": "docs(memory): F3.3 — close F3, plan v2.11, spec 022 commit",
-      "type": "docs"
-    },
-    {
-      "sha": "71eec57",
-      "date": "2026-09-28",
-      "subject": "docs(log): F3.2 — record live AgentTeams smoke (rule 5)",
-      "type": "docs"
     }
   ],
   "roles": [
