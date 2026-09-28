@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "9a924a0dfc035bd7965820115cd6764184182e87",
+  "head": "50f97d5693a8ed15567e935eeed71cc4a6f88dd5",
   "specs": [
     {
       "id": "022",
@@ -370,6 +370,21 @@
       "acceptance": "",
       "noTouch": "`sync.mjs` — блок 6 и прочие секции (F3 закрыта).",
       "preview": "Первый ручной прогон `checker.ps1` (F4.2a-ii, 2026-09-28): **exit 0**, 72.8 с, запись в `docs/memory/alerts.md`:"
+    },
+    {
+      "id": "024",
+      "slug": "factory-export",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/024-factory-export.md",
+      "mtime": 1790580809468.2476,
+      "goal": "Экспортировать фабрику (правила, память, дашборд, гейты) в переиспользуемый",
+      "acceptance": "1. `templates/factory/` содержит файлы из «Входит», НЕ содержит из «НЕ входит».",
+      "noTouch": "`.project/specs/001-023`",
+      "preview": "Для infra-спеки — diff `templates/factory/` (структура каталога) + вывод"
     },
     {
       "id": "016",
@@ -688,7 +703,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending",
     "2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031",
     "2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067",
     "2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —",
@@ -697,11 +711,18 @@
     "2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending",
     "2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]",
     "2026-09-28 | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; долги F4 записаны | commit pending",
-    "2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending"
+    "2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending",
+    "2026-09-28 | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-й случай rule2-exception) | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "50f97d5",
+      "date": "2026-09-28",
+      "subject": "docs(factory): F5.0a — rules 2/13 exceptions, .gitignore narrow, F4 debts",
+      "type": "docs"
+    },
     {
       "sha": "9a924a0",
       "date": "2026-09-28",
@@ -814,12 +835,6 @@
       "sha": "a22538b",
       "date": "2026-09-28",
       "subject": "docs(readme): F2.4 — activate pre-commit hook (core.hooksPath)",
-      "type": "docs"
-    },
-    {
-      "sha": "f8384d6",
-      "date": "2026-09-28",
-      "subject": "docs(factory): F2.4 — close F2, plan v2.8, F3 in progress",
       "type": "docs"
     }
   ],
@@ -936,9 +951,9 @@
     }
   ],
   "plan": {
-    "version": "2.17",
+    "version": "2.18",
     "phase": "F5",
-    "step": "F5.0a — долги F4 + правила 2/13",
+    "step": "F5.1 — factory:scaffold + sync-template",
     "phases": [
       {
         "id": "F0",

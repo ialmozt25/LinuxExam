@@ -4,14 +4,14 @@
 
 ---
 
-2026-09-28 | F4 закрыта, F5 в очереди
+2026-09-28 | F5.0b закрыта, спека 024 approved
 
-HEAD: pending (SHA коммита F4.3; самоссылка — spec 009)
+HEAD: pending (SHA коммита F5.0b; самоссылка — spec 009)
 
-План: v2.16
+План: v2.18
 
-Фаза: F5 pending
+Фаза: F5, шаг F5.1 — factory:scaffold + sync-template
 
-Дальше: F5.0 — план экспорта
+Дальше: F5.1 — скрипты развёртывания и пересборки шаблона
 
-<!-- meta updated: 2026-09-28T07:21:48Z entries_count: 1 -->
+<!-- meta updated: 2026-09-28T07:33:19Z entries_count: 1 -->

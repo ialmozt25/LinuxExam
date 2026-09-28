@@ -3,6 +3,9 @@
 Что пошло не так: открытые проблемы, налоги, известные ловушки.
 
 ---
+## 2026-09-28 | rule2-exception cumulative
+F5.0b — второй случай `rule2-exception` (после spec 023 в F4.3). Если паттерн повторится — пересмотреть правило 2 (возможно, embedded approve — норма, а не исключение). Кандидат в F5.3 или в ORCH-RULES-правку.
+
 ## 2026-09-28 | headless: junction на web-профиль
 Хранители (`DSH-Checker`/`DSH-Cleaner`) работают через `dsh --profile headless`. Профиль headless требует junction `node_modules/dsh-tier-router → web/node_modules/dsh-tier-router` (создан в F4.2a-i). Сломается, если web-профиль обновится/удалится. Кандидат: `dsh plugin --profile headless add dsh-tier-router`.
 
@@ -59,4 +62,4 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 
 **Итог:** расхождений нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания).
 
-<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 13 -->
+<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 14 -->
