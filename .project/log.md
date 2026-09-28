@@ -88,3 +88,5 @@
 2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending
 2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]
 2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455
+2026-09-28 | C2b-1 | 10 секций удалены из рендера (queue, journal, roles, products, memory, trends, decisions, audits, plan-factory, plan-dev); строка «Планы» добавлена в ddn | commit 013aaae
+2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —

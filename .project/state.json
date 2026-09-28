@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "85d96f64291d5b79aa06dcc345bf629baaa840f5",
+  "head": "013aaae8bfa758ba2f6c29534e16df6b453836f9",
   "specs": [
     {
       "id": "022",
@@ -748,8 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending",
-    "2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending",
     "2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `<details class=\"alerts\" id=\"alerts\">` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending",
     "2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending",
     "2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending",
@@ -757,11 +755,19 @@
     "2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending",
     "2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending",
     "2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]",
-    "2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455"
+    "2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455",
+    "2026-09-28 | C2b-1 | 10 секций удалены из рендера (queue, journal, roles, products, memory, trends, decisions, audits, plan-factory, plan-dev); строка «Планы» добавлена в ddn | commit 013aaae",
+    "2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "013aaae",
+      "date": "2026-09-29",
+      "subject": "feat(center): C2b-1 — 10 секций удалены из рендера",
+      "type": "feat"
+    },
     {
       "sha": "85d96f6",
       "date": "2026-09-29",
@@ -875,12 +881,6 @@
       "date": "2026-09-28",
       "subject": "docs(factory): F5.2 — FACTORY-USAGE + scaffold verification",
       "type": "docs"
-    },
-    {
-      "sha": "923b427",
-      "date": "2026-09-28",
-      "subject": "feat(factory): F5.1b — factory:scaffold + 4 scenarios verified",
-      "type": "feat"
     }
   ],
   "roles": [
