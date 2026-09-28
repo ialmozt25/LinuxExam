@@ -3,8 +3,8 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `099d74b943f552e0cba2fbd945ffbe5fd614427e`<!--volatile:end-->
-- Спек: 21
+<!--volatile:start-->- HEAD: `8b7b6e6e5ffa6e1af93b043a23b228a92128c590`<!--volatile:end-->
+- Спек: 22
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
@@ -12,6 +12,7 @@
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
+| 022 | `center-block6-agents-pulse` | infra | draft | — | 2026-09-28 |
 | 001 | `file-management-batch-4` | content | done | f4e2538 | 2026-09-27 |
 | 002 | `dehardcode-positional-test` | feature | done | cd6ce8d | 2026-09-27 |
 | 004 | `batch-5-generation` | content | done | 12c8439 | 2026-09-27 |

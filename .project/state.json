@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "099d74b943f552e0cba2fbd945ffbe5fd614427e",
+  "head": "8b7b6e6e5ffa6e1af93b043a23b228a92128c590",
   "specs": [
     {
       "id": "016",
@@ -385,6 +385,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "022",
+      "slug": "center-block6-agents-pulse",
+      "status": "draft",
+      "type": "infra",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/022-center-block6-agents-pulse.md",
+      "mtime": 1790572158712.773,
+      "goal": "`sync.mjs` читает `.agent-teams/*/team.json` и рендерит блок 6 «Пульс агентов»",
+      "acceptance": "1. Пустой `.agent-teams/` (каталога нет или нет подпапок) → секция печатает «нет данных», а не молчит.",
+      "noTouch": "Другие секции `sync.mjs` (правка — в границах одного блока: читатель + `agentsHtml` + одна секция шаблона).",
+      "preview": "<!-- Заполняется в шаге B: цитата HTML-блока 6 из docs/index.html (10-20 строк) + вывод гейтов. -->"
     },
     {
       "id": "001",
@@ -673,6 +688,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "8b7b6e6",
+      "date": "2026-09-28",
+      "subject": "docs(plan): sync body/footer to v2.9, working head after F2.5",
+      "type": "docs"
+    },
+    {
+      "sha": "8abebfc",
+      "date": "2026-09-28",
+      "subject": "docs(memory): F2.5 — START-HERE, working head, alerts cleanup",
+      "type": "docs"
+    },
+    {
       "sha": "099d74b",
       "date": "2026-09-28",
       "subject": "chore(log): authorize push F2 close (rule 10)",
@@ -779,18 +806,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): F0.1 final snapshot (sync:check exit 2 accepted as rule-9 tax)",
       "type": "chore"
-    },
-    {
-      "sha": "b0c9c5f",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after F0.1 log record",
-      "type": "chore"
-    },
-    {
-      "sha": "ef9ed33",
-      "date": "2026-09-28",
-      "subject": "docs(log): F0.1 record (rule 5)",
-      "type": "docs"
     }
   ],
   "roles": [
@@ -906,7 +921,7 @@
     }
   ],
   "plan": {
-    "version": "2.9",
+    "version": "2.10",
     "phase": "F3",
     "step": "F3.1 — AgentTeams разведка",
     "phases": [
