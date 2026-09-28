@@ -52,3 +52,4 @@
 2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending
 2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending
 2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending
+2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending

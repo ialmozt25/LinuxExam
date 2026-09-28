@@ -658,7 +658,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F0.1 | конвергентный коммит после F0.1: sync:check на 4489de6 дал exit 2 (.project/STATE.md, docs/index.html — самоссылочный pinned head), налог правила 9; после 2ff1306 sync:check = exit 0, дерево tracked чистое, ahead 5 | commit 2ff1306",
     "2026-09-28 | F0.1 | правило 9, финальная фиксация: sync:check exit 2 после F0.1 — структурный self-reference state.head (pinned head лежит в .project/STATE.md:44 ВНЕ volatile-маркеров, маркирован только L6, поэтому производные всегда отстают на 1 коммит от закреплённого head), принят как постоянный налог, правка sync.mjs отложена в F2; попытки сойтись прекращены, третий converge не делается; snapshot: .project/state.json + docs/index.html (commits[] на b0c9c5f), log.md добавлен после snapshot и следующего sync не проходил | commit 96303a2",
     "2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending",
     "2026-09-28 | F1.2 | trends.jsonl + check-episodic.mjs + npm check:episodic; правило 12 теперь checkable | commit pending",
@@ -667,13 +666,20 @@
     "2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending",
     "2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending",
     "2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending",
-    "2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending"
+    "2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending",
+    "2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
     {
-      "sha": "0e345f4",
+      "sha": "4e708c2",
+      "date": "2026-09-28",
+      "subject": "chore(sync): F2.2b - align volatile head with state.json",
+      "type": "chore"
+    },
+    {
+      "sha": "e8c1e66",
       "date": "2026-09-28",
       "subject": "fix(sync): F2.2b - index.html drift (A)",
       "type": "fix"
@@ -785,12 +791,6 @@
       "date": "2026-09-28",
       "subject": "docs(spec): backlog 021 rs-cosine-debt",
       "type": "docs"
-    },
-    {
-      "sha": "7e90e34",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 020",
-      "type": "chore"
     }
   ],
   "roles": [
@@ -904,5 +904,48 @@
       "lines": 814,
       "mtime": "2026-09-27T01:59:54.654Z"
     }
-  ]
+  ],
+  "plan": {
+    "version": "2.7",
+    "phase": "F2",
+    "step": "F2.1 — ремонт sync.mjs (self-reference) + парсинг YAML-шапки",
+    "phases": [
+      {
+        "id": "F0",
+        "name": "Порядок в документации",
+        "status": "done",
+        "progress": "4/4"
+      },
+      {
+        "id": "F1",
+        "name": "Память проекта",
+        "status": "done",
+        "progress": "5/5"
+      },
+      {
+        "id": "F2",
+        "name": "Центр показывает всё",
+        "status": "in_progress",
+        "progress": "0/5"
+      },
+      {
+        "id": "F3",
+        "name": "Настоящий MAS",
+        "status": "pending",
+        "progress": "0/5"
+      },
+      {
+        "id": "F4",
+        "name": "Агенты-хранители",
+        "status": "pending",
+        "progress": "0/4"
+      },
+      {
+        "id": "F5",
+        "name": "Экспорт фабрики",
+        "status": "pending",
+        "progress": "0/4"
+      }
+    ]
+  }
 }

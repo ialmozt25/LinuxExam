@@ -67,7 +67,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .chip--preview { color: var(--warn); border-color: var(--warn); }
 .chip--running { color: var(--accent); border-color: var(--accent); }
 .chip--approved, .chip--done { color: var(--ok); border-color: var(--ok); }
-.chip--rejected { color: var(--fail); border-color: var(--fail); }
+.chip--rejected, .chip--blocked { color: var(--fail); border-color: var(--fail); }
+.chip--in_progress { color: var(--accent); border-color: var(--accent); }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -461,7 +462,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F0.1 | конвергентный коммит после F0.1: sync:check на 4489de6 дал exit 2 (.project/STATE.md, docs/index.html — самоссылочный pinned head), налог правила 9; после 2ff1306 sync:check = exit 0, дерево tracked чистое, ahead 5 | commit 2ff1306</li>
         <li>2026-09-28 | F0.1 | правило 9, финальная фиксация: sync:check exit 2 после F0.1 — структурный self-reference state.head (pinned head лежит в .project/STATE.md:44 ВНЕ volatile-маркеров, маркирован только L6, поэтому производные всегда отстают на 1 коммит от закреплённого head), принят как постоянный налог, правка sync.mjs отложена в F2; попытки сойтись прекращены, третий converge не делается; snapshot: .project/state.json + docs/index.html (commits[] на b0c9c5f), log.md добавлен после snapshot и следующего sync не проходил | commit 96303a2</li>
         <li>2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending</li>
         <li>2026-09-28 | F1.2 | trends.jsonl + check-episodic.mjs + npm check:episodic; правило 12 теперь checkable | commit pending</li>
@@ -471,6 +471,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending</li>
         <li>2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending</li>
         <li>2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending</li>
+        <li>2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending</li>
     </ul>
   </section>
 
@@ -482,6 +483,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">4e708c2</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(sync): F2.2b - align volatile head with state.json</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">e8c1e66</td>
           <td><span class="ctype ctype--fix">fix</span></td>
@@ -596,12 +603,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>docs(spec): backlog 021 rs-cosine-debt</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">7e90e34</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec 020</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -688,7 +689,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </li>
         <li>
           <code>docs/memory/semantic.md</code>
-          <!--volatile:start--><span class="muted">факты · 7 записей · обновлено 2026-09-28T03:03:24Z · сейчас</span><!--volatile:end-->
+          <!--volatile:start--><span class="muted">факты · 7 записей · обновлено 2026-09-28T03:03:24Z · 1 ч назад</span><!--volatile:end-->
         </li>
         <li>
           <code>docs/memory/procedural.md</code>
@@ -735,6 +736,54 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">.project/audits/tools-audit-2026-09-27.md</td>
           <td><span class="ctype">audit</span></td>
           <td class="mono muted">814</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="plan" id="plan">
+    <h2>План · v2.7</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F2 · F2.1 — ремонт sync.mjs (self-reference) + парсинг YAML-шапки</div>
+    <table>
+      <thead>
+        <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">F0</td>
+          <td>Порядок в документации</td>
+          <td><span class="chip chip--done">закрыта</span></td>
+          <td class="mono">4/4</td>
+        </tr>
+        <tr>
+          <td class="mono">F1</td>
+          <td>Память проекта</td>
+          <td><span class="chip chip--done">закрыта</span></td>
+          <td class="mono">5/5</td>
+        </tr>
+        <tr>
+          <td class="mono">F2</td>
+          <td>Центр показывает всё</td>
+          <td><span class="chip chip--in_progress">в работе</span></td>
+          <td class="mono">0/5</td>
+        </tr>
+        <tr>
+          <td class="mono">F3</td>
+          <td>Настоящий MAS</td>
+          <td><span class="chip chip--pending">ожидает</span></td>
+          <td class="mono">0/5</td>
+        </tr>
+        <tr>
+          <td class="mono">F4</td>
+          <td>Агенты-хранители</td>
+          <td><span class="chip chip--pending">ожидает</span></td>
+          <td class="mono">0/4</td>
+        </tr>
+        <tr>
+          <td class="mono">F5</td>
+          <td>Экспорт фабрики</td>
+          <td><span class="chip chip--pending">ожидает</span></td>
+          <td class="mono">0/4</td>
         </tr>
       </tbody>
     </table>

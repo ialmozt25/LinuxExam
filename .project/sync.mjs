@@ -53,6 +53,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import yaml from 'js-yaml';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CHECK = process.argv.includes('--check');
@@ -541,6 +542,85 @@ function readRoles() {
   return out;
 }
 
+/* ------------------------------------------------------------ plan yaml (F2.3) */
+
+/** Путь к мастер-плану фабрики: единственный источник правды о фазах. */
+const FACTORY_PLAN_PATH = rel('docs/FACTORY-PLAN.md');
+
+/**
+ * YAML-шапка `docs/FACTORY-PLAN.md` — машинный источник фаз для центра.
+ *
+ * Шапка — это первый блок между двумя строками `---` в начале файла (frontmatter).
+ * Парсим её штатным `js-yaml` (4.1.0, `devDependencies`, F2.1a): структура шапки
+ * не плоская (вложенные `phases[]`, `budget{}`), а узкий рукописный парсер вроде
+ * `readRoles` здесь только добавил бы риска разъехаться с источником.
+ *
+ * Возвращает нормализованную проекцию:
+ *   { plan_version, current_phase, current_step, phases: [{ id, name, status, progress }] }
+ *
+ * При любой проблеме — throw с точной причиной (что не так и где): молча отдать
+ * пустой план хуже, чем упасть, потому что дашборд покажет «фаз нет» как факт.
+ */
+function readPlanYaml() {
+  if (!exists(FACTORY_PLAN_PATH)) {
+    throw new Error(`план не найден: ${path.relative(ROOT, FACTORY_PLAN_PATH)}`);
+  }
+  const text = normalizeLf(readText(FACTORY_PLAN_PATH));
+  const lines = text.split('\n');
+  // frontmatter: закрывающий `---` ищем только после открывающего.
+  if (lines[0].trim() !== '---') {
+    throw new Error(
+      `${path.relative(ROOT, FACTORY_PLAN_PATH)}:1 — нет открывающего "---"; YAML-шапка должна быть первой строкой`,
+    );
+  }
+  const closeIdx = lines.findIndex((l, i) => i > 0 && l.trim() === '---');
+  if (closeIdx === -1) {
+    throw new Error(
+      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — нет закрывающего "---" после первой строки; шапка не закрыта`,
+    );
+  }
+
+  let doc;
+  try {
+    doc = yaml.load(lines.slice(1, closeIdx).join('\n'));
+  } catch (e) {
+    throw new Error(
+      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — YAML-шапка (строки 2..${closeIdx}) не парсится: ${e.message}`,
+    );
+  }
+  if (!doc || typeof doc !== 'object') {
+    throw new Error(
+      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — YAML-шапка разобралась не в объект: ${typeof doc}`,
+    );
+  }
+  if (!Array.isArray(doc.phases) || doc.phases.length === 0) {
+    throw new Error(
+      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — в шапке нет непустого списка phases`,
+    );
+  }
+
+  const phases = doc.phases.map((p, i) => {
+    if (!p || typeof p !== 'object' || !p.id) {
+      throw new Error(
+        `${path.relative(ROOT, FACTORY_PLAN_PATH)} — phases[${i}] без поля id: ${JSON.stringify(p)}`,
+      );
+    }
+    return {
+      id: String(p.id),
+      name: p.name == null ? '—' : String(p.name),
+      status: p.status == null ? 'unknown' : String(p.status),
+      progress: p.progress == null ? '—' : String(p.progress),
+    };
+  });
+
+  return {
+    plan_version: doc.plan_version == null ? null : String(doc.plan_version),
+    current_phase: doc.current_phase == null ? null : String(doc.current_phase),
+    current_step: doc.current_step == null ? null : String(doc.current_step),
+    phases,
+  };
+}
+
 /** `git log` — коммиты для секции центра и зеркала state.json.commits. */
 function readGitCommits(limit) {
   try {
@@ -807,7 +887,7 @@ function renderDoneDoingNext(ctx) {
 }
 
 function renderCenter(ctx) {
-  const { state, goal, topics, specs, head, inSync, logTail, roles, products, commits, audits } = ctx;
+  const { state, goal, topics, specs, head, inSync, logTail, roles, products, commits, audits, plan } = ctx;
   const circle = inSync ? 'ok' : 'bad';
   const statusText = inSync ? 'синхронизировано' : 'есть расхождение (запусти npm run sync)';
 
@@ -880,6 +960,28 @@ function renderCenter(ctx) {
         `          <td>${c.type ? `<span class="ctype ctype--${esc(c.type)}">${esc(c.type)}</span>` : '<span class="muted">—</span>'}</td>`,
         `          <td>${esc(c.subject)}</td>`,
         `          <td class="mono muted">${esc(c.date)}</td>`,
+        '        </tr>',
+      ].join('\n'))
+      .join('\n');
+
+  /* --- F2.3: фазы мастер-плана (YAML-шапка docs/FACTORY-PLAN.md).
+   * Источник — readPlanYaml(); здесь только отрисовка 6 строк таблицы. */
+  const phaseStatusRu = {
+    done: 'закрыта',
+    in_progress: 'в работе',
+    pending: 'ожидает',
+    blocked: 'блок',
+    rejected: 'отклонена',
+  };
+  const phaseRows = (plan && plan.phases ? plan.phases : []).length === 0
+    ? '        <tr><td colspan="4" class="muted">Фазы не описаны в YAML-шапке плана.</td></tr>'
+    : plan.phases
+      .map((p) => [
+        '        <tr>',
+        `          <td class="mono">${esc(p.id)}</td>`,
+        `          <td>${esc(p.name)}</td>`,
+        `          <td><span class="chip chip--${esc(p.status)}">${esc(phaseStatusRu[p.status] || p.status)}</span></td>`,
+        `          <td class="mono">${esc(p.progress)}</td>`,
         '        </tr>',
       ].join('\n'))
       .join('\n');
@@ -1060,7 +1162,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .chip--preview { color: var(--warn); border-color: var(--warn); }
 .chip--running { color: var(--accent); border-color: var(--accent); }
 .chip--approved, .chip--done { color: var(--ok); border-color: var(--ok); }
-.chip--rejected { color: var(--fail); border-color: var(--fail); }
+.chip--rejected, .chip--blocked { color: var(--fail); border-color: var(--fail); }
+.chip--in_progress { color: var(--accent); border-color: var(--accent); }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -1205,6 +1308,19 @@ ${auditRows}
     </table>
   </section>
 
+  <section class="plan" id="plan">
+    <h2>План${plan && plan.plan_version ? ` · v${esc(plan.plan_version)}` : ''}</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка)${plan && plan.current_phase ? ` · фаза ${esc(plan.current_phase)}${plan.current_step ? ` · ${esc(plan.current_step)}` : ''}` : ''}</div>
+    <table>
+      <thead>
+        <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
+      </thead>
+      <tbody>
+${phaseRows}
+      </tbody>
+    </table>
+  </section>
+
   <section class="policies" id="policies">
     <h2>Политики</h2>
     <ul class="policies">
@@ -1313,6 +1429,15 @@ function main() {
     { name: '<next>', status: 'planned', metric: null, metric_source: null, frozen_at: null, frozen_by: null },
   ];
 
+  // --- F2.3: YAML-шапка мастер-плана. Истина — docs/FACTORY-PLAN.md; state.plan — зеркало.
+  const planDoc = readPlanYaml();
+  const planMirror = {
+    version: planDoc.plan_version,
+    phase: planDoc.current_phase,
+    step: planDoc.current_step,
+    phases: planDoc.phases,
+  };
+
   // --- состояние после синхронизации
   const nextState = {
     ...state,
@@ -1334,6 +1459,9 @@ function main() {
     roles: rolesMirror,
     products: productsMirror,
     audits: auditIndex,
+    // F2.3: проекция YAML-шапки плана (фазы, текущая фаза/шаг). Меняется только
+    // вместе с docs/FACTORY-PLAN.md, поэтому дрейфа от коммитов не даёт.
+    plan: planMirror,
   };
   if (specCommit && nextState.specs.length > 0 && !nextState.spec_commit) {
     nextState.spec_commit = specCommit;
@@ -1362,6 +1490,7 @@ function main() {
     products: productsMirror,
     commits: commitLog,
     audits: auditIndex,
+    plan: planDoc,
   };
   const stateMd = renderStateMd({ ...ctxBase, state: nextState });
   const specMd = renderSpecMd({ ...ctxBase, state: nextState });
