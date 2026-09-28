@@ -6,3 +6,7 @@ node_modules/
 .project/STATE.md
 .project/SPEC.md
 docs/index.html
+
+# Артефакты хранителей (Ф4) — локальные, в шаблон не попадают
+docs/memory/*.log
+docs/memory/.last-checked

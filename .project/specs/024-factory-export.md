@@ -62,13 +62,34 @@ commit: null
 
 ## Скрипты (F5.1, вне этой спеки)
 
-- `npm run factory:scaffold -- <target-dir> [--product=...] [--factory=...]`
-  Разворачивает `templates/factory/` в целевой каталог. Кросс-платформенно
-  через `fs-extra.copySync` (Node, не shell `cp`). Поведение:
-  - target-dir не существует — создать (`mkdir -p`);
-  - существует и не пуст — **СТОП** с явной ошибкой, если не передан `--force`;
-  - заменяет плейсхолдеры: `{{PRODUCT}}`, `{{FACTORY}}`, `{{DATE}}`,
-    `{{CAPTAIN_TZ}}`.
+- `npm run factory:scaffold -- <target-dir> [--product=NAME | --product NAME]
+  [--factory=NAME] [--captain-tz=TZ] [--dsh-bin=PATH] [--force]`
+  Разворачивает `templates/factory/` в `<target-dir>`.
+
+  **Поведение:**
+  - `target-dir` не существует → создать + наполнить.
+  - `target-dir` существует и пуст → наполнить.
+  - `target-dir` существует и не пуст без `--force` → exit 1 с сообщением:
+    «target-dir не пуст: <путь>. Используйте --force или выберите другой каталог.»
+  - `target-dir` не пуст с `--force` → наполнить поверх; файлы шаблона
+    перезаписываются; чужие файлы (не из шаблона) — остаются нетронутыми;
+    одноимённые — перезаписываются (осознанный риск `--force`).
+
+  **Замены плейсхолдеров** (строго по полному токену с фигурными скобками,
+  не подстрока):
+
+  | плейсхолдер | значение |
+  |---|---|
+  | `{{PRODUCT}}` | `--product` (default: `basename target-dir`) |
+  | `{{PRODUCT_KEBAB}}` | slugify(`--product`) — lowercase, пробелы → `-`, не-ASCII удаляются |
+  | `{{FACTORY}}` | `--factory` (default: `"MAS Factory"`) |
+  | `{{DATE}}` | ISO-дата (`YYYY-MM-DD`) |
+  | `{{CAPTAIN_TZ}}` | `--captain-tz` (default: `"Europe/Moscow"`) |
+  | `{{PROJECT_ROOT}}` | `path.resolve(target-dir)` |
+  | `{{DSH_BIN}}` | `--dsh-bin` или `"dsh"` (голая команда) + предупреждение в консоль |
+
+  **Exit-коды:** 0 — успех; 1 — ошибка (`target-dir` не пуст без `--force`,
+  ошибка копирования); 2 — плохие аргументы (нет `target-dir`).
 - `npm run factory:sync-template` — пересобирает `templates/factory/` из
   источника (`.project/` + `docs/memory/` + `docs/FACTORY-PLAN.md`), очищает
   changelog, заменяет специфичное на плейсхолдеры.

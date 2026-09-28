@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 86556b52abae011fe19280bfa008391e1de5e6b4</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD dfc85c789c1dd9525fc3367621c92184c46b6fe8</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -504,7 +504,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067</li>
         <li>2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —</li>
         <li>2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]</li>
         <li>2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending</li>
@@ -514,6 +513,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending</li>
         <li>2026-09-28 | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-й случай rule2-exception) | commit pending</li>
         <li>2026-09-28 | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — урезанная версия (smoke ok) | commit pending</li>
+        <li>2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending</li>
     </ul>
   </section>
 
@@ -525,6 +525,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">dfc85c7</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(factory): F5.1a — templates/factory + factory:sync-template</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">86556b5</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -637,12 +643,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">8abebfc</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(memory): F2.5 — START-HERE, working head, alerts cleanup</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">099d74b</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push F2 close (rule 10)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
@@ -805,11 +805,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]</li>
         <li><span class="mono muted">2026-09-28</span> | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; до…</li>
         <li><span class="mono muted">2026-09-28</span> | rule13-exception | авторизована правка ORCH-RULES через embedded approve | comm…</li>
         <li><span class="mono muted">2026-09-28</span> | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-…</li>
         <li><span class="mono muted">2026-09-28</span> | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — ур…</li>
+        <li><span class="mono muted">2026-09-28</span> | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом o…</li>
     </ul>
   </section>
 
@@ -921,8 +921,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.19</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · F5.1b — factory:scaffold + проверка</div>
+    <h2>План · v2.20</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · F5.2 — FACTORY-USAGE + проверка пустышки</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>

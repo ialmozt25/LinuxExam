@@ -69,3 +69,4 @@
 2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending
 2026-09-28 | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-й случай rule2-exception) | commit pending
 2026-09-28 | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — урезанная версия (smoke ok) | commit pending
+2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending

@@ -15,6 +15,7 @@
     "state:update": "node tools/gen-state.mjs",
     "sync": "node .project/sync.mjs",
     "factory:sync-template": "node .project/scripts/factory-sync-template.mjs",
+    "factory:scaffold": "node .project/scripts/factory-scaffold.mjs",
     "sync:check": "node .project/sync.mjs --check",
     "check:episodic": "node tools/check-episodic.mjs",
     "serve:local": "node tools/local-serve.mjs",

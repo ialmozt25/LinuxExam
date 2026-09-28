@@ -4,6 +4,9 @@
 
 ## Что уже известно
 
+- Развернуть шаблон: `npm run factory:scaffold -- <target-dir> --product="Название"`
+  (в самом шаблоне производные не хранятся: `npm run sync` собирает их при
+  развёртывании автоматически).
 - `npm run sync` собирает производные (`.project/STATE.md`, `.project/SPEC.md`,
   `docs/index.html`) из `.project/state.json` + `docs/FACTORY-PLAN.md` +
   `docs/memory/*`; `npm run sync:check` — READ-ONLY проверка совпадения.
