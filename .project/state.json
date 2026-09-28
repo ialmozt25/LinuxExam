@@ -342,36 +342,6 @@
   "head": "5a806d168ca3590dcfc208a7144f4df90fde947f",
   "specs": [
     {
-      "id": "014",
-      "slug": "subagent-push-lockdown",
-      "status": "approved",
-      "type": "docs",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "commit": null,
-      "file": "specs/014-subagent-push-lockdown.md",
-      "mtime": 1790546154929.2627,
-      "goal": "Закрыть контур авторизации push на уровне процедуры, а не техники. После Phase 4",
-      "acceptance": "[ ] `.project/specs/014-subagent-push-lockdown.md` существует, frontmatter валиден,",
-      "noTouch": "`.project/sync.mjs` — ни одной правки.",
-      "preview": "1. Diff `.project/ORCH-RULES.md`: добавленный раздел `## 11.` целиком + строка заголовка."
-    },
-    {
-      "id": "010",
-      "slug": "jsdom-smoke-center",
-      "status": "draft",
-      "type": "feature",
-      "created": "2026-09-27",
-      "updated": "2026-09-28",
-      "commit": null,
-      "file": "specs/010-jsdom-smoke-center.md",
-      "mtime": 1790539159516.6636,
-      "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру — **по готовому",
-      "acceptance": "[ ] Существует `docs/__tests__/center-smoke.test.mjs`; все утверждения выше реализованы",
-      "noTouch": "**`.project/sync.mjs`** — ни одной строки: генератор остаётся CLI-точкой входа;",
-      "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -552,6 +522,21 @@
       "preview": "1. Дерево маршрутизации и таблица MIME (из кода)."
     },
     {
+      "id": "014",
+      "slug": "subagent-push-lockdown",
+      "status": "done",
+      "type": "docs",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": "61787a0",
+      "file": "specs/014-subagent-push-lockdown.md",
+      "mtime": 1790558334255.5476,
+      "goal": "Закрыть контур авторизации push на уровне процедуры, а не техники. После Phase 4",
+      "acceptance": "[ ] `.project/specs/014-subagent-push-lockdown.md` существует, frontmatter валиден,",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "1. Diff `.project/ORCH-RULES.md`: добавленный раздел `## 11.` целиком + строка заголовка."
+    },
+    {
       "id": "015",
       "slug": "batch5a-text-files",
       "status": "done",
@@ -627,6 +612,21 @@
       "preview": "1. Вывод `npm run shuffle-bank` целиком (какие темы и сколько вопросов затронуты)."
     },
     {
+      "id": "010",
+      "slug": "jsdom-smoke-center",
+      "status": "rejected",
+      "type": "feature",
+      "created": "2026-09-27",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/010-jsdom-smoke-center.md",
+      "mtime": 1790558347489.02,
+      "goal": "Закрыть центр разработки (`docs/index.html`) smoke-тестами на структуру — **по готовому",
+      "acceptance": "[ ] Существует `docs/__tests__/center-smoke.test.mjs`; все утверждения выше реализованы",
+      "noTouch": "**`.project/sync.mjs`** — ни одной строки: генератор остаётся CLI-точкой входа;",
+      "preview": "1. Список из ~10 `it` с их именами и что каждый ловит."
+    },
+    {
       "id": "011",
       "slug": "text-files-duplicate-repair",
       "status": "rejected",
@@ -658,7 +658,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending",
     "2026-09-28 | push 5A | push №1 по явной per-command авторизации капитана (задание «push batch 5A + spec 017», шаг 1, подтверждено ответом «выбираю A»): опубликован фактический диапазон 9ce80e2..8505522 = 10 коммитов (6 коммитов батча 5A + 4 ранних docs/state-коммита Phase 5), origin/main 9ce80e2 → 8505522, exit 0; автору команды до отправки был показан STOP с расхождением «6 vs 10» и получено подтверждение | commit 8505522",
     "2026-09-28 | spec 017 | gen-state v2: tools/gen-state.mjs больше не собирает state.json с нуля — merge-контракт (gen-state владеет goal/gates/added_today/avg_daily_7d, sync.mjs — head/specs/log_tail/commits/roles/products/audits/last_sync, schema_version общее); потеря ключа sync.mjs теперь падение сборки, метки времени идемпотентны (2-й прогон byte-for-byte); state:update exit 0, ключей sync.mjs сохранено 8/8, added_today 0 → 6, avg_daily_7d 6.57 → 7.43, gates qc/typecheck/vitest/shuffle = 0 | commit pending",
     "2026-09-28 | push 017 | push №2 по явной per-command авторизации капитана (то же задание, пункт «повторный push после fix (rule 10 explicit)»): диапазон 8505522..HEAD — коммиты trail, фикса spec 017 и её закрытия; запись сделана до отправки, фактический SHA origin/main — в отчёте orchestrator | commit pending",
@@ -667,11 +666,18 @@
     "2026-09-28 | spec 018 | батч 5B интегрирован: approve капитана на превью получен, sh_011..sh_016 дописаны в конец src/data/questions/shell_scripts.json (10 → 16) и в конец _order.json (212 → 218; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 218, shell_scripts 16); QC на интегрированном банке сначала дал Fails 2 — bigram jaccard 1.00 у sh_012, потому что токенизатор qc срезает двоеточие на границе токена и опции с двоеточием в конце строки становятся идентичными, плюс 4 WARN у sh_011 (пробел перед двойной точкой с запятой) → rework двух вопросов в разрешённом скоупе sh_011..sh_016 (убран пробел перед двойной точкой с запятой; у sh_012 заменены две дистракторные опции и explanation) → QC PASS: Total 218, Fails 0, Warns 22 как в базлайне | commit pending",
     "2026-09-28 | spec 018 | batch 5B закрыт: spec 018 → done (SHA в отчёте orchestrator), spec 019 создана как backlog (долг sh_004~sh_007 0.8311, триггер «после batch 5C»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 13 коммитов, диапазон ec48622..534da4c = 9 коммитов батча 5B + 4 ранее неотправленных коммита прошлой задачи (trail push 017, уточнение спеки 017, конвергенты), origin/main = 534da4c9d053a781525f2a218e99e51ee106c2f0, exit 0; sync:check после push exit 0 | commit pending",
     "2026-09-28 | spec 020 | батч 5C интегрирован: approve капитана на превью получен, rs_011..rs_016 дописаны в конец src/data/questions/running_systems.json (10 → 16, 162 добавленных строк / 0 удалённых) и в конец _order.json (218 → 224; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 224, running_systems 16); shuffle-bank:check сначала дал fail → --apply running_systems (salt 1, переставлены только 6 новых вопросов, существующие не тронуты) → :check exit 0; QC на интегрированном банке сразу PASS — Total 224, Fails 0, Warns 22 как в базлайне, rework не потребовался, потому что оффлайн-пречек qc-preview-check.mjs поймал два концептуальных дубля (ds_006, rs_008), новую intra-пару rs_014~rs_016 и три SEMI/ratio замечания ДО записи в src/data | commit pending",
-    "2026-09-28 | spec 020 | batch 5C закрыт: spec 020 → done (SHA в отчёте orchestrator), spec 021 создана как backlog (три пары running_systems 0.8355 / 0.8261 / 0.8155, триггер «после batch 5F или отдельного решения капитана»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 11 коммитов, диапазон 534da4c..753574e = 9 коммитов батча 5C + 2 ранее неотправленных коммита прошлой задачи (trail push 5B и его конвергент), origin/main = 753574ef4bd23803341631be7414cc9ab19fd193, exit 0; sync:check после push exit 0 | commit pending"
+    "2026-09-28 | spec 020 | batch 5C закрыт: spec 020 → done (SHA в отчёте orchestrator), spec 021 создана как backlog (три пары running_systems 0.8355 / 0.8261 / 0.8155, триггер «после batch 5F или отдельного решения капитана»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 11 коммитов, диапазон 534da4c..753574e = 9 коммитов батча 5C + 2 ранее неотправленных коммита прошлой задачи (trail push 5B и его конвергент), origin/main = 753574ef4bd23803341631be7414cc9ab19fd193, exit 0; sync:check после push exit 0 | commit pending",
+    "2026-09-28 | spec 014 + spec 010 | формальности закрыты по аудиту: 014 (subagent-push-lockdown) → done, правило 11 реализовано коммитом 61787a0 (спека добавлена 49fec29, log.md:28), статус висел approved фантомом; 010 (jsdom-smoke-center) → rejected, отменена по факту — Phase 5 подменена контент-батчами 5A/5B/5C, smoke-тест docs/__tests__/center-smoke.test.mjs не создан (артефакта в репо нет, скрипта в package.json нет, jsdom при этом установлен), формально rejected для соответствия схеме STATUS_ORDER (cancelled вне схемы дал бы вечный WARN) | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "2dd251e",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after push 5C record",
+      "type": "chore"
+    },
     {
       "sha": "5a806d1",
       "date": "2026-09-28",
@@ -785,12 +791,6 @@
       "date": "2026-09-28",
       "subject": "feat(bank): M2.9 batch 5B - 6 questions on shell_scripts (212->218)",
       "type": "feat"
-    },
-    {
-      "sha": "2eb9a49",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 018",
-      "type": "chore"
     }
   ],
   "roles": [

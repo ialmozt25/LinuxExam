@@ -1,12 +1,16 @@
 ---
 id: 014
 slug: subagent-push-lockdown
-status: approved
+status: done
 type: docs
 created: 2026-09-28
 updated: 2026-09-28
-commit: null
+commit: 61787a0
 ---
+
+> **Реализовано (2026-09-28):** правило 11 внесено в `.project/ORCH-RULES.md`
+> («11. Subagent НЕ пушит», L177) коммитом `61787a0`; спека добавлена `49fec29`,
+> запись в `.project/log.md:28`. Статус переведён в `done` по аудиту 2026-09-28.
 
 > **M6.0, пост-Phase 4 (2026-09-28).** Спека создана по прямому заданию капитана
 > и авторизована к исполнению в той же задаче (правило 2 ORCH-RULES — approved-спека

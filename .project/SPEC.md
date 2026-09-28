@@ -9,8 +9,6 @@
 
 | id | slug | type | status | commit | updated |
 |---|---|---|---|---|---|
-| 014 | `subagent-push-lockdown` | docs | approved | — | 2026-09-28 |
-| 010 | `jsdom-smoke-center` | feature | draft | — | 2026-09-28 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -23,10 +21,12 @@
 | 008 | `devops-role-document` | docs | done | 041d4a8 | 2026-09-28 |
 | 009 | `state-update-single-run` | feature | done | d61112d | 2026-09-27 |
 | 013 | `local-aliases` | docs | done | — | 2026-09-28 |
+| 014 | `subagent-push-lockdown` | docs | done | 61787a0 | 2026-09-28 |
 | 015 | `batch5a-text-files` | content | done | — | 2026-09-28 |
 | 017 | `gen-state-schema-v2` | infra | done | — | 2026-09-28 |
 | 018 | `batch5b-shell-scripts` | content | done | — | 2026-09-28 |
 | 020 | `batch5c-running-systems` | content | done | — | 2026-09-28 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
+| 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
 | 012 | `fix-state-head-volatile` | fix | rejected | — | 2026-09-27 |
