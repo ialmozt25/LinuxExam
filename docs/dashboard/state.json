@@ -1,12 +1,12 @@
 {
-  "last_update": "2026-09-27T23:46:27.232Z",
+  "last_update": "2026-09-28T00:17:40.024Z",
   "goal": {
     "target_questions": 300,
-    "current_questions": 218,
-    "progress_percent": 72.7,
+    "current_questions": 224,
+    "progress_percent": 74.7,
     "target_deadline": null,
-    "added_today": 12,
-    "avg_daily_7d": "8.29",
+    "added_today": 18,
+    "avg_daily_7d": "9.14",
     "per_topic_target": 22
   },
   "topics": [
@@ -67,7 +67,7 @@
     {
       "slug": "running_systems",
       "label": "Управление системами",
-      "count": 10,
+      "count": 16,
       "target": 22
     },
     {
@@ -256,23 +256,23 @@
   "gates": {
     "qc": {
       "status": "pass",
-      "total": 218,
+      "total": 224,
       "fails": 0,
-      "last_run": "2026-09-27T23:46:27.232Z"
+      "last_run": "2026-09-28T00:17:40.024Z"
     },
     "typecheck": {
       "status": "pass",
-      "last_run": "2026-09-27T23:46:27.232Z"
+      "last_run": "2026-09-28T00:17:40.024Z"
     },
     "vitest": {
       "status": "pass",
       "tests_passed": 167,
       "tests_total": 167,
-      "last_run": "2026-09-27T23:46:27.232Z"
+      "last_run": "2026-09-28T00:17:40.024Z"
     },
     "shuffle_bank": {
       "status": "pass",
-      "last_run": "2026-09-27T23:46:27.232Z"
+      "last_run": "2026-09-28T00:17:40.024Z"
     }
   },
   "issues_open": [
@@ -314,32 +314,32 @@
   ],
   "recent_commits": [
     {
-      "hash": "0622321",
+      "hash": "ad50dcd",
       "date": "2026-09-28",
-      "message": "feat(bank): M2.9 batch 5B - 6 questions on shell_scripts (212->218)"
+      "message": "feat(bank): M2.9 batch 5C - 6 questions on running_systems (218->224)"
     },
     {
-      "hash": "2eb9a49",
+      "hash": "47e20c5",
       "date": "2026-09-28",
-      "message": "chore(state): converge after spec 018"
+      "message": "chore(state): converge after spec 020"
     },
     {
-      "hash": "0f654c2",
+      "hash": "3e62356",
       "date": "2026-09-28",
-      "message": "docs(spec): approve 018 batch 5B (shell_scripts)"
+      "message": "docs(spec): approve 020 batch 5C (running_systems)"
     },
     {
-      "hash": "35dc55d",
+      "hash": "9e7f8b5",
       "date": "2026-09-28",
-      "message": "chore(state): converge after spec 017 wording"
+      "message": "chore(state): converge after push 5B record"
     },
     {
-      "hash": "3a4533f",
+      "hash": "6922d64",
       "date": "2026-09-28",
-      "message": "docs(spec): 017 - precise wording on dashboard copy invariant"
+      "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "0f654c240b1a6940c2823e44129dfd9037e095b1",
+  "head": "3e623566a92946396e294009a4d41d8867a2ccef",
   "specs": [
     {
       "id": "014",
@@ -357,18 +357,18 @@
       "preview": "1. Diff `.project/ORCH-RULES.md`: добавленный раздел `## 11.` целиком + строка заголовка."
     },
     {
-      "id": "018",
-      "slug": "batch5b-shell-scripts",
+      "id": "020",
+      "slug": "batch5c-running-systems",
       "status": "approved",
       "type": "content",
       "created": "2026-09-28",
       "updated": "2026-09-28",
       "commit": null,
-      "file": "specs/018-batch5b-shell-scripts.md",
-      "mtime": 1790552139692.879,
-      "goal": "Банк **212 → 218**: добавить **6** вопросов по канонической теме `shell_scripts`",
-      "acceptance": "[ ] 6 вопросов, `topic = shell_scripts` — канон из `src/data/topics.ts` (одна из 14 тем).",
-      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "file": "specs/020-batch5c-running-systems.md",
+      "mtime": 1790553986233.0916,
+      "goal": "Банк **218 → 224**: добавить **6** вопросов по канонической теме `running_systems`",
+      "acceptance": "[ ] 6 вопросов, `topic = running_systems` — канон из `src/data/topics.ts` (одна из 14 тем).",
+      "noTouch": "`.project/sync.mjs`, `.project/contracts/**`, `tools/**` (в том числе `qc.cjs` —",
       "preview": "Превью обязательно (правило 6, редакция 2026-09-28). Файл"
     },
     {
@@ -400,6 +400,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/text_files.json` →",
       "noTouch": "Пара `tf_001`~`tf_002` — отдельный долг (spec 011 `rejected`, решение капитана).",
       "preview": "Перед approve капитан видит: (1) таблицу `до` (пары > 0.80 с числами) и `после`"
+    },
+    {
+      "id": "019",
+      "slug": "sh-cosine-debt",
+      "status": "draft",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/019-sh-cosine-debt.md",
+      "mtime": 1790552923038.5662,
+      "goal": "Снять «мягкий» cosine-долг темы `shell_scripts`: пару, которая не нарушает DOD-порог",
+      "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/shell_scripts.json` →",
+      "noTouch": "Вопросы батча 5B (`sh_011`..`sh_016`) — приняты, отдельной правки не требуют.",
+      "preview": "Перед approve капитан видит: (1) таблицу «до» (пары > 0.80 с числами) и «после»"
     },
     {
       "id": "001",
@@ -567,6 +582,21 @@
       "preview": "До закрытия спеки капитан видит: (1) `diff` `tools/gen-state.mjs`; (2) `state.json`"
     },
     {
+      "id": "018",
+      "slug": "batch5b-shell-scripts",
+      "status": "done",
+      "type": "content",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/018-batch5b-shell-scripts.md",
+      "mtime": 1790552892514.5286,
+      "goal": "Банк **212 → 218**: добавить **6** вопросов по канонической теме `shell_scripts`",
+      "acceptance": "[ ] 6 вопросов, `topic = shell_scripts` — канон из `src/data/topics.ts` (одна из 14 тем).",
+      "noTouch": "`.project/sync.mjs` — ни одной правки.",
+      "preview": "Превью обязательно (правило 6, редакция 2026-09-28). Файл"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -613,8 +643,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | spec 014 | push выполнен по явной per-command авторизации капитана (команда «git push origin main», шаг 3 задания «push authorized (rule 10) + rule 11»), ровно один раз: 09d8c7c..1909f5e, 9 коммитов (5 held + converge + spec 014 + rule 11 + converge); exit 0 | commit 1909f5e",
-    "2026-09-28 | Phase 4 trail + .loc | push fbf3fe6, rule 11 соблюдено | orchestrator",
     "2026-09-28 | M6.0 Phase 5 | контент-трек разморожен решением капитана: content-спеки исполняются по общим правилам, НО правило 2 (approved spec = автоисполнение) на type=content не распространяется — approve капитана на превью обязателен всегда; банк снова растёт батчами, старт — spec 015 (батч 5A, text_files) | commit pending",
     "2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending",
     "2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending",
@@ -622,11 +650,79 @@
     "2026-09-28 | spec 017 | gen-state v2: tools/gen-state.mjs больше не собирает state.json с нуля — merge-контракт (gen-state владеет goal/gates/added_today/avg_daily_7d, sync.mjs — head/specs/log_tail/commits/roles/products/audits/last_sync, schema_version общее); потеря ключа sync.mjs теперь падение сборки, метки времени идемпотентны (2-й прогон byte-for-byte); state:update exit 0, ключей sync.mjs сохранено 8/8, added_today 0 → 6, avg_daily_7d 6.57 → 7.43, gates qc/typecheck/vitest/shuffle = 0 | commit pending",
     "2026-09-28 | push 017 | push №2 по явной per-command авторизации капитана (то же задание, пункт «повторный push после fix (rule 10 explicit)»): диапазон 8505522..HEAD — коммиты trail, фикса spec 017 и её закрытия; запись сделана до отправки, фактический SHA origin/main — в отчёте orchestrator | commit pending",
     "2026-09-28 | push 017 | push №2 выполнен: 8505522..ec48622, 7 коммитов (запись trail 5A, fix spec 017, закрытие 017, конвергенты), exit 0; origin/main = ec48622454a93e199027fbc891e68c7e5475957d, sync:check после push exit 0 | commit pending",
-    "2026-09-28 | spec 018 | батч 5B: тема shell_scripts (count 10 — минимум вместе с running_systems, батчами 1-7 не затронута, по канону topics.ts идёт сразу после text_files), 6 кандидатов sh_011..sh_016 на новые механизмы (case / getopts / trap / set -e / source / bash -n), банк 212 → 218; QC: Haladyna 6/6 perfect, cosine 0/6 reject (max 0.7094 против банка), ratio ≤ 1.138 при порогах 1.30/2.00, независимое ревью 6/6 OK; превью собрано, ждёт approve капитана; в src/data/** ничего не коммитилось | commit pending"
+    "2026-09-28 | spec 018 | батч 5B: тема shell_scripts (count 10 — минимум вместе с running_systems, батчами 1-7 не затронута, по канону topics.ts идёт сразу после text_files), 6 кандидатов sh_011..sh_016 на новые механизмы (case / getopts / trap / set -e / source / bash -n), банк 212 → 218; QC: Haladyna 6/6 perfect, cosine 0/6 reject (max 0.7094 против банка), ratio ≤ 1.138 при порогах 1.30/2.00, независимое ревью 6/6 OK; превью собрано, ждёт approve капитана; в src/data/** ничего не коммитилось | commit pending",
+    "2026-09-28 | spec 018 | батч 5B интегрирован: approve капитана на превью получен, sh_011..sh_016 дописаны в конец src/data/questions/shell_scripts.json (10 → 16) и в конец _order.json (212 → 218; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 218, shell_scripts 16); QC на интегрированном банке сначала дал Fails 2 — bigram jaccard 1.00 у sh_012, потому что токенизатор qc срезает двоеточие на границе токена и опции с двоеточием в конце строки становятся идентичными, плюс 4 WARN у sh_011 (пробел перед двойной точкой с запятой) → rework двух вопросов в разрешённом скоупе sh_011..sh_016 (убран пробел перед двойной точкой с запятой; у sh_012 заменены две дистракторные опции и explanation) → QC PASS: Total 218, Fails 0, Warns 22 как в базлайне | commit pending",
+    "2026-09-28 | spec 018 | batch 5B закрыт: spec 018 → done (SHA в отчёте orchestrator), spec 019 создана как backlog (долг sh_004~sh_007 0.8311, триггер «после batch 5C»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 13 коммитов, диапазон ec48622..534da4c = 9 коммитов батча 5B + 4 ранее неотправленных коммита прошлой задачи (trail push 017, уточнение спеки 017, конвергенты), origin/main = 534da4c9d053a781525f2a218e99e51ee106c2f0, exit 0; sync:check после push exit 0 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3e62356",
+      "date": "2026-09-28",
+      "subject": "docs(spec): approve 020 batch 5C (running_systems)",
+      "type": "docs"
+    },
+    {
+      "sha": "9e7f8b5",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after push 5B record",
+      "type": "chore"
+    },
+    {
+      "sha": "6922d64",
+      "date": "2026-09-28",
+      "subject": "docs(rules): record authorized push 5B (rule 10/11 trail)",
+      "type": "docs"
+    },
+    {
+      "sha": "534da4c",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 019",
+      "type": "chore"
+    },
+    {
+      "sha": "a487cb8",
+      "date": "2026-09-28",
+      "subject": "docs(spec): backlog 019 sh-cosine-debt",
+      "type": "docs"
+    },
+    {
+      "sha": "e22baa9",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 018",
+      "type": "chore"
+    },
+    {
+      "sha": "477fbc9",
+      "date": "2026-09-28",
+      "subject": "docs(spec): close 018 as done",
+      "type": "docs"
+    },
+    {
+      "sha": "72bc1ec",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge head after batch 5B",
+      "type": "chore"
+    },
+    {
+      "sha": "31a4c87",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after batch 5B",
+      "type": "chore"
+    },
+    {
+      "sha": "0622321",
+      "date": "2026-09-28",
+      "subject": "feat(bank): M2.9 batch 5B - 6 questions on shell_scripts (212->218)",
+      "type": "feat"
+    },
+    {
+      "sha": "2eb9a49",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 018",
+      "type": "chore"
+    },
     {
       "sha": "0f654c2",
       "date": "2026-09-28",
@@ -680,72 +776,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 017 fix",
       "type": "chore"
-    },
-    {
-      "sha": "337d8d6",
-      "date": "2026-09-28",
-      "subject": "fix(tools): gen-state.mjs preserves schema v2 keys",
-      "type": "fix"
-    },
-    {
-      "sha": "de71549",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after push 5A record",
-      "type": "chore"
-    },
-    {
-      "sha": "f67c512",
-      "date": "2026-09-28",
-      "subject": "docs(rules): record authorized push 5A (rule 10/11 trail)",
-      "type": "docs"
-    },
-    {
-      "sha": "8505522",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 016",
-      "type": "chore"
-    },
-    {
-      "sha": "d00dfe9",
-      "date": "2026-09-28",
-      "subject": "docs(spec): backlog 016 tf-cosine-debt",
-      "type": "docs"
-    },
-    {
-      "sha": "40191eb",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 015",
-      "type": "chore"
-    },
-    {
-      "sha": "b99c574",
-      "date": "2026-09-28",
-      "subject": "docs(spec): close 015 as done",
-      "type": "docs"
-    },
-    {
-      "sha": "96a419f",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after batch 5A",
-      "type": "chore"
-    },
-    {
-      "sha": "df1a12f",
-      "date": "2026-09-28",
-      "subject": "feat(bank): M2.9 batch 5A - 6 questions on text_files (206->212)",
-      "type": "feat"
-    },
-    {
-      "sha": "553330b",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 015",
-      "type": "chore"
-    },
-    {
-      "sha": "5701e70",
-      "date": "2026-09-28",
-      "subject": "docs(spec): approve 015 batch 5A (text_files)",
-      "type": "docs"
     }
   ],
   "roles": [
@@ -820,7 +850,7 @@
     {
       "name": "LinuxExam",
       "status": "frozen",
-      "metric": "212 / 300 вопросов",
+      "metric": "218 / 300 вопросов",
       "metric_source": "goal",
       "frozen_at": "2026-09-27",
       "frozen_by": "ORCH-RULES правило 6"
