@@ -4,14 +4,14 @@
 
 ---
 
-2026-09-28 | F2 закрыта, F3 в очереди
+2026-09-28 | F3 закрыта, F4 в очереди
 
-HEAD: 8abebfc (origin/main 099d74b, ahead 1, push не авторизован)
+HEAD: 32cb067 (origin/main 099d74b, ahead 9, push не авторизован)
 
-План: v2.9
+План: v2.11
 
-Фаза: F3 in_progress, шаг F3.1 — AgentTeams разведка
+Фаза: F4 pending
 
-Дальше: F3.1 — AgentTeams разведка
+Дальше: F4.0 (план хранителей) — отдельный approve
 
-<!-- meta updated: 2026-09-28T04:51:28Z entries_count: 1 -->
+<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 1 -->

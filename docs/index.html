@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 3331947de3fbd9101c7ff1be04087369b606de3a</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 32cb067fe2f73debb2f637e88039617ac1e052ab</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -302,7 +302,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">center-block6-agents-pulse</td>
           <td>infra</td>
           <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
+          <td class="mono">9718583</td>
           <td class="mono">2026-09-28</td>
         </tr>
         <tr>
@@ -480,8 +480,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending</li>
-        <li>2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending</li>
         <li>2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending</li>
         <li>2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending</li>
         <li>2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending</li>
@@ -490,6 +488,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]</li>
         <li>2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending</li>
         <li>2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031</li>
+        <li>2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067</li>
+        <li>2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —</li>
     </ul>
   </section>
 
@@ -501,6 +501,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">32cb067</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(memory): F3.3 — close F3, plan v2.11, spec 022 commit</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">71eec57</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(log): F3.2 — record live AgentTeams smoke (rule 5)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">c799031</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -609,18 +621,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>chore(factory): F2.2a - cleanup _diag2.mjs, alert index.html drift</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">78adca8</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(sync): F2.1b - volatile state.head/commits, memory paths</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">4f411d5</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(factory): F2.1a - working mode v2.7, js-yaml in deps</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -722,16 +722,16 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-28T02:56:14Z</td>
-          <td class="mono">6</td>
-          <td class="muted">3 ч</td>
+          <td class="mono muted">2026-09-28T05:33:00Z</td>
+          <td class="mono">7</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
-          <td class="mono muted">2026-09-28T03:03:24Z</td>
-          <td class="mono">7</td>
-          <td class="muted">2 ч</td>
+          <td class="mono muted">2026-09-28T05:33:00Z</td>
+          <td class="mono">9</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -743,16 +743,16 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T04:51:28Z</td>
+          <td class="mono muted">2026-09-28T05:33:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-28T04:10:42Z</td>
-          <td class="mono">5</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-28T05:33:00Z</td>
+          <td class="mono">6</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -781,17 +781,21 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — капитаном | [AUTHORIZE]</li>
-        <li><span class="mono muted">2026-09-28</span> | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending</li>
         <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]</li>
         <li><span class="mono muted">2026-09-28</span> | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | comm…</li>
         <li><span class="mono muted">2026-09-28</span> | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c…</li>
+        <li><span class="mono muted">2026-09-28</span> | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067</li>
+        <li><span class="mono muted">2026-09-28</span> | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельны…</li>
     </ul>
   </section>
 
   <section class="alerts" id="alerts">
     <h2>Тревоги</h2>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 5</div>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 6</div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | Критерий 8 спеки 022 не проверен прогоном</div>
+          <div class="entry__body muted">Критерий 8 спеки 022 (фаза известна, но не `staged|running` → в `class` попадает только базовый `chip` без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значением `phase` не удалось записать в edge-кейс-прогоне F3.0b — запись значения режется политикой оболочки. Не блокер F3. Кандидат: unit-тест `sync.mjs` (чистая функция рендера команды) в F4.</div>
+        </div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | Dependabot — 52 уязвимости</div>
           <div class="entry__body muted">GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не следствие push. Кандидат в F4 или отдельную спеку. Действий пока нет.</div>
@@ -861,8 +865,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.10</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F3 · F3.1 — AgentTeams разведка</div>
+    <h2>План · v2.11</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F4 · F4.0 — план хранителей</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
@@ -889,8 +893,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr>
           <td class="mono">F3</td>
           <td>Настоящий MAS</td>
-          <td><span class="chip chip--in_progress">в работе</span></td>
-          <td class="mono">0/5</td>
+          <td><span class="chip chip--done">закрыта</span></td>
+          <td class="mono">5/5</td>
         </tr>
         <tr>
           <td class="mono">F4</td>

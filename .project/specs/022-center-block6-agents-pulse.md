@@ -6,7 +6,7 @@ status: approved
 type: infra
 created: 2026-09-28
 updated: 2026-09-28
-commit: null
+commit: 9718583
 ---
 
 > **Спека создана как детализация существующего шага F3** (ЧАСТЬ 4, пункт 3:

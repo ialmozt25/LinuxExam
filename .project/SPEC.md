@@ -3,13 +3,13 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `3331947de3fbd9101c7ff1be04087369b606de3a`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `32cb067fe2f73debb2f637e88039617ac1e052ab`<!--volatile:end-->
 - Спек: 22
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
 |---|---|---|---|---|---|
-| 022 | `center-block6-agents-pulse` | infra | approved | — | 2026-09-28 |
+| 022 | `center-block6-agents-pulse` | infra | approved | 9718583 | 2026-09-28 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |

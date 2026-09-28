@@ -25,4 +25,7 @@ F1 (память) закрыта 5/5. Тетради: episodic, semantic, proced
 2026-09-28 | Спеки 014 и 010 закрыты формально
 Коммит `3a6266a`: spec 014 (`subagent-push-lockdown`) → `done` — правило 11 реализовано коммитом `61787a0`, спека добавлена `49fec29`; spec 010 (`jsdom-smoke-center`) → `rejected` — отменена по факту, подменена контент-батчами 5A/5B/5C, артефакт `docs/__tests__/center-smoke.test.mjs` не создан. Перед этим `5a806d1` — запись авторизованного push 5C (правила 10/11), `2dd251e` — converge после неё.
 
-<!-- meta updated: 2026-09-28T02:56:14Z entries_count: 6 -->
+## 2026-09-28 | F3 закрыта
+F3 (настоящий MAS) закрыта. Состав 5/5: F3.1 (recon AgentTeams, dsh-agent-teams 0.1.20 на 3080); F3.0b (спека 022 — блок 6 «Пульс агентов» в sync.mjs, 9718583); F3.2 (live-команда linuxexam-f3-smoke, writer tier-router/smart + qc deepseek-official/deepseek-v4-pro, verdict PASS, c799031 + 71eec57); F3.2b (команда оставлена живой); F3.3 (закрытие). Коммиты F3 до F3.3: 0164610, 8ec92be, 9718583, 6a36cc0, 3331947, c799031, 71eec57. F3.3 добавит I1 и, при необходимости, I2. Открытые долги — alerts.md.
+
+<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 7 -->
