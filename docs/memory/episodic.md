@@ -4,6 +4,9 @@
 
 ---
 
+## 2026-09-28 | F2 закрыта
+F2 (центр) закрыта 5/5. YAML-шапка парсится, 4 блока в дашборде (память/тренды/решения/тревоги), pre-commit hook, sync:check exit 0 без конвергента с F2.2.
+
 ## 2026-09-28 | F1 закрыта
 F1 (память) закрыта 5/5. Тетради: episodic, semantic, procedural, working, alerts. trends.jsonl, check-episodic.mjs. MEMORY-FACTORY.md и session-log.md в архив. Числа верифицированы (ahead 9→11). Открытый долг: sync.mjs:898/:1150 — устаревший путь, правка в F2.1.
 

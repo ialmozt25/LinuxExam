@@ -1,17 +1,17 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.7
+plan_version: 2.8
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
-current_phase: F2
-current_step: "F2.1 — ремонт sync.mjs (self-reference) + парсинг YAML-шапки"
+current_phase: F3
+current_step: "F3.1 — AgentTeams разведка"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
-  - { id: F2, name: "Центр показывает всё", status: in_progress, progress: "0/5" }
-  - { id: F3, name: "Настоящий MAS",        status: pending,     progress: "0/5" }
+  - { id: F2, name: "Центр показывает всё", status: done,        progress: "5/5" }
+  - { id: F3, name: "Настоящий MAS",        status: in_progress, progress: "0/5" }
   - { id: F4, name: "Агенты-хранители",     status: pending,     progress: "0/4" }
   - { id: F5, name: "Экспорт фабрики",      status: pending,     progress: "0/4" }
 budget:
@@ -28,6 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
+**v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
 **v2.6 (2026-09-28):** ЧАСТЬ 5А «Гарантия памяти» — владелец памяти, четыре слоя механизмов (commit-gate → sync-gate → DoD → хранители) и обоснование порядка; ответ на вопрос капитана «что гарантирует, что память ведётся».
 **v2.5 (2026-09-28):** F1 закрыта 5/5. MEMORY-FACTORY.md и session-log.md в архив. Числа verified (ahead 9 → 11). Alert про sync.mjs:898/:1150 для F2.1.
@@ -134,7 +135,7 @@ captain_timezone: "Europe/Moscow"
 ```
 **Готово, когда:** оркестратор в новой сессии не переспрашивает то, что есть в тетрадях.
 
-### F2. Центр показывает всё
+### F2. Центр показывает всё ✅ Готово (5/5)
 **Проблема:** центр отстаёт, не показывает память и тренды.
 **Что делаем:**
 1. `sync.mjs` парсит YAML-шапку плана. **Time-box 180 мин** (не 60 — `sync.mjs` 1300+ строк).
@@ -145,6 +146,7 @@ captain_timezone: "Europe/Moscow"
 6. Примеры в дашборде помечены «иллюстрация».
 7. Проверить `docs/dashboard/state.json` — если никто не читает, удалить (дубль и расходится).
 **Готово, когда:** открыл центр — видишь план, память, тренды, рассинхрон.
+**Закрыто (2026-09-28, 5/5):** F2.0 память-гарантия · F2.1a режим v2.7 · F2.1b volatile-маркеры · F2.2 index.html drift (вариант А) · F2.3+F2.3.1 парсер YAML-шапки (рукописный, без js-yaml) · F2.4 4 блока (память/тренды/решения/тревоги) + pre-commit hook. Остаток блока 4 (9 блоков) и блок 6 (MAS, заглушка) — вынесены в F2.5/F3.
 
 ### F3. Настоящий MAS
 **Проблема:** оркестратор играет все роли.

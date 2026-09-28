@@ -658,7 +658,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending",
     "2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending",
     "2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending",
     "2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending",
@@ -667,13 +666,14 @@
     "2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending",
     "2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending",
     "2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]",
-    "2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook | commit pending"
+    "2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook | commit pending",
+    "2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
     {
-      "sha": "4ad0fed",
+      "sha": "d5c2eaa",
       "date": "2026-09-28",
       "subject": "feat(sync): F2.4 — dashboard blocks + pre-commit hook",
       "type": "feat"
@@ -906,9 +906,9 @@
     }
   ],
   "plan": {
-    "version": "2.7",
-    "phase": "F2",
-    "step": "F2.1 — ремонт sync.mjs (self-reference) + парсинг YAML-шапки",
+    "version": "2.8",
+    "phase": "F3",
+    "step": "F3.1 — AgentTeams разведка",
     "phases": [
       {
         "id": "F0",
@@ -925,13 +925,13 @@
       {
         "id": "F2",
         "name": "Центр показывает всё",
-        "status": "in_progress",
-        "progress": "0/5"
+        "status": "done",
+        "progress": "5/5"
       },
       {
         "id": "F3",
         "name": "Настоящий MAS",
-        "status": "pending",
+        "status": "in_progress",
         "progress": "0/5"
       },
       {
