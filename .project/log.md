@@ -61,3 +61,4 @@
 2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031
 2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067
 2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —
+2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]
