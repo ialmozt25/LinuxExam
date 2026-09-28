@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "6edb2c82492e506ce5b1baee42823eb8949afe17",
+  "head": "5a806d168ca3590dcfc208a7144f4df90fde947f",
   "specs": [
     {
       "id": "014",
@@ -658,7 +658,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | spec 015 | батч 5A: тема text_files (count 10 — минимум вместе с shell_scripts/running_systems, батчами 1-7 не затронута, первый по канону topics.ts), 6 вопросов tf_011..tf_016, банк 206 → 212; правило 6 в редакции 2026-09-28: approve капитана на превью обязателен, автономия на type=content не распространяется | commit pending",
     "2026-09-28 | spec 015 | батч 5A интегрирован: approve капитана на превью получен, tf_011..tf_016 дописаны в конец src/data/questions/text_files.json (10 → 16) и в конец _order.json (206 → 212; существующий порядок не нормализован — HANDOFF §7.1), _topics.json пересобран генератором npm run manifest (Total 212, text_files 16); гейты typecheck / test:run (167) / build / qc (Total 212, Fails 0) / shuffle-bank:check — exit 0 | commit pending",
     "2026-09-28 | push 5A | push №1 по явной per-command авторизации капитана (задание «push batch 5A + spec 017», шаг 1, подтверждено ответом «выбираю A»): опубликован фактический диапазон 9ce80e2..8505522 = 10 коммитов (6 коммитов батча 5A + 4 ранних docs/state-коммита Phase 5), origin/main 9ce80e2 → 8505522, exit 0; автору команды до отправки был показан STOP с расхождением «6 vs 10» и получено подтверждение | commit 8505522",
     "2026-09-28 | spec 017 | gen-state v2: tools/gen-state.mjs больше не собирает state.json с нуля — merge-контракт (gen-state владеет goal/gates/added_today/avg_daily_7d, sync.mjs — head/specs/log_tail/commits/roles/products/audits/last_sync, schema_version общее); потеря ключа sync.mjs теперь падение сборки, метки времени идемпотентны (2-й прогон byte-for-byte); state:update exit 0, ключей sync.mjs сохранено 8/8, added_today 0 → 6, avg_daily_7d 6.57 → 7.43, gates qc/typecheck/vitest/shuffle = 0 | commit pending",
@@ -667,11 +666,24 @@
     "2026-09-28 | spec 018 | батч 5B: тема shell_scripts (count 10 — минимум вместе с running_systems, батчами 1-7 не затронута, по канону topics.ts идёт сразу после text_files), 6 кандидатов sh_011..sh_016 на новые механизмы (case / getopts / trap / set -e / source / bash -n), банк 212 → 218; QC: Haladyna 6/6 perfect, cosine 0/6 reject (max 0.7094 против банка), ratio ≤ 1.138 при порогах 1.30/2.00, независимое ревью 6/6 OK; превью собрано, ждёт approve капитана; в src/data/** ничего не коммитилось | commit pending",
     "2026-09-28 | spec 018 | батч 5B интегрирован: approve капитана на превью получен, sh_011..sh_016 дописаны в конец src/data/questions/shell_scripts.json (10 → 16) и в конец _order.json (212 → 218; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 218, shell_scripts 16); QC на интегрированном банке сначала дал Fails 2 — bigram jaccard 1.00 у sh_012, потому что токенизатор qc срезает двоеточие на границе токена и опции с двоеточием в конце строки становятся идентичными, плюс 4 WARN у sh_011 (пробел перед двойной точкой с запятой) → rework двух вопросов в разрешённом скоупе sh_011..sh_016 (убран пробел перед двойной точкой с запятой; у sh_012 заменены две дистракторные опции и explanation) → QC PASS: Total 218, Fails 0, Warns 22 как в базлайне | commit pending",
     "2026-09-28 | spec 018 | batch 5B закрыт: spec 018 → done (SHA в отчёте orchestrator), spec 019 создана как backlog (долг sh_004~sh_007 0.8311, триггер «после batch 5C»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 13 коммитов, диапазон ec48622..534da4c = 9 коммитов батча 5B + 4 ранее неотправленных коммита прошлой задачи (trail push 017, уточнение спеки 017, конвергенты), origin/main = 534da4c9d053a781525f2a218e99e51ee106c2f0, exit 0; sync:check после push exit 0 | commit pending",
-    "2026-09-28 | spec 020 | батч 5C интегрирован: approve капитана на превью получен, rs_011..rs_016 дописаны в конец src/data/questions/running_systems.json (10 → 16, 162 добавленных строк / 0 удалённых) и в конец _order.json (218 → 224; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 224, running_systems 16); shuffle-bank:check сначала дал fail → --apply running_systems (salt 1, переставлены только 6 новых вопросов, существующие не тронуты) → :check exit 0; QC на интегрированном банке сразу PASS — Total 224, Fails 0, Warns 22 как в базлайне, rework не потребовался, потому что оффлайн-пречек qc-preview-check.mjs поймал два концептуальных дубля (ds_006, rs_008), новую intra-пару rs_014~rs_016 и три SEMI/ratio замечания ДО записи в src/data | commit pending"
+    "2026-09-28 | spec 020 | батч 5C интегрирован: approve капитана на превью получен, rs_011..rs_016 дописаны в конец src/data/questions/running_systems.json (10 → 16, 162 добавленных строк / 0 удалённых) и в конец _order.json (218 → 224; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 224, running_systems 16); shuffle-bank:check сначала дал fail → --apply running_systems (salt 1, переставлены только 6 новых вопросов, существующие не тронуты) → :check exit 0; QC на интегрированном банке сразу PASS — Total 224, Fails 0, Warns 22 как в базлайне, rework не потребовался, потому что оффлайн-пречек qc-preview-check.mjs поймал два концептуальных дубля (ds_006, rs_008), новую intra-пару rs_014~rs_016 и три SEMI/ratio замечания ДО записи в src/data | commit pending",
+    "2026-09-28 | spec 020 | batch 5C закрыт: spec 020 → done (SHA в отчёте orchestrator), spec 021 создана как backlog (три пары running_systems 0.8355 / 0.8261 / 0.8155, триггер «после batch 5F или отдельного решения капитана»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 11 коммитов, диапазон 534da4c..753574e = 9 коммитов батча 5C + 2 ранее неотправленных коммита прошлой задачи (trail push 5B и его конвергент), origin/main = 753574ef4bd23803341631be7414cc9ab19fd193, exit 0; sync:check после push exit 0 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "5a806d1",
+      "date": "2026-09-28",
+      "subject": "docs(rules): record authorized push 5C (rule 10/11 trail)",
+      "type": "docs"
+    },
+    {
+      "sha": "753574e",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after spec 021",
+      "type": "chore"
+    },
     {
       "sha": "6edb2c8",
       "date": "2026-09-28",
@@ -778,18 +790,6 @@
       "sha": "2eb9a49",
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 018",
-      "type": "chore"
-    },
-    {
-      "sha": "0f654c2",
-      "date": "2026-09-28",
-      "subject": "docs(spec): approve 018 batch 5B (shell_scripts)",
-      "type": "docs"
-    },
-    {
-      "sha": "35dc55d",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 017 wording",
       "type": "chore"
     }
   ],
