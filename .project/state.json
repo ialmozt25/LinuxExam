@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "d453e5bff3266a095745dc154507ca3cf15cfb49",
+  "head": "0074d35247feac8f889e580dffca7aed0a52304b",
   "specs": [
     {
       "id": "022",
@@ -460,6 +460,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "029",
+      "slug": "center-redesign",
+      "status": "draft",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/029-center-redesign.md",
+      "mtime": 1790632051478.827,
+      "goal": "Перестроить `docs/index.html` (генерируется `renderCenter()` в `.project/sync.mjs`)",
+      "acceptance": "",
+      "noTouch": "`docs/FACTORY-PLAN.md`, `docs/DEV-PLAN.md` — завершённые планы, только чтение.",
+      "preview": "```"
     },
     {
       "id": "001",
@@ -733,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | cleanup | удалено 6 путей (.backup-tld, filelists-BaseOS.xml.gz, .tmp, scripts/, drafts/_bak, local_storage_r2.json); поправлены 3 мёртвые ссылки в плане | commit pending",
     "2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]",
     "2026-09-28 | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в state.json; check:episodic читает allPhases | commit pending",
     "2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending",
@@ -742,11 +756,24 @@
     "2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `<details class=\"alerts\" id=\"alerts\">` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending",
     "2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending",
     "2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending",
-    "2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]"
+    "2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]",
+    "2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0074d35",
+      "date": "2026-09-29",
+      "subject": "docs(recon): C0 — center audit",
+      "type": "docs"
+    },
+    {
+      "sha": "9000847",
+      "date": "2026-09-29",
+      "subject": "docs(dev-plan): D4 close — DEV-PLAN complete",
+      "type": "docs"
+    },
     {
       "sha": "cdc15dd",
       "date": "2026-09-29",
@@ -854,18 +881,6 @@
       "date": "2026-09-28",
       "subject": "docs(memory): F4.3 — close F4, plan v2.16, spec 023 approved",
       "type": "docs"
-    },
-    {
-      "sha": "aa5d577",
-      "date": "2026-09-28",
-      "subject": "feat(keepers): F4.2a-iv — smart schedule + plan v2.15",
-      "type": "feat"
-    },
-    {
-      "sha": "8bd3288",
-      "date": "2026-09-28",
-      "subject": "feat(keepers): F4.2a-iii — Task Scheduler + plan v2.14",
-      "type": "feat"
     }
   ],
   "roles": [

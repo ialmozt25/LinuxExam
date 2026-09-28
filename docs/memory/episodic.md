@@ -93,4 +93,7 @@ section.alerts → details.alerts + summary.
 Evidence: .agent-teams/spec-028-hide-alerts.
 **Все фазы DEV-PLAN закрыты (D0–D4).**
 
-<!-- meta updated: 2026-09-28T20:40:00Z entries_count: 15 -->
+## 2026-09-28 | C0 закрыта
+C0 (recon текущего центра) закрыта 1/1. Отчёт: docs/C0-CENTER-AUDIT.md (332 строки, коммит 0074d35). 18 секций: 3 KEEP, 3 HUMANIZE, 3 COLLAPSE, 10 DELETE. 4 дубликата (log.md показан дважды; план — двумя блоками). 7 багов sync.mjs (критический — wall-clock «свежий draft» без VOLATILE). Жаргон — в alerts.md и log.md. Инициатива C — отдельный трек; C1 (дизайн) начат сразу за C0, запись о C0 отложена и закрыта долгом памяти при C1.
+
+<!-- meta updated: 2026-09-28T21:46:00Z entries_count: 16 -->

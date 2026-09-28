@@ -4,16 +4,16 @@
 
 ---
 
-2026-09-28 | работа по DEV-PLAN (v1.4)
+2026-09-28 | работа по C-PLAN (v1.0) — инициатива C (Center evolution)
 
 HEAD: pending
 
-ahead: 0/11 (до push) / 0/0 (после push)
+ahead: 0/1
 
-План: DEV-PLAN v1.4 (финальная)
+План: C-PLAN v1.0 (отдельный трек, не DEV-PLAN)
 
-Фаза: проект завершён
+Фаза: C1 — Дизайн нового центра
 
-Дальше: — (открытые находки D4 — в alerts.md)
+Дальше: C1-close (approve spec 029) → C2 (реализация в sync.mjs + фикс багов)
 
-<!-- meta updated: 2026-09-28T20:40:00Z entries_count: 1 -->
+<!-- meta updated: 2026-09-28T21:46:00Z entries_count: 1 -->

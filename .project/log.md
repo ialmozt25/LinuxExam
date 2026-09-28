@@ -84,3 +84,4 @@
 2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending
 2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending
 2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]
+2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending
