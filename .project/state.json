@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "923b42715c6f00a77f26d3ce8406c63ae6045243",
+  "head": "a52b531a49c5592957657c4225a7e8e027d008c8",
   "specs": [
     {
       "id": "022",
@@ -703,20 +703,26 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]",
-    "2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending",
-    "2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending",
     "2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]",
     "2026-09-28 | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; долги F4 записаны | commit pending",
     "2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending",
     "2026-09-28 | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-й случай rule2-exception) | commit pending",
     "2026-09-28 | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — урезанная версия (smoke ok) | commit pending",
     "2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending",
-    "2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending"
+    "2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending",
+    "2026-09-28 | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | commit pending",
+    "2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending",
+    "2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "a52b531",
+      "date": "2026-09-28",
+      "subject": "docs(factory): F5.2 — FACTORY-USAGE + scaffold verification",
+      "type": "docs"
+    },
     {
       "sha": "923b427",
       "date": "2026-09-28",
@@ -829,12 +835,6 @@
       "sha": "0164610",
       "date": "2026-09-28",
       "subject": "docs(spec): 022 center block 6 draft + plan 2.10",
-      "type": "docs"
-    },
-    {
-      "sha": "8b7b6e6",
-      "date": "2026-09-28",
-      "subject": "docs(plan): sync body/footer to v2.9, working head after F2.5",
       "type": "docs"
     }
   ],
@@ -951,9 +951,9 @@
     }
   ],
   "plan": {
-    "version": "2.21",
+    "version": "2.22",
     "phase": "F5",
-    "step": "F5.3 — закрытие фазы + push",
+    "step": "проект завершён",
     "phases": [
       {
         "id": "F0",
@@ -988,8 +988,8 @@
       {
         "id": "F5",
         "name": "Экспорт фабрики",
-        "status": "pending",
-        "progress": "0/4"
+        "status": "done",
+        "progress": "4/4"
       }
     ]
   }

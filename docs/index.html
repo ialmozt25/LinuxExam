@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 923b42715c6f00a77f26d3ce8406c63ae6045243</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD a52b531a49c5592957657c4225a7e8e027d008c8</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -504,9 +504,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]</li>
-        <li>2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending</li>
-        <li>2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending</li>
         <li>2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]</li>
         <li>2026-09-28 | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; долги F4 записаны | commit pending</li>
         <li>2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending</li>
@@ -514,6 +511,9 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — урезанная версия (smoke ok) | commit pending</li>
         <li>2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending</li>
         <li>2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending</li>
+        <li>2026-09-28 | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | commit pending</li>
+        <li>2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending</li>
+        <li>2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]</li>
     </ul>
   </section>
 
@@ -525,6 +525,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">a52b531</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): F5.2 — FACTORY-USAGE + scaffold verification</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">923b427</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -639,12 +645,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>docs(spec): 022 center block 6 draft + plan 2.10</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">8b7b6e6</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(plan): sync body/footer to v2.9, working head after F2.5</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -746,9 +746,9 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-28T07:21:48Z</td>
-          <td class="mono">8</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-28T08:12:28Z</td>
+          <td class="mono">9</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -767,9 +767,9 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T07:33:19Z</td>
+          <td class="mono muted">2026-09-28T08:12:28Z</td>
           <td class="mono">1</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -805,11 +805,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | rule13-exception | авторизована правка ORCH-RULES через embedded approve | comm…</li>
-        <li><span class="mono muted">2026-09-28</span> | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-…</li>
-        <li><span class="mono muted">2026-09-28</span> | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — ур…</li>
         <li><span class="mono muted">2026-09-28</span> | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом o…</li>
         <li><span class="mono muted">2026-09-28</span> | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init…</li>
+        <li><span class="mono muted">2026-09-28</span> | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | c…</li>
+        <li><span class="mono muted">2026-09-28</span> | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending</li>
+        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — F5 закрыта, публикация всех локальных комми…</li>
     </ul>
   </section>
 
@@ -925,8 +925,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.21</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · F5.3 — закрытие фазы + push</div>
+    <h2>План · v2.22</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · проект завершён</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
@@ -965,8 +965,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr>
           <td class="mono">F5</td>
           <td>Экспорт фабрики</td>
-          <td><span class="chip chip--pending">ожидает</span></td>
-          <td class="mono">0/4</td>
+          <td><span class="chip chip--done">закрыта</span></td>
+          <td class="mono">4/4</td>
         </tr>
       </tbody>
     </table>

@@ -34,4 +34,18 @@ F4 (агенты-хранители) закрыта. Состав: **2 авто�
 Автоматизация через `dsh --profile headless` (патч профиля headless + junction `dsh-tier-router`). `dsh-cron` и `dsh-sop-agent-teams` отклонены — требуют живой DSH.
 Открытые долги — см. `alerts.md`.
 
-<!-- meta updated: 2026-09-28T07:21:48Z entries_count: 8 -->
+## 2026-09-28 | F5 закрыта
+F5 (экспорт фабрики) закрыта 4/4 — spec 024, `templates/factory`, `factory:scaffold` + `FACTORY-USAGE`, проверка пустышки.
+Состав:
+- **F5.0a** — правила 2/13 узаконены; `.gitignore` сужен; долги F4 в alerts (`50f97d5`).
+- **F5.0b** — spec 024 (Factory Export, approved) (`86556b5`).
+- **F5.1a** — `templates/factory/` собран (33 файла); `sync.mjs` шаблона — урезанная версия (398 строк); `factory:sync-template` (`dfc85c7`).
+- **F5.1b** — `factory:scaffold` на `node:fs.cpSync`; 4 сценария; smoke развёрнутого шаблона (`923b427`).
+- **F5.2** — `docs/FACTORY-USAGE.md` (114 строк); полный цикл на пустышке (scaffold → install → git init → hook → commit); все 8 плейсхолдеров заменены (`a52b531`).
+- **F5.3** — закрытие (этот шаг).
+
+Коммиты F5: `50f97d5`, `86556b5`, `dfc85c7`, `923b427`, `a52b531` и F5.3 (pending).
+Проект завершён: **все 6 фаз F0–F5 закрыты.**
+Открытые долги — см. `alerts.md`.
+
+<!-- meta updated: 2026-09-28T08:12:28Z entries_count: 9 -->

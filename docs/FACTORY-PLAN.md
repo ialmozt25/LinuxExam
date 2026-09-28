@@ -1,19 +1,19 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.21
+plan_version: 2.22
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
 current_phase: F5
-current_step: "F5.3 — закрытие фазы + push"
+current_step: "проект завершён"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
   - { id: F2, name: "Центр показывает всё", status: done,        progress: "5/5" }
   - { id: F3, name: "Настоящий MAS",        status: done,        progress: "5/5" }
   - { id: F4, name: "Агенты-хранители",     status: done,        progress: "4/4" }
-  - { id: F5, name: "Экспорт фабрики",      status: pending,     progress: "0/4" }
+  - { id: F5, name: "Экспорт фабрики",      status: done,        progress: "4/4" }
 budget:
   tokens_per_phase: 500000
   wall_clock_per_phase: "3 дня"
@@ -28,7 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.21 (2026-09-28):** F5.2 — FACTORY-USAGE.md написан; scaffold на node:fs (без fs-extra); полный цикл на пустышке с git init + commit пройден.
+**v2.22 (2026-09-28):** F5 закрыта 4/4 — шаблон собран, scaffold работает, FACTORY-USAGE написан, пустышка разворачивается. **Проект завершён: все 6 фаз F0–F5 закрыты.** План — финальная версия.
 **v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE; + титул/паспорт/футер выровнены под v2.9.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
@@ -47,9 +47,9 @@ captain_timezone: "Europe/Moscow"
 |---|---|
 | Продукт | LinuxExam — тренажёр RHCSA EX200 |
 | Фабрика | MAS Factory — переиспользуемая система разработки |
-| Текущий шаг | **F5.3** — закрытие фазы + push |
-| Цель шага | episodic + log + **план v2.22 (F5 done 4/4)** + push |
-| Ближайший результат | Проект завершён: фабрика экспортируема |
+| Текущий шаг | **проект завершён** |
+| Цель шага | Итог: фабрика MAS готова к использованию |
+| Ближайший результат | — |
 | Бюджет фазы | 500K токенов, 3 дня, без новых платных API |
 
 **Где что живёт:**
@@ -174,15 +174,16 @@ captain_timezone: "Europe/Moscow"
 **Готово, когда:** тревоги либо пусты, либо объяснены, и все 4 хранителя работают (4/4).
 **Закрыто (2026-09-28, 4/4):** 2 автоматических хранителя (Сверщик, Чистильщик) через `dsh --profile headless` + Task Scheduler; 2 процедурных (Летописец, Будильник) — функции оркестратора, codified в spec 023. F4.0 recon (без коммита) · F4.1 спека 023 · F4.2a-i..iv. Открытые долги — alerts.md.
 
-### F5. Экспорт фабрики
+### F5. Экспорт фабрики ✅ Готово (4/4)
 **Проблема:** фабрика вшита в LinuxExam.
 **Что делаем:**
 1. `templates/factory/` — копия `.project/factory/` + `README.md`.
-2. `npm run factory:scaffold -- <new-repo>` — разворачивает в новом репо. **Кросс-платформенно:** использовать `fs-extra.copySync` в Node, не shell `cp`.
+2. `npm run factory:scaffold -- <new-repo>` — разворачивает в новом репо. **Кросс-платформенно:** `node:fs.cpSync` в Node, не shell `cp`.
 3. Документ `docs/FACTORY-USAGE.md`.
 **Синхронизация шаблона с источником:** скрипт `npm run factory:sync-template` — пересобирает `templates/factory/` из источника. Запускать после изменений фабрики.
 **Почему не отдельный репо / npm:** over-engineering для одного продукта. Шаблон даёт 80% за 20%.
 **Готово, когда:** репо-пустышка разворачивается и работает.
+**Закрыто (2026-09-28, 4/4):** шаблон `templates/factory/` (33 файла); `factory:sync-template` + `factory:scaffold` на `node:fs`; `docs/FACTORY-USAGE.md` (114 строк); полный цикл на пустышке — scaffold → `npm install` → `git init` → commit через hook. Коммиты F5: `50f97d5`, `86556b5`, `dfc85c7`, `923b427`, `a52b531`, F5.3.
 
 ---
 
