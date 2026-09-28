@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "adf656fb218bcc1ce6875bb1aad8d82bafc74fe3",
+  "head": "c12a7d06063b8f649ce90adf5510d86a1a65b5cf",
   "specs": [
     {
       "id": "022",
@@ -733,6 +733,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "c12a7d0",
+      "date": "2026-09-28",
+      "subject": "docs(dev-plan): D0 close + D1 amend (v1.1)",
+      "type": "docs"
+    },
+    {
       "sha": "adf656f",
       "date": "2026-09-28",
       "subject": "docs(dev-plan): DEV-PLAN v1.0 + sync aggregates two plans",
@@ -844,12 +850,6 @@
       "sha": "3331947",
       "date": "2026-09-28",
       "subject": "docs(spec): 022 — preview evidence + sync",
-      "type": "docs"
-    },
-    {
-      "sha": "6a36cc0",
-      "date": "2026-09-28",
-      "subject": "docs(spec): 022 — fill preview with block 6 HTML and gate evidence",
       "type": "docs"
     }
   ],

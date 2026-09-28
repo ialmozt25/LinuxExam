@@ -1287,12 +1287,17 @@ function renderCenter(ctx) {
       ].join('\n'))
       .join('\n');
   };
-  /** Глиф состояния плана: ✅ все фазы закрыты, 🔵 есть идущая, ⚪ ещё не начат. */
+  /** Глиф состояния плана: ✅ все фазы закрыты; 🔵 план в работе — есть закрытые
+   * и есть незакрытые; ⚪ ни одна фаза ещё не закрыта (в том числе пустой план).
+   * `current_phase` намеренно не читается: «есть done и есть pending» уже
+   * означает, что работа идёт, — это устойчивее, чем доверять статусу одной
+   * фазы (D0 close: D0=done, D1..D4=pending, current_phase=D1 → 🔵). */
   const planGlyph = (doc) => {
     const phases = doc && Array.isArray(doc.phases) ? doc.phases : [];
-    if (phases.length > 0 && phases.every((p) => p.status === 'done')) return '✅';
-    if (phases.some((p) => p.status === 'in_progress')) return '🔵';
-    return '⚪';
+    const doneCount = phases.filter((p) => p.status === 'done').length;
+    if (doneCount === 0) return '⚪';
+    if (doneCount === phases.length) return '✅';
+    return '🔵';
   };
   /** Строка «фаза … · шаг …» под заголовком плана. */
   const planNow = (doc) =>
