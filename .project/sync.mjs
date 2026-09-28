@@ -89,12 +89,6 @@ const COMMITS_IN_CENTER = 20;
 
 /** Порядок статусов в индексе и таблице центра (SPEC.md §Сортировка). */
 const STATUS_ORDER = ['preview', 'running', 'approved', 'draft', 'done', 'rejected'];
-const POLICY_FILES = [
-  { file: '.project/DOD.md', title: 'DOD', note: 'Definition of Done: content / ui / feature' },
-  { file: '.project/factory/DOD.md', title: 'DOD (фабрика)', note: 'инварианты И1–И6, общий DOD, типы' },
-  { file: '.project/TOKENS.md', title: 'TOKENS', note: 'дизайн-токены: формат, источник, владелец' },
-  { file: '.project/ORCH-RULES.md', title: 'ORCH-RULES', note: 'правила оркестратора (1–8)' },
-];
 
 const notes = [];
 const warn = (m) => notes.push('WARN: ' + m);
@@ -752,21 +746,6 @@ function readTrends(limit) {
   return { rows: rows.slice(-limit), broken, total: rows.length };
 }
 
-/** Последние `limit` записей `.project/log.md` в виде «дата» + текст. */
-function readRecentLog(limit) {
-  const p = rel('.project/log.md');
-  if (!exists(p)) return [];
-  return normalizeLf(readText(p))
-    .split('\n')
-    .map((l) => l.trim())
-    .filter((l) => l && !l.startsWith('#'))
-    .map((l) => {
-      const m = /^(\d{4}-\d{2}-\d{2})\s*\|\s*([\s\S]*)$/.exec(l);
-      return m ? { date: m[1], text: m[2].trim() } : { date: '—', text: l };
-    })
-    .slice(-limit);
-}
-
 /**
  * Записи `docs/memory/alerts.md`. Формат — `## YYYY-MM-DD | заголовок` плюс
  * следующая непустая строка как тело (старые записи шли без `##`, поэтому
@@ -1199,27 +1178,18 @@ function renderDoneDoingNext(ctx) {
     col('doing', 'Doing', doingItems, 'Ничего не в работе'),
     col('next', 'Next', nextItems, 'Очередь пуста'),
     '    </div>',
+    // C2b-1: строка-сводка по планам вместо удалённых секций plan-factory/plan-dev.
+    // Данные статичны по построению (три плана проекта), wall-clock не участвует.
+    // TODO C2d — вынести в отдельный блок уровня 2 «Дела» с полной раскладкой фаз.
+    '    <div class="ddn__plans muted">Планы: Фабрика v2.23 ✅ · DEV v1.4 ✅ · Центр v1.1 🔵 (C2)</div>',
     '  </section>',
   ].join('\n');
 }
 
 function renderCenter(ctx) {
-  const { state, goal, topics, specs, head, inSync, logTail, roles, products, commits, audits, plan, devPlan } = ctx;
+  const { state, goal, topics, specs, head, inSync, logTail, commits } = ctx;
   const circle = inSync ? 'ok' : 'bad';
   const statusText = inSync ? 'синхронизировано' : 'есть расхождение (запусти npm run sync)';
-
-  const queue = specs.filter((s) => s.status === 'preview');
-  const queueHtml = queue.length === 0
-    ? '        <p class="empty">Решений не ждёт</p>'
-    : queue
-      .map((s) => [
-        '        <div class="queue-item">',
-        `          <div class="queue-item__id">${esc(s.id)} · <code>${esc(s.slug)}</code></div>`,
-        `          <div class="queue-item__goal">${esc(s.goal) || '—'}</div>`,
-        `          <div class="queue-item__meta">type: ${esc(s.type)} · spec: <code>.project/${esc(s.file)}</code></div>`,
-        '        </div>',
-      ].join('\n'))
-      .join('\n');
 
   const specsRows = specs.length === 0
     ? '        <tr><td colspan="6" class="muted">Спек пока нет — шаблон: <code>.project/specs/README.md</code></td></tr>'
@@ -1251,20 +1221,6 @@ function renderCenter(ctx) {
     })
     .join('\n');
 
-  const journalRows = logTail.length === 0
-    ? '        <li class="muted">Журнал пуст.</li>'
-    : logTail.map((l) => `        <li>${esc(l)}</li>`).join('\n');
-
-  const policyCards = POLICY_FILES
-    .map((p) => [
-      '        <li>',
-      `          <span class="policy__title">${esc(p.title)}</span>`,
-      `          <code>${esc(p.file)}</code>`,
-      `          <span class="muted">${esc(p.note)}</span>`,
-      '        </li>',
-    ].join('\n'))
-    .join('\n');
-
   /* --- D3: коммиты (20 из git log).
    * Самоссылочный участок: см. VOLATILE выше. Обёрнут маркерами, чтобы `--check`
    * не требовал лишнего коммита из-за появления в списке самого коммита sync. */
@@ -1280,123 +1236,6 @@ function renderCenter(ctx) {
         '        </tr>',
       ].join('\n'))
       .join('\n');
-
-  /* --- F2.3 / D: фазы планов (YAML-шапки docs/FACTORY-PLAN.md и docs/DEV-PLAN.md).
-   * Источник — readPlanYaml(path); здесь только отрисовка строк таблицы.
-   * Таблица GENERIC: id берутся из шапки, диапазон F0–F5 нигде не хардкодится,
-   * поэтому второй план (D0–D4) рендерится тем же кодом без правок. */
-  const phaseStatusRu = {
-    done: 'закрыта',
-    in_progress: 'в работе',
-    pending: 'ожидает',
-    blocked: 'блок',
-    rejected: 'отклонена',
-  };
-  const phaseRowsOf = (doc) => {
-    const phases = doc && Array.isArray(doc.phases) ? doc.phases : [];
-    if (phases.length === 0) {
-      return '        <tr><td colspan="4" class="muted">Фазы не описаны в YAML-шапке плана.</td></tr>';
-    }
-    return phases
-      .map((p) => [
-        '        <tr>',
-        `          <td class="mono">${esc(p.id)}</td>`,
-        `          <td>${esc(p.name)}</td>`,
-        `          <td><span class="chip chip--${esc(p.status)}">${esc(phaseStatusRu[p.status] || p.status)}</span></td>`,
-        `          <td class="mono">${esc(p.progress)}</td>`,
-        '        </tr>',
-      ].join('\n'))
-      .join('\n');
-  };
-  /** Глиф состояния плана: ✅ все фазы закрыты; 🔵 план в работе — есть закрытые
-   * и есть незакрытые; ⚪ ни одна фаза ещё не закрыта (в том числе пустой план).
-   * `current_phase` намеренно не читается: «есть done и есть pending» уже
-   * означает, что работа идёт, — это устойчивее, чем доверять статусу одной
-   * фазы (D0 close: D0=done, D1..D4=pending, current_phase=D1 → 🔵). */
-  const planGlyph = (doc) => {
-    const phases = doc && Array.isArray(doc.phases) ? doc.phases : [];
-    const doneCount = phases.filter((p) => p.status === 'done').length;
-    if (doneCount === 0) return '⚪';
-    if (doneCount === phases.length) return '✅';
-    return '🔵';
-  };
-  /** Строка «фаза … · шаг …» под заголовком плана. */
-  const planNow = (doc) =>
-    doc && doc.current_phase
-      ? ` · фаза ${esc(doc.current_phase)}${doc.current_step ? ` · ${esc(doc.current_step)}` : ''}`
-      : '';
-  const factoryPhaseRows = phaseRowsOf(plan);
-  const devPhaseRows = phaseRowsOf(devPlan);
-
-  /* --- D3: роли (из roles.yaml) */
-  const roleStatusRu = { active: 'активна', planned: 'запланирована', deferred: 'отложена' };
-  const roleRows = (roles || []).length === 0
-    ? '        <tr><td colspan="3" class="muted">roles.yaml не найден.</td></tr>'
-    : roles
-      .map((r) => {
-        const trig = r.trigger && r.trigger.check
-          ? `<code>${esc(r.trigger.check)}</code>`
-          : `<span class="muted">ручной</span> — ${esc((r.trigger && r.trigger.human) || '—')}`;
-        const blocked = r.blocked_by ? `<div class="muted">⛔ ${esc(r.blocked_by)}</div>` : '';
-        return [
-          '        <tr>',
-          `          <td><strong>${esc(r.title || r.name)}</strong></td>`,
-          `          <td><span class="rstatus rstatus--${esc(r.status)}">${esc(roleStatusRu[r.status] || r.status)}</span></td>`,
-          `          <td>${trig}${blocked}</td>`,
-          '        </tr>',
-        ].join('\n');
-      })
-      .join('\n');
-
-  /* --- D3: продукты */
-  const productStatusRu = { active: 'active', frozen: 'frozen', planned: 'planned' };
-  const productRows = (products || []).length === 0
-    ? '        <tr><td colspan="4" class="muted">Продукты не описаны.</td></tr>'
-    : products
-      .map((p) => [
-        '        <tr>',
-        `          <td><strong>${esc(p.name)}</strong></td>`,
-        `          <td><span class="pstatus pstatus--${esc(p.status)}">${esc(productStatusRu[p.status] || p.status)}</span></td>`,
-        `          <td class="mono">${esc(p.metric || '—')}</td>`,
-        `          <td class="muted">${esc(p.frozen_by || '—')}${p.frozen_at ? ` (${esc(p.frozen_at)})` : ''}</td>`,
-        '        </tr>',
-      ].join('\n'))
-      .join('\n');
-
-  /* --- D3: аудиты и research */
-  const auditRows = (audits || []).length === 0
-    ? '        <tr><td colspan="3" class="muted">Отчётов нет.</td></tr>'
-    : audits
-      .map((a) => [
-        '        <tr>',
-        `          <td class="mono">${esc(a.path)}</td>`,
-        `          <td><span class="ctype">${esc(a.kind)}</span></td>`,
-        `          <td class="mono muted">${esc(String(a.lines))}</td>`,
-        '        </tr>',
-      ].join('\n'))
-      .join('\n');
-
-  /* --- D3: память (список файлов) */
-  const memoryFiles = [
-    { file: '.project/DECISIONS.md', note: 'решения (семантика, append-only)' },
-    { file: '.project/log.md', note: `журнал решений, последние ${logTail.length} строк ниже` },
-    { file: '.project/agents/', note: 'отчёты сессий (session logs)' },
-    { file: 'docs/memory/', note: 'тетради памяти — блок «Память» выше' },
-  ];
-  const memoryCards = memoryFiles
-    .map((m) =>
-      // note содержит производную от wall-clock («2 ч назад») и счётчики записей:
-      // это тот же класс, что таблица коммитов — самоссылочный участок html.
-      // Сравнение в --check его не видит (маркеры), точное сравнение при записи — видит.
-      [
-        '        <li>',
-        `          <code>${esc(m.file)}</code>`,
-        `          ${VOLATILE.start}<span class="muted">${esc(m.note)}</span>${VOLATILE.end}`
-          + `${exists(rel(m.file)) ? '' : ' <span class="muted">(нет файла)</span>'}`,
-        '        </li>',
-      ].join('\n'),
-    )
-    .join('\n');
 
   /* --- F2.4 блок 1: «Память» — 5 тетрадей, мета и чип свежести.
    * Возраст считается от wall-clock → весь блок volatile (см. VOLATILE). */
@@ -1421,33 +1260,6 @@ function renderCenter(ctx) {
     ].join('\n');
   }).join('\n');
 
-  /* --- F2.4 блок 2: «Тренды» — последние 3 строки trends.jsonl */
-  const trends = readTrends(3);
-  const trendRows = trends.rows.length === 0
-    ? '        <tr><td colspan="4" class="muted">Записей нет — <code>docs/memory/trends.jsonl</code> пуст.</td></tr>'
-    : trends.rows
-      .map((t) => [
-        '        <tr>',
-        `          <td class="mono">${esc(t.date)}</td>`,
-        `          <td class="mono">${t.bank == null ? '—' : t.bank}</td>`,
-        `          <td class="mono">${t.tasks_closed == null ? '—' : t.tasks_closed}</td>`,
-        `          <td class="mono">${t.blocked_hours == null ? '—' : t.blocked_hours}</td>`,
-        '        </tr>',
-      ].join('\n'))
-      .join('\n');
-  if (trends.broken > 0) warn(`trends.jsonl: ${trends.broken} строк не разобрались как JSON — пропущены`);
-
-  /* --- F2.4 блок 3: «Решения» — последние 5 записей log.md (текст ≤80 симв.) */
-  const recentLog = readRecentLog(5);
-  const decisionRows = recentLog.length === 0
-    ? '        <li class="muted">Журнал пуст.</li>'
-    : recentLog
-      .map((d) => {
-        const short = d.text.length > 80 ? `${d.text.slice(0, 79)}…` : d.text;
-        return `        <li><span class="mono muted">${esc(d.date)}</span> | ${esc(short)}</li>`;
-      })
-      .join('\n');
-
   /* --- F2.4 блок 4: «Тревоги» — все записи alerts.md, новые сверху */
   const alertsDoc = readAlerts();
   const alertsHtml = alertsDoc.entries.length === 0
@@ -1469,8 +1281,8 @@ function renderCenter(ctx) {
 
   const doneDoingNextHtml = renderDoneDoingNext({
     specs,
-    roles,
-    products,
+    roles: ctx.roles,
+    products: ctx.products,
     dirtySpecIds: readDirtySpecIds(),
   });
 
@@ -1575,6 +1387,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
 .ddn__title { font-family: var(--mono); font-size: 0.8125rem; }
 .ddn__meta { color: var(--fg-muted); font-size: 0.75rem; }
 .ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
+.ddn__plans { margin-top: 14px; font-size: 0.75rem; }
 
 /* --- бейджи коммитов, ролей, продуктов */
 .ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
@@ -1618,11 +1431,6 @@ ${topicRows}
 
 ${doneDoingNextHtml}
 
-  <section class="queue" id="queue">
-    <h2>Очередь решений</h2>
-${queueHtml}
-  </section>
-
   <section class="specs" id="specs">
     <h2>Все спеки</h2>
     <table>
@@ -1633,13 +1441,6 @@ ${queueHtml}
 ${specsRows}
       </tbody>
     </table>
-  </section>
-
-  <section class="journal" id="journal">
-    <h2>Журнал (последние ${LOG_TAIL_LINES} строк log.md)</h2>
-    <ul class="log">
-${journalRows}
-    </ul>
   </section>
 
   <section class="commits" id="commits">
@@ -1656,37 +1457,6 @@ ${VOLATILE.end}
     </table>
   </section>
 
-  <section class="roles" id="roles">
-    <h2>Роли</h2>
-    <table>
-      <thead>
-        <tr><th>роль</th><th>статус</th><th>триггер запуска</th></tr>
-      </thead>
-      <tbody>
-${roleRows}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="products" id="products">
-    <h2>Продукты</h2>
-    <table>
-      <thead>
-        <tr><th>продукт</th><th>статус</th><th>метрика</th><th>freeze</th></tr>
-      </thead>
-      <tbody>
-${productRows}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="memory" id="memory">
-    <h2>Память</h2>
-    <ul class="policies">
-${memoryCards}
-    </ul>
-  </section>
-
   <section class="notebooks" id="notebooks">
     <h2>Память — тетради</h2>
     <div class="muted">Свежесть: 🟢 &lt;1 фазы (&lt;72 ч) · 🟡 1–2 фазы (72–144 ч) · 🔴 &gt;2 фаз (&gt;144 ч)</div>
@@ -1700,27 +1470,6 @@ ${VOLATILE.start}${notebookRows}${VOLATILE.end}
     </table>
   </section>
 
-  <section class="trends" id="trends">
-    <h2>Тренды</h2>
-    <div class="muted">Источник: <code>docs/memory/trends.jsonl</code> · последние ${trends.rows.length} из ${trends.total}${trends.broken > 0 ? ` · битых строк: ${trends.broken}` : ''}</div>
-    <table>
-      <thead>
-        <tr><th>дата</th><th>bank</th><th>tasks_closed</th><th>blocked_hours</th></tr>
-      </thead>
-      <tbody>
-${trendRows}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="decisions" id="decisions">
-    <h2>Решения</h2>
-    <div class="muted">Источник: <code>.project/log.md</code> · последние ${recentLog.length}</div>
-    <ul class="log">
-${decisionRows}
-    </ul>
-  </section>
-
   <details class="alerts" id="alerts">
     <summary>Тревоги · записей: ${alertsDoc.total}</summary>
     <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: ${alertsDoc.total}</div>
@@ -1731,53 +1480,6 @@ ${alertsHtml}
     <h2>Пульс агентов</h2>
     <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: ${agentsDoc.teams.length}</div>
 ${agentsHtml}
-  </section>
-
-  <section class="audits" id="audits">
-    <h2>Аудит и research</h2>
-    <table>
-      <thead>
-        <tr><th>файл</th><th>тип</th><th>строк</th></tr>
-      </thead>
-      <tbody>
-${auditRows}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="plan" id="plan-factory">
-    <h2>План · Фабрика${plan && plan.plan_version ? ` · v${esc(plan.plan_version)}` : ''} ${planGlyph(plan)}</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка)${planNow(plan)}</div>
-    <table>
-      <thead>
-        <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
-      </thead>
-      <tbody>
-${factoryPhaseRows}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="plan" id="plan-dev">
-    <h2>План · Развитие${devPlan && devPlan.plan_version ? ` · v${esc(devPlan.plan_version)}` : ''} ${planGlyph(devPlan)}</h2>
-    <div class="muted">${devPlan
-    ? `Источник: <code>docs/DEV-PLAN.md</code> (YAML-шапка)${planNow(devPlan)}`
-    : 'План развития не подключён — файл <code>docs/DEV-PLAN.md</code> не найден.'}</div>
-    <table>
-      <thead>
-        <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
-      </thead>
-      <tbody>
-${devPhaseRows}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="policies" id="policies">
-    <h2>Политики</h2>
-    <ul class="policies">
-${policyCards}
-    </ul>
   </section>
 
 </div>

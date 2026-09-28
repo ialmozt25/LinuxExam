@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "3cb7983c90616be6d54243b4b9bfaf018daf7aae",
+  "head": "85d96f64291d5b79aa06dcc345bf629baaa840f5",
   "specs": [
     {
       "id": "022",
@@ -470,7 +470,7 @@
       "updated": "2026-09-28",
       "commit": null,
       "file": "specs/021-rs-cosine-debt.md",
-      "mtime": 1790554800046.5442,
+      "mtime": 1790632699143.3425,
       "goal": "Снять «мягкий» cosine-долг темы `running_systems`: **три** пары, которые не нарушают",
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending",
     "2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending",
     "2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending",
     "2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `<details class=\"alerts\" id=\"alerts\">` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending",
@@ -757,11 +756,24 @@
     "2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]",
     "2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending",
     "2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending",
-    "2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]"
+    "2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]",
+    "2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "85d96f6",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2a",
+      "type": "chore"
+    },
+    {
+      "sha": "e807455",
+      "date": "2026-09-29",
+      "subject": "fix(sync): стабилизировать рендер Doing/Next (wall-clock)",
+      "type": "fix"
+    },
     {
       "sha": "3cb7983",
       "date": "2026-09-29",
@@ -869,18 +881,6 @@
       "date": "2026-09-28",
       "subject": "feat(factory): F5.1b — factory:scaffold + 4 scenarios verified",
       "type": "feat"
-    },
-    {
-      "sha": "dfc85c7",
-      "date": "2026-09-28",
-      "subject": "feat(factory): F5.1a — templates/factory + factory:sync-template",
-      "type": "feat"
-    },
-    {
-      "sha": "86556b5",
-      "date": "2026-09-28",
-      "subject": "docs(spec): 024 Factory Export approved + plan v2.18",
-      "type": "docs"
     }
   ],
   "roles": [

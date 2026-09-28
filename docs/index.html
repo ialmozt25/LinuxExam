@@ -99,6 +99,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
 .ddn__title { font-family: var(--mono); font-size: 0.8125rem; }
 .ddn__meta { color: var(--fg-muted); font-size: 0.75rem; }
 .ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
+.ddn__plans { margin-top: 14px; font-size: 0.75rem; }
 
 /* --- бейджи коммитов, ролей, продуктов */
 .ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
@@ -123,7 +124,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 3cb7983c90616be6d54243b4b9bfaf018daf7aae</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 85d96f64291d5b79aa06dcc345bf629baaa840f5</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -308,11 +309,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
     </div>
-  </section>
-
-  <section class="queue" id="queue">
-    <h2>Очередь решений</h2>
-        <p class="empty">Решений не ждёт</p>
+    <div class="ddn__plans muted">Планы: Фабрика v2.23 ✅ · DEV v1.4 ✅ · Центр v1.1 🔵 (C2)</div>
   </section>
 
   <section class="specs" id="specs">
@@ -542,22 +539,6 @@ details.alerts[open] > summary { margin-bottom: 12px; }
     </table>
   </section>
 
-  <section class="journal" id="journal">
-    <h2>Журнал (последние 10 строк log.md)</h2>
-    <ul class="log">
-        <li>2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending</li>
-        <li>2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending</li>
-        <li>2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `&lt;details class=&quot;alerts&quot; id=&quot;alerts&quot;&gt;` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending</li>
-        <li>2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending</li>
-        <li>2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending</li>
-        <li>2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]</li>
-        <li>2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending</li>
-        <li>2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending</li>
-        <li>2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]</li>
-        <li>2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455</li>
-    </ul>
-  </section>
-
   <section class="commits" id="commits">
     <h2>Коммиты (последние 20)</h2>
     <table>
@@ -566,6 +547,12 @@ details.alerts[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">85d96f6</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after C2a</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">e807455</td>
           <td><span class="ctype ctype--fix">fix</span></td>
@@ -680,101 +667,9 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td>feat(factory): F5.1b — factory:scaffold + 4 scenarios verified</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">dfc85c7</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(factory): F5.1a — templates/factory + factory:sync-template</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
-  </section>
-
-  <section class="roles" id="roles">
-    <h2>Роли</h2>
-    <table>
-      <thead>
-        <tr><th>роль</th><th>статус</th><th>триггер запуска</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Orchestrator</strong></td>
-          <td><span class="rstatus rstatus--active">активна</span></td>
-          <td><code>session_start</code></td>
-        </tr>
-        <tr>
-          <td><strong>Content Writer</strong></td>
-          <td><span class="rstatus rstatus--active">активна</span></td>
-          <td><code>specs.any(type==content &amp;&amp; status==approved)</code><div class="muted">⛔ ORCH-RULES правило 6 — контент-трек заморожен (банк 206)</div></td>
-        </tr>
-        <tr>
-          <td><strong>QC Auditor</strong></td>
-          <td><span class="rstatus rstatus--active">активна</span></td>
-          <td><code>handoff(writer_to_qc).received</code></td>
-        </tr>
-        <tr>
-          <td><strong>DevOps</strong></td>
-          <td><span class="rstatus rstatus--active">активна</span></td>
-          <td><span class="muted">ручной</span> — deploy failed 3+</td>
-        </tr>
-        <tr>
-          <td><strong>Designer</strong></td>
-          <td><span class="rstatus rstatus--planned">запланирована</span></td>
-          <td><span class="muted">ручной</span> — second UI task</td>
-        </tr>
-        <tr>
-          <td><strong>Test</strong></td>
-          <td><span class="rstatus rstatus--planned">запланирована</span></td>
-          <td><code>git diff --name-only HEAD~1 | grep -E &#39;^tools/|sync.mjs&#39;</code></td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="products" id="products">
-    <h2>Продукты</h2>
-    <table>
-      <thead>
-        <tr><th>продукт</th><th>статус</th><th>метрика</th><th>freeze</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>LinuxExam</strong></td>
-          <td><span class="pstatus pstatus--frozen">frozen</span></td>
-          <td class="mono">224 / 300 вопросов</td>
-          <td class="muted">ORCH-RULES правило 6 (2026-09-27)</td>
-        </tr>
-        <tr>
-          <td><strong>&lt;next&gt;</strong></td>
-          <td><span class="pstatus pstatus--planned">planned</span></td>
-          <td class="mono">—</td>
-          <td class="muted">—</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="memory" id="memory">
-    <h2>Память</h2>
-    <ul class="policies">
-        <li>
-          <code>.project/DECISIONS.md</code>
-          <!--volatile:start--><span class="muted">решения (семантика, append-only)</span><!--volatile:end-->
-        </li>
-        <li>
-          <code>.project/log.md</code>
-          <!--volatile:start--><span class="muted">журнал решений, последние 10 строк ниже</span><!--volatile:end-->
-        </li>
-        <li>
-          <code>.project/agents/</code>
-          <!--volatile:start--><span class="muted">отчёты сессий (session logs)</span><!--volatile:end-->
-        </li>
-        <li>
-          <code>docs/memory/</code>
-          <!--volatile:start--><span class="muted">тетради памяти — блок «Память» выше</span><!--volatile:end-->
-        </li>
-    </ul>
   </section>
 
   <section class="notebooks" id="notebooks">
@@ -815,48 +710,18 @@ details.alerts[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-28T20:40:00Z</td>
-          <td class="mono">18</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-28T22:40:00Z</td>
+          <td class="mono">19</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
     </table>
   </section>
 
-  <section class="trends" id="trends">
-    <h2>Тренды</h2>
-    <div class="muted">Источник: <code>docs/memory/trends.jsonl</code> · последние 1 из 1</div>
-    <table>
-      <thead>
-        <tr><th>дата</th><th>bank</th><th>tasks_closed</th><th>blocked_hours</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="mono">2026-09-28</td>
-          <td class="mono">224</td>
-          <td class="mono">2</td>
-          <td class="mono">2</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="decisions" id="decisions">
-    <h2>Решения</h2>
-    <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
-    <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]</li>
-        <li><span class="mono muted">2026-09-28</span> | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending</li>
-        <li><span class="mono muted">2026-09-28</span> | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending</li>
-        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]</li>
-        <li><span class="mono muted">2026-09-28</span> | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена сос…</li>
-    </ul>
-  </section>
-
   <details class="alerts" id="alerts">
-    <summary>Тревоги · записей: 18</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 18</div>
+    <summary>Тревоги · записей: 19</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 19</div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">`.project/sync.mjs:884-918` (секция «Пульс агентов») рендерит</div>
@@ -929,6 +794,10 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">2026-09-28 | [f4-checker] результат</div>
           <div class="entry__body muted">Сверка 4 пунктов. **все проверки OK.**</div>
         </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | C2a-3 (inSync) отложен</div>
+          <div class="entry__body muted">`inSync: true` в `renderCenter` (`sync.mjs:1808` — вызов `renderCenter({ ...ctxBase, state: nextState, inSync: true })`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.</div>
+        </div>
   </details>
 
   <section class="agents" id="agents">
@@ -959,153 +828,6 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <div class="entry__body muted">агенты: architect (·) · builder (·) · tester (·) · reviewer (·)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
         </div>
-  </section>
-
-  <section class="audits" id="audits">
-    <h2>Аудит и research</h2>
-    <table>
-      <thead>
-        <tr><th>файл</th><th>тип</th><th>строк</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="mono">.project/factory/RESEARCH.md</td>
-          <td><span class="ctype">research</span></td>
-          <td class="mono muted">341</td>
-        </tr>
-        <tr>
-          <td class="mono">.project/audits/night-shift-2026-09-27.md</td>
-          <td><span class="ctype">audit</span></td>
-          <td class="mono muted">287</td>
-        </tr>
-        <tr>
-          <td class="mono">.project/audits/bank-audit-2026-09-27.md</td>
-          <td><span class="ctype">audit</span></td>
-          <td class="mono muted">500</td>
-        </tr>
-        <tr>
-          <td class="mono">.project/audits/tools-audit-2026-09-27.md</td>
-          <td><span class="ctype">audit</span></td>
-          <td class="mono muted">814</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="plan" id="plan-factory">
-    <h2>План · Фабрика · v2.23 ✅</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · проект завершён (cleanup выполнен)</div>
-    <table>
-      <thead>
-        <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="mono">F0</td>
-          <td>Порядок в документации</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">4/4</td>
-        </tr>
-        <tr>
-          <td class="mono">F1</td>
-          <td>Память проекта</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">5/5</td>
-        </tr>
-        <tr>
-          <td class="mono">F2</td>
-          <td>Центр показывает всё</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">5/5</td>
-        </tr>
-        <tr>
-          <td class="mono">F3</td>
-          <td>Настоящий MAS</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">5/5</td>
-        </tr>
-        <tr>
-          <td class="mono">F4</td>
-          <td>Агенты-хранители</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">4/4</td>
-        </tr>
-        <tr>
-          <td class="mono">F5</td>
-          <td>Экспорт фабрики</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">4/4</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="plan" id="plan-dev">
-    <h2>План · Развитие · v1.4 ✅</h2>
-    <div class="muted">Источник: <code>docs/DEV-PLAN.md</code> (YAML-шапка) · фаза D4 · проект завершён</div>
-    <table>
-      <thead>
-        <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="mono">D0</td>
-          <td>Разведка skills и выбор инструмента</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">1/1</td>
-        </tr>
-        <tr>
-          <td class="mono">D1</td>
-          <td>Написание skill spec-to-team</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">1/1</td>
-        </tr>
-        <tr>
-          <td class="mono">D2</td>
-          <td>Мост чат → DSH (выполнено в D1.5)</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">1/1</td>
-        </tr>
-        <tr>
-          <td class="mono">D3</td>
-          <td>Память и контекст</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">1/1</td>
-        </tr>
-        <tr>
-          <td class="mono">D4</td>
-          <td>Финальный тест и доработка</td>
-          <td><span class="chip chip--done">закрыта</span></td>
-          <td class="mono">1/1</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="policies" id="policies">
-    <h2>Политики</h2>
-    <ul class="policies">
-        <li>
-          <span class="policy__title">DOD</span>
-          <code>.project/DOD.md</code>
-          <span class="muted">Definition of Done: content / ui / feature</span>
-        </li>
-        <li>
-          <span class="policy__title">DOD (фабрика)</span>
-          <code>.project/factory/DOD.md</code>
-          <span class="muted">инварианты И1–И6, общий DOD, типы</span>
-        </li>
-        <li>
-          <span class="policy__title">TOKENS</span>
-          <code>.project/TOKENS.md</code>
-          <span class="muted">дизайн-токены: формат, источник, владелец</span>
-        </li>
-        <li>
-          <span class="policy__title">ORCH-RULES</span>
-          <code>.project/ORCH-RULES.md</code>
-          <span class="muted">правила оркестратора (1–8)</span>
-        </li>
-    </ul>
   </section>
 
 </div>
