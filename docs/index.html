@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD ef9ed3337aa3c254587595e6950e880416a1f7b2</span>
+      <span class="mono">HEAD 4f411d5778acf4de19733ba685e055016cdebbc4</span>
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -461,16 +461,16 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | push 017 | push №2 по явной per-command авторизации капитана (то же задание, пункт «повторный push после fix (rule 10 explicit)»): диапазон 8505522..HEAD — коммиты trail, фикса spec 017 и её закрытия; запись сделана до отправки, фактический SHA origin/main — в отчёте orchestrator | commit pending</li>
-        <li>2026-09-28 | push 017 | push №2 выполнен: 8505522..ec48622, 7 коммитов (запись trail 5A, fix spec 017, закрытие 017, конвергенты), exit 0; origin/main = ec48622454a93e199027fbc891e68c7e5475957d, sync:check после push exit 0 | commit pending</li>
-        <li>2026-09-28 | spec 018 | батч 5B: тема shell_scripts (count 10 — минимум вместе с running_systems, батчами 1-7 не затронута, по канону topics.ts идёт сразу после text_files), 6 кандидатов sh_011..sh_016 на новые механизмы (case / getopts / trap / set -e / source / bash -n), банк 212 → 218; QC: Haladyna 6/6 perfect, cosine 0/6 reject (max 0.7094 против банка), ratio ≤ 1.138 при порогах 1.30/2.00, независимое ревью 6/6 OK; превью собрано, ждёт approve капитана; в src/data/** ничего не коммитилось | commit pending</li>
-        <li>2026-09-28 | spec 018 | батч 5B интегрирован: approve капитана на превью получен, sh_011..sh_016 дописаны в конец src/data/questions/shell_scripts.json (10 → 16) и в конец _order.json (212 → 218; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 218, shell_scripts 16); QC на интегрированном банке сначала дал Fails 2 — bigram jaccard 1.00 у sh_012, потому что токенизатор qc срезает двоеточие на границе токена и опции с двоеточием в конце строки становятся идентичными, плюс 4 WARN у sh_011 (пробел перед двойной точкой с запятой) → rework двух вопросов в разрешённом скоупе sh_011..sh_016 (убран пробел перед двойной точкой с запятой; у sh_012 заменены две дистракторные опции и explanation) → QC PASS: Total 218, Fails 0, Warns 22 как в базлайне | commit pending</li>
-        <li>2026-09-28 | spec 018 | batch 5B закрыт: spec 018 → done (SHA в отчёте orchestrator), spec 019 создана как backlog (долг sh_004~sh_007 0.8311, триггер «после batch 5C»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 13 коммитов, диапазон ec48622..534da4c = 9 коммитов батча 5B + 4 ранее неотправленных коммита прошлой задачи (trail push 017, уточнение спеки 017, конвергенты), origin/main = 534da4c9d053a781525f2a218e99e51ee106c2f0, exit 0; sync:check после push exit 0 | commit pending</li>
-        <li>2026-09-28 | spec 020 | батч 5C интегрирован: approve капитана на превью получен, rs_011..rs_016 дописаны в конец src/data/questions/running_systems.json (10 → 16, 162 добавленных строк / 0 удалённых) и в конец _order.json (218 → 224; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 224, running_systems 16); shuffle-bank:check сначала дал fail → --apply running_systems (salt 1, переставлены только 6 новых вопросов, существующие не тронуты) → :check exit 0; QC на интегрированном банке сразу PASS — Total 224, Fails 0, Warns 22 как в базлайне, rework не потребовался, потому что оффлайн-пречек qc-preview-check.mjs поймал два концептуальных дубля (ds_006, rs_008), новую intra-пару rs_014~rs_016 и три SEMI/ratio замечания ДО записи в src/data | commit pending</li>
-        <li>2026-09-28 | spec 020 | batch 5C закрыт: spec 020 → done (SHA в отчёте orchestrator), spec 021 создана как backlog (три пары running_systems 0.8355 / 0.8261 / 0.8155, триггер «после batch 5F или отдельного решения капитана»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 11 коммитов, диапазон 534da4c..753574e = 9 коммитов батча 5C + 2 ранее неотправленных коммита прошлой задачи (trail push 5B и его конвергент), origin/main = 753574ef4bd23803341631be7414cc9ab19fd193, exit 0; sync:check после push exit 0 | commit pending</li>
         <li>2026-09-28 | spec 014 + spec 010 | формальности закрыты по аудиту: 014 (subagent-push-lockdown) → done, правило 11 реализовано коммитом 61787a0 (спека добавлена 49fec29, log.md:28), статус висел approved фантомом; 010 (jsdom-smoke-center) → rejected, отменена по факту — Phase 5 подменена контент-батчами 5A/5B/5C, smoke-тест docs/__tests__/center-smoke.test.mjs не создан (артефакта в репо нет, скрипта в package.json нет, jsdom при этом установлен), формально rejected для соответствия схеме STATUS_ORDER (cancelled вне схемы дал бы вечный WARN) | commit pending</li>
         <li>2026-09-28 | F0.1 | план v2.2 (docs/FACTORY-PLAN.md) в репо; 12 отчётов .project/agents/ + 46 черновиков .project/drafts/ взяты под git; HANDOFF и HANDOFF-2026-09-23 перенесены в docs/archive/ (git mv, ссылки обновлены в ORCH-RULES, DECISIONS, specs 011/014, TRIGGER DevOps, BLUEPRINT-300, RESEARCH-text-topic); оставлены untracked по решению капитана: .agent-teams/, drafts/_mas-results/, .backup-tld-20260928-080821/, filelists-BaseOS.xml.gz (последние два — строкой в .project/BACKLOG.md); docs/dashboard/state.json не тронут — разбор в F2; sync: head 5a806d1 → 3a6266a | commit 4489de6</li>
         <li>2026-09-28 | F0.1 | конвергентный коммит после F0.1: sync:check на 4489de6 дал exit 2 (.project/STATE.md, docs/index.html — самоссылочный pinned head), налог правила 9; после 2ff1306 sync:check = exit 0, дерево tracked чистое, ahead 5 | commit 2ff1306</li>
+        <li>2026-09-28 | F0.1 | правило 9, финальная фиксация: sync:check exit 2 после F0.1 — структурный self-reference state.head (pinned head лежит в .project/STATE.md:44 ВНЕ volatile-маркеров, маркирован только L6, поэтому производные всегда отстают на 1 коммит от закреплённого head), принят как постоянный налог, правка sync.mjs отложена в F2; попытки сойтись прекращены, третий converge не делается; snapshot: .project/state.json + docs/index.html (commits[] на b0c9c5f), log.md добавлен после snapshot и следующего sync не проходил | commit 96303a2</li>
+        <li>2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending</li>
+        <li>2026-09-28 | F1.2 | trends.jsonl + check-episodic.mjs + npm check:episodic; правило 12 теперь checkable | commit pending</li>
+        <li>2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending</li>
+        <li>2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending</li>
+        <li>2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending</li>
+        <li>2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending</li>
     </ul>
   </section>
 
@@ -482,6 +482,48 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">4f411d5</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(factory): F2.1a - working mode v2.7, js-yaml in deps</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">1f1b0a6</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(factory): F2.0 — memory guarantee section (v2.6)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">45b5600</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(memory): F1.3 — close F1, absorb legacy logs, verify numbers</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">34aee12</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(memory): F1.2 — trends + check-episodic + npm script</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">5c462ca</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(memory): F1.1 — five notebooks, plan v2.3, rules 12-13</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">4fc2ce1</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(log): rule 9 final record - self-reference accepted as permanent tax</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">96303a2</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): F0.1 final snapshot (sync:check exit 2 accepted as rule-9 tax)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">b0c9c5f</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -558,48 +600,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">026f68a</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after batch 5C</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">ad50dcd</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(bank): M2.9 batch 5C - 6 questions on running_systems (218-&gt;224)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">47e20c5</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec 020</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">3e62356</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): approve 020 batch 5C (running_systems)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">9e7f8b5</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after push 5B record</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">6922d64</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(rules): record authorized push 5B (rule 10/11 trail)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">534da4c</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec 019</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">a487cb8</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): backlog 019 sh-cosine-debt</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
@@ -683,8 +683,24 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <span class="muted">журнал решений, последние 10 строк ниже</span>
         </li>
         <li>
-          <code>.project/factory/MEMORY-FACTORY.md</code>
-          <span class="muted">память фабрики: решения / уроки / открытые вопросы</span>
+          <code>docs/memory/episodic.md</code>
+          <span class="muted">журнал событий · 6 записей · обновлено 2026-09-28T02:56:14Z · сейчас</span>
+        </li>
+        <li>
+          <code>docs/memory/semantic.md</code>
+          <span class="muted">факты · 7 записей · обновлено 2026-09-28T03:03:24Z · сейчас</span>
+        </li>
+        <li>
+          <code>docs/memory/procedural.md</code>
+          <span class="muted">как делать · 6 записей · обновлено 2026-09-28T02:37:25Z · 1 ч назад</span>
+        </li>
+        <li>
+          <code>docs/memory/working.md</code>
+          <span class="muted">текущая работа · 1 записей · обновлено 2026-09-28T02:56:14Z · сейчас</span>
+        </li>
+        <li>
+          <code>docs/memory/alerts.md</code>
+          <span class="muted">тревоги · 2 записей · обновлено 2026-09-28T02:56:14Z · сейчас</span>
         </li>
         <li>
           <code>.project/agents/</code>

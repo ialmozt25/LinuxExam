@@ -239,6 +239,47 @@ function diffHead(paths) {
   }
 }
 
+/**
+ * Каноническая проекция `state.json` — БЕЗ самоссылочных полей.
+ *
+ * `commits[]` собирается из `git log`, `log_tail` — из `.project/log.md`. Оба меняются
+ * от каждого коммита, включая коммит самих производных: сохранить их и не измениться
+ * невозможно. `head` — пометка «состояние собрано на этом коммите»: spec 009 явно снял
+ * требование `head == HEAD` с гейта, потому что любой не-sync коммит делал проверку
+ * красной при корректных производных (это стоило 5 лишних коммитов за смену 2026-09-27).
+ *
+ * Поэтому гейт и решение о записи сравнивают проекцию: реальный дрейф (числа, спеки,
+ * схема, гейты) виден, а «мы просто закоммитили» — нет. Наличие самих полей проверяется
+ * отдельно — схемой в `--check`.
+ *
+ * Маркеры внутрь JSON НЕ пишем: `state.json` читают потребители (легаси-дашборд, центр),
+ * которые ждут чистый JSON.
+ */
+function stateProjection(text) {
+  try {
+    const o = JSON.parse(String(text));
+    const { head, commits, log_tail, ...rest } = o;
+    return JSON.stringify(rest);
+  } catch (e) {
+    return null;
+  }
+}
+
+/** Дрейф `state.json` по проекции: содержимое на диске против версии из HEAD. */
+function diffHeadProjected() {
+  if (!exists(STATE_PATH)) return true;
+  try {
+    const headRaw = git(['show', `HEAD:${path.relative(ROOT, STATE_PATH).replace(/\\/g, '/')}`]);
+    const disk = stateProjection(readText(STATE_PATH));
+    const head = stateProjection(headRaw);
+    if (disk === null || head === null) return diffHead([STATE_PATH]);
+    return disk !== head;
+  } catch (e) {
+    // untracked/новый файл или git недоступен — падаем на честный `git status`
+    return diffHead([STATE_PATH]);
+  }
+}
+
 /* --------------------------------------------------------------- state */
 function readState() {
   if (!exists(STATE_PATH)) throw new Error('.project/state.json не найден');
@@ -892,10 +933,40 @@ function renderCenter(ctx) {
       .join('\n');
 
   /* --- D3: память */
+  // Свежесть тетради: `meta updated` из самого файла + возраст (часы). Слой 2.5 ЧАСТИ 5А:
+  // гейта на устаревание памяти нет, поэтому центр показывает возраст явно.
+  function readNotebookMeta(relPath) {
+    if (!exists(rel(relPath))) return null;
+    const m = /<!--\s*meta updated:\s*([0-9T:\-Z]+)\s+entries_count:\s*(\d+)\s*-->/.exec(readText(rel(relPath)));
+    const updated = m ? m[1] : null;
+    const entries = m ? Number(m[2]) : null;
+    let ageHours = null;
+    if (updated) {
+      const t = Date.parse(updated);
+      if (Number.isFinite(t)) ageHours = Math.max(0, Math.round((Date.now() - t) / 36e5));
+    }
+    return { updated, entries, ageHours };
+  }
+
+  function notebookNote(relPath, label) {
+    const meta = readNotebookMeta(relPath);
+    if (!meta) return `${label}: нет meta`;
+    const parts = [label, `${meta.entries ?? '?'} записей`];
+    if (meta.updated) {
+      parts.push(`обновлено ${meta.updated}`);
+      parts.push(meta.ageHours > 0 ? `${meta.ageHours} ч назад` : 'сейчас');
+    }
+    return parts.join(' · ');
+  }
+
   const memoryFiles = [
     { file: '.project/DECISIONS.md', note: 'решения (семантика, append-only)' },
     { file: '.project/log.md', note: `журнал решений, последние ${logTail.length} строк ниже` },
-    { file: '.project/factory/MEMORY-FACTORY.md', note: 'память фабрики: решения / уроки / открытые вопросы' },
+    { file: 'docs/memory/episodic.md', note: notebookNote('docs/memory/episodic.md', 'журнал событий') },
+    { file: 'docs/memory/semantic.md', note: notebookNote('docs/memory/semantic.md', 'факты') },
+    { file: 'docs/memory/procedural.md', note: notebookNote('docs/memory/procedural.md', 'как делать') },
+    { file: 'docs/memory/working.md', note: notebookNote('docs/memory/working.md', 'текущая работа') },
+    { file: 'docs/memory/alerts.md', note: notebookNote('docs/memory/alerts.md', 'тревоги') },
     { file: '.project/agents/', note: 'отчёты сессий (session logs)' },
   ];
   const memoryCards = memoryFiles
@@ -1204,7 +1275,11 @@ function main() {
   const topicsRaw = [
     `Банк ${current} / ${target}`,
     `новых тем-коммитов: ${state.recent_commits?.length ?? 0} в recent_commits`,
-    `HEAD (закреплён): \`${head}\``,
+    // Самоссылочный участок: head закрепляется, но печатается в STATE.md и в центре.
+    // Раньше эта строка была вне маркеров, поэтому после не-sync коммита производные
+    // расходились на один коммит и `sync:check` давал exit 2 без реального расхождения.
+    // Гейт вырезает участок (`stripVolatile`), write-путь пишет точно (`:1352`).
+    `${VOLATILE.start}HEAD (закреплён): \`${head}\`${VOLATILE.end}`,
   ];
 
   /* --- фабрика (D3): источники для секций центра «Роли», «Продукты»,
@@ -1244,6 +1319,11 @@ function main() {
     // --- зеркала фабрики (D1/D3). Истина: roles.yaml и git log; здесь — кэш для
     // потребителей, которые читают только state.json (центр, дашборд).
     schema_version: MIN_SCHEMA_VERSION,
+    // ЭТО ПРОЕКЦИЯ, НЕ ИСТОЧНИК: commits[] собирается из `git log`, лог-хвост — из
+    // `.project/log.md`. Оба меняются от каждого коммита, включая коммит самих производных,
+    // поэтому «устаревшими» они становятся автоматически. В значение маркеры НЕ пишем:
+    // state.json читают потребители, которые ждут чистый JSON (легаси-дашборд, центр).
+    // Участок исключён из решения о записи (`projectedEqual`) и из гейта (`diffHeadProjected`).
     commits: commitLog,
     roles: rolesMirror,
     products: productsMirror,
@@ -1254,8 +1334,10 @@ function main() {
   }
 
   // --- idempotentность: если содержимое не изменилось, last_sync не трогаем
-  const before = JSON.stringify({ ...state });
-  const after = JSON.stringify(nextState);
+  // Сравниваем проекции: сдвиг `commits[]`/`log_tail` (проекция) не должен обновлять
+  // `last_sync` и не должен сам по себе означать новое состояние.
+  const before = stateProjection(JSON.stringify(state)) ?? JSON.stringify(state);
+  const after = stateProjection(JSON.stringify(nextState)) ?? JSON.stringify(nextState);
   if (before === after) {
     nextState.last_sync = state.last_sync;
   }
@@ -1319,7 +1401,8 @@ function main() {
     }
 
     // 3) производные + state.json должны быть зафиксированы коммитом
-    const uncommitted = diffHead([STATE_PATH, ...targets.map((t) => t.path)]);
+    const uncommitted =
+      diffHeadProjected() || diffHead(targets.map((t) => t.path));
     if (uncommitted === true) {
       problems.push('state.json/производные изменены и не закоммичены — sync → git add → commit');
     }
