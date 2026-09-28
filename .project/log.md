@@ -50,3 +50,4 @@
 2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending
 2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending
 2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending
+2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending
