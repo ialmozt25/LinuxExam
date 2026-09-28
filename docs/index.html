@@ -113,7 +113,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 0e345f4aa9a4b4ad556970859d8b135443197818</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 2779ac8e82adfd05f266b793011294e459f9096f</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -462,7 +462,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F0.1 | правило 9, финальная фиксация: sync:check exit 2 после F0.1 — структурный self-reference state.head (pinned head лежит в .project/STATE.md:44 ВНЕ volatile-маркеров, маркирован только L6, поэтому производные всегда отстают на 1 коммит от закреплённого head), принят как постоянный налог, правка sync.mjs отложена в F2; попытки сойтись прекращены, третий converge не делается; snapshot: .project/state.json + docs/index.html (commits[] на b0c9c5f), log.md добавлен после snapshot и следующего sync не проходил | commit 96303a2</li>
         <li>2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending</li>
         <li>2026-09-28 | F1.2 | trends.jsonl + check-episodic.mjs + npm check:episodic; правило 12 теперь checkable | commit pending</li>
         <li>2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending</li>
@@ -472,6 +471,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending</li>
         <li>2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending</li>
         <li>2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending</li>
+        <li>2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending</li>
     </ul>
   </section>
 
@@ -483,6 +483,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">2779ac8</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(sync): F2.3 — plan YAML parsing + phases block</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">4e708c2</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -597,12 +603,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>chore(state): converge after spec 021</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">6edb2c8</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): backlog 021 rs-cosine-debt</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -701,7 +701,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </li>
         <li>
           <code>docs/memory/alerts.md</code>
-          <!--volatile:start--><span class="muted">тревоги · 3 записей · обновлено 2026-09-28T03:22:45Z · сейчас</span><!--volatile:end-->
+          <!--volatile:start--><span class="muted">тревоги · 4 записей · обновлено 2026-09-28T04:10:00Z · сейчас</span><!--volatile:end-->
         </li>
         <li>
           <code>.project/agents/</code>

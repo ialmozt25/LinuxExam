@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "0e345f4aa9a4b4ad556970859d8b135443197818",
+  "head": "2779ac8e82adfd05f266b793011294e459f9096f",
   "specs": [
     {
       "id": "016",
@@ -673,6 +673,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "2779ac8",
+      "date": "2026-09-28",
+      "subject": "feat(sync): F2.3 — plan YAML parsing + phases block",
+      "type": "feat"
+    },
+    {
       "sha": "4e708c2",
       "date": "2026-09-28",
       "subject": "chore(sync): F2.2b - align volatile head with state.json",
@@ -785,12 +791,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 021",
       "type": "chore"
-    },
-    {
-      "sha": "6edb2c8",
-      "date": "2026-09-28",
-      "subject": "docs(spec): backlog 021 rs-cosine-debt",
-      "type": "docs"
     }
   ],
   "roles": [

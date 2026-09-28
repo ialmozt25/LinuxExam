@@ -53,7 +53,6 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CHECK = process.argv.includes('--check');
@@ -550,10 +549,15 @@ const FACTORY_PLAN_PATH = rel('docs/FACTORY-PLAN.md');
 /**
  * YAML-шапка `docs/FACTORY-PLAN.md` — машинный источник фаз для центра.
  *
- * Шапка — это первый блок между двумя строками `---` в начале файла (frontmatter).
- * Парсим её штатным `js-yaml` (4.1.0, `devDependencies`, F2.1a): структура шапки
- * не плоская (вложенные `phases[]`, `budget{}`), а узкий рукописный парсер вроде
- * `readRoles` здесь только добавил бы риска разъехаться с источником.
+ * Шапка — первый блок между двумя строками `---` в начале файла (frontmatter).
+ * Парсим её РУКОПИСНЫМ парсером, без внешней зависимости (F2.3.1): `sync.mjs` —
+ * часть гейта `npm run sync:check`, а гейт не должен зависеть от пакета, которого
+ * может не быть в `package.json` (js-yaml — devDependency, в проде её нет).
+ * Та же конвенция, что у `parseFrontmatter` и `readRoles`.
+ *
+ * Поддерживается ровно наш формат: плоские скаляры верхнего уровня, список фаз
+ * inline-мапами `- { id: F0, name: "…", status: done, progress: "4/4" }`,
+ * вложенные блоки (`budget:`) пропускаются целиком.
  *
  * Возвращает нормализованную проекцию:
  *   { plan_version, current_phase, current_step, phases: [{ id, name, status, progress }] }
@@ -562,62 +566,109 @@ const FACTORY_PLAN_PATH = rel('docs/FACTORY-PLAN.md');
  * пустой план хуже, чем упасть, потому что дашборд покажет «фаз нет» как факт.
  */
 function readPlanYaml() {
-  if (!exists(FACTORY_PLAN_PATH)) {
-    throw new Error(`план не найден: ${path.relative(ROOT, FACTORY_PLAN_PATH)}`);
-  }
-  const text = normalizeLf(readText(FACTORY_PLAN_PATH));
-  const lines = text.split('\n');
+  const rel_ = path.relative(ROOT, FACTORY_PLAN_PATH);
+  if (!exists(FACTORY_PLAN_PATH)) throw new Error(`план не найден: ${rel_}`);
+  const lines = normalizeLf(readText(FACTORY_PLAN_PATH)).split('\n');
   // frontmatter: закрывающий `---` ищем только после открывающего.
   if (lines[0].trim() !== '---') {
-    throw new Error(
-      `${path.relative(ROOT, FACTORY_PLAN_PATH)}:1 — нет открывающего "---"; YAML-шапка должна быть первой строкой`,
-    );
+    throw new Error(`${rel_}:1 — нет открывающего "---"; YAML-шапка должна быть первой строкой`);
   }
   const closeIdx = lines.findIndex((l, i) => i > 0 && l.trim() === '---');
   if (closeIdx === -1) {
-    throw new Error(
-      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — нет закрывающего "---" после первой строки; шапка не закрыта`,
-    );
+    throw new Error(`${rel_} — нет закрывающего "---" после первой строки; шапка не закрыта`);
   }
+  const where = `${rel_} — YAML-шапка (строки 2..${closeIdx}) не парсится`;
+  const header = lines.slice(1, closeIdx);
+  const out = { plan_version: null, current_phase: null, current_step: null };
+  let sawPhasesKV = false;
+  const phaseLines = [];
 
-  let doc;
-  try {
-    doc = yaml.load(lines.slice(1, closeIdx).join('\n'));
-  } catch (e) {
-    throw new Error(
-      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — YAML-шапка (строки 2..${closeIdx}) не парсится: ${e.message}`,
-    );
-  }
-  if (!doc || typeof doc !== 'object') {
-    throw new Error(
-      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — YAML-шапка разобралась не в объект: ${typeof doc}`,
-    );
-  }
-  if (!Array.isArray(doc.phases) || doc.phases.length === 0) {
-    throw new Error(
-      `${path.relative(ROOT, FACTORY_PLAN_PATH)} — в шапке нет непустого списка phases`,
-    );
-  }
-
-  const phases = doc.phases.map((p, i) => {
-    if (!p || typeof p !== 'object' || !p.id) {
-      throw new Error(
-        `${path.relative(ROOT, FACTORY_PLAN_PATH)} — phases[${i}] без поля id: ${JSON.stringify(p)}`,
-      );
+  /** Скаляр: снять кавычки, отбить хвостовой комментарий; бросает на незакрытой кавычке. */
+  const scalar = (raw, i) => {
+    const s = raw.trim();
+    if (s.startsWith('"') || s.startsWith("'")) {
+      const q = s[0];
+      let esc = false;
+      for (let k = 1; k < s.length; k += 1) {
+        if (esc) { esc = false; continue; }
+        if (s[k] === '\\' && q === '"') { esc = true; continue; }
+        if (s[k] === q) return s.slice(1, k).replace(q === '"' ? /\\"/g : /''/g, q);
+      }
+      throw new Error(`${rel_}:${i + 2} — незакрытая кавычка: ${s}`);
     }
-    return {
+    return s.replace(/\s+#.*$/, '').trim();
+  };
+
+  /** `key: value, …` из `{ … }` — запятые внутри кавычек не разделяют. */
+  const flowMap = (inner, i) => {
+    const o = {};
+    let rest = inner;
+    while (rest.trim()) {
+      const m = /^([A-Za-z_][\w-]*)\s*:\s*(.*)$/.exec(rest.trim());
+      if (!m) throw new Error(`${rel_}:${i + 2} — не разобрать поле фазы: ${rest.trim()}`);
+      const v = m[2];
+      if (v.startsWith('"') || v.startsWith("'")) {
+        const val = scalar(v, i);
+        o[m[1]] = val;
+        rest = v.slice(v.indexOf(v[0], 1) + 1).replace(/^\s*,/, '');
+      } else {
+        const cut = v.search(/,\s*[A-Za-z_][\w-]*\s*:|$/);
+        o[m[1]] = scalar(v.slice(0, cut), i);
+        rest = v.slice(cut).replace(/^\s*,/, '');
+      }
+    }
+    return o;
+  };
+
+  for (let i = 0; i < header.length; i += 1) {
+    const raw = header[i];
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    const indent = raw.length - raw.replace(/^\s+/, '').length;
+    const top = /^([A-Za-z_][\w-]*)\s*:\s*(.*)$/.exec(line);
+    if (indent === 0 && top) {
+      const [, key, val] = top;
+      if (key === 'phases' && !val) { sawPhasesKV = true; continue; }
+      if (key in out) out[key] = val === '' ? null : scalar(val, i);
+      continue;
+    }
+    if (!line.startsWith('-') && /^[A-Za-z_][\w-]*\s*:/.test(line)) continue; // вложенный блок
+    if (line.startsWith('-') && sawPhasesKV) { phaseLines.push({ text: line.replace(/^-\s*/, ''), i }); continue; }
+    throw new Error(`${rel_}:${i + 2} — неожиданная строка в шапке: ${line}`);
+  }
+
+  const phases = [];
+  let sawPhases = false;
+  for (const { text, i } of phaseLines) {
+    sawPhases = true;
+    let p;
+    if (text.startsWith('{')) {
+      if (!text.endsWith('}')) throw new Error(`${rel_}:${i + 2} — нет закрывающей "}": ${text}`);
+      p = flowMap(text.slice(1, -1), i);
+    } else if (text && /^[A-Za-z_][\w-]*\s*:/.test(text)) {
+      p = { [text.slice(0, text.indexOf(':')).trim()]: scalar(text.slice(text.indexOf(':') + 1), i) };
+    } else {
+      throw new Error(`${rel_}:${i + 2} — фаза не мапа: ${text}`);
+    }
+    if (!p.id) phases.push({ bad: i, p }); else phases.push({ p });
+  }
+  const badPhase = phases.find((x) => x.bad !== undefined);
+  if (badPhase) {
+    throw new Error(`${rel_} — phases[${phases.indexOf(badPhase)}] без поля id: ${JSON.stringify(badPhase.p)}`);
+  }
+  if (!sawPhases || phases.length === 0) {
+    throw new Error(`${rel_} — в шапке нет непустого списка phases`);
+  }
+  return {
+    plan_version: out.plan_version == null ? null : String(out.plan_version),
+    current_phase: out.current_phase == null ? null : String(out.current_phase),
+    current_step: out.current_step == null ? null : String(out.current_step),
+    phases: phases.map(({ p }) => ({
       id: String(p.id),
       name: p.name == null ? '—' : String(p.name),
       status: p.status == null ? 'unknown' : String(p.status),
       progress: p.progress == null ? '—' : String(p.progress),
-    };
-  });
-
-  return {
-    plan_version: doc.plan_version == null ? null : String(doc.plan_version),
-    current_phase: doc.current_phase == null ? null : String(doc.current_phase),
-    current_step: doc.current_step == null ? null : String(doc.current_step),
-    phases,
+    })),
   };
 }
 
