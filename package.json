@@ -52,6 +52,7 @@
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
     "jest-axe": "^11.0.0",
+    "js-yaml": "4.1.0",
     "jsdom": "^29.1.1",
     "postcss": "^8.4.35",
     "prettier": "^3.9.8",
