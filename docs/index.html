@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 01646100a3450c47874114172c00d76e9df1c884</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 8ec92be21bd8191a21768b90e58d60d79a404953</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -502,6 +502,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">8ec92be</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): 022 approved + sync</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
           <td class="mono">0164610</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec): 022 center block 6 draft + plan 2.10</td>
@@ -613,12 +619,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">5c462ca</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(memory): F1.1 — five notebooks, plan v2.3, rules 12-13</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">4fc2ce1</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(log): rule 9 final record - self-reference accepted as permanent tax</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
@@ -745,7 +745,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">working</td>
           <td class="mono muted">2026-09-28T04:51:28Z</td>
           <td class="mono">1</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -811,6 +811,16 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <div class="entry">
           <div class="entry__title">2026-09-28 | sync.mjs self-reference</div>
           <div class="entry__body muted">`sync.mjs` self-reference. `state.head` и `commits[]` всегда отстают на 1 от HEAD после verify-шага: pinned head (`STATE.md:44`) лежит вне volatile-маркеров, а любой прогон verify добавляет текущий коммит в `commits[]` — производные уезжают, `sync:check` даёт exit 2. Принято как налог правила 9. Лечение — F2 (volatile-маркеры). Конвергентами не биться. Взято в работу в F2.1. [closed F2.1b/F2.2b — volatile]</div>
+        </div>
+  </section>
+
+  <section class="agents" id="agents">
+    <h2>Пульс агентов</h2>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 1</div>
+        <div class="entry">
+          <div class="entry__title">linuxexam-m6-phase4 · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: phase4-writer (·) · phase4-verifier (·) · phase4-verifier-2 (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✗ · t3 ✓ · t4 ⊘ · t5 ✓ · t6 ✓</div>
         </div>
   </section>
 

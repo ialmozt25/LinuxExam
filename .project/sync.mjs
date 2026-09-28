@@ -784,6 +784,129 @@ function readAlerts() {
   // Записи в файле идут сверху вниз от новых к старым — порядок сохраняем как есть.
   return { entries, total: entries.length };}
 
+/**
+ * Состояние команд AgentTeams — `.agent-teams/<teamId>/team.json` (спека 022,
+ * блок 6 «Пульс агентов»).
+ *
+ * Плагин живёт на host-плоскости DSH и пишет своё состояние на диск (stateDir
+ * из `cordis.patch.yml`), поэтому центр читает файлы, а не поднимает HTTP-роут
+ * плагина: `/plugins/dsh-agent-teams/state` под фенсом авторизации (401/403),
+ * а гейт `sync:check` должен работать офлайн и без сессии.
+ *
+ * Молчание запрещено (ЧАСТЬ 2 плана): каталога нет или подпапок нет — секция
+ * печатает «нет данных»; подпапка без `team.json`, битый JSON или гонка чтения
+ * — строка команды «нечитаем». Файлы (не каталоги) внутри `.agent-teams/`
+ * игнорируются: состояние команды — всегда каталог `<teamId>/team.json`.
+ *
+ * Читаются РОВНО 7 полей (whitelist): `id`, `name`, `phase`, `members[].name`,
+ * `members[].status`, `tasks[].id`, `tasks[].status`. `output`, `result`,
+ * `description`, `executionPrompt` и прочие поля записи в центр не попадают —
+ * они могут быть большими и содержать чужие тексты.
+ *
+ * @returns {{teams: Array, present: boolean}} present=false — каталога нет.
+ */
+const AGENT_TEAMS_DIR = rel('.agent-teams');
+
+function readAgentTeams() {
+  if (!exists(AGENT_TEAMS_DIR)) return { teams: [], present: false };
+  const dirs = [];
+  for (const entry of fs.readdirSync(AGENT_TEAMS_DIR, { withFileTypes: true })) {
+    // Только каталоги: stateDir может содержать служебные файлы (lock, archive-файлы).
+    if (entry.isDirectory()) dirs.push(entry.name);
+  }
+  // Детерминизм вывода: порядок команд — по code points имени каталога.
+  dirs.sort();
+
+  const teams = dirs.map((dir) => {
+    const base = { dir, id: dir, name: dir, phase: '', readable: false, members: [], tasks: [] };
+    try {
+      const raw = fs.readFileSync(path.join(AGENT_TEAMS_DIR, dir, 'team.json'), 'utf8');
+      const json = JSON.parse(raw);
+      const members = Array.isArray(json.members) ? json.members : [];
+      const tasks = Array.isArray(json.tasks) ? json.tasks : [];
+      return {
+        ...base,
+        id: json.id,
+        name: json.name,
+        phase: json.phase,
+        readable: true,
+        members: members.map((m) => ({ name: m && m.name, status: m && m.status })),
+        tasks: tasks.map((t) => ({ id: t && t.id, status: t && t.status })),
+      };
+    } catch (e) {
+      // Битый JSON, нет файла, файл занят другим процессом (гонка чтения) — «нечитаем».
+      return base;
+    }
+  });
+
+  return { teams, present: true };
+}
+
+/** Текстовое поле team.json: отсутствующее/пустое значение → «?» (не пустая строка). */
+function agentFieldText(v) {
+  if (typeof v === 'string' && v.trim() !== '') return v;
+  if (typeof v === 'number' && Number.isFinite(v)) return String(v);
+  return '?';
+}
+
+/** Маппинг статуса задачи в символ (утверждён для F3.0b). */
+const AGENT_TASK_ICON = {
+  pending: '○',
+  claimed: '◇',
+  in_progress: '▶',
+  completed: '✓',
+  failed: '✗',
+  cancelled: '⊘',
+};
+
+/** Маппинг статуса участника в символ (утверждён для F3.0b). */
+const AGENT_MEMBER_ICON = { idle: '·', working: '▶', removed: '⊘' };
+
+/**
+ * Строка команды для блока 6: имя + фаза (класс — только для staged/running),
+ * затем агенты и задачи со статусными символами.
+ *
+ * `phase` по умолчанию отсутствует у команд, созданных до появления стейджинга
+ * (`TeamState.phase` — опциональное поле, отсутствие трактуется как `running`),
+ * поэтому отсутствие фазы показываем как «running», а неизвестное значение —
+ * текстом без модификатора класса: в атрибут `class` чужие данные не попадают.
+ */
+function renderAgentTeamCard(t) {
+  if (!t.readable) {
+    return [
+      '        <div class="entry">',
+      `          <div class="entry__title">${esc(agentFieldText(t.dir))} · <span class="muted">нечитаем</span></div>`,
+      '        </div>',
+    ].join('\n');
+  }
+
+  const phase = t.phase == null || t.phase === '' ? 'running' : String(t.phase);
+  const phaseKnown = phase === 'staged' || phase === 'running';
+  const chip = phaseKnown
+    ? `<span class="chip chip--${phase}">${esc(phase)}</span>`
+    : `<span class="muted">${esc(phase)}</span>`;
+  const staged = phase === 'staged' ? ' <span class="muted">— ожидает approve</span>' : '';
+
+  const members = t.members.length === 0
+    ? '—'
+    : t.members
+      .map((m) => `${esc(agentFieldText(m.name))} (${esc(AGENT_MEMBER_ICON[m.status] || '?')})`)
+      .join(' · ');
+  const tasks = t.tasks.length === 0
+    ? '—'
+    : t.tasks
+      .map((x) => `${esc(agentFieldText(x.id))} ${AGENT_TASK_ICON[x.status] || '?'}`)
+      .join(' · ');
+
+  return [
+    '        <div class="entry">',
+    `          <div class="entry__title">${esc(agentFieldText(t.name))} · ${chip}${staged}</div>`,
+    `          <div class="entry__body muted">агенты: ${members}</div>`,
+    `          <div class="entry__body muted">задачи: ${tasks}</div>`,
+    '        </div>',
+  ].join('\n');
+}
+
 /** `git log` — коммиты для секции центра и зеркала state.json.commits. */
 function readGitCommits(limit) {
   try {
@@ -1282,6 +1405,12 @@ function renderCenter(ctx) {
       ].filter(Boolean).join('\n'))
       .join('\n');
 
+  /* --- F3.0b блок 6: «Пульс агентов» — из .agent-teams/<teamId>/team.json (спека 022) */
+  const agentsDoc = readAgentTeams();
+  const agentsHtml = agentsDoc.teams.length === 0
+    ? `        <p class="empty">${agentsDoc.present ? 'нет данных — команд нет' : 'нет данных — каталог .agent-teams/ отсутствует'}</p>`
+    : agentsDoc.teams.map(renderAgentTeamCard).join('\n');
+
   const doneDoingNextHtml = renderDoneDoingNext({
     specs,
     roles,
@@ -1535,6 +1664,12 @@ ${decisionRows}
     <h2>Тревоги</h2>
     <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: ${alertsDoc.total}</div>
 ${alertsHtml}
+  </section>
+
+  <section class="agents" id="agents">
+    <h2>Пульс агентов</h2>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: ${agentsDoc.teams.length}</div>
+${agentsHtml}
   </section>
 
   <section class="audits" id="audits">

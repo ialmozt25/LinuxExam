@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "01646100a3450c47874114172c00d76e9df1c884",
+  "head": "8ec92be21bd8191a21768b90e58d60d79a404953",
   "specs": [
     {
       "id": "022",
@@ -688,6 +688,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "8ec92be",
+      "date": "2026-09-28",
+      "subject": "docs(spec): 022 approved + sync",
+      "type": "docs"
+    },
+    {
       "sha": "0164610",
       "date": "2026-09-28",
       "subject": "docs(spec): 022 center block 6 draft + plan 2.10",
@@ -800,12 +806,6 @@
       "date": "2026-09-28",
       "subject": "feat(memory): F1.1 — five notebooks, plan v2.3, rules 12-13",
       "type": "feat"
-    },
-    {
-      "sha": "4fc2ce1",
-      "date": "2026-09-28",
-      "subject": "docs(log): rule 9 final record - self-reference accepted as permanent tax",
-      "type": "docs"
     }
   ],
   "roles": [
