@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "3a6266a0ddead74ca260cfb1dedf11c5cd363758",
+  "head": "4489de67223df2f73761b124201b589a3494e48b",
   "specs": [
     {
       "id": "016",
@@ -673,6 +673,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "4489de6",
+      "date": "2026-09-28",
+      "subject": "chore(factory): F0.1 — план в репо, хвосты закрыты, HANDOFF в архив",
+      "type": "chore"
+    },
+    {
       "sha": "3a6266a",
       "date": "2026-09-28",
       "subject": "chore(specs): close 014 done, reject 010 (formalities)",
@@ -784,12 +790,6 @@
       "sha": "72bc1ec",
       "date": "2026-09-28",
       "subject": "chore(state): converge head after batch 5B",
-      "type": "chore"
-    },
-    {
-      "sha": "31a4c87",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after batch 5B",
       "type": "chore"
     }
   ],
