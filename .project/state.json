@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "a71f21bd66e4d6ab8c10d6af067e174e1e4ff9f3",
+  "head": "d453e5bff3266a095745dc154507ca3cf15cfb49",
   "specs": [
     {
       "id": "022",
@@ -733,7 +733,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending",
     "2026-09-28 | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | commit pending",
     "2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending",
     "2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]",
@@ -742,11 +741,18 @@
     "2026-09-28 | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в state.json; check:episodic читает allPhases | commit pending",
     "2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending",
     "2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending",
-    "2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending"
+    "2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending",
+    "2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `<details class=\"alerts\" id=\"alerts\">` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "d453e5b",
+      "date": "2026-09-29",
+      "subject": "docs(center): spec-028 — hide alerts under details",
+      "type": "docs"
+    },
     {
       "sha": "a71f21b",
       "date": "2026-09-28",
@@ -860,12 +866,6 @@
       "date": "2026-09-28",
       "subject": "feat(keepers): F4.2a-ii — keepers scripts + plan v2.13",
       "type": "feat"
-    },
-    {
-      "sha": "7026310",
-      "date": "2026-09-28",
-      "subject": "docs(spec): 023 F4 keepers + plan v2.12 (F4.1)",
-      "type": "docs"
     }
   ],
   "roles": [
