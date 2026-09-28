@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "ad50dcd8f52af628d24a3249e2a88bf7ffb70fc6",
+  "head": "026f68a039811e53c3fb42da6182ed5188e31aa6",
   "specs": [
     {
       "id": "014",
@@ -658,6 +658,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "026f68a",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after batch 5C",
+      "type": "chore"
+    },
+    {
       "sha": "ad50dcd",
       "date": "2026-09-28",
       "subject": "feat(bank): M2.9 batch 5C - 6 questions on running_systems (218->224)",
@@ -769,12 +775,6 @@
       "sha": "ec48622",
       "date": "2026-09-28",
       "subject": "chore(state): converge head after spec 017",
-      "type": "chore"
-    },
-    {
-      "sha": "f80c65b",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after spec 017",
       "type": "chore"
     }
   ],
