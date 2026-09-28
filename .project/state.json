@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "4489de67223df2f73761b124201b589a3494e48b",
+  "head": "ef9ed3337aa3c254587595e6950e880416a1f7b2",
   "specs": [
     {
       "id": "016",
@@ -658,8 +658,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | push 5A | push №1 по явной per-command авторизации капитана (задание «push batch 5A + spec 017», шаг 1, подтверждено ответом «выбираю A»): опубликован фактический диапазон 9ce80e2..8505522 = 10 коммитов (6 коммитов батча 5A + 4 ранних docs/state-коммита Phase 5), origin/main 9ce80e2 → 8505522, exit 0; автору команды до отправки был показан STOP с расхождением «6 vs 10» и получено подтверждение | commit 8505522",
-    "2026-09-28 | spec 017 | gen-state v2: tools/gen-state.mjs больше не собирает state.json с нуля — merge-контракт (gen-state владеет goal/gates/added_today/avg_daily_7d, sync.mjs — head/specs/log_tail/commits/roles/products/audits/last_sync, schema_version общее); потеря ключа sync.mjs теперь падение сборки, метки времени идемпотентны (2-й прогон byte-for-byte); state:update exit 0, ключей sync.mjs сохранено 8/8, added_today 0 → 6, avg_daily_7d 6.57 → 7.43, gates qc/typecheck/vitest/shuffle = 0 | commit pending",
     "2026-09-28 | push 017 | push №2 по явной per-command авторизации капитана (то же задание, пункт «повторный push после fix (rule 10 explicit)»): диапазон 8505522..HEAD — коммиты trail, фикса spec 017 и её закрытия; запись сделана до отправки, фактический SHA origin/main — в отчёте orchestrator | commit pending",
     "2026-09-28 | push 017 | push №2 выполнен: 8505522..ec48622, 7 коммитов (запись trail 5A, fix spec 017, закрытие 017, конвергенты), exit 0; origin/main = ec48622454a93e199027fbc891e68c7e5475957d, sync:check после push exit 0 | commit pending",
     "2026-09-28 | spec 018 | батч 5B: тема shell_scripts (count 10 — минимум вместе с running_systems, батчами 1-7 не затронута, по канону topics.ts идёт сразу после text_files), 6 кандидатов sh_011..sh_016 на новые механизмы (case / getopts / trap / set -e / source / bash -n), банк 212 → 218; QC: Haladyna 6/6 perfect, cosine 0/6 reject (max 0.7094 против банка), ratio ≤ 1.138 при порогах 1.30/2.00, независимое ревью 6/6 OK; превью собрано, ждёт approve капитана; в src/data/** ничего не коммитилось | commit pending",
@@ -667,11 +665,25 @@
     "2026-09-28 | spec 018 | batch 5B закрыт: spec 018 → done (SHA в отчёте orchestrator), spec 019 создана как backlog (долг sh_004~sh_007 0.8311, триггер «после batch 5C»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 13 коммитов, диапазон ec48622..534da4c = 9 коммитов батча 5B + 4 ранее неотправленных коммита прошлой задачи (trail push 017, уточнение спеки 017, конвергенты), origin/main = 534da4c9d053a781525f2a218e99e51ee106c2f0, exit 0; sync:check после push exit 0 | commit pending",
     "2026-09-28 | spec 020 | батч 5C интегрирован: approve капитана на превью получен, rs_011..rs_016 дописаны в конец src/data/questions/running_systems.json (10 → 16, 162 добавленных строк / 0 удалённых) и в конец _order.json (218 → 224; существующий порядок не нормализован), _topics.json пересобран генератором npm run manifest (Total 224, running_systems 16); shuffle-bank:check сначала дал fail → --apply running_systems (salt 1, переставлены только 6 новых вопросов, существующие не тронуты) → :check exit 0; QC на интегрированном банке сразу PASS — Total 224, Fails 0, Warns 22 как в базлайне, rework не потребовался, потому что оффлайн-пречек qc-preview-check.mjs поймал два концептуальных дубля (ds_006, rs_008), новую intra-пару rs_014~rs_016 и три SEMI/ratio замечания ДО записи в src/data | commit pending",
     "2026-09-28 | spec 020 | batch 5C закрыт: spec 020 → done (SHA в отчёте orchestrator), spec 021 создана как backlog (три пары running_systems 0.8355 / 0.8261 / 0.8155, триггер «после batch 5F или отдельного решения капитана»); push по явной per-command авторизации капитана (то же задание, шаг 7 «Капитан авторизует: git push origin main»): 11 коммитов, диапазон 534da4c..753574e = 9 коммитов батча 5C + 2 ранее неотправленных коммита прошлой задачи (trail push 5B и его конвергент), origin/main = 753574ef4bd23803341631be7414cc9ab19fd193, exit 0; sync:check после push exit 0 | commit pending",
-    "2026-09-28 | spec 014 + spec 010 | формальности закрыты по аудиту: 014 (subagent-push-lockdown) → done, правило 11 реализовано коммитом 61787a0 (спека добавлена 49fec29, log.md:28), статус висел approved фантомом; 010 (jsdom-smoke-center) → rejected, отменена по факту — Phase 5 подменена контент-батчами 5A/5B/5C, smoke-тест docs/__tests__/center-smoke.test.mjs не создан (артефакта в репо нет, скрипта в package.json нет, jsdom при этом установлен), формально rejected для соответствия схеме STATUS_ORDER (cancelled вне схемы дал бы вечный WARN) | commit pending"
+    "2026-09-28 | spec 014 + spec 010 | формальности закрыты по аудиту: 014 (subagent-push-lockdown) → done, правило 11 реализовано коммитом 61787a0 (спека добавлена 49fec29, log.md:28), статус висел approved фантомом; 010 (jsdom-smoke-center) → rejected, отменена по факту — Phase 5 подменена контент-батчами 5A/5B/5C, smoke-тест docs/__tests__/center-smoke.test.mjs не создан (артефакта в репо нет, скрипта в package.json нет, jsdom при этом установлен), формально rejected для соответствия схеме STATUS_ORDER (cancelled вне схемы дал бы вечный WARN) | commit pending",
+    "2026-09-28 | F0.1 | план v2.2 (docs/FACTORY-PLAN.md) в репо; 12 отчётов .project/agents/ + 46 черновиков .project/drafts/ взяты под git; HANDOFF и HANDOFF-2026-09-23 перенесены в docs/archive/ (git mv, ссылки обновлены в ORCH-RULES, DECISIONS, specs 011/014, TRIGGER DevOps, BLUEPRINT-300, RESEARCH-text-topic); оставлены untracked по решению капитана: .agent-teams/, drafts/_mas-results/, .backup-tld-20260928-080821/, filelists-BaseOS.xml.gz (последние два — строкой в .project/BACKLOG.md); docs/dashboard/state.json не тронут — разбор в F2; sync: head 5a806d1 → 3a6266a | commit 4489de6",
+    "2026-09-28 | F0.1 | конвергентный коммит после F0.1: sync:check на 4489de6 дал exit 2 (.project/STATE.md, docs/index.html — самоссылочный pinned head), налог правила 9; после 2ff1306 sync:check = exit 0, дерево tracked чистое, ahead 5 | commit 2ff1306"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "ef9ed33",
+      "date": "2026-09-28",
+      "subject": "docs(log): F0.1 record (rule 5)",
+      "type": "docs"
+    },
+    {
+      "sha": "2ff1306",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after F0.1",
+      "type": "chore"
+    },
     {
       "sha": "4489de6",
       "date": "2026-09-28",
@@ -778,18 +790,6 @@
       "sha": "e22baa9",
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 018",
-      "type": "chore"
-    },
-    {
-      "sha": "477fbc9",
-      "date": "2026-09-28",
-      "subject": "docs(spec): close 018 as done",
-      "type": "docs"
-    },
-    {
-      "sha": "72bc1ec",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge head after batch 5B",
       "type": "chore"
     }
   ],
