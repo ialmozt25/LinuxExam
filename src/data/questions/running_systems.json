@@ -268,5 +268,167 @@
       }
     ],
     "explanation": "is-enabled только сообщает текущее состояние автозапуска и ничего не меняет, поэтому именно она отвечает на вопрос. is-active показывает, запущена ли служба прямо сейчас, а не включена ли она в автозапуск. status выводит состояние службы для человека, но не даёт ответа именно об автозапуске без разбора вывода. enable, наоборот, включает автозапуск, то есть меняет состояние службы."
+  },
+  {
+    "id": "rs_011",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl show -p: значение свойства юнита",
+    "question": "Скрипту нужно узнать PID главного процесса службы httpd, не разбирая вывод systemctl status целиком. Какая команда выведет именно это значение?",
+    "options": [
+      {
+        "text": "systemctl list -p MainPID httpd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl show -p MainPID httpd.service",
+        "correct": true
+      },
+      {
+        "text": "systemctl status -p MainPID httpd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl cat -p MainPID httpd.service",
+        "correct": false
+      }
+    ],
+    "explanation": "systemctl show печатает свойства юнита, а ключ -p оставляет только запрошенное, поэтому в выводе будет одна строка MainPID= со значением. У systemctl status такого ключа нет: команда показывает сводку целиком, и разбирать её пришлось бы текстом. systemctl cat печатает файлы юнита и о процессах не сообщает. Подкоманды list в systemctl нет — существуют list-units, list-unit-files и другие с собственными именами."
+  },
+  {
+    "id": "rs_012",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl reset-failed: сброс счётчика отказов",
+    "question": "Служба httpd падала при запуске и попала в список неудачных юнитов systemctl --failed. Причину исправили, и теперь счётчик отказов нужно обнулить, чтобы служба не числилась упавшей. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "systemctl daemon-reload httpd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl clear-failed httpd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl reload httpd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl reset-failed httpd.service",
+        "correct": true
+      }
+    ],
+    "explanation": "systemctl reset-failed сбрасывает состояние отказа юнита (вместе со счётчиками ограничения перезапусков), после чего он больше не числится в списке упавших и его можно запускать заново. systemctl daemon-reload перечитывает юнит-файлы с диска и на состояние отказа не влияет. Команды clear-failed в systemctl нет. systemctl reload просит службу перечитать конфигурационный файл и состояние отказа не сбрасывает."
+  },
+  {
+    "id": "rs_013",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "journalctl --vacuum-size: ограничение размера журнала",
+    "question": "Диск с журналом systemd в каталоге /var/log/journal заполняется. Нужно ограничить архив журнала двумястами мегабайтами, удалив самые старые записи. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "journalctl --disk-usage=200M",
+        "correct": false
+      },
+      {
+        "text": "systemctl vacuum-journal=200M",
+        "correct": false
+      },
+      {
+        "text": "journalctl --vacuum-size=200M",
+        "correct": true
+      },
+      {
+        "text": "journalctl --rotate=200M",
+        "correct": false
+      }
+    ],
+    "explanation": "journalctl --vacuum-size=200M удаляет из архива самые старые файлы журнала, пока занятый объём не опустится ниже указанного. journalctl --rotate только закрывает текущий файл журнала и начинает новый, никакого размера не принимая. journalctl --disk-usage лишь показывает занятый объём и значения в аргументе не понимает. Команды vacuum-journal в systemctl нет: размером архива занимается journalctl, а постоянный предел на будущие записи задаётся директивой SystemMaxUse в /etc/systemd/journald.conf."
+  },
+  {
+    "id": "rs_014",
+    "topic": "running_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl cat: действующее содержимое юнита",
+    "question": "Для юнита sshd.service нужно увидеть текст, который применяется сейчас, с учётом всех переопределений. Какая команда покажет именно действующие файлы юнита?",
+    "options": [
+      {
+        "text": "systemctl show sshd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl edit sshd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl cat sshd.service",
+        "correct": true
+      },
+      {
+        "text": "systemctl status sshd.service",
+        "correct": false
+      }
+    ],
+    "explanation": "systemctl cat печатает действующие файлы юнита по порядку: сначала файл, поставленный пакетом, затем все drop-in-переопределения, поэтому видно итоговую конфигурацию. systemctl edit открывает переопределение в редакторе, то есть меняет содержимое, а не показывает его. systemctl show выводит свойства юнита в виде пар ключ-значение, а не текст файлов. systemctl status даёт краткую сводку о состоянии службы и её последних сообщениях."
+  },
+  {
+    "id": "rs_015",
+    "topic": "running_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl enable --now: автозапуск и старт одной командой",
+    "question": "Службу chronyd, настроенную в /etc/chrony.conf, нужно включить в автозапуск и сразу запустить, обойдясь одной командой вместо двух. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "systemctl enable --start chronyd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable chronyd.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl enable --now chronyd.service",
+        "correct": true
+      },
+      {
+        "text": "systemctl start chronyd.service",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ --now у enable выполняет обе операции сразу: включает автозапуск и тут же запускает юнит, заменяя пару команд. Без --now команда enable только создаёт ссылку автозапуска, поэтому сейчас служба не стартует. Одна команда start запускает службу, но автозапуск не включает, и после перезагрузки она не поднимется. Ключа --start у systemctl нет."
+  },
+  {
+    "id": "rs_016",
+    "topic": "running_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl poweroff: корректное выключение системы",
+    "question": "Сервер пора выключать физически: службы нужно остановить, файловые системы размонтировать, а питание — гарантированно отключить, а не просто остановить систему. Какую команду systemctl для этого выполняют?",
+    "options": [
+      {
+        "text": "systemctl reboot",
+        "correct": false
+      },
+      {
+        "text": "systemctl poweroff",
+        "correct": true
+      },
+      {
+        "text": "systemctl suspend",
+        "correct": false
+      },
+      {
+        "text": "systemctl halt",
+        "correct": false
+      }
+    ],
+    "explanation": "poweroff проходит весь цикл завершения работы — службы останавливаются, файловые системы размонтируются — и затем гарантированно отключает питание. halt выполняет тот же цикл остановки, но завершает работу вызовом halt: гарантии отключения питания нет, такое поведение рассчитано на оборудование, которое не умеет выключаться самостоятельно. reboot в конце цикла загружает систему заново, а не выключает её. suspend переводит машину в режим пониженного энергопотребления, службы при этом не останавливаются."
   }
 ]
