@@ -61,4 +61,9 @@ architect/builder/tester/reviewer, pro/flash/flash/pro, effort high),
 D2 (мост чат → DSH) закрыта как выполненная в D1.5.
 Evidence: .agent-teams/spec-026-smoke (оставлена, как F3.2).
 
-<!-- meta updated: 2026-09-28T11:31:00Z entries_count: 11 -->
+## 2026-09-28 | spec-027-memory-test
+Прогон skill `spec-to-team` по тестовой спеке 027 (type: infra) — проверка S2: запись в память после завершения прогона (правило 12, шаг 8 + evidence 8b). Команда `spec-027-memory-test`: 4 агента (architect/builder/tester/reviewer — pro/flash/flash/pro, effort high), 4 задачи completed по цепочке t1 design → t2 implement → t3 test → t4 review, verdict reviewer = PASS.
+Правок в репо прогон не внёс: целевой `.project/scripts/factory-sync-template.mjs` не изменён (blob 55c80283 = HEAD), поэтому эта запись — единственное содержимое, добавленное прогоном.
+Evidence: `.agent-teams/spec-027-memory-test` (оставлена как evidence).
+
+<!-- meta updated: 2026-09-28T22:08:00Z entries_count: 12 -->
