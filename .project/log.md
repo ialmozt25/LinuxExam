@@ -56,3 +56,4 @@
 2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending
 2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]
 2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending
+2026-09-28 | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]
