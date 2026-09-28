@@ -2,7 +2,7 @@
 id: 022
 slug: center-block6-agents-pulse
 title: "Center block 6 — agents pulse"
-status: draft
+status: approved
 type: infra
 created: 2026-09-28
 updated: 2026-09-28
