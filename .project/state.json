@@ -350,11 +350,11 @@
       "updated": "2026-09-28",
       "commit": null,
       "file": "specs/022-center-block6-agents-pulse.md",
-      "mtime": 1790572310907.6887,
+      "mtime": 1790573067111.82,
       "goal": "`sync.mjs` читает `.agent-teams/*/team.json` и рендерит блок 6 «Пульс агентов»",
       "acceptance": "1. Пустой `.agent-teams/` (каталога нет или нет подпапок) → секция печатает «нет данных», а не молчит.",
       "noTouch": "Другие секции `sync.mjs` (правка — в границах одного блока: читатель + `agentsHtml` + одна секция шаблона).",
-      "preview": "<!-- Заполняется в шаге B: цитата HTML-блока 6 из docs/index.html (10-20 строк) + вывод гейтов. -->"
+      "preview": "Сгенерировано `npm run sync` при HEAD `9718583` из реального `.agent-teams/linuxexam-m6-phase4/team.json` (секция `#agents` в `docs/index.html`):"
     },
     {
       "id": "016",
@@ -688,6 +688,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "9718583",
+      "date": "2026-09-28",
+      "subject": "feat(center): block 6 — agents pulse from .agent-teams",
+      "type": "feat"
+    },
+    {
       "sha": "8ec92be",
       "date": "2026-09-28",
       "subject": "docs(spec): 022 approved + sync",
@@ -799,12 +805,6 @@
       "sha": "34aee12",
       "date": "2026-09-28",
       "subject": "feat(memory): F1.2 — trends + check-episodic + npm script",
-      "type": "feat"
-    },
-    {
-      "sha": "5c462ca",
-      "date": "2026-09-28",
-      "subject": "feat(memory): F1.1 — five notebooks, plan v2.3, rules 12-13",
       "type": "feat"
     }
   ],
