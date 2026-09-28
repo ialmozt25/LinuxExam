@@ -1112,20 +1112,47 @@ function esc(v) {
 }
 
 /**
+ * ID спек, правленных относительно коммита (`git status` не пуст по путям спек).
+ *
+ * «Работа в ходу» для колонки Doing — это черновик, который лежит в рабочем
+ * дереве изменённым. Черновик без правок — задокументированный backlog, а не
+ * текущая работа. Признак стабилен: состояние путей в git не зависит ни от
+ * wall-clock, ни от mtime файла, поэтому клон и `touch` не меняют HTML.
+ *
+ * Замена прежнего `Date.now() - s.mtimeMs <= 2 ч`, из-за которого спека
+ * переезжала Doing ↔ Next сама и `sync:check` давал exit 2 без дрейфа.
+ */
+function readDirtySpecIds() {
+  try {
+    const raw = git(['status', '--porcelain', '-uno', '--', rel('.project/specs')]);
+    const ids = new Set();
+    for (const line of raw.split('\n')) {
+      const m = /(\d+)-[^/\\]*\.md\s*$/.exec(line.replace(/^..\s+/, ''));
+      if (m) ids.add(m[1]);
+    }
+    return ids;
+  } catch (e) {
+    warn(`git status по спекам не удался (${e.message})`);
+    return new Set();
+  }
+}
+
+/**
  * Секция «Done / Doing / Next» — первый блок центра (M6.0 Phase 2, D3).
  *
  * Три колонки: что закрыто, что в работе, что дальше. Колонки видны ВСЕГДА,
  * даже пустые: пустая колонка — это утверждение («ничего не в работе»), а её
  * отсутствие — неизвестность. Капитану нужно различать эти два состояния.
  *
- * DOING = specs running/approved + черновики, изменённые за последние 2 часа
- * (mtime файла спеки). «Свежий draft» — это работа, которая идёт, но ещё не
- * переведена в running: ровно так выглядела ночная смена 2026-09-27.
+ * DOING = specs running/approved + черновики, ПРАВЛЕННЫЕ в рабочем дереве
+ * (`readDirtySpecIds()`). «Свежий draft» — это работа, которая идёт, но ещё не
+ * переведена в running: ровно так выглядела ночная смена 2026-09-27. Признак
+ * «идёт» объявлен состоянием git, а не временем: wall-clock и mtime файла
+ * делали HTML недетерминированным (спека сама переезжала Doing ↔ Next через два
+ * часа без правок, и `sync:check` краснел без реального дрейфа).
  */
-const DOING_DRAFT_WINDOW_MS = 2 * 60 * 60 * 1000;
-
 function renderDoneDoingNext(ctx) {
-  const { specs, roles, products, now } = ctx;
+  const { specs, roles, products, dirtySpecIds } = ctx;
 
   const done = specs
     .filter((s) => s.status === 'done')
@@ -1133,15 +1160,9 @@ function renderDoneDoingNext(ctx) {
     .slice(0, 10);
 
   const doing = specs.filter((s) => s.status === 'running' || s.status === 'approved');
-  const freshDrafts = specs.filter(
-    (s) =>
-      s.status === 'draft' &&
-      s.mtime != null &&
-      now - s.mtime <= DOING_DRAFT_WINDOW_MS,
-  );
-  const doingAll = [...doing, ...freshDrafts];
-
-  const nextSpecs = specs.filter((s) => s.status === 'draft' && !freshDrafts.includes(s));
+  const dirty = dirtySpecIds instanceof Set ? dirtySpecIds : new Set();
+  const freshDrafts = specs.filter((s) => s.status === 'draft' && dirty.has(s.id));
+  const nextSpecs = specs.filter((s) => s.status === 'draft' && !dirty.has(s.id));
   const nextProducts = (products || []).filter((p) => p.status === 'planned');
 
   const item = (title, meta) => [
@@ -1450,7 +1471,7 @@ function renderCenter(ctx) {
     specs,
     roles,
     products,
-    now: Date.now(),
+    dirtySpecIds: readDirtySpecIds(),
   });
 
   return `<!DOCTYPE html>

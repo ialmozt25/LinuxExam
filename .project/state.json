@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "ac08fc70c8675645dcff3525bdbbf34654fda78b",
+  "head": "3cb7983c90616be6d54243b4b9bfaf018daf7aae",
   "specs": [
     {
       "id": "022",
@@ -763,6 +763,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "3cb7983",
+      "date": "2026-09-29",
+      "subject": "docs(center): C1-close — spec 029 approved, C-PLAN v1.1",
+      "type": "docs"
+    },
+    {
       "sha": "ac08fc7",
       "date": "2026-09-29",
       "subject": "docs(center): C1 — C-PLAN v1.0 + spec 029-center-redesign",
@@ -874,12 +880,6 @@
       "sha": "86556b5",
       "date": "2026-09-28",
       "subject": "docs(spec): 024 Factory Export approved + plan v2.18",
-      "type": "docs"
-    },
-    {
-      "sha": "50f97d5",
-      "date": "2026-09-28",
-      "subject": "docs(factory): F5.0a — rules 2/13 exceptions, .gitignore narrow, F4 debts",
       "type": "docs"
     }
   ],
