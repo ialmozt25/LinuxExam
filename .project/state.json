@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "0074d35247feac8f889e580dffca7aed0a52304b",
+  "head": "ac08fc70c8675645dcff3525bdbbf34654fda78b",
   "specs": [
     {
       "id": "022",
@@ -417,6 +417,21 @@
       "preview": ""
     },
     {
+      "id": "029",
+      "slug": "center-redesign",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/029-center-redesign.md",
+      "mtime": 1790632210252.8857,
+      "goal": "Перестроить `docs/index.html` (генерируется `renderCenter()` в `.project/sync.mjs`)",
+      "acceptance": "",
+      "noTouch": "`docs/FACTORY-PLAN.md`, `docs/DEV-PLAN.md` — завершённые планы, только чтение.",
+      "preview": "```"
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -460,21 +475,6 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
-    },
-    {
-      "id": "029",
-      "slug": "center-redesign",
-      "status": "draft",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/029-center-redesign.md",
-      "mtime": 1790632051478.827,
-      "goal": "Перестроить `docs/index.html` (генерируется `renderCenter()` в `.project/sync.mjs`)",
-      "acceptance": "",
-      "noTouch": "`docs/FACTORY-PLAN.md`, `docs/DEV-PLAN.md` — завершённые планы, только чтение.",
-      "preview": "```"
     },
     {
       "id": "001",
@@ -748,8 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]",
-    "2026-09-28 | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в state.json; check:episodic читает allPhases | commit pending",
     "2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending",
     "2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending",
     "2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending",
@@ -757,11 +755,19 @@
     "2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending",
     "2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending",
     "2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]",
-    "2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending"
+    "2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending",
+    "2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending",
+    "2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "ac08fc7",
+      "date": "2026-09-29",
+      "subject": "docs(center): C1 — C-PLAN v1.0 + spec 029-center-redesign",
+      "type": "docs"
+    },
     {
       "sha": "0074d35",
       "date": "2026-09-29",
@@ -874,12 +880,6 @@
       "sha": "50f97d5",
       "date": "2026-09-28",
       "subject": "docs(factory): F5.0a — rules 2/13 exceptions, .gitignore narrow, F4 debts",
-      "type": "docs"
-    },
-    {
-      "sha": "9a924a0",
-      "date": "2026-09-28",
-      "subject": "docs(memory): F4.3 — close F4, plan v2.16, spec 023 approved",
       "type": "docs"
     }
   ],

@@ -123,7 +123,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 0074d35247feac8f889e580dffca7aed0a52304b</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD ac08fc70c8675645dcff3525bdbbf34654fda78b</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -282,7 +282,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#029 center-redesign</span>
-            <span class="ddn__meta">infra · draft (свежий)</span>
+            <span class="ddn__meta">infra · approved</span>
           </li>
           </ul>
         </div>
@@ -363,6 +363,14 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td class="mono">—</td>
         </tr>
         <tr>
+          <td class="mono">029</td>
+          <td class="mono">center-redesign</td>
+          <td>infra</td>
+          <td><span class="chip chip--approved">approved</span></td>
+          <td class="mono">—</td>
+          <td class="mono">—</td>
+        </tr>
+        <tr>
           <td class="mono">016</td>
           <td class="mono">tf-cosine-debt</td>
           <td>content</td>
@@ -385,14 +393,6 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td><span class="chip chip--draft">draft</span></td>
           <td class="mono">—</td>
           <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">029</td>
-          <td class="mono">center-redesign</td>
-          <td>infra</td>
-          <td><span class="chip chip--draft">draft</span></td>
-          <td class="mono">—</td>
-          <td class="mono">—</td>
         </tr>
         <tr>
           <td class="mono">001</td>
@@ -545,8 +545,6 @@ details.alerts[open] > summary { margin-bottom: 12px; }
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]</li>
-        <li>2026-09-28 | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в state.json; check:episodic читает allPhases | commit pending</li>
         <li>2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending</li>
         <li>2026-09-28 | D1-close | skill spec-to-team создан, smoke PASS; D2 закрыта как выполнена в D1.5; DEV-PLAN v1.1 → v1.2 | commit pending</li>
         <li>2026-09-28 | D3-close | S2 подтверждён (skill пишет в память), S3 закрыт (TEAM-ALREADY-ACTIVE pre-check); DEV-PLAN v1.2 → v1.3 | commit pending</li>
@@ -555,6 +553,8 @@ details.alerts[open] > summary { margin-bottom: 12px; }
         <li>2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending</li>
         <li>2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]</li>
         <li>2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending</li>
+        <li>2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending</li>
+        <li>2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]</li>
     </ul>
   </section>
 
@@ -566,6 +566,12 @@ details.alerts[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">ac08fc7</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(center): C1 — C-PLAN v1.0 + spec 029-center-redesign</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">0074d35</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -680,12 +686,6 @@ details.alerts[open] > summary { margin-bottom: 12px; }
           <td>docs(factory): F5.0a — rules 2/13 exceptions, .gitignore narrow, F4 debts</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">9a924a0</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(memory): F4.3 — close F4, plan v2.16, spec 023 approved</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -787,8 +787,8 @@ details.alerts[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-28T21:46:00Z</td>
-          <td class="mono">16</td>
+          <td class="mono muted">2026-09-28T22:05:00Z</td>
+          <td class="mono">17</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
@@ -808,7 +808,7 @@ details.alerts[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T21:46:00Z</td>
+          <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">1</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
@@ -846,11 +846,11 @@ details.alerts[open] > summary { margin-bottom: 12px; }
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Трево…</li>
-        <li><span class="mono muted">2026-09-28</span> | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-…</li>
         <li><span class="mono muted">2026-09-28</span> | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pe…</li>
         <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]</li>
         <li><span class="mono muted">2026-09-28</span> | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending</li>
+        <li><span class="mono muted">2026-09-28</span> | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending</li>
+        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]</li>
     </ul>
   </section>
 

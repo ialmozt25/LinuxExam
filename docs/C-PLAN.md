@@ -1,16 +1,18 @@
 ---
 schema_version: 1
-plan_version: 1.0
+plan_version: 1.1
 updated: 2026-09-28
 product: "Center evolution (инициатива C)"
-current_phase: C1
-current_step: "C1 — Дизайн нового центра"
+current_phase: C2
+current_step: "C2 — Реализация в sync.mjs + фикс багов"
 phases:
   - { id: C0, name: "Recon текущего центра",              status: done,        progress: "1/1" }
-  - { id: C1, name: "Дизайн нового центра",               status: in_progress, progress: "0/1" }
-  - { id: C2, name: "Реализация в sync.mjs + фикс багов", status: pending,     progress: "0/1" }
+  - { id: C1, name: "Дизайн нового центра",               status: done,        progress: "1/1" }
+  - { id: C2, name: "Реализация в sync.mjs + фикс багов", status: in_progress, progress: "0/1" }
   - { id: C3, name: "Проверка (5-секундный тест)",        status: pending,     progress: "0/1" }
 ---
+
+**v1.1 (2026-09-28):** C1 закрыта — spec 029 approved. Структура центра: три уровня. Старт C2 (реализация + фикс багов).
 
 # C-PLAN — Center evolution (инициатива C)
 
@@ -57,12 +59,13 @@ phases:
 источники данных; аудит полезности, жаргона, устаревшего и дубликатов; раскладка
 по трём уровням. Артефакт: `docs/C0-CENTER-AUDIT.md`. Read-only: правок в репо нет.
 
-### C1 — Дизайн нового центра (in_progress)
+### C1 ✅ — Дизайн нового центра
 Этот шаг: C-PLAN v1.0 + spec `029` (структура трёх уровней, таблица раскладки
 18 секций, список фиксов багов, критерии приёмки, превью). Запись C0 в
 `episodic.md` закрывает долг памяти за C0 (правило 12). Код не меняется.
+**Статус:** закрыта 2026-09-28. Spec 029 approved. Коммит `ac08fc7`.
 
-### C2 — Реализация в sync.mjs + фикс багов (pending)
+### C2 — Реализация в sync.mjs + фикс багов (in_progress)
 Реализация раскладки из spec 029 в `renderCenter()`: Пульс-плитки, слияние
 `journal`+`decisions`, свёртка Справочника, удаление 10 секций, гуманизация
 текстов. Обязательная часть — 7 фиксов из C0 (раздел «Баги»), в первую очередь

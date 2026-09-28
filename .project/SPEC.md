@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `0074d35247feac8f889e580dffca7aed0a52304b`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `ac08fc70c8675645dcff3525bdbbf34654fda78b`<!--volatile:end-->
 - Спек: 27
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -14,10 +14,10 @@
 | 024 | `factory-export` | infra | approved | — | 2026-09-28 |
 | 025 | `cleanup-project` | infra | approved | — | 2026-09-28 |
 | 028 | `hide-alerts-details` | infra | approved | — | — |
+| 029 | `center-redesign` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
-| 029 | `center-redesign` | infra | draft | — | — |
 | 001 | `file-management-batch-4` | content | done | f4e2538 | 2026-09-27 |
 | 002 | `dehardcode-positional-test` | feature | done | cd6ce8d | 2026-09-27 |
 | 004 | `batch-5-generation` | content | done | 12c8439 | 2026-09-27 |

@@ -96,4 +96,7 @@ Evidence: .agent-teams/spec-028-hide-alerts.
 ## 2026-09-28 | C0 закрыта
 C0 (recon текущего центра) закрыта 1/1. Отчёт: docs/C0-CENTER-AUDIT.md (332 строки, коммит 0074d35). 18 секций: 3 KEEP, 3 HUMANIZE, 3 COLLAPSE, 10 DELETE. 4 дубликата (log.md показан дважды; план — двумя блоками). 7 багов sync.mjs (критический — wall-clock «свежий draft» без VOLATILE). Жаргон — в alerts.md и log.md. Инициатива C — отдельный трек; C1 (дизайн) начат сразу за C0, запись о C0 отложена и закрыта долгом памяти при C1.
 
-<!-- meta updated: 2026-09-28T21:46:00Z entries_count: 16 -->
+## 2026-09-28 | C1 закрыта
+C1 (дизайн нового центра) закрыта 1/1. Spec 029-center-redesign approved: три уровня (Пульс / Дела / Справочник), 10 DELETE, 3 COLLAPSE, 3 HUMANIZE, 3 KEEP. 18 секций раскрыты, 4 дубликата зафиксированы, 7 багов sync.mjs (критический — wall-clock «свежий draft») — в C2. Коммиты C1: ac08fc7 + C1-close. C-PLAN v1.1: старт C2.
+
+<!-- meta updated: 2026-09-28T22:05:00Z entries_count: 17 -->

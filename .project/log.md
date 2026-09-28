@@ -85,3 +85,5 @@
 2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending
 2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]
 2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending
+2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending
+2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]

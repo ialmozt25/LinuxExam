@@ -2,7 +2,7 @@
 id: 029
 slug: center-redesign
 type: infra
-status: draft
+status: approved
 commit: null
 ---
 
