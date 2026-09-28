@@ -3,14 +3,13 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `026f68a039811e53c3fb42da6182ed5188e31aa6`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `fbb045362d575a5407fda936bfa327c9e01dea64`<!--volatile:end-->
 - Спек: 20
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
 |---|---|---|---|---|---|
 | 014 | `subagent-push-lockdown` | docs | approved | — | 2026-09-28 |
-| 020 | `batch5c-running-systems` | content | approved | — | 2026-09-28 |
 | 010 | `jsdom-smoke-center` | feature | draft | — | 2026-09-28 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -26,6 +25,7 @@
 | 015 | `batch5a-text-files` | content | done | — | 2026-09-28 |
 | 017 | `gen-state-schema-v2` | infra | done | — | 2026-09-28 |
 | 018 | `batch5b-shell-scripts` | content | done | — | 2026-09-28 |
+| 020 | `batch5c-running-systems` | content | done | — | 2026-09-28 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
 | 012 | `fix-state-head-volatile` | fix | rejected | — | 2026-09-27 |
