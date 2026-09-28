@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "c12a7d06063b8f649ce90adf5510d86a1a65b5cf",
+  "head": "ce46c104bca0e48d40ab3f74b884e1d6cdb21042",
   "specs": [
     {
       "id": "022",
@@ -733,6 +733,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "ce46c10",
+      "date": "2026-09-28",
+      "subject": "docs(dev-plan): D1 close + D2 close (v1.2)",
+      "type": "docs"
+    },
+    {
       "sha": "42f11f0",
       "date": "2026-09-28",
       "subject": "fix(center): planGlyph учитывает активный план",
@@ -845,12 +851,6 @@
       "date": "2026-09-28",
       "subject": "docs(log): F3.2 — record live AgentTeams smoke (rule 5)",
       "type": "docs"
-    },
-    {
-      "sha": "c799031",
-      "date": "2026-09-28",
-      "subject": "feat(center): F3.2 — live agents team (linuxexam-f3-smoke)",
-      "type": "feat"
     }
   ],
   "roles": [

@@ -16,4 +16,4 @@ ahead: 0/4 (после коммита)
 
 Дальше: D3 — интеграция skill'а с памятью (запись в episodic/working при каждом прогоне spec)
 
-<!-- meta updated: 2026-09-28T11:31:00Z entries_count: 2 -->
+<!-- meta updated: 2026-09-28T11:31:00Z entries_count: 1 -->
