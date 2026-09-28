@@ -1,12 +1,12 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.14
+plan_version: 2.15
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
 current_phase: F4
-current_step: "F4.2a-iii — Task Scheduler"
+current_step: "F4.2a-iv — умное расписание"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
@@ -28,7 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.14 (2026-09-28):** F4.2a-iii — три user-level задачи Task Scheduler (checker/cleaner/watchdog). Sandbox headless блокирует sync:check; amend self-reference уточнён в промпте Сверщика.
+**v2.15 (2026-09-28):** F4.2a-iv — расписание пересмотрено (Вариант 2): Сверщик 5×/день с SHA-skip, Чистильщик 2×/нед, Watchdog 22:00. Stop-On-Battery снят.
 **v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE; + титул/паспорт/футер выровнены под v2.9.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
@@ -163,10 +163,11 @@ captain_timezone: "Europe/Moscow"
 ### F4. Агенты-хранители
 | Агент | Механизм | Триггер | Что |
 |---|---|---|---|
-| Сверщик | headless + Task Scheduler (user-level) | ежедневно 09:00 | сверка → `alerts.md` `[f4-checker]` |
+| Сверщик | headless + Task Scheduler (user-level) | 5×/день 09–21 ч (skip без новых коммитов) | сверка → `alerts.md` `[f4-checker]` |
 | Летописец | ручной вызов оркестратора | закрытие фазы | проверка записи в `episodic.md` (правило 12) |
 | Будильник | ручной вызов оркестратора | старт сессии | сведение просрочек из `alerts.md` + `working.md` |
-| Чистильщик | headless + Task Scheduler (user-level) | воскресенье 09:00 | свёртка → `alerts.md` `[f4-cleaner]` |
+| Чистильщик | headless + Task Scheduler (user-level) | WED и SUN 09:00 | свёртка → `alerts.md` `[f4-cleaner]` |
+| Watchdog | Task Scheduler (user-level) | ежедневно 22:00 | проверка метки `[f4-checker]` в `alerts.md` |
 | dsh-taskwatch | read-only, встроенный | постоянно | монитор сессий и фоновых задач (упоминание; интеграция — F4.2+) |
 
 **Скорректировано в F4.2b, реализовано в F4.2a-i/ii:** хранители через `dsh --profile headless` (патч профиля). Task Scheduler — user-level. dsh-cron отклонён (требует живой DSH). Обоснование — spec 023.

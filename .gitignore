@@ -46,3 +46,4 @@ coverage/
 .project/drafts/cleanup-*.txt
 # Хранители F4: логи прогонов (сами скрипты — в git)
 .project/scripts/keepers/*.log
+.project/scripts/keepers/.last-checked

@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "05895a96f620d5068a3a64ea466ab72d5e32326e",
+  "head": "8bd3288e3b46bb1ae859f99954347d2bc6217de9",
   "specs": [
     {
       "id": "022",
@@ -410,7 +410,7 @@
       "updated": "2026-09-28",
       "commit": null,
       "file": "specs/023-f4-keepers.md",
-      "mtime": 1790579184487.0762,
+      "mtime": 1790579704132.2207,
       "goal": "Четыре хранителя — **Сверщик, Летописец, Будильник, Чистильщик** — периодически",
       "acceptance": "",
       "noTouch": "`sync.mjs` — блок 6 и прочие секции (F3 закрыта).",
@@ -703,6 +703,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "8bd3288",
+      "date": "2026-09-28",
+      "subject": "feat(keepers): F4.2a-iii — Task Scheduler + plan v2.14",
+      "type": "feat"
+    },
+    {
       "sha": "05895a9",
       "date": "2026-09-28",
       "subject": "feat(keepers): F4.2a-ii — keepers scripts + plan v2.13",
@@ -815,12 +821,6 @@
       "date": "2026-09-28",
       "subject": "chore(log): authorize push F2.x (rule 10)",
       "type": "chore"
-    },
-    {
-      "sha": "911d230",
-      "date": "2026-09-28",
-      "subject": "refactor(sync): F2.3.1 — hand-rolled plan YAML parser (drop js-yaml dep)",
-      "type": "refactor"
     }
   ],
   "roles": [
@@ -936,9 +936,9 @@
     }
   ],
   "plan": {
-    "version": "2.14",
+    "version": "2.15",
     "phase": "F4",
-    "step": "F4.2a-iii — Task Scheduler",
+    "step": "F4.2a-iv — умное расписание",
     "phases": [
       {
         "id": "F0",

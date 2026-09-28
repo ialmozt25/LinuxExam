@@ -29,11 +29,12 @@ commit: null
 
 | роль | механизм | триггер | действие |
 |---|---|---|---|
-| Сверщик | headless + Task Scheduler (user-level) | ежедневно 09:00 | сверка → `alerts.md` `[f4-checker]` |
-| Летописец | ручной вызов оркестратора | закрытие фазы | проверка записи в `episodic.md` |
-| Будильник | ручной вызов оркестратора | старт сессии | сводка просрочек |
-| Чистильщик | headless + Task Scheduler (user-level) | воскресенье 09:00 | свёртка → `alerts.md` `[f4-cleaner]` |
-| dsh-taskwatch | read-only | встроенный | монитор сессий (не интегрирован) |
+| Сверщик | headless + Task Scheduler (user-level) | 5 раз в день: 09:00, 12:00, 15:00, 18:00, 21:00 (skip без новых коммитов) | сверка → `alerts.md` `[f4-checker]` |
+| Летописец | ручной вызов оркестратора | закрытие фазы | проверка записи в `episodic.md` (правило 12) |
+| Будильник | ручной вызов оркестратора | старт сессии | сведение просрочек из `alerts.md` + `working.md` |
+| Чистильщик | headless + Task Scheduler (user-level) | WED и SUN 09:00 | свёртка → `alerts.md` `[f4-cleaner]` |
+| dsh-taskwatch | read-only, встроенный | постоянно | монитор сессий и фоновых задач (упоминание; интеграция — F4.2+) |
+| Watchdog | Task Scheduler (user-level) | ежедневно 22:00 | проверка метки `[f4-checker]` в `alerts.md` |
 
 **Механизм запуска.** Хранители — **headless-агенты** (`dsh --profile headless`):
 одноразовый агент получает промпт, работает в репозитории и выходит; он
@@ -70,6 +71,14 @@ commit: null
 - **Task Scheduler — user-level**: срабатывает только при логине пользователя;
   при разлогине прогон пропускается (принятое ограничение).
 - **API-ключ пробрасывается из user-scope** в дочерний процесс скриптом.
+- **SHA-skip у Сверщика:** если `git HEAD` не менялся с прошлого удачного
+  прогона (метка `.project/scripts/keepers/.last-checked`), headless **не
+  вызывается** — только строка `No new commits since … — skip` в лог.
+  Экономия: 5 попыток в день при неизменном HEAD = 4 из 5 прогонов бесплатны
+  (замер F4.2a-iv: 56 с → 0.7 с).
+- **Stop-On-Battery снят** для всех трёх задач (`DisallowStartIfOnBatteries =
+  False`, `StopIfGoingOnBatteries = False`) — иначе на ноутбуке прогоны молча
+  пропускаются.
 - `dsh-cron` / `dsh-plugin-cron-scheduler` отклонены: требуют живого процесса
   DSH (`fire automatically while the process is up`). Кандидат на возврат,
   если DSH станет 24/7.
@@ -115,6 +124,10 @@ DAG-конфигурация Task Scheduler (F4.2a-iii): `DSH-Checker` (daily 09
 
 ## Зафиксированные решения
 
+- **F4.2a-iv: расписание пересмотрено на умное (Вариант 2).** Сверщик —
+  5 попыток в день (09:00 + повтор каждые 3 ч до 21:00) со SHA-skip;
+  Чистильщик — 2×/нед (WED, SUN 09:00); Watchdog — ежедневно 22:00;
+  Stop-On-Battery снят у всех трёх.
 - **F4.2a-iii: три user-level задачи созданы** — `DSH-Checker` (daily 09:00),
   `DSH-Cleaner` (weekly SUN 09:00), `DSH-Watchdog` (daily 10:00); `Status: Ready`,
   `Logon Mode: Interactive only`, `Run As User: Alexey Udotov`. `/ru SYSTEM`
