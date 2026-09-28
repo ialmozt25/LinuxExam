@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "4ad0fed1b5fd80e7cc6ca3e225935340039b5a01",
+  "head": "2c7c7987a35b268d59c3b948827c48fd2a14863c",
   "specs": [
     {
       "id": "016",
@@ -658,6 +658,7 @@
     }
   ],
   "log_tail": [
+    "2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending",
     "2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending",
     "2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending",
     "2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending",
@@ -666,12 +667,23 @@
     "2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending",
     "2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending",
     "2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]",
-    "2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook | commit pending",
     "2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "2c7c798",
+      "date": "2026-09-28",
+      "subject": "docs(readme): F2.4 — activate pre-commit hook (core.hooksPath)",
+      "type": "docs"
+    },
+    {
+      "sha": "f8384d6",
+      "date": "2026-09-28",
+      "subject": "docs(factory): F2.4 — close F2, plan v2.8, F3 in progress",
+      "type": "docs"
+    },
     {
       "sha": "d5c2eaa",
       "date": "2026-09-28",
@@ -778,18 +790,6 @@
       "sha": "2ff1306",
       "date": "2026-09-28",
       "subject": "chore(state): converge after F0.1",
-      "type": "chore"
-    },
-    {
-      "sha": "4489de6",
-      "date": "2026-09-28",
-      "subject": "chore(factory): F0.1 — план в репо, хвосты закрыты, HANDOFF в архив",
-      "type": "chore"
-    },
-    {
-      "sha": "3a6266a",
-      "date": "2026-09-28",
-      "subject": "chore(specs): close 014 done, reject 010 (formalities)",
       "type": "chore"
     }
   ],
