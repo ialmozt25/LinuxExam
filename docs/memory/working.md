@@ -4,14 +4,16 @@
 
 ---
 
-2026-09-28 | работа по DEV-PLAN (v1.1)
+2026-09-28 | работа по DEV-PLAN (v1.2)
 
 HEAD: pending (обновится в коммите)
 
-ahead: 0/2 (после коммита)
+ahead: 0/4 (после коммита)
 
-Фаза: D1 — Написание skill spec-to-team
+План: DEV-PLAN v1.2
 
-Дальше: skill spec-to-team по формату D0 recon §7 — `~/.agents/skills/spec-to-team/SKILL.md` (rank 500) или проектный `.agents/skills/` (rank 200)
+Фаза: D3 — Память и контекст
 
-<!-- meta updated: 2026-09-28T10:59:00Z entries_count: 1 -->
+Дальше: D3 — интеграция skill'а с памятью (запись в episodic/working при каждом прогоне spec)
+
+<!-- meta updated: 2026-09-28T11:31:00Z entries_count: 2 -->

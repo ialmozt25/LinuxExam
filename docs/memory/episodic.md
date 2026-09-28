@@ -51,4 +51,14 @@ F5 (экспорт фабрики) закрыта 4/4 — spec 024, `templates/f
 ## 2026-09-28 | D0 закрыта
 D0 (разведка skills и выбор инструмента) закрыта 1/1. Инвентарь: в `~/.agents/skills` — `mas-run` (8 627 B) и `dsh-fix-duplicate-loader-id`; `bootstrap` в `~/.agents` **нет** — он живёт в пресетах (`~/.dsh/.agent-presets/linuxexam-*/skills/`). Механизм установлен документально: провайдер `@deepseek-ai/dsh-skill-filesystem`, 5 корней (проектные `.dsh/skills` и `.agents/skills`, custom `customSkillDirs` пресета, `~/.dsh/skills`, `~/.agents/skills`), bundle `<name>/SKILL.md` или плоский `<name>.md`, nested `**/SKILL.md` намеренно не индексируется. Оркестратор выбран: **`dsh-agent-teams` 0.1.20** — единственный работающий (14 tools, `agent_teams_create`/`status`/`delete`); `dsh-swarm-orchestrator` 0.6.30 FAILED (spawn) и не трогался; `dsh-meta/dag/expert-orchestrator` не установлены, их peer-диапазоны формально не покрывают хост 0.1.5-rc.2. D1 переформулирован: написание skill `spec-to-team`. Recon — read-only, без коммита.
 
-<!-- meta updated: 2026-09-28T10:59:00Z entries_count: 10 -->
+## 2026-09-28 | D1 и D2 закрыты
+D1 (написание skill spec-to-team) закрыта 1/1. Создано: preset
+linuxexam-orchestrator/skills/spec-to-team/{SKILL.md 6439 B,
+roster.yaml 1163 B}. Smoke D1.5: команда spec-026-smoke (4 агента:
+architect/builder/tester/reviewer, pro/flash/flash/pro, effort high),
+4 задачи completed за 40 с, verdict PASS. Skill активируется через
+/spec-to-team без рестарта DSH (chokidar).
+D2 (мост чат → DSH) закрыта как выполненная в D1.5.
+Evidence: .agent-teams/spec-026-smoke (оставлена, как F3.2).
+
+<!-- meta updated: 2026-09-28T11:31:00Z entries_count: 11 -->

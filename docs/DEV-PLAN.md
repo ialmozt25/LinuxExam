@@ -1,20 +1,22 @@
 ---
 schema_version: 1
-plan_version: 1.1
+plan_version: 1.2
 updated: 2026-09-28
 product: "MAS Factory Development"
-current_phase: D1
-current_step: "D1 — skill spec-to-team"
+current_phase: D3
+current_step: "D3 — Память и контекст"
 phases:
   - { id: D0, name: "Разведка skills и выбор инструмента", status: done,        progress: "1/1" }
-  - { id: D1, name: "Написание skill spec-to-team",        status: pending,     progress: "0/1" }
-  - { id: D2, name: "Мост чат → DSH",                       status: pending,     progress: "0/1" }
+  - { id: D1, name: "Написание skill spec-to-team",        status: done,        progress: "1/1" }
+  - { id: D2, name: "Мост чат → DSH (выполнено в D1.5)",   status: done,        progress: "1/1" }
   - { id: D3, name: "Память и контекст",                    status: pending,     progress: "0/1" }
   - { id: D4, name: "Финальный тест и доработка",           status: pending,     progress: "0/1" }
 budget:
   tokens_per_phase: 200000
   wall_clock_per_phase: "2 дня"
 ---
+
+**v1.2 (2026-09-28):** D1 закрыта — skill spec-to-team создан, smoke пройден (spec-026-smoke, 4 агента, PASS). D2 закрыта как выполненная в D1.5 (/spec-to-team активируется из чата).
 
 **v1.1 (2026-09-28):** D0 закрыта. Оркестратор = dsh-agent-teams. D1 переформулирован: написание skill spec-to-team.
 Старая v1.0 (initial) остаётся ниже.
@@ -73,7 +75,7 @@ budget:
 **Готово, когда.** Инвентарь skills записан, выбор инструмента обоснован
 и зафиксирован решением; понятно, какие skills пишем сами в D1.
 
-### D1 — Написание skill spec-to-team
+### D1 ✅ — Написание skill spec-to-team
 
 **Проблема.** Оркестратор выбран (`dsh-agent-teams`, D0), но превращение спеки
 в ростер и DAG остаётся ручным: роли, зависимости и критерий приёмки каждый раз
@@ -95,7 +97,9 @@ frontmatter `name` + `description` + `whenToUse` + `user-invocable: yes`; тел
 `<name>/SKILL.md`, frontmatter валиден), и по одной спеке поднимается команда
 без ручной сборки ростера; прогон заканчивается `agent_teams_delete`.
 
-### D2 — Мост чат → DSH
+**Статус:** закрыта 2026-09-28. Smoke пройден (spec-026-smoke, verdict PASS).
+
+### D2 ✅ — Мост чат → DSH
 
 **Проблема.** Мост «браузерный чат ↔ DSH» до сих пор ручной: капитан
 переносит инструкцию копипастом. Триггер автоматизации из `PLAN.md` (M0.7.1,
@@ -108,6 +112,9 @@ dsh-ops-mcp, dsh-hermes-link; выбор — при активации фазы,
 
 **Готово, когда.** Задача, сформулированная в чате, доходит до оркестратора
 и возвращается отчётом без ручного переноса текста капитаном.
+
+**Статус:** закрыта в D1.5. Мост /spec-to-team NNN работает
+из чата без рестарта DSH.
 
 ### D3 — Память и контекст
 
