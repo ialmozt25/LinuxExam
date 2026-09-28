@@ -672,6 +672,118 @@ function readPlanYaml() {
   };
 }
 
+/**
+ * Свежесть тетради памяти: `meta updated` + `entries_count` из самого файла,
+ * плюс возраст в часах. Слой 2.5 ЧАСТИ 5А: гейта на устаревание памяти нет,
+ * поэтому центр показывает возраст явно, а не умалчивает.
+ *
+ * Возраст — производная от wall-clock, поэтому он попадёт в volatile-участок html
+ * (как таблица коммитов): иначе `--check` краснел бы от одного часа простоя.
+ */
+function readNotebookMeta(relPath) {
+  if (!exists(rel(relPath))) return null;
+  const m = /<!--\s*meta updated:\s*([0-9T:\-Z]+)\s+entries_count:\s*(\d+)\s*-->/.exec(
+    readText(rel(relPath)),
+  );
+  const updated = m ? m[1] : null;
+  const entries = m ? Number(m[2]) : null;
+  let ageHours = null;
+  if (updated) {
+    const t = Date.parse(updated);
+    if (Number.isFinite(t)) ageHours = Math.max(0, Math.round((Date.now() - t) / 36e5));
+  }
+  return { updated, entries, ageHours };
+}
+
+/** 5 тетрадей памяти: короткое имя для дашборда + путь. */
+const NOTEBOOKS = [
+  { key: 'episodic', file: 'docs/memory/episodic.md', label: 'episodic' },
+  { key: 'semantic', file: 'docs/memory/semantic.md', label: 'semantic' },
+  { key: 'procedural', file: 'docs/memory/procedural.md', label: 'procedural' },
+  { key: 'working', file: 'docs/memory/working.md', label: 'working' },
+  { key: 'alerts', file: 'docs/memory/alerts.md', label: 'alerts' },
+];
+
+/**
+ * Чип свежести тетради. Порог — «1 фаза» ≈ 3 дня (budget.wall_clock_per_phase
+ * из YAML-шапки плана): 🟢 <72 ч, 🟡 72–144 ч, 🔴 >144 ч.
+ */
+function freshnessChip(ageHours) {
+  if (ageHours == null) return { cls: 'chip--pending', text: '⚪ нет meta' };
+  if (ageHours < 72) return { cls: 'chip--done', text: '🟢 свежая' };
+  if (ageHours <= 144) return { cls: 'chip--in_progress', text: '🟡 стареет' };
+  return { cls: 'chip--rejected', text: '🔴 холодная' };
+}
+
+/**
+ * `docs/memory/trends.jsonl` — последние `limit` записей. Формат строки задан
+ * планом v2.3: { date, bank, tasks_closed, blocked_hours, … }. Битые строки
+ * пропускаем (журнал — не гейт), но не молча: считаем и отдаём их число.
+ */
+function readTrends(limit) {
+  const p = rel('docs/memory/trends.jsonl');
+  if (!exists(p)) return { rows: [], broken: 0, total: 0 };
+  const raw = normalizeLf(readText(p)).split('\n').filter((l) => l.trim());
+  const rows = [];
+  let broken = 0;
+  for (const line of raw) {
+    try {
+      const o = JSON.parse(line);
+      rows.push({
+        date: o.date == null ? '—' : String(o.date),
+        bank: o.bank == null ? null : Number(o.bank),
+        tasks_closed: o.tasks_closed == null ? null : Number(o.tasks_closed),
+        blocked_hours: o.blocked_hours == null ? null : Number(o.blocked_hours),
+      });
+    } catch (e) {
+      broken += 1;
+    }
+  }
+  return { rows: rows.slice(-limit), broken, total: rows.length };
+}
+
+/** Последние `limit` записей `.project/log.md` в виде «дата» + текст. */
+function readRecentLog(limit) {
+  const p = rel('.project/log.md');
+  if (!exists(p)) return [];
+  return normalizeLf(readText(p))
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l && !l.startsWith('#'))
+    .map((l) => {
+      const m = /^(\d{4}-\d{2}-\d{2})\s*\|\s*([\s\S]*)$/.exec(l);
+      return m ? { date: m[1], text: m[2].trim() } : { date: '—', text: l };
+    })
+    .slice(-limit);
+}
+
+/**
+ * Записи `docs/memory/alerts.md`. Формат — `## YYYY-MM-DD | заголовок` плюс
+ * следующая непустая строка как тело (старые записи шли без `##`, поэтому
+ * заголовком считаем и строку, начинающуюся с даты).
+ */
+function readAlerts() {
+  const p = rel('docs/memory/alerts.md');
+  if (!exists(p)) return { entries: [], total: 0 };
+  const lines = normalizeLf(readText(p)).split('\n');
+  const entries = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i].trim();
+    const m = /^(?:##\s*)?(\d{4}-\d{2}-\d{2})\s*\|\s*(.+)$/.exec(line);
+    if (!m) continue;
+    let body = '';
+    for (let k = i + 1; k < lines.length; k += 1) {
+      const t = lines[k].trim();
+      if (!t) continue;
+      if (/^(?:##\s*)?\d{4}-\d{2}-\d{2}\s*\|/.test(t) || t.startsWith('<!--')) break;
+      body = t;
+      break;
+    }
+    entries.push({ date: m[1], title: m[2].trim(), body });
+  }
+  // Записи в файле идут сверху вниз от новых к старым — порядок сохраняем как есть.
+  return { entries, total: entries.length };}
+
 /** `git log` — коммиты для секции центра и зеркала state.json.commits. */
 function readGitCommits(limit) {
   try {
@@ -1085,42 +1197,12 @@ function renderCenter(ctx) {
       ].join('\n'))
       .join('\n');
 
-  /* --- D3: память */
-  // Свежесть тетради: `meta updated` из самого файла + возраст (часы). Слой 2.5 ЧАСТИ 5А:
-  // гейта на устаревание памяти нет, поэтому центр показывает возраст явно.
-  function readNotebookMeta(relPath) {
-    if (!exists(rel(relPath))) return null;
-    const m = /<!--\s*meta updated:\s*([0-9T:\-Z]+)\s+entries_count:\s*(\d+)\s*-->/.exec(readText(rel(relPath)));
-    const updated = m ? m[1] : null;
-    const entries = m ? Number(m[2]) : null;
-    let ageHours = null;
-    if (updated) {
-      const t = Date.parse(updated);
-      if (Number.isFinite(t)) ageHours = Math.max(0, Math.round((Date.now() - t) / 36e5));
-    }
-    return { updated, entries, ageHours };
-  }
-
-  function notebookNote(relPath, label) {
-    const meta = readNotebookMeta(relPath);
-    if (!meta) return `${label}: нет meta`;
-    const parts = [label, `${meta.entries ?? '?'} записей`];
-    if (meta.updated) {
-      parts.push(`обновлено ${meta.updated}`);
-      parts.push(meta.ageHours > 0 ? `${meta.ageHours} ч назад` : 'сейчас');
-    }
-    return parts.join(' · ');
-  }
-
+  /* --- D3: память (список файлов) */
   const memoryFiles = [
     { file: '.project/DECISIONS.md', note: 'решения (семантика, append-only)' },
     { file: '.project/log.md', note: `журнал решений, последние ${logTail.length} строк ниже` },
-    { file: 'docs/memory/episodic.md', note: notebookNote('docs/memory/episodic.md', 'журнал событий') },
-    { file: 'docs/memory/semantic.md', note: notebookNote('docs/memory/semantic.md', 'факты') },
-    { file: 'docs/memory/procedural.md', note: notebookNote('docs/memory/procedural.md', 'как делать') },
-    { file: 'docs/memory/working.md', note: notebookNote('docs/memory/working.md', 'текущая работа') },
-    { file: 'docs/memory/alerts.md', note: notebookNote('docs/memory/alerts.md', 'тревоги') },
     { file: '.project/agents/', note: 'отчёты сессий (session logs)' },
+    { file: 'docs/memory/', note: 'тетради памяти — блок «Память» выше' },
   ];
   const memoryCards = memoryFiles
     .map((m) =>
@@ -1136,6 +1218,69 @@ function renderCenter(ctx) {
       ].join('\n'),
     )
     .join('\n');
+
+  /* --- F2.4 блок 1: «Память» — 5 тетрадей, мета и чип свежести.
+   * Возраст считается от wall-clock → весь блок volatile (см. VOLATILE). */
+  const notebookRows = NOTEBOOKS.map((nb) => {
+    const meta = readNotebookMeta(nb.file);
+    if (!meta) {
+      return `        <tr><td class="mono">${esc(nb.label)}</td><td colspan="4" class="muted">нет файла: <code>${esc(nb.file)}</code></td></tr>`;
+    }
+    const chip = freshnessChip(meta.ageHours);
+    const age = meta.ageHours == null
+      ? '—'
+      : (meta.ageHours < 1 ? '<1 ч' : `${meta.ageHours} ч`)
+        + (meta.ageHours >= 24 ? ` (~${(meta.ageHours / 24).toFixed(1)} дн)` : '');
+    return [
+      '        <tr>',
+      `          <td class="mono">${esc(nb.label)}</td>`,
+      `          <td class="mono muted">${esc(meta.updated || '—')}</td>`,
+      `          <td class="mono">${meta.entries == null ? '—' : meta.entries}</td>`,
+      `          <td class="muted">${esc(age)}</td>`,
+      `          <td><span class="chip ${chip.cls}">${esc(chip.text)}</span></td>`,
+      '        </tr>',
+    ].join('\n');
+  }).join('\n');
+
+  /* --- F2.4 блок 2: «Тренды» — последние 3 строки trends.jsonl */
+  const trends = readTrends(3);
+  const trendRows = trends.rows.length === 0
+    ? '        <tr><td colspan="4" class="muted">Записей нет — <code>docs/memory/trends.jsonl</code> пуст.</td></tr>'
+    : trends.rows
+      .map((t) => [
+        '        <tr>',
+        `          <td class="mono">${esc(t.date)}</td>`,
+        `          <td class="mono">${t.bank == null ? '—' : t.bank}</td>`,
+        `          <td class="mono">${t.tasks_closed == null ? '—' : t.tasks_closed}</td>`,
+        `          <td class="mono">${t.blocked_hours == null ? '—' : t.blocked_hours}</td>`,
+        '        </tr>',
+      ].join('\n'))
+      .join('\n');
+  if (trends.broken > 0) warn(`trends.jsonl: ${trends.broken} строк не разобрались как JSON — пропущены`);
+
+  /* --- F2.4 блок 3: «Решения» — последние 5 записей log.md (текст ≤80 симв.) */
+  const recentLog = readRecentLog(5);
+  const decisionRows = recentLog.length === 0
+    ? '        <li class="muted">Журнал пуст.</li>'
+    : recentLog
+      .map((d) => {
+        const short = d.text.length > 80 ? `${d.text.slice(0, 79)}…` : d.text;
+        return `        <li><span class="mono muted">${esc(d.date)}</span> | ${esc(short)}</li>`;
+      })
+      .join('\n');
+
+  /* --- F2.4 блок 4: «Тревоги» — все записи alerts.md, новые сверху */
+  const alertsDoc = readAlerts();
+  const alertsHtml = alertsDoc.entries.length === 0
+    ? '        <p class="empty">Тревог нет</p>'
+    : alertsDoc.entries
+      .map((a) => [
+        '        <div class="entry">',
+        `          <div class="entry__title">${esc(a.date)} | ${esc(a.title)}</div>`,
+        a.body ? `          <div class="entry__body muted">${esc(a.body)}</div>` : '',
+        '        </div>',
+      ].filter(Boolean).join('\n'))
+      .join('\n');
 
   const doneDoingNextHtml = renderDoneDoingNext({
     specs,
@@ -1215,6 +1360,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .chip--approved, .chip--done { color: var(--ok); border-color: var(--ok); }
 .chip--rejected, .chip--blocked { color: var(--fail); border-color: var(--fail); }
 .chip--in_progress { color: var(--accent); border-color: var(--accent); }
+/* F2.4: «Решения» и «Тревоги» — плотный список без таблицы */
+.entry { border-top: 1px solid var(--border); padding: 8px 0; }
+.entry:first-child { border-top: none; }
+.entry__title { font-weight: 600; }
+.entry__body { font-size: 0.85rem; margin-top: 2px; }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -1345,6 +1495,46 @@ ${productRows}
     <ul class="policies">
 ${memoryCards}
     </ul>
+  </section>
+
+  <section class="notebooks" id="notebooks">
+    <h2>Память — тетради</h2>
+    <div class="muted">Свежесть: 🟢 &lt;1 фазы (&lt;72 ч) · 🟡 1–2 фазы (72–144 ч) · 🔴 &gt;2 фаз (&gt;144 ч)</div>
+    <table>
+      <thead>
+        <tr><th>тетрадь</th><th>updated</th><th>записей</th><th>возраст</th><th>свежесть</th></tr>
+      </thead>
+      <tbody>
+${VOLATILE.start}${notebookRows}${VOLATILE.end}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="trends" id="trends">
+    <h2>Тренды</h2>
+    <div class="muted">Источник: <code>docs/memory/trends.jsonl</code> · последние ${trends.rows.length} из ${trends.total}${trends.broken > 0 ? ` · битых строк: ${trends.broken}` : ''}</div>
+    <table>
+      <thead>
+        <tr><th>дата</th><th>bank</th><th>tasks_closed</th><th>blocked_hours</th></tr>
+      </thead>
+      <tbody>
+${trendRows}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="decisions" id="decisions">
+    <h2>Решения</h2>
+    <div class="muted">Источник: <code>.project/log.md</code> · последние ${recentLog.length}</div>
+    <ul class="log">
+${decisionRows}
+    </ul>
+  </section>
+
+  <section class="alerts" id="alerts">
+    <h2>Тревоги</h2>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: ${alertsDoc.total}</div>
+${alertsHtml}
   </section>
 
   <section class="audits" id="audits">

@@ -55,3 +55,4 @@
 2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending
 2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending
 2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]
+2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook | commit pending

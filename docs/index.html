@@ -69,6 +69,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 .chip--approved, .chip--done { color: var(--ok); border-color: var(--ok); }
 .chip--rejected, .chip--blocked { color: var(--fail); border-color: var(--fail); }
 .chip--in_progress { color: var(--accent); border-color: var(--accent); }
+/* F2.4: «Решения» и «Тревоги» — плотный список без таблицы */
+.entry { border-top: 1px solid var(--border); padding: 8px 0; }
+.entry:first-child { border-top: none; }
+.entry__title { font-weight: 600; }
+.entry__body { font-size: 0.85rem; margin-top: 2px; }
 .log { margin: 0; padding-left: 18px; }
 .log li { font-family: var(--mono); font-size: 0.8125rem; color: var(--fg-muted); }
 .policies { list-style: none; margin: 0; padding: 0; }
@@ -113,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 2779ac8e82adfd05f266b793011294e459f9096f</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 4ad0fed1b5fd80e7cc6ca3e225935340039b5a01</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -462,8 +467,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending</li>
-        <li>2026-09-28 | F1.2 | trends.jsonl + check-episodic.mjs + npm check:episodic; правило 12 теперь checkable | commit pending</li>
         <li>2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending</li>
         <li>2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending</li>
         <li>2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending</li>
@@ -472,6 +475,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending</li>
         <li>2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending</li>
         <li>2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending</li>
+        <li>2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]</li>
+        <li>2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook | commit pending</li>
     </ul>
   </section>
 
@@ -483,6 +488,24 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">079d960</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(sync): F2.4 — dashboard blocks + pre-commit hook</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">bf5c736</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push F2.x (rule 10)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">911d230</td>
+          <td><span class="ctype ctype--refactor">refactor</span></td>
+          <td>refactor(sync): F2.3.1 — hand-rolled plan YAML parser (drop js-yaml dep)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">2779ac8</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -585,24 +608,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>chore(specs): close 014 done, reject 010 (formalities)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">2dd251e</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after push 5C record</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">5a806d1</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(rules): record authorized push 5C (rule 10/11 trail)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">753574e</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec 021</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -684,30 +689,112 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <!--volatile:start--><span class="muted">журнал решений, последние 10 строк ниже</span><!--volatile:end-->
         </li>
         <li>
-          <code>docs/memory/episodic.md</code>
-          <!--volatile:start--><span class="muted">журнал событий · 6 записей · обновлено 2026-09-28T02:56:14Z · 1 ч назад</span><!--volatile:end-->
-        </li>
-        <li>
-          <code>docs/memory/semantic.md</code>
-          <!--volatile:start--><span class="muted">факты · 7 записей · обновлено 2026-09-28T03:03:24Z · 1 ч назад</span><!--volatile:end-->
-        </li>
-        <li>
-          <code>docs/memory/procedural.md</code>
-          <!--volatile:start--><span class="muted">как делать · 6 записей · обновлено 2026-09-28T02:37:25Z · 1 ч назад</span><!--volatile:end-->
-        </li>
-        <li>
-          <code>docs/memory/working.md</code>
-          <!--volatile:start--><span class="muted">текущая работа · 1 записей · обновлено 2026-09-28T02:56:14Z · 1 ч назад</span><!--volatile:end-->
-        </li>
-        <li>
-          <code>docs/memory/alerts.md</code>
-          <!--volatile:start--><span class="muted">тревоги · 4 записей · обновлено 2026-09-28T04:10:00Z · сейчас</span><!--volatile:end-->
-        </li>
-        <li>
           <code>.project/agents/</code>
           <!--volatile:start--><span class="muted">отчёты сессий (session logs)</span><!--volatile:end-->
         </li>
+        <li>
+          <code>docs/memory/</code>
+          <!--volatile:start--><span class="muted">тетради памяти — блок «Память» выше</span><!--volatile:end-->
+        </li>
     </ul>
+  </section>
+
+  <section class="notebooks" id="notebooks">
+    <h2>Память — тетради</h2>
+    <div class="muted">Свежесть: 🟢 &lt;1 фазы (&lt;72 ч) · 🟡 1–2 фазы (72–144 ч) · 🔴 &gt;2 фаз (&gt;144 ч)</div>
+    <table>
+      <thead>
+        <tr><th>тетрадь</th><th>updated</th><th>записей</th><th>возраст</th><th>свежесть</th></tr>
+      </thead>
+      <tbody>
+<!--volatile:start-->        <tr>
+          <td class="mono">episodic</td>
+          <td class="mono muted">2026-09-28T02:56:14Z</td>
+          <td class="mono">6</td>
+          <td class="muted">1 ч</td>
+          <td><span class="chip chip--done">🟢 свежая</span></td>
+        </tr>
+        <tr>
+          <td class="mono">semantic</td>
+          <td class="mono muted">2026-09-28T03:03:24Z</td>
+          <td class="mono">7</td>
+          <td class="muted">1 ч</td>
+          <td><span class="chip chip--done">🟢 свежая</span></td>
+        </tr>
+        <tr>
+          <td class="mono">procedural</td>
+          <td class="mono muted">2026-09-28T02:37:25Z</td>
+          <td class="mono">6</td>
+          <td class="muted">1 ч</td>
+          <td><span class="chip chip--done">🟢 свежая</span></td>
+        </tr>
+        <tr>
+          <td class="mono">working</td>
+          <td class="mono muted">2026-09-28T02:56:14Z</td>
+          <td class="mono">1</td>
+          <td class="muted">1 ч</td>
+          <td><span class="chip chip--done">🟢 свежая</span></td>
+        </tr>
+        <tr>
+          <td class="mono">alerts</td>
+          <td class="mono muted">2026-09-28T04:10:00Z</td>
+          <td class="mono">4</td>
+          <td class="muted">&lt;1 ч</td>
+          <td><span class="chip chip--done">🟢 свежая</span></td>
+        </tr><!--volatile:end-->
+      </tbody>
+    </table>
+  </section>
+
+  <section class="trends" id="trends">
+    <h2>Тренды</h2>
+    <div class="muted">Источник: <code>docs/memory/trends.jsonl</code> · последние 1 из 1</div>
+    <table>
+      <thead>
+        <tr><th>дата</th><th>bank</th><th>tasks_closed</th><th>blocked_hours</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">2026-09-28</td>
+          <td class="mono">224</td>
+          <td class="mono">2</td>
+          <td class="mono">2</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="decisions" id="decisions">
+    <h2>Решения</h2>
+    <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
+    <ul class="log">
+        <li><span class="mono muted">2026-09-28</span> | F2.2b | index.html drift закрыт — projection-подход | commit pending</li>
+        <li><span class="mono muted">2026-09-28</span> | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending</li>
+        <li><span class="mono muted">2026-09-28</span> | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восс…</li>
+        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — капитаном | [AUTHORIZE]</li>
+        <li><span class="mono muted">2026-09-28</span> | F2.4 | 4 блока дашборда + pre-commit hook | commit pending</li>
+    </ul>
+  </section>
+
+  <section class="alerts" id="alerts">
+    <h2>Тревоги</h2>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 4</div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | F2.3 — стоп-условие 60 строк не сработало</div>
+          <div class="entry__body muted">Агент применил 133 строки вместо 60 в sync.mjs (F2.3), обосновал целостностью. Принято капитаном. Прецедент: впредь при превышении стоп-условия — СТОП и отчёт, не дожимать.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | F2.1b partial — index.html drift</div>
+          <div class="entry__body muted">Коммит 78adca8: STATE.md:44 и commits[]/log_tail закрыты — 2 из 3 self-reference. Третий — docs/index.html: содержит pre-commit head в содержимом, regex volatile не strip&#39;ает регион. sync:check exit 2 после каждого коммита. Принято как налог (правило 9). Правка — в F2.2b или F2.3.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | sync.mjs — устаревший путь к памяти</div>
+          <div class="entry__body muted">`.project/sync.mjs:898, :1150` ссылаются на `.project/factory/MEMORY-FACTORY.md`. После F1.3 файл переехал в `docs/archive/MEMORY-FACTORY-2026-09-28.md`. Карточка D3 в центре покажет «(нет файла)» до F2.1. Правка пути — вместе с self-reference в F2.1. Взято в работу в F2.1.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | sync.mjs self-reference</div>
+          <div class="entry__body muted">`sync.mjs` self-reference. `state.head` и `commits[]` всегда отстают на 1 от HEAD после verify-шага: pinned head (`STATE.md:44`) лежит вне volatile-маркеров, а любой прогон verify добавляет текущий коммит в `commits[]` — производные уезжают, `sync:check` даёт exit 2. Принято как налог правила 9. Лечение — F2 (volatile-маркеры). Конвергентами не биться. Взято в работу в F2.1.</div>
+        </div>
   </section>
 
   <section class="audits" id="audits">
