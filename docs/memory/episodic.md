@@ -28,4 +28,10 @@ F1 (память) закрыта 5/5. Тетради: episodic, semantic, proced
 ## 2026-09-28 | F3 закрыта
 F3 (настоящий MAS) закрыта. Состав 5/5: F3.1 (recon AgentTeams, dsh-agent-teams 0.1.20 на 3080); F3.0b (спека 022 — блок 6 «Пульс агентов» в sync.mjs, 9718583); F3.2 (live-команда linuxexam-f3-smoke, writer tier-router/smart + qc deepseek-official/deepseek-v4-pro, verdict PASS, c799031 + 71eec57); F3.2b (команда оставлена живой); F3.3 (закрытие). Коммиты F3 до F3.3: 0164610, 8ec92be, 9718583, 6a36cc0, 3331947, c799031, 71eec57. F3.3 добавит I1 и, при необходимости, I2. Открытые долги — alerts.md.
 
-<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 7 -->
+## 2026-09-28 | F4 закрыта
+F4 (агенты-хранители) закрыта. Состав: **2 автоматических** — Сверщик (`DSH-Checker`, headless + Task Scheduler 5×/день 09–21 с SHA-skip) и Чистильщик (`DSH-Cleaner`, WED+SUN 09:00); **2 процедурных** — Летописец (проверка `episodic` при закрытии фазы) и Будильник (сводка просрочек при старте сессии), выполняются оркестратором. Watchdog — ежедневно 22:00, следит за активностью Сверщика.
+Коммиты F4: `7026310`, `05895a9`, `8bd3288`, `aa5d577` и F4.3 (pending). F4.0 recon (без коммита) · F4.1 · F4.2a-i..iv.
+Автоматизация через `dsh --profile headless` (патч профиля headless + junction `dsh-tier-router`). `dsh-cron` и `dsh-sop-agent-teams` отклонены — требуют живой DSH.
+Открытые долги — см. `alerts.md`.
+
+<!-- meta updated: 2026-09-28T07:21:48Z entries_count: 8 -->

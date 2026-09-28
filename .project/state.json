@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "8bd3288e3b46bb1ae859f99954347d2bc6217de9",
+  "head": "aa5d577d772caa96c748ef81c95ee92bc4d9316e",
   "specs": [
     {
       "id": "022",
@@ -355,6 +355,21 @@
       "acceptance": "1. Пустой `.agent-teams/` (каталога нет или нет подпапок) → секция печатает «нет данных», а не молчит.",
       "noTouch": "Другие секции `sync.mjs` (правка — в границах одного блока: читатель + `agentsHtml` + одна секция шаблона).",
       "preview": "Сгенерировано `npm run sync` при HEAD `9718583` из реального `.agent-teams/linuxexam-m6-phase4/team.json` (секция `#agents` в `docs/index.html`):"
+    },
+    {
+      "id": "023",
+      "slug": "f4-keepers",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/023-f4-keepers.md",
+      "mtime": 1790580114336.637,
+      "goal": "Четыре хранителя — **Сверщик, Летописец, Будильник, Чистильщик** — периодически",
+      "acceptance": "",
+      "noTouch": "`sync.mjs` — блок 6 и прочие секции (F3 закрыта).",
+      "preview": "Первый ручной прогон `checker.ps1` (F4.2a-ii, 2026-09-28): **exit 0**, 72.8 с, запись в `docs/memory/alerts.md`:"
     },
     {
       "id": "016",
@@ -400,21 +415,6 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
-    },
-    {
-      "id": "023",
-      "slug": "f4-keepers",
-      "status": "draft",
-      "type": "infra",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "commit": null,
-      "file": "specs/023-f4-keepers.md",
-      "mtime": 1790579704132.2207,
-      "goal": "Четыре хранителя — **Сверщик, Летописец, Будильник, Чистильщик** — периодически",
-      "acceptance": "",
-      "noTouch": "`sync.mjs` — блок 6 и прочие секции (F3 закрыта).",
-      "preview": "Первый ручной прогон `checker.ps1` (F4.2a-ii, 2026-09-28): **exit 0**, 72.8 с, запись в `docs/memory/alerts.md`:"
     },
     {
       "id": "001",
@@ -688,20 +688,26 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending",
-    "2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending",
-    "2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]",
     "2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending",
     "2026-09-28 | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]",
     "2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending",
     "2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031",
     "2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067",
     "2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —",
-    "2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]"
+    "2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]",
+    "2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending",
+    "2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending",
+    "2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "aa5d577",
+      "date": "2026-09-28",
+      "subject": "feat(keepers): F4.2a-iv — smart schedule + plan v2.15",
+      "type": "feat"
+    },
     {
       "sha": "8bd3288",
       "date": "2026-09-28",
@@ -815,12 +821,6 @@
       "date": "2026-09-28",
       "subject": "feat(sync): F2.4 — dashboard blocks + pre-commit hook",
       "type": "feat"
-    },
-    {
-      "sha": "bf5c736",
-      "date": "2026-09-28",
-      "subject": "chore(log): authorize push F2.x (rule 10)",
-      "type": "chore"
     }
   ],
   "roles": [
@@ -936,9 +936,9 @@
     }
   ],
   "plan": {
-    "version": "2.15",
-    "phase": "F4",
-    "step": "F4.2a-iv — умное расписание",
+    "version": "2.16",
+    "phase": "F5",
+    "step": "F5.0 — план экспорта",
     "phases": [
       {
         "id": "F0",
@@ -967,8 +967,8 @@
       {
         "id": "F4",
         "name": "Агенты-хранители",
-        "status": "pending",
-        "progress": "0/4"
+        "status": "done",
+        "progress": "4/4"
       },
       {
         "id": "F5",

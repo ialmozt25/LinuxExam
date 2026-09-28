@@ -1,18 +1,18 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.15
+plan_version: 2.16
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
-current_phase: F4
-current_step: "F4.2a-iv — умное расписание"
+current_phase: F5
+current_step: "F5.0 — план экспорта"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
   - { id: F2, name: "Центр показывает всё", status: done,        progress: "5/5" }
   - { id: F3, name: "Настоящий MAS",        status: done,        progress: "5/5" }
-  - { id: F4, name: "Агенты-хранители",     status: pending,     progress: "0/4" }
+  - { id: F4, name: "Агенты-хранители",     status: done,        progress: "4/4" }
   - { id: F5, name: "Экспорт фабрики",      status: pending,     progress: "0/4" }
 budget:
   tokens_per_phase: 500000
@@ -28,7 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.15 (2026-09-28):** F4.2a-iv — расписание пересмотрено (Вариант 2): Сверщик 5×/день с SHA-skip, Чистильщик 2×/нед, Watchdog 22:00. Stop-On-Battery снят.
+**v2.16 (2026-09-28):** F4 закрыта 4/4 (2 авто + 2 процедурных). Headless-хранители через Task Scheduler; skip-логика по SHA. Правило 2 — введено исключение (embedded approve переводит spec в approved). Старт F5.
 **v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE; + титул/паспорт/футер выровнены под v2.9.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
@@ -47,9 +47,9 @@ captain_timezone: "Europe/Moscow"
 |---|---|
 | Продукт | LinuxExam — тренажёр RHCSA EX200 |
 | Фабрика | MAS Factory — переиспользуемая система разработки |
-| Текущий шаг | **F4.3** — закрытие F4 |
-| Цель шага | episodic + `log.md` + push |
-| Ближайший результат | F4 закрыта, 4/4 (с оговорками) |
+| Текущий шаг | **F5.0** — план экспорта |
+| Цель шага | Спека F5.0 — состав template factory |
+| Ближайший результат | F5.0 draft в `.project/specs/` |
 | Бюджет фазы | 500K токенов, 3 дня, без новых платных API |
 
 **Где что живёт:**
@@ -160,7 +160,7 @@ captain_timezone: "Europe/Moscow"
 **Готово, когда:** в UI два-три агента одновременно, блок 6 не пуст.
 **Закрыто (2026-09-28, 5/5):** F3.1 (recon) · F3.0b (блок 6, спека 022, 9718583) · F3.2 (linuxexam-f3-smoke, Writer+QC, PASS, c799031) · F3.2b (команда жива) · F3.3 (закрытие). Открытые долги — alerts.md.
 
-### F4. Агенты-хранители
+### F4. Агенты-хранители ✅ Готово (4/4)
 | Агент | Механизм | Триггер | Что |
 |---|---|---|---|
 | Сверщик | headless + Task Scheduler (user-level) | 5×/день 09–21 ч (skip без новых коммитов) | сверка → `alerts.md` `[f4-checker]` |
@@ -172,6 +172,7 @@ captain_timezone: "Europe/Moscow"
 
 **Скорректировано в F4.2b, реализовано в F4.2a-i/ii:** хранители через `dsh --profile headless` (патч профиля). Task Scheduler — user-level. dsh-cron отклонён (требует живой DSH). Обоснование — spec 023.
 **Готово, когда:** тревоги либо пусты, либо объяснены, и все 4 хранителя работают (4/4).
+**Закрыто (2026-09-28, 4/4):** 2 автоматических хранителя (Сверщик, Чистильщик) через `dsh --profile headless` + Task Scheduler; 2 процедурных (Летописец, Будильник) — функции оркестратора, codified в spec 023. F4.0 recon (без коммита) · F4.1 спека 023 · F4.2a-i..iv. Открытые долги — alerts.md.
 
 ### F5. Экспорт фабрики
 **Проблема:** фабрика вшита в LinuxExam.

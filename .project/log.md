@@ -62,3 +62,6 @@
 2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067
 2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —
 2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]
+2026-09-28 | F4 | фаза закрыта — 2 авто (Сверщик, Чистильщик) + 2 процедурных (Летописец, Будильник) | commit pending
+2026-09-28 | rule2-exception | авторизован перевод spec 023 в approved через embedded approve в промпте F4.3 v3 | commit pending
+2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]
