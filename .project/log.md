@@ -58,3 +58,4 @@
 2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending
 2026-09-28 | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]
 2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending
+2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031
