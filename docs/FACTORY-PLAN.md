@@ -1,7 +1,7 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.8
+plan_version: 2.9
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
@@ -28,6 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
+**v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
 **v2.6 (2026-09-28):** ЧАСТЬ 5А «Гарантия памяти» — владелец памяти, четыре слоя механизмов (commit-gate → sync-gate → DoD → хранители) и обоснование порядка; ответ на вопрос капитана «что гарантирует, что память ведётся».
@@ -317,12 +318,7 @@ frontmatter. Агенты-исполнители в тетради **не пиш
 
 ## ЧАСТЬ 12. FIRST-DAY НОВОГО АГЕНТА
 
-1. Прочитать `docs/FACTORY-PLAN.md` (этот файл) — 5 мин.
-2. Прочитать `.project/ORCH-RULES.md` — 3 мин.
-3. Прочитать `docs/memory/semantic.md` (после F1) — 5 мин.
-4. Прочитать последние 5 записей `docs/memory/episodic.md`.
-5. Проверить `docs/memory/alerts.md` — открытые тревоги.
-6. Готов. Ждать задачу от оркестратора.
+Прочитай `docs/START-HERE.md` — точка входа. Оттуда: план, working, alerts, git-команды, ORCH-RULES.
 
 ---
 

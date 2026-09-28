@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 2c7c7987a35b268d59c3b948827c48fd2a14863c</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 099d74b943f552e0cba2fbd945ffbe5fd614427e</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -467,8 +467,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending</li>
-        <li>2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending</li>
         <li>2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending</li>
         <li>2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending</li>
         <li>2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending</li>
@@ -477,6 +475,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending</li>
         <li>2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]</li>
         <li>2026-09-28 | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending</li>
+        <li>2026-09-28 | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]</li>
+        <li>2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending</li>
     </ul>
   </section>
 
@@ -489,7 +489,13 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->
         <tr>
-          <td class="mono">2c7c798</td>
+          <td class="mono">099d74b</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push F2 close (rule 10)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">a22538b</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(readme): F2.4 — activate pre-commit hook (core.hooksPath)</td>
           <td class="mono muted">2026-09-28</td>
@@ -600,12 +606,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">ef9ed33</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(log): F0.1 record (rule 5)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">2ff1306</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after F0.1</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
@@ -725,20 +725,20 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">2 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T04:40:00Z</td>
+          <td class="mono muted">2026-09-28T04:10:42Z</td>
           <td class="mono">1</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-28T04:10:00Z</td>
-          <td class="mono">4</td>
+          <td class="mono muted">2026-09-28T04:10:42Z</td>
+          <td class="mono">5</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
@@ -768,32 +768,36 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | F2.2b | index.html drift закрыт — projection-подход | commit pending</li>
-        <li><span class="mono muted">2026-09-28</span> | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending</li>
         <li><span class="mono muted">2026-09-28</span> | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восс…</li>
         <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — капитаном | [AUTHORIZE]</li>
         <li><span class="mono muted">2026-09-28</span> | F2.4 | 4 блока дашборда + pre-commit hook; F2 закрыта 5/5 | commit pending</li>
+        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — F2 закрыта, 3 коммита | [AUTHORIZE]</li>
+        <li><span class="mono muted">2026-09-28</span> | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | comm…</li>
     </ul>
   </section>
 
   <section class="alerts" id="alerts">
     <h2>Тревоги</h2>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 4</div>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 5</div>
+        <div class="entry">
+          <div class="entry__title">2026-09-28 | Dependabot — 52 уязвимости</div>
+          <div class="entry__body muted">GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не следствие push. Кандидат в F4 или отдельную спеку. Действий пока нет.</div>
+        </div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | F2.3 — стоп-условие 60 строк не сработало</div>
-          <div class="entry__body muted">Агент применил 133 строки вместо 60 в sync.mjs (F2.3), обосновал целостностью. Принято капитаном. Прецедент: впредь при превышении стоп-условия — СТОП и отчёт, не дожимать.</div>
+          <div class="entry__body muted">Агент применил 133 строки вместо 60 в sync.mjs (F2.3), обосновал целостностью. Принято капитаном. Прецедент: впредь при превышении стоп-условия — СТОП и отчёт, не дожимать. [closed — принято капитаном, F2.3.1]</div>
         </div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | F2.1b partial — index.html drift</div>
-          <div class="entry__body muted">Коммит 78adca8: STATE.md:44 и commits[]/log_tail закрыты — 2 из 3 self-reference. Третий — docs/index.html: содержит pre-commit head в содержимом, regex volatile не strip&#39;ает регион. sync:check exit 2 после каждого коммита. Принято как налог (правило 9). Правка — в F2.2b или F2.3.</div>
+          <div class="entry__body muted">Коммит 78adca8: STATE.md:44 и commits[]/log_tail закрыты — 2 из 3 self-reference. Третий — docs/index.html: содержит pre-commit head в содержимом, regex volatile не strip&#39;ает регион. sync:check exit 2 после каждого коммита. Принято как налог (правило 9). Правка — в F2.2b или F2.3. [closed F2.2b — variant A]</div>
         </div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | sync.mjs — устаревший путь к памяти</div>
-          <div class="entry__body muted">`.project/sync.mjs:898, :1150` ссылаются на `.project/factory/MEMORY-FACTORY.md`. После F1.3 файл переехал в `docs/archive/MEMORY-FACTORY-2026-09-28.md`. Карточка D3 в центре покажет «(нет файла)» до F2.1. Правка пути — вместе с self-reference в F2.1. Взято в работу в F2.1.</div>
+          <div class="entry__body muted">`.project/sync.mjs:898, :1150` ссылаются на `.project/factory/MEMORY-FACTORY.md`. После F1.3 файл переехал в `docs/archive/MEMORY-FACTORY-2026-09-28.md`. Карточка D3 в центре покажет «(нет файла)» до F2.1. Правка пути — вместе с self-reference в F2.1. Взято в работу в F2.1. [closed F2.1b]</div>
         </div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | sync.mjs self-reference</div>
-          <div class="entry__body muted">`sync.mjs` self-reference. `state.head` и `commits[]` всегда отстают на 1 от HEAD после verify-шага: pinned head (`STATE.md:44`) лежит вне volatile-маркеров, а любой прогон verify добавляет текущий коммит в `commits[]` — производные уезжают, `sync:check` даёт exit 2. Принято как налог правила 9. Лечение — F2 (volatile-маркеры). Конвергентами не биться. Взято в работу в F2.1.</div>
+          <div class="entry__body muted">`sync.mjs` self-reference. `state.head` и `commits[]` всегда отстают на 1 от HEAD после verify-шага: pinned head (`STATE.md:44`) лежит вне volatile-маркеров, а любой прогон verify добавляет текущий коммит в `commits[]` — производные уезжают, `sync:check` даёт exit 2. Принято как налог правила 9. Лечение — F2 (volatile-маркеры). Конвергентами не биться. Взято в работу в F2.1. [closed F2.1b/F2.2b — volatile]</div>
         </div>
   </section>
 
@@ -829,7 +833,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.8</h2>
+    <h2>План · v2.9</h2>
     <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F3 · F3.1 — AgentTeams разведка</div>
     <table>
       <thead>
