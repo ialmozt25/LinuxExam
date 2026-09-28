@@ -1,12 +1,12 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.22
+plan_version: 2.23
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
 current_phase: F5
-current_step: "проект завершён"
+current_step: "проект завершён (cleanup выполнен)"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
@@ -28,7 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.22 (2026-09-28):** F5 закрыта 4/4 — шаблон собран, scaffold работает, FACTORY-USAGE написан, пустышка разворачивается. **Проект завершён: все 6 фаз F0–F5 закрыты.** План — финальная версия.
+**v2.23 (2026-09-28):** cleanup после закрытия — удалено 6 путей, поправлены 3 мёртвые ссылки (docs/state.json, dashboard/state.json, HANDOFF). Spec 025 approved. Функциональных изменений нет.
 **v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE; + титул/паспорт/футер выровнены под v2.9.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
@@ -55,7 +55,7 @@ captain_timezone: "Europe/Moscow"
 **Где что живёт:**
 - Фабрика → `.project/factory/` (правила, память, шаблоны)
 - Продукт → `src/` + `.project/specs/`
-- Центр → `docs/index.html` + `docs/state.json`
+- Центр → `docs/index.html`
 - План → `docs/FACTORY-PLAN.md`
 - Память → `docs/memory/` (русский язык)
 - Метрики-история → `docs/memory/trends.jsonl`
@@ -304,11 +304,10 @@ frontmatter. Агенты-исполнители в тетради **не пиш
 
 | Документ | Действие | Фаза |
 |---|---|---|
-| `docs/HANDOFF.md` | → `docs/archive/HANDOFF-2026-09-28.md` | F0 ✅ |
+| `docs/HANDOFF.md` | → `docs/archive/HANDOFF.md` (2026-09-28, архив) | F0 ✅ |
 | `docs/HANDOFF-2026-09-23.md` | Уже архив, добавить пометку | F0 ✅ |
 | `.project/factory/MEMORY-FACTORY.md` | → `docs/memory/semantic.md`, оригинал в `docs/archive/MEMORY-FACTORY-2026-09-28.md` | F1 ✅ |
 | `docs/session-log.md` | → `docs/memory/episodic.md`, оригинал в `docs/archive/session-log-2026-09-28.md` | F1 ✅ |
-| `docs/dashboard/state.json` | **Проверить читателей.** Если нет — удалить | F2 |
 | `.project/DECISIONS.md` | Остаётся, дублируется в блок 7 | — |
 | `.project/log.md` | Остаётся | — |
 

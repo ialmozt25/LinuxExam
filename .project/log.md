@@ -74,3 +74,5 @@
 2026-09-28 | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | commit pending
 2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending
 2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]
+2026-09-28 | cleanup | удалено 6 путей (.backup-tld, filelists-BaseOS.xml.gz, .tmp, scripts/, drafts/_bak, local_storage_r2.json); поправлены 3 мёртвые ссылки в плане | commit pending
+2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]

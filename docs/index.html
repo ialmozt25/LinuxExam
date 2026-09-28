@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD a52b531a49c5592957657c4225a7e8e027d008c8</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD c80b9bc2a381c94682353ab385258b449ffe2342</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -253,7 +253,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">3</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">4</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -265,6 +265,10 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#024 factory-export</span>
+            <span class="ddn__meta">infra · approved</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#025 cleanup-project</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
           </ul>
@@ -324,6 +328,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <tr>
           <td class="mono">024</td>
           <td class="mono">factory-export</td>
+          <td>infra</td>
+          <td><span class="chip chip--approved">approved</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">025</td>
+          <td class="mono">cleanup-project</td>
           <td>infra</td>
           <td><span class="chip chip--approved">approved</span></td>
           <td class="mono">—</td>
@@ -504,8 +516,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | push | authorize push origin main — F4 закрыта, 5 коммитов | [AUTHORIZE]</li>
-        <li>2026-09-28 | F5.0a | rule 2 и rule 13 узаконены через embedded approve; .gitignore сужен; долги F4 записаны | commit pending</li>
         <li>2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending</li>
         <li>2026-09-28 | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-й случай rule2-exception) | commit pending</li>
         <li>2026-09-28 | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — урезанная версия (smoke ok) | commit pending</li>
@@ -514,6 +524,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | commit pending</li>
         <li>2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending</li>
         <li>2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]</li>
+        <li>2026-09-28 | cleanup | удалено 6 путей (.backup-tld, filelists-BaseOS.xml.gz, .tmp, scripts/, drafts/_bak, local_storage_r2.json); поправлены 3 мёртвые ссылки в плане | commit pending</li>
+        <li>2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]</li>
     </ul>
   </section>
 
@@ -525,6 +537,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">c80b9bc</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(memory): F5.3 — close F5, project complete, plan v2.22</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">a52b531</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -637,12 +655,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">8ec92be</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec): 022 approved + sync</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">0164610</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): 022 center block 6 draft + plan 2.10</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
 <!--volatile:end-->
@@ -805,11 +817,11 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h2>Решения</h2>
     <div class="muted">Источник: <code>.project/log.md</code> · последние 5</div>
     <ul class="log">
-        <li><span class="mono muted">2026-09-28</span> | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом o…</li>
-        <li><span class="mono muted">2026-09-28</span> | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init…</li>
         <li><span class="mono muted">2026-09-28</span> | F5 | фаза закрыта 4/4 — шаблон + scaffold + USAGE; пустышка разворачивается | c…</li>
         <li><span class="mono muted">2026-09-28</span> | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending</li>
         <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — F5 закрыта, публикация всех локальных комми…</li>
+        <li><span class="mono muted">2026-09-28</span> | cleanup | удалено 6 путей (.backup-tld, filelists-BaseOS.xml.gz, .tmp, scripts/…</li>
+        <li><span class="mono muted">2026-09-28</span> | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]</li>
     </ul>
   </section>
 
@@ -925,8 +937,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.22</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · проект завершён</div>
+    <h2>План · v2.23</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F5 · проект завершён (cleanup выполнен)</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
