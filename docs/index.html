@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 5c613562be1c20d1384300c9e0d7aa9a9c25892c</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD e7c4026cd39aab799ab8c8ab5fc357abbd0a459a</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -253,11 +253,15 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">1</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">2</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
             <span class="ddn__meta">infra · approved</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#023 f4-keepers</span>
+            <span class="ddn__meta">infra · draft (свежий)</span>
           </li>
           </ul>
         </div>
@@ -325,6 +329,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">021</td>
           <td class="mono">rs-cosine-debt</td>
           <td>content</td>
+          <td><span class="chip chip--draft">draft</span></td>
+          <td class="mono">—</td>
+          <td class="mono">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">023</td>
+          <td class="mono">f4-keepers</td>
+          <td>infra</td>
           <td><span class="chip chip--draft">draft</span></td>
           <td class="mono">—</td>
           <td class="mono">2026-09-28</td>
@@ -502,6 +514,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">e7c4026</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): 023 F4 keepers + plan v2.12 (F4.1)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">2fb5b88</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after push F3</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
           <td class="mono">5c61356</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): authorize push F3 (rule 10)</td>
@@ -609,18 +633,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>feat(sync): F2.3 — plan YAML parsing + phases block</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">4e708c2</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(sync): F2.2b - align volatile head with state.json</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">e8c1e66</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(sync): F2.2b - index.html drift (A)</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -724,14 +736,14 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T05:33:00Z</td>
           <td class="mono">7</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T05:33:00Z</td>
           <td class="mono">9</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -743,7 +755,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T05:33:00Z</td>
+          <td class="mono muted">2026-09-28T06:05:00Z</td>
           <td class="mono">1</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
@@ -752,7 +764,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T05:33:00Z</td>
           <td class="mono">6</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -865,8 +877,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   </section>
 
   <section class="plan" id="plan">
-    <h2>План · v2.11</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F4 · F4.0 — план хранителей</div>
+    <h2>План · v2.12</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка) · фаза F4 · F4.1 — спека 023</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>

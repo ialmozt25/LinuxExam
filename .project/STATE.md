@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/state.json`.
 > Правки здесь затираются. Меняй источник: `.project/state.json` (или `npm run sync`).
 
-<!--volatile:start-->- HEAD: `5c613562be1c20d1384300c9e0d7aa9a9c25892c`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `e7c4026cd39aab799ab8c8ab5fc357abbd0a459a`<!--volatile:end-->
 - last_sync: 2026-09-27T15:37:59.477Z
 
 ## Прогресс
@@ -41,7 +41,7 @@
 
 - Банк 224 / 300
 - новых тем-коммитов: 5 в recent_commits
-- <!--volatile:start-->HEAD (закреплён): `5c613562be1c20d1384300c9e0d7aa9a9c25892c`<!--volatile:end-->
+- <!--volatile:start-->HEAD (закреплён): `e7c4026cd39aab799ab8c8ab5fc357abbd0a459a`<!--volatile:end-->
 
 ## Следующие шаги
 

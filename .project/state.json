@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "5c613562be1c20d1384300c9e0d7aa9a9c25892c",
+  "head": "e7c4026cd39aab799ab8c8ab5fc357abbd0a459a",
   "specs": [
     {
       "id": "022",
@@ -400,6 +400,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "023",
+      "slug": "f4-keepers",
+      "status": "draft",
+      "type": "infra",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "commit": null,
+      "file": "specs/023-f4-keepers.md",
+      "mtime": 1790575415825.286,
+      "goal": "Четыре хранителя — **Сверщик, Летописец, Будильник, Чистильщик** — периодически",
+      "acceptance": "",
+      "noTouch": "`sync.mjs` — блок 6 и прочие секции (F3 закрыта).",
+      "preview": "Для infra-спеки превью — diff sync-производных (`.project/state.json`,"
     },
     {
       "id": "001",
@@ -688,6 +703,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "e7c4026",
+      "date": "2026-09-28",
+      "subject": "docs(spec): 023 F4 keepers + plan v2.12 (F4.1)",
+      "type": "docs"
+    },
+    {
+      "sha": "2fb5b88",
+      "date": "2026-09-28",
+      "subject": "chore(state): converge after push F3",
+      "type": "chore"
+    },
+    {
       "sha": "5c61356",
       "date": "2026-09-28",
       "subject": "chore(log): authorize push F3 (rule 10)",
@@ -794,18 +821,6 @@
       "date": "2026-09-28",
       "subject": "feat(sync): F2.3 — plan YAML parsing + phases block",
       "type": "feat"
-    },
-    {
-      "sha": "4e708c2",
-      "date": "2026-09-28",
-      "subject": "chore(sync): F2.2b - align volatile head with state.json",
-      "type": "chore"
-    },
-    {
-      "sha": "e8c1e66",
-      "date": "2026-09-28",
-      "subject": "fix(sync): F2.2b - index.html drift (A)",
-      "type": "fix"
     }
   ],
   "roles": [
@@ -921,9 +936,9 @@
     }
   ],
   "plan": {
-    "version": "2.11",
+    "version": "2.12",
     "phase": "F4",
-    "step": "F4.0 — план хранителей",
+    "step": "F4.1 — спека 023",
     "phases": [
       {
         "id": "F0",
