@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "4f411d5778acf4de19733ba685e055016cdebbc4",
+  "head": "0e345f4aa9a4b4ad556970859d8b135443197818",
   "specs": [
     {
       "id": "016",
@@ -658,8 +658,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | spec 014 + spec 010 | формальности закрыты по аудиту: 014 (subagent-push-lockdown) → done, правило 11 реализовано коммитом 61787a0 (спека добавлена 49fec29, log.md:28), статус висел approved фантомом; 010 (jsdom-smoke-center) → rejected, отменена по факту — Phase 5 подменена контент-батчами 5A/5B/5C, smoke-тест docs/__tests__/center-smoke.test.mjs не создан (артефакта в репо нет, скрипта в package.json нет, jsdom при этом установлен), формально rejected для соответствия схеме STATUS_ORDER (cancelled вне схемы дал бы вечный WARN) | commit pending",
-    "2026-09-28 | F0.1 | план v2.2 (docs/FACTORY-PLAN.md) в репо; 12 отчётов .project/agents/ + 46 черновиков .project/drafts/ взяты под git; HANDOFF и HANDOFF-2026-09-23 перенесены в docs/archive/ (git mv, ссылки обновлены в ORCH-RULES, DECISIONS, specs 011/014, TRIGGER DevOps, BLUEPRINT-300, RESEARCH-text-topic); оставлены untracked по решению капитана: .agent-teams/, drafts/_mas-results/, .backup-tld-20260928-080821/, filelists-BaseOS.xml.gz (последние два — строкой в .project/BACKLOG.md); docs/dashboard/state.json не тронут — разбор в F2; sync: head 5a806d1 → 3a6266a | commit 4489de6",
     "2026-09-28 | F0.1 | конвергентный коммит после F0.1: sync:check на 4489de6 дал exit 2 (.project/STATE.md, docs/index.html — самоссылочный pinned head), налог правила 9; после 2ff1306 sync:check = exit 0, дерево tracked чистое, ahead 5 | commit 2ff1306",
     "2026-09-28 | F0.1 | правило 9, финальная фиксация: sync:check exit 2 после F0.1 — структурный self-reference state.head (pinned head лежит в .project/STATE.md:44 ВНЕ volatile-маркеров, маркирован только L6, поэтому производные всегда отстают на 1 коммит от закреплённого head), принят как постоянный налог, правка sync.mjs отложена в F2; попытки сойтись прекращены, третий converge не делается; snapshot: .project/state.json + docs/index.html (commits[] на b0c9c5f), log.md добавлен после snapshot и следующего sync не проходил | commit 96303a2",
     "2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending",
@@ -667,11 +665,31 @@
     "2026-09-28 | F1.3 | F1 закрыта 5/5; MEMORY-FACTORY и session-log в архив; числа верифицированы (ahead 9→11) | commit pending",
     "2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending",
     "2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending",
-    "2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending"
+    "2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending",
+    "2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending",
+    "2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0e345f4",
+      "date": "2026-09-28",
+      "subject": "fix(sync): F2.2b - index.html drift (A)",
+      "type": "fix"
+    },
+    {
+      "sha": "2a70337",
+      "date": "2026-09-28",
+      "subject": "chore(factory): F2.2a - cleanup _diag2.mjs, alert index.html drift",
+      "type": "chore"
+    },
+    {
+      "sha": "78adca8",
+      "date": "2026-09-28",
+      "subject": "fix(sync): F2.1b - volatile state.head/commits, memory paths",
+      "type": "fix"
+    },
     {
       "sha": "4f411d5",
       "date": "2026-09-28",
@@ -772,24 +790,6 @@
       "sha": "7e90e34",
       "date": "2026-09-28",
       "subject": "chore(state): converge after spec 020",
-      "type": "chore"
-    },
-    {
-      "sha": "fbb0453",
-      "date": "2026-09-28",
-      "subject": "docs(spec): close 020 as done",
-      "type": "docs"
-    },
-    {
-      "sha": "35f95d6",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge head after batch 5C",
-      "type": "chore"
-    },
-    {
-      "sha": "026f68a",
-      "date": "2026-09-28",
-      "subject": "chore(state): converge after batch 5C",
       "type": "chore"
     }
   ],

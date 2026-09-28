@@ -970,12 +970,18 @@ function renderCenter(ctx) {
     { file: '.project/agents/', note: 'отчёты сессий (session logs)' },
   ];
   const memoryCards = memoryFiles
-    .map((m) => [
-      '        <li>',
-      `          <code>${esc(m.file)}</code>`,
-      `          <span class="muted">${esc(m.note)}</span>${exists(rel(m.file)) ? '' : ' <span class="muted">(нет файла)</span>'}`,
-      '        </li>',
-    ].join('\n'))
+    .map((m) =>
+      // note содержит производную от wall-clock («2 ч назад») и счётчики записей:
+      // это тот же класс, что таблица коммитов — самоссылочный участок html.
+      // Сравнение в --check его не видит (маркеры), точное сравнение при записи — видит.
+      [
+        '        <li>',
+        `          <code>${esc(m.file)}</code>`,
+        `          ${VOLATILE.start}<span class="muted">${esc(m.note)}</span>${VOLATILE.end}`
+          + `${exists(rel(m.file)) ? '' : ' <span class="muted">(нет файла)</span>'}`,
+        '        </li>',
+      ].join('\n'),
+    )
     .join('\n');
 
   const doneDoingNextHtml = renderDoneDoingNext({
@@ -1099,7 +1105,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD ${esc(head)}</span>
+      ${VOLATILE.start}<span class="mono">HEAD ${esc(head)}</span>${VOLATILE.end}
       <span class="mono">last_sync ${esc(state.last_sync ?? '—')}</span>
       <span><span class="dot dot--${circle}"></span>${esc(statusText)}</span>
     </div>
@@ -1432,7 +1438,12 @@ function main() {
   }
 
   // --- запись state.json
-  const stateChanged = before !== after;
+  // `head` — единственное самоссылочное поле, которое НЕ входит в проекцию
+  // (`stateProjection` его вырезает), поэтому при равных проекциях коммит его не
+  // обновлял, и производные (STATE.md/SPEC.md: volatile HEAD, docs/index.html: шапка)
+  // показывали живой `readFullHead()` — голову, которой в `state.json` уже нет.
+  // Держим источник и производные на одном значении: пишем, когда расходится `head`.
+  const stateChanged = before !== after || state.head !== nextState.head;
   if (stateChanged) {
     writeLf(STATE_PATH, JSON.stringify(nextState, null, 2) + '\n');
   }

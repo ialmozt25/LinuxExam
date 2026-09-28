@@ -112,7 +112,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <span class="mono">HEAD 4f411d5778acf4de19733ba685e055016cdebbc4</span>
+      <!--volatile:start--><span class="mono">HEAD 0e345f4aa9a4b4ad556970859d8b135443197818</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -461,8 +461,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
   <section class="journal" id="journal">
     <h2>Журнал (последние 10 строк log.md)</h2>
     <ul class="log">
-        <li>2026-09-28 | spec 014 + spec 010 | формальности закрыты по аудиту: 014 (subagent-push-lockdown) → done, правило 11 реализовано коммитом 61787a0 (спека добавлена 49fec29, log.md:28), статус висел approved фантомом; 010 (jsdom-smoke-center) → rejected, отменена по факту — Phase 5 подменена контент-батчами 5A/5B/5C, smoke-тест docs/__tests__/center-smoke.test.mjs не создан (артефакта в репо нет, скрипта в package.json нет, jsdom при этом установлен), формально rejected для соответствия схеме STATUS_ORDER (cancelled вне схемы дал бы вечный WARN) | commit pending</li>
-        <li>2026-09-28 | F0.1 | план v2.2 (docs/FACTORY-PLAN.md) в репо; 12 отчётов .project/agents/ + 46 черновиков .project/drafts/ взяты под git; HANDOFF и HANDOFF-2026-09-23 перенесены в docs/archive/ (git mv, ссылки обновлены в ORCH-RULES, DECISIONS, specs 011/014, TRIGGER DevOps, BLUEPRINT-300, RESEARCH-text-topic); оставлены untracked по решению капитана: .agent-teams/, drafts/_mas-results/, .backup-tld-20260928-080821/, filelists-BaseOS.xml.gz (последние два — строкой в .project/BACKLOG.md); docs/dashboard/state.json не тронут — разбор в F2; sync: head 5a806d1 → 3a6266a | commit 4489de6</li>
         <li>2026-09-28 | F0.1 | конвергентный коммит после F0.1: sync:check на 4489de6 дал exit 2 (.project/STATE.md, docs/index.html — самоссылочный pinned head), налог правила 9; после 2ff1306 sync:check = exit 0, дерево tracked чистое, ahead 5 | commit 2ff1306</li>
         <li>2026-09-28 | F0.1 | правило 9, финальная фиксация: sync:check exit 2 после F0.1 — структурный self-reference state.head (pinned head лежит в .project/STATE.md:44 ВНЕ volatile-маркеров, маркирован только L6, поэтому производные всегда отстают на 1 коммит от закреплённого head), принят как постоянный налог, правка sync.mjs отложена в F2; попытки сойтись прекращены, третий converge не делается; snapshot: .project/state.json + docs/index.html (commits[] на b0c9c5f), log.md добавлен после snapshot и следующего sync не проходил | commit 96303a2</li>
         <li>2026-09-28 | F1.1 | пять тетрадей памяти созданы, план v2.3, правила 12–13 в ORCH-RULES | commit pending</li>
@@ -471,6 +469,8 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
         <li>2026-09-28 | F2.0 | секция «Гарантия памяти» добавлена в план (ЧАСТЬ 5А); план v2.6; запись в semantic | commit pending</li>
         <li>2026-09-28 | F2.1a | режим работы v2.7; js-yaml в deps | commit pending</li>
         <li>2026-09-28 | F2.1b | sync.mjs volatile + memory paths | commit pending</li>
+        <li>2026-09-28 | F2.2a | cleanup _diag2.mjs; alert про index.html drift | commit pending</li>
+        <li>2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending</li>
     </ul>
   </section>
 
@@ -482,6 +482,24 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">0e345f4</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(sync): F2.2b - index.html drift (A)</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">2a70337</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(factory): F2.2a - cleanup _diag2.mjs, alert index.html drift</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">78adca8</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(sync): F2.1b - volatile state.head/commits, memory paths</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
         <tr>
           <td class="mono">4f411d5</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -584,24 +602,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>chore(state): converge after spec 020</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">fbb0453</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec): close 020 as done</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">35f95d6</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge head after batch 5C</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">026f68a</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after batch 5C</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -676,35 +676,35 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <ul class="policies">
         <li>
           <code>.project/DECISIONS.md</code>
-          <span class="muted">решения (семантика, append-only)</span>
+          <!--volatile:start--><span class="muted">решения (семантика, append-only)</span><!--volatile:end-->
         </li>
         <li>
           <code>.project/log.md</code>
-          <span class="muted">журнал решений, последние 10 строк ниже</span>
+          <!--volatile:start--><span class="muted">журнал решений, последние 10 строк ниже</span><!--volatile:end-->
         </li>
         <li>
           <code>docs/memory/episodic.md</code>
-          <span class="muted">журнал событий · 6 записей · обновлено 2026-09-28T02:56:14Z · сейчас</span>
+          <!--volatile:start--><span class="muted">журнал событий · 6 записей · обновлено 2026-09-28T02:56:14Z · 1 ч назад</span><!--volatile:end-->
         </li>
         <li>
           <code>docs/memory/semantic.md</code>
-          <span class="muted">факты · 7 записей · обновлено 2026-09-28T03:03:24Z · сейчас</span>
+          <!--volatile:start--><span class="muted">факты · 7 записей · обновлено 2026-09-28T03:03:24Z · сейчас</span><!--volatile:end-->
         </li>
         <li>
           <code>docs/memory/procedural.md</code>
-          <span class="muted">как делать · 6 записей · обновлено 2026-09-28T02:37:25Z · 1 ч назад</span>
+          <!--volatile:start--><span class="muted">как делать · 6 записей · обновлено 2026-09-28T02:37:25Z · 1 ч назад</span><!--volatile:end-->
         </li>
         <li>
           <code>docs/memory/working.md</code>
-          <span class="muted">текущая работа · 1 записей · обновлено 2026-09-28T02:56:14Z · сейчас</span>
+          <!--volatile:start--><span class="muted">текущая работа · 1 записей · обновлено 2026-09-28T02:56:14Z · 1 ч назад</span><!--volatile:end-->
         </li>
         <li>
           <code>docs/memory/alerts.md</code>
-          <span class="muted">тревоги · 2 записей · обновлено 2026-09-28T02:56:14Z · сейчас</span>
+          <!--volatile:start--><span class="muted">тревоги · 3 записей · обновлено 2026-09-28T03:22:45Z · сейчас</span><!--volatile:end-->
         </li>
         <li>
           <code>.project/agents/</code>
-          <span class="muted">отчёты сессий (session logs)</span>
+          <!--volatile:start--><span class="muted">отчёты сессий (session logs)</span><!--volatile:end-->
         </li>
     </ul>
   </section>
