@@ -87,3 +87,4 @@
 2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending
 2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending
 2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]
+2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455
