@@ -15,6 +15,7 @@
     "state:update": "node tools/gen-state.mjs",
     "sync": "node .project/sync.mjs",
     "sync:check": "node .project/sync.mjs --check",
+    "check:episodic": "node tools/check-episodic.mjs",
     "serve:local": "node tools/local-serve.mjs",
     "serve:local:8080": "node tools/local-serve.mjs --port 8080",
     "dashboard": "start http://localhost:3000/dashboard.html && npx --no-install serve docs/dashboard",

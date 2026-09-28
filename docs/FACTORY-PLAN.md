@@ -1,15 +1,15 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.3
+plan_version: 2.4
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
 current_phase: F1
-current_step: "F1.1 — пять тетрадей памяти"
+current_step: "F1.2 — trends + check-episodic"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
-  - { id: F1, name: "Память проекта",       status: in_progress, progress: "0/5" }
+  - { id: F1, name: "Память проекта",       status: in_progress, progress: "3/5" }
   - { id: F2, name: "Центр показывает всё", status: pending,     progress: "0/4" }
   - { id: F3, name: "Настоящий MAS",        status: pending,     progress: "0/5" }
   - { id: F4, name: "Агенты-хранители",     status: pending,     progress: "0/4" }
@@ -28,7 +28,8 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.3 (2026-09-28):** F0 закрыта 4/4, старт F1, план восстановлен после обрезки (230 строк), правила 12–13 добавлены в ORCH-RULES.
+**v2.4 (2026-09-28):** F1.2 — trends.jsonl, check-episodic.mjs, npm script check:episodic; исправлена неточность v2.3 (230 → 306 строк).
+**v2.3 (2026-09-28):** F0 закрыта 4/4, старт F1, план восстановлен после обрезки (306 строк), правила 12–13 добавлены в ORCH-RULES.
 **v2.2 (2026-09-28):** закрыты 6 блокеров и 10 существенных из аудита v2.1. Префикс фаз `F` вместо `0` — снимает коллизию с историческими Phase 3/4/5. Язык памяти — русский. Схема `trends.jsonl` задана. Граница semantic/procedural задана. Правило 12 сделано checkable. Бюджет `$0` → «без новых платных API». Time-box YAML-парсера 60→180 мин. Добавлены: first-day checklist, retention архива, процедура обновления плана, TTL lock-файла, снапшоты в gitignore.
 **v2.1 (2026-09-28):** первая редакция после аудита v2.0.
 
