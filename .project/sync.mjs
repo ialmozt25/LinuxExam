@@ -543,11 +543,21 @@ function readRoles() {
 
 /* ------------------------------------------------------------ plan yaml (F2.3) */
 
-/** Путь к мастер-плану фабрики: единственный источник правды о фазах. */
+/** Путь к мастер-плану фабрики: единственный источник правды о фазах F0–F5. */
 const FACTORY_PLAN_PATH = rel('docs/FACTORY-PLAN.md');
 
 /**
- * YAML-шапка `docs/FACTORY-PLAN.md` — машинный источник фаз для центра.
+ * Путь к активному плану развития (фазы D0–D4). Файл МОЖЕТ отсутствовать:
+ * тогда план развития не подключён, и синхронизация не падает (dev = null).
+ * Когда файл есть — парсится тем же парсером, что и мастер-план: формат шапки
+ * обязан совпадать (`DEV-PLAN`-онбординг это первое, что проверяет).
+ */
+const DEV_PLAN_PATH = rel('docs/DEV-PLAN.md');
+
+/**
+ * YAML-шапка плана — машинный источник фаз для центра. Аргумент — абсолютный
+ * путь к файлу плана: планов теперь два (мастер `docs/FACTORY-PLAN.md` и
+ * активный `docs/DEV-PLAN.md`), парсер один и тот же.
  *
  * Шапка — первый блок между двумя строками `---` в начале файла (frontmatter).
  * Парсим её РУКОПИСНЫМ парсером, без внешней зависимости (F2.3.1): `sync.mjs` —
@@ -565,10 +575,10 @@ const FACTORY_PLAN_PATH = rel('docs/FACTORY-PLAN.md');
  * При любой проблеме — throw с точной причиной (что не так и где): молча отдать
  * пустой план хуже, чем упасть, потому что дашборд покажет «фаз нет» как факт.
  */
-function readPlanYaml() {
-  const rel_ = path.relative(ROOT, FACTORY_PLAN_PATH);
-  if (!exists(FACTORY_PLAN_PATH)) throw new Error(`план не найден: ${rel_}`);
-  const lines = normalizeLf(readText(FACTORY_PLAN_PATH)).split('\n');
+function readPlanYaml(planPath) {
+  const rel_ = path.relative(ROOT, planPath);
+  if (!exists(planPath)) throw new Error(`план не найден: ${rel_}`);
+  const lines = normalizeLf(readText(planPath)).split('\n');
   // frontmatter: закрывающий `---` ищем только после открывающего.
   if (lines[0].trim() !== '---') {
     throw new Error(`${rel_}:1 — нет открывающего "---"; YAML-шапка должна быть первой строкой`);
@@ -1173,7 +1183,7 @@ function renderDoneDoingNext(ctx) {
 }
 
 function renderCenter(ctx) {
-  const { state, goal, topics, specs, head, inSync, logTail, roles, products, commits, audits, plan } = ctx;
+  const { state, goal, topics, specs, head, inSync, logTail, roles, products, commits, audits, plan, devPlan } = ctx;
   const circle = inSync ? 'ok' : 'bad';
   const statusText = inSync ? 'синхронизировано' : 'есть расхождение (запусти npm run sync)';
 
@@ -1250,8 +1260,10 @@ function renderCenter(ctx) {
       ].join('\n'))
       .join('\n');
 
-  /* --- F2.3: фазы мастер-плана (YAML-шапка docs/FACTORY-PLAN.md).
-   * Источник — readPlanYaml(); здесь только отрисовка 6 строк таблицы. */
+  /* --- F2.3 / D: фазы планов (YAML-шапки docs/FACTORY-PLAN.md и docs/DEV-PLAN.md).
+   * Источник — readPlanYaml(path); здесь только отрисовка строк таблицы.
+   * Таблица GENERIC: id берутся из шапки, диапазон F0–F5 нигде не хардкодится,
+   * поэтому второй план (D0–D4) рендерится тем же кодом без правок. */
   const phaseStatusRu = {
     done: 'закрыта',
     in_progress: 'в работе',
@@ -1259,9 +1271,12 @@ function renderCenter(ctx) {
     blocked: 'блок',
     rejected: 'отклонена',
   };
-  const phaseRows = (plan && plan.phases ? plan.phases : []).length === 0
-    ? '        <tr><td colspan="4" class="muted">Фазы не описаны в YAML-шапке плана.</td></tr>'
-    : plan.phases
+  const phaseRowsOf = (doc) => {
+    const phases = doc && Array.isArray(doc.phases) ? doc.phases : [];
+    if (phases.length === 0) {
+      return '        <tr><td colspan="4" class="muted">Фазы не описаны в YAML-шапке плана.</td></tr>';
+    }
+    return phases
       .map((p) => [
         '        <tr>',
         `          <td class="mono">${esc(p.id)}</td>`,
@@ -1271,6 +1286,21 @@ function renderCenter(ctx) {
         '        </tr>',
       ].join('\n'))
       .join('\n');
+  };
+  /** Глиф состояния плана: ✅ все фазы закрыты, 🔵 есть идущая, ⚪ ещё не начат. */
+  const planGlyph = (doc) => {
+    const phases = doc && Array.isArray(doc.phases) ? doc.phases : [];
+    if (phases.length > 0 && phases.every((p) => p.status === 'done')) return '✅';
+    if (phases.some((p) => p.status === 'in_progress')) return '🔵';
+    return '⚪';
+  };
+  /** Строка «фаза … · шаг …» под заголовком плана. */
+  const planNow = (doc) =>
+    doc && doc.current_phase
+      ? ` · фаза ${esc(doc.current_phase)}${doc.current_step ? ` · ${esc(doc.current_step)}` : ''}`
+      : '';
+  const factoryPhaseRows = phaseRowsOf(plan);
+  const devPhaseRows = phaseRowsOf(devPlan);
 
   /* --- D3: роли (из roles.yaml) */
   const roleStatusRu = { active: 'активна', planned: 'запланирована', deferred: 'отложена' };
@@ -1684,15 +1714,30 @@ ${auditRows}
     </table>
   </section>
 
-  <section class="plan" id="plan">
-    <h2>План${plan && plan.plan_version ? ` · v${esc(plan.plan_version)}` : ''}</h2>
-    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка)${plan && plan.current_phase ? ` · фаза ${esc(plan.current_phase)}${plan.current_step ? ` · ${esc(plan.current_step)}` : ''}` : ''}</div>
+  <section class="plan" id="plan-factory">
+    <h2>План · Фабрика${plan && plan.plan_version ? ` · v${esc(plan.plan_version)}` : ''} ${planGlyph(plan)}</h2>
+    <div class="muted">Источник: <code>docs/FACTORY-PLAN.md</code> (YAML-шапка)${planNow(plan)}</div>
     <table>
       <thead>
         <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
       </thead>
       <tbody>
-${phaseRows}
+${factoryPhaseRows}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="plan" id="plan-dev">
+    <h2>План · Развитие${devPlan && devPlan.plan_version ? ` · v${esc(devPlan.plan_version)}` : ''} ${planGlyph(devPlan)}</h2>
+    <div class="muted">${devPlan
+    ? `Источник: <code>docs/DEV-PLAN.md</code> (YAML-шапка)${planNow(devPlan)}`
+    : 'План развития не подключён — файл <code>docs/DEV-PLAN.md</code> не найден.'}</div>
+    <table>
+      <thead>
+        <tr><th>id</th><th>фаза</th><th>статус</th><th>прогресс</th></tr>
+      </thead>
+      <tbody>
+${devPhaseRows}
       </tbody>
     </table>
   </section>
@@ -1805,13 +1850,26 @@ function main() {
     { name: '<next>', status: 'planned', metric: null, metric_source: null, frozen_at: null, frozen_by: null },
   ];
 
-  // --- F2.3: YAML-шапка мастер-плана. Истина — docs/FACTORY-PLAN.md; state.plan — зеркало.
-  const planDoc = readPlanYaml();
+  // --- F2.3 / D: YAML-шапки планов. Истина — docs/FACTORY-PLAN.md (исторический,
+  // F0–F5) и docs/DEV-PLAN.md (активный, D0–D4); state.plan — зеркало.
+  // Парсер ОДИН (readPlanYaml(path)); отсутствие DEV-PLAN.md — не ошибка: план
+  // развития может быть не подключён, тогда dev = null, а allPhases = фазы мастера.
+  const planDoc = readPlanYaml(FACTORY_PLAN_PATH);
+  const devPlan = exists(DEV_PLAN_PATH) ? readPlanYaml(DEV_PLAN_PATH) : null;
+  // `allPhases` — ЕДИНЫЙ список фаз обоих планов для потребителей, которые не
+  // знают, сколько планов в проекте (правило 12 в `tools/check-episodic.mjs`,
+  // а также любой будущий гейт «каждая закрытая фаза имеет запись в журнале»).
+  // Порядок стабилен: сначала фабрика, затем развитие.
+  const allPhases = planDoc.phases.concat(devPlan && devPlan.phases ? devPlan.phases : []);
   const planMirror = {
+    // Легаси-поля мастера сохранены: их читают уже написанные потребители.
     version: planDoc.plan_version,
     phase: planDoc.current_phase,
     step: planDoc.current_step,
     phases: planDoc.phases,
+    factory: planDoc,
+    dev: devPlan,
+    allPhases,
   };
 
   // --- состояние после синхронизации
@@ -1867,6 +1925,7 @@ function main() {
     commits: commitLog,
     audits: auditIndex,
     plan: planDoc,
+    devPlan,
   };
   const stateMd = renderStateMd({ ...ctxBase, state: nextState });
   const specMd = renderSpecMd({ ...ctxBase, state: nextState });

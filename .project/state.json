@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "c80b9bc2a381c94682353ab385258b449ffe2342",
+  "head": "ef4d485cac7381350dbdfc0a0f92f920244b7228",
   "specs": [
     {
       "id": "022",
@@ -733,6 +733,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "ef4d485",
+      "date": "2026-09-28",
+      "subject": "chore(cleanup): remove junk, fix stale links, spec 025",
+      "type": "chore"
+    },
+    {
       "sha": "c80b9bc",
       "date": "2026-09-28",
       "subject": "docs(memory): F5.3 — close F5, project complete, plan v2.22",
@@ -845,12 +851,6 @@
       "date": "2026-09-28",
       "subject": "feat(center): block 6 — agents pulse from .agent-teams",
       "type": "feat"
-    },
-    {
-      "sha": "8ec92be",
-      "date": "2026-09-28",
-      "subject": "docs(spec): 022 approved + sync",
-      "type": "docs"
     }
   ],
   "roles": [
@@ -1005,6 +1005,154 @@
         "name": "Экспорт фабрики",
         "status": "done",
         "progress": "4/4"
+      }
+    ],
+    "factory": {
+      "plan_version": "2.23",
+      "current_phase": "F5",
+      "current_step": "проект завершён (cleanup выполнен)",
+      "phases": [
+        {
+          "id": "F0",
+          "name": "Порядок в документации",
+          "status": "done",
+          "progress": "4/4"
+        },
+        {
+          "id": "F1",
+          "name": "Память проекта",
+          "status": "done",
+          "progress": "5/5"
+        },
+        {
+          "id": "F2",
+          "name": "Центр показывает всё",
+          "status": "done",
+          "progress": "5/5"
+        },
+        {
+          "id": "F3",
+          "name": "Настоящий MAS",
+          "status": "done",
+          "progress": "5/5"
+        },
+        {
+          "id": "F4",
+          "name": "Агенты-хранители",
+          "status": "done",
+          "progress": "4/4"
+        },
+        {
+          "id": "F5",
+          "name": "Экспорт фабрики",
+          "status": "done",
+          "progress": "4/4"
+        }
+      ]
+    },
+    "dev": {
+      "plan_version": "1.0",
+      "current_phase": "D0",
+      "current_step": "D0 — Разведка skills и выбор инструмента",
+      "phases": [
+        {
+          "id": "D0",
+          "name": "Разведка skills и выбор инструмента",
+          "status": "in_progress",
+          "progress": "0/1"
+        },
+        {
+          "id": "D1",
+          "name": "Установка и настройка оркестратора",
+          "status": "pending",
+          "progress": "0/1"
+        },
+        {
+          "id": "D2",
+          "name": "Мост чат → DSH",
+          "status": "pending",
+          "progress": "0/1"
+        },
+        {
+          "id": "D3",
+          "name": "Память и контекст",
+          "status": "pending",
+          "progress": "0/1"
+        },
+        {
+          "id": "D4",
+          "name": "Финальный тест и доработка",
+          "status": "pending",
+          "progress": "0/1"
+        }
+      ]
+    },
+    "allPhases": [
+      {
+        "id": "F0",
+        "name": "Порядок в документации",
+        "status": "done",
+        "progress": "4/4"
+      },
+      {
+        "id": "F1",
+        "name": "Память проекта",
+        "status": "done",
+        "progress": "5/5"
+      },
+      {
+        "id": "F2",
+        "name": "Центр показывает всё",
+        "status": "done",
+        "progress": "5/5"
+      },
+      {
+        "id": "F3",
+        "name": "Настоящий MAS",
+        "status": "done",
+        "progress": "5/5"
+      },
+      {
+        "id": "F4",
+        "name": "Агенты-хранители",
+        "status": "done",
+        "progress": "4/4"
+      },
+      {
+        "id": "F5",
+        "name": "Экспорт фабрики",
+        "status": "done",
+        "progress": "4/4"
+      },
+      {
+        "id": "D0",
+        "name": "Разведка skills и выбор инструмента",
+        "status": "in_progress",
+        "progress": "0/1"
+      },
+      {
+        "id": "D1",
+        "name": "Установка и настройка оркестратора",
+        "status": "pending",
+        "progress": "0/1"
+      },
+      {
+        "id": "D2",
+        "name": "Мост чат → DSH",
+        "status": "pending",
+        "progress": "0/1"
+      },
+      {
+        "id": "D3",
+        "name": "Память и контекст",
+        "status": "pending",
+        "progress": "0/1"
+      },
+      {
+        "id": "D4",
+        "name": "Финальный тест и доработка",
+        "status": "pending",
+        "progress": "0/1"
       }
     ]
   }

@@ -39,4 +39,7 @@ MAS Factory — переиспользуемая система разработ
 2026-09-28 | Формат `.agent-teams/<teamId>/team.json` — уточнения после F3.2
 Каталог `.agent-teams/` — одна подпапка на команду, имя подпапки = sanitized `teamId`; блок 6 центра обходит подпапки и сортирует их по code points имени. Задачам **DSH присваивает id по `taskSeq`** (`t1`, `t2`, …), а seed-id из `plan.tasks[].id` сохраняется отдельным полем `profileSeedId` — в отчётах ссылаться на фактические id. `sha256` `team.json` **не меняется, пока команда idle** (и после завершения задач): DSH не перезаписывает тело без причины, поэтому хеш годится как evidence «чужую команду не трогали». Источник: F3.2, 2026-09-28.
 
-<!-- meta updated: 2026-09-28T05:33:00Z entries_count: 9 -->
+2026-09-28 | Структура планов проекта
+`docs/FACTORY-PLAN.md` — **исторический** план (v2.23, F0–F5 done), не редактируется. `docs/DEV-PLAN.md` — **активный** план развития (v1.0, D0–D4). Оба парсятся одним парсером `.project/sync.mjs` (`readPlanYaml(path)`), агрегируются в `.project/state.json` → `plan.factory` / `plan.dev` / `plan.allPhases` (11 фаз: F0–F5 + D0–D4). `npm run check:episodic` читает `plan.allPhases`, поэтому правило 12 (запись в `episodic.md` для каждой закрытой фазы) применяется **к обоим планам**: новая фаза в DEV-PLAN попадает под правило 12 без правок скрипта. `plan.allPhases` отсутствует → фолбэк на YAML-шапку FACTORY-PLAN.
+
+<!-- meta updated: 2026-09-28T10:26:00Z entries_count: 10 -->

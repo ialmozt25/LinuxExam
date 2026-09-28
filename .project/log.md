@@ -76,3 +76,4 @@
 2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]
 2026-09-28 | cleanup | удалено 6 путей (.backup-tld, filelists-BaseOS.xml.gz, .tmp, scripts/, drafts/_bak, local_storage_r2.json); поправлены 3 мёртвые ссылки в плане | commit pending
 2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]
+2026-09-28 | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в state.json; check:episodic читает allPhases | commit pending
