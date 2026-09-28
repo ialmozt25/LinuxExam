@@ -19,7 +19,7 @@ $prompt = @'
 1) state.head в .project/state.json = SHA последнего коммита git log -1?
 2) все фазы со status: done в YAML-шапке docs/FACTORY-PLAN.md имеют запись в docs/memory/episodic.md?
 3) все файлы, упомянутые в ЧАСТИ 4 плана как созданные, существуют?
-4) npm run sync:check проходит (exit 0)?
+4) Отставание state.head от git HEAD на 1 коммит — допустимо (самоссылка из spec 009, следствие amend). Если отставание >1 — это расхождение, перечисли. sync:check в headless НЕ вызывать (sandbox блокирует spawnSync git).
 Добавь в docs/memory/alerts.md запись с заголовком:
 ## YYYY-MM-DD | [f4-checker] результат
 Если всё OK — «все проверки OK». Если расхождения — построчно. Не правь ничего другого. Верни одну строку сводки.

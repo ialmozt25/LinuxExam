@@ -61,9 +61,15 @@ commit: null
   пишет туда reasoning и вердикт `sync:check`. Поэтому вывод собирает `cmd`
   (`>> log 2>&1`), а промпт передаётся файлом без BOM.
 - **Внутри headless-прогона sandbox блокирует `spawnSync` с piped stdio**
-  (`sync:FAIL — spawnSync git EPERM`), поэтому пункт «`npm run sync:check`»
-  из чек-листа Сверщика внутри headless-агента **непроверяем** — проверку
-  делает оркестратор после прогона.
+  (`sync:FAIL — spawnSync git EPERM`), поэтому `npm run sync:check` внутри
+  headless-агента **не работает**. Гейт оставлен за оркестратором; Сверщик
+  `sync:check` не вызывает.
+- **`state.head` отстаёт от `git HEAD` на 1 коммит после amend** — это
+  самоссылка из spec 009, не дефект. Сверщик проверяет только отставание
+  **больше 1** коммита.
+- **Task Scheduler — user-level**: срабатывает только при логине пользователя;
+  при разлогине прогон пропускается (принятое ограничение).
+- **API-ключ пробрасывается из user-scope** в дочерний процесс скриптом.
 - `dsh-cron` / `dsh-plugin-cron-scheduler` отклонены: требуют живого процесса
   DSH (`fire automatically while the process is up`). Кандидат на возврат,
   если DSH станет 24/7.
@@ -90,11 +96,29 @@ commit: null
 4. **НЕ ПРОВЕРЕНО.** `sync:check` → exit 1, `spawnSync git EPERM` (sandbox headless-профиля).
 ```
 
-DAG-конфигурация Task Scheduler (F4.2a-iii, ещё не создана): `DSH-Checker` (daily 09:00),
-`DSH-Cleaner` (weekly SUN 09:00), `DSH-Watchdog` (daily 10:00) — все user-level.
+DAG-конфигурация Task Scheduler (F4.2a-iii): `DSH-Checker` (daily 09:00),
+`DSH-Cleaner` (weekly SUN 09:00), `DSH-Watchdog` (daily 10:00) — все user-level,
+`Run As User: Alexey Udotov`, `Logon Mode: Interactive only`, `Status: Ready`.
+
+Прогон третьей задачи (`schtasks /run /tn "DSH-Checker"`, 2026-09-28 17:04:04):
+**LastTaskResult = 0** через 71 с; лог — `.project/scripts/keepers/checker.log`,
+новая запись в `alerts.md`:
+
+```markdown
+## 2026-09-28 | [f4-checker] результат
+Сверка 4 пунктов. **все проверки OK.**
+1. OK. state.head = 7026310…; git log -1 = 05895a9…. Отставание ровно 1 коммит — допустимо (spec 009, amend).
+2. OK. Фазы done (F0–F3) имеют записи в episodic.md; check:episodic → OK F0/F1/F2/F3.
+3. OK. Файлы ЧАСТИ 4 на месте (включая .project/scripts/keepers/*).
+4. OK. Отставание state.head ровно 1 коммит — в допуске. sync:check не вызывался (sandbox).
+```
 
 ## Зафиксированные решения
 
+- **F4.2a-iii: три user-level задачи созданы** — `DSH-Checker` (daily 09:00),
+  `DSH-Cleaner` (weekly SUN 09:00), `DSH-Watchdog` (daily 10:00); `Status: Ready`,
+  `Logon Mode: Interactive only`, `Run As User: Alexey Udotov`. `/ru SYSTEM`
+  невозможен — нет админ-прав; `/rp` требует ручного ввода пароля.
 - **F4.2b: `dsh-cron` и `dsh-plugin-cron-scheduler` отклонены** — требуют живой
   процесс DSH; `dsh-cron` (squirrel20) при этом совместим с хостом 0.1.5-rc.2 и
   остаётся кандидатом, если DSH станет 24/7. Важно: одноимённый npm-пакет

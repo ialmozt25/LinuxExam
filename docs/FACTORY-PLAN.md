@@ -1,12 +1,12 @@
 ---
 # МАШИННАЯ ШАПКА — читает дашборд. Не редактировать без sync.
 schema_version: 1
-plan_version: 2.13
+plan_version: 2.14
 updated: 2026-09-28
 product: LinuxExam
 factory: MAS Factory
 current_phase: F4
-current_step: "F4.2a-ii — keepers scripts"
+current_step: "F4.2a-iii — Task Scheduler"
 phases:
   - { id: F0, name: "Порядок в документации", status: done,        progress: "4/4" }
   - { id: F1, name: "Память проекта",       status: done,        progress: "5/5" }
@@ -28,7 +28,7 @@ captain_timezone: "Europe/Moscow"
 
 ## CHANGELOG
 
-**v2.13 (2026-09-28):** F4.2a-i — headless оживлён; F4.2a-ii — скрипты хранителей (checker/cleaner/watchdog). Task Scheduler — user-level. dsh-cron отклонён.
+**v2.14 (2026-09-28):** F4.2a-iii — три user-level задачи Task Scheduler (checker/cleaner/watchdog). Sandbox headless блокирует sync:check; amend self-reference уточнён в промпте Сверщика.
 **v2.9 (2026-09-28):** F2.5 — START-HERE.md, working.md с HEAD/ahead, alerts с [closed], Dependabot в тревогах. Часть 12 сведена к ссылке на START-HERE; + титул/паспорт/футер выровнены под v2.9.
 **v2.8 (2026-09-28):** F2 закрыта 5/5 — YAML-шапка плана парсится рукописным парсером (F2.3.1, без js-yaml), 4 блока дашборда (память/тренды/решения/тревоги, F2.4), pre-commit hook `.githooks/pre-commit`, `sync:check` exit 0 без конвергентного коммита с F2.2. Старт F3.
 **v2.7 (2026-09-28):** ЧАСТЬ 14 «Режим работы» (аудит 1 проход, промпт ≤ 45 строк, 1 фаза = 1 коммит, бюджет по wall-clock, push по авторизации); `js-yaml` объявлен в `devDependencies`.
@@ -47,9 +47,9 @@ captain_timezone: "Europe/Moscow"
 |---|---|
 | Продукт | LinuxExam — тренажёр RHCSA EX200 |
 | Фабрика | MAS Factory — переиспользуемая система разработки |
-| Текущий шаг | **F4.2a-iii** — Task Scheduler |
-| Цель шага | Три задачи (checker/cleaner/watchdog) |
-| Ближайший результат | Ежедневный прогон `checker.ps1` в 09:00 |
+| Текущий шаг | **F4.3** — закрытие F4 |
+| Цель шага | episodic + `log.md` + push |
+| Ближайший результат | F4 закрыта, 4/4 (с оговорками) |
 | Бюджет фазы | 500K токенов, 3 дня, без новых платных API |
 
 **Где что живёт:**
