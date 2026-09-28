@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "8ec92be21bd8191a21768b90e58d60d79a404953",
+  "head": "3331947de3fbd9101c7ff1be04087369b606de3a",
   "specs": [
     {
       "id": "022",
@@ -688,6 +688,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "3331947",
+      "date": "2026-09-28",
+      "subject": "docs(spec): 022 — preview evidence + sync",
+      "type": "docs"
+    },
+    {
+      "sha": "6a36cc0",
+      "date": "2026-09-28",
+      "subject": "docs(spec): 022 — fill preview with block 6 HTML and gate evidence",
+      "type": "docs"
+    },
+    {
       "sha": "9718583",
       "date": "2026-09-28",
       "subject": "feat(center): block 6 — agents pulse from .agent-teams",
@@ -794,18 +806,6 @@
       "date": "2026-09-28",
       "subject": "docs(factory): F2.0 — memory guarantee section (v2.6)",
       "type": "docs"
-    },
-    {
-      "sha": "45b5600",
-      "date": "2026-09-28",
-      "subject": "feat(memory): F1.3 — close F1, absorb legacy logs, verify numbers",
-      "type": "feat"
-    },
-    {
-      "sha": "34aee12",
-      "date": "2026-09-28",
-      "subject": "feat(memory): F1.2 — trends + check-episodic + npm script",
-      "type": "feat"
     }
   ],
   "roles": [

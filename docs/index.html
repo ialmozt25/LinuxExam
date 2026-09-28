@@ -118,7 +118,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 8ec92be21bd8191a21768b90e58d60d79a404953</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 3331947de3fbd9101c7ff1be04087369b606de3a</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -502,6 +502,18 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">3331947</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): 022 — preview evidence + sync</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
+          <td class="mono">6a36cc0</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): 022 — fill preview with block 6 HTML and gate evidence</td>
+          <td class="mono muted">2026-09-28</td>
+        </tr>
+        <tr>
           <td class="mono">9718583</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(center): block 6 — agents pulse from .agent-teams</td>
@@ -609,18 +621,6 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td>docs(factory): F2.0 — memory guarantee section (v2.6)</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">45b5600</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(memory): F1.3 — close F1, absorb legacy logs, verify numbers</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">34aee12</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(memory): F1.2 — trends + check-episodic + npm script</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -724,7 +724,7 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T02:56:14Z</td>
           <td class="mono">6</td>
-          <td class="muted">2 ч</td>
+          <td class="muted">3 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -816,7 +816,12 @@ th { color: var(--fg-muted); font-size: 0.75rem; letter-spacing: 0.06em; text-tr
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 1</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 2</div>
+        <div class="entry">
+          <div class="entry__title">linuxexam-f3-smoke · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: writer (·) · qc (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓</div>
+        </div>
         <div class="entry">
           <div class="entry__title">linuxexam-m6-phase4 · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: phase4-writer (·) · phase4-verifier (·) · phase4-verifier-2 (·)</div>
