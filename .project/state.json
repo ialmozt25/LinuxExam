@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "32cb067fe2f73debb2f637e88039617ac1e052ab",
+  "head": "5c613562be1c20d1384300c9e0d7aa9a9c25892c",
   "specs": [
     {
       "id": "022",
@@ -673,7 +673,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | F2.2b | index.html drift закрыт — projection-подход | commit pending",
     "2026-09-28 | F2.3 | парсинг YAML-шапки плана + блок «План» в дашборде | commit pending",
     "2026-09-28 | F2.3.1 | readPlanYaml без js-yaml — рукописный парсер, конвенция readRoles восстановлена | commit pending",
     "2026-09-28 | push | authorize push origin main — капитаном | [AUTHORIZE]",
@@ -682,13 +681,20 @@
     "2026-09-28 | F2.5 | START-HERE.md + working HEAD/ahead + alerts [closed] + Dependabot | commit pending",
     "2026-09-28 | F3.2 | live AgentTeams: linuxexam-f3-smoke (writer+QC), verdict PASS | commit c799031",
     "2026-09-28 | F3 | фаза закрыта 5/5 — MAS работает, linuxexam-f3-smoke жива | commit 32cb067",
-    "2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —"
+    "2026-09-28 | F3.2b | linuxexam-f3-smoke оставлена живой как evidence F3; удаление — отдельным решением в F4 | —",
+    "2026-09-28 | push | authorize push origin main — F3 закрыта, 10 коммитов | [AUTHORIZE]"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
     {
-      "sha": "32cb067",
+      "sha": "5c61356",
+      "date": "2026-09-28",
+      "subject": "chore(log): authorize push F3 (rule 10)",
+      "type": "chore"
+    },
+    {
+      "sha": "fb02abf",
       "date": "2026-09-28",
       "subject": "docs(memory): F3.3 — close F3, plan v2.11, spec 022 commit",
       "type": "docs"
@@ -800,12 +806,6 @@
       "date": "2026-09-28",
       "subject": "fix(sync): F2.2b - index.html drift (A)",
       "type": "fix"
-    },
-    {
-      "sha": "2a70337",
-      "date": "2026-09-28",
-      "subject": "chore(factory): F2.2a - cleanup _diag2.mjs, alert index.html drift",
-      "type": "chore"
     }
   ],
   "roles": [
