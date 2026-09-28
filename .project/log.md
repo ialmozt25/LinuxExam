@@ -90,3 +90,4 @@
 2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455
 2026-09-28 | C2b-1 | 10 секций удалены из рендера (queue, journal, roles, products, memory, trends, decisions, audits, plan-factory, plan-dev); строка «Планы» добавлена в ddn | commit 013aaae
 2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —
+2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c
