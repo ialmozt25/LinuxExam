@@ -1,13 +1,13 @@
 ---
 schema_version: 1
-plan_version: 1.0
+plan_version: 1.1
 updated: 2026-09-28
 product: "MAS Factory Development"
-current_phase: D0
-current_step: "D0 — Разведка skills и выбор инструмента"
+current_phase: D1
+current_step: "D1 — skill spec-to-team"
 phases:
-  - { id: D0, name: "Разведка skills и выбор инструмента", status: in_progress, progress: "0/1" }
-  - { id: D1, name: "Установка и настройка оркестратора",   status: pending,     progress: "0/1" }
+  - { id: D0, name: "Разведка skills и выбор инструмента", status: done,        progress: "1/1" }
+  - { id: D1, name: "Написание skill spec-to-team",        status: pending,     progress: "0/1" }
   - { id: D2, name: "Мост чат → DSH",                       status: pending,     progress: "0/1" }
   - { id: D3, name: "Память и контекст",                    status: pending,     progress: "0/1" }
   - { id: D4, name: "Финальный тест и доработка",           status: pending,     progress: "0/1" }
@@ -15,6 +15,9 @@ budget:
   tokens_per_phase: 200000
   wall_clock_per_phase: "2 дня"
 ---
+
+**v1.1 (2026-09-28):** D0 закрыта. Оркестратор = dsh-agent-teams. D1 переформулирован: написание skill spec-to-team.
+Старая v1.0 (initial) остаётся ниже.
 
 # План развития MAS Factory
 
@@ -70,19 +73,27 @@ budget:
 **Готово, когда.** Инвентарь skills записан, выбор инструмента обоснован
 и зафиксирован решением; понятно, какие skills пишем сами в D1.
 
-### D1 — Установка и настройка оркестратора
+### D1 — Написание skill spec-to-team
 
-**Проблема.** Даже с выбранным инструментом сессия оркестратора начинается
-с ручной сборки: нет пресета, который поднимает роль сразу — с goal invariant,
-протоколом старта и правами на запись.
+**Проблема.** Оркестратор выбран (`dsh-agent-teams`, D0), но превращение спеки
+в ростер и DAG остаётся ручным: роли, зависимости и критерий приёмки каждый раз
+собираются заново в переписке. Готовый образец такого превращения уже есть —
+`mas-run` (6 ролей, 10 шагов, acceptance), но он про одну конкретную задачу
+(аудит банка) и лежит вне переиспользуемого контура.
 
-**Что делаем.** Ставим и настраиваем выбранный оркестратор: пресет (или
-эквивалент) с bootstrap-протоколом, набором skills из D0 и явными границами
-полномочий (что делает сам, что делегирует, что требует approve капитана).
-Проверка — холодный старт в чистом workspace.
+**Что делаем.** Пишем skill `spec-to-team` по формату, выведенному в D0 recon §7:
+frontmatter `name` + `description` + `whenToUse` + `user-invocable: yes`; тело —
+нумерованная процедура «спека → ростер и DAG → `agent_teams_create` → ожидание →
+приёмка → `agent_teams_delete`», с входами (`.project/specs/<id>-*.md`,
+`state.json.plan.allPhases`), дословной схемой вызова и разделом «Известные
+проблемы» (непересекающиеся write-скоупы, обязательный `attempt_id`,
+`kind=review` требует `reviewedTaskId`). Место — по D0 recon §4:
+`~/.agents/skills/spec-to-team/SKILL.md` (rank 500, рядом с `mas-run`) либо
+проектный `.agents/skills/` (rank 200) — выбор фиксируется решением.
 
-**Готово, когда.** Оркестратор поднимается одной командой, сам читает
-`.project/` и первым сообщением докладывает состояние без подсказок капитана.
+**Готово, когда.** Skill лежит в корне, попадает в каталог сессии (bundle
+`<name>/SKILL.md`, frontmatter валиден), и по одной спеке поднимается команда
+без ручной сборки ростера; прогон заканчивается `agent_teams_delete`.
 
 ### D2 — Мост чат → DSH
 

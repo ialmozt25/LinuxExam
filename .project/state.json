@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "ef4d485cac7381350dbdfc0a0f92f920244b7228",
+  "head": "adf656fb218bcc1ce6875bb1aad8d82bafc74fe3",
   "specs": [
     {
       "id": "022",
@@ -718,8 +718,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | rule13-exception | авторизована правка ORCH-RULES через embedded approve | commit pending",
-    "2026-09-28 | F5.0b | spec 024 (Factory Export) создана + approved через embedded approve (2-й случай rule2-exception) | commit pending",
     "2026-09-28 | F5.1a | templates/factory собран, factory:sync-template работает; sync.mjs — урезанная версия (smoke ok) | commit pending",
     "2026-09-28 | F5.1b | factory:scaffold работает, 4 сценария проверены; smoke на развёрнутом ok | commit pending",
     "2026-09-28 | F5.2 | FACTORY-USAGE написан; scaffold на node:fs; пустышка проверена (git init + sync + commit) | commit pending",
@@ -727,11 +725,19 @@
     "2026-09-28 | project | все 6 фаз F0–F5 закрыты; фабрика экспортируема | commit pending",
     "2026-09-28 | push | authorize push origin main — F5 закрыта, публикация всех локальных коммитов; проект завершён | [AUTHORIZE]",
     "2026-09-28 | cleanup | удалено 6 путей (.backup-tld, filelists-BaseOS.xml.gz, .tmp, scripts/, drafts/_bak, local_storage_r2.json); поправлены 3 мёртвые ссылки в плане | commit pending",
-    "2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]"
+    "2026-09-28 | push | authorize push origin main — cleanup + spec 025 | [AUTHORIZE]",
+    "2026-09-28 | dev-setup | создан docs/DEV-PLAN.md (D0–D4); sync.mjs агрегирует два плана в state.json; check:episodic читает allPhases | commit pending",
+    "2026-09-28 | D0-close | recon skills завершён; оркестратор = dsh-agent-teams; D1 переформулирован; DEV-PLAN v1.0 → v1.1 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "adf656f",
+      "date": "2026-09-28",
+      "subject": "docs(dev-plan): DEV-PLAN v1.0 + sync aggregates two plans",
+      "type": "docs"
+    },
     {
       "sha": "ef4d485",
       "date": "2026-09-28",
@@ -845,12 +851,6 @@
       "date": "2026-09-28",
       "subject": "docs(spec): 022 — fill preview with block 6 HTML and gate evidence",
       "type": "docs"
-    },
-    {
-      "sha": "9718583",
-      "date": "2026-09-28",
-      "subject": "feat(center): block 6 — agents pulse from .agent-teams",
-      "type": "feat"
     }
   ],
   "roles": [
@@ -1051,19 +1051,19 @@
       ]
     },
     "dev": {
-      "plan_version": "1.0",
-      "current_phase": "D0",
-      "current_step": "D0 — Разведка skills и выбор инструмента",
+      "plan_version": "1.1",
+      "current_phase": "D1",
+      "current_step": "D1 — skill spec-to-team",
       "phases": [
         {
           "id": "D0",
           "name": "Разведка skills и выбор инструмента",
-          "status": "in_progress",
-          "progress": "0/1"
+          "status": "done",
+          "progress": "1/1"
         },
         {
           "id": "D1",
-          "name": "Установка и настройка оркестратора",
+          "name": "Написание skill spec-to-team",
           "status": "pending",
           "progress": "0/1"
         },
@@ -1127,12 +1127,12 @@
       {
         "id": "D0",
         "name": "Разведка skills и выбор инструмента",
-        "status": "in_progress",
-        "progress": "0/1"
+        "status": "done",
+        "progress": "1/1"
       },
       {
         "id": "D1",
-        "name": "Установка и настройка оркестратора",
+        "name": "Написание skill spec-to-team",
         "status": "pending",
         "progress": "0/1"
       },

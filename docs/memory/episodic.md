@@ -48,4 +48,7 @@ F5 (экспорт фабрики) закрыта 4/4 — spec 024, `templates/f
 Проект завершён: **все 6 фаз F0–F5 закрыты.**
 Открытые долги — см. `alerts.md`.
 
-<!-- meta updated: 2026-09-28T08:12:28Z entries_count: 9 -->
+## 2026-09-28 | D0 закрыта
+D0 (разведка skills и выбор инструмента) закрыта 1/1. Инвентарь: в `~/.agents/skills` — `mas-run` (8 627 B) и `dsh-fix-duplicate-loader-id`; `bootstrap` в `~/.agents` **нет** — он живёт в пресетах (`~/.dsh/.agent-presets/linuxexam-*/skills/`). Механизм установлен документально: провайдер `@deepseek-ai/dsh-skill-filesystem`, 5 корней (проектные `.dsh/skills` и `.agents/skills`, custom `customSkillDirs` пресета, `~/.dsh/skills`, `~/.agents/skills`), bundle `<name>/SKILL.md` или плоский `<name>.md`, nested `**/SKILL.md` намеренно не индексируется. Оркестратор выбран: **`dsh-agent-teams` 0.1.20** — единственный работающий (14 tools, `agent_teams_create`/`status`/`delete`); `dsh-swarm-orchestrator` 0.6.30 FAILED (spawn) и не трогался; `dsh-meta/dag/expert-orchestrator` не установлены, их peer-диапазоны формально не покрывают хост 0.1.5-rc.2. D1 переформулирован: написание skill `spec-to-team`. Recon — read-only, без коммита.
+
+<!-- meta updated: 2026-09-28T10:59:00Z entries_count: 10 -->
