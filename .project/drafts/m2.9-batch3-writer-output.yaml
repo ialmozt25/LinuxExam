@@ -1,0 +1,173 @@
+batch_id: m2.9-batch3-file_systems
+topic: file_systems
+status: OK
+goal_invariant_check: true
+questions:
+  - id: fs_009
+    topic: file_systems
+    difficulty: easy
+    objective_domain: "5"
+    subtopic: "umount: диагностика занятой точки монтирования (fuser -m)"
+    question: "Каталог /mnt/data невозможно размонтировать: команда umount /mnt/data завершается ошибкой «target is busy». Какая команда покажет, какие процессы используют файлы на этой файловой системе?"
+    options:
+      - text: "fuser -m /mnt/data"
+        correct: true
+      - text: "umount -f /mnt/data"
+        correct: false
+      - text: "lsof -i /mnt/data"
+        correct: false
+      - text: "fuser -k /mnt/data"
+        correct: false
+    explanation: "fuser -m показывает PID процессов, обращающихся к файлам на файловой системе, смонтированной в /mnt/data, поэтому видно, кто держит точку занятой. Ключ -k у fuser не перечисляет процессы, а отправляет им SIGKILL, завершая их, что опасно и не отвечает на вопрос. Команда umount -f принудительно размонтирует файловую систему, но процессы не показывает. Опция -i у lsof ожидает сетевой адрес вида host:port, а не путь файловой системы, поэтому такой вызов завершится ошибкой аргументов."
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T12:00:00Z"
+      source: "m2.9-batch3-file_systems"
+      reference: "man fuser"
+      status: "active"
+  - id: fs_010
+    topic: file_systems
+    difficulty: medium
+    objective_domain: "5"
+    subtopic: "mkfs.vfat: создание FAT32 (-F 32)"
+    question: "USB-накопитель /dev/sdc1 нужно отформатировать именно в FAT32, независимо от размера раздела. Какая команда создаст файловую систему FAT32?"
+    options:
+      - text: "mkfs.vfat -F 16 /dev/sdc1"
+        correct: false
+      - text: "mkfs.vfat -t 32 /dev/sdc1"
+        correct: false
+      - text: "mkfs.vfat -c /dev/sdc1"
+        correct: false
+      - text: "mkfs.vfat -F 32 /dev/sdc1"
+        correct: true
+    explanation: "Ключ -F задаёт размер таблицы FAT, и значение 32 создаёт именно FAT32. Значение 16 создаёт FAT16, то есть другую файловую систему, а не FAT32. Опции -t у mkfs.vfat нет, поэтому такой вызов завершится ошибкой разбора аргументов. Ключ -c лишь проверяет устройство на сбойные блоки перед форматированием и тип FAT не задаёт, поэтому тип будет выбран автоматически по размеру раздела, а не гарантированно FAT32."
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T12:00:00Z"
+      source: "m2.9-batch3-file_systems"
+      reference: "man mkfs.vfat"
+      status: "active"
+  - id: fs_011
+    topic: file_systems
+    difficulty: easy
+    objective_domain: "5"
+    subtopic: "showmount: список NFS-экспортов сервера (-e)"
+    question: "Перед монтированием каталога по NFS нужно узнать, какие каталоги сервер nfs1 экспортирует. Какая команда запросит у сервера список экспортов?"
+    options:
+      - text: "exportfs -a -v"
+        correct: false
+      - text: "showmount -e nfs1"
+        correct: true
+      - text: "showmount -a nfs1"
+        correct: false
+      - text: "rpcinfo -p nfs1"
+        correct: false
+    explanation: "Команда showmount -e nfs1 обращается к серверу nfs1 и выводит список каталогов, экспортируемых по NFS, поэтому перед монтированием видны доступные ресурсы. Опция -a у showmount показывает клиентов и смонтированные ими каталоги в формате host:dir, а не список экспортов. Команда exportfs -a -v выполняется на самом сервере и экспортирует записи из /etc/exports, а не запрашивает список у nfs1. Команда rpcinfo -p nfs1 перечисляет RPC-программы сервера, а не экспортируемые каталоги."
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T12:00:00Z"
+      source: "m2.9-batch3-file_systems"
+      reference: "man showmount"
+      status: "active"
+  - id: fs_012
+    topic: file_systems
+    difficulty: medium
+    objective_domain: "5"
+    subtopic: "mount: монтирование ISO-образа через loop"
+    question: "Файл-образ /root/rocky.iso содержит установочный диск и должен быть доступен как обычный каталог. Какая команда смонтирует этот ISO-образ через loop-устройство?"
+    options:
+      - text: "mount -o bind /root/rocky.iso /mnt/iso"
+        correct: false
+      - text: "mount -t loop /root/rocky.iso /mnt/iso"
+        correct: false
+      - text: "mount -o loop /root/rocky.iso /mnt/iso"
+        correct: true
+      - text: "losetup --detach /root/rocky.iso"
+        correct: false
+    explanation: "Опция loop указывает mount задействовать loop-устройство, которое представляет обычный файл как блочное устройство, поэтому содержимое ISO-образа доступно в /mnt/iso. Параметр loop — это опция монтирования, а не тип файловой системы, поэтому mount -t loop завершится ошибкой «unknown filesystem type». Опция bind накладывает существующий файл или каталог поверх другого пути и не интерпретирует ISO как файловую систему. Команда losetup --detach отключает loop-устройство, а не монтирует образ."
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T12:00:00Z"
+      source: "m2.9-batch3-file_systems"
+      reference: "man mount"
+      status: "active"
+  - id: fs_013
+    topic: file_systems
+    difficulty: medium
+    objective_domain: "5"
+    subtopic: "tune2fs: счётчик монтирований и интервал проверки (-c / -i)"
+    question: "Для файловой системы ext4 на /dev/sdb1 нужно задать автоматическую проверку после 20 монтирований или каждые 30 дней — в зависимости от того, что наступит раньше. Какая команда это настроит?"
+    options:
+      - text: "tune2fs -c 20 -i 30d /dev/sdb1"
+        correct: true
+      - text: "tune2fs -C 20 -i 30d /dev/sdb1"
+        correct: false
+      - text: "tune2fs -c 20 -i 30m /dev/sdb1"
+        correct: false
+      - text: "tune2fs -c 20 -i 30w /dev/sdb1"
+        correct: false
+    explanation: "Ключ -c задаёт максимальное число монтирований, после которого запускается проверка, а -i — максимальный интервал времени; суффикс d означает дни, поэтому пара -c 20 -i 30d реализует нужное условие. Ключ -C (заглавная буква) устанавливает текущий счётчик монтирований, а не порог проверки. Суффикс m в значении -i означает месяцы, а w — недели, поэтому 30m и 30w задают другой интервал, чем требуемые 30 дней."
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T12:00:00Z"
+      source: "m2.9-batch3-file_systems"
+      reference: "man tune2fs"
+      status: "active"
+  - id: fs_014
+    topic: file_systems
+    difficulty: easy
+    objective_domain: "5"
+    subtopic: "df: диагностика исчерпания инодов (-i)"
+    question: "При записи множества мелких файлов в каталог /srv/mail появляется ошибка «No space left on device», хотя команда df -h показывает, что свободного места ещё достаточно. Какой командой проверить, не исчерпаны ли иноды файловой системы?"
+    options:
+      - text: "du -sh /srv/mail"
+        correct: false
+      - text: "df -h /srv/mail"
+        correct: false
+      - text: "df -T /srv/mail"
+        correct: false
+      - text: "df -i /srv/mail"
+        correct: true
+    explanation: "Ключ -i переключает df на отчёт об инодах: выводятся общее число инодов, использованные и свободные, поэтому видно, исчерпаны ли они. Ключ -h показывает обычное дисковое пространство в человекочитаемых единицах, но количество инодов не отражает. Ключ -T добавляет колонку типа файловой системы и тоже иноды не показывает. Команда du -sh подсчитывает, сколько места занимает каталог, и об инодах ничего не сообщает."
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T12:00:00Z"
+      source: "m2.9-batch3-file_systems"
+      reference: "man df"
+      status: "active"
+evidence:
+  - question_id: fs_009
+    reference: "man fuser"
+    note: "fuser(1): -m показывает PID процессов, обращающихся к файлам на указанной файловой системе; -k отправляет SIGKILL и процессы завершает; umount -f принудительно размонтирует. Дистрактор lsof -i принимает сетевой адрес, а не путь ФС (неверное употребление существующей опции)."
+  - question_id: fs_010
+    reference: "man mkfs.vfat"
+    note: "mkfs.fat(8)/mkfs.vfat: -F задаёт размер FAT (12/16/32); -c проверяет на сбойные блоки; -F 16 создаёт FAT16. Дистрактор использует несуществующую опцию -t 32."
+  - question_id: fs_011
+    reference: "man showmount"
+    note: "showmount(8): -e показывает список экспортов сервера; -a показывает клиентов и смонтированные ими каталоги (host:dir); exportfs -a -v экспортирует записи на самом сервере; rpcinfo -p перечисляет RPC-программы. Все дистракторы — реальные команды, неверные по назначению."
+  - question_id: fs_012
+    reference: "man mount"
+    note: "mount(8): опция loop монтирует обычный файл через loop-устройство; bind лишь накладывает путь; losetup --detach отключает loop-устройство. Дистрактор использует несуществующий тип файловой системы loop (-t loop)."
+  - question_id: fs_013
+    reference: "man tune2fs"
+    note: "tune2fs(8): -c max-mount-counts (порог), -C mount-count (текущий счётчик), -i interval d/m/w. 30m = 30 месяцев, 30w = 30 недель — несуществующих ключей нет, все дистракторы на реальных опциях."
+  - question_id: fs_014
+    reference: "man df"
+    note: "df(1): -i показывает иноды, -h — место в человекочитаемом виде, -T — тип ФС; du -sh считает занятое место каталога. Все варианты — реальные ключи, ошибка только в их назначении."
+position_report:
+  distribution: "0:2, 1:1, 2:1, 3:2"
+  max_share_percent: 35.71
+notes: "Сгенерировано 6 вопросов (fs_009..fs_014) по теме file_systems: 3 easy / 3 medium. Использованы man-страницы fuser(1), mkfs.vfat(8), showmount(8), mount(8), tune2fs(8), df(1). Распределение correct-index по батчу 0:2, 1:1, 2:1, 3:2; после интеграции по теме pos0=5, pos1=4, pos2=3, pos3=2 (total=14, max share 35.71% <= 60%). Несуществующие ключи/типы как дистракторы: mkfs.vfat -t 32 (fs_010), mount -t loop (fs_012) — помечены в evidence. Подтемы не пересекаются с fs_001..fs_008 и с avoid_cross_topic_subtopics. WSL/live-прогоны не выполнялись согласно запрету капитана."
+next_step: "Оркестратор передаёт output в QC (adversarial, default FAIL) по контракту writer_to_qc.yaml; без per-question accept интеграции НЕТ."

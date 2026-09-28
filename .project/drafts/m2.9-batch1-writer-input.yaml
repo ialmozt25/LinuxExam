@@ -1,0 +1,98 @@
+---
+name: m2.9-batch1-essential_tools
+version: "1.0"
+from_role: orchestrator
+to_role: content-writer
+batch_id: m2.9-batch1-essential_tools
+created_at: "2026-09-26"
+topic: essential_tools
+subtopic: "shell, grep, find, xargs, sort, stat, tar, man, ssh"
+batch_size: 6
+count: 6
+difficulty: "mixed basic+intermediate"
+canonical_topics_source: src/data/topics.ts
+target_file: src/data/questions/essential_tools.json
+id_format: "et_NNN; следующий свободный: et_008 (max в банке: et_007)"
+avoid_existing_ids:
+  - et_001
+  - et_002
+  - et_003
+  - et_004
+  - et_005
+  - et_006
+  - et_007
+avoid_existing_subtopics:
+  - "grep: fixed-string matching"
+  - "find: filtering by size"
+  - "sort: numeric ordering"
+  - "xargs: batching arguments"
+  - "stat: permission representation"
+  - "tar: creating a gzip archive"
+  - "grep: counting matches"
+constraints:
+  - "РОВНО 6 вопросов: не меньше и не больше"
+  - "difficulty строго из enum: easy или medium; mixed означает минимум 2 easy и минимум 2 medium"
+  - "objective_domain строго как строка 1"
+  - "Весь UI-текст (question, options, explanation) только на русском языке"
+  - "Ноль дублей с avoid_existing_ids, с avoid_existing_subtopics и внутри батча"
+  - "Тема строго essential_tools; не выходить в users_groups, file_permissions, security"
+  - "Не переиспользовать аспекты: xargs -I, sort -u, find -type d"
+  - "id строго et_008, et_009, et_010, et_011, et_012, et_013 (по одному на вопрос, без пропусков и повторов)"
+  - "Правильные ответы не более 3 из 6 на одной и той же позиции (позиция считается 0-based)"
+requirements:
+  - "4 options, ровно 1 correct: true (true ровно в одном элементе)"
+  - "explanation обязателен: почему верный вариант верен И почему каждый дистрактор неверен"
+  - "man-page evidence: _meta.reference вида man <cmd> для каждого вопроса (RHCSA-стандарт)"
+  - "Дистракторы правдоподобны: реальные ключи и синтаксис, но объективно неверны"
+  - "subtopic уникален и конкретен, формат <cmd>: <aspect>"
+evidence_requirements:
+  - "Для каждого вопроса: reference (man page) и note (что именно проверено)"
+bank_format: |
+  {
+    "id": "et_008",
+    "topic": "essential_tools",
+    "difficulty": "easy|medium",
+    "objective_domain": "1",
+    "subtopic": "<cmd>: <aspect>",
+    "question": "<условие задачи на русском>",
+    "options": [
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<верный>", "correct": true},
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<дистрактор>", "correct": false}
+    ],
+    "explanation": "<почему верный верен и почему каждый дистрактор неверен>",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "<ISO8601 UTC>",
+      "source": "m2.9-batch1-essential_tools",
+      "reference": "man <cmd>",
+      "status": "active"
+    }
+  }
+output_path: .project/drafts/m2.9-batch1-writer-output.yaml
+output_structure: |
+  batch_id: m2.9-batch1-essential_tools
+  topic: essential_tools
+  status: OK | PARTIAL | FAILED
+  goal_invariant_check: true
+  questions:
+    - <объект формата банка, см. bank_format>
+  evidence:
+    - question_id: et_008
+      reference: "man <cmd>"
+      note: "<что именно проверено>"
+  notes: "<наблюдения cosine/qc, свободный текст>"
+next_step: "Оркестратор передаёт output в QC по контракту writer_to_qc.yaml; без verdict PASS интеграции НЕТ."
+goal_invariant:
+  intent: "Банк 300+ качественных MCQ-вопросов для RHCSA EX200 (RU), пригодных для монетизации через Telegram-бота"
+  constraints:
+    - "Формат строго: 4 опции, ровно 1 correct"
+    - "Каждый вопрос проверяем по man-странице RHEL 9"
+    - "Ноль дублей внутри банка"
+  evaluative_criteria:
+    - "6/6 вопросов структурно валидны (4 опции, 1 correct, непустой explanation)"
+    - "6/6 имеют man-page evidence"
+    - "Adversarial QC (default FAIL) не находит hard blocker (fact-check, objective)"

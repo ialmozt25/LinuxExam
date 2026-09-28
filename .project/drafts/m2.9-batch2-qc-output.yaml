@@ -1,0 +1,183 @@
+contract: qc_to_orchestrator
+batch_id: "m2.9-batch2-deploy_systems"
+
+# --- РЕШЕНИЕ ПО БАТЧУ ---
+# Формальный агрегат: hard blocker'ов по fact-check/objective нет ни в одном из 6 вопросов,
+# поэтому по ПРАВИЛАМ ВЕРДИКТОВ агрегат = PASS. НО goal invariant НАРУШЕН:
+# ds_014 является машинно-подтверждённым дублем ds_002 (cosine 0.8898 > 0.80, tools/cosine.cjs exit 1).
+# goal_invariant_check: false означает: батч в текущем виде интеграции НЕ подлежит.
+verdict: "PASS"
+
+# --- РЕШЕНИЯ ПО ВОПРОСАМ ---
+questions:
+  - question_id: "ds_009"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues: []
+
+  - question_id: "ds_010"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues:
+      - "MINOR/language: «Юнит legacy.service нужно запретить к запуску полностью» — оборот «запретить к запуску» ненормативен; корректно «запретить запуск юнита» или «запретить запускать юнит». Смысл читается однозначно, на верный ответ не влияет."
+      - "SUBSTANTIAL/skeptic-view: дублирование знания с pm_010 (process_management) «Чем systemctl mask отличается от systemctl disable?», где верная опция формулирует ровно тот же вывод, что и верный ответ ds_010 («Замаскированный юнит нельзя запустить даже вручную, а отключённый — можно»). Область уже занята и строкой subtopic у pm_003. Дублем не считаю: формы разные (выбор команды против понятийного различия), cosine ds_010 против pm_010 в топ-4 не попал (< 0.65). Знание тем не менее дублируется."
+
+  - question_id: "ds_011"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "fail"
+    hard_blocker_reason: null
+    issues:
+      - "SUBSTANTIAL/skeptic-view: почти-клон rs_001 (running_systems). Совпадает проверяемое знание (set-default назначает цель загрузки по умолчанию) и весь набор вариантов: rs_001 «systemctl set-default multi-user.target» (верный) + enable + get-default + isolate против ds_011 «systemctl set-default graphical.target» (верный) + enable + get-default + isolate. Отличается только имя target (multi-user ↔ graphical) и направление стема (текст вместо графики ↔ графика вместо текста), то есть это тот же вопрос с зеркальным стемом и теми же тремя дистракторами. cosine ds_011~rs_001 = 0.7417 — ниже инструментального порога 0.80, поэтому авто-гейт дубль не ловит, но совпадение дистракторов даёт утечку ответа по шаблону. Рекомендация Оркестратору: переписать ds_011 либо не интегрировать."
+
+  - question_id: "ds_012"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues:
+      - "MINOR/language: пояснение дистрактора -l err («слово err тогда тратится как шаблон совпадения в записи») описывает механику неуверенно. Точная трактовка позиционного аргумента без знака «=» (матч по полю/записи против ошибки Failed to add match) в этой среде машинно не сверена. При любой трактовке приоритетной фильтрации не происходит, поэтому дистрактор объективно неверен, а верный ответ -p err не затронут. Остаточная неопределённость помечена явно."
+      - "MINOR/skeptic-view: знание о -p err уже присутствует в банке — в rs_004 (running_systems) эта же команда стоит дистрактором, а её смысл разобран в пояснении («Ключ -p err фильтрует по приоритету и показывает сообщения об ошибках от любых служб»). Дублем не является: в rs_004 проверяется выбор -u, в ds_012 — семантика порога приоритета."
+
+  - question_id: "ds_013"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "fail"
+    hard_blocker_reason: null
+    issues:
+      - "SUBSTANTIAL/skeptic-view: смысловой дубль pm_014 (process_management) «Какая команда покажет юниты, которые дольше всего запускались при старте системы?» — верный ответ в обоих случаях systemd-analyze blame; ds_013 спрашивает то же самое («список юнитов, отсортированный по убыванию времени их инициализации»). cosine ds_013~pm_014 = 0.7086 (ниже 0.80, авто-гейт не срабатывает), пересечение дистракторов частичное (plot присутствует в обоих). Рекомендация Оркестратору: переписать ds_013 либо не интегрировать."
+      - "MINOR/language: пояснение «Подкоманда plot генерирует график загрузки в файле SVG» неточно — plot по умолчанию печатает SVG в стандартный вывод, файл появляется только при перенаправлении (или через опцию вывода). На противопоставление «график против текстового списка с временем» это не влияет. Остаточная неопределённость: поведение по умолчанию в systemd 252 (RHEL 9) машинно не сверено."
+      - "MINOR/language (формат): ds_013 — единственный вопрос батча, добавляющий новый WARN валидатора. В зеркале банка с интегрированными 6 вопросами tools/qc.cjs даёт WARN ds_013 option ratio (token) 1.50 > 1.35 (Warns 15 -> 16, Fails 0). Причина — дистрактор systemd-analyze critical-chain (30 символов) против systemd-analyze time/plot (20). Блокирующим не является, но баланс длин вариантов стоит выровнять."
+
+  - question_id: "ds_014"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "fail"
+    hard_blocker_reason: null
+    issues:
+      - "CRITICAL/skeptic-view: ДУБЛЬ ВНУТРИ БАНКА (жёсткий интеграционный блок). Стем ds_014 воспроизводит рамку ds_002 (та же тема deploy_systems): «Скрипт /opt/check.sh должен запускаться каждый день в 3:30. Какую строку добавить в crontab пользователя root?» против «Скрипт /opt/init-check.sh должен выполняться один раз при каждой загрузке системы через планировщик cron. Какую строку добавить в crontab пользователя root?» — тот же шаблон с подменой расписания и тот же формат вариантов (@… /opt/…). Машинное подтверждение: node tools/cosine.cjs <файл батча> -> exit 1, REJECT ds_014 bank(j=0.2222 cos=0.8898) drafts(cos=0.8898), ближайший источник ds_002; intra-batch по зеркалу темы с интегрированными 6 вопросами -> exit 1, max cosine 0.8898 (ds_002~ds_014), pairs > 0.8: 1. Порог самого банка 0.80, то есть прогон по интегрированному файлу валит гейт. По ПРАВИЛАМ ВЕРДИКТОВ hard blocker ставится только по fact-check/objective, а все 4 опции ds_014 фактически корректны, поэтому здесь accept + CRITICAL и hard_blocker_reason: null; при альтернативном чтении (дубль = основание для reject) hard_blocker_reason должен быть: дубль ds_002, cosine 0.8898 > 0.80, tools/cosine.cjs exit 1. Интеграция ds_014 без переписывания или удаления нарушает goal invariant «ноль дублей внутри банка»."
+      - "SUBSTANTIAL/language: пояснение утверждает, что набор спецстрок cron «ограничен @reboot, @yearly, @annually, @monthly, @weekly, @daily и @hourly» — перечислено семь строк, тогда как crontab(5) (cronie, RHEL 9) описывает «one of eight special strings»: в набор входит также @midnight (синоним @daily). Ошибка в пояснении, а не в опциях: верный @reboot остаётся верным, @daily/@hourly/@startup — неверными. Рекомендация: убрать слово «ограничен» или добавить @midnight."
+      - "MINOR/language: «Строка @daily выполняет задание один раз в сутки в момент запуска cron» вводит в заблуждение: @daily эквивалентна «0 0 * * *» (полночь), привязки к моменту старта crond у неё нет, а каталоги /etc/cron.daily обслуживает anacron. Остаточная неопределённость: точная редакция RHEL-версии crontab(5) машинно не сверена (web_fetch в этой среде недоступен), вывод основан на канонической формулировке Vixie/cronie."
+
+# --- ПОДРОБНЫЕ ISSUES ---
+issues:
+  - question_id: "ds_014"
+    severity: "CRITICAL"
+    pass: "skeptic-view"
+    description: "Дубль ds_014 ~ ds_002 внутри темы deploy_systems. Стем ds_014 построен по той же рамке, что ds_002 («Скрипт /opt/<name>.sh должен … Какую строку добавить в crontab пользователя root?»), варианты — тот же формат @<token> /opt/<script>. Измерено независимо: forward-прогон 6 вопросов батча против банка (172) и drafts (135) даёт REJECT ds_014 bank(cos=0.8898) при пороге 0.80 и exit 1; intra-batch по зеркалу deploy_systems.json с интегрированными 6 вопросами (14 вопросов, 91 пара) даёт max cosine 0.8898 (ds_002~ds_014), pairs > 0.8: 1, exit 1. То есть после интеграции собственный гейт репозитория на этой теме перестаёт проходить. По действующим ПРАВИЛАМ ВЕРДИКТОВ hard blocker возможен только по fact-check/objective, а опции ds_014 объективно корректны (ровно один верный вариант @reboot), поэтому формально это не hard blocker и per-question verdict остаётся accept. Однако goal invariant проекта требует «ноль дублей внутри банка»: интеграция ds_014 без переписывания/удаления инвариант нарушает. Решение об интеграции — за Оркестратором; QC рекомендует не интегрировать ds_014 в текущей формулировке."
+
+  - question_id: "ds_014"
+    severity: "SUBSTANTIAL"
+    pass: "language"
+    description: "Фактическая неточность в пояснении: заявлено, что набор спецстрок cron ограничен семью токенами (@reboot, @yearly, @annually, @monthly, @weekly, @daily, @hourly), тогда как crontab(5) описывает восемь спецстрок — с @midnight (синоним @daily). Верный ответ и неверность дистракторов не затронуты, поэтому замечание advisory."
+
+  - question_id: "ds_011"
+    severity: "SUBSTANTIAL"
+    pass: "skeptic-view"
+    description: "Почти-клон rs_001: совпадают проверяемое знание (set-default задаёт цель загрузки по умолчанию), тип дистракторов и их состав (enable / get-default / isolate), различается только имя target (multi-user ↔ graphical) и направление стема. cosine 0.7417 ниже порога 0.80, поэтому автоматический гейт пару не помечает; дополнительно к этому доля правильных ответов на позиции 1 в теме после интеграции остаётся в норме. Риск: обучающийся, видевший rs_001, отвечает на ds_011 по шаблону, не проверяя понимание. Рекомендация: переписать сцену (например, default.target через symbollink, rescue.target, --runtime) либо не интегрировать."
+
+  - question_id: "ds_013"
+    severity: "SUBSTANTIAL"
+    pass: "skeptic-view"
+    description: "Смысловой дубль pm_014: оба вопроса требуют выбрать systemd-analyze blame как команду, показывающую юниты с наибольшим временем инициализации при загрузке; формулировки стемов разные, но проверяемое знание и верный ответ совпадают, дистрактор plot повторяется. cosine 0.7086 ниже 0.80, авто-гейт не срабатывает. Рекомендация: переписать ds_013 (например, systemd-analyze critical-chain как верный ответ на вопрос про критический путь) либо не интегрировать."
+
+  - question_id: "ds_010"
+    severity: "SUBSTANTIAL"
+    pass: "skeptic-view"
+    description: "Дублирование знания с pm_010: верная опция pm_010 дословно формулирует вывод, который ds_010 проверяет как выбор команды («замаскированный юнит нельзя запустить даже вручную, а отключённый — можно»). Формы вопросов разные, поэтому это не дубль, но одна и та же компетенция оценивается дважды. Дополнительно строка subtopic у ds_010 совпадает по смыслу с объединённой строкой pm_003 («systemctl: start / stop / enable / mask / status»)."
+
+  - question_id: "ds_010"
+    severity: "MINOR"
+    pass: "language"
+    description: "Оборот «Юнит legacy.service нужно запретить к запуску полностью» ненормативен (управление «запретить к запуску»); корректно «запретить запуск юнита». Смысл однозначен, ответ не затронут."
+
+  - question_id: "ds_012"
+    severity: "MINOR"
+    pass: "language"
+    description: "Пояснение дистрактора -l err неопределённо («слово err тогда тратится как шаблон совпадения в записи»). Позиционный аргумент без «=» либо трактуется как матч (по существованию поля/записи), либо отклоняется с ошибкой; в обоих случаях фильтра по приоритету не происходит, поэтому дистрактор объективно неверен. Остаточная неопределённость по точной механике помечена."
+
+  - question_id: "ds_012"
+    severity: "MINOR"
+    pass: "skeptic-view"
+    description: "Знание о -p err уже присутствует в банке: в rs_004 та же команда стоит дистрактором, а её смысл разобран в пояснении. Дублем не является (в rs_004 проверяется -u), но покрытие темы частично пересекается."
+
+  - question_id: "ds_013"
+    severity: "MINOR"
+    pass: "language"
+    description: "Пояснение «Подкоманда plot генерирует график загрузки в файле SVG» неточно: по умолчанию SVG идёт в стандартный вывод, файл появляется при перенаправлении или через опцию вывода. Противопоставление «график против текстового списка» сохраняется."
+
+  - question_id: "ds_013"
+    severity: "MINOR"
+    pass: "language"
+    description: "Формат: ds_013 — единственный вопрос батча, добавляющий новый WARN валидатора. В зеркале банка tools/qc.cjs даёт WARN ds_013 option ratio (token) 1.50 > 1.35 (Warns 15 -> 16, Fails 0); причина — дистрактор systemd-analyze critical-chain (30 символов) против time/plot (20). Не блокирует, но баланс длин вариантов желательно выровнять."
+
+  - question_id: "ds_014"
+    severity: "MINOR"
+    pass: "language"
+    description: "«Строка @daily выполняет задание один раз в сутки в момент запуска cron» вводит в заблуждение: @daily эквивалентна «0 0 * * *» и к старту crond не привязана (каталоги /etc/cron.daily обслуживает anacron). Остаточная неопределённость: точная редакция RHEL crontab(5) машинно не сверена."
+
+  - question_id: "row:evidence-input"
+    severity: "MINOR"
+    pass: "fact-check"
+    description: "Арифметика распределения позиций в отчёте Writer неверна. В baseline.writer_position_report указано max_share_percent 57.14, а в writer_notes — «по теме после интеграции pos0=3, pos1=2, pos2=1, pos3=8 (57.1%)». По факту: банк deploy_systems.json до интеграции даёт 3/2/2/1 (пересчитано вручную по файлу и подтверждено npm run shuffle-bank:check), батч даёт 2/2/1/1 (посчитано по YAML, ds_009 pos0, ds_010 pos1, ds_011 pos1, ds_012 pos0, ds_013 pos2, ds_014 pos3), после интеграции — 5/4/3/2 (total 14, max share 35.7%, порог 60% соблюдён). Корректная цифра 0:5, 1:4, 2:3, 3:2 приведена в блоке baseline.orchestrator_position_check; цифра 8 на позиции 3 — это распределение темы file_permissions (5/4/3/8), то есть артефакт копирования. Дефект отчётности Writer, содержимое вопросов не затронуто; по правилам вердиктов hard blocker'ом не является."
+
+# --- ПОДТВЕРЖДЕНИЕ ИСПОЛНЕНИЕМ (ratification by re-execution) ---
+evidence_verified:
+  qc_rerun:
+    - "npm run qc -> exit 0: Total 172 questions, Fails 0, Warns 15 (absolute=1 ratio=12 stopword=2). Воспроизводит baseline до интеграции. ВАЖНО: банк пока не содержит ds_009..ds_014, поэтому этот прогон НЕ валидирует содержимое батча."
+    - "npm run shuffle-bank:check -> exit 0: BANK 172 (pos0=50, pos1=42, pos2=34, pos3=46); deploy_systems 8 = 3/2/2/1; ни одна тема не превышает порог 60%."
+    - "npm run typecheck -> exit 0: tsc --noEmit -p tsconfig.app.json, вывод пуст."
+    - "node tools/cosine.cjs --intra-batch src/data/questions/deploy_systems.json -> exit 0: intra-batch pairs 28, max cosine 0.6634 (ds_001~ds_002), threshold 0.8, pairs > 0.8: 0, pairs > 0.75: 0. Мандатная команда с обязательным file-аргументом охватывает только 8 уже интегрированных вопросов темы — новые ds_009..ds_014 в ней не участвуют."
+    - "node tools/cosine.cjs --intra-batch %TEMP%\\linuxexam-qc-batch2.json -> exit 0: intra-batch только по 6 новым вопросам, pairs 15, max cosine 0.7251 (ds_010~ds_013), pairs > 0.8: 0, pairs > 0.75: 0."
+    - "node tools/cosine.cjs %TEMP%\\linuxexam-qc-batch2.json -> exit 1: forward-проверка 6 кандидатов против bank=172 и drafts=135. REJECT ds_014 bank(j=0.2222 cos=0.8898) drafts(j=0.2222 cos=0.8898); остальные пять ok (максимум ds_011 cos=0.7417 против банка). rejected: 1/6."
+    - "node tools/cosine.cjs --intra-batch %TEMP%\\lxmirror\\src\\data\\questions\\deploy_systems.json -> exit 1: зеркало темы с интегрированными 6 вопросами (14 вопросов, 91 пара), max cosine 0.8898 (ds_002~ds_014), pairs > 0.8: 1. Пост-интеграционный прогон валит собственный гейт темы."
+    - "node %TEMP%\\lxmirror\\tools\\qc.cjs -> exit 0: зеркало банка с интегрированными 6 вопросами, Total 178 questions, Fails 0, Warns 16 (ratio=13). Новый warn ровно один: WARN ds_013 option ratio (token) 1.50 > 1.35."
+    - "node %TEMP%\\lxmirror\\tools\\shuffle-bank.mjs --check -> exit 0: deploy_systems 14 = 5/4/3/2 (max share 35.7% < 60%), BANK 178 (52/44/35/47)."
+    - "Независимый пересчёт distribution по факту: ds_009 pos0, ds_010 pos1, ds_011 pos1, ds_012 pos0, ds_013 pos2, ds_014 pos3 -> батч 2/2/1/1, совпадает с отчётом Writer; после интеграции 5/4/3/2. Утверждение Writer про pos3=8/14 (57.1%) не подтверждается."
+    - "Формат (проверено по распарсенному YAML и зеркальным прогоном): у всех 6 вопросов ровно 4 опции, ровно один correct:true, explanation непустой (428-518 символов), id соответствует ^ds_\\d{3}$, _meta.reference формата man <cmd> («man systemctl» x3, «man journalctl», «man systemd-analyze», «man 5 crontab» — форма man 5 <page> уже используется в банке, например ug_XXX «man 5 passwd»)."
+    - "git status --porcelain -> рабочее дерево не изменено QC: src/ и tools/ не тронуты, все вспомогательные прогоны выполнены в %TEMP% (linuxexam-qc-batch2.json, linuxexam-dupcheck.cjs, linuxexam-mirror.cjs, lxmirror/). Единственный созданный в репозитории файл — настоящий .project/drafts/m2.9-batch2-qc-output.yaml."
+  man_recheck:
+    - "systemctl(1) / enable — «Enables one or more units … This will create a number of symlinks as encoded by the [Install] sections of the unit files»; автозапуск задаётся именно enable, start запускает юнит немедленно и настройку автозапуска не меняет, restart перезапускает уже запущенный юнит. Вывод: ds_009 верен, дистракторы start и restart объективно не решают задачу."
+    - "systemctl(1) / список команд — подкоманды activate нет (есть start, stop, restart, reload, try-restart, enable, disable, reenable, preset, mask, unmask, isolate, kill, status, show, cat, edit, revert, get-default, set-default, rescue, emergency и др.). Вывод: дистрактор systemctl activate невалиден (ошибка разбора команды), как и заявлено в evidence Writer."
+    - "systemctl(1) / mask — «Masks one or more units, making it impossible to start them» (юнит связывается с /dev/null), попытка запуска даёт «Unit legacy.service is masked»; disable убирает только симлинки автозапуска, ручной start остаётся возможным. Подкоманды hide нет. Вывод: ds_010 верен, все три дистрактора объективно неверны (stop — только остановка текущего процесса)."
+    - "systemctl(1) / set-default, get-default, isolate — set-default задаёт цель загрузки по умолчанию (симлинк /etc/systemd/system/default.target); get-default только печатает текущую цель; isolate запускает юнит и его зависимости, останавливая остальные, то есть переключает систему сейчас и цель по умолчанию не меняет. Вывод: ds_011 верен, дистракторы неверны."
+    - "systemctl(1) + systemd.special(7) / enable на target — графический target не имеет секции [Install] (Requires=multi-user.target, Wants=display-manager.service, Conflicts=rescue.service rescue.target, After=…, AllowIsolate=yes), поэтому systemctl enable graphical.target завершается сообщением об отсутствии installation config и ненулевым кодом, а default.target в любом случае не переопределяет. Вывод: дистрактор неверен, ответ ds_011 не затронут; формулировка пояснения «Команда enable включает target» неточна (advisory). Остаточная неопределённость: машинная сверка недоступна, вывод по знанию unit-файла RHEL 9 / systemd 252."
+    - "journalctl(1) / -p, --priority= — «Show only messages with the specified priority … a single log level is interpreted as the specified level and all higher (more important) levels»; шкала 0..7 (emerg, alert, crit, err, warning, notice, info, debug). Вывод: -p err отбирает err, crit, alert, emerg — ds_012 верен; -p info добавляет info, notice, warning и потому требованию «только err и выше» не удовлетворяет."
+    - "journalctl(1) / -l и -P — -l = --full (не сокращать длинные строки), собственного аргумента не имеет, поэтому err становится позиционным MATCH, а не порогом приоритета; опции -P в списке ключей нет (есть строчная -p). Вывод: дистракторы -l err и -P err объективно неверны. Остаточная неопределённость: точная трактовка позиционного слова без «=» (матч по полю/записи против «Failed to add match») не сверена машинно; на вердикт не влияет."
+    - "systemd-analyze(1) / blame — «Prints a list of all units, sorted by the time they took to initialize when the system was booted up, with the units that took the longest first». time — суммарное время этапов (firmware, loader, kernel, initrd, userspace); critical-chain — цепочка юнитов на критическом пути; plot — SVG-график загрузки. Вывод: ds_013 верен, все три дистрактора неверны; уточнение про plot — в issues."
+    - "crontab(5) (cronie, RHEL 9) / спецстроки — «Instead of the first five fields, one of eight special strings may appear»: @reboot (Run once, at startup), @yearly, @annually, @monthly, @weekly, @daily, @midnight (same as @daily), @hourly. Вывод: ds_014 верен (@reboot), токен @startup не существует, @daily (0 0 * * *) и @hourly (0 * * * *) задают расписание, а не загрузку. Неточность пояснения про «семь» токенов и про «момент запуска cron» — в issues (advisory)."
+    - "ОГРАНИЧЕНИЕ МЕТОДА: web_fetch в этой среде недоступен (man7.org, freedesktop.org, manpages.debian.org, manpages.ubuntu.com, raw.githubusercontent.com дают «resolves to a non-public IP address»), web_search отдаёт только список ссылок без текста страниц. Поэтому man-верификация выполнена по знанию man-страниц RHEL/Rocky 9 (systemd 252, cronie 1.5), а не машинной сверкой текста; WSL и live-прогоны команд RHCSA запрещены капитаном и не выполнялись. Остаточная неопределённость помечена в тех пунктах, где она есть (enable на target без [Install], трактовка позиционного аргумента journalctl, дефолт вывода systemd-analyze plot, точная редакция RHEL crontab(5))."
+
+# --- СВЕРКА С GOAL INVARIANT ---
+# false: при интеграции батча как есть инвариант «ноль дублей внутри банка» нарушается (ds_014 ~ ds_002, cosine 0.8898 > 0.80).
+goal_invariant_check: false
+
+notes: "Итог: 6 вопросов проверены адверсариально, hard blocker'ов по fact-check и objective нет ни в одном — все верные варианты подтверждены по man-страницам RHEL/Rocky 9 (systemctl(1), journalctl(1), systemd-analyze(1), crontab(5)), все 24 опции разобраны по отдельности, второй объективно верной опции нет ни в одном вопросе, несуществующие конструкции дистракторов подтверждены (systemctl activate, systemctl hide, journalctl -P, cron @startup). Формат инварианта соблюдён: 4 опции, ровно один correct, непустые пояснения, id по ^ds_\\d{3}$, reference вида man <cmd>, распределение позиций батча 2/2/1/1 и после интеграции 5/4/3/2 (35.7% < 60%). По формальным ПРАВИЛАМ ВЕРДИКТОВ агрегат = PASS (0 reject), НО goal_invariant_check = false: ds_014 машинно подтверждён как дубль ds_002 (forward cosine 0.8898 > 0.80, tools/cosine.cjs exit 1; intra-batch по зеркалу темы с интегрированным батчем -> exit 1, pairs > 0.8: 1), то есть интеграция ds_014 без переписывания или удаления нарушает goal invariant «ноль дублей внутри банка». Дополнительно найдены смысловые дубли ниже инструментального порога: ds_011 почти-клон rs_001 (совпадают все четыре варианта с заменой target, cosine 0.7417) и ds_013 дубль pm_014 (тот же верный ответ systemd-analyze blame, cosine 0.7086); ds_010 дублирует знание pm_010. Advisory-итог: 1 CRITICAL (ds_014), 4 SUBSTANTIAL (дубли ds_011/ds_013/ds_010, ошибка в перечислении спецстрок cron в пояснении ds_014), 5 MINOR (формулировка ds_010, механика -l err в ds_012, plot и новый WARN option ratio 1.50 в ds_013, @daily «в момент запуска cron» в ds_014, неверная арифметика позиций в отчёте Writer — по факту 5/4/3/2, а не pos3=8/14). КРИТИЧНО ДЛЯ ПРОЦЕССА: мандатная команда node tools/cosine.cjs --intra-batch src/data/questions/deploy_systems.json до интеграции проверяет только 8 старых вопросов темы и потому даёт ложно-отрицательный результат по батчу (exit 0, max 0.6634); реальную проверку дают прогон батча как отдельного файла (REJECT ds_014, exit 1) и intra-batch по зеркалу с интегрированным батчем (exit 1). Рекомендация QC Оркестратору: не интегрировать ds_014 в текущей формулировке (переписать или исключить), рассмотреть переписывание ds_011 и ds_013, поправить пояснения ds_014 (@midnight, @daily) и, при желании, выровнять длины вариантов ds_013. Ограничение метода: web_fetch недоступен, man-сверка выполнена по знанию man-страниц (systemd 252 / cronie 1.5), WSL и live-прогоны не выполнялись; рабочее дерево репозитория не изменено (единственный созданный файл — этот отчёт)."

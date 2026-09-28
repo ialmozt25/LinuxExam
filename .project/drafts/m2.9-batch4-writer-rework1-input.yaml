@@ -1,0 +1,87 @@
+---
+name: m2.9-batch4-rework1-file_management
+version: "1.0"
+from_role: orchestrator
+to_role: content-writer
+batch_id: m2.9-batch4-file_management
+rework_round: 1
+created_at: "2026-09-27"
+topic: file_management
+source_output: .project/drafts/m2.9-batch4-writer-output.yaml
+target_output: .project/drafts/m2.9-batch4-writer-output-v2.yaml
+reason: "Hard blocker Оркестратора: fm_016 проваливает фактический гейт `npm run qc` по option ratio."
+
+finding:
+  question_id: fm_016
+  severity: CRITICAL
+  detected_by: orchestrator
+  method: "node -e \"const{checkRatio}=require('./tools/_lib/ratio.cjs');...\" — та же функция, которую зовёт tools/qc.cjs"
+  facts:
+    options_words: "4 слова в КАЖДОЙ опции -> classifyOptions -> класс 'sentences'"
+    gate_threshold: 1.30
+    dods_outer_bound: 1.5
+    current_lengths_chars: "truncate -s 100 data.log = 24; touch -c -m data.log = 20; rm -f -- data.log = 17; truncate -s 0 data.log = 22"
+    current_ratio: 1.4118
+    gate_verdict: "fail (1.4118 > 1.30) -> npm run qc даст Fails 1 -> критерий приёмки spec 001 НЕ выполнен"
+  why_writer_missed: >
+    tools/qc.cjs считает отношение по СИМВОЛАМ (RATIO_UNIT='chars'), но выбирает порог по классу опций,
+    определяемому по ЧИСЛУ СЛОВ (tools/_lib/ratio.cjs, classifyOptions). Для командных опций из 4 слов
+    это класс 'sentences' с порогом 1.30, а не 1.5 из DOD.md. Порог 1.5 — только внешняя граница DOD.
+
+required_fix:
+  scope: "ТОЛЬКО fm_016. Аспект, стем, верный ответ и смысл дистракторов сохранить."
+  rule: "Привести max(длина опции)/min(длина опции) в СИМВОЛАХ к значению <= 1.30 (лучше <= 1.25, warn-порог)."
+  verification: |
+    node -e "const{checkRatio}=require('./tools/_lib/ratio.cjs');const fs=require('fs');const q=JSON.parse(fs.readFileSync(process.env.TEMP+'/fm-b4-rw-pending.json','utf8'));q.forEach(x=>{const r=checkRatio(x.options,'chars');console.log(x.id,r.type,r.ratio.toFixed(4),'threshold='+r.threshold,r.verdict)})"
+    Все 6 строк обязаны быть verdict != fail; для fm_016 дополнительно ratio <= 1.30.
+  worked_example:
+    note: "Пример, который проходит: поднять самую короткую опцию до 19 символов."
+    options_chars: "truncate -s 100 data.log = 24; touch -c -m data.log = 20; rm --force data.log = 19; truncate -s 0 data.log = 22"
+    ratio: 1.2632
+    note2: "`rm --force data.log` — валидный GNU rm и по-прежнему неверный ответ на вопрос «не удаляя файл». Можно решить и иначе, лишь бы фактический чек прошёл."
+  forbidden_solutions:
+    - "Не менять аспект fm_016 (truncate -s 0) и не заменять вопрос другим аспектом."
+    - "Не трогать fm_013, fm_014, fm_015, fm_017, fm_018 — они должны остаться БАЙТ-В-БАЙТ как в v1."
+    - "Не менять src/data/questions/* — интеграцию делает Оркестратор."
+    - "Не править .project/drafts/m2.9-batch4-qc-input.yaml (это замороженный снапшот для идущего QC)."
+
+unchanged_questions:
+  - fm_013
+  - fm_014
+  - fm_015
+  - fm_017
+  - fm_018
+  note: "Скопировать эти 5 вопросов из v1 без изменений (включая _meta)."
+
+recheck_required:
+  - "node tools/cosine.cjs --intra-batch \"$env:TEMP\\fm-b4-rw-pending.json\" — максимум <= 0.85"
+  - "node tools/cosine.cjs \"$env:TEMP\\fm-b4-rw-pending.json\" — cosine fm_016 против банка <= 0.85"
+  - "Проверить, что новый дистрактор не стал вторым верным ответом."
+  - "explanation: 200-500 символов, <= 3 строк."
+  - "Привести фактические числа в evidence и notes."
+
+output_requirements:
+  path: .project/drafts/m2.9-batch4-writer-output-v2.yaml
+  structure: "та же, что у v1 (batch_id, topic, status, goal_invariant_check, questions[6], evidence, position_report, cosine_report, manual_qc_report, notes)"
+  must_contain: "ВСЕ 6 вопросов (5 без изменений + переработанный fm_016), чтобы v2 был самодостаточным для интеграции."
+next_step: "Оркестратор сверяет v2 (diff по fm_016 + повторные гейты), затем повторный QC по v2 и решение accept/rework."
+---
+
+# Orchestrator → Content Writer · M2.9 batch 4, rework round 1
+
+V1 принят частично: 5 из 6 вопросов прошли независимую проверку Оркестратора
+(структура, cosine против банка 183: max 0.7539 у fm_015, intra max 0.6674 —
+перепроверено Оркестратором, числа Writer'а воспроизвелись точно).
+
+Один hard blocker — `fm_016`, см. `finding` выше. Причина в том, что гейт
+`npm run qc` строже, чем DOD.md: класс опций `sentences` даёт порог **1.30**
+по символам.
+
+## Твоя задача
+
+Переработать **только** `fm_016` так, чтобы фактический чек `checkRatio(options,'chars')`
+дал `verdict != fail` и `ratio <= 1.30`. Остальные пять вопросов скопировать из v1
+без изменений. Результат — в `.project/drafts/m2.9-batch4-writer-output-v2.yaml`
+(все 6 вопросов целиком).
+
+Не меняй `src/data/questions/*` и не трогай `.project/drafts/m2.9-batch4-qc-input.yaml`.

@@ -1,0 +1,251 @@
+---
+name: m2.9-batch4-file_management
+version: "1.0"
+from_role: orchestrator
+to_role: content-writer
+batch_id: m2.9-batch4-file_management
+created_at: "2026-09-27"
+topic: file_management
+canonical_topic_check: "src/data/topics.ts:22 -> key=file_management, title=«Управление файлами», status=available. СОВПАДАЕТ (pre-flight spec 001 п.3)."
+subtopic: "операции с файлами и каталогами RHCSA: rsync, dd, split, truncate, mktemp, basename/dirname"
+count: 6
+batch_size: 6
+difficulty: "3 easy / 3 medium"
+canonical_topics_source: src/data/topics.ts
+target_file: src/data/questions/file_management.json
+current_topic_size: 12
+target_topic_size_after: 18
+id_range: "fm_013, fm_014, fm_015, fm_016, fm_017, fm_018"
+id_format: '^fm_\d{3}$'
+max_existing_nnn: "fm_012 (max существующий id в теме); fm_013 — первый свободный (pre-flight spec 001 п.4: префикс fm_ ЗАНЯТ темой file_management, поэтому продолжаем нумерацию, а не вводим новый префикс)"
+avoid_existing_ids:
+  - fm_001
+  - fm_002
+  - fm_003
+  - fm_004
+  - fm_005
+  - fm_006
+  - fm_007
+  - fm_008
+  - fm_009
+  - fm_010
+  - fm_011
+  - fm_012
+avoid_existing_subtopics:
+  - "fm_001 cp / mv / ln (symbolic vs hard)"
+  - "fm_002 find: -name, -type, -mtime, -size, -exec"
+  - "fm_003 find: -name, -type"
+  - "fm_004 tar / gzip / bzip2"
+  - "fm_005 redirection: >, >>, 2>&1, tee"
+  - "fm_006 cp / mv / ln (symbolic vs hard)"
+  - "fm_007 find: -mtime, -size, -exec"
+  - "fm_008 locate / updatedb"
+  - "fm_009 xargs"
+  - "fm_010 file / stat / ls -l"
+  - "fm_011 tar / gzip / bzip2"
+  - "fm_012 cp / mv / ln (symbolic vs hard)"
+avoid_list_captain_confirmed:
+  note: "Решение капитана 2026-09-27: использовать все 11 ID из spec 001 как есть, включая ds_014. ds_014 отсутствует в банке (deploy_systems = ds_001..ds_013) — исторический факт (отвергнут на M2.9 batch 2), оставлен НАМЕРЕННО как no-op."
+  ids: [ds_002, ds_014, rs_001, pm_014, pm_010, fs_005, fs_006, fs_013, ls_002, ls_005, ls_007]
+avoid_cross_topic_subtopics:
+  - "ls_002 local_storage: LVM, расширение LV вместе с XFS (xfs_growfs)"
+  - "ls_005 local_storage: mount / findmnt, текущие опции монтирования"
+  - "ls_007 local_storage: lsblk / blkid, тип ФС, метка и UUID раздела"
+  - "fs_005 file_systems: tune2fs -L, метка файловой системы"
+  - "fs_006 file_systems: fsck, проверка файловой системы"
+  - "fs_013 file_systems: tune2fs -c / -i, счётчик монтирований"
+  - "fs_014 file_systems: df -i, исчерпание инодов"
+  - "fs_012 file_systems: mount -o loop, монтирование ISO-образа"
+  - "ls_004 local_storage: fstab, монтирование по UUID"
+  - "ls_008 local_storage: fstab, опция nofail, mount -a"
+# ЗАНЯТЫЕ АСПЕКТЫ ВНЕ ТЕМЫ — самое опасное для cosine, проверено Оркестратором по всему банку 183:
+avoid_aspects_other_topics:
+  - "essential_tools: tar: создание gzip-архива (et_?) — НЕ делать ещё один вопрос про создание архива"
+  - "essential_tools: tar: извлечение gzip-архива — НЕ делать вопрос про распаковку tar"
+  - "essential_tools: find: фильтрация по размеру (-size)"
+  - "essential_tools: find: ограничение глубины (-maxdepth)"
+  - "essential_tools: xargs: пакетная передача аргументов"
+  - "file_permissions: find -perm — НЕ делать вопрос про find -perm"
+  - "text_files: sort/uniq/cut/awk/sed/tr/wc — НЕ заходить в обработку текста"
+constraints:
+  - "РОВНО 6 вопросов: не меньше и не больше"
+  - "difficulty строго из enum: easy или medium; требуется ровно 3 easy и 3 medium (hard в этой партии не нужен)"
+  - "Весь UI-текст (question, options, explanation) только на русском языке"
+  - "Ноль дублей: с avoid_existing_ids, avoid_existing_subtopics, avoid_cross_topic_subtopics, avoid_aspects_other_topics и внутри батча"
+  - "Тема строго file_management; НЕ выходить в file_systems, local_storage, text_files, shell_scripts, file_permissions"
+  - "id строго fm_013..fm_018 (по одному на вопрос, без пропусков и повторов)"
+  - "subtopic уникален и конкретен, формат <cmd>: <aspect>"
+  - "objective_domain строго ОДНА цифра-строка (qc.cjs валидирует /^[1-9]$/). Для этих аспектов использовать \"1\" (Understand and use essential tools). Существующая тема: 1→6, 4→2, 5→4, но новых распределений не требуется."
+position_requirement:
+  note: "Оркестратор: tools/shuffle-bank.mjs --apply ДЕТЕРМИНИРОВАННО переписывает порядок опций (позиция correct = функция от id, seed=cyrb53(id)). Поэтому позиции в output — черновые; финальные ставит гейт. Требование мягкое."
+  current_distribution_in_topic: "total=12, correct-index: pos0=4, pos1=2, pos2=4, pos3=2"
+  required: "в output распределить correct примерно 1-2 раза на каждую позицию; не ставить correct на индекс 0 подряд; ПОСЛЕ shuffle-bank --apply распределение нормализуется инструментом"
+  forbidden: "все 6 вопросов с correct на одной позиции"
+requirements:
+  - "4 options, ровно 1 correct: true (true ровно в одном элементе массива options)"
+  - "option ratio длин (самая длинная / самая короткая) <= 1.5 — жёсткое требование DOD content; предупреждение qc.cjs срабатывает уже при 1.25/1.35, поэтому делай опции близкими по длине"
+  - "explanation не длиннее 3 строк И в диапазоне 200-500 символов; почему верный вариант верен И почему каждый из трёх дистракторов неверен"
+  - "man-page evidence: _meta.reference вида man <cmd> для каждого вопроса (RHCSA-стандарт RHEL/Rocky 9)"
+  - "Дистракторы правдоподобны: реальные ключи и синтаксис, но объективно неверны; если используете несуществующий ключ/подкоманду — пометьте это в evidence.notes"
+  - "WSL и live-прогоны команд ЗАПРЕЩЕНЫ капитаном (решение перенесено из batch 3): факты сверять по знанию man-страниц RHEL/Rocky 9; остаточную неопределённость помечать явно"
+  - "СТРОГО: ноль LLM-генерации без проверки — каждый ключ команды должен существовать в RHEL 9"
+evidence_requirements:
+  - "Для каждого вопроса: reference (man page) и note (что именно проверено)"
+  - "Отдельно перечислить, какие дистракторы используют несуществующие ключи/подкоманды"
+  - "Приложить вывод cosine-прогонов (числа) и qc-прогона"
+suggested_subtopics:
+  note: >
+    Проверено Оркестратором по всему банку 183: перечисленные ниже аспекты НЕ встречаются
+    ни в file_management, ни в local_storage, ни в file_systems, ни в essential_tools
+    (grep по subtopic и по текстам вопросов: rsync/dd/split/truncate/mktemp/basename/dirname —
+    0 совпадений). Аспекты cp/mv/ln, find, tar, redirection, locate, xargs, file/stat в теме
+    УЖЕ ЗАНЯТЫ (fm_001..fm_012) — их брать нельзя.
+  list:
+    - "rsync: синхронизация каталогов с удалением лишних файлов (rsync -a --delete src/ dst/)"
+    - "dd: создание файла заданного размера (dd if=/dev/zero of=file bs=1M count=100)"
+    - "split -b: разбиение файла на части заданного размера"
+    - "truncate -s 0: обнуление содержимого файла без удаления"
+    - "mktemp -d: создание безопасного временного каталога"
+    - "basename / dirname: извлечение компонентов пути"
+  alternates:
+    - "zip -r / unzip -l: ZIP-архив (ОСТОРОЖНО: смысловой риск с fm_004/fm_011 про tar — брать только если cosine низкий)"
+    - "install -D -m: установка файла с созданием каталогов и правами"
+    - "fallocate -l: резервирование места под файл"
+    - "readlink -f / realpath: канонический путь (ОСТОРОЖНО: риск с fm_012 про ссылки)"
+bank_format: |
+  {
+    "id": "fm_013",
+    "topic": "file_management",
+    "difficulty": "easy|medium",
+    "objective_domain": "1",
+    "subtopic": "<cmd>: <aspect>",
+    "question": "<условие задачи на русском>",
+    "options": [
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<верный>", "correct": true},
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<дистрактор>", "correct": false}
+    ],
+    "explanation": "<почему верный верен и почему каждый дистрактор неверен>",
+    "_meta": {
+      "added_at": "2026-09-27",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "<ISO8601 UTC>",
+      "source": "m2.9-batch4-file_management",
+      "reference": "man <cmd>",
+      "status": "active"
+    }
+  }
+output_path: .project/drafts/m2.9-batch4-writer-output.yaml
+output_structure: |
+  batch_id: m2.9-batch4-file_management
+  topic: file_management
+  status: OK | PARTIAL | FAILED
+  goal_invariant_check: true
+  questions:
+    - <объект формата банка, см. bank_format>
+  evidence:
+    - question_id: fm_013
+      reference: "man <cmd>"
+      note: "<что именно проверено>"
+  position_report:
+    distribution: "0:N, 1:N, 2:N, 3:N"
+    max_share_percent: <число>
+  cosine_report:
+    pending_json: "$env:TEMP\\fm-batch4-pending.json"
+    intra_batch: "<команда и максимальное число>"
+    against_bank: "<команда и максимальное число>"
+  manual_qc_report:
+    note: "npm run qc по кандидатам до интеграции невозможен (qc.cjs не принимает аргументов, проверяет весь банк). Ниже — ручная сверка по каждому вопросу."
+    per_question:
+      - id: fm_013
+        options_count: 4
+        correct_count: 1
+        ratio: <число>
+        explanation_chars: <число>
+        explanation_lines: <число>
+        objective_domain: "1"
+  notes: "<наблюдения, свободный текст>"
+next_step: "Оркестратор передаёт output в QC (adversarial, default FAIL) по контракту writer_to_qc.yaml; без per-question accept интеграции НЕТ."
+goal_invariant:
+  intent: "Банк 300+ качественных MCQ-вопросов для RHCSA EX200 (RU), пригодных для монетизации через Telegram-бота"
+  constraints:
+    - "Формат строго: 4 опции, ровно 1 correct"
+    - "Каждый вопрос проверяем по man-странице RHEL 9"
+    - "Ноль дублей внутри банка (включая кросс-темные)"
+  evaluative_criteria:
+    - "6/6 вопросов структурно валидны (4 опции, 1 correct, непустой explanation 200-500)"
+    - "6/6 имеют man-page evidence"
+    - "Adversarial QC (default FAIL) не находит hard blocker (fact-check, objective)"
+    - "Cosine против ВСЕГО банка 183 <= 0.85 и intra-batch <= 0.85"
+---
+
+# Orchestrator → Content Writer · M2.9 batch 4
+
+## Контекст
+
+Spec 001 (`file-management-batch-4`, status draft). Банк до старта = **183**
+(подтверждено прямым пересчётом и `_topics.json.total`). Цель батча: **183 → 189**,
+тема канонически `file_management` (`src/data/topics.ts:22`, «Управление файлами»).
+
+Pre-flight пройден 2026-09-27. Расхождения и решения капитана зафиксированы в
+`.project/agents/orchestrator-report-2026-09-27-batch4-preflight-stop.md`:
+
+- Гейт `npm run shuffle` из spec НЕ существует → исполняются реальные:
+  `npm run qc`, `npm run shuffle-bank:check`, `npm run shuffle-bank` (apply).
+- Avoid-list: 11 ID из spec как есть, включая `ds_014` (no-op, оставлен намеренно).
+- Guard-тест `EXPECTED_QUESTIONS` 183 → 189 разрешён капитаном (делает Оркестратор,
+  НЕ Writer).
+
+## Твоя задача
+
+Сгенерировать **РОВНО 6** MCQ-вопросов `fm_013`..`fm_018` по теме `file_management`
+строго по этому контракту и сохранить результат в
+`.project/drafts/m2.9-batch4-writer-output.yaml`.
+
+**Ты НЕ трогаешь** `src/data/questions/*.json` — интеграцию делает Оркестратор
+после QC и approve капитана. Твой единственный выходной файл —
+`.project/drafts/m2.9-batch4-writer-output.yaml`.
+
+## Обязательные проверки перед сдачей (все — блокеры)
+
+Из корня `C:\Users\Alexey Udotov\LinuxExam`.
+
+**ВАЖНО про входной формат инструментов:** `tools/cosine.cjs` парсит только **JSON**
+(`JSON.parse`), YAML он не читает. Поэтому сначала создай черновой pending-файл
+**`$env:TEMP\fm-batch4-pending.json`** — обычный JSON-массив из 6 объектов в формате
+банка (`bank_format`). Только на нём гоняются cosine-проверки. Итоговый YAML
+`m2.9-batch4-writer-output.yaml` пишешь отдельно, с теми же 6 вопросами.
+Временный pending JSON можно оставить в `$env:TEMP` (в репо его коммитить не нужно).
+
+1. `node tools/cosine.cjs --intra-batch "$env:TEMP\fm-batch4-pending.json"`
+   — максимальная cosine между вопросами партии должна быть **≤ 0.85**
+   (жёстче, чем 0.8 в batch 3: это прямое требование критериев приёмки spec 001).
+   Инструмент считает cosine по тексту `question` (стем), не по опциям.
+2. `node tools/cosine.cjs "$env:TEMP\fm-batch4-pending.json"`
+   — cosine каждого нового вопроса против **всего банка 183** ≤ **0.85**.
+   Этот режим читает банк с диска и сравнивает с pending — **интеграция не нужна**.
+   Кросс-тема особенно опасна с `ls_*`, `fs_*`, `et_*`.
+   Прогон поднимает локальную модель эмбеддингов и может занять несколько минут.
+
+3. `npm run qc` — **ПРОПУСТИ**. Подтверждено Оркестратором: `tools/qc.cjs` не
+   принимает аргументов и всегда проверяет **весь банк** из `src/data/questions/`
+   (известный баг: `--batch` молча игнорируется). Прогнать qc по кандидатам до
+   интеграции невозможно, а банк править тебе запрещено. Вместо этого сверь
+   руками и приведи числа по каждому вопросу:
+   - ровно 4 опции и ровно один `correct: true`;
+   - `ratio` длин опций (самая длинная / самая короткая) ≤ **1.5**;
+   - длина `explanation` 200–500 символов и не более 3 строк;
+   - `objective_domain` — одна цифра;
+   реальный `npm run qc` по банку Оркестратор выполнит сам на этапе интеграции.
+
+4. Остаточную неопределённость (ключ существует в RHEL 9 / не существует)
+   перечисли явно в `evidence.notes` и в `notes`.
+
+Приведи в `evidence` точные команды и фактические числа. Без этого QC вернёт FAIL.
+
+## Формат ответа
+
+Файл `.project/drafts/m2.9-batch4-writer-output.yaml` в структуре `output_structure`
+выше. Ничего вне этого файла не создавай и не меняй.

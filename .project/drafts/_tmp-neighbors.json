@@ -1,0 +1,284 @@
+[
+  {
+    "id": "sh_016",
+    "topic": "shell_scripts",
+    "difficulty": "easy",
+    "objective_domain": "2",
+    "subtopic": "bash -n: проверка синтаксиса",
+    "question": "Перед запуском скрипта /usr/local/bin/report.sh нужно проверить его синтаксис, не выполняя ни одной команды из него. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "bash -n /usr/local/bin/report.sh",
+        "correct": true
+      },
+      {
+        "text": "bash -x /usr/local/bin/report.sh",
+        "correct": false
+      },
+      {
+        "text": "bash -v /usr/local/bin/report.sh",
+        "correct": false
+      },
+      {
+        "text": "bash -e /usr/local/bin/report.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -n переводит bash в режим чтения без выполнения: оболочка разбирает файл целиком и сообщает о синтаксических ошибках, но ни одной команды не запускает. Ключ -x выполняет скрипт и печатает трассировку каждой команды. Ключ -v печатает строки по мере чтения, но выполнение продолжается. Ключ -e лишь меняет реакцию на ошибку во время работы."
+  },
+  {
+    "id": "ds_002",
+    "topic": "deploy_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "crontab: строка расписания",
+    "question": "Скрипт /opt/check.sh должен запускаться каждый день в 3:30. Какую строку добавить в crontab пользователя root?",
+    "options": [
+      {
+        "text": "30 3 * * * /opt/check.sh",
+        "correct": true
+      },
+      {
+        "text": "0 3 * * * /opt/check.sh",
+        "correct": false
+      },
+      {
+        "text": "30 25 * * * /opt/check.sh",
+        "correct": false
+      },
+      {
+        "text": "* 3 * * * /opt/check.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "В строке crontab первые пять полей задают минуты, часы, день месяца, месяц и день недели. Ежедневный запуск в 3:30 — это минуты 30, часы 3, остальные поля заменены звёздочками. Строка 0 3 выполняет задание в 3:00, а звёздочка в поле минут запускает его каждую минуту в течение часа. Значение часа 25 выходит из диапазона 0–23, поэтому cron отбрасывает такую строку."
+  },
+  {
+    "id": "ds_004",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemd timer: OnCalendar",
+    "question": "Скрипт /opt/sync.sh должен запускаться каждый день в 4:15 через systemd. Какую директиву указывают в секции Timer юнита?",
+    "options": [
+      {
+        "text": "OnUnitActiveSec=04:15:00",
+        "correct": false
+      },
+      {
+        "text": "OnCalendar 04:15:00",
+        "correct": false
+      },
+      {
+        "text": "OnCalendar=*-*-* 04:15:00",
+        "correct": true
+      },
+      {
+        "text": "OnCalendar=*-*-* 15:04:00",
+        "correct": false
+      }
+    ],
+    "explanation": "Расписание таймера задаёт директива OnCalendar в секции Timer, а время внутри неё записывают в порядке часы:минуты:секунды. Перестановка 15:04 запускает задание в другое время суток. Директива OnUnitActiveSec отсчитывает задержку от последнего запуска юнита, а не время суток. Строка без знака равенства не разбирается, и systemd не принимает такой unit."
+  },
+  {
+    "id": "fs_006",
+    "topic": "file_systems",
+    "difficulty": "medium",
+    "objective_domain": "5",
+    "subtopic": "fsck: проверка файловой системы",
+    "question": "Файловая система ext4 на разделе /dev/sdb1 не смонтирована и подозревается в повреждении. Какая команда проверит её?",
+    "options": [
+      {
+        "text": "mount /dev/sdb1 /mnt",
+        "correct": false
+      },
+      {
+        "text": "fsck.ext4 -f /dev/sdb1",
+        "correct": true
+      },
+      {
+        "text": "fsck -Z /dev/sdb1",
+        "correct": false
+      },
+      {
+        "text": "mkfs.ext4 /dev/sdb1",
+        "correct": false
+      }
+    ],
+    "explanation": "fsck запускает проверку файловой системы, для ext4 это e2fsck, а ключ -f требует проверку даже у чистой ФС. mount только подключает раздел к системе и ничего не проверяет. mkfs.ext4 не проверяет, а заново создаёт файловую систему и уничтожает данные. Опции -Z у fsck нет: команда завершается ошибкой разбора аргументов."
+  },
+  {
+    "id": "ms_007",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "GPG: gpgcheck в секции репозитория",
+    "question": "Пакеты репозитория local подписаны, но открытый ключ сервера подписи не импортирован в систему, поэтому установка завершается ошибкой на проверке GPG. Нужно отключить проверку подписи только для этого репозитория через его секцию в /etc/yum.repos.d/local.repo. Какая строка это сделает?",
+    "options": [
+      {
+        "text": "gpgcheck=0",
+        "correct": true
+      },
+      {
+        "text": "gpgcheck=1",
+        "correct": false
+      },
+      {
+        "text": "nogpgcheck=1",
+        "correct": false
+      },
+      {
+        "text": "repo_gpgcheck=0",
+        "correct": false
+      }
+    ],
+    "explanation": "Параметр gpgcheck задаётся в секции репозитория и отвечает за проверку подписи пакетов: значение 0 отключает её только для этого репозитория, поэтому gpgcheck=0 — верный ответ для этого стема. Параметр repo_gpgcheck отвечает за подпись метаданных, а не пакетов, и установку не разблокирует. Опции nogpgcheck в схеме опций секции .repo нет: это ключ командной строки dnf, поэтому dnf принимает такой файл без ошибки и оставляет проверку подписи пакетов включённой. Штатный путь вместо отключения проверки — импортировать открытый ключ командой rpm --import <ключ> и оставить gpgcheck=1; значение 1 включает ту самую проверку, на которой установка завершается ошибкой, пока ключ не импортирован."
+  },
+  {
+    "id": "msw_010",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "rpm -V: проверка целостности файлов пакета",
+    "question": "После сбоя при обновлении служба не запускается, и есть подозрение, что файлы установленного пакета bash изменены или повреждены. Нужно сравнить файлы на диске с контрольными суммами и правами из базы rpm. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "rpm -qi bash",
+        "correct": false
+      },
+      {
+        "text": "rpm -qR bash",
+        "correct": false
+      },
+      {
+        "text": "rpm -V bash",
+        "correct": true
+      },
+      {
+        "text": "dnf info bash",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -V сравнивает установленные файлы с метаданными пакета в базе rpm и печатает только расхождения по размеру, контрольной сумме, правам, владельцу и группе. При опциях -qi и -qR в режиме запроса проверка не запускается: первая печатает описание пакета, вторая перечисляет его зависимости. Команда dnf info тоже только показывает метаданные пакета из репозитория и целостность файлов на диске не проверяет."
+  },
+  {
+    "id": "msw_014",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "rpm -qp --scripts: сценарии установки из файла пакета",
+    "question": "Перед установкой скачанного файла myapp-2.1.0-1.el9.x86_64.rpm нужно посмотреть, какие сценарии установки и удаления он выполняет. Какая команда покажет эти сценарии из файла пакета?",
+    "options": [
+      {
+        "text": "rpm -qlp myapp-2.1.0-1.el9.x86_64.rpm",
+        "correct": false
+      },
+      {
+        "text": "rpm -qp -R myapp-2.1.0-1.el9.x86_64.rpm",
+        "correct": false
+      },
+      {
+        "text": "rpm -qp --scripts myapp-2.1.0-1.el9.x86_64.rpm",
+        "correct": true
+      },
+      {
+        "text": "rpm -qip myapp-2.1.0-1.el9.x86_64.rpm",
+        "correct": false
+      }
+    ],
+    "explanation": "Опция --scripts выводит сценарии пакета, которые выполняются при его установке и удалении, а ключ -p направляет запрос в файл пакета, а не в базу установленных. Ключ -l с той же опцией -p печатает лишь список файлов пакета, а ключ -i показывает его описание и версию. Ключ -R перечисляет зависимости пакета и сценарии не показывает."
+  },
+  {
+    "id": "pm_005",
+    "topic": "process_management",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "journalctl filtering",
+    "question": "Какая команда покажет записи журнала для sshd за текущую загрузку?",
+    "options": [
+      {
+        "text": "journalctl -u sshd -S today",
+        "correct": false
+      },
+      {
+        "text": "journalctl -u sshd -b",
+        "correct": true
+      },
+      {
+        "text": "journalctl -u sshd -n 10",
+        "correct": false
+      },
+      {
+        "text": "journalctl -u sshd -f",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u ограничивает вывод единицей systemd, а -b — текущей загрузкой. Ключ -f переводит в режим наблюдения, -n 10 ограничивает число строк без привязки к загрузке, а -S today задаёт интервал времени, а не загрузку."
+  },
+  {
+    "id": "rs_004",
+    "topic": "running_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "journalctl: -u, -b, -p, --since",
+    "question": "Служба httpd не запускается, и нужно увидеть сообщения журнала, относящиеся именно к этой службе. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "journalctl -u httpd",
+        "correct": true
+      },
+      {
+        "text": "journalctl -b 0",
+        "correct": false
+      },
+      {
+        "text": "journalctl -n 20",
+        "correct": false
+      },
+      {
+        "text": "journalctl -p err",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u ограничивает вывод сообщениями указанного юнита, поэтому видно историю именно этой службы. Ключ -p err фильтрует по приоритету и показывает сообщения об ошибках от любых служб. Ключ -b 0 выбирает текущую загрузку целиком. Ключ -n 20 ограничивает вывод двадцатью последними строками журнала независимо от службы."
+  },
+  {
+    "id": "sec_010",
+    "topic": "security",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "sudo: visudo и /etc/sudoers.d",
+    "question": "Какая команда открывает /etc/sudoers на редактирование, проверяя синтаксис перед сохранением?",
+    "options": [
+      {
+        "text": "sudo visudo",
+        "correct": true
+      },
+      {
+        "text": "nano sudoers",
+        "correct": false
+      },
+      {
+        "text": "visudo --check",
+        "correct": false
+      },
+      {
+        "text": "sed -i sudoers",
+        "correct": false
+      }
+    ],
+    "explanation": "visudo блокирует файл от одновременного редактирования и проверяет синтаксис перед установкой изменённого файла, поэтому сохраняет его лишь при отсутствии ошибок. Ключ --check только проверяет синтаксис и редактор не открывает, nano правит файл без проверки, а sed -i меняет его на месте, тоже без валидации.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.5",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-09-23T11:45:21Z",
+      "source": "pipeline_security_iter1",
+      "reference": "man visudo",
+      "status": "active",
+      "flags": [
+        "review_recommended"
+      ]
+    }
+  }
+]

@@ -1,0 +1,234 @@
+batch_id: m2.9-batch4-file_management
+topic: file_management
+status: OK
+goal_invariant_check: true
+questions:
+  - id: fm_013
+    topic: file_management
+    difficulty: medium
+    objective_domain: "1"
+    subtopic: "rsync: синхронизация каталогов с удалением лишних файлов"
+    question: "Какая команда синхронизирует содержимое каталога src/ в dst/, удаляя из dst/ файлы, которых больше нет в src/?"
+    options:
+      - text: "rsync -a --update src/ dst/"
+        correct: false
+      - text: "rsync -a --delete src/ dst/"
+        correct: true
+      - text: "rsync -a --existing src/ dst/"
+        correct: false
+      - text: "rsync -a --backup src/ dst/"
+        correct: false
+    explanation: "Ключ --delete удаляет из приёмника файлы, отсутствующие в источнике, поэтому именно он даёт точное зеркало. Без него rsync -a только копирует новые и изменённые файлы, оставляя лишние. --update пропускает файлы, которые новее на приёмнике, ничего не удаляя. --existing не создаёт на приёмнике новые файлы, а --backup лишь переименовывает заменяемые, лишние файлы оба ключа не трогают."
+    _meta:
+      added_at: "2026-09-27"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-27T01:17:15Z"
+      source: m2.9-batch4-file_management
+      reference: "man rsync"
+      status: active
+  - id: fm_014
+    topic: file_management
+    difficulty: easy
+    objective_domain: "1"
+    subtopic: "dd: создание файла заданного размера"
+    question: "Какая команда создаст файл disk.img размером 100 МБ, заполненный нулями?"
+    options:
+      - text: "dd if=/dev/zero of=disk.img bs=1M count=100"
+        correct: true
+      - text: "dd if=/dev/null of=disk.img bs=1M count=100"
+        correct: false
+      - text: "dd if=/dev/zero of=disk.img bs=1K count=100"
+        correct: false
+      - text: "dd if=/dev/zero of=disk.img bs=1M size=100"
+        correct: false
+    explanation: "bs задаёт размер блока, count — их количество: bs=1M и count=100 дают ровно 100 МБ нулей из /dev/zero. Чтение из /dev/null не выдаёт данных, поэтому файл останется пустым. При bs=1K и count=100 получится только 100 КБ, а операнда size у dd нет — размер определяется только через bs и count."
+    _meta:
+      added_at: "2026-09-27"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-27T01:17:15Z"
+      source: m2.9-batch4-file_management
+      reference: "man dd"
+      status: active
+  - id: fm_015
+    topic: file_management
+    difficulty: medium
+    objective_domain: "1"
+    subtopic: "split -b: разбиение файла на части заданного размера"
+    question: "Какая команда разделит большой файл на части по 10 МБ каждая?"
+    options:
+      - text: "split -l 10M data.log"
+        correct: false
+      - text: "split -n 10M data.log"
+        correct: false
+      - text: "split -b 10M data.log"
+        correct: true
+      - text: "split -c 10M data.log"
+        correct: false
+    explanation: "Ключ -b задаёт размер части в байтах (суффикс M означает мегабайты), поэтому split -b 10M делит файл на куски по 10 МБ. Ключ -l разбивает по числу строк, а -n — на заданное количество частей, поэтому значение 10M в них некорректно. Опции -c в GNU split нет — такая команда завершится ошибкой."
+    _meta:
+      added_at: "2026-09-27"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-27T01:17:15Z"
+      source: m2.9-batch4-file_management
+      reference: "man split"
+      status: active
+  - id: fm_016
+    topic: file_management
+    difficulty: easy
+    objective_domain: "1"
+    subtopic: "truncate -s 0: обнуление содержимого файла без удаления"
+    question: "Какой командой очистить файл до нулевой длины, не удаляя его?"
+    options:
+      - text: "truncate -s 100 data.log"
+        correct: false
+      - text: "touch -c -m data.log"
+        correct: false
+      - text: "rm --force -- data.log"
+        correct: false
+      - text: "truncate -s 0 data.log"
+        correct: true
+    explanation: "truncate -s 0 устанавливает размер файла в ноль байт, полностью очищая содержимое, но сохраняя сам файл и его inode. Команда truncate -s 100 оставит файл размером 100 байт, а не пустым. touch лишь обновляет метки времени, не трогая данные. Команда rm удаляет файл, что нарушает условие «не удаляя»."
+    _meta:
+      added_at: "2026-09-27"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-27T01:17:15Z"
+      source: m2.9-batch4-file_management
+      reference: "man truncate"
+      status: active
+  - id: fm_017
+    topic: file_management
+    difficulty: easy
+    objective_domain: "1"
+    subtopic: "mktemp -d: создание безопасного временного каталога"
+    question: "Какая команда безопасно создаст временный каталог с уникальным именем в /tmp?"
+    options:
+      - text: "mktemp -d /tmp/tmp.XXXXXX"
+        correct: true
+      - text: "mktemp /tmp/tmp.XXXXXX"
+        correct: false
+      - text: "mktemp -p /tmp tmp.XXXXXX"
+        correct: false
+      - text: "mkdir -m 700 /tmp/tmp.$$"
+        correct: false
+    explanation: "mktemp -d создаёт каталог и заменяет XXXXXX случайными символами, что исключает коллизии и гонки. Без -d mktemp создаёт файл, а не каталог; ключ -p лишь задаёт базовый каталог, поэтому каталога тоже не получится. Команда mkdir с $$ использует PID вместо случайности и завершится ошибкой, если такой каталог уже существует."
+    _meta:
+      added_at: "2026-09-27"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-27T01:17:15Z"
+      source: m2.9-batch4-file_management
+      reference: "man mktemp"
+      status: active
+  - id: fm_018
+    topic: file_management
+    difficulty: medium
+    objective_domain: "1"
+    subtopic: "basename / dirname: извлечение компонентов пути"
+    question: "Какая команда извлечёт из пути /etc/ssh/sshd_config только имя файла?"
+    options:
+      - text: "dirname /etc/ssh/sshd_config"
+        correct: false
+      - text: "realpath /etc/ssh/sshd_config"
+        correct: false
+      - text: "basename /etc/ssh/sshd_config"
+        correct: true
+      - text: "readlink /etc/ssh/sshd_config"
+        correct: false
+    explanation: "basename отбрасывает путь и возвращает последний компонент — имя файла sshd_config. Команда dirname, наоборот, вернёт каталог /etc/ssh. realpath выводит полный канонический путь, а не короткое имя. readlink работает только с символическими ссылками, а sshd_config — обычный файл."
+    _meta:
+      added_at: "2026-09-27"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-27T01:17:15Z"
+      source: m2.9-batch4-file_management
+      reference: "man basename"
+      status: active
+evidence:
+  - question_id: fm_013
+    reference: "man rsync"
+    note: "Проверено: --delete удаляет из приёмника файлы, отсутствующие в источнике; -u/--update пропускает более новые на приёмнике; --existing (--ignore-non-existing) не создаёт новые файлы на приёмнике; -b/--backup переименовывает заменяемые файлы. Все четыре ключа существуют в RHEL 9; несуществующих ключей в дистракторах нет."
+  - question_id: fm_014
+    reference: "man dd"
+    note: "Проверено: bs задаёт размер блока, count — их число (bs=1M count=100 = 100 МБ); чтение из /dev/null не выдаёт данных (файл 0 байт); bs=1K count=100 = 100 КБ. Операнд size= у dd (coreutils) не существует — помечен как несуществующий в дистракторе."
+  - question_id: fm_015
+    reference: "man split"
+    note: "Проверено: -b SIZE задаёт байты на выходной файл; -l NUMBER разбивает по числу строк; -n CHUNKS — на количество частей. Опции -c в GNU split (coreutils) нет — помечен как несуществующий в дистракторе."
+  - question_id: fm_016
+    reference: "man truncate"
+    note: "Проверено: -s 0 задаёт нулевой размер (обнуление без удаления inode); -s 100 оставляет 100 байт; touch -c -m только обновляет метки времени; rm --force -- удаляет файл (--force — длинная форма -f, -- закрывает разбор опций, файл всё равно удаляется). Несуществующих ключей в дистракторах нет."
+  - question_id: fm_017
+    reference: "man mktemp"
+    note: "Проверено: -d создаёт каталог; без -d создаётся файл; -p DIR задаёт базовый каталог (без -d всё равно файл); mkdir -m 700 с $$ использует PID и не защищён от коллизий. Несуществующих ключей в дистракторах нет."
+  - question_id: fm_018
+    reference: "man basename"
+    note: "Проверено: basename возвращает последний компонент пути; dirname — каталог; realpath — полный канонический путь; readlink — только для символических ссылок (sshd_config — обычный файл). Несуществующих ключей в дистракторах нет."
+position_report:
+  distribution: "0:2, 1:1, 2:2, 3:1"
+  max_share_percent: 33.33
+cosine_report:
+  pending_json: "$env:TEMP\\fm-b4-rw-pending.json"
+  intra_batch: "node tools/cosine.cjs --intra-batch \"$env:TEMP\\fm-b4-rw-pending.json\" -> max cosine: 0.6674 (fm_014~fm_015); pairs > 0.80: 0; pairs > 0.75: 0; exit 0"
+  against_bank: "node tools/cosine.cjs \"$env:TEMP\\fm-b4-rw-pending.json\" -> bank=183 drafts=135 candidates=6; rejected 0/6; max bank cosine 0.7539 (fm_015); bank cosines: fm_013=0.6280, fm_014=0.6865, fm_015=0.7539, fm_016=0.7499, fm_017=0.7103, fm_018=0.7040; max drafts cosine 0.7240 (fm_016); max jaccard 0.1667 (fm_014)"
+manual_qc_report:
+  note: "npm run qc по кандидатам до интеграции невозможен (qc.cjs не принимает аргументов и проверяет весь банк). Ниже — фактическая ручная сверка, числа из node-прогона по pending JSON."
+  per_question:
+    - id: fm_013
+      options_count: 4
+      correct_count: 1
+      ratio: 1.0741
+      explanation_chars: 384
+      explanation_lines: 1
+      objective_domain: "1"
+    - id: fm_014
+      options_count: 4
+      correct_count: 1
+      ratio: 1.0238
+      explanation_chars: 290
+      explanation_lines: 1
+      objective_domain: "1"
+    - id: fm_015
+      options_count: 4
+      correct_count: 1
+      ratio: 1.0000
+      explanation_chars: 292
+      explanation_lines: 1
+      objective_domain: "1"
+    - id: fm_016
+      options_count: 4
+      correct_count: 1
+      ratio: 1.2000
+      explanation_chars: 298
+      explanation_lines: 1
+      objective_domain: "1"
+    - id: fm_017
+      options_count: 4
+      correct_count: 1
+      ratio: 1.1364
+      explanation_chars: 322
+      explanation_lines: 1
+      objective_domain: "1"
+    - id: fm_018
+      options_count: 4
+      correct_count: 1
+      ratio: 1.0357
+      explanation_chars: 279
+      explanation_lines: 1
+      objective_domain: "1"
+notes: >
+  Rework round 1: переработан ТОЛЬКО fm_016 (option ratio по символам проваливал гейт qc.cjs).
+  Было: rm -f -- data.log (17 символов) -> стало: rm --force -- data.log (22 символа).
+  Длины опций fm_016 в символах: truncate -s 100 data.log = 24, touch -c -m data.log = 20,
+  rm --force -- data.log = 22, truncate -s 0 data.log = 22 -> ratio 24/20 = 1.2000,
+  класс sentences (все 4 опции по 4 слова), порог 1.30, verdict ok.
+  Аспект, стем, верный ответ и смысл дистракторов сохранены; rm --force -- по-прежнему удаляет
+  файл, а не очищает его, поэтому вторым верным ответом не является.
+  Остальные 5 вопросов (fm_013..fm_015, fm_017, fm_018) скопированы из v1 без изменений, включая _meta.
+  Cosine пересчитан на v2: intra-batch max 0.6674 (fm_014~fm_015), банк 183 max 0.7539 (fm_015),
+  fm_016 против банка 0.7499 — все ≤ 0.85; rejected 0/6.
+  Остаточная неопределённость: live-прогоны и WSL запрещены капитаном, факты сверены по знанию
+  man-страниц RHEL 9; rm --force — документированная длинная форма -f в GNU coreutils.
+next_step: "Оркестратор сверяет v2 (diff по fm_016 + повторные гейты checkRatio/cosine), затем повторный QC по v2 и решение accept/rework."

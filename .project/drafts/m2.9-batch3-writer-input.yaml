@@ -1,0 +1,142 @@
+---
+name: m2.9-batch3-file_systems
+version: "1.0"
+from_role: orchestrator
+to_role: content-writer
+batch_id: m2.9-batch3-file_systems
+created_at: "2026-09-26"
+topic: file_systems
+subtopic: "эксплуатация и диагностика файловых систем RHCSA: umount и занятость точки, vfat, NFS-экспорты, loop-образы, tune2fs, заполнение ФС"
+count: 6
+batch_size: 6
+difficulty: "3 easy / 3 medium"
+canonical_topics_source: src/data/topics.ts
+target_file: src/data/questions/file_systems.json
+topic_selection: "автовыбор: минимальный count среди тем, кроме users_groups/essential_tools/deploy_systems; tie-break — устойчивая сортировка по порядку в _topics.json -> file_systems (count 8, минимальный вместе с local_storage, manage_software)"
+id_range: "fs_009, fs_010, fs_011, fs_012, fs_013, fs_014"
+id_format: '^fs_\d{3}$'
+max_existing_nnn: "fs_008 (max существующий id в теме)"
+avoid_existing_ids:
+  - fs_001
+  - fs_002
+  - fs_003
+  - fs_004
+  - fs_005
+  - fs_006
+  - fs_007
+  - fs_008
+avoid_existing_subtopics:
+  - "mkfs: создание файловой системы"
+  - "fstab: поля dump и fsck pass"
+  - "NFS: монтирование через mount -t nfs"
+  - "CIFS/SMB: монтирование общего ресурса"
+  - "tune2fs: метка файловой системы"
+  - "fsck: проверка файловой системы"
+  - "mount -o remount,rw: смена режима монтирования"
+  - "autofs: монтирование по обращению"
+avoid_cross_topic_subtopics:
+  - "ls_004 local_storage: fstab, монтирование по UUID"
+  - "ls_005 local_storage: mount / findmnt, текущие опции монтирования"
+  - "ls_007 local_storage: lsblk / blkid, тип ФС, метка и UUID раздела"
+  - "ls_008 local_storage: fstab, применение записей, опция nofail / mount -a"
+  - "ls_002 local_storage: LVM, расширение LV вместе с файловой системой XFS (xfs_growfs)"
+  - "ls_006 local_storage: разметка, таблица разделов GPT через sfdisk"
+  - "ls_003 local_storage: swap, mkswap"
+  - "fs_002 file_systems: поля dump и fsck pass в fstab"
+avoid_list_from_batch2_qc:
+  - "ds_002 (crontab: строка расписания)"
+  - "ds_014 (cron: спецстрока @reboot)"
+  - "rs_001 (systemctl get-default/set-default, цель загрузки)"
+  - "pm_014 (systemd-analyze blame, время инициализации юнитов)"
+  - "pm_010 (systemctl mask против disable)"
+constraints:
+  - "РОВНО 6 вопросов: не меньше и не больше"
+  - "difficulty строго из enum: easy или medium; требуется ровно 3 easy и 3 medium"
+  - "Весь UI-текст (question, options, explanation) только на русском языке"
+  - "Ноль дублей: с avoid_existing_ids, с avoid_existing_subtopics, с avoid_cross_topic_subtopics и внутри батча"
+  - "Тема строго file_systems; не выходить в users_groups, security, deploy_systems, running_systems"
+  - "Не переиспользовать занятые аспекты: создание XFS (mkfs.xfs), поле fsck pass в fstab, mount -t nfs, CIFS, tune2fs -L для метки, fsck.ext4, remount,rw, autofs master, монтирование по UUID, findmnt, blkid, mount -a"
+  - "id строго fs_009, fs_010, fs_011, fs_012, fs_013, fs_014 (по одному на вопрос, без пропусков и повторов)"
+  - "subtopic уникален и конкретен, формат <cmd>: <aspect>"
+  - "objective_domain строго строка: \"5\" (Create and configure file systems)"
+position_requirement:
+  rule: "correct-index распределить так, чтобы НИ ОДНА позиция (0/1/2/3) не превысила 60% по теме; сейчас в теме total=8"
+  current_distribution_in_topic: "total=8, correct-index: pos0=3 (fs_004, fs_005, fs_007), pos1=3 (fs_002, fs_006, fs_008), pos2=2 (fs_001, fs_003), pos3=0"
+  required_exact_distribution: "после батча: pos0=5, pos1=4, pos2=3, pos3=2 (total=14, max share 35.7% <= 60%)"
+  required_new_positions: "новые 6 вопросов: pos0 — 2 вопроса, pos1 — 1 вопрос, pos2 — 1 вопрос, pos3 — 2 вопроса"
+  forbidden: "нельзя ставить correct на одну и ту же позицию более двух раз из шести"
+requirements:
+  - "4 options, ровно 1 correct: true (true ровно в одном элементе массива options)"
+  - "explanation обязателен, 200-500 символов: почему верный вариант верен И почему каждый из трёх дистракторов неверен"
+  - "man-page evidence: _meta.reference вида man <cmd> для каждого вопроса (RHCSA-стандарт RHEL/Rocky 9)"
+  - "Дистракторы правдоподобны: реальные ключи и синтаксис, но объективно неверны; если используете несуществующий ключ/подкоманду — пометьте это в evidence.notes"
+  - "Каждый вопрос проверяем по man-странице RHEL 9: man umount, man mount, man mkfs.vfat, man showmount, man tune2fs, man df и т.п."
+  - "WSL запрещён капитаном: live-прогоны не делать, факты сверять по знанию man-страниц RHEL/Rocky 9; остаточную неопределённость помечать"
+evidence_requirements:
+  - "Для каждого вопроса: reference (man page) и note (что именно проверено)"
+  - "Отдельно перечислить, какие дистракторы используют несуществующие ключи/подкоманды"
+suggested_subtopics:
+  note: "Проверено Оркестратором: этих аспектов в банке 177 нет (grep по subtopic и по тексту вопросов: umount/showmount/loop/vfat/df/du — 0 совпадений). Можно брать их или предложить свои, не пересекающиеся с avoid-списками."
+  list:
+    - "umount: размонтирование и диагностика target is busy (umount /mnt/data, lsof, fuser -m)"
+    - "mkfs.vfat: создание FAT32 (mkfs.vfat -F 32 /dev/sdb1) — vfat прямо назван в целях EX200"
+    - "showmount -e: список экспортов NFS-сервера перед монтированием"
+    - "mount -o loop: монтирование ISO-образа (mount -o loop /root/img.iso /mnt/iso)"
+    - "tune2fs -c / -i: счётчик монтирований и интервал обязательной проверки (аспект не пересекается с fs_005, где метка -L)"
+    - "df -i / df -h: диагностика исчерпания инодов и заполнения ФС"
+  alternates:
+    - "mount -t vfat: монтирование FAT-накопителя с указанием типа"
+    - "xfs_admin -L <label>: метка XFS и требование размонтировать ФС (только если аспект явно отличается от fs_005)"
+bank_format: |
+  {
+    "id": "fs_009",
+    "topic": "file_systems",
+    "difficulty": "easy|medium",
+    "objective_domain": "5",
+    "subtopic": "<cmd>: <aspect>",
+    "question": "<условие задачи на русском>",
+    "options": [
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<верный>", "correct": true},
+      {"text": "<дистрактор>", "correct": false}
+    ],
+    "explanation": "<почему верный верен и почему каждый дистрактор неверен>",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "<ISO8601 UTC>",
+      "source": "m2.9-batch3-file_systems",
+      "reference": "man <cmd>",
+      "status": "active"
+    }
+  }
+output_path: .project/drafts/m2.9-batch3-writer-output.yaml
+output_structure: |
+  batch_id: m2.9-batch3-file_systems
+  topic: file_systems
+  status: OK | PARTIAL | FAILED
+  goal_invariant_check: true
+  questions:
+    - <объект формата банка, см. bank_format>
+  evidence:
+    - question_id: fs_009
+      reference: "man <cmd>"
+      note: "<что именно проверено>"
+  position_report:
+    distribution: "0:N, 1:N, 2:N, 3:N"
+    max_share_percent: <число>
+  notes: "<наблюдения, свободный текст>"
+next_step: "Оркестратор передаёт output в QC (adversarial, default FAIL) по контракту writer_to_qc.yaml; без per-question accept интеграции НЕТ."
+goal_invariant:
+  intent: "Банк 300+ качественных MCQ-вопросов для RHCSA EX200 (RU), пригодных для монетизации через Telegram-бота"
+  constraints:
+    - "Формат строго: 4 опции, ровно 1 correct"
+    - "Каждый вопрос проверяем по man-странице RHEL 9"
+    - "Ноль дублей внутри банка (включая кросс-темные)"
+  evaluative_criteria:
+    - "6/6 вопросов структурно валидны (4 опции, 1 correct, непустой explanation 200-500)"
+    - "6/6 имеют man-page evidence"
+    - "Adversarial QC (default FAIL) не находит hard blocker (fact-check, objective)"
+    - "Cosine intra-batch <= 0.8 и отсутствие дублей с банком 177"

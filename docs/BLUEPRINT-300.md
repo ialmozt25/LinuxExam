@@ -143,7 +143,7 @@
 5. **Cosine-модель:** менять на русскоязычную (`cointegrated/rubert-tiny2`) до или после 300? Сейчас `cosine_limitation.class_inversion = true`, primary defense — Jaccard 0.9.
 6. **Домен-привязка planned-тем:** какие домены должны закрывать `networking`, `local_storage`, `file_systems`, `deploy_systems`, `manage_software`, `running_systems`? В репо расшифровок доменов 3–9 нет — нужен внешний источник.
 7. **`retired.json` и monthly re-verify:** при 300 вопросах устаревание (RHEL 9.x) станет заметным. Нужен ли регламент вывода вопросов в retirement и с какой периодичностью?
-8. **Стоп-правило для аудита:** в `docs/HANDOFF.md` зафиксировано «только minor findings в 2 батчах подряд → стоп аудит». При 14 батчах подряд это правило может остановить наполнение — сохраняем или пересматриваем?
+8. **Стоп-правило для аудита:** в `docs/archive/HANDOFF.md` зафиксировано «только minor findings в 2 батчах подряд → стоп аудит». При 14 батчах подряд это правило может остановить наполнение — сохраняем или пересматриваем?
 9. **Дублирование `chage -M`** между `users_groups` (`ug_009`) и `security` (`sec_011`): объединять темы, переформулировать вопрос или оставить как разные аспекты?
 
 ## Провенанс
@@ -154,7 +154,7 @@
 |---|---|
 | `src/data/topics.ts` | 14 тем verbatim: key/title/description/status |
 | `src/data/questions.json` | фактические счётчики: 66 вопросов, 6 тем в банке, 54 сабтопика, домены 1–9 |
-| `docs/HANDOFF.md` | bundle gzip 138.77 kB и watch-порог 137 kB; L8 мягкий |
+| `docs/archive/HANDOFF.md` | bundle gzip 138.77 kB и watch-порог 137 kB; L8 мягкий |
 | `docs/STATE-SNAPSHOT-2026-09-24.md:274,645` | домен 2 = 0; домены 8 = 1, 4 = 2 |
 | `docs/content-generation-20260921-1403.md:20-35` | таблица доменов, два названия, решение не трогать домен 2 |
 | `drafts/report-2026-09-22.md:82` | цитата про скоуп `text_files` и домен 5 |

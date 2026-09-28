@@ -10,6 +10,9 @@
 - [ ] `shuffle-bank.mjs --path <file>` — не принимает путь
 - [ ] `export-pending.mjs` дата-ориентирован
 - [ ] `drafts/_mas-results/` — untracked
+- [ ] `.backup-tld-20260928-080821/` + `filelists-BaseOS.xml.gz` — untracked, оставлены
+      сознательно в F0.1 (2026-09-28, решение капитана); судьба не решена —
+      разобрать в F2 (`MEMORY-FACTORY.md:53` — «битый артефакт в корне репо»)
 - [ ] `deploy.yml` без `paths-ignore`: doc-only push триггерит деплой Pages
       (добавить `paths-ignore: ['docs/**', '*.md', '.project/**']`)
 - [ ] Dependabot: 52 уязвимости в default branch (1 critical, 23 high, 24 moderate, 4 low)

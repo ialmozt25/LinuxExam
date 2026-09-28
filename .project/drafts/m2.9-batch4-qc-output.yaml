@@ -1,0 +1,330 @@
+contract: qc_to_orchestrator
+batch_id: m2.9-batch4-file_management
+verdict: FAIL
+verdict_basis: >
+  Hard blocker найден ровно один: fm_016 проваливает ФАКТИЧЕСКИЙ гейт `npm run qc`
+  по option ratio (класс sentences, порог 1.30 по символам, факт 1.4118). Это
+  доказано не пересчётом формулы, а прогоном НАСТОЯЩЕГО tools/qc.cjs по
+  интеграционному зеркалу (копия банка в %TEMP% + 6 кандидатов = 189 вопросов):
+  FAIL fm_016: option ratio (sentences) 1.41 > 1.3, Fails 1, exit code 1.
+  Остальные 5 вопросов (fm_013, fm_014, fm_015, fm_017, fm_018) hard blocker-ов
+  не имеют: оба cosine-гейта зелёные на моих прогонах (intra max 0.6674,
+  bank max 0.7539, порог приёмки 0.85, внутренний порог инструмента 0.80),
+  структура чистая, fact-check по 24 опциям подтверждён, смысловых дублей
+  (в т.ч. кросс-темных и по avoid-list) не найдено. По verdict_rules FAIL
+  выставляется при наличии hard blocker — он есть, поэтому агрегат FAIL,
+  а не PARTIAL PASS.
+position: >
+  Позиция adversarial, default FAIL. Ни одно число Writer'а, ни один пункт его
+  evidence и ни один вывод position_report на веру не приняты: 6 вопросов
+  извлечены из YAML в %TEMP% собственным парсером (сверка каждого стема, каждой
+  опции и каждого explanation с сырым YAML — 0 расхождений), оба cosine-режима,
+  ratio-гейт, структурные проверки и интеграционное зеркало перезапущены мной.
+  Числа Writer'а по cosine воспроизвелись точно (0.7539 / 0.6674), а его
+  заявление «ratio в пределах порога» — нет: оно верно для 5 вопросов и
+  ошибочно для fm_016.
+adversarial_note: >
+  При первом прочтении ручной проверки ratio по «1.5 из DOD.md» fm_016 выглядит
+  проходящим (1.4118 < 1.5). Именно эта ловушка и сработала: qc.cjs зовёт
+  checkRatio(options, 'chars') (tools/qc.cjs:13,151), а порог берётся из
+  classifyOptions по ЧИСЛУ СЛОВ (tools/_lib/ratio.cjs:33-39). У fm_016 все 4
+  опции — по 4 слова -> класс sentences -> порог 1.30. Прогон зеркала это
+  подтвердил независимо от моей формулы.
+per_question:
+  - question_id: fm_013
+    verdict: accept
+    reason: >
+      rsync -a --delete src/ dst/ — единственный вариант, удаляющий из приёмника
+      файлы, которых нет в источнике. Все 4 ключа (-a, --delete, --update,
+      --existing, --backup) существуют в rsync RHEL 9, несуществующих ключей нет.
+      Второго верного варианта при буквальном чтении нет ни у одного дистрактора.
+      Структура чистая, explanation 384 символа в одну строку, ratio ok.
+    passes: {fact_check: pass, objective: pass, language: pass, beginner_view: pass, skeptic_view: pass}
+    hard_blocker_reason: null
+  - question_id: fm_014
+    verdict: accept
+    reason: >
+      dd if=/dev/zero of=disk.img bs=1M count=100 — верный и однозначный ответ
+      (это ровно 100 МиБ нулей). Заявленный Writer'ом «несуществующий операнд
+      size=» проверен и подтверждён: в GNU coreutils 8.32 у dd нет операнда size
+      (размер задаётся только bs/count/iflag/oflag), незаявленных несуществующих
+      операндов тоже нет (if=, of=, bs=, count= валидны). Все прочие дистракторы
+      объективно неверны (100 КБ; пустой файл из /dev/null; size= -> ошибка).
+      ratio 1.0238 sentences/ok, explanation 290 символов.
+    passes: {fact_check: pass, objective: pass, language: pass, beginner_view: pass, skeptic_view: pass}
+    hard_blocker_reason: null
+  - question_id: fm_015
+    verdict: accept
+    reason: >
+      split -b 10M data.log верен (-b SIZE = байт на часть). Заявленное отсутствие
+      опции -c у GNU split подтверждено (у coreutils split есть только -a, --additional-suffix,
+      -b, --bytes, -d, --numeric-suffixes, -e, -l, -n, -t, -u, --verbose, --filter, --help,
+      --version — комбинации -c нет). -l 10M и -n 10M завершатся ошибкой (нечисловой
+      аргумент), то есть строго неверны. Смежный банковский сосед fm_007 = 0.7539
+      (самое близкое значение батча, но ниже и fail-порога 0.80, и границы приёмки 0.85;
+      jaccard 0.0556 — содержательного пересечения нет: find -mtime+7 vs split -b).
+      ratio 1.0000 sentences/ok, explanation 292 символа.
+    passes: {fact_check: pass, objective: pass, language: pass, beginner_view: pass, skeptic_view: pass}
+    hard_blocker_reason: null
+  - question_id: fm_016
+    verdict: reject
+    reason: >
+      HARD BLOCKER (ratio), gate `npm run qc` падает. Класс опций sentences
+      (4/4/4/4 слова), длины в символах [24, 20, 17, 22] ->
+      char-ratio 1.4118 > фактический порог 1.30 (и > warn 1.25). Доказано не
+      арифметикой, а прогоном настоящего tools/qc.cjs по зеркалу банка 189:
+      «FAIL fm_016: option ratio (sentences) 1.41 > 1.3», Fails 1, exit code 1.
+      Контент при этом факт-корректен (truncate -s 0 действительно очищает файл,
+      сохраняя inode), поэтому требуется ТОЛЬКО правка длин опций, а не аспекта.
+    passes: {fact_check: pass, objective: pass, language: pass, beginner_view: pass, skeptic_view: pass}
+    hard_blocker_reason: >
+      option ratio 1.4118 (chars) превышает фактический порог qc.cjs 1.30 для
+      класса sentences -> при интеграции банк 189 даст `npm run qc` Fails 1,
+      exit 1 -> критерий приёмки spec 001 и DOD content («Fails 0») не выполнен.
+  - question_id: fm_017
+    verdict: accept
+    reason: >
+      mktemp -d /tmp/tmp.XXXXXX верен и однозначен: -d создаёт каталог, XXXXXX
+      заменяется случайными символами. Проверены оба тонких места: (1) без -d
+      mktemp создаёт ФАЙЛ, а не каталог, и это не зависит от -p (опция -p задаёт
+      только базовый каталог) — дистракторы 2 и 3 строго неверны;
+      (2) mkdir -m 700 /tmp/tmp.$$ действительно СОЗДАЁТ каталог (если такого пути
+      ещё нет), но не обеспечивает уникальность имени (PID, а не случайность) —
+      дистрактор неверен по критерию «уникальное имя/гонки», а не потому, что
+      «каталога не получится». Формулировка explanation это учитывает корректно
+      («завершится ошибкой, если такой каталог уже существует»).
+      ratio 1.1364 mixed/ok, explanation 322 символа.
+    passes: {fact_check: pass, objective: pass, language: pass, beginner_view: pass, skeptic_view: pass}
+    hard_blocker_reason: null
+  - question_id: fm_018
+    verdict: accept
+    reason: >
+      basename /etc/ssh/sshd_config верен (последний компонент пути). dirname даёт
+      каталог, realpath — канонический полный путь, readlink работает со ссылками
+      и для обычного файла не выводит имени. Все 4 команды существуют в RHEL 9,
+      несуществующих ключей нет. Второго верного варианта нет: ни одна опция
+      не выводит «только имя файла», кроме basename.
+      ratio 1.0357 token/ok, explanation 279 символов.
+    passes: {fact_check: pass, objective: pass, language: pass, beginner_view: pass, skeptic_view: pass}
+    hard_blocker_reason: null
+issues:
+  - question_id: fm_016
+    severity: CRITICAL
+    pass: objective
+    status: open
+    description: >
+      HARD BLOCKER. options: "truncate -s 100 data.log" (24), "touch -c -m data.log" (20),
+      "rm -f -- data.log" (17), "truncate -s 0 data.log" (22). Все по 4 слова ->
+      classifyOptions = sentences -> порог qc.cjs 1.30 по СИМВОЛАМ
+      (RATIO_UNIT='chars', tools/qc.cjs:13 и :151). Фактический char-ratio 1.4118.
+      Прогон настоящего qc.cjs по зеркалу (копия src/data/questions в %TEMP% + 6
+      кандидатов = 189): "FAIL fm_016: option ratio (sentences) 1.41 > 1.3",
+      Total 189 questions, Fails 1, Warns 16, exit code 1. При интеграции гейт
+      `npm run qc` (Fails 0) не пройдёт, банк 183 -> 189 станет красным.
+      Арифметика правки (max/min <= 1.30): при max=24 самая короткая опция должна
+      стать >= 19 символов; либо при min=17 самая длинная должна стать <= 22.
+      Пример, проходящий чек (проверен мной через checkRatio): заменить
+      "rm -f -- data.log" (17) на "rm --force data.log" (19) -> ratio 1.2632,
+      verdict ok; при этом дистрактор остаётся валидным GNU rm и неверным ответом
+      на «не удаляя файл». Требование: сохранить аспект (truncate -s 0), стем,
+      верный ответ и смысл дистракторов; править ТОЛЬКО длины.
+  - question_id: fm_016
+    severity: MINOR
+    pass: language
+    description: >
+      Соотношение словесной и символьной шкал для стема «Какой командой очистить
+      файл до нулевой длины, не удаляя его?»: по СЛОВАМ класс получается mixed
+      (опции 4/4/4/4 слова, но классификатор по словам даёт тот же sentences —
+      проверено, ratio по словам 1.000), поэтому риск ложного вывода «1.5 из DOD»
+      здесь особенно велик: DOD-порог 1.5 — только внешняя граница, фактический
+      порог для этого вопроса 1.30. Наблюдение для Writer: при командных опциях
+      из 4+ слов безопасная верхняя граница отношения длин — 1.25 (warn-порог),
+      а не 1.5.
+  - question_id: fm_017
+    severity: MINOR
+    pass: fact-check
+    description: >
+      Уточнение факта (не влияет на вердикт). Writer пишет «без -d mktemp создаёт
+      ФАЙЛ, а не каталог» — верно. Моя проверка тонкого места: mkdir -m 700 /tmp/tmp.$$
+      в норме СОЗДАЁТ каталог (с правами 700), то есть дистрактор неверен только
+      потому, что не даёт уникальности имени/защиты от коллизий (PID вместо
+      случайности) — стем требует «уникальное имя». Формулировка explanation
+      («завершится ошибкой, если такой каталог уже существует») корректна и не
+      выдаёт mkdir за несуществующую команду. Остаточная неточность: слово
+      «безопасно» в стеме опирается на скрытый критерий (случайность имени),
+      который прямо в стеме не назван; новичок может счесть вариант с mkdir -m 700
+      разумным (он действительно ограничивает доступ). Рекомендация (advisory, не
+      блокер): добавить в стем слово «уникальным» (оно уже есть: «с уникальным
+      именем») — фактически стем его содержит, поэтому претензия снята как
+      несущественная; оставляю как зафиксированное наблюдение про силу дистрактора.
+  - question_id: fm_013
+    severity: MINOR
+    pass: beginner-view
+    description: >
+      Тонкое место, которое Writer сам отметил, проверено: rsync --update,
+      --existing и --backup действительно НЕ удаляют лишние файлы из приёмника
+      (--update лишь пропускает более новые на приёмнике, --existing не создаёт
+      новые, --backup переименовывает заменяемые). Второго верного варианта нет.
+      Наблюдение: все 4 дистрактора отличаются от верного ответа ОДНИМ ключом
+      (-a общий), то есть вопрос проверяет точечное знание ключа — это
+      допустимый, но «узкий» тип дистрактора; учебный эффект снижен тем, что
+      стем прямо называет целевое поведение («удаляя из dst/ файлы»), и ключ
+      --delete семантически прозрачен для англочитающего новичка.
+  - question_id: fm_015
+    severity: MINOR
+    pass: language
+    description: >
+      Терминологическая неточность в explanation: «Опции -c в GNU split нет —
+      такая команда завершится ошибкой». Строго говоря, split -c 10M завершится
+      ошибкой «invalid option -- 'c'» (несуществующая КОМБИНАЦИЯ/опция), а
+      split -n 10M — ошибкой «invalid number of chunks» (опция существует, но
+      аргумент 10M для -n некорректен). Смысл вывода («строго неверный вариант»)
+      от этого не меняется, поэтому MINOR/advisory. Рекомендация: развести
+      причины отказа у -l/-n (нечисловой аргумент) и -c (нет такой опции).
+  - question_id: fm_018
+    severity: MINOR
+    pass: beginner-view
+    description: >
+      Прогон qc.cjs по банку пометил WARN sec_003/sec_005/sec_007/sec_012 и др.,
+      но ни одного WARN у новых вопросов нет (проверено зеркалом: единственный
+      FAIL — fm_016, все 16 WARN принадлежат существующему банку). Замечание по
+      сути fm_018: объяснение про readlink («работает только с символическими
+      ссылками») верно для формы без -f; readlink -f на обычном файле выведет
+      путь, но в опции -f нет, поэтому претензия несущественна.
+  - question_id: batch
+    severity: MINOR
+    pass: skeptic-view
+    description: >
+      Отчётность Writer'а расходится с фактом в двух местах, на вердикт не влияет:
+      (1) Writer заявил «ratio в пределах порога» для всего батча — фактически
+      fm_016 проваливает гейт (см. CRITICAL); (2) в блоке evidence Writer'а нет ни
+      одной строки про проверку ratio для fm_016, при том что именно этот вопрос
+      — единственный нарушитель. Пересчётанное QC распределение позиций верного
+      ответа: батч 0:2 (fm_014, fm_017), 1:1 (fm_013), 2:2 (fm_015, fm_018),
+      3:1 (fm_016); в отчёте Writer'а заявлено 0:2, 1:1, 2:2, 3:1 — СОВПАДАЕТ.
+      Тема после интеграции 12 + 6 = 18 вопросов, позиции 4/4/4/2,
+      max_share = 4/18 = 22.22% (лимит 60%) — не проверить гейтом
+      `npm run shuffle-bank:check` на неинтегрированном банке нельзя, поэтому
+      приведено как расчёт по факту, а не как результат гейта.
+evidence_verified:
+  qc_rerun:
+    - "npm run qc (BASELINE, репозиторий 183) -> exit 0: Total 183 questions, Fails 0, Warns 16 (absolute=1 ratio=13 stopword=2). Базовая линия до интеграции зафиксирована мной, а не взята из отчёта."
+    - "Извлечение кандидатов: собственный структурный парсер (не доверие к YAML-эху Writer'а) выгрузил 6 вопросов из .project/drafts/m2.9-batch4-qc-input.yaml в %TEMP%\\LinuxExam-qc-b4\\fm-b4-qc-pending.json; self-check парсера — каждый стем, каждая из 24 опций и каждый explanation найдены в сыром YAML verbatim, 0 расхождений, 6/6 вопросов."
+    - "node tools/cosine.cjs --intra-batch %TEMP%\\LinuxExam-qc-b4\\fm-b4-qc-pending.json -> exit 0: intra-batch pairs 15, max cosine 0.6674 (fm_014~fm_015), threshold 0.8, pairs > 0.8 = 0, pairs > 0.75 = 0. Прогон выполнен по JSON (tools/cosine.cjs использует JSON.parse и YAML не читает)."
+    - "node tools/cosine.cjs %TEMP%\\LinuxExam-qc-b4\\fm-b4-qc-pending.json -> exit 0: bank=183 drafts=135 candidates=6; ok fm_013 (bank cos 0.6280, j 0.0500), ok fm_014 (0.6865, j 0.1667), ok fm_015 (0.7539, j 0.0714), ok fm_016 (0.7499, j 0.0000), ok fm_017 (0.7103, j 0.0714), ok fm_018 (0.7040, j 0.0833); rejected: 0/6."
+    - "Независимый nearest-neighbour по всему банку 183 (через API tools/cosine.cjs, per-text embed, TOP6 с id): fm_013 -> ls_006 0.6280, ms_002 0.6016, fp_017 0.5967, fm_007 0.5947; fm_014 -> fm_007 0.6865, fm_002 0.6747, tf_009 0.6720; fm_015 -> fm_007 0.7539, fm_010 0.7257, sec_018 0.7114; fm_016 -> fm_007 0.7499, tf_009 0.7240, fm_002 0.7220; fm_017 -> ms_002 0.7103, fm_007 0.6928, fm_003 0.6738; fm_018 -> sec_014 0.7040, sec_013 0.6881, rs_003 0.6878. Пар > 0.80: 0. Пар > 0.75: ровно 1 (fm_015~fm_007 = 0.7539). Максимум по банку 0.7539 <= 0.85 (критерий приёмки) и <= 0.80 (внутренний порог инструмента/calibration thresholds.cosine=0.80)."
+    - "Интеграционное зеркало (ratification by integration mirror): копия src/data/questions в %TEMP% + 6 кандидатов -> file_management.json (12 -> 18), затем НАСТОЯЩИЙ tools/qc.cjs с подменёнными только BANK_DIR/TOPICS -> Total 189 questions, Fails 1, Warns 16, FAIL by category: ratio=1, exit code 1; строка: FAIL fm_016: option ratio (sentences) 1.41 > 1.3. Ни одного другого FAIL и ни одного нового WARN батч не добавляет (те же 16 WARN, что и в baseline 183)."
+    - "Проверка, что провал принадлежит именно батчу, а не банку: baseline репозитория 183 -> Fails 0; зеркало 189 -> Fails 1, и единственный FAIL — fm_016. Разница по количеству WARN между baseline и зеркалом = 0."
+    - "Структурные проверки (полная эмуляция логики qc.cjs + требования входа): 6/6 — id по ^[a-z]{2,4}_\\d{3}$ и строго fm_013..fm_018; topic == file_management (канон src/data/topics.ts:22); objective_domain == '1' (одна цифра); difficulty ∈ {easy, medium}; 4 опции; ровно одно correct: true; непустые тексты опций; стем >= 10 символов; explanation >= 30 символов; нет placeholder-ов; внутриопционный bigram Jaccard <= 0.9 (максимум по батчу далеко ниже); нет двойных пробелов, пробелов перед пунктуацией и абсолютных терминов; подсказка по длине верного ответа (>1.3x среднего дистрактора) не срабатывает ни в одном вопросе."
+    - "Explanation: длина 279..384 символа (fm_013 384, fm_014 290, fm_015 292, fm_016 298, fm_017 322, fm_018 279), во всех случаях одна строка (переводов строк нет) -> требование DOD «explanation <= 3 строк» выполнено. Оговорка: счётчик терминаторов предложений даёт 4 у fm_013/fm_016/fm_018 (3 у остальных), но DOD ограничивает строки, а не предложения, и гейт qc.cjs проверяет только >= 30 символов."
+    - "Avoid-list: все 11 ID из входа найдены в банке (10 из 11) — ds_002 (deploy_systems:30), rs_001 (running_systems:3), pm_014 (process_management:354), pm_010 (:246), fs_005 (file_systems:111), fs_006 (:138), fs_013 (:363), ls_002 (local_storage:30), ls_005 (:111), ls_007 (:165); ds_014 в банке ОТСУТСТВУЕТ (deploy_systems = ds_001..ds_013) — подтверждаю no-op как намеренный. Смысловых дублей с этими 10 вопросами у новых нет: это проверено и вручную по стемам (cron-расписание, tune2fs -L, fsck, tune2fs -c/-i, LVM+lvextend, findmnt/mount, lsblk/blkid, mask vs disable, systemd-analyze blame, set-default), и метрикой (ни один из них не попал в TOP6 ни одного нового вопроса)."
+    - "Запрещённые кросс-темы: поиск по стемам запрещённых аспектов (tune2fs, fsck, df, mount, LVM, sfdisk, lsblk, blkid, swap, findmnt, sed, awk, cut, sort, uniq, tr, wc, head, tail, chmod, chown, umask, ACL, setuid, setgid, sticky, capabilities, if/then, циклы, позиционные аргументы, $(), функции, man) не дал ни одного совпадения в стемах новых вопросов. Единственное касание: mkdir -m 700 в fm_017 — это дистрактор, и вопрос проверяет уникальность имени, а не семантику прав; нарушения границы file_permissions не создаёт."
+    - "Занятые аспекты fm_001..fm_012 не переиспользованы: ни один из новых вопросов не трогает cp/mv/ln, find, tar/gzip/bzip2, redirection, locate/updatedb, xargs, file/stat/ls -l. Инструментальный контроль по опциям и стемам всего банка: rsync=0, dd=0, truncate=0, mktemp=0, basename=0, dirname=0, realpath=0, readlink=0, split=0, mkdir=0, touch=0 совпадений; rm встречается только в et_004 и fm_009, где аспект другой (xargs/батчинг аргументов), а не «удаление вместо очистки»."
+    - "Дубли: нормализованных совпадений текста опций с существующими 732 опциями банка — 0; совпадений текста ВЕРНОГО ответа с верными ответами банка — 0; exact-id-дублей с банком — 0 (fm_013..fm_018 свободны)."
+    - "Прогон `npm run qc` по кандидатам до интеграции действительно невозможен по заявленной причине: tools/qc.cjs не принимает аргументов и всегда собирает BANK_DIR из src/data/questions. Компенсировано зеркалом (копия банка в %TEMP%, патч только двух констант: diff 3 строки), сам src/data/questions не изменялся — git status подтверждает отсутствие modified-путей."
+  man_recheck:
+    - "man rsync (fm_013): --delete удаляет из приёмника файлы, отсутствующие в источнике (для точного зеркала); -u/--update пропускает файлы, которые новее на приёмнике, и ничего не удаляет; --existing (--ignore-non-existing) не создаёт новые файлы на приёмнике, но лишние не удаляет; -b/--backup переименовывает/копирует заменяемые файлы (по умолчанию в файл с суффиксом ~). Все четыре ключа существуют в rsync RHEL 9. Верный ответ однозначен, второго верного варианта нет."
+    - "man dd (fm_014, coreutils 8.32): bs=SIZE задаёт размер блока (суффиксы K/M/G — десятичные, KiB/MiB — двоичные), count=N — число блоков; bs=1M count=100 = 100 МиБ; чтение из /dev/zero даёт нули (файл заполнен нулями), чтение из /dev/null даёт EOF (файл нулевой длины); bs=1K count=100 = 100 КиБ. Операнда size= у GNU dd НЕТ — подтверждаю заявление Writer'а; незаявленных несуществующих операндов/ключей у dd в этом вопросе нет."
+    - "man split (fm_015, coreutils 8.32): -b/--bytes=SIZE — размер части в байтах с суффиксами K/M/G; -l/--lines=NUMBER — по числу строк; -n/--number=CHUNKS — на заданное ЧИСЛО частей. Комбинации -c у GNU split нет (подтверждаю заявление Writer'а). split -n 10M отвергается как некорректное число частей, split -l 10M — как некорректное число строк; оба строго неверны."
+    - "man truncate (fm_016): -s/--size=SIZE задаёт размер; -s 0 полностью очищает содержимое, сохраняя сам файл и inode; -s 100 оставляет 100 байт данных (не 0). man touch: -c не создаёт файл, --no-create; -m меняет только mtime; длину файла touch не изменяет. man rm: rm -f удаляет файл, не спрашивая подтверждения. Верный ответ однозначен."
+    - "man mktemp (fm_017): -d/--directory создаёт каталог; без -d создаётся файл (даже при заданном -p/--tmpdir=DIR: -p задаёт только базовый каталог); TEMPLATE должен содержать минимум 3 подряд идущих X, суффикс X заменяется случайными символами; каталог по умолчанию создаётся с правами 700. man mkdir: -m MODE задаёт права создаваемого каталога, mkdir не является генератором уникальных имён. Вывод: 'mktemp -d /tmp/tmp.XXXXXX' верен; варианты без -d создают файл, а mkdir -m 700 с $$ не даёт уникальности имени (PID вместо случайности)."
+    - "man basename / dirname / realpath / readlink (fm_018): basename PATH отбрасывает каталоги и печатает последний компонент (для /etc/ssh/sshd_config -> sshd_config); dirname печатает каталог (/etc/ssh); realpath печатает канонизированный ПОЛНЫЙ путь; readlink без -f разыменовывает символическую ссылку и для обычного файла выводит пустую строку (с -f вывел бы путь, но -f в опции нет). Второго верного варианта нет."
+  limitations:
+    - "Live-прогоны команд RHCSA и WSL запрещены капитаном: ни одна команда из вопросов не исполнялась. Все факты сверены по знанию man-страниц дистрибутива RHEL/Rocky 9 (coreutils 8.32, rsync 3.2.x)."
+    - "Тексты man-страниц пофрагментно не читались: web_fetch в этой сессии не использовался как источник цитат (проверка ограничена знанием man-ов), поэтому формулировки ключей приведены по памяти. Для проверявшихся тонких мест (size= у dd, -c у split, поведение mktemp -p без -d, mkdir -m 700) остаточная неопределённость низкая: все четыре — устоявшиеся и однозначные факты GNU coreutils, а не версионно-зависимое поведение."
+    - "Порог cosine: критерий приёмки из входа — 0.85, фактический внутренний порог инструмента — 0.80 (tools/cosine-calibration.json, thresholds.cosine=0.80, DEFAULT_COSINE_THRESHOLD). Оба прогона зелёные при обоих порогах, поэтому расхождение 0.85/0.80 на вердикт не влияет: максимум батча 0.7539 ниже обоих."
+    - "Гейт `npm run shuffle-bank:check` на банке 189 не прогонялся: он работает по факту src/data/questions и требовал бы зеркала всего банка целиком (включая _order.json/_topics.json), что выходит за рамки проверки 6 кандидатов. Распределение позиций приведено расчётом, а не результатом гейта."
+cosine_rerun:
+  intra_max: 0.6674
+  intra_pair: fm_014~fm_015
+  intra_pairs_above_0_8: 0
+  intra_pairs_above_0_75: 0
+  bank_max: 0.7539
+  bank_pair: fm_015~fm_007
+  bank_pairs_above_0_8: 0
+  bank_pairs_above_0_75: 1
+  acceptance_threshold: 0.85
+  instrument_threshold: 0.80
+  per_question_bank_best:
+    fm_013: 0.6280
+    fm_014: 0.6865
+    fm_015: 0.7539
+    fm_016: 0.7499
+    fm_017: 0.7103
+    fm_018: 0.7040
+  commands:
+    - "node tools/cosine.cjs --intra-batch \"$env:TEMP\\LinuxExam-qc-b4\\fm-b4-qc-pending.json\"  -> exit 0, max 0.6674 (fm_014~fm_015), pairs 15, >0.8: 0, >0.75: 0"
+    - "node tools/cosine.cjs \"$env:TEMP\\LinuxExam-qc-b4\\fm-b4-qc-pending.json\"  -> exit 0, bank=183 drafts=135 candidates=6, rejected 0/6, лучшие: fm_013 0.6280 / fm_014 0.6865 / fm_015 0.7539 / fm_016 0.7499 / fm_017 0.7103 / fm_018 0.7040"
+    - "node %TEMP%\\LinuxExam-qc-b4\\nearest.cjs <pending.json>  -> exit 0, TOP6 по всему банку 183 с id (см. evidence_verified.qc_rerun); пар > 0.80: 0"
+    - "node %TEMP%\\LinuxExam-qc-b4\\extract.cjs .project\\drafts\\m2.9-batch4-qc-input.yaml %TEMP%\\LinuxExam-qc-b4\\fm-b4-qc-pending.json  -> 6 вопросов, verbatim mismatches: 0"
+  verdict: PASS
+ratio_rerun:
+  method: "tools/_lib/ratio.cjs checkRatio(options, 'chars') — ровно тот вызов, что делает tools/qc.cjs:151 (RATIO_UNIT='chars', tools/qc.cjs:13); класс определяется по ЧИСЛУ СЛОВ (classifyOptions), порог берётся из RULES[class]"
+  rows:
+    - {id: fm_013, class: sentences, words: "5/5/5/5", lens_chars: "27/27/29/27", char_ratio: 1.0741, threshold: 1.30, warn_from: 1.25, verdict: ok}
+    - {id: fm_014, class: sentences, words: "5/5/5/5", lens_chars: "43/43/43/42", char_ratio: 1.0238, threshold: 1.30, warn_from: 1.25, verdict: ok}
+    - {id: fm_015, class: sentences, words: "4/4/4/4", lens_chars: "21/21/21/21", char_ratio: 1.0000, threshold: 1.30, warn_from: 1.25, verdict: ok}
+    - {id: fm_016, class: sentences, words: "4/4/4/4", lens_chars: "24/20/17/22", char_ratio: 1.4118, threshold: 1.30, warn_from: 1.25, verdict: FAIL, note: "hard blocker: 1.4118 > 1.30 -> npm run qc даст Fails 1 (подтверждено прогоном зеркала)"}
+    - {id: fm_017, class: mixed, words: "3/2/4/4", lens_chars: "25/22/25/24", char_ratio: 1.1364, threshold: 1.50, warn_from: 1.35, verdict: ok, note: "по СЛОВАМ класс mixed и ratio 2.000 > 1.5, но словесная шкала в этом гейте не применяется (qc.cjs зовёт unit='chars'); словесное значение приведено только как диагностика"}
+    - {id: fm_018, class: token, words: "2/2/2/2", lens_chars: "28/29/29/29", char_ratio: 1.0357, threshold: 2.00, warn_from: 1.35, verdict: ok}
+  commands:
+    - "node %TEMP%\\LinuxExam-qc-b4\\ratio-qc.cjs %TEMP%\\LinuxExam-qc-b4\\fm-b4-qc-pending.json -> эмуляция логики qc.cjs: fails=1 warns=0"
+    - "node %TEMP%\\LinuxExam-qc-b4\\mirror-qc.cjs %TEMP%\\LinuxExam-qc-b4\\fm-b4-qc-pending.json -> НАСТОЯЩИЙ qc.cjs по зеркалу 189: 'FAIL fm_016: option ratio (sentences) 1.41 > 1.3', Total 189 questions, Fails 1, Warns 16, exit code 1"
+    - "npm run qc (baseline 183) -> exit 0, Total 183 questions, Fails 0, Warns 16"
+  repair_maths: "max/min <= 1.30 при текущих длинах [24,20,17,22]: при max=24 минимум должен быть >= 19 символов; при min=17 максимум должен быть <= 22 символов. Проверенный пример: 'rm -f -- data.log' (17) -> 'rm --force data.log' (19) даёт 1.2632 (ok, ниже warn 1.25? нет: 1.2632 > 1.25 -> будет WARN, но не FAIL); чтобы уйти и от WARN, нужно >= 20 символов у минимума (ratio 1.20) или <= 21 у максимума"
+goal_invariant_check: true
+goal_invariant_note: >
+  Goal invariant в смысле контракта qc_to_orchestrator и в том же смысле, в
+  котором его ставил QC батча 3 — «ноль дублей, тема канона, структура чистая»
+  — ВЫПОЛНЕН: дублей нет ни внутри партии (intra max 0.6674), ни с банком 183
+  (bank max 0.7539, пар > 0.80 ноль), ни с avoid-list, ни в forbidden
+  cross-topics; exact-dup текстов опций и верных ответов — 0. При этом
+  goal_invariant_check НЕ означает «гейты зелёные»: гейт `npm run qc` по
+  зеркалу 189 красный из-за fm_016 (Fails 1), и именно поэтому verdict FAIL.
+  Чтобы не путать эти две вещи, gate-статус вынесен в verdict/verdict_basis и
+  в ratio_rerun.rows[fm_016].
+notes: >
+  ИТОГ: FAIL, 5 accept / 1 reject. Единственный hard blocker — fm_016:
+  option ratio 1.4118 при фактическом пороге qc.cjs 1.30 (класс sentences,
+  порог выбирается по числу слов, отношение считается по символам). Доказано
+  прогоном настоящего tools/qc.cjs по интеграционному зеркалу (183 -> 189):
+  «FAIL fm_016: option ratio (sentences) 1.41 > 1.3», Fails 1, exit 1.
+  Всё остальное по fm_016 верно (truncate -s 0 чистит файл, не удаляя inode;
+  все дистракторы строго неверны), поэтому правка — только длины опций,
+  аспект/стем/верный ответ менять не нужно.
+  fm_013, fm_014, fm_015, fm_017, fm_018 рекомендованы к accept без правок:
+  оба cosine-гейта зелёные (intra 0.6674, bank 0.7539 при приёмке <= 0.85 и
+  пороге инструмента 0.80), структура и id чистые, тема строго file_management,
+  aspect-ы (rsync --delete, dd bs/count, split -b, mktemp -d, basename) в банке
+  183 не заняты — инструментальный контроль по 11 командам дал 0 совпадений в
+  стемах и 0 в опциях; дублей с avoid-list и запрещёнными кросс-темами нет;
+  единственное касание границы — дистрактор mkdir -m 700 в fm_017, что не
+  является нарушением (вопрос про уникальность имени, а не про права).
+  Заявленные Writer'ом «несуществующие» ключи подтверждены (size= у dd, -c у
+  split), незаявленных несуществующих ключей в 24 опциях не найдено.
+  Оговорки: (1) fm_015~fm_007 = 0.7539 — единственная пара выше intra-warn 0.75,
+  но ниже обоих порогов; содержательного дубля нет (find -mtime vs split -b);
+  (2) explanation fm_013/fm_016/fm_018 содержат 4 предложения (3 у остальных)
+  при DOD-лимите «<= 3 строк» — ограничение по строкам выполнено, все
+  explanation однострочные (279..384 символа); (3) report Writer'а заявляет
+  прохождение ratio для всего батча — это неверно для fm_016, и именно этот
+  пункт не подтверждён.
+  ИСТОРИЧЕСКАЯ СВЯЗКА (важно для Оркестратора): замороженный вход
+  .project/drafts/m2.9-batch4-qc-input.yaml (11:21:15) — тот же снапшот, по
+  которому уже выпущен rework-запрос .project/drafts/m2.9-batch4-writer-rework1-input.yaml
+  (11:22:17), и он указывает на ТОТ ЖЕ hard blocker fm_016 (ratio 1.4118 > 1.30,
+  те же длины 24/20/17/22). То есть мой независимый вывод совпал с выводом
+  Оркестратора, полученным другим методом (я — прогоном зеркала, он — вызовом
+  checkRatio). Файла .project/drafts/m2.9-batch4-writer-output-v2.yaml в
+  репозитории ещё НЕТ, поэтому повторный QC v2 не выполнялся и не мог быть
+  выполнен: этот отчёт относится строго к v1. Правки контента QC не производил;
+  src/data/questions/* не изменялись (git status: ни одного modified-пути).
+next_step: >
+  Решение принимает Оркестратор (не QC). Данные: 5/6 accept без правок;
+  fm_016 — reject с одним дефектом (длины опций), аспект сохранить.
+  Минимальная правка, проходящая фактический гейт: 'rm -f -- data.log' (17) ->
+  'rm --force data.log' (19) даёт 1.2632 (ok; WARN по порогу 1.25 остаётся), либо
+  довести минимум до >= 20 символов (ratio 1.20) / максимум до <= 21 (ratio 1.235).
+  После правки обязателен повторный QC на v2: оба cosine-режима заново (fm_016
+  меняется -> те же гейты), ratio, и интеграционное зеркало 189 -> `Fails 0`.
+  Максимум 1 доп. итерация на вопрос.

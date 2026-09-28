@@ -109,7 +109,7 @@ tools/gen-state.mjs                — сборщик .project/state.json (npm r
 .project/audits/                   — аудиты и отчёты смен
 .project/drafts/m2.9-qc-batch.cjs  — QC-прогон батча кандидатов (Оркестратор)
 docs/index.html                    — центр разработки (сгенерирован, руками не править)
-docs/HANDOFF.md                    — точка входа (этот файл)
+docs/archive/HANDOFF.md                    — точка входа (этот файл)
 
 # Разработка: Windows-side (node.exe, git.exe). WSL — для man и live-проверок.
 ```
@@ -367,7 +367,7 @@ freeze-ом; `012` (`fix-state-head-volatile`) — self-reference принят �
 - Логика quizStore, paywall, progress.
 - `_order.json`, `_topics.json`, `topics.ts` (без явной задачи).
 - `docs/dashboard/*` — легаси-дашборд V1–V9.
-- `docs/HANDOFF.md` (обновляется по итогу сессии).
+- `docs/archive/HANDOFF.md` (обновляется по итогу сессии).
 - Другие темы банка, если задача не касается их.
 - `src/data/questions/*` — только добавление новых вопросов через approve.
 

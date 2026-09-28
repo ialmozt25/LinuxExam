@@ -1,0 +1,111 @@
+---
+name: m2.9-batch2-deploy_systems
+version: "1.0"
+from_role: orchestrator
+to_role: content-writer
+batch_id: m2.9-batch2-deploy_systems
+created_at: "2026-09-26"
+topic: deploy_systems
+subtopic: "systemd timers, cron/anacron, systemd drop-in, systemd targets/services, tuned, journald, systemd-analyze, boot targets"
+batch_size: 6
+count: 6
+difficulty: "3 easy / 3 medium"
+canonical_topics_source: src/data/topics.ts
+target_file: src/data/questions/deploy_systems.json
+journal_notes_source: "docs/knowledge/PROJECT-GOALS.md (не обязателен)"
+id_format: "^ds_\\d{3}$; следующие свободные: ds_009, ds_010, ds_011, ds_012, ds_013, ds_014 (max в банке: ds_008)"
+avoid_existing_ids:
+  - ds_001
+  - ds_002
+  - ds_003
+  - ds_004
+  - ds_005
+  - ds_006
+  - ds_007
+  - ds_008
+avoid_existing_subtopics:
+  - "at: однократное задание по времени"
+  - "crontab: строка расписания"
+  - "cron.d: системное задание и поле пользователя"
+  - "systemd timer: OnCalendar"
+  - "tuned-adm: переключение профиля"
+  - "systemd drop-in: правка юнита без его файла"
+  - "journald: постоянное хранение журнала"
+  - "SELinux: контекст порта для нового сервиса"
+constraints:
+  - "РОВНО 6 вопросов: не меньше и не больше"
+  - "difficulty строго из enum: easy или medium; требуется 3 easy и 3 medium"
+  - "Весь UI-текст (question, options, explanation) только на русском языке"
+  - "Ноль дублей с avoid_existing_ids, с avoid_existing_subtopics и внутри батча"
+  - "Тема строго deploy_systems; не выходить в users_groups, file_permissions, security, essential_tools"
+  - "Не переиспользовать аспекты из avoid_existing_subtopics (в т.ч. не задавать снова OnCalendar, Storage=persistent, systemctl edit, tuned-adm profile)"
+  - "id строго ds_009, ds_010, ds_011, ds_012, ds_013, ds_014 (по одному на вопрос, без пропусков и повторов)"
+  - "subtopic уникален и конкретен, формат <cmd>: <aspect>"
+  - "objective_domain строго строка: \"6\" (Deploy, configure and maintain systems)"
+position_requirement:
+  rule: "correct-index распределить так, чтобы НИ ОДНА позиция (0/1/2/3) не превысила 60% по теме"
+  current_distribution_in_topic: "total=8, correct-index: pos0=1 (ds_002), pos1=0, pos2=0, pos3=7"
+  after_batch: "total=14; допустимо pos3 <= 8 (57%), остальные позиции — по вашему выбору"
+  required_example: "например 0:2, 1:2, 2:1, 3:1 → после батча pos0=3, pos1=2, pos2=2, pos3=8 (57%) — проходит"
+  forbidden: "нельзя ставить correct на позицию 3 более одного раза из шести"
+requirements:
+  - "4 options, ровно 1 correct: true (true ровно в одном элементе)"
+  - "explanation обязателен: почему верный вариант верен И почему каждый из трёх дистракторов неверен"
+  - "man-page evidence: _meta.reference вида man <cmd> для каждого вопроса (RHCSA-стандарт)"
+  - "Дистракторы правдоподобны: реальные ключи и синтаксис, но объективно неверны"
+  - "WSL запрещён капитаном: live-прогоны не делать, факты сверять по знанию man-страниц RHEL/Rocky 9"
+evidence_requirements:
+  - "Для каждого вопроса: reference (man page) и note (что именно проверено)"
+  - "Если используете несуществующий ключ как дистрактор — пометьте это явно в notes"
+bank_format: |
+  {
+    "id": "ds_009",
+    "topic": "deploy_systems",
+    "difficulty": "easy|medium",
+    "objective_domain": "6",
+    "subtopic": "<cmd>: <aspect>",
+    "question": "<условие задачи на русском>",
+    "options": [
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<верный>", "correct": true},
+      {"text": "<дистрактор>", "correct": false},
+      {"text": "<дистрактор>", "correct": false}
+    ],
+    "explanation": "<почему верный верен и почему каждый дистрактор неверен>",
+    "_meta": {
+      "added_at": "2026-09-26",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "<ISO8601 UTC>",
+      "source": "m2.9-batch2-deploy_systems",
+      "reference": "man <cmd>",
+      "status": "active"
+    }
+  }
+output_path: .project/drafts/m2.9-batch2-writer-output.yaml
+output_structure: |
+  batch_id: m2.9-batch2-deploy_systems
+  topic: deploy_systems
+  status: OK | PARTIAL | FAILED
+  goal_invariant_check: true
+  questions:
+    - <объект формата банка, см. bank_format>
+  evidence:
+    - question_id: ds_009
+      reference: "man <cmd>"
+      note: "<что именно проверено>"
+  position_report:
+    distribution: "0:N, 1:N, 2:N, 3:N"
+    max_share_percent: <число>
+  notes: "<наблюдения, свободный текст>"
+next_step: "Оркестратор передаёт output в QC по контракту writer_to_qc.yaml; без per-question accept интеграции НЕТ."
+goal_invariant:
+  intent: "Банк 300+ качественных MCQ-вопросов для RHCSA EX200 (RU), пригодных для монетизации через Telegram-бота"
+  constraints:
+    - "Формат строго: 4 опции, ровно 1 correct"
+    - "Каждый вопрос проверяем по man-странице RHEL 9"
+    - "Ноль дублей внутри банка"
+  evaluative_criteria:
+    - "6/6 вопросов структурно валидны (4 опции, 1 correct, непустой explanation)"
+    - "6/6 имеют man-page evidence"
+    - "Adversarial QC (default FAIL) не находит hard blocker (fact-check, objective)"

@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "5a806d168ca3590dcfc208a7144f4df90fde947f",
+  "head": "3a6266a0ddead74ca260cfb1dedf11c5cd363758",
   "specs": [
     {
       "id": "016",
@@ -530,7 +530,7 @@
       "updated": "2026-09-28",
       "commit": "61787a0",
       "file": "specs/014-subagent-push-lockdown.md",
-      "mtime": 1790558334255.5476,
+      "mtime": 1790561643547.596,
       "goal": "Закрыть контур авторизации push на уровне процедуры, а не техники. После Phase 4",
       "acceptance": "[ ] `.project/specs/014-subagent-push-lockdown.md` существует, frontmatter валиден,",
       "noTouch": "`.project/sync.mjs` — ни одной правки.",
@@ -635,7 +635,7 @@
       "updated": "2026-09-27",
       "commit": null,
       "file": "specs/011-text-files-duplicate-repair.md",
-      "mtime": 1790491229720.0896,
+      "mtime": 1790561643538.839,
       "goal": "Устранить **единственную пару банка, реально пробивающую порог дублирования**:",
       "acceptance": "[ ] Cosine `tf_001` ~ `tf_002` ≤ 0.85 после правки (перезамер тем же",
       "noTouch": "`src/data/topics.ts`, `.project/contracts/*`, `package.json`.",
@@ -672,6 +672,12 @@
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3a6266a",
+      "date": "2026-09-28",
+      "subject": "chore(specs): close 014 done, reject 010 (formalities)",
+      "type": "chore"
+    },
     {
       "sha": "2dd251e",
       "date": "2026-09-28",
@@ -785,12 +791,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after batch 5B",
       "type": "chore"
-    },
-    {
-      "sha": "0622321",
-      "date": "2026-09-28",
-      "subject": "feat(bank): M2.9 batch 5B - 6 questions on shell_scripts (212->218)",
-      "type": "feat"
     }
   ],
   "roles": [

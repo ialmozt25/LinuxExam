@@ -1,0 +1,118 @@
+contract: qc_to_orchestrator
+batch_id: m2.9-batch4-file_management
+verdict: PASS
+per_question:
+  - question_id: fm_013
+    verdict: accept
+    reason: "rsync -a --delete src/ dst/ — единственный вариант, удаляющий из приёмника файлы, отсутствующие в источнике. Дистракторы --update / --existing / --backup существуют в rsync 3.2.3 (RHEL 9) и объективно не дают зеркала: --update лишь пропускает более новые файлы на приёмнике, --existing не создаёт новых файлов на приёмнике, --backup переименовывает заменяемые файлы. Второго верного ответа нет. ratio 1.0741 (класс sentences, порог 1.30) — ok."
+  - question_id: fm_014
+    verdict: accept
+    reason: "dd if=/dev/zero of=disk.img bs=1M count=100 действительно создаёт 100 МБ нулей (bs задаёт размер блока, count — число блоков). Дистракторы неверны: if=/dev/null не выдаёт данных (файл 0 байт), bs=1K count=100 даёт 100 КБ, операнда size= у GNU dd нет (подтверждено: в dd --help coreutils 8.32 присутствуют bs=, count=, if=, of=, size= отсутствует). ratio 1.0238 (sentences/1.30) — ok."
+  - question_id: fm_015
+    verdict: accept
+    reason: "split -b 10M data.log — единственный вариант с корректным ключом размера части. -l 10M неверен (-l принимает число строк, суффикс M некорректен), -n 10M неверен (-n принимает число частей). Утверждение explanation «Опции -c в GNU split нет» я перепроверил сам: в GNU coreutils 8.32 (версия RHEL 9) короткий ключ -c у split не зарегистрирован (существует только -C, --line-bytes=SIZE), поэтому команда split -c 10M ... завершится ошибкой «invalid option». Дистрактор неверен, второй верный ответ не появился. ratio 1.0000 (sentences/1.30) — ok."
+  - question_id: fm_016
+    verdict: accept
+    reason: "Верный ответ truncate -s 0 data.log обнуляет файл, сохраняя inode. Новый дистрактор rm --force -- data.log — валидный GNU-синтаксис (--force = длинная форма -f, -- закрывает разбор опций, далее операнды-файлы) и по-прежнему объективно неверен: rm удаляет файл, нарушая условие «не удаляя его». Вторым верным ответом не стал. ratio после правки 1.2000 (класс sentences, порог 1.30, warn 1.25 — ниже warn-порога), hard blocker раунда 1 закрыт (было 1.4118)."
+  - question_id: fm_017
+    verdict: accept
+    reason: "mktemp -d /tmp/tmp.XXXXXX — единственный вариант, создающий именно каталог со случайным суффиксом. Без -d mktemp создаёт файл; mktemp -p /tmp tmp.XXXXXX без -d тоже создаёт файл (ключ -p лишь задаёт базовый каталог); mkdir -m 700 /tmp/tmp.$$ использует PID и не защищён от коллизий. ratio 1.1364 (mixed/1.50) — ok."
+  - question_id: fm_018
+    verdict: accept
+    reason: "basename /etc/ssh/sshd_config возвращает последний компонент пути (имя файла). dirname вернёт /etc/ssh, realpath — полный канонический путь, readlink без -f на обычном файле ничего не выведет. Все четыре команды существуют в coreutils 8.32, несуществующих ключей нет. ratio 1.0357 (token/2.0) — ok."
+issues:
+  - question_id: fm_016
+    severity: MINOR
+    pass: objective
+    description: "Дистрактор `rm --force -- data.log` корректен с точки зрения GNU-синтаксиса, но использование длинной формы --force для двухсимвольного -f нетипично для реальной практики и делает вариант заметно более «многословным», чем остальные. Это не дефект: option ratio 1.2000 ниже warn-порога 1.25, смысловой ловушки не создаёт (rm всё равно удаляет файл). Правок не требуется, фиксируется как наблюдение."
+  - question_id: fm_014
+    severity: MINOR
+    pass: fact-check
+    description: "Дистрактор `dd ... bs=1M size=100` построен на несуществующем операнде size=. Операнд действительно не существует в GNU dd (coreutils 8.32), но такие «синтетические» несуществующие операнды — слабый тип дистрактора: внимательный студент отбрасывает его не по знанию материала, а по общему знакомству с синтаксисом dd. Рекомендация на будущее (не блокер для этого батча): отдавать предпочтение синтаксически валидным, но неверным по семантике вариантам, как это сделано в fm_016."
+  - question_id: fm_015
+    severity: MINOR
+    pass: fact-check
+    description: "Дистрактор `split -c 10M data.log` также опирается на отсутствующий короткий ключ -c. Утверждение explanation проверено и ВЕРНО для версии RHEL/Rocky 9 (coreutils 8.32): зарегистрирован только -C (--line-bytes). Слабость та же, что у fm_014 — тип дистрактора «несуществующий ключ»."
+  - question_id: fm_013
+    severity: MINOR
+    pass: skeptic-view
+    description: "Формулировка «синхронизирует содержимое каталога src/ в dst/, удаляя из dst/ файлы, которых больше нет в src/» однозначна, но требует неявного знания, что завершающий слэш у источника означает «копировать содержимое, а не сам каталог». При чтении без этого знания вариант-ответ всё равно остаётся единственным с ключом --delete, поэтому неоднозначности нет. Замечание адвайзорное."
+evidence_verified:
+  qc_rerun:
+    - "npm run qc (baseline репозитория, 183): Total 183, Fails 0, Warns 16, exit 0 — воспроизведено дважды в двух отдельных процессах pwsh; WARN by category: absolute=1 ratio=13 stopword=2"
+    - "node $env:TEMP\\qc29b4\\mirror\\tools\\qc.cjs (зеркало 189: все 14 json-тем + _order.json + _topics.json, 6 вопросов добавлены в file_management.json 12->18, _order.json 183->189, _topics.json total=189 file_management=18): Total 189, Fails 0, Warns 16, exit 0"
+    - "Сравнение множеств WARN baseline(183) vs mirror(189): без изменений (Compare-Object не дал ни одной строки), категории и количества совпадают (absolute=1 ratio=13 stopword=2). Новых warn-категорий батч не добавляет; единственный warn по file_management в обоих прогонах — fm_003 (absolute term in question stem), существующий вопрос банка."
+    - "Зеркало собрано скриптом $env:TEMP\\qc29b4\\build-mirror.cjs; в зеркальной копии tools/qc.cjs изменены ТОЛЬКО две строки (BANK_DIR оставлен как path.join(__dirname,'..','src/data/questions') — резолвится внутрь зеркала; TOPICS указывает на реальный src/data/topics.ts); tools/_lib/ratio.cjs скопирован побайтно. Ассерция скрипта подтвердила: BANK_DIR зеркала != BANK_DIR репозитория, в зеркале 189 вопросов. tools/qc.cjs и src/data/questions/* в репозитории НЕ изменялись (SHA256 tools/qc.cjs = 55F00241F891EC9CA8EDE8DEB89DAD6CE10D2D72F472F827751B334201871825; bank всё ещё 183 / file_management 12, fm_013..fm_018 в банке отсутствуют — это ожидаемо до интеграции)."
+    - "Декодирование снапшота YAML->JSON для инструментов проверено на точность: скрипт $env:TEMP\\qc29b4\\cosine-detail.cjs сверил, что все id, topic, difficulty, objective_domain, subtopic, question, explanation и все строки '- text: <опция>' присутствуют в YAML дословно (fidelity gaps: none)."
+    - "Структурный аудит ($env:TEMP\\qc29b4\\structural.cjs): у всех 6 вопросов options=4, ровно один correct: true, id совпадает с ^fm_\\d{3}$, id уникальны (fm_013..fm_018), topic=file_management, objective_domain = одна цифра (все '1'), explanation — ровно 1 строка (<= 3), дублей текста опций внутри вопроса нет, идентичных стемов внутри file_management.json (18) нет, распределение позиции верного ответа 0:2, 1:1, 2:2, 3:1 (совпадает с position_report Writer'а)."
+    - "Файлы банка и инструментов в репозитории не изменялись: зеркало целиком лежит в $env:TEMP\\qc29b4\\mirror; правки только в скопированном tools/qc.cjs этого зеркала."
+  man_recheck:
+    - "rsync (RHEL 9: rsync 3.2.3, man rsync): --delete удаляет из приёмника файлы, отсутствующие в источнике; -u/--update пропускает файлы новее на приёмнике; --existing/--ignore-non-existing не создаёт новые файлы на приёмнике; -b/--backup переименовывает заменяемые файлы. Ключи существуют, несуществующих нет. Верный ответ валиден; завершающий слэш у src/ означает «содержимое каталога»."
+    - "dd (coreutils 8.32): bs= / count= / if= / of= — существуют, операнд size= ОТСУТСТВУЕТ (проверено по тексту справки dd 8.32: перечислены bs=, count=, if=, of=; size= отсутствует). Чтение из /dev/null не выдаёт данных; bs=1K count=100 = 100 КБ."
+    - "split (coreutils 8.32): -b/--bytes=SIZE, -l/--lines=NUMBER, -n/--number=CHUNKS существуют; короткого ключа -c НЕТ (зарегистрирован только -C/--line-bytes=SIZE), поэтому split -c ... даёт «invalid option» и утверждение explanation корректно. Проверено по тексту справки coreutils 8.32; на RHEL-хосте не исполнялось (live-прогоны запрещены капитаном)."
+    - "truncate (coreutils 8.32): -s/--size=SIZE существует; -s 0 задаёт нулевой размер, сохраняя inode; -s 100 оставляет 100 байт. Длинной формы или иной записи, обнуляющей файл без удаления, среди дистракторов нет."
+    - "touch (coreutils 8.32): -c/--no-create и -m (change only the modification time) существуют; вместе они лишь обновляют mtime и не меняют содержимое — дистрактор верно помечен неверным."
+    - "rm (coreutils 8.32): -f/--force существует («ignore nonexistent files and arguments, never prompt»); -- является стандартным маркером конца опций, после него аргументы трактуются как операнды. `rm --force -- data.log` синтаксически валиден и удаляет файл — по-прежнему неверен для условия «не удаляя его»."
+    - "mktemp (coreutils 8.32): -d создаёт каталог, -p DIR задаёт базовый каталог, XXXXXX заменяется случайными символами. Без -d создаётся файл (в т.ч. с -p). $$ в bash подставляет PID; mkdir -m 700 /tmp/tmp.$$ завершится ошибкой при существующем каталоге и не является безопасным способом."
+    - "basename/dirname (coreutils 8.32): basename отбрасывает каталог и возвращает последний компонент пути; dirname возвращает каталог. readlink (coreutils 8.32) по умолчанию печатает цель символьной ссылки; для обычного файла без -f вывода нет. realpath печатает канонический абсолютный путь. Все команды существуют."
+    - "Незаявленных несуществующих ключей/операндов не найдено: помимо заявленных Writer'ом size= (dd) и -c (split), остальные опции дистракторов и верных ответов (rsync -a/--delete/--update/--existing/--backup; truncate -s; touch -c -m; mktemp -d/-p; basename; dirname; realpath; readlink) реально существуют в RHEL 9."
+cosine_rerun:
+  intra_max: 0.6674
+  bank_max: 0.7539
+  commands:
+    - 'node tools/cosine.cjs --intra-batch "$env:TEMP\\qc29b4\\pending-v2.json"'
+    - 'node tools/cosine.cjs "$env:TEMP\\qc29b4\\pending-v2.json"'
+  detail:
+    intra_batch: "15 пар, max cosine 0.6674 (fm_014~fm_015), пар > 0.80: 0, пар > 0.75: 0, exit 0. Второй независимый прогон через API модуля ($env:TEMP\\qc29b4\\cosine-detail.cjs) дал тот же максимум 0.6674 при всех 15 парах: fm_014~fm_015 0.6674, fm_015~fm_016 0.6374, fm_014~fm_016 0.6304, fm_015~fm_017 0.6111, fm_013~fm_017 0.6001, fm_014~fm_017 0.5939, fm_016~fm_018 0.5836, fm_017~fm_018 0.5569, fm_013~fm_015 0.5511, fm_013~fm_016 0.5326, fm_015~fm_018 0.5298, fm_016~fm_017 0.5291, fm_013~fm_014 0.5165, fm_014~fm_018 0.4764, fm_013~fm_018 0.4667."
+    vs_bank_183: "CLI: bank=183 drafts=135 candidates=6, вес 6 вопросов ok, rejected 0/6, exit 0. Максимумы по вопросам против банка 183 (closest neighbours по стемам): fm_013 0.6280 (ls_006), fm_014 0.6865 (fm_007), fm_015 0.7539 (fm_007), fm_016 0.7499 (fm_007), fm_017 0.7103 (ms_002), fm_018 0.7040 (sec_014). Общий bank_max = 0.7539 <= 0.85. Ни одна пара не является смысловым дублем: fm_007 — про find -mtime +7, fm_015 — про split -b, fm_016 — про truncate -s 0 (пересечение только тематическое). Для сравнения с drafts (135 незамороженных заготовок) максимум 0.724 - тоже ниже порога."
+    repeatability: "Оба режима прогнаны дважды разными путями (CLI инструмента и прямой вызов embed/cosine из модуля cosine.cjs), числа совпали до 4 знаков. Вход — JSON-массив (YAML инструмент не парсит): $env:TEMP\\qc29b4\\pending-v2.json, получен из снапшота и сверен с ним дословно. Стемы fm_016 v1 и v2 совпадают (в v2 изменён только дистрактор), поэтому замеры валидны и для правленого вопроса."
+ratio_rerun:
+  - id: fm_013
+    class: sentences
+    char_ratio: 1.0741
+    threshold: 1.30
+    verdict: ok
+  - id: fm_014
+    class: sentences
+    char_ratio: 1.0238
+    threshold: 1.30
+    verdict: ok
+  - id: fm_015
+    class: sentences
+    char_ratio: 1.0000
+    threshold: 1.30
+    verdict: ok
+  - id: fm_016
+    class: sentences
+    char_ratio: 1.2000
+    threshold: 1.30
+    verdict: ok
+  - id: fm_017
+    class: mixed
+    char_ratio: 1.1364
+    threshold: 1.50
+    verdict: ok
+  - id: fm_018
+    class: token
+    char_ratio: 1.0357
+    threshold: 2.00
+    verdict: ok
+ratio_method: "checkRatio(options,'chars') из tools/_lib/ratio.cjs: класс по числу слов (classifyOptions), отношение — по символам (max/min). Порог выбирается по классу: sentences 1.30 (warn 1.25), token 2.0 (warn 1.35), mixed 1.5 (warn 1.35). Числа слов и длин в символах: fm_013 слова 5/5/5/5, символы 27/27/29/27; fm_014 5/5/5/5, 43/43/43/42; fm_015 4/4/4/4, 21/21/21/21; fm_016 4/4/4/4, 24/20/22/22; fm_017 3/2/4/4, 25/22/25/24; fm_018 2/2/2/2, 28/29/29/29. Все 6 ниже warn-порога, ни один не даёт warn/FAIL в qc.cjs."
+goal_invariant_check: true
+notes: >-
+  ВЕРДИКТ PASS. Hard blockers (проходы fact-check и objective) отсутствуют; ни один вопрос не отклонён.
+  Зеркало банка 189 через НАСТОЯЩИЙ tools/qc.cjs (подменены только BANK_DIR/TOPICS во временной копии инструмента): Fails 0, Warns 16, exit 0 — требование выполнено.
+  Baseline репозитория 183 воспроизведён независимо: Fails 0, Warns 16, exit 0. Множества warn-строк совпадают побайтно, новых warn-категорий батч не добавляет.
+
+  ДЕЛЬТА v1 -> v2 подтверждена машинно (diff двух снапшотов): изменилась РОВНО одна содержательная строка — дистрактор fm_016 `rm -f -- data.log` -> `rm --force -- data.log`.
+  Стемы, верный ответ (truncate -s 0 data.log, позиция 3) и explanation fm_016 не менялись; пять прочих вопросов (fm_013, fm_014, fm_015, fm_017, fm_018) идентичны по всем полям (topic, difficulty, objective_domain, subtopic, question, explanation, все 4 опции и флаги correct).
+  Прочие различия файлов — только служебные поля (добавлены qc_round: 2 и prior_round, обновлена версия note об rm в блоке evidence). Hard blocker раунда 1 закрыт: ratio fm_016 1.4118 -> 1.2000 при пороге 1.30.
+  Новый дистрактор `rm --force -- data.log` — валидный GNU-синтаксис (--force = длинная форма -f; `--` завершает разбор опций, поэтому `data.log` трактуется как операнд-файл), он по-прежнему объективно НЕВЕРЕН для условия «не удаляя файл» и вторым верным ответом не стал. Класс опций остался sentences (4/4/4/4 слова), гейт пройден и по FAIL-порогу 1.30, и по warn-порогу 1.25.
+
+  Независимо перепроверено (не по выводам раунда 1): структурная схема всех 6 вопросов; ratio тем же кодом; cosine в обоих режимах своими прогонами; существование/отсутствие ключей и операндов; отсутствие смысловых дублей внутри партии и с банком; отсутствие незаявленных несуществующих ключей; соблюдение avoid-list и forbidden_cross_topic_aspects.
+  avoid-list: ни один из 11 ID (ds_002, ds_014, rs_001, pm_014, pm_010, fs_005, fs_006, fs_013, ls_002, ls_005, ls_007) не повторён в партии; ds_014 в банке отсутствует — намеренный no-op, подтверждено. Существующие подтемы fm_001..fm_012 не дублируются: rsync, dd, split, truncate, mktemp, basename/dirname в банке file_management новы.
+  Запрещённые cross-topic аспекты не затронуты: нет tar/find/sed/awk/chmod/LVM/mount/fstab и т.п.; все шесть вопросов лежат в предметном поле file_management.
+
+  ЧТО ПРОВЕРИТЬ НЕ СМОГ (остаточная неопределённость): (1) факты сверены по знанию man-страниц/текстов справок GNU coreutils 8.32 и rsync 3.2.3, но НИ ОДНА команда не исполнялась на RHEL/Rocky 9 — live-прогоны запрещены капитаном; в частности поведение `rm --force -- file` и вывод `split`/`readlink` на обычном файле подтверждены документально, а не экспериментом на целевом хосте; (2) версия rsync на конкретной целевой системе принята как 3.2.3 (RHEL 9); при иной сборке набор длинных ключей rsync может отличаться, хотя все четыре использованных ключа есть в upstream rsync уже много лет; (3) `npm run shuffle-bank:check` (второй гейт из DOD.md, раздел content) не запускался: он относится к интеграции банка, а не к замороженному снапшоту — Оркестратору следует прогнать его после вставки fm_013..fm_018 в src/data/questions/file_management.json (порядок вопросов в файле сохранить как в снапшоте, _order.json — дописать id в конец, _topics.json — total 189 / file_management 18); (4) визуальная проверка UI-рендеринга опций не выполнялась (вне рамок контракта QC).
+
+  ПРАВКИ В РЕПОЗИТОРИИ НЕ ВНОСИЛИСЬ: src/data/questions/* (183 / file_management 12 / fm_013..fm_018 отсутствуют), tools/* и любые другие файлы проекта оставлены без изменений; всё зеркало и вспомогательные скрипты — в $env:TEMP\qc29b4\. Создан ровно один файл результата: .project/drafts/m2.9-batch4-qc-output-v2.yaml.

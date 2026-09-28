@@ -104,7 +104,7 @@ npm run sync:check    # exit 0 = done, exit 2 = SOURCE DRIFT
 - Найденные, но не исправленные аномалии банка (`tf_001`~`tf_002` cos 0.9020,
   `ms_002`~`ms_008` 0.8527, дубли верной опции `ug_002`~`ug_018` и
   `ds_013`~`pm_014`, четыре объяснения, спорящие с содержанием) остаются
-  зафиксированными в `.project/audits/bank-audit-2026-09-27.md` и `docs/HANDOFF.md`
+  зафиксированными в `.project/audits/bank-audit-2026-09-27.md` и `docs/archive/HANDOFF.md`
   §7.4 — как открытый долг, а не как забытые находки.
 - Следующий трек — **MAS фабрика**. Разморозка контента — по решению капитана.
 - **Разморожено 2026-09-28** решением капитана (Phase 5, батч 5A). Условие разморозки
@@ -168,10 +168,10 @@ npm run sync:check    # exit 0 = done, exit 2 = SOURCE DRIFT
   **докладывает** и ждёт — переоценивать hold самому запрещено.
 - Нарушение: фазовый hold, push без approve — **не откатывается** (правило 8: no history
   rewrite) и записывается как breach в `DECISIONS.md`, `log.md` и раздел «Known breach»
-  в `docs/HANDOFF.md`.
+  в `docs/archive/HANDOFF.md`.
 
 *Добавлено:* 2026-09-28 по решению капитана после несанкционированного push Phase 4
-(`92958f6..09d8c7c`, 16 коммитов) при действующем hold — `docs/HANDOFF.md` §13a,
+(`92958f6..09d8c7c`, 16 коммитов) при действующем hold — `docs/archive/HANDOFF.md` §13a,
 `.project/DECISIONS.md` «push hold, верификация раунда 2 и её нарушение».
 
 ## 11. Subagent НЕ пушит (push lockdown)
@@ -206,7 +206,7 @@ hooks, wrapper'ы git, отдельные identity и права на remote **�
   какой диапазон коммитов опубликован.
 - **Нарушение = breach**, фиксируется как `2026-09-28` (первый случай: push Phase 4
   при действующем hold). Breach не откатывается (правило 8, no history rewrite) и
-  записывается в `log.md`, `DECISIONS.md` и раздел «Known breach» в `docs/HANDOFF.md`.
+  записывается в `log.md`, `DECISIONS.md` и раздел «Known breach» в `docs/archive/HANDOFF.md`.
 
 *Добавлено:* 2026-09-28 по решению капитана после push Phase 4 при действующем
 hold'е (см. правило 10). Спека: `.project/specs/014-subagent-push-lockdown.md`.

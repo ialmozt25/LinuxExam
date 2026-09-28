@@ -1,0 +1,135 @@
+contract: qc_to_orchestrator
+batch_id: "m2.9-batch1-essential_tools"
+
+# --- РЕШЕНИЕ ПО БАТЧУ ---
+verdict: "PASS"
+
+# --- РЕШЕНИЯ ПО ВОПРОСАМ ---
+questions:
+  - question_id: "et_008"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues: []
+
+  - question_id: "et_009"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues: []
+
+  - question_id: "et_010"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues:
+      - "Преемственность банка: форма -maxdepth 1 на /etc с шаблоном *.conf уже присутствует в fm_003 как неверный дистрактор (find /etc -name '*.conf' -maxdepth 1), а в et_010 та же форма — верный ответ. Один и тот же синтаксис ранжируется противоположно в двух вопросах банка, хотя стемы разные."
+
+  - question_id: "et_011"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues: []
+
+  - question_id: "et_012"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues:
+      - "Пересечение с sec_015 (SSH: файл authorized_keys) и sec_014 (ssh-keygen): та же область знаний по установке открытого ключа, хотя формулировки разные и прямых дублей нет."
+
+  - question_id: "et_013"
+    verdict: "accept"
+    passes:
+      fact_check: "pass"
+      objective: "pass"
+      language: "pass"
+      beginner_view: "pass"
+      skeptic_view: "pass"
+    hard_blocker_reason: null
+    issues:
+      - "В стеме дважды повторяется оборот «в текущий каталог» (второе предложение почти дословно повторяет первое)."
+      - "Пояснение про -czf говорит о попытке перезаписать файл: команда создаёт архив и при существующем файле перезаписывает его только после подтверждения; распаковки она не выполняет при любом варианте, поэтому ответ не затронут."
+      - "Два дистрактора (tar -xzf и tar -cjf) дословно совпадают с неверными вариантами fm_004."
+
+# --- ПОДРОБНЫЕ ISSUES ---
+issues:
+  - question_id: "et_010"
+    severity: "SUBSTANTIAL"
+    pass: "skeptic-view"
+    description: "Ловушка преемственности банка. В fm_003 вопрос про поиск всех файлов .conf в /etc и поддиректориях имеет дистрактором find /etc -name '*.conf' -maxdepth 1, то есть помечает -maxdepth 1 неверным. В et_010 та же форма (-maxdepth 1, тот же каталог, тот же шаблон) объявлена верным ответом. Различие только в стемах: у fm_003 цель — «в /etc и поддиректориях», у et_010 — «только в самом каталоге /etc, не спускаясь во вложенные». Технически оба верны, но обучающийся видит одну и ту же команду как правильную в одном вопросе и как дистрактор в другом, причём опорная фраза fm_003 «и поддиректориях» практически не подсказывает, что -maxdepth 1 в ней неверен. Hard blocker не ставлю: сам et_010 фактически корректен, стемы различаются, второй объективно верной опции нет. Решение об интеграции — за Оркестратором."
+
+  - question_id: "et_013"
+    severity: "SUBSTANTIAL"
+    pass: "skeptic-view"
+    description: "Признак неполной оригинальности относительно fm_004 (tar / gzip / bzip2, «Какая команда создаст gzip-архив из /var/log?»). Два дистрактора совпадают дословно: tar -xzf archive.tar.gz /var/log у fm_004 против tar -xzf backup.tar.gz у et_013, и tar -cjf archive.tar.gz /var/log против tar -cjf backup.tar.gz. Основной дистрактор fm_004 (tar -czf) как раз стал бы сильным вариантом для et_013, но в et_013 он не задействован. Схема дистракторов et_013 фактически повторяет fm_004; при этом пары принципиально разные по действию (создание против распаковки), прямого дубля нет и ответ et_013 бесспорен. Рекомендация Оркестратору: при желании заменить один дистрактор et_013, чтобы снизить шаблонность."
+
+  - question_id: "et_013"
+    severity: "MINOR"
+    pass: "language"
+    description: "Повтор в стеме: «Нужно извлечь его содержимое в текущий каталог. Какая команда распакует архив в текущий каталог?» — оборот «в текущий каталог» повторяется в двух соседних предложениях. Смысл не страдает, вопрос читается однозначно."
+
+  - question_id: "et_008"
+    severity: "MINOR"
+    pass: "language"
+    description: "Ключ grep -E в пояснении описан фразой «совпадут только строки со строчным словом error». Для шаблона error утверждение случайно верно (в нём нет метасимволов, поэтому ERE и BRE дают один результат), но причина сформулирована как «-E не отменяет регистр», хотя реальная причина — нечувствительность шаблона к типу регулярного выражения. Ответ и дистрактор от этого не страдают: без -i строки с Error и ERROR не находятся."
+
+  - question_id: "et_012"
+    severity: "MINOR"
+    pass: "objective"
+    description: "Флаг Writer по et_012 закрыт: objective_domain 1 корректен и выходом за рамки темы не является. Официальный список EX200 в разделе Understand and use essential tools содержит пункт Access remote systems using SSH, а установка открытого ключа через ssh-copy-id — штатная клиентская операция этого пункта (man ssh-copy-id). Пограничность есть: настройка аутентификации по ключу отдельно упомянута в разделе про управление пользователями и группами, а в банке домен 9 уже занят вопросами sec_013 (sshd_config), sec_014 (ssh-keygen) и sec_015 (authorized_keys). Рекомендация: оставить в 1 (тема essential_tools), но учесть пересечение с sec_015 при планировании покрытия."
+
+  - question_id: "row:evidence-input"
+    severity: "MINOR"
+    pass: "fact-check"
+    description: "Во входном контракте в evidence.distractor_runs для et_013 указан syntactic_distractor: null и общее ожидание exit != 0, тогда как у et_013 нет синтаксического дистрактора с несуществующим ключом: все четыре команды синтаксически валидны, а неверные варианты дают неверный результат, а не ошибку ключа. Это неточность контракта Writer, а не дефект вопроса."
+
+# --- ПОДТВЕРЖДЕНИЕ ИСПОЛНЕНИЕМ (ratification by re-execution) ---
+evidence_verified:
+  qc_rerun:
+    - "npm run qc -> exit 0: Total 166 questions, Fails 0, Warns 15 (WARN by category: absolute=1 ratio=12 stopword=2). Ни одного WARN по et_008..et_013, базовая линия Writer (166/0/15) воспроизведена."
+    - "npm run shuffle-bank:check -> exit 0: BANK 166, pos0=48, pos1=41, pos2=32, pos3=45; essential_tools 7 (1/2/2/2); ни одна позиция не превышает порог."
+    - "npm run typecheck -> exit 0: tsc --noEmit -p tsconfig.app.json без ошибок и без вывода."
+    - "npm run test:run -> exit 0: 24 test files passed, 137 tests passed, duration 52.74s (не skipped)."
+    - "node tools/cosine.cjs --intra-batch src/data/questions/essential_tools.json -> exit 0: intra-batch pairs 21, max cosine 0.6228 (et_003~et_004), threshold 0.8, pairs > 0.8: 0, pairs > 0.75: 0. Прогон по факту включает все 13 вопросов темы (7 старых + 6 новых из батча)."
+    - "Проверка распределения correct (0-based) по батчу вручную: et_008=1, et_009=2, et_010=0, et_011=0, et_012=2, et_013=3 (итого 0:2, 1:1, 2:2, 3:1) — совпадает с отчётом Writer, ни одна позиция не доминирует."
+  man_recheck:
+    - "grep(1) GNU, man7.org/linux/man-pages/man1/grep.1.html — перебраны все ключи в разделах OPTIONS: -E, -F, -G, -P, -e, -f, -i, -v, -w, -x, -c, -l, -L, -m, -o, -q, -s, -n, -b, -H, -h, -A, -B, -C, -z. Ключа -Q в списке нет, есть строчная -q (--quiet/--silent). Вывод: дистрактор grep -Q в et_008 невалиден в GNU grep (RHEL/Rocky 9), пояснение верно. Дополнительно проверено: BSD grep на man.freebsd.org (FreeBSD 15.1, SYNOPSIS grep [-abcdDEFGHhIiLlmnOopqRSsUVvwxz]) тоже не содержит -Q — переносимость дистрактора не ломается ни на GNU, ни на BSD."
+    - "grep(1) — -i: Ignore case distinctions in patterns and input data, so that characters that differ only in case match each other; -w: Select only those lines containing matches that form whole words (регистр не отменяет); -E: Interpret PATTERNS as extended regular expressions (EREs). Вывод: верный ответ et_008 (-i) единственный, пояснение про -w корректно."
+    - "man(1) man-db 2.13, man7.org/linux/man-pages/man1/man.1.html — в разделе OPTIONS: -f, --whatis (Approximately equivalent to whatis, Display a short description from the manual page) и -k, --apropos (Approximately equivalent to apropos, Search the short manual page descriptions for keywords and display any matches); -w, --where, --path, --location (Don't actually display the manual page, but do print the location of the source nroff file). Полный перебор ключей: -C -d -D --warnings -f -k -K -l -w -W -p -t -T -H -B -I -P -r -7 -E -i -R -L -e -S -W -s -m -c -M -a -u. Ключа -q нет вообще, есть -?/--help. Вывод: et_009 верен, дистрактор man -q даёт ошибку опции и exit 1 (EXIT STATUS: 1 = Usage, syntax or configuration file error)."
+    - "man(1) man-db — замечание к обоснованию: по man-странице -k ищет по кратким описаниям (short manual page descriptions), а не по именам страниц; идея «имя или краткое описание» шире, чем документация. Ответ и единственность не затронуты: -f работает по уже известному точному имени, -w печатает путь, -q не существует. Reference «man man» справедлив и для -k, и для -f (перекрёстная ссылка apropos(1) присутствует в SEE ALSO)."
+    - "find(1) GNU findutils, man7.org/linux/man-pages/man1/find.1.html — -maxdepth levels: Descend at most levels (a non-negative integer) levels of directories below the starting-points; -mindepth levels: Do not apply any tests or actions at levels less than levels; -depth: Process each directory's contents before the directory itself (заявлено также как POSIX-compliant опция). Формы -max-depth в списке предикатов нет; более того, пример самой страницы использует -maxdepth 0 в конструкции find -files0-from - -maxdepth 0 -type f -empty. Вывод: et_010 верен, дистрактор -max-depth даёт ошибку неизвестного предиката, пояснение про -mindepth и -depth корректно."
+    - "sort(1) GNU coreutils, man7.org/linux/man-pages/man1/sort.1.html — -n, --numeric-sort (compare according to string numerical value); -r, --reverse (reverse the result of comparisons); -k, --key=KEYDEF (sort via a key); -t, --field-separator=SEP (use SEP instead of non-blank to blank transition); KEYDEF is F[.C]..., both origin 1. Полный перебор ключей: -b -d -f -g -i -M -h -n -R -r --sort -V -c -C -k -m -o -s -S -t -T -u -z. Ключа -x нет. Вывод: et_011 верен; sort -t ':' -k 3 без -n сравнивает третье поле как текст (1000 раньше 2) — пояснение корректно; -r даёт убывание; -x невалиден."
+    - "tar(1) GNU tar, man7.org/linux/man-pages/man1/tar.1.html — Operation mode: -c, --create (Create a new archive; a directory is archived recursively); -x, --extract, --get (Extract files from an archive); -t, --list (List the contents of an archive); Compatibility/опции сжатия применяются через -z (gzip) и -j (bzip2). Извлечение по умолчанию идёт в текущий рабочий каталог (target directory задаётся только опцией -C). Вывод: et_013 верен, -cjf/-xjf выбирают bzip2 и на gzip-архиве падают с ошибкой распаковки, -tf только листает, -cf/-czf создаёт архив. Формулировка пояснения про -czf неточна (речь о создании и перезаписи, а не о распаковке), но распаковку она не выполняет при любом варианте — на ответ не влияет."
+    - "ssh-copy-id(1) (manpage, пакет openssh-clients) — команда существует и выполняет именно описанное: копирует локальные открытые ключи на удалённый сервер и добавляет их в ~/.ssh/authorized_keys удалённого пользователя, при необходимости создавая каталог ~/.ssh с правами 700 и файл authorized_keys с правами 600. Проверены также дистракторы: ssh-keygen — генерация пары ключей локально; ssh-add — добавление ключа в локальный агент аутентификации; команды ssh-copyid не существует (NAME ssh-copy-id, дефис обязателен). Вывод: et_012 верен."
+    - "Ограничение метода: WSL запрещён капитаном, live-прогоны не выполнялись. Все выводы получены сверкой man-страниц (man7.org для GNU-инструментов, man.freebsd.org для BSD grep, manpage ssh-copy-id) и знанием версий RHEL/Rocky 9 (grep 3.6, findutils 4.8, coreutils 8.32, tar 1.34, man-db 2.9, openssh-clients 8.7). Остаточная неопределённость: точная формулировка текста ошибки для несуществующего ключа; команда для справки в вопросе не требуется и на вердикт не влияет."
+
+# --- СВЕРКА С GOAL INVARIANT ---
+goal_invariant_check: true
+
+notes: "Итог: 6 accept, 0 reject, hard blocker'ов нет — агрегатный вердикт PASS. Hard-blocker'ов по fact-check и objective не найдено ни по одному вопросу: все команды верных ответов и все дистракторы перепроверены независимо по man-страницам (RHEL/Rocky 9), несуществующие конструкции подтверждены (grep -Q, man -q, find -max-depth, sort -x, ssh-copyid), второй объективно верной опции нет ни в одном вопросе. Флаг Writer по et_012 закрыт как accept: objective_domain 1 корректен, ssh-copy-id относится к пункту Access remote systems using SSH раздела essential tools. Формат инварианта соблюдён во всех 6 вопросах: ровно 4 опции, ровно один correct, распределение позиций 0:2/1:1/2:2/3:1 без доминирования, дублей внутри банка нет (near-duplicate признаков ниже порога: max cosine 0.6228 против threshold 0.8). Advisory: два SUBSTANTIAL — конфликт ранжирования -maxdepth 1 с fm_003 (et_010) и шаблонность дистракторов относительно fm_004 (et_013) — и четыре MINOR (повтор в стеме et_013; неточная формулировка про -E в пояснении et_008; пересечение et_012 с sec_014/sec_015; неточность в evidence.distractor_runs входного контракта для et_013). Рекомендация Оркестратору: интегрировать все 6 вопросов, отдельно решить, нужно ли переформулировать fm_003 (там -maxdepth 1 стоит дистрактором при формулировке про поддиректории) и заменить один дистрактор et_013. Ограничение: WSL запрещён, live-прогоны синтаксических дистракторов не выполнялись — это отражено в man_recheck."

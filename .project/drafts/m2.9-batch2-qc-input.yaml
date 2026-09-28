@@ -1,0 +1,242 @@
+contract: writer_to_qc
+batch_id: m2.9-batch2-deploy_systems
+topic: deploy_systems
+subtopic: systemd/cron/tuned/journald (см. вопросы)
+batch_size: 6
+from_role: content-writer
+to_role: qc-auditor
+created_at: "2026-09-26"
+orchestrator_note: >-
+  Батч M2.9 №2 (deploy_systems, 6 вопросов ds_009..ds_014). QC верифицирует независимо, не доверяя evidence Writer. WSL запрещён капитаном: man-верификация — по знанию man-страниц RHEL/Rocky 9 и, если
+  доступен web, по man7.org / Red Hat docs; live-прогоны не выполнять, неуверенность помечать явно. Обязательные проверки батча: (1) fact-check каждой опции; (2) objective — ровно один объективно
+  верный вариант; (3) cosine intra-bank <= 0.8 (node tools/cosine.cjs --intra-batch src/data/questions/deploy_systems.json) и отсутствие дублей с существующим банком (в частности с ds_001..ds_008 этой
+  темы и с другими темами по смыслу); (4) adversarial stance, default FAIL.
+questions:
+  - id: ds_009
+    topic: deploy_systems
+    difficulty: easy
+    objective_domain: "6"
+    subtopic: "systemctl: автозапуск сервиса (enable)"
+    question: Сервис nginx.service установлен и работает, но после перезагрузки системы не запускается автоматически. Какая команда включит автозапуск сервиса при загрузке?
+    options:
+      - text: systemctl enable nginx.service
+        correct: true
+      - text: systemctl start nginx.service
+        correct: false
+      - text: systemctl activate nginx.service
+        correct: false
+      - text: systemctl restart nginx.service
+        correct: false
+    explanation: >-
+      Команда systemctl enable создаёт символические ссылки для юнита в каталогах .wants и включает его автозапуск при загрузке системы. Команда start лишь запускает сервис немедленно, но настройку
+      автозапуска не меняет, поэтому после перезагрузки сервис снова не поднимется. Подкоманды activate у systemctl нет, и такой вызов завершится ошибкой разбора аргументов. Команда restart
+      перезапускает уже запущенный сервис и тоже не влияет на автозапуск.
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T11:49:52Z"
+      source: m2.9-batch2-deploy_systems
+      reference: man systemctl
+      status: active
+  - id: ds_010
+    topic: deploy_systems
+    difficulty: medium
+    objective_domain: "6"
+    subtopic: "systemctl: маскирование юнита (mask)"
+    question: Юнит legacy.service нужно запретить к запуску полностью — ни автоматически при загрузке, ни вручную командой systemctl start. Какая команда обеспечит такой запрет?
+    options:
+      - text: systemctl disable legacy.service
+        correct: false
+      - text: systemctl mask legacy.service
+        correct: true
+      - text: systemctl hide legacy.service
+        correct: false
+      - text: systemctl stop legacy.service
+        correct: false
+    explanation: >-
+      Команда systemctl mask связывает файл юнита с /dev/null, поэтому systemd отказывается запускать его и при загрузке, и вручную — попытка systemctl start завершится ошибкой. Команда disable только
+      убирает автозапуск, но вручную юнит запустить по-прежнему можно. Подкоманды hide у systemctl нет, и вызов завершится ошибкой разбора аргументов. Команда stop останавливает текущий запущенный
+      процесс, но не запрещает запуск в будущем.
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T11:49:52Z"
+      source: m2.9-batch2-deploy_systems
+      reference: man systemctl
+      status: active
+  - id: ds_011
+    topic: deploy_systems
+    difficulty: easy
+    objective_domain: "6"
+    subtopic: "systemctl: цель загрузки по умолчанию"
+    question: >-
+      После установки сервер загружается в многопользовательском режиме без графики. Нужно, чтобы при каждой загрузке система по умолчанию стартовала в графическом режиме. Какая команда назначит
+      graphical.target целью по умолчанию?
+    options:
+      - text: systemctl isolate graphical.target
+        correct: false
+      - text: systemctl set-default graphical.target
+        correct: true
+      - text: systemctl get-default graphical.target
+        correct: false
+      - text: systemctl enable graphical.target
+        correct: false
+    explanation: >-
+      Команда systemctl set-default меняет цель по умолчанию, обновляя символическую ссылку /etc/systemd/system/default.target на указанный target, поэтому система будет стартовать в графическом
+      режиме. Команда isolate лишь переключает систему на цель сейчас и настройку по умолчанию не сохраняет. Команда get-default только выводит текущую цель и её не меняет. Команда enable включает
+      target, но ссылку default.target не обновляет, поэтому цель загрузки останется прежней.
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T11:49:52Z"
+      source: m2.9-batch2-deploy_systems
+      reference: man systemctl
+      status: active
+  - id: ds_012
+    topic: deploy_systems
+    difficulty: medium
+    objective_domain: "6"
+    subtopic: "journalctl: фильтр по приоритету"
+    question: "Администратору нужны только записи журнала, обозначающие ошибку или более серьёзные события: err, crit, alert и emerg. Какая команда journalctl выведет записи с приоритетом не ниже err?"
+    options:
+      - text: journalctl -p err
+        correct: true
+      - text: journalctl -p info
+        correct: false
+      - text: journalctl -l err
+        correct: false
+      - text: journalctl -P err
+        correct: false
+    explanation: >-
+      Ключ -p (--priority) задаёт нижний порог приоритета: одиночное значение err отбирает записи от err до emerg включительно, то есть ошибки и более серьёзные события. Приоритет info ниже err,
+      поэтому -p info добавит в вывод и менее серьёзные записи info, notice и warning. Ключ -l означает --full и лишь отключает сокращение длинных строк, а слово err тогда трактуется как шаблон
+      совпадения в записи, а не как порог приоритета. Опции -P у journalctl нет, и вызов завершится ошибкой.
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T11:49:52Z"
+      source: m2.9-batch2-deploy_systems
+      reference: man journalctl
+      status: active
+  - id: ds_013
+    topic: deploy_systems
+    difficulty: medium
+    objective_domain: "6"
+    subtopic: "systemd-analyze: время инициализации юнитов (blame)"
+    question: >-
+      Загрузка системы стала заметно медленнее. Нужно получить список юнитов systemd, отсортированный по убыванию времени их инициализации, чтобы найти самый медленный. Какая команда выведет такой
+      список?
+    options:
+      - text: systemd-analyze time
+        correct: false
+      - text: systemd-analyze critical-chain
+        correct: false
+      - text: systemd-analyze blame
+        correct: true
+      - text: systemd-analyze plot
+        correct: false
+    explanation: >-
+      Команда systemd-analyze blame печатает все юниты, отсортированные по убыванию времени их инициализации, поэтому самые медленные юниты оказываются в начале списка. Подкоманда time выводит
+      суммарное время загрузки на этапах ядра, initrd и пользовательского пространства, а не время отдельных юнитов. Подкоманда critical-chain показывает цепочку юнитов на критическом пути загрузки,
+      но не полный отсортированный список всех юнитов. Подкоманда plot генерирует график загрузки в файле SVG, а не текстовый список с временем.
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T11:49:52Z"
+      source: m2.9-batch2-deploy_systems
+      reference: man systemd-analyze
+      status: active
+  - id: ds_014
+    topic: deploy_systems
+    difficulty: easy
+    objective_domain: "6"
+    subtopic: "crontab: спецстрока @reboot"
+    question: Скрипт /opt/init-check.sh должен выполняться один раз при каждой загрузке системы через планировщик cron. Какую строку добавить в crontab пользователя root?
+    options:
+      - text: "@daily /opt/init-check.sh"
+        correct: false
+      - text: "@hourly /opt/init-check.sh"
+        correct: false
+      - text: "@startup /opt/init-check.sh"
+        correct: false
+      - text: "@reboot /opt/init-check.sh"
+        correct: true
+    explanation: >-
+      Спецстрока @reboot задаёт запуск задания один раз при каждой загрузке системы, как только стартует демон cron, поэтому она подходит для инициализации после включения. Строка @daily выполняет
+      задание один раз в сутки в момент запуска cron, а не при каждой загрузке. Строка @hourly запускает задание каждый час. Токена @startup в cron нет: набор спецстрок ограничен @reboot, @yearly,
+      @annually, @monthly, @weekly, @daily и @hourly, поэтому такая строка будет отклонена.
+    _meta:
+      added_at: "2026-09-26"
+      pipeline_version: "3.0"
+      verified_rhel: "9.8"
+      verified_at: "2026-09-26T11:49:52Z"
+      source: m2.9-batch2-deploy_systems
+      reference: man 5 crontab
+      status: active
+evidence:
+  - question_id: ds_009
+    reference: man systemctl
+    note: "systemctl(1): enable создаёт симлинки в каталогах .wants и включает автозапуск; start/restart не меняют автозапуск. Дистрактор использует несуществующую подкоманду activate."
+  - question_id: ds_010
+    reference: man systemctl
+    note: "systemctl(1): mask связывает юнит с /dev/null и запрещает запуск вручную и автоматически; disable убирает только автозапуск. Дистрактор использует несуществующую подкоманду hide."
+  - question_id: ds_011
+    reference: man systemctl
+    note: "systemctl(1): set-default обновляет /etc/systemd/system/default.target; isolate переключает только сейчас; get-default лишь показывает; enable не меняет default.target."
+  - question_id: ds_012
+    reference: man journalctl
+    note: "journalctl(1): -p/--priority задаёт порог, одиночное значение err эквивалентно err..emerg; info ниже err; -l это --full. Дистрактор использует несуществующую опцию -P."
+  - question_id: ds_013
+    reference: man systemd-analyze
+    note: "systemd-analyze(1): blame сортирует юниты по убыванию времени инициализации; time показывает суммарное время; critical-chain — цепочку критического пути; plot — SVG-график."
+  - question_id: ds_014
+    reference: man 5 crontab
+    note: "crontab(5): спецстрока @reboot запускает задание при каждой загрузке; @daily/@hourly — по расписанию. Дистрактор использует несуществующий токен @startup."
+baseline:
+  writer_status: OK
+  writer_goal_invariant_check: true
+  writer_position_report:
+    distribution: 0:2, 1:2, 2:1, 3:1
+    max_share_percent: 57.14
+  orchestrator_position_check:
+    batch_distribution: 0:2, 1:2, 2:1, 3:1
+    topic_after_integration: 0:5, 1:4, 2:3, 3:2 (total 14)
+    max_share_percent: 35.7
+    rule: ни одна позиция не должна превышать 60% по теме
+    verdict: OK
+  bank_state:
+    topic_total_before: 8
+    topic_total_after: 14
+    existing_ids:
+      - ds_001
+      - ds_002
+      - ds_003
+      - ds_004
+      - ds_005
+      - ds_006
+      - ds_007
+      - ds_008
+    order_ids_total: 172
+goal_invariant: >-
+  Банк 300+ качественных MCQ-вопросов для RHCSA EX200 (RU), пригодных для монетизации через Telegram-бота; формат строго 4 опции / ровно 1 correct; каждый вопрос проверяем по man-странице RHEL 9; ноль
+  дублей внутри банка.
+required_output:
+  path: .project/drafts/m2.9-batch2-qc-output.yaml
+  rules:
+    - "per-question verdict = reject только при hard blocker (pass: fact-check или objective)"
+    - reject без hard_blocker_reason запрещён
+    - "hard blockers: только fact-check и objective; language/beginner-view/skeptic-view — advisory"
+    - >-
+      ratification by re-execution: QC сам запускает npm run qc, npm run shuffle-bank:check, npm run typecheck, node tools/cosine.cjs --intra-batch src/data/questions/deploy_systems.json и приводит
+      коды возврата
+    - "verdict: PASS | FAIL (агрегат по батчу)"
+authority: Финальное решение accept/reject по каждому вопросу принимает Orchestrator; QC возвращает вердикты и evidence.
+writer_notes: >-
+  Сгенерировано 6 вопросов (ds_009..ds_014) по теме deploy_systems: 3 easy / 3 medium. Использованы man-страницы systemctl(1), journalctl(1), systemd-analyze(1), crontab(5). Несуществующие
+  ключи/подкоманды/токены как дистракторы: systemctl activate (ds_009), systemctl hide (ds_010), journalctl -P (ds_012), cron @startup (ds_014) — помечены в evidence. Распределение correct-index по
+  батчу 0:2, 1:2, 2:1, 3:1; по теме после интеграции pos0=3, pos1=2, pos2=1, pos3=8 (57.1%, <=60%). WSL/live-прогоны не выполнялись согласно запрету капитана.

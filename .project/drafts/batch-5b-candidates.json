@@ -1,0 +1,164 @@
+[
+  {
+    "id": "sh_011",
+    "topic": "shell_scripts",
+    "difficulty": "medium",
+    "objective_domain": "2",
+    "subtopic": "case: выбор ветки по шаблону",
+    "question": "Скрипт /usr/local/bin/start.sh получает первым аргументом одно из слов: start, stop или status. Какая конструкция выберет ветку по значению этого аргумента?",
+    "options": [
+      {
+        "text": "case $1 in start) systemctl start app;; esac",
+        "correct": true
+      },
+      {
+        "text": "case $1 of start) systemctl start app;; esac",
+        "correct": false
+      },
+      {
+        "text": "case $1 if start) systemctl start app;; esac",
+        "correct": false
+      },
+      {
+        "text": "case $1 when start) systemctl start app;; esac",
+        "correct": false
+      }
+    ],
+    "explanation": "Многоветвевой выбор в shell открывается словом case, продолжается словом in, а закрывается esac; шаблон и закрывающая скобка отделяют ветку, а две точки с запятой завершают её. Слов of в синтаксисе case нет — оболочка сообщит об ошибке разбора. Слово if относится к условному оператору и внутри case не работает. Слово when не является ключевым в shell: оно встречается в других языках, но не в разборе case."
+  },
+  {
+    "id": "sh_012",
+    "topic": "shell_scripts",
+    "difficulty": "medium",
+    "objective_domain": "2",
+    "subtopic": "getopts: разбор опций запуска",
+    "question": "Скрипт /usr/local/bin/pack.sh должен принимать флаг -v без значения и опцию -o со значением. Какая строка начнёт разбор этих опций?",
+    "options": [
+      {
+        "text": "while getopts \"vo:\" opt; do echo $opt; done",
+        "correct": true
+      },
+      {
+        "text": "while getopts \"v:o\" opt; do echo $opt; done",
+        "correct": false
+      },
+      {
+        "text": "while getopts \"vo:\" $opt; do echo $opt; done",
+        "correct": false
+      },
+      {
+        "text": "getopts \"vo:\" opt; do echo $opt; done",
+        "correct": false
+      }
+    ],
+    "explanation": "В строке шаблона getopts двоеточие после буквы означает, что эта опция требует значения. Запись vo: описывает ровно требуемое: -v без значения и -o со значением, которое попадёт в переменную OPTARG. Запись v:o переставляет двоеточие и делает наоборот — значение требует -v, а -o его не принимает. Запись с $opt во втором аргументе подставляет значение переменной там, где getopts ждёт её имя. Вызов без while разберёт только первую опцию и на этом закончится."
+  },
+  {
+    "id": "sh_013",
+    "topic": "shell_scripts",
+    "difficulty": "medium",
+    "objective_domain": "2",
+    "subtopic": "trap: обработчик завершения",
+    "question": "Скрипт /usr/local/bin/run.sh создаёт временный файл /tmp/run.lock и должен удалять его при завершении, в том числе при прерывании. Какая строка зарегистрирует такой обработчик?",
+    "options": [
+      {
+        "text": "trap \"rm -f /tmp/run.lock\" EXIT",
+        "correct": true
+      },
+      {
+        "text": "trap EXIT \"rm -f /tmp/run.lock\"",
+        "correct": false
+      },
+      {
+        "text": "trap \"rm -f /tmp/run.lock\" STOP",
+        "correct": false
+      },
+      {
+        "text": "catch \"rm -f /tmp/run.lock\" EXIT",
+        "correct": false
+      }
+    ],
+    "explanation": "У trap первым аргументом идёт команда-обработчик, вторым — событие: запись с EXIT выполнит удаление при любом штатном и аварийном завершении скрипта. Перестановка аргументов заставит оболочку искать команду с именем EXIT. Событие STOP не перехватывается оболочкой, поэтому обработчик не сработает. Команды catch в shell нет: перехват событий выполняет только trap."
+  },
+  {
+    "id": "sh_014",
+    "topic": "shell_scripts",
+    "difficulty": "medium",
+    "objective_domain": "2",
+    "subtopic": "set -e: остановка при ошибке",
+    "question": "Скрипт /usr/local/bin/deploy.sh должен прекращать работу, как только любая его команда завершилась с ненулевым кодом. Какая строка в начале скрипта это обеспечит?",
+    "options": [
+      {
+        "text": "set -e",
+        "correct": true
+      },
+      {
+        "text": "set -x",
+        "correct": false
+      },
+      {
+        "text": "set -u",
+        "correct": false
+      },
+      {
+        "text": "set -v",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -e включает режим немедленного выхода: команда с ненулевым кодом завершает скрипт. Ключ -x включает трассировку и на реакцию на ошибку не влияет. Ключ -u завершает скрипт только при обращении к неустановленной переменной. Ключ -v печатает строки по мере чтения, то есть управляет лишь выводом."
+  },
+  {
+    "id": "sh_015",
+    "topic": "shell_scripts",
+    "difficulty": "easy",
+    "objective_domain": "2",
+    "subtopic": "source: выполнение в текущей оболочке",
+    "question": "Администратор набрал в интерактивной оболочке чтение файла /etc/profile.d/settings.sh, где заданы переменные окружения, и хочет, чтобы они остались в этой же сессии. Какую строку он введёт?",
+    "options": [
+      {
+        "text": "source /etc/profile.d/settings.sh",
+        "correct": true
+      },
+      {
+        "text": "bash /etc/profile.d/settings.sh",
+        "correct": false
+      },
+      {
+        "text": "sh /etc/profile.d/settings.sh",
+        "correct": false
+      },
+      {
+        "text": "exec /etc/profile.d/settings.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда source читает файл и выполняет его строки в текущей оболочке, поэтому присваивания остаются в ней и после возврата. Запуск через bash выполняет файл в подоболочке: переменные исчезают вместе с ней. Запуск через sh даёт тот же результат, но другой интерпретатор. Команда exec заменяет текущую оболочку указанным файлом, поэтому вернуться в скрипт уже не получится."
+  },
+  {
+    "id": "sh_016",
+    "topic": "shell_scripts",
+    "difficulty": "easy",
+    "objective_domain": "2",
+    "subtopic": "bash -n: проверка синтаксиса",
+    "question": "Файл /usr/local/bin/gather.sh содержит триста строк и недавно правился вручную. Прежде чем запускать его на сервере, администратор хочет убедиться, что синтаксис не сломан, и при этом ничего не выполнять. Что он введёт?",
+    "options": [
+      {
+        "text": "bash -n /usr/local/bin/gather.sh",
+        "correct": true
+      },
+      {
+        "text": "bash -x /usr/local/bin/gather.sh",
+        "correct": false
+      },
+      {
+        "text": "bash -v /usr/local/bin/gather.sh",
+        "correct": false
+      },
+      {
+        "text": "bash -e /usr/local/bin/gather.sh",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -n переводит bash в режим чтения без выполнения: оболочка разбирает файл целиком и сообщает о синтаксических ошибках, но ни одной команды не запускает. Ключ -x выполняет скрипт и печатает трассировку каждой команды. Ключ -v печатает строки по мере чтения, но выполнение продолжается. Ключ -e лишь меняет реакцию на ошибку во время работы."
+  }
+]
