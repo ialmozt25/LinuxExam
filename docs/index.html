@@ -129,12 +129,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 0977088</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на dc328cd</span><!--volatile:end-->
     </div>
     <div class="pulse">
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--warn"></span>Данные устарели</div>
-      <div class="pulse-tile__note">обновлено 28.09, 01:37</div>
+      <div class="pulse-tile__value"><span class="dot dot--bad"></span>Есть расхождения</div>
+      <div class="pulse-tile__note">проверка не прошла</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
       <div class="pulse-tile__value">224/300 · 74.7%</div>
@@ -145,7 +145,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">20</div>
+      <div class="pulse-tile__value">22</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -328,7 +328,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 20 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 22 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -382,6 +382,24 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">dc328cd</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): consistency-lastsync</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">89dec5b</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(alerts): override — плитка Состояние, 3 статуса + defect last_sync</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">f046a00</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">48e97f5</td>
           <td><span class="ctype ctype--fix">fix</span></td>
@@ -484,24 +502,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>feat(sync): C2a-3 — inSync вычисляется сравнением сгенерированного с committed (вариант A)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">e1b470b</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge (2)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">286b7cc</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after C2a-2</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">44828e5</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): C2a-2 запись в log.md</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -519,7 +519,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">17</td>
-          <td class="muted">6 ч</td>
+          <td class="muted">7 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -540,7 +540,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-29T01:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">3 ч</td>
+          <td class="muted">4 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -557,11 +557,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в &lt;details&gt;; метрика первого экрана 30 строк | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts…</li>
+        <li><span class="mono muted">29.09</span> · center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч…</li>
     </ul>
   </details>
 
@@ -592,8 +592,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 26</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 26</div>
+    <summary>Тревоги · записей: 28</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 28</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -697,6 +697,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">29.09 | process gap | Тревоги-счётчик: семантика</div>
           <div class="entry__body muted">openAlerts() считает «открытые = записи без [closed». На 29.09.2026 (до добавления этой записи): 17 «открытых», из них 3…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | override | Плитка «Состояние»: три статуса</div>
+          <div class="entry__body muted">Spec 029 описывает плитку «Состояние» с двумя статусами (🟢/🔴). Реализовано три: 🟢 Синхронизировано / 🟡 Данные устарели / 🔴 Есть расхождения.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | defect | `last_sync` статичен; индикатор 🔴 недостижим в этом контуре</div>
+          <div class="entry__body muted">Два связанных наблюдения, найденных при реализации трёх статусов. (1) Writer last_sync (генератор центра, last_sync: state.last_sync ??…</div>
         </div>
   </details>
 

@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "097708803af134e65c3fc61b08a83a12ddbd9111",
+  "head": "dc328cd1201aad3b0c1d3d4e7b3c688b42334d10",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | C1-fix | снято противоречие статуса spec 029: п.5 spec 029 и C-PLAN:48 помечены как снятые (approve — C1-close log.md:88, 28.09); источник истины — frontmatter approved | commit pending",
     "2026-09-29 | alerts | 3 записи: working.md lesson, handoff-stale, rule2-exception #3 (продолжение cumulative); procedural: manual-файлы | commit pending",
     "2026-09-29 | handoff | заведён живой docs/HANDOFF.md (13 разделов, перенос неудачных попыток/правил/файлов/ограничений из архива); alerts.md: handoff-запись закрыта | commit pending",
     "2026-09-29 | consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в sync:check | commit pending",
@@ -757,11 +756,48 @@
     "2026-09-29 | C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | commit pending",
     "2026-09-29 | C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в <details>; метрика первого экрана 30 строк | commit pending",
     "2026-09-29 | alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | commit pending",
-    "2026-09-29 | handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts, +метрика 30), §11, §13 | commit pending"
+    "2026-09-29 | handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts, +метрика 30), §11, §13 | commit pending",
+    "2026-09-29 | center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч, STALE_THRESHOLD_MS); fallback getFreshnessTime(); override spec 029 (санкционировано капитаном 29.09); заодно исправлена самоссылка индикатора (contentSansIndicator) | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "dc328cd",
+      "date": "2026-09-29",
+      "subject": "chore(log): consistency-lastsync",
+      "type": "chore"
+    },
+    {
+      "sha": "89dec5b",
+      "date": "2026-09-29",
+      "subject": "chore(alerts): override — плитка Состояние, 3 статуса + defect last_sync",
+      "type": "chore"
+    },
+    {
+      "sha": "f046a00",
+      "date": "2026-09-29",
+      "subject": "fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч",
+      "type": "fix"
+    },
+    {
+      "sha": "48e97f5",
+      "date": "2026-09-29",
+      "subject": "fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч",
+      "type": "fix"
+    },
+    {
+      "sha": "3e372ff",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after handoff-update (2)",
+      "type": "chore"
+    },
+    {
+      "sha": "07bc3b5",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after handoff-update",
+      "type": "chore"
+    },
     {
       "sha": "0977088",
       "date": "2026-09-29",
@@ -845,42 +881,6 @@
       "date": "2026-09-29",
       "subject": "feat(sync): C2a-3 — inSync вычисляется сравнением сгенерированного с committed (вариант A)",
       "type": "feat"
-    },
-    {
-      "sha": "e1b470b",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge (2)",
-      "type": "chore"
-    },
-    {
-      "sha": "286b7cc",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C2a-2",
-      "type": "chore"
-    },
-    {
-      "sha": "44828e5",
-      "date": "2026-09-29",
-      "subject": "chore(log): C2a-2 запись в log.md",
-      "type": "chore"
-    },
-    {
-      "sha": "a1a9442",
-      "date": "2026-09-29",
-      "subject": "chore(factory): C2a-2 — банк 206→224 в roles.yaml",
-      "type": "chore"
-    },
-    {
-      "sha": "1b7c6e4",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge (2)",
-      "type": "chore"
-    },
-    {
-      "sha": "552aff5",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C2c",
-      "type": "chore"
     }
   ],
   "roles": [
