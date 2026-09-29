@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c10e0de7a17042b2528f9f24fe5f3a25e6093b17",
+  "head": "a42fa61b830f1f6956f0dd45abc3833a8ff127a5",
   "specs": [
     {
       "id": "022",
@@ -793,7 +793,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | push | authorize push origin main — spec-031 close | [AUTHORIZE]",
     "2026-09-29 | spec | spec 032 (mas-autonomy-a) — draft: 3 точечных долга (order-manifest CLI + EPERM + goal ownership); 032b отложена в spec 033 | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-032 draft | [AUTHORIZE]",
     "2026-09-29 | spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | commit pending",
@@ -802,10 +801,17 @@
     "2026-09-30 | spec | order-manifest: новый id дописывается в конец _order.json (append — детерминированное правило); повторный --add = no-op + WARN; round-trip SHA256 до==после | commit 2539526",
     "2026-09-30 | spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс — .project/scripts/archive-team.mjs вне плагина + процедура | commit 2539526",
     "2026-09-30 | state | goal ownership: sync.mjs пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526",
-    "2026-09-30 | spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | commit pending"
+    "2026-09-30 | spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-032 close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "a42fa61",
+      "date": "2026-09-30",
+      "subject": "docs(spec-032): done — MAS-autonomy A закрыта (3 tech debts)",
+      "type": "docs"
+    },
     {
       "sha": "33d2520",
       "date": "2026-09-30",
@@ -919,12 +925,6 @@
       "date": "2026-09-29",
       "subject": "chore(log): authorize push (rule 10) — spec-030 decomposition format",
       "type": "chore"
-    },
-    {
-      "sha": "855b9b1",
-      "date": "2026-09-29",
-      "subject": "docs(spec-030): decomposition block — strict SKILL.md format",
-      "type": "docs"
     }
   ],
   "roles": [

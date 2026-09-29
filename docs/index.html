@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на c10e0de</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на a42fa61</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -398,6 +398,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">a42fa61</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-032): done — MAS-autonomy A закрыта (3 tech debts)</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">33d2520</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after spec-032 (log/decisions)</td>
@@ -511,12 +517,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): authorize push (rule 10) — spec-030 decomposition format</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">855b9b1</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-030): decomposition block — strict SKILL.md format</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -572,11 +572,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · spec | spec 032 (mas-autonomy-a) — MAS PASS (t1–t3 + reviewer pass, 4 агента); 3 инфра-долга закрыты в коде: order-manifest CLI / EPERM archive-helper / goal ownership | commit 2539526</li>
         <li><span class="mono muted">30.09</span> · spec | order-manifest: новый id дописывается в конец _order.json (append — детерминированное правило); повторный --add = no-op + WARN; round-trip SHA256 до==после | commit 2539526</li>
         <li><span class="mono muted">30.09</span> · spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс…</li>
         <li><span class="mono muted">30.09</span> · state | goal ownership: генератор центра пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526</li>
         <li><span class="mono muted">30.09</span> · spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | ещё не закоммичено</li>
+        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-032 close | push разрешён</li>
     </ul>
   </details>
 
