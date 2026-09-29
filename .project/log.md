@@ -133,3 +133,4 @@
 2026-09-29 | spec | spec 032 (mas-autonomy-a) — draft: 3 точечных долга (order-manifest CLI + EPERM + goal ownership); 032b отложена в spec 033 | commit pending
 2026-09-29 | push | authorize push origin main — spec-032 draft | [AUTHORIZE]
 2026-09-29 | spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | commit pending
+2026-09-29 | push | authorize push origin main — spec-032 approve | [AUTHORIZE]

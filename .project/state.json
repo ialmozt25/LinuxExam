@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "a4460ebe2bf9beaf7405fd569b00558b276f4f1d",
+  "head": "31050c8167cee43f52b49749fd3fb92529465b77",
   "specs": [
     {
       "id": "022",
@@ -793,7 +793,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order — временно Node-скрипт | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-031 draft | [AUTHORIZE]",
     "2026-09-29 | spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-031 approve | [AUTHORIZE]",
@@ -802,10 +801,17 @@
     "2026-09-29 | push | authorize push origin main — spec-031 close | [AUTHORIZE]",
     "2026-09-29 | spec | spec 032 (mas-autonomy-a) — draft: 3 точечных долга (order-manifest CLI + EPERM + goal ownership); 032b отложена в spec 033 | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-032 draft | [AUTHORIZE]",
-    "2026-09-29 | spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | commit pending"
+    "2026-09-29 | spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec-032 approve | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "31050c8",
+      "date": "2026-09-29",
+      "subject": "docs(spec-032): approve",
+      "type": "docs"
+    },
     {
       "sha": "a4460eb",
       "date": "2026-09-29",
@@ -919,12 +925,6 @@
       "date": "2026-09-29",
       "subject": "chore(log): authorize push (rule 10) — handoff §1 fix",
       "type": "chore"
-    },
-    {
-      "sha": "26cf0a9",
-      "date": "2026-09-29",
-      "subject": "docs(handoff): §1 — восстановление продуктовых фактов",
-      "type": "docs"
     }
   ],
   "roles": [
