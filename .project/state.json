@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "44828e517c32d72d15399695bcb6432a31699937",
+  "head": "000da51ea06f5411c1719806c903dae62c8134d4",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455",
     "2026-09-28 | C2b-1 | 10 секций удалены из рендера (queue, journal, roles, products, memory, trends, decisions, audits, plan-factory, plan-dev); строка «Планы» добавлена в ddn | commit 013aaae",
     "2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —",
     "2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c",
@@ -757,11 +756,36 @@
     "2026-09-29 | handoff | заведён живой docs/HANDOFF.md (13 разделов, перенос неудачных попыток/правил/файлов/ограничений из архива); alerts.md: handoff-запись закрыта | commit pending",
     "2026-09-29 | consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в sync:check | commit pending",
     "2026-09-29 | C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в <details>, specs сгруппированы по статусу, сводка тревог в ddn; технические строки переведены на человеческий на рендере | commit pending",
-    "2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending"
+    "2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending",
+    "2026-09-29 | C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "000da51",
+      "date": "2026-09-29",
+      "subject": "chore(log): C2a-3 запись",
+      "type": "chore"
+    },
+    {
+      "sha": "56d067b",
+      "date": "2026-09-29",
+      "subject": "feat(sync): C2a-3 — inSync вычисляется сравнением сгенерированного с committed (вариант A)",
+      "type": "feat"
+    },
+    {
+      "sha": "e1b470b",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge (2)",
+      "type": "chore"
+    },
+    {
+      "sha": "286b7cc",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2a-2",
+      "type": "chore"
+    },
     {
       "sha": "44828e5",
       "date": "2026-09-29",
@@ -856,30 +880,6 @@
       "sha": "8162de5",
       "date": "2026-09-29",
       "subject": "chore(state): converge after alerts-hygiene",
-      "type": "chore"
-    },
-    {
-      "sha": "10ce9ea",
-      "date": "2026-09-29",
-      "subject": "chore(log): alerts-hygiene запись в log.md",
-      "type": "chore"
-    },
-    {
-      "sha": "19b1506",
-      "date": "2026-09-29",
-      "subject": "chore(memory): alerts+procedural — C1-fix lessons, handoff-stale, rule2-exception #3",
-      "type": "chore"
-    },
-    {
-      "sha": "3a2e931",
-      "date": "2026-09-29",
-      "subject": "chore(memory): working.md — C1-fix closed, next C2c",
-      "type": "chore"
-    },
-    {
-      "sha": "a1f1d9c",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C1-fix",
       "type": "chore"
     }
   ],
