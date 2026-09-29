@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "e2701e00ff40128a9a3813f10a75576b67dd6fb2",
+  "head": "37dbdb2e78ebe9bf47b30956f79d8cb089596167",
   "specs": [
     {
       "id": "022",
@@ -762,6 +762,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "37dbdb2",
+      "date": "2026-09-29",
+      "subject": "docs(memory): alerts — подставлен SHA ca62109 (fix answer-reorder)",
+      "type": "docs"
+    },
+    {
+      "sha": "ca62109",
+      "date": "2026-09-29",
+      "subject": "fix(store): AnswerRecord.optionText + миграция v2→v3 (reorder-safe)",
+      "type": "fix"
+    },
+    {
       "sha": "e2701e0",
       "date": "2026-09-29",
       "subject": "docs(mas): decisions — оркестратор, C-фаза соло, Swarm закрыт, план MAS, Marketing",
@@ -868,18 +880,6 @@
       "date": "2026-09-29",
       "subject": "fix(sync): убран volatile last_sync; freshness из git ct + .heartbeat; плитка Состояние — 4 уровня, VOLATILE-wrapped",
       "type": "fix"
-    },
-    {
-      "sha": "3d75323",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after consistency-lastsync (5)",
-      "type": "chore"
-    },
-    {
-      "sha": "83c34fa",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after consistency-lastsync (4)",
-      "type": "chore"
     }
   ],
   "roles": [
