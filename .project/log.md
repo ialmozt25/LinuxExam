@@ -105,4 +105,4 @@
 2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending
 2026-09-29 | sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | commit pending
 2026-09-29 | center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в sync:check/CLI, не в HTML | commit pending
-2026-09-29 | center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта запись-триггер override | commit 81c5ae6
+2026-09-29 | center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта запись-триггер override | commit bc6124d
