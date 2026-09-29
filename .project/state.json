@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "8f064a8243bdb48e3adb3d717360b4a9990caf3d",
+  "head": "5135e7788583220a9a86155dc7cf37e58588644e",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в <details>, specs сгруппированы по статусу, сводка тревог в ddn; технические строки переведены на человеческий на рендере | commit pending",
     "2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending",
     "2026-09-29 | C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | commit pending",
     "2026-09-29 | C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в <details>; метрика первого экрана 30 строк | commit pending",
@@ -757,10 +756,29 @@
     "2026-09-29 | center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч, STALE_THRESHOLD_MS); fallback getFreshnessTime(); override spec 029 (санкционировано капитаном 29.09); заодно исправлена самоссылка индикатора (contentSansIndicator) | commit pending",
     "2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending",
     "2026-09-29 | sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | commit pending",
-    "2026-09-29 | center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в sync:check/CLI, не в HTML | commit pending"
+    "2026-09-29 | center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в sync:check/CLI, не в HTML | commit pending",
+    "2026-09-29 | center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта запись-триггер override | commit bc6124d"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "5135e77",
+      "date": "2026-09-29",
+      "subject": "chore(center): переименование плитки — SHA в alerts/log",
+      "type": "chore"
+    },
+    {
+      "sha": "bc6124d",
+      "date": "2026-09-29",
+      "subject": "chore(center): плитка «Состояние» → «Свежесть данных» (label + значения)",
+      "type": "chore"
+    },
+    {
+      "sha": "2808177",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after self-ref-fix",
+      "type": "chore"
+    },
     {
       "sha": "8f064a8",
       "date": "2026-09-29",
@@ -862,24 +880,6 @@
       "date": "2026-09-29",
       "subject": "chore(state): converge after consistency-lastsync",
       "type": "chore"
-    },
-    {
-      "sha": "dc328cd",
-      "date": "2026-09-29",
-      "subject": "chore(log): consistency-lastsync",
-      "type": "chore"
-    },
-    {
-      "sha": "89dec5b",
-      "date": "2026-09-29",
-      "subject": "chore(alerts): override — плитка Состояние, 3 статуса + defect last_sync",
-      "type": "chore"
-    },
-    {
-      "sha": "f046a00",
-      "date": "2026-09-29",
-      "subject": "fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч",
-      "type": "fix"
     }
   ],
   "roles": [
