@@ -159,11 +159,11 @@
 
 ## 11. Следующее действие
 
-1. **`/spec-to-team 030`** — первый реальный MAS-прогон на продуктовой задаче. Команда: architect + builder + tester + reviewer. Вход: spec 030 (approved). Выход: список устаревших id + план правок.
-2. **Push 4–5 коммитов** — выполняется в этом же промпте (часть D).
-3. **Spec 031 (MAS-autonomy)** — 6 разрывов из RECON-MAS-AUTONOMY: скрипт-оркестратор, `TASK.md`/`SESSION.md`, spec-gate, авто-отчёт, атомарный коммиттер, метрики.
-4. **Spec 032 (Agent-Training)** — SOP-YAML, presets, learning-файлы; исследование в `semantic.md` (записать отдельно).
-5. **Spec 033 (Marketing MAS)** — Director + Strategist + Content + SEO + Analyst.
+1. **Spec 031 — правки банка** (`delete fp_002` / `rewrite sec_007` / `add 2 Flatpak` / sync `_topics.json`) — продуктовый следующий шаг на основе результатов MAS-прогона spec-030.
+2. **Spec 032 — MAS-autonomy** — 6 разрывов из RECON-MAS-AUTONOMY: run-spec.mjs, TASK.md/SESSION.md, spec-gate, авто-отчёт, атомарный коммиттер, метрики.
+3. **Spec 033 — Agent-Training** — SOP-YAML, presets, learning-файлы.
+4. **Spec 034 — Marketing MAS** — Director + Strategist + Content + SEO + Analyst.
+5. **TODO-LX-UI-03** — мигание красным при переключении вопросов (косметика).
 
 ## 12. Что НЕ делать в этом handoff
 

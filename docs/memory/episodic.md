@@ -99,4 +99,9 @@ C0 (recon текущего центра) закрыта 1/1. Отчёт: docs/C0
 ## 2026-09-28 | C1 закрыта
 C1 (дизайн нового центра) закрыта 1/1. Spec 029-center-redesign approved: три уровня (Пульс / Дела / Справочник), 10 DELETE, 3 COLLAPSE, 3 HUMANIZE, 3 KEEP. 18 секций раскрыты, 4 дубликата зафиксированы, 7 багов sync.mjs (критический — wall-clock «свежий draft») — в C2. Коммиты C1: ac08fc7 + C1-close. C-PLAN v1.1: старт C2.
 
-<!-- meta updated: 2026-09-28T22:05:00Z entries_count: 17 -->
+## 2026-09-29 | spec-030-rhcsa-objectives-diff
+Прогон AgentTeams (team `spec-030`, роли writer + qc, 3 задачи): t1 — список устаревших id по банку 224 вопроса / 14 тем → 2 id (`fp_002` — удалённый objective set-GID; `sec_007` — устаревшее `firewall` вместо `firewalld`); t2 — приоритизированный план: delete 1 / rewrite 1 / add 2 (Flatpak в `manage_software`); t3 — независимое adversarial QC-ревью, verdict PASS. Верифицированные нули (правок не требуют): containers, MBR, SELinux-нарушения, superuser→privileged, RHN→CDN, at+cron→timer units, boolean, vfat/xfs, multiuser.
+Файлы: репозиторий не изменялся (`src/data/**` — read-only); evidence — `.agent-teams/spec-030`. Гейты до старта прогона: typecheck 0, test:run 0, sync:check 0.
+Дальше: approve капитана — правки банка (delete `fp_002`, rewrite `sec_007`, add 2 вопроса Flatpak) и интеграция id-списка/плана в спеку 030. Расхождения со спекой: set-GID фактически в `file_permissions` (спека приписывала `file_systems`), устаревшая лексика — в `security`/`sec_007` (спека приписывала `networking`).
+
+<!-- meta updated: 2026-09-29T11:21:12Z entries_count: 18 -->

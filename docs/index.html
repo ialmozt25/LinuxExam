@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 855b9b1</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 69fadb0</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -392,6 +392,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">69fadb0</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-030 decomposition format</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">855b9b1</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-030): decomposition block — strict SKILL.md format</td>
@@ -505,12 +511,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after center-tile-rename</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">5135e77</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(center): переименование плитки — SHA в alerts/log</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -526,9 +526,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-28T22:05:00Z</td>
-          <td class="mono">17</td>
-          <td class="muted">13 ч</td>
+          <td class="mono muted">2026-09-29T11:21:12Z</td>
+          <td class="mono">18</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -547,16 +547,16 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-29T01:05:00Z</td>
-          <td class="mono">1</td>
-          <td class="muted">10 ч</td>
+          <td class="mono muted">2026-09-29T11:21:12Z</td>
+          <td class="mono">2</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T22:40:00Z</td>
           <td class="mono">22</td>
-          <td class="muted">12 ч</td>
+          <td class="muted">13 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -566,11 +566,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · push | authorize push origin main — C-PLAN status fix | push разрешён</li>
         <li><span class="mono muted">29.09</span> · spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-030 decomposition | push разрешён</li>
         <li><span class="mono muted">29.09</span> · spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-030 decomposition format | push разрешён</li>
+        <li><span class="mono muted">29.09</span> · spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -751,7 +751,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 5</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 7</div>
+        <div class="entry">
+          <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
+        </div>
         <div class="entry">
           <div class="entry__title">linuxexam-f3-smoke · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: writer (·) · qc (·)</div>
@@ -776,6 +779,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">spec-028-hide-alerts · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: architect (·) · builder (·) · tester (·) · reviewer (·)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">spec-030 · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: writer (⊘) · qc (⊘)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓</div>
         </div>
   </section>
 

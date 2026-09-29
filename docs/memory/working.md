@@ -4,16 +4,18 @@
 
 ---
 
-2026-09-29 | C1-fix — снято противоречие статуса spec 029 (инициатива C)
+2026-09-29 | spec-030-rhcsa-objectives-diff — прогон AgentTeams закрыт (writer + qc, verdict PASS)
 
-HEAD: a1f1d9c
+HEAD: 69fadb0
 
-ahead: 0/11
+ahead: 0
 
-План: C-PLAN v1.1
+План: spec 030 (approved); C-PLAN v1.1
 
-Фаза: C2 — Реализация в sync.mjs + фикс багов
+Фаза: spec-030 — AgentTeams-прогон (t1 / t2 / qc) завершён
 
-Дальше: C2c HUMANIZE
+Текущая активность: завершён spec-030 (t1 — 2 id; t2 — delete 1 / rewrite 1 / add 2; qc — PASS)
 
-<!-- meta updated: 2026-09-29T01:05:00Z entries_count: 1 -->
+Дальше: approve капитана (правки банка + интеграция результатов в спеку 030)
+
+<!-- meta updated: 2026-09-29T11:21:12Z entries_count: 2 -->
