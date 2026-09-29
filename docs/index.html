@@ -133,8 +133,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
     <div class="pulse">
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--bad"></span>Есть расхождения</div>
-      <div class="pulse-tile__note">проверка не прошла</div>
+      <div class="pulse-tile__value"><span class="dot dot--warn"></span>Данные устарели</div>
+      <div class="pulse-tile__note">обновлено 28.09, 01:37</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
       <div class="pulse-tile__value">224/300 · 74.7%</div>
@@ -383,6 +383,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">48e97f5</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">3e372ff</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after handoff-update (2)</td>
@@ -494,12 +500,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">44828e5</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): C2a-2 запись в log.md</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">a1a9442</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(factory): C2a-2 — банк 206→224 в roles.yaml</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
 <!--volatile:end-->

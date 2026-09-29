@@ -287,21 +287,38 @@ function diffHeadProjected() {
 }
 
 /**
- * C2a-3: реальная синхронность ЦЕНТРА — то, что показывает плитка «Состояние».
+ * Содержимое центра без маркеров VOLATILE и без самой плитки «Состояние».
+ * Плитка вырезается потому, что её значение — ФУНКЦИЯ от этой проверки; оставить
+ * её в сравнении значит получить самоссылку (см. `isCenterInSync`).
+ */
+function contentSansIndicator(html) {
+  const s = stripVolatile(normalizeLf(html));
+  return s.replace(
+    /<div class="pulse-tile"><div class="pulse-tile__label">Состояние<\/div>[\s\S]*?<\/div>\s*<\/div>/,
+    '<div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>[indicator]</div>',
+  );
+}
+
+/**
+ * C2a-3 (+ consistency-lastsync): реальная синхронность ЦЕНТРА — то, что
+ * показывает плитка «Состояние».
  *
- * Сравниваем содержимое `docs/index.html` на диске с ВЕРСИЕЙ ИЗ HEAD (`git show
+ * Сравниваем СГЕНЕРИРОВАННОЕ содержимое с ВЕРСИЕЙ ИЗ HEAD (`git show
  * HEAD:docs/index.html`), вырезая volatile-участки тем же `stripVolatile`, что и
- * гейт `--check`: иначе самоссылочный пин `HEAD` делал бы индикатор красным после
- * каждого коммита (см. VOLATILE). Ровно тот смысл, который заявлен сообщением
- * «есть расхождение (запусти npm run sync)»: центр на диске отстал от коммита.
+ * гейт `--check`. Смысл: «центр на диске отстал от коммита — запусти
+ * `npm run sync`».
  *
- * Почему центр, а не весь агрегат: индекс показывает состояние *последнего sync*,
- * а сообщение ведёт к `npm run sync`. `STATE.md`/`SPEC.md` сравниваются тем же
- * способом в гейте (`--check`), дублировать его в индикаторе не нужно.
+ * Почему не сравниваем файл на диске: sync пишет файл с актуальным volatile-пином,
+ * поэтому «диск vs HEAD» давал false сразу после каждой синхронизации.
  *
- * Возвращает true — синхронно; false — есть расхождение; при невозможности
- * получить committed-версию (файл не в HEAD, git недоступен, ещё нет файла) —
- * true, потому что красный индикатор уместен только при ДОКАЗАННОМ расхождении.
+ * Почему вырезаем саму плитку «Состояние»: она ЗАВИСИТ от результата этой же
+ * проверки, и её значение уже вшито в committed-версию. Без вырезания получается
+ * самоссылка: один раз красный индикатор сравнивается сам с собой и залипает
+ * навсегда, а зелёный — никогда не возвращается.
+ *
+ * Возвращает true — синхронно; false — центр отстал; при невозможности получить
+ * committed-версию (файла нет в HEAD, git недоступен) — true: красный индикатор
+ * уместен только при ДОКАЗАННОМ расхождении.
  */
 function isCenterInSync(generated) {
   try {
@@ -312,14 +329,11 @@ function isCenterInSync(generated) {
       ['show', `HEAD:${path.relative(ROOT, OUT_CENTER).replace(/\\/g, '/')}`],
       { cwd: ROOT, encoding: 'utf8' },
     );
-    // Сравниваем СГЕНЕРИРОВАННОЕ (то, что центр покажет сейчас), а не файл на
-    // диске: sync пишет файл с актуальным volatile-пином, и сравнение «диск vs
-    // HEAD» всегда давало false сразу после синхронизации.
-    const candidate = generated === undefined
+    const cand = generated === undefined
       ? (exists(OUT_CENTER) ? readText(OUT_CENTER) : null)
       : generated;
-    if (candidate === null) return true;
-    return stripVolatile(normalizeLf(candidate)) === stripVolatile(normalizeLf(committed));
+    if (cand === null) return true;
+    return contentSansIndicator(cand) === contentSansIndicator(committed);
   } catch (e) {
     return true;
   }
