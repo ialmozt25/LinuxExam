@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "deb752834e52d58f0b0446840894d043b2f59c63",
+  "head": "56bef87f8fdc846f16eff6c244a009a39d17cd83",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —",
     "2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c",
     "2026-09-29 | C1-fix | снято противоречие статуса spec 029: п.5 spec 029 и C-PLAN:48 помечены как снятые (approve — C1-close log.md:88, 28.09); источник истины — frontmatter approved | commit pending",
     "2026-09-29 | alerts | 3 записи: working.md lesson, handoff-stale, rule2-exception #3 (продолжение cumulative); procedural: manual-файлы | commit pending",
@@ -757,11 +756,36 @@
     "2026-09-29 | C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в <details>, specs сгруппированы по статусу, сводка тревог в ddn; технические строки переведены на человеческий на рендере | commit pending",
     "2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending",
     "2026-09-29 | C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | commit pending",
-    "2026-09-29 | C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в <details>; метрика первого экрана 30 строк | commit pending"
+    "2026-09-29 | C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в <details>; метрика первого экрана 30 строк | commit pending",
+    "2026-09-29 | alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "56bef87",
+      "date": "2026-09-29",
+      "subject": "chore(log): C-фаза записи",
+      "type": "chore"
+    },
+    {
+      "sha": "e471398",
+      "date": "2026-09-29",
+      "subject": "chore(memory): C-фаза — 4 записи в alerts + time-box урок в procedural",
+      "type": "chore"
+    },
+    {
+      "sha": "1c99904",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2d (2)",
+      "type": "chore"
+    },
+    {
+      "sha": "66dd570",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2d",
+      "type": "chore"
+    },
     {
       "sha": "deb7528",
       "date": "2026-09-29",
@@ -856,30 +880,6 @@
       "sha": "0e33741",
       "date": "2026-09-29",
       "subject": "chore(state): converge after consistency-check",
-      "type": "chore"
-    },
-    {
-      "sha": "1a29695",
-      "date": "2026-09-29",
-      "subject": "chore(log): consistency-check запись в log.md",
-      "type": "chore"
-    },
-    {
-      "sha": "11c8f45",
-      "date": "2026-09-29",
-      "subject": "feat(consistency): check-consistency.mjs + интеграция в sync:check",
-      "type": "feat"
-    },
-    {
-      "sha": "09893b5",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after handoff-create (2)",
-      "type": "chore"
-    },
-    {
-      "sha": "b1c7287",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after handoff-create",
       "type": "chore"
     }
   ],

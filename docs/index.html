@@ -128,7 +128,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на deb7528</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 56bef87</span><!--volatile:end-->
     </div>
     <div class="pulse">
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
@@ -382,6 +382,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">56bef87</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): C-фаза записи</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">e471398</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(memory): C-фаза — 4 записи в alerts + time-box урок в procedural</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">1c99904</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after C2d (2)</td>
@@ -489,18 +501,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after consistency-check</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">1a29695</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): consistency-check запись в log.md</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">11c8f45</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(consistency): check-consistency.mjs + интеграция в sync:check</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -556,11 +556,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в проверка синхронизации | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в &lt;details&gt;, specs сгруппированы по статусу…</li>
         <li><span class="mono muted">29.09</span> · C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в &lt;details&gt;; метрика первого экрана 30 строк | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | ещё не закоммичено</li>
     </ul>
   </details>
 
