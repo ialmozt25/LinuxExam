@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "79f0584c5583d3667d5f7bcb58e89db3fa36cf92",
+  "head": "fff0c24525dd931219be6dd35f95e2c7ed8c5e2f",
   "specs": [
     {
       "id": "022",
@@ -778,7 +778,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-030 decomposition format | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]",
@@ -787,10 +786,17 @@
     "2026-09-29 | spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-031 approve | [AUTHORIZE]",
     "2026-09-29 | spec | spec 031 — MAS PASS (7/7, QC=pass); банк 225 (delete fp_002 / rewrite sec_007 / add msw_015+msw_016 Flatpak); P14 doc | commit pending",
-    "2026-09-29 | state | current_questions 224→225, progress_percent 74.7→75 (после MAS spec 031) | commit pending"
+    "2026-09-29 | state | current_questions 224→225, progress_percent 74.7→75 (после MAS spec 031) | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec-031 close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "fff0c24",
+      "date": "2026-09-29",
+      "subject": "fix(state): current_questions 224→225, progress_percent 74.7→75 + alert",
+      "type": "fix"
+    },
     {
       "sha": "79f0584",
       "date": "2026-09-29",
@@ -904,12 +910,6 @@
       "date": "2026-09-29",
       "subject": "chore(state): converge after spec-030-enhance",
       "type": "chore"
-    },
-    {
-      "sha": "1537a78",
-      "date": "2026-09-29",
-      "subject": "docs(spec-030): enhance — контекст, edge cases, SDD-практики",
-      "type": "docs"
     }
   ],
   "roles": [
