@@ -4,16 +4,16 @@
 
 ---
 
-2026-09-28 | работа по C-PLAN (v1.1) — инициатива C (Center evolution)
+2026-09-29 | C1-fix — снято противоречие статуса spec 029 (инициатива C)
 
-HEAD: pending
+HEAD: a1f1d9c
 
-ahead: 0/2 (после C) / 0/0 (после push)
+ahead: 0/11
 
 План: C-PLAN v1.1
 
 Фаза: C2 — Реализация в sync.mjs + фикс багов
 
-Дальше: C2a (фикс критического wall-clock) → C2b (DELETE+COLLAPSE) → C2c (HUMANIZE) → C2d (Пульс) → C2-close.
+Дальше: C2c HUMANIZE
 
-<!-- meta updated: 2026-09-28T22:05:00Z entries_count: 1 -->
+<!-- meta updated: 2026-09-29T01:05:00Z entries_count: 1 -->
