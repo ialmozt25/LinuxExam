@@ -118,3 +118,4 @@
 2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending
 2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]
 2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending
+2026-09-29 | push | authorize push origin main — spec-030 decomposition | [AUTHORIZE]

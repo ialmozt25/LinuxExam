@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "39b2249cbab1c120928345e8b4ca3b0ee5c4445b",
+  "head": "0c2a9722736afd6031a88384b964e33af12414c0",
   "specs": [
     {
       "id": "022",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | rules | EOL-правило в ORCH-RULES: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | commit pending",
     "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending",
     "2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending",
     "2026-09-29 | spec | spec 030 — approved; handoff §1/§2/§11 обновлены | commit pending",
@@ -772,10 +771,17 @@
     "2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]",
     "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending",
     "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]",
-    "2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending"
+    "2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec-030 decomposition | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0c2a972",
+      "date": "2026-09-29",
+      "subject": "docs(spec-030): add ## Декомпозиция — 2 remaining tasks for /spec-to-team",
+      "type": "docs"
+    },
     {
       "sha": "39b2249",
       "date": "2026-09-29",
@@ -888,12 +894,6 @@
       "sha": "2808177",
       "date": "2026-09-29",
       "subject": "chore(state): converge after self-ref-fix",
-      "type": "chore"
-    },
-    {
-      "sha": "8f064a8",
-      "date": "2026-09-29",
-      "subject": "chore(log): self-ref-fix",
       "type": "chore"
     }
   ],
