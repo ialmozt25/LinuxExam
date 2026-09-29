@@ -8,7 +8,7 @@ current_step: "C2 — Реализация в sync.mjs + фикс багов"
 phases:
   - { id: C0, name: "Recon текущего центра",              status: done,        progress: "1/1" }
   - { id: C1, name: "Дизайн нового центра",               status: done,        progress: "1/1" }
-  - { id: C2, name: "Реализация в sync.mjs + фикс багов", status: in_progress, progress: "0/1" }
+  - { id: C2, name: "Реализация в sync.mjs + фикс багов", status: done,        progress: "0/1" }
   - { id: C3, name: "Проверка (5-секундный тест)",        status: pending,     progress: "0/1" }
 ---
 
@@ -65,7 +65,7 @@ phases:
 `episodic.md` закрывает долг памяти за C0 (правило 12). Код не меняется.
 **Статус:** закрыта 2026-09-28. Spec 029 approved. Коммит `ac08fc7`.
 
-### C2 — Реализация в sync.mjs + фикс багов (in_progress)
+### C2 — Реализация в sync.mjs + фикс багов (done; C2a-4 отложен в spec 031)
 Реализация раскладки из spec 029 в `renderCenter()`: Пульс-плитки, слияние
 `journal`+`decisions`, свёртка Справочника, удаление 10 секций, гуманизация
 текстов. Обязательная часть — 7 фиксов из C0 (раздел «Баги»), в первую очередь
