@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "919adb6f727dde98c2f3b25eb0297b5302062ade",
+  "head": "f6beffc17630c21f858d43a14acdb23ef85c2c85",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "031",
+      "slug": "rhcsa-bank-fixes",
+      "status": "draft",
+      "type": "content",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/031-rhcsa-bank-fixes.md",
+      "mtime": 1790683161169.4712,
+      "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
+      "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
+      "noTouch": "Другие 12 тем банка.",
+      "preview": ""
     },
     {
       "id": "001",
@@ -763,7 +778,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending",
     "2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]",
     "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending",
     "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]",
@@ -772,10 +786,17 @@
     "2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-030 decomposition format | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | commit pending",
-    "2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]"
+    "2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]",
+    "2026-09-29 | spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order — временно Node-скрипт | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f6beffc",
+      "date": "2026-09-29",
+      "subject": "chore(log): authorize push (rule 10) — spec-030 close",
+      "type": "chore"
+    },
     {
       "sha": "919adb6",
       "date": "2026-09-29",
@@ -889,12 +910,6 @@
       "date": "2026-09-29",
       "subject": "docs(mas): decisions — оркестратор, C-фаза соло, Swarm закрыт, план MAS, Marketing",
       "type": "docs"
-    },
-    {
-      "sha": "d0f2ce7",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge volatile commits table",
-      "type": "chore"
     }
   ],
   "roles": [
