@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "222e9996a7a91777c5635f408e3153ef21514913",
+  "head": "39b2249cbab1c120928345e8b4ca3b0ee5c4445b",
   "specs": [
     {
       "id": "022",
@@ -440,7 +440,7 @@
       "updated": null,
       "commit": null,
       "file": "specs/030-rhcsa-objectives-diff.md",
-      "mtime": 1790678535632.1082,
+      "mtime": 1790679670339.3433,
       "goal": "Выявить расхождения между банком (224 вопроса) и текущими objectives RHCSA",
       "acceptance": "1. Документ содержит таблицу diff-анализа целей экзамена с указанием источника и даты.",
       "noTouch": "`src/data/**` — только анализ, правки банка отдельным approve.",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | commit pending",
     "2026-09-29 | rules | EOL-правило в ORCH-RULES: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | commit pending",
     "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending",
     "2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending",
@@ -772,10 +771,17 @@
     "2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending",
     "2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]",
     "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending",
-    "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]"
+    "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]",
+    "2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "39b2249",
+      "date": "2026-09-29",
+      "subject": "chore(log): authorize push (rule 10) — C-PLAN status fix",
+      "type": "chore"
+    },
     {
       "sha": "222e999",
       "date": "2026-09-29",
@@ -888,12 +894,6 @@
       "sha": "8f064a8",
       "date": "2026-09-29",
       "subject": "chore(log): self-ref-fix",
-      "type": "chore"
-    },
-    {
-      "sha": "98f913d",
-      "date": "2026-09-29",
-      "subject": "chore(alerts): self-ref-fix — плитка без inSync",
       "type": "chore"
     }
   ],
