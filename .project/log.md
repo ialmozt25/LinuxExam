@@ -99,3 +99,4 @@
 2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending
 2026-09-29 | C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | commit pending
 2026-09-29 | C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в <details>; метрика первого экрана 30 строк | commit pending
+2026-09-29 | alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | commit pending
