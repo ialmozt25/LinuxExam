@@ -101,3 +101,4 @@
 2026-09-29 | C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в <details>; метрика первого экрана 30 строк | commit pending
 2026-09-29 | alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | commit pending
 2026-09-29 | handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts, +метрика 30), §11, §13 | commit pending
+2026-09-29 | center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч, STALE_THRESHOLD_MS); fallback getFreshnessTime(); override spec 029 (санкционировано капитаном 29.09); заодно исправлена самоссылка индикатора (contentSansIndicator) | commit pending
