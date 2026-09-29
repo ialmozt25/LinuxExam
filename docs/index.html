@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   docs/index.html — ЦЕНТР РАЗРАБОТКИ LinuxExam.
-  ФАЙЛ СГЕНЕРИРОВАН: .project/sync.mjs из .project/state.json. Правки затираются.
+  ФАЙЛ СГЕНЕРИРОВАН автоматически (генератор центра) из состояния проекта. Правки затираются.
   Без фреймворков, без билда, без кнопок — только видимость состояния.
   Старый дашборд V1–V9 остаётся в docs/dashboard/ для сравнения.
 -->
@@ -99,6 +99,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 .ddn__meta { color: var(--fg-muted); font-size: 0.75rem; }
 .ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
 .ddn__plans { margin-top: 14px; font-size: 0.75rem; }
+/* C2c: группы спек внутри <details id="specs"> */
+.spec-group { margin: 12px 0 6px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); }
+.spec-list { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.spec-list li { font-family: var(--mono); font-size: 0.8125rem; }
 
 /* --- бейджи типов коммитов (секция «Коммиты») */
 .ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
@@ -113,10 +117,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <section class="head" id="head">
     <h1>Центр разработки</h1>
-    <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
+    <div class="muted">LinuxExam · состояние проекта собирается автоматически</div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD 1a2969547dca72628113644b68f4da680634b8e5</span><!--volatile:end-->
-      <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
+      <!--volatile:start--><span class="mono">состояние на 1a29695</span><!--volatile:end-->
+      <span class="mono">обновлено 28.09, 01:37</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
   </section>
@@ -126,9 +130,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <div class="progress__nums">
       <span class="progress__cur">224</span>
       <span class="progress__tot">/ 300</span>
-      <span class="progress__pct">74.7% · осталось 76</span>
+      <span class="progress__pct">74.7% · +18 за сутки · осталось 76</span>
     </div>
     <div class="progress__bar"><div class="progress__fill" style="width:74.7%"></div></div>
+    <details class="collapsible progress-topics" id="progress-topics">
+      <summary>Темы · 14</summary>
         <div class="topic">
           <div class="topic__label">Развёртывание систем</div>
           <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
@@ -199,6 +205,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="topic__bar"><div class="topic__fill" style="width:91%"></div></div>
           <div class="topic__count">20 / 22</div>
         </div>
+    </details>
   </section>
 
   <section class="ddn" id="ddn">
@@ -209,11 +216,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#007 qc-ratio-semantics</span>
-            <span class="ddn__meta">feature · commit a50347f</span>
+            <span class="ddn__meta">feature</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#008 devops-role-document</span>
-            <span class="ddn__meta">docs · commit 041d4a8</span>
+            <span class="ddn__meta">docs</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#013 local-aliases</span>
@@ -221,7 +228,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#014 subagent-push-lockdown</span>
-            <span class="ddn__meta">docs · commit 61787a0</span>
+            <span class="ddn__meta">docs</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#015 batch5a-text-files</span>
@@ -241,11 +248,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#001 file-management-batch-4</span>
-            <span class="ddn__meta">content · commit f4e2538</span>
+            <span class="ddn__meta">content</span>
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#002 dehardcode-positional-test</span>
-            <span class="ddn__meta">feature · commit cd6ce8d</span>
+            <span class="ddn__meta">feature</span>
           </li>
           </ul>
         </div>
@@ -301,234 +308,51 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="ddn__plans muted">Планы: Фабрика v2.23 ✅ · DEV v1.4 ✅ · Центр v1.1 🔵 (C2)</div>
+    <div class="ddn__plans muted">Тревоги · открытых: 17 · старейшая: 28.09</div>
   </section>
 
-  <section class="specs" id="specs">
-    <h2>Все спеки</h2>
-    <table>
-      <thead>
-        <tr><th>id</th><th>slug</th><th>type</th><th>status</th><th>commit</th><th>updated</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="mono">022</td>
-          <td class="mono">center-block6-agents-pulse</td>
-          <td>infra</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">9718583</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">023</td>
-          <td class="mono">f4-keepers</td>
-          <td>infra</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">024</td>
-          <td class="mono">factory-export</td>
-          <td>infra</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">025</td>
-          <td class="mono">cleanup-project</td>
-          <td>infra</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">028</td>
-          <td class="mono">hide-alerts-details</td>
-          <td>infra</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
-          <td class="mono">—</td>
-        </tr>
-        <tr>
-          <td class="mono">029</td>
-          <td class="mono">center-redesign</td>
-          <td>infra</td>
-          <td><span class="chip chip--approved">approved</span></td>
-          <td class="mono">—</td>
-          <td class="mono">—</td>
-        </tr>
-        <tr>
-          <td class="mono">016</td>
-          <td class="mono">tf-cosine-debt</td>
-          <td>content</td>
-          <td><span class="chip chip--draft">draft</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">019</td>
-          <td class="mono">sh-cosine-debt</td>
-          <td>content</td>
-          <td><span class="chip chip--draft">draft</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">021</td>
-          <td class="mono">rs-cosine-debt</td>
-          <td>content</td>
-          <td><span class="chip chip--draft">draft</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">001</td>
-          <td class="mono">file-management-batch-4</td>
-          <td>content</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">f4e2538</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">002</td>
-          <td class="mono">dehardcode-positional-test</td>
-          <td>feature</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">cd6ce8d</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">004</td>
-          <td class="mono">batch-5-generation</td>
-          <td>content</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">12c8439</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">005</td>
-          <td class="mono">batch-6-generation</td>
-          <td>content</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">12c8439</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">006</td>
-          <td class="mono">batch-7-generation</td>
-          <td>content</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">12c8439</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">007</td>
-          <td class="mono">qc-ratio-semantics</td>
-          <td>feature</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">a50347f</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">008</td>
-          <td class="mono">devops-role-document</td>
-          <td>docs</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">041d4a8</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">009</td>
-          <td class="mono">state-update-single-run</td>
-          <td>feature</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">d61112d</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">013</td>
-          <td class="mono">local-aliases</td>
-          <td>docs</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">014</td>
-          <td class="mono">subagent-push-lockdown</td>
-          <td>docs</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">61787a0</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">015</td>
-          <td class="mono">batch5a-text-files</td>
-          <td>content</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">017</td>
-          <td class="mono">gen-state-schema-v2</td>
-          <td>infra</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">018</td>
-          <td class="mono">batch5b-shell-scripts</td>
-          <td>content</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">020</td>
-          <td class="mono">batch5c-running-systems</td>
-          <td>content</td>
-          <td><span class="chip chip--done">done</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">003</td>
-          <td class="mono">global-option-canonization</td>
-          <td>content</td>
-          <td><span class="chip chip--rejected">rejected</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">010</td>
-          <td class="mono">jsdom-smoke-center</td>
-          <td>feature</td>
-          <td><span class="chip chip--rejected">rejected</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">011</td>
-          <td class="mono">text-files-duplicate-repair</td>
-          <td>content</td>
-          <td><span class="chip chip--rejected">rejected</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-        <tr>
-          <td class="mono">012</td>
-          <td class="mono">fix-state-head-volatile</td>
-          <td>fix</td>
-          <td><span class="chip chip--rejected">rejected</span></td>
-          <td class="mono">—</td>
-          <td class="mono">2026-09-27</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <details class="collapsible specs" id="specs">
+    <summary>Спеки · всего: 27</summary>
+          <div class="spec-group">Утверждены · 6</div>
+          <ul class="spec-list">
+            <li>#022 center-block6-agents-pulse</li>
+            <li>#023 f4-keepers</li>
+            <li>#024 factory-export</li>
+            <li>#025 cleanup-project</li>
+            <li>#028 hide-alerts-details</li>
+            <li>#029 center-redesign</li>
+          </ul>
+          <div class="spec-group">Черновики · 3</div>
+          <ul class="spec-list">
+            <li>#016 tf-cosine-debt</li>
+            <li>#019 sh-cosine-debt</li>
+            <li>#021 rs-cosine-debt</li>
+          </ul>
+          <div class="spec-group">Завершены · 14</div>
+          <ul class="spec-list">
+            <li>#001 file-management-batch-4</li>
+            <li>#002 dehardcode-positional-test</li>
+            <li>#004 batch-5-generation</li>
+            <li>#005 batch-6-generation</li>
+            <li>#006 batch-7-generation</li>
+            <li>#007 qc-ratio-semantics</li>
+            <li>#008 devops-role-document</li>
+            <li>#009 state-update-single-run</li>
+            <li>#013 local-aliases</li>
+            <li>#014 subagent-push-lockdown</li>
+            <li>#015 batch5a-text-files</li>
+            <li>#017 gen-state-schema-v2</li>
+            <li>#018 batch5b-shell-scripts</li>
+            <li>#020 batch5c-running-systems</li>
+          </ul>
+          <div class="spec-group">Отклонены · 4</div>
+          <ul class="spec-list">
+            <li>#003 global-option-canonization</li>
+            <li>#010 jsdom-smoke-center</li>
+            <li>#011 text-files-duplicate-repair</li>
+            <li>#012 fix-state-head-volatile</li>
+          </ul>
+  </details>
 
   <details class="collapsible commits" id="commits">
     <summary>Коммиты · последних 20</summary>
@@ -538,6 +362,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">eb520ce</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge (2)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">0e33741</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -652,12 +482,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after C2b-1</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">8288519</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after C2b-1</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -740,92 +564,92 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <summary>Тревоги · записей: 22</summary>
     <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 22</div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | renderAgentTeamCard не обёрнут VOLATILE</div>
-          <div class="entry__body muted">`.project/sync.mjs:884-918` (секция «Пульс агентов») рендерит</div>
+          <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
+          <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | Quality-gates контракты не применяются</div>
-          <div class="entry__body muted">Все задачи в D4 — `kind: work`. Harness не требует `objective`/</div>
+          <div class="entry__title">28.09 | Quality-gates контракты не применяются</div>
+          <div class="entry__body muted">Все задачи в D4 — kind: work. Harness не требует objective/</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | D5-порядок в шаблонах промптов</div>
-          <div class="entry__body muted">`sync:check` до коммита всегда exit 2. Правильный порядок:</div>
+          <div class="entry__title">28.09 | D5-порядок в шаблонах промптов</div>
+          <div class="entry__body muted">проверка синхронизации до коммита всегда не прошла. Правильный порядок:</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | rule2-exception cumulative</div>
-          <div class="entry__body muted">F5.0b — второй случай `rule2-exception` (после spec 023 в F4.3). Если паттерн повторится — пересмотреть правило 2 (возможно, embedded approve — норма, а не исключение). Кандидат в F5.3 или в ORCH-RULES-правку.</div>
+          <div class="entry__title">28.09 | исключение из правила 2 cumulative</div>
+          <div class="entry__body muted">F5.0b — второй случай исключение из правила 2 (после spec 023 в F4.3). Если паттерн повторится — пересмотреть правило 2 (возможно, embedded approve — норма, а не исключение).…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | headless: junction на web-профиль</div>
-          <div class="entry__body muted">Хранители (`DSH-Checker`/`DSH-Cleaner`) работают через `dsh --profile headless`. Профиль headless требует junction `node_modules/dsh-tier-router → web/node_modules/dsh-tier-router` (создан в F4.2a-i). Сломается, если web-профиль обновится/удалится. Кандидат: `dsh plugin --profile headless add dsh-tier-router`.</div>
+          <div class="entry__title">28.09 | headless: junction на web-профиль</div>
+          <div class="entry__body muted">Хранители (DSH-Checker/DSH-Cleaner) работают через dsh --profile headless.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | headless: package.json вне версионного контроля</div>
-          <div class="entry__body muted">`headless/package.json` (`dependencies` + `dsh.profile.bundles`) правился в F4.2a-i вне репо и вне git. Перезапишется при обновлении DSH. Кандидат: зафиксировать baseline в `docs/memory/semantic.md`.</div>
+          <div class="entry__title">28.09 | headless: package.json вне версионного контроля</div>
+          <div class="entry__body muted">headless/package.json (dependencies + dsh.profile.bundles) правился в F4.2a-i вне репо и вне git. Перезапишется при обновлении DSH.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | headless sandbox: spawnSync EPERM</div>
-          <div class="entry__body muted">Песочница headless-профиля блокирует `spawnSync` с piped stdio (`git EPERM`). `npm run sync:check` внутри headless-агента не работает — гейт остаётся за оркестратором. Сверщик проверяет только отставание `state.head` &gt; 1.</div>
+          <div class="entry__title">28.09 | headless sandbox: spawnSync EPERM</div>
+          <div class="entry__body muted">Песочница headless-профиля блокирует spawnSync с piped stdio (git EPERM). npm run проверка синхронизации внутри headless-агента не работает — гейт остаётся за оркестратором.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | правило 2 узаконено; правило 13 смягчено (F5.0a)</div>
-          <div class="entry__body muted">F4.3 использовал embedded approve для перевода spec 023 в approved. В F5.0a правило 2 дополнено исключением (embedded approve для spec-перевода), правило 13 смягчено (правка ORCH-RULES через embedded approve, если файл и суть названы явно). Записи `rule2-exception` и `rule13-exception` — в `log.md`. [closed F5.0a]</div>
+          <div class="entry__title">28.09 | правило 2 узаконено; правило 13 смягчено (F5.0a)</div>
+          <div class="entry__body muted">F4.3 использовал embedded approve для перевода spec 023 в approved. В F5.0a правило 2 дополнено исключением (embedded approve для spec-перевода)…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | Критерий 8 спеки 022 не проверен прогоном</div>
-          <div class="entry__body muted">Критерий 8 спеки 022 (фаза известна, но не `staged|running` → в `class` попадает только базовый `chip` без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значением `phase` не удалось записать в edge-кейс-прогоне F3.0b — запись значения режется политикой оболочки. Не блокер F3. Кандидат: unit-тест `sync.mjs` (чистая функция рендера команды) в F4.</div>
+          <div class="entry__title">28.09 | Критерий 8 спеки 022 не проверен прогоном</div>
+          <div class="entry__body muted">Критерий 8 спеки 022 (фаза известна, но не staged|running → в class попадает только базовый chip без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значе…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | Dependabot — 52 уязвимости</div>
+          <div class="entry__title">28.09 | Dependabot — 52 уязвимости</div>
           <div class="entry__body muted">GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не следствие push. Кандидат в F4 или отдельную спеку. Действий пока нет.</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | F2.3 — стоп-условие 60 строк не сработало</div>
-          <div class="entry__body muted">Агент применил 133 строки вместо 60 в sync.mjs (F2.3), обосновал целостностью. Принято капитаном. Прецедент: впредь при превышении стоп-условия — СТОП и отчёт, не дожимать. [closed — принято капитаном, F2.3.1]</div>
+          <div class="entry__title">28.09 | F2.3 — стоп-условие 60 строк не сработало</div>
+          <div class="entry__body muted">Агент применил 133 строки вместо 60 в генератор центра (F2.3), обосновал целостностью. Принято капитаном. Прецедент: впредь при превышении стоп-условия — СТОП и отчёт, не дожимать.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | F2.1b partial — index.html drift</div>
-          <div class="entry__body muted">Коммит 78adca8: STATE.md:44 и commits[]/log_tail закрыты — 2 из 3 self-reference. Третий — docs/index.html: содержит pre-commit head в содержимом, regex volatile не strip&#39;ает регион. sync:check exit 2 после каждого коммита. Принято как налог (правило 9). Правка — в F2.2b или F2.3. [closed F2.2b — variant A]</div>
+          <div class="entry__title">28.09 | F2.1b partial — index.html drift</div>
+          <div class="entry__body muted">Коммит 78adca8: STATE.md:44 и commits[]/log_tail закрыты — 2 из 3 self-reference.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | sync.mjs — устаревший путь к памяти</div>
-          <div class="entry__body muted">`.project/sync.mjs:898, :1150` ссылаются на `.project/factory/MEMORY-FACTORY.md`. После F1.3 файл переехал в `docs/archive/MEMORY-FACTORY-2026-09-28.md`. Карточка D3 в центре покажет «(нет файла)» до F2.1. Правка пути — вместе с self-reference в F2.1. Взято в работу в F2.1. [closed F2.1b]</div>
+          <div class="entry__title">28.09 | генератор центра — устаревший путь к памяти</div>
+          <div class="entry__body muted">генератор центра:898, :1150 ссылаются на .project/factory/MEMORY-FACTORY.md. После F1.3 файл переехал в docs/archive/MEMORY-FACTORY-2026-09-28.md.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | sync.mjs self-reference</div>
-          <div class="entry__body muted">`sync.mjs` self-reference. `state.head` и `commits[]` всегда отстают на 1 от HEAD после verify-шага: pinned head (`STATE.md:44`) лежит вне volatile-маркеров, а любой прогон verify добавляет текущий коммит в `commits[]` — производные уезжают, `sync:check` даёт exit 2. Принято как налог правила 9. Лечение — F2 (volatile-маркеры). Конвергентами не биться. Взято в работу в F2.1. [closed F2.1b/F2.2b — volatile]</div>
+          <div class="entry__title">28.09 | генератор центра self-reference</div>
+          <div class="entry__body muted">генератор центра self-reference. state.head и commits[] всегда отстают на 1 от HEAD после verify-шага: pinned head (STATE.md:44) лежит вне volatile-маркеров…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | [f4-checker] результат</div>
+          <div class="entry__title">28.09 | [f4-checker] результат</div>
           <div class="entry__body muted">Сверка 4 пунктов (задание F4-checker).</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | [f4-checker] результат</div>
+          <div class="entry__title">28.09 | [f4-checker] результат</div>
           <div class="entry__body muted">Сверка 4 пунктов. **все проверки OK.**</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | [f4-checker] результат</div>
+          <div class="entry__title">28.09 | [f4-checker] результат</div>
           <div class="entry__body muted">Сверка 4 пунктов. **все проверки OK.**</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | [f4-checker] результат</div>
+          <div class="entry__title">28.09 | [f4-checker] результат</div>
           <div class="entry__body muted">Сверка 4 пунктов. **все проверки OK.**</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-28 | C2a-3 (inSync) отложен</div>
-          <div class="entry__body muted">`inSync: true` в `renderCenter` (строка `const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true })` в `main()`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.</div>
+          <div class="entry__title">28.09 | C2a-3 (inSync) отложен</div>
+          <div class="entry__body muted">inSync: true в renderCenter (строка const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true }) в main()) остаётся: banner всегда «синхронизировано».…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-29 | process lesson | working.md — manual-файл (sync не пишет)</div>
-          <div class="entry__body muted">Любой коммит manual-файла после converge передвигает HEAD → следующий `sync` тянет drift → `sync:check` красный. Лечение: писать manual-файл ДО converge, либо принять отставание `state.head` на 1 коммит (f4-checker). Приём Pass 5c C1-fix: `git checkout --` на производные, если drift — артефакт одного не-sync коммита (коммит `3a2e931`).</div>
+          <div class="entry__title">29.09 | process lesson | working.md — manual-файл (sync не пишет)</div>
+          <div class="entry__body muted">Любой коммит manual-файла после converge передвигает HEAD → следующий sync тянет drift → проверка синхронизации красный.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-29 | process gap | handoff не отражал провал Swarm-pilot B</div>
-          <div class="entry__body muted">Handoff показывал «статус неизвестен» против факта: FAILED spawn 28.09, 12/12 task-агентов `child stopped: error` (детали — отчёт `C:\Users\Alexey Udotov\swarm-pilot\SWARM-PILOT-B-REPORT.md`, вне репо). Исправляется отдельным коммитом (handoff-update). Закрыто 2026-09-29 (handoff-create): заведён живой `docs/HANDOFF.md`; архивный `docs/archive/HANDOFF.md` оставлен как исторический артефакт. commit pending.</div>
+          <div class="entry__title">29.09 | process gap | handoff не отражал провал Swarm-pilot B</div>
+          <div class="entry__body muted">Handoff показывал «статус неизвестен» против факта: FAILED spawn 28.09, 12/12 task-агентов child stopped: error (детали…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">2026-09-29 | process gap | rule2-exception #3 — ПРОДОЛЖЕНИЕ записи `2026-09-28 | rule2-exception cumulative`</div>
-          <div class="entry__body muted">Третий случай (spec 029, C1-close `log.md:88`, embedded approve без метки). Предыдущая запись от 2026-09-28 остаётся открытой; эта — её продолжение. Кандидат на пересмотр правила 2 (`.project/ORCH-RULES.md`).</div>
+          <div class="entry__title">29.09 | process gap | исключение из правила 2 #3 — ПРОДОЛЖЕНИЕ записи `2026-09-28 | исключение из правила 2 cumulative`</div>
+          <div class="entry__body muted">Третий случай (spec 029, C1-close журнал событий:88, embedded approve без метки). Предыдущая запись от 2026-09-28 остаётся открытой; эта — её продолжение.…</div>
         </div>
   </details>
 

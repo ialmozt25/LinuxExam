@@ -1128,6 +1128,76 @@ function readDirtySpecIds() {
   }
 }
 
+/** Записи `docs/memory/alerts.md`, которые ещё НЕ закрыты. */
+function openAlerts(doc) {
+  const open = (doc.entries || []).filter((e) => !/\[closed/i.test(e.body || ''));
+  const oldest = open
+    .map((e) => e.date)
+    .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
+    .sort()[0];
+  return { count: open.length, oldest };
+}
+
+/* --- C2c: человеческий язык для технических подстрок (только рендер) --- */
+
+/** ISO-таймстамп → «обновлено 27.09, 15:37» / «3 ч назад» / «только что». */
+function humanTime(iso) {
+  const t = Date.parse(String(iso ?? ''));
+  if (!Number.isFinite(t)) return 'обновлено недавно';
+  const d = new Date(t);
+  const hhmm = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  const dm = `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}`;
+  const mins = Math.max(0, Math.round((Date.now() - t) / 60000));
+  if (mins < 1) return 'только что';
+  if (mins < 60) return `${mins} мин назад`;
+  if (mins < 24 * 60) return `${Math.round(mins / 60)} ч назад`;
+  return `обновлено ${dm}, ${hhmm}`;
+}
+
+/** ISO-дата → DD.MM. */
+const shortDate = (d) => {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d ?? ''));
+  return m ? `${m[3]}.${m[2]}` : '';
+};
+
+/**
+ * Технические подстроки → человеческий язык. ТОЛЬКО для текста, который
+ * попадает в HTML; источники (`log.md`, `alerts.md`) не переписываются.
+ */
+function humanizeText(s) {
+  return String(s ?? '')
+    .replace(/commit pending/gi, 'ещё не закоммичено')
+    .replace(/\[AUTHORIZE\]/g, 'push разрешён')
+    .replace(/rule2-exception/gi, 'исключение из правила 2')
+    .replace(/rule13-exception/gi, 'исключение из правила 13')
+    .replace(/sync:check/gi, 'проверка синхронизации')
+    .replace(/exit 2/gi, 'не прошла')
+    .replace(/ORCH-RULES/gi, 'правила оркестратора')
+    .replace(/\.project\/sync\.mjs|sync\.mjs/gi, 'генератор центра')
+    .replace(/\.project\/state\.json|state\.json/gi, 'состояние проекта')
+    .replace(/\.project\/log\.md|log\.md/gi, 'журнал событий')
+    .replace(/\balerts\.md\b/gi, 'журнал тревог');
+}
+
+/**
+ * Обрезка по границе предложения: сначала по последнему «.», «!», «?», «…»
+ * внутри лимита, затем по последней запятой/тире; иначе — по лимиту. В конец
+ * добавляется «…», чтобы обрезка была видна.
+ */
+function trimToSentence(text, limit = 180) {
+  const s = String(text ?? '');
+  if (s.length <= limit) return s;
+  const cut = s.slice(0, limit);
+  const sentence = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '), cut.lastIndexOf('… '));
+  if (sentence > limit * 0.4) return `${cut.slice(0, sentence + 1).trim()}…`;
+  const soft = Math.max(cut.lastIndexOf(', '), cut.lastIndexOf(' — '));
+  if (soft > limit * 0.4) return `${cut.slice(0, soft).trim()}…`;
+  return `${cut.trim()}…`;
+}
+
+/** Текст записи тревоги: плейн-строки без code-span, обрезанные по предложению. */
+const alertBodyText = (body) => trimToSentence(String(body ?? '').replace(/`/g, ''), 180);
+
 /**
  * Секция «Done / Doing / Next» — первый блок центра (M6.0 Phase 2, D3).
  *
@@ -1175,12 +1245,15 @@ function renderDoneDoingNext(ctx) {
     '        </div>',
   ].join('\n');
 
-  const doneItems = done.map((s) => specItem(s, s.commit ? `commit ${s.commit}` : ''));
+  const doneItems = done.map((s) => specItem(s, ''));
   const doingItems = [...doing.map((s) => specItem(s, s.status)), ...freshDrafts.map((s) => specItem(s, 'draft (свежий)'))];
   const nextItems = [
     ...nextSpecs.map((s) => specItem(s, 'draft')),
     ...nextProducts.map((p) => item(`продукт: ${p.name}`, p.metric || 'запланирован')),
   ];
+  // C2c: сводка тревог. `openAlerts()` считает записи без `[closed` (см. alerts.md).
+  const c2cAlerts = openAlerts(ctx.alerts || { entries: [] });
+  const alertsLine = `Тревоги · открытых: ${c2cAlerts.count}${c2cAlerts.oldest ? ` · старейшая: ${shortDate(c2cAlerts.oldest)}` : ''}`;
 
   return [
     '  <section class="ddn" id="ddn">',
@@ -1194,6 +1267,7 @@ function renderDoneDoingNext(ctx) {
     // Данные статичны по построению (три плана проекта), wall-clock не участвует.
     // TODO C2d — вынести в отдельный блок уровня 2 «Дела» с полной раскладкой фаз.
     '    <div class="ddn__plans muted">Планы: Фабрика v2.23 ✅ · DEV v1.4 ✅ · Центр v1.1 🔵 (C2)</div>',
+    `    <div class="ddn__plans muted">${esc(alertsLine)}</div>`,
     '  </section>',
   ].join('\n');
 }
@@ -1203,20 +1277,27 @@ function renderCenter(ctx) {
   const circle = inSync ? 'ok' : 'bad';
   const statusText = inSync ? 'синхронизировано' : 'есть расхождение (запусти npm run sync)';
 
+  // Группы спек: только реально встречающиеся статусы (`preview`/`running`
+  // сегодня не используются) — пустая группа не выводится.
+  const specGroups = [
+    ['approved', 'Утверждены'],
+    ['preview', 'Предпросмотр'],
+    ['running', 'В работе'],
+    ['draft', 'Черновики'],
+    ['done', 'Завершены'],
+    ['rejected', 'Отклонены'],
+  ];
+  const specItems = specGroups
+    .filter(([st]) => specs.some((s) => s.status === st))
+    .map(([st, label]) => [
+      `          <div class="spec-group">${esc(label)} · ${specs.filter((s) => s.status === st).length}</div>`,
+      '          <ul class="spec-list">',
+      ...specs.filter((s) => s.status === st).map((s) => `            <li>#${esc(s.id)} ${esc(s.slug)}</li>`),
+      '          </ul>',
+    ].join('\n'));
   const specsRows = specs.length === 0
-    ? '        <tr><td colspan="6" class="muted">Спек пока нет — шаблон: <code>.project/specs/README.md</code></td></tr>'
-    : specs
-      .map((s) => [
-        '        <tr>',
-        `          <td class="mono">${esc(s.id)}</td>`,
-        `          <td class="mono">${esc(s.slug)}</td>`,
-        `          <td>${esc(s.type)}</td>`,
-        `          <td><span class="chip chip--${esc(s.status)}">${esc(s.status)}</span></td>`,
-        `          <td class="mono">${esc(s.commit ?? '—')}</td>`,
-        `          <td class="mono">${esc(s.updated ?? '—')}</td>`,
-        '        </tr>',
-      ].join('\n'))
-      .join('\n');
+    ? '          <p class="empty">Спек пока нет</p>'
+    : specItems.join('\n');
 
   const topicRows = topics
     .map((t) => {
@@ -1289,8 +1370,8 @@ function renderCenter(ctx) {
     : alertsDoc.entries
       .map((a) => [
         '        <div class="entry">',
-        `          <div class="entry__title">${esc(a.date)} | ${esc(a.title)}</div>`,
-        a.body ? `          <div class="entry__body muted">${esc(a.body)}</div>` : '',
+        `          <div class="entry__title">${esc(shortDate(a.date))} | ${esc(humanizeText(a.title))}</div>`,
+        a.body ? `          <div class="entry__body muted">${esc(humanizeText(alertBodyText(a.body)))}</div>` : '',
         '        </div>',
       ].filter(Boolean).join('\n'))
       .join('\n');
@@ -1305,13 +1386,14 @@ function renderCenter(ctx) {
     specs,
     roles: ctx.roles,
     products: ctx.products,
+    alerts: ctx.alerts,
     dirtySpecIds: readDirtySpecIds(),
   });
 
   return `<!DOCTYPE html>
 <!--
   docs/index.html — ЦЕНТР РАЗРАБОТКИ LinuxExam.
-  ФАЙЛ СГЕНЕРИРОВАН: .project/sync.mjs из .project/state.json. Правки затираются.
+  ФАЙЛ СГЕНЕРИРОВАН автоматически (генератор центра) из состояния проекта. Правки затираются.
   Без фреймворков, без билда, без кнопок — только видимость состояния.
   Старый дашборд V1–V9 остаётся в docs/dashboard/ для сравнения.
 -->
@@ -1409,6 +1491,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 .ddn__meta { color: var(--fg-muted); font-size: 0.75rem; }
 .ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
 .ddn__plans { margin-top: 14px; font-size: 0.75rem; }
+/* C2c: группы спек внутри <details id="specs"> */
+.spec-group { margin: 12px 0 6px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); }
+.spec-list { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.spec-list li { font-family: var(--mono); font-size: 0.8125rem; }
 
 /* --- бейджи типов коммитов (секция «Коммиты») */
 .ctype { font-family: var(--mono); font-size: 0.75rem; border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--fg-muted); }
@@ -1423,10 +1509,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <section class="head" id="head">
     <h1>Центр разработки</h1>
-    <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
+    <div class="muted">LinuxExam · состояние проекта собирается автоматически</div>
     <div class="head__row">
-      ${VOLATILE.start}<span class="mono">HEAD ${esc(head)}</span>${VOLATILE.end}
-      <span class="mono">last_sync ${esc(state.last_sync ?? '—')}</span>
+      ${VOLATILE.start}<span class="mono">состояние на ${esc(String(head).slice(0, 7))}</span>${VOLATILE.end}
+      <span class="mono">${esc(humanTime(state.last_sync))}</span>
       <span><span class="dot dot--${circle}"></span>${esc(statusText)}</span>
     </div>
   </section>
@@ -1436,25 +1522,21 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <div class="progress__nums">
       <span class="progress__cur">${goal.current}</span>
       <span class="progress__tot">/ ${goal.target}</span>
-      <span class="progress__pct">${goal.percent}% · осталось ${goal.remaining}</span>
+      <span class="progress__pct">${goal.percent}%${goal.added_today != null ? ` · +${goal.added_today} за сутки` : ''} · осталось ${goal.remaining}</span>
     </div>
     <div class="progress__bar"><div class="progress__fill" style="width:${goal.percent}%"></div></div>
+    <details class="collapsible progress-topics" id="progress-topics">
+      <summary>Темы · ${topics.length}</summary>
 ${topicRows}
+    </details>
   </section>
 
 ${doneDoingNextHtml}
 
-  <section class="specs" id="specs">
-    <h2>Все спеки</h2>
-    <table>
-      <thead>
-        <tr><th>id</th><th>slug</th><th>type</th><th>status</th><th>commit</th><th>updated</th></tr>
-      </thead>
-      <tbody>
+  <details class="collapsible specs" id="specs">
+    <summary>Спеки · всего: ${specs.length}</summary>
 ${specsRows}
-      </tbody>
-    </table>
-  </section>
+  </details>
 
   <details class="collapsible commits" id="commits">
     <summary>Коммиты · последних ${COMMITS_IN_CENTER}</summary>
@@ -1679,6 +1761,7 @@ function main() {
     audits: auditIndex,
     plan: planDoc,
     devPlan,
+    alerts: readAlerts(),
   };
   const stateMd = renderStateMd({ ...ctxBase, state: nextState });
   const specMd = renderSpecMd({ ...ctxBase, state: nextState });
