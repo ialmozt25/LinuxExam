@@ -136,8 +136,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
     <div class="pulse">
 <!--volatile:start-->
-    <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--ok"></span>Всё работает</div>
+    <div class="pulse-tile"><div class="pulse-tile__label">Свежесть данных</div>
+      <div class="pulse-tile__value"><span class="dot dot--ok"></span>Свежие</div>
     </div>
 <!--volatile:end-->
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
@@ -387,6 +387,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">2808177</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after self-ref-fix</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">8f064a8</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): self-ref-fix</td>
@@ -500,12 +506,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(alerts): override — плитка Состояние, 3 статуса + defect last_sync</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">f046a00</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -530,7 +530,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">20 ч</td>
+          <td class="muted">21 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -561,11 +561,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts…</li>
         <li><span class="mono muted">29.09</span> · center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч…</li>
         <li><span class="mono muted">29.09</span> · sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в проверка синхронизации/CLI, не в HTML | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта…</li>
     </ul>
   </details>
 
@@ -596,8 +596,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 31</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 31</div>
+    <summary>Тревоги · записей: 32</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 32</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -721,6 +721,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">29.09 | override | Плитка Состояние: убран inSync</div>
           <div class="entry__body muted">Spec 029 (override от 29.09) описывала плитку с 4 уровнями на основе inSync + freshness.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | override | Плитка «Свежесть данных» — переименование</div>
+          <div class="entry__body muted">Плитка pulseTiles() переименована: label «Состояние» → «Свежесть данных», значения уровней FRESHNESS_LEVELS → Свежие / Подустарели / Устарели / Критически старые…</div>
         </div>
   </details>
 

@@ -1343,10 +1343,10 @@ const alertBodyText = (body) => trimToSentence(String(body ?? '').replace(/`/g, 
  * sync↔converge (это же — закрытие записи «defect | last_sync статичен»).
  */
 const FRESHNESS_LEVELS = [
-  { limitMs: 24 * 3600 * 1000, status: 'ok', text: 'Всё работает' },
-  { limitMs: 48 * 3600 * 1000, status: 'warn', text: 'Данные подустарели' },
-  { limitMs: 96 * 3600 * 1000, status: 'warn2', text: 'Данные устарели' },
-  { limitMs: Number.POSITIVE_INFINITY, status: 'bad', text: 'Данные критические старые' },
+  { limitMs: 24 * 3600 * 1000, status: 'ok', text: 'Свежие' },
+  { limitMs: 48 * 3600 * 1000, status: 'warn', text: 'Подустарели' },
+  { limitMs: 96 * 3600 * 1000, status: 'warn2', text: 'Устарели' },
+  { limitMs: Number.POSITIVE_INFINITY, status: 'bad', text: 'Критически старые' },
 ];
 
 /**
@@ -1400,7 +1400,7 @@ function pulseTiles(ctx) {
     '    </div>',
   ].filter(Boolean).join('\n');
 
-  // Состояние: ТОЛЬКО свежесть данных — 4 уровня (Fresh/Aging/Stale/Critical)
+  // Свежесть данных: ТОЛЬКО свежесть данных — 4 уровня (Fresh/Aging/Stale/Critical)
   // плюс случай «нет данных». Сигнала синхронности центра здесь БОЛЬШЕ НЕТ
   // (override spec 029, санкционировано капитаном 29.09.2026): он вычислялся ДО
   // коммита — через `isCenterInSync()`, — а коммит меняет HEAD, поэтому
@@ -1421,7 +1421,7 @@ function pulseTiles(ctx) {
   // последний порог — POSITIVE_INFINITY, а `Infinity < Infinity` ложно) — «нет данных».
   const noData = freshAt === null || level === undefined;
   const status = noData ? 'bad' : level.status;
-  const statusText = noData ? 'Нет данных о синхронизации' : level.text;
+  const statusText = noData ? 'Нет данных' : level.text;
   const statusNote = noData ? 'источники freshness недоступны' : '';
   const stateValue = `<span class="dot dot--${status}"></span>${statusText}`;
 
@@ -1438,7 +1438,7 @@ function pulseTiles(ctx) {
     // stripVolatile перестал бы их видеть. Гейт вырезает блок, write-путь
     // (точное сравнение) обновляет его как обычно.
     VOLATILE.start,
-    tile('Состояние', stateValue, statusNote),
+    tile('Свежесть данных', stateValue, statusNote),
     VOLATILE.end,
     tile('Банк', esc(bankValue), bankNote),
     tile('Требует решения', queued === 0 ? '—' : String(queued), 'спеки в preview'),
