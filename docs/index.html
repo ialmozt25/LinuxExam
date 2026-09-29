@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на a42fa61</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на e10d8ca</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -318,7 +318,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
+          <h3 class="ddn__h">Next <span class="ddn__count">5</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -333,6 +333,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">content · draft</span>
           </li>
           <li class="ddn__item">
+            <span class="ddn__title">#033 mas-autonomy-spike</span>
+            <span class="ddn__meta">infra · draft</span>
+          </li>
+          <li class="ddn__item">
             <span class="ddn__title">продукт: &lt;next&gt;</span>
             <span class="ddn__meta">запланирован</span>
           </li>
@@ -344,7 +348,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </section>
 
   <details class="collapsible specs" id="specs">
-    <summary>Спеки · всего: 30</summary>
+    <summary>Спеки · всего: 31</summary>
           <div class="spec-group">Утверждены · 8</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
@@ -356,11 +360,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
           </ul>
-          <div class="spec-group">Черновики · 3</div>
+          <div class="spec-group">Черновики · 4</div>
           <ul class="spec-list">
             <li>#016 tf-cosine-debt</li>
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
+            <li>#033 mas-autonomy-spike</li>
           </ul>
           <div class="spec-group">Завершены · 15</div>
           <ul class="spec-list">
@@ -397,6 +402,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">e10d8ca</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-032 close</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
         <tr>
           <td class="mono">a42fa61</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -511,12 +522,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-030): close — MAS results + mapping corrections + HANDOFF §11</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">69fadb0</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — spec-030 decomposition format</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -534,7 +539,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">20</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -548,20 +553,20 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">4</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-29T23:00:37Z</td>
-          <td class="mono">26</td>
+          <td class="mono muted">2026-09-29T23:33:11Z</td>
+          <td class="mono">27</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
@@ -572,11 +577,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · spec | order-manifest: новый id дописывается в конец _order.json (append — детерминированное правило); повторный --add = no-op + WARN; round-trip SHA256 до==после | commit 2539526</li>
         <li><span class="mono muted">30.09</span> · spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс…</li>
         <li><span class="mono muted">30.09</span> · state | goal ownership: генератор центра пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526</li>
         <li><span class="mono muted">30.09</span> · spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-032 close | push разрешён</li>
+        <li><span class="mono muted">30.09</span> · spec | spec 033a (mas-autonomy-spike) — draft: spike программного пути к dsh-agent-teams + run-spec.mjs + TASK/SESSION templates | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -607,8 +612,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 41</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 41</div>
+    <summary>Тревоги · записей: 42</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 42</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -773,11 +778,15 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">30.09 | [f4-cleaner] предложение</div>
           <div class="entry__body muted">Кандидатов на свёртку нет: на 2026-09-30 порог «старше 14 дней» (cutoff 2026-09-16) не пересекла ни одна запись episodic.md — все записи датированы 2026-09-28 ……</div>
         </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | observation | [f4-cleaner] в коммите 2539526 без meta-инкремента</div>
+          <div class="entry__body muted">Запись [f4-cleaner] предложение (журнал тревог стр. 156–157, [closed 2026-09-30: кандидатов нет]) попала в коммит 2539526 (MAS-прогон spec 032) между чтением файла и git add…</div>
+        </div>
   </details>
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 9</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 8</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
         </div>
@@ -815,11 +824,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">spec-031-rhcsa-bank-fixes · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: writer (⊘) · qc (⊘)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓ · t5 ✓ · t6 ✓ · t7 ✓</div>
-        </div>
-        <div class="entry">
-          <div class="entry__title">spec-032-mas-autonomy-a · <span class="chip chip--running">running</span></div>
-          <div class="entry__body muted">агенты: builder-1 (·) · builder-2 (·) · builder-3 (·) · reviewer (·)</div>
-          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
         </div>
   </section>
 

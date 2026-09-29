@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "a42fa61b830f1f6956f0dd45abc3833a8ff127a5",
+  "head": "e10d8caf9168c68518d900b4f8a275eed01fbdf5",
   "specs": [
     {
       "id": "022",
@@ -505,6 +505,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "033",
+      "slug": "mas-autonomy-spike",
+      "status": "draft",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/033a-mas-autonomy-spike.md",
+      "mtime": 1790724791633.0884,
+      "goal": "1. **Spike (t0):** определить программируемый путь к `dsh-agent-teams`.",
+      "acceptance": "1. **t0:** отчёт `.project/scripts/RUN-SPEC-SPIKE.md` — есть; указан работающий путь (H1/H2/H3) или STOP.",
+      "noTouch": "`src/**` (продукт).",
+      "preview": ""
     },
     {
       "id": "001",
@@ -793,7 +808,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | spec | spec 032 (mas-autonomy-a) — draft: 3 точечных долга (order-manifest CLI + EPERM + goal ownership); 032b отложена в spec 033 | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-032 draft | [AUTHORIZE]",
     "2026-09-29 | spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-032 approve | [AUTHORIZE]",
@@ -802,10 +816,17 @@
     "2026-09-30 | spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс — .project/scripts/archive-team.mjs вне плагина + процедура | commit 2539526",
     "2026-09-30 | state | goal ownership: sync.mjs пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526",
     "2026-09-30 | spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-032 close | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-032 close | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — draft: spike программного пути к dsh-agent-teams + run-spec.mjs + TASK/SESSION templates | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e10d8ca",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-032 close",
+      "type": "chore"
+    },
     {
       "sha": "a42fa61",
       "date": "2026-09-30",
@@ -919,12 +940,6 @@
       "date": "2026-09-29",
       "subject": "docs(spec-030): close — MAS results + mapping corrections + HANDOFF §11",
       "type": "docs"
-    },
-    {
-      "sha": "69fadb0",
-      "date": "2026-09-29",
-      "subject": "chore(log): authorize push (rule 10) — spec-030 decomposition format",
-      "type": "chore"
     }
   ],
   "roles": [
