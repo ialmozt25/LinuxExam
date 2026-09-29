@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "e10d8caf9168c68518d900b4f8a275eed01fbdf5",
+  "head": "87702f16ab74047fd446041284bc3b0b7076a3d2",
   "specs": [
     {
       "id": "022",
@@ -808,7 +808,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | push | authorize push origin main — spec-032 draft | [AUTHORIZE]",
     "2026-09-29 | spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-032 approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 032 (mas-autonomy-a) — MAS PASS (t1–t3 + reviewer pass, 4 агента); 3 инфра-долга закрыты в коде: order-manifest CLI / EPERM archive-helper / goal ownership | commit 2539526",
@@ -817,10 +816,17 @@
     "2026-09-30 | state | goal ownership: sync.mjs пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526",
     "2026-09-30 | spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-032 close | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — draft: spike программного пути к dsh-agent-teams + run-spec.mjs + TASK/SESSION templates | commit pending"
+    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — draft: spike программного пути к dsh-agent-teams + run-spec.mjs + TASK/SESSION templates | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-033a draft | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "87702f1",
+      "date": "2026-09-30",
+      "subject": "docs(spec-033a): draft — MAS-autonomy spike + foundation",
+      "type": "docs"
+    },
     {
       "sha": "e10d8ca",
       "date": "2026-09-30",
@@ -934,12 +940,6 @@
       "date": "2026-09-29",
       "subject": "chore(log): authorize push (rule 10) — spec-030 close",
       "type": "chore"
-    },
-    {
-      "sha": "919adb6",
-      "date": "2026-09-29",
-      "subject": "docs(spec-030): close — MAS results + mapping corrections + HANDOFF §11",
-      "type": "docs"
     }
   ],
   "roles": [
