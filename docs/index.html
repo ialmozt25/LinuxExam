@@ -128,11 +128,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 000da51</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на deb7528</span><!--volatile:end-->
     </div>
     <div class="pulse">
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--bad"></span>Есть расхождение</div>
+      <div class="pulse-tile__value"><span class="dot dot--ok"></span>Всё работает</div>
       <div class="pulse-tile__note">обновлено 28.09, 01:37</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
@@ -382,6 +382,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">deb7528</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): C2d запись</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">c50877f</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(center): C2d — Пульс (4 плитки), План в ddn, decisions в Справочник</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">51c84fc</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after C2a-3 (2)</td>
@@ -489,18 +501,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after handoff-create</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">6f3d8ee</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): handoff-create запись в log.md</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">8c2280f</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(handoff): завести живой docs/HANDOFF.md (13 разделов, перенос архивных секций); alerts.md запись закрыта</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -556,11 +556,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · handoff | заведён живой docs/HANDOFF.md (13 разделов, перенос неудачных попыток/правил/файлов/ограничений из архива); журнал тревог: handoff-запись закрыта | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в проверка синхронизации | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в &lt;details&gt;, specs сгруппированы по статусу…</li>
         <li><span class="mono muted">29.09</span> · C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в &lt;details&gt;; метрика первого экрана 30 строк | ещё не закоммичено</li>
     </ul>
   </details>
 
