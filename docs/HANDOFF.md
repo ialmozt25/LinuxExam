@@ -7,12 +7,13 @@
 
 ## 1. Где мы (снимок)
 
-- HEAD: `0ffe24d`
-- origin/main: `f334f90` (ahead 3 → 0 после push)
-- Дерево: clean; untracked `.agent-teams/`, `drafts/_mas-results/`
-- Гейты: sync:check 0, consistency:check 0, check:episodic 0
-- C-фаза: C2 закрыт (SELF-REF-FIX, RENAME-TILE, LASTSYNC-FRESHNESS, CHECK-VOLATILE-AWARE).
-- Spec 030 (RHCSA objectives diff) — **approved**; ждёт `/spec-to-team 030`.
+- **Продукт:** LinuxExam — тренажёр RHCSA EX200. Банк: **224 / 300** вопросов, **14 тем**. Прод: https://ialmozt25.github.io/LinuxExam/
+- **Фабрика:** MAS Factory — фазы **F0–F5 закрыты**, **D0–D4 закрыты**. C2 закрыт (C2a-4 отложен); C3 — приёмка pending.
+- **HEAD:** `553e32d`
+- **origin/main:** `553e32d` (ahead 0)
+- **Дерево:** clean; untracked `.agent-teams/`, `drafts/_mas-results/`.
+- **Гейты:** sync:check 0, consistency:check 0, check:episodic 0.
+- **Spec 030 (RHCSA objectives diff):** **approved**; ждёт `/spec-to-team 030`.
 
 ## 2. Что сделано в C
 
