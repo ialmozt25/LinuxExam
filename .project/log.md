@@ -112,3 +112,4 @@
 2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending
 2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending
 2026-09-29 | spec | spec 030 — approved; handoff §1/§2/§11 обновлены | commit pending
+2026-09-29 | push | authorize push origin main — spec 030 → approved + handoff §1/§2/§11, 5 коммитов | [AUTHORIZE]

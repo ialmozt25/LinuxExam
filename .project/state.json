@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "1537a7819fda993214af46bda2be80279691b221",
+  "head": "bdda2ec951e57bdbf41243ae0f440d3495d24e87",
   "specs": [
     {
       "id": "022",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending",
     "2026-09-29 | sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | commit pending",
     "2026-09-29 | center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в sync:check/CLI, не в HTML | commit pending",
     "2026-09-29 | center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта запись-триггер override | commit bc6124d",
@@ -772,10 +771,17 @@
     "2026-09-29 | rules | EOL-правило в ORCH-RULES: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | commit pending",
     "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending",
     "2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending",
-    "2026-09-29 | spec | spec 030 — approved; handoff §1/§2/§11 обновлены | commit pending"
+    "2026-09-29 | spec | spec 030 — approved; handoff §1/§2/§11 обновлены | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec 030 → approved + handoff §1/§2/§11, 5 коммитов | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "bdda2ec",
+      "date": "2026-09-29",
+      "subject": "docs(spec-030): approve + handoff update",
+      "type": "docs"
+    },
     {
       "sha": "0ffe24d",
       "date": "2026-09-29",
@@ -889,12 +895,6 @@
       "date": "2026-09-29",
       "subject": "chore(alerts): closed problem-#3 volatile-cycle",
       "type": "chore"
-    },
-    {
-      "sha": "a80835f",
-      "date": "2026-09-29",
-      "subject": "fix(sync): problem #3 volatile-aware — сравнение stripVolatile(HEAD:T) vs stripVolatile(generated)",
-      "type": "fix"
     }
   ],
   "roles": [
