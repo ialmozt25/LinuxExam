@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "b58efdfa91ce908a53b0fb0f25b8c30426f225d3",
+  "head": "253952601ede27f4ab668b2feadc62ce93397e2e",
   "specs": [
     {
       "id": "022",
@@ -807,6 +807,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "2539526",
+      "date": "2026-09-30",
+      "subject": "feat(spec-032): order-manifest CLI + sync goal recompute + agent-teams archive helper",
+      "type": "feat"
+    },
+    {
       "sha": "b58efdf",
       "date": "2026-09-29",
       "subject": "chore(log): authorize push (rule 10) — spec-032 approve",
@@ -919,12 +925,6 @@
       "date": "2026-09-29",
       "subject": "chore(log): authorize push (rule 10) — C-PLAN status fix",
       "type": "chore"
-    },
-    {
-      "sha": "222e999",
-      "date": "2026-09-29",
-      "subject": "docs(plan): C-PLAN — C2 done (C2a-4 отложен в spec 031)",
-      "type": "docs"
     }
   ],
   "roles": [
