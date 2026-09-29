@@ -92,3 +92,4 @@
 2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —
 2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c
 2026-09-29 | C1-fix | снято противоречие статуса spec 029: п.5 spec 029 и C-PLAN:48 помечены как снятые (approve — C1-close log.md:88, 28.09); источник истины — frontmatter approved | commit pending
+2026-09-29 | alerts | 3 записи: working.md lesson, handoff-stale, rule2-exception #3 (продолжение cumulative); procedural: manual-файлы | commit pending
