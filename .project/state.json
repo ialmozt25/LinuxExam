@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "37dbdb2e78ebe9bf47b30956f79d8cb089596167",
+  "head": "f334f90b9bff8374b22805e8e9bae27505b0d0ba",
   "specs": [
     {
       "id": "022",
@@ -475,6 +475,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "030",
+      "slug": "rhcsa-objectives-diff",
+      "status": "draft",
+      "type": "content",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/030-rhcsa-objectives-diff.md",
+      "mtime": 1790676568429.816,
+      "goal": "Выявить расхождения между банком (224 вопроса) и текущими objectives RHCSA",
+      "acceptance": "1. Diff задокументирован (со ссылками на 2 URL + timestamp текущего fetch и",
+      "noTouch": "`src/data/**` — только анализ, правки банка отдельным approve.",
+      "preview": ""
     },
     {
       "id": "001",
@@ -748,8 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в <details>; метрика первого экрана 30 строк | commit pending",
-    "2026-09-29 | alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | commit pending",
     "2026-09-29 | handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts, +метрика 30), §11, §13 | commit pending",
     "2026-09-29 | center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч, STALE_THRESHOLD_MS); fallback getFreshnessTime(); override spec 029 (санкционировано капитаном 29.09); заодно исправлена самоссылка индикатора (contentSansIndicator) | commit pending",
     "2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending",
@@ -757,10 +770,24 @@
     "2026-09-29 | center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в sync:check/CLI, не в HTML | commit pending",
     "2026-09-29 | center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта запись-триггер override | commit bc6124d",
     "2026-09-29 | MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | commit pending",
-    "2026-09-29 | store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | commit pending"
+    "2026-09-29 | store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | commit pending",
+    "2026-09-29 | rules | EOL-правило в ORCH-RULES: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | commit pending",
+    "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f334f90",
+      "date": "2026-09-29",
+      "subject": "docs(rules): EOL-правило после правок .ts/.md",
+      "type": "docs"
+    },
+    {
+      "sha": "0dec907",
+      "date": "2026-09-29",
+      "subject": "docs(state): sync derived after answer-reorder-fix (ca62109)",
+      "type": "docs"
+    },
     {
       "sha": "37dbdb2",
       "date": "2026-09-29",
@@ -868,18 +895,6 @@
       "date": "2026-09-29",
       "subject": "chore(log): lastsync-freshness",
       "type": "chore"
-    },
-    {
-      "sha": "ca56fa1",
-      "date": "2026-09-29",
-      "subject": "chore(alerts): last_sync-fix: closed + trade-off + tech-debt (dashboard)",
-      "type": "chore"
-    },
-    {
-      "sha": "1fd313d",
-      "date": "2026-09-29",
-      "subject": "fix(sync): убран volatile last_sync; freshness из git ct + .heartbeat; плитка Состояние — 4 уровня, VOLATILE-wrapped",
-      "type": "fix"
     }
   ],
   "roles": [

@@ -135,4 +135,7 @@ Spec 029 (override от 29.09) описывала плитку с 4 уровня
 ## 2026-09-29 | defect | AnswerRecord.selectedIndex позиционный — ломается при reorder
 Запись {questionId: 'pm_001', selectedIndex: 0, isCorrect: true} (сделана до коммита 3bc8470) при текущих данных указывает на неправильный вариант. Симптом: два зелёных в режиме «Продолжить». Fix: optionText + миграция v2→v3 + отложенная нормализация из loadQuestions (банк async — в migrate недоступен); несовместимые записи drop. Commit ca62109f45abc29bd7218f62ad78df5f6a487b25.
 
-<!-- meta updated: 2026-09-28T22:40:00Z entries_count: 20 -->
+## 2026-09-29 | process gap | spec 027-memory-test отсутствует в репо
+Прогон `.agent-teams/spec-027-memory-test` был (reviewer PASS), но файл `.project/specs/027-memory-test.md` отсутствует в репо и во всех коммитах. Дыра в процессе: skill `spec-to-team` не проверяет существование spec-файла. Кандидат в spec 031 (MAS-autonomy).
+
+<!-- meta updated: 2026-09-28T22:40:00Z entries_count: 21 -->
