@@ -286,6 +286,51 @@ function diffHeadProjected() {
   }
 }
 
+/**
+ * C2a-3: реальная синхронность ЦЕНТРА — то, что показывает плитка «Состояние».
+ *
+ * Сравниваем содержимое `docs/index.html` на диске с ВЕРСИЕЙ ИЗ HEAD (`git show
+ * HEAD:docs/index.html`), вырезая volatile-участки тем же `stripVolatile`, что и
+ * гейт `--check`: иначе самоссылочный пин `HEAD` делал бы индикатор красным после
+ * каждого коммита (см. VOLATILE). Ровно тот смысл, который заявлен сообщением
+ * «есть расхождение (запусти npm run sync)»: центр на диске отстал от коммита.
+ *
+ * Почему центр, а не весь агрегат: индекс показывает состояние *последнего sync*,
+ * а сообщение ведёт к `npm run sync`. `STATE.md`/`SPEC.md` сравниваются тем же
+ * способом в гейте (`--check`), дублировать его в индикаторе не нужно.
+ *
+ * Возвращает true — синхронно; false — есть расхождение; при невозможности
+ * получить committed-версию (файл не в HEAD, git недоступен, ещё нет файла) —
+ * true, потому что красный индикатор уместен только при ДОКАЗАННОМ расхождении.
+ */
+function isCenterInSync() {
+  if (!exists(OUT_CENTER)) return true;
+  try {
+    // ВАЖНО: НЕ через `git()` — тот обрезает вывод (`trim`) и съедает финальный
+    // перевод строки committed-версии, из-за чего сравнение всегда давало false.
+    const committed = execFileSync(
+      'git',
+      ['show', `HEAD:${path.relative(ROOT, OUT_CENTER).replace(/\\/g, '/')}`],
+      { cwd: ROOT, encoding: 'utf8' },
+    );
+    const disk = stripVolatile(normalizeLf(readText(OUT_CENTER)));
+    return disk === stripVolatile(normalizeLf(committed));
+  } catch (e) {
+    return true;
+  }
+}
+
+/**
+ * `--in-sync-probe` — READ-ONLY диагностика C2a-3: печатает вычисленный
+ * `isCenterInSync()` и выходит. Нужен, чтобы доказать ДОСТИЖИМОСТЬ состояния
+ * «есть расхождение» без правки боевых файлов и без «симуляций».
+ */
+function inSyncProbe() {
+  const value = isCenterInSync();
+  process.stdout.write(`center in-sync: ${value ? 'true' : 'false'}\n`);
+  process.exitCode = 0;
+}
+
 /* --------------------------------------------------------------- state */
 function readState() {
   if (!exists(STATE_PATH)) throw new Error('.project/state.json не найден');
@@ -1604,6 +1649,11 @@ function fail(message) {
 }
 
 function main() {
+  // C2a-3: read-only диагностика индикатора «Состояние» (см. `inSyncProbe`).
+  if (process.argv.includes('--in-sync-probe')) {
+    inSyncProbe();
+    return;
+  }
   const state = readState();
   const fullHead = readFullHead();
   const specs = readSpecs();
@@ -1765,7 +1815,8 @@ function main() {
   };
   const stateMd = renderStateMd({ ...ctxBase, state: nextState });
   const specMd = renderSpecMd({ ...ctxBase, state: nextState });
-  const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true });
+  // C2a-3: реальная проверка вместо hardcoded `true` — см. `isCenterInSync()`.
+  const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: isCenterInSync() });
 
   const targets = [
     { path: OUT_STATE_MD, content: stateMd },
