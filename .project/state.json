@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "69fadb021b078e3c445b4ffe1cb78009032cfed7",
+  "head": "919adb6f727dde98c2f3b25eb0297b5302062ade",
   "specs": [
     {
       "id": "022",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | push | authorize push origin main — spec 030 → approved + handoff §1/§2/§11, 5 коммитов | [AUTHORIZE]",
     "2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending",
     "2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]",
     "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending",
@@ -772,10 +771,17 @@
     "2026-09-29 | push | authorize push origin main — spec-030 decomposition | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-030 decomposition format | [AUTHORIZE]",
-    "2026-09-29 | spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | commit pending"
+    "2026-09-29 | spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "919adb6",
+      "date": "2026-09-29",
+      "subject": "docs(spec-030): close — MAS results + mapping corrections + HANDOFF §11",
+      "type": "docs"
+    },
     {
       "sha": "69fadb0",
       "date": "2026-09-29",
@@ -888,12 +894,6 @@
       "sha": "d0f2ce7",
       "date": "2026-09-29",
       "subject": "chore(state): converge volatile commits table",
-      "type": "chore"
-    },
-    {
-      "sha": "c2d9b07",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after center-tile-rename",
       "type": "chore"
     }
   ],

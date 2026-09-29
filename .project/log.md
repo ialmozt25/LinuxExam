@@ -122,3 +122,4 @@
 2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending
 2026-09-29 | push | authorize push origin main — spec-030 decomposition format | [AUTHORIZE]
 2026-09-29 | spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | commit pending
+2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]
