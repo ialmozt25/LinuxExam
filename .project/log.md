@@ -97,3 +97,4 @@
 2026-09-29 | consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в sync:check | commit pending
 2026-09-29 | C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в <details>, specs сгруппированы по статусу, сводка тревог в ddn; технические строки переведены на человеческий на рендере | commit pending
 2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending
+2026-09-29 | C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | commit pending
