@@ -49,7 +49,7 @@ roles:
     trigger:
       human: "спека type=content перешла в approved"
       check: "specs.any(type==content && status==approved)"
-    blocked_by: "ORCH-RULES правило 6 — контент-трек заморожен (банк 206)"
+    blocked_by: "ORCH-RULES правило 6 — контент-трек заморожен (банк 224)"
     model_note: "обычно tier-router/smart; diversity с QC обеспечивается per-session"
 
   - name: qc

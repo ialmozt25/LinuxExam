@@ -763,6 +763,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "1b7c6e4",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge (2)",
+      "type": "chore"
+    },
+    {
+      "sha": "552aff5",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2c",
+      "type": "chore"
+    },
+    {
       "sha": "b6e23dc",
       "date": "2026-09-29",
       "subject": "chore(log): C2c запись в log.md",
@@ -869,18 +881,6 @@
       "date": "2026-09-29",
       "subject": "docs(spec 029): снять противоречие статуса — п.5 и C-PLAN помечены как снятые, источник истины frontmatter",
       "type": "docs"
-    },
-    {
-      "sha": "cef07a8",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C2b-2",
-      "type": "chore"
-    },
-    {
-      "sha": "3323d4c",
-      "date": "2026-09-29",
-      "subject": "feat(center): C2b-2 — commits/notebooks в <details>, policies возвращён",
-      "type": "feat"
     }
   ],
   "roles": [
@@ -904,7 +904,7 @@
         "human": "спека type=content перешла в approved",
         "check": "specs.any(type==content && status==approved)"
       },
-      "blocked_by": "ORCH-RULES правило 6 — контент-трек заморожен (банк 206)"
+      "blocked_by": "ORCH-RULES правило 6 — контент-трек заморожен (банк 224)"
     },
     {
       "name": "qc",
