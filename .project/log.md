@@ -116,3 +116,4 @@
 2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending
 2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]
 2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending
+2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]

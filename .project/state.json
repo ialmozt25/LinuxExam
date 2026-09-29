@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "9afe5954f87e7b89ece40c6a7d87273b495234f5",
+  "head": "222e9996a7a91777c5635f408e3153ef21514913",
   "specs": [
     {
       "id": "022",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | commit pending",
     "2026-09-29 | store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | commit pending",
     "2026-09-29 | rules | EOL-правило в ORCH-RULES: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | commit pending",
     "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending",
@@ -772,10 +771,17 @@
     "2026-09-29 | push | authorize push origin main — spec 030 → approved + handoff §1/§2/§11, 5 коммитов | [AUTHORIZE]",
     "2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending",
     "2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]",
-    "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending"
+    "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending",
+    "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "222e999",
+      "date": "2026-09-29",
+      "subject": "docs(plan): C-PLAN — C2 done (C2a-4 отложен в spec 031)",
+      "type": "docs"
+    },
     {
       "sha": "9afe595",
       "date": "2026-09-29",
@@ -889,12 +895,6 @@
       "date": "2026-09-29",
       "subject": "chore(alerts): self-ref-fix — плитка без inSync",
       "type": "chore"
-    },
-    {
-      "sha": "65ea9b2",
-      "date": "2026-09-29",
-      "subject": "fix(center): плитка Состояние — только freshness, без самоссылочного inSync",
-      "type": "fix"
     }
   ],
   "roles": [
