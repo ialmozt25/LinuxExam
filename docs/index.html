@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на f334f90</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на f17752a</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">26</div>
+      <div class="pulse-tile__value">27</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -281,7 +281,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">6</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">7</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -307,10 +307,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#029 center-redesign</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#030 rhcsa-objectives-diff</span>
+            <span class="ddn__meta">content · draft (свежий)</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">5</span></h3>
+          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -325,10 +329,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">content · draft</span>
           </li>
           <li class="ddn__item">
-            <span class="ddn__title">#030 rhcsa-objectives-diff</span>
-            <span class="ddn__meta">content · draft</span>
-          </li>
-          <li class="ddn__item">
             <span class="ddn__title">продукт: &lt;next&gt;</span>
             <span class="ddn__meta">запланирован</span>
           </li>
@@ -336,7 +336,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 26 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 27 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -391,6 +391,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">f17752a</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-030): draft — RHCSA objectives diff (RHEL 9→10)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">f334f90</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -505,12 +511,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after lastsync-freshness</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">ea2af24</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): lastsync-freshness</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -555,8 +555,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T22:40:00Z</td>
-          <td class="mono">21</td>
-          <td class="muted">11 ч</td>
+          <td class="mono">22</td>
+          <td class="muted">12 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -566,11 +566,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта…</li>
         <li><span class="mono muted">29.09</span> · MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · rules | EOL-правило в правила оркестратора: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -601,8 +601,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 35</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 35</div>
+    <summary>Тревоги · записей: 36</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 36</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -742,6 +742,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">29.09 | process gap | spec 027-memory-test отсутствует в репо</div>
           <div class="entry__body muted">Прогон .agent-teams/spec-027-memory-test был (reviewer PASS), но файл .project/specs/027-memory-test.md отсутствует в репо и во всех коммитах.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | process gap | Spec 030 обогащена практиками SDD</div>
+          <div class="entry__body muted">Проведено интернет-исследование (GitHub Spec Kit, Spec-To-Ship, мультиагентная оркестрация).…</div>
         </div>
   </details>
 

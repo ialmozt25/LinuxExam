@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f334f90b9bff8374b22805e8e9bae27505b0d0ba",
+  "head": "f17752ae66696756f5eb5220bb67e9774de013a8",
   "specs": [
     {
       "id": "022",
@@ -485,9 +485,9 @@
       "updated": null,
       "commit": null,
       "file": "specs/030-rhcsa-objectives-diff.md",
-      "mtime": 1790676568429.816,
+      "mtime": 1790677953178.8264,
       "goal": "Выявить расхождения между банком (224 вопроса) и текущими objectives RHCSA",
-      "acceptance": "1. Diff задокументирован (со ссылками на 2 URL + timestamp текущего fetch и",
+      "acceptance": "1. Документ содержит таблицу diff-анализа целей экзамена с указанием источника и даты.",
       "noTouch": "`src/data/**` — только анализ, правки банка отдельным approve.",
       "preview": ""
     },
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts, +метрика 30), §11, §13 | commit pending",
     "2026-09-29 | center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч, STALE_THRESHOLD_MS); fallback getFreshnessTime(); override spec 029 (санкционировано капитаном 29.09); заодно исправлена самоссылка индикатора (contentSansIndicator) | commit pending",
     "2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending",
     "2026-09-29 | sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | commit pending",
@@ -772,10 +771,17 @@
     "2026-09-29 | MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | commit pending",
     "2026-09-29 | store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | commit pending",
     "2026-09-29 | rules | EOL-правило в ORCH-RULES: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | commit pending",
-    "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending"
+    "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending",
+    "2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f17752a",
+      "date": "2026-09-29",
+      "subject": "docs(spec-030): draft — RHCSA objectives diff (RHEL 9→10)",
+      "type": "docs"
+    },
     {
       "sha": "f334f90",
       "date": "2026-09-29",
@@ -888,12 +894,6 @@
       "sha": "e1dfad4",
       "date": "2026-09-29",
       "subject": "chore(state): converge after lastsync-freshness",
-      "type": "chore"
-    },
-    {
-      "sha": "ea2af24",
-      "date": "2026-09-29",
-      "subject": "chore(log): lastsync-freshness",
       "type": "chore"
     }
   ],
