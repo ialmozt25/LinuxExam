@@ -1392,7 +1392,7 @@ function getFreshnessTime(root = ROOT) {
  * `tile()` строит одну плитку; пустые значения показываются как «—».
  */
 function pulseTiles(ctx) {
-  const { goal, specs, inSync, alerts } = ctx;
+  const { goal, specs, alerts } = ctx;
   const tile = (label, value, note) => [
     `    <div class="pulse-tile"><div class="pulse-tile__label">${esc(label)}</div>`,
     `      <div class="pulse-tile__value">${value}</div>`,
@@ -1400,23 +1400,29 @@ function pulseTiles(ctx) {
     '    </div>',
   ].filter(Boolean).join('\n');
 
-  // Состояние: 4 уровня свежести (Fresh/Aging/Stale/Critical); 🔴 расхождение —
-  // приоритет выше свежести. Весь блок обёрнут VOLATILE (см. ниже): статус —
-  // функция wall-clock, а `--check` сравнивает производные побайтово; без обёртки
-  // гейт краснел бы от одного течения времени.
+  // Состояние: ТОЛЬКО свежесть данных — 4 уровня (Fresh/Aging/Stale/Critical)
+  // плюс случай «нет данных». Сигнала синхронности центра здесь БОЛЬШЕ НЕТ
+  // (override spec 029, санкционировано капитаном 29.09.2026): он вычислялся ДО
+  // коммита — через `isCenterInSync()`, — а коммит меняет HEAD, поэтому
+  // закоммиченный 🔴 «Есть расхождения» залипал в файле навсегда (converge
+  // 8a4afa3), и снять его было нечем: плитку вырезают и VOLATILE (гейт), и
+  // contentSansIndicator. Сигнал «центр отстал» живёт в гейте — `npm run sync:check`
+  // и CLI, не в HTML.
   //
-  // Пометка под плиткой детерминирована состоянием: относительное «обновлено
-  // N назад» зависело бы от текущей минуты и переписывало бы docs/index.html на
-  // каждом sync → git-грязь → гейт «изменён и не закоммичен» → новый цикл.
-  // Свежесть показывает сама плитка — уровнем.
+  // Блок обёрнут VOLATILE (см. ниже): статус — функция wall-clock, а `--check`
+  // сравнивает производные побайтово; без обёртки гейт краснел бы от одного
+  // течения времени. Пометка детерминирована состоянием: относительное
+  // «обновлено N назад» зависело бы от текущей минуты и переписывало бы
+  // docs/index.html на каждом sync → git-грязь → цикл.
   const freshAt = getFreshnessTime();
   const age = freshAt === null ? Number.POSITIVE_INFINITY : Date.now() - freshAt;
   const level = FRESHNESS_LEVELS.find((l) => age < l.limitMs);
-  const status = !inSync ? 'bad' : level.status;
-  const statusText = !inSync ? 'Есть расхождения' : level.text;
-  const statusNote = !inSync
-    ? 'проверка не прошла'
-    : (freshAt === null ? 'нет данных о синхронизации' : '');
+  // Нет ни git-времени, ни heartbeat (или возраст не попал ни в один порог:
+  // последний порог — POSITIVE_INFINITY, а `Infinity < Infinity` ложно) — «нет данных».
+  const noData = freshAt === null || level === undefined;
+  const status = noData ? 'bad' : level.status;
+  const statusText = noData ? 'Нет данных о синхронизации' : level.text;
+  const statusNote = noData ? 'источники freshness недоступны' : '';
   const stateValue = `<span class="dot dot--${status}"></span>${statusText}`;
 
   const bankValue = `${goal.current}/${goal.target} · ${goal.percent}%`;
