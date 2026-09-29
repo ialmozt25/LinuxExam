@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "1a2969547dca72628113644b68f4da680634b8e5",
+  "head": "b6e23dc33fc01decd5865887f1c358524991d4aa",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending",
     "2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]",
     "2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455",
     "2026-09-28 | C2b-1 | 10 секций удалены из рендера (queue, journal, roles, products, memory, trends, decisions, audits, plan-factory, plan-dev); строка «Планы» добавлена в ddn | commit 013aaae",
@@ -757,11 +756,36 @@
     "2026-09-29 | C1-fix | снято противоречие статуса spec 029: п.5 spec 029 и C-PLAN:48 помечены как снятые (approve — C1-close log.md:88, 28.09); источник истины — frontmatter approved | commit pending",
     "2026-09-29 | alerts | 3 записи: working.md lesson, handoff-stale, rule2-exception #3 (продолжение cumulative); procedural: manual-файлы | commit pending",
     "2026-09-29 | handoff | заведён живой docs/HANDOFF.md (13 разделов, перенос неудачных попыток/правил/файлов/ограничений из архива); alerts.md: handoff-запись закрыта | commit pending",
-    "2026-09-29 | consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в sync:check | commit pending"
+    "2026-09-29 | consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в sync:check | commit pending",
+    "2026-09-29 | C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в <details>, specs сгруппированы по статусу, сводка тревог в ddn; технические строки переведены на человеческий на рендере | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "b6e23dc",
+      "date": "2026-09-29",
+      "subject": "chore(log): C2c запись в log.md",
+      "type": "chore"
+    },
+    {
+      "sha": "59f43f2",
+      "date": "2026-09-29",
+      "subject": "feat(center): C2c HUMANIZE — progress/specs/alerts",
+      "type": "feat"
+    },
+    {
+      "sha": "eb520ce",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge (2)",
+      "type": "chore"
+    },
+    {
+      "sha": "0e33741",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after consistency-check",
+      "type": "chore"
+    },
     {
       "sha": "1a29695",
       "date": "2026-09-29",
@@ -856,30 +880,6 @@
       "sha": "3323d4c",
       "date": "2026-09-29",
       "subject": "feat(center): C2b-2 — commits/notebooks в <details>, policies возвращён",
-      "type": "feat"
-    },
-    {
-      "sha": "760ad53",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C2b-1",
-      "type": "chore"
-    },
-    {
-      "sha": "19e1d66",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C2b-1",
-      "type": "chore"
-    },
-    {
-      "sha": "8288519",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C2b-1",
-      "type": "chore"
-    },
-    {
-      "sha": "013aaae",
-      "date": "2026-09-29",
-      "subject": "feat(center): C2b-1 — 10 секций удалены из рендера",
       "type": "feat"
     }
   ],
