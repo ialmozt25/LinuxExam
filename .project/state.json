@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f17752ae66696756f5eb5220bb67e9774de013a8",
+  "head": "1537a7819fda993214af46bda2be80279691b221",
   "specs": [
     {
       "id": "022",
@@ -777,6 +777,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "1537a78",
+      "date": "2026-09-29",
+      "subject": "docs(spec-030): enhance — контекст, edge cases, SDD-практики",
+      "type": "docs"
+    },
+    {
       "sha": "f17752a",
       "date": "2026-09-29",
       "subject": "docs(spec-030): draft — RHCSA objectives diff (RHEL 9→10)",
@@ -888,12 +894,6 @@
       "sha": "feb4c3c",
       "date": "2026-09-29",
       "subject": "chore(state): converge after lastsync-freshness (2)",
-      "type": "chore"
-    },
-    {
-      "sha": "e1dfad4",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after lastsync-freshness",
       "type": "chore"
     }
   ],
