@@ -2,7 +2,7 @@
 id: 031
 slug: rhcsa-bank-fixes
 type: content
-status: draft
+status: approved
 commit: null
 ---
 

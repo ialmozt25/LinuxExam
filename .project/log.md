@@ -125,3 +125,4 @@
 2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]
 2026-09-29 | spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order — временно Node-скрипт | commit pending
 2026-09-29 | push | authorize push origin main — spec-031 draft | [AUTHORIZE]
+2026-09-29 | spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | commit pending

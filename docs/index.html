@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на a4aea90</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на f6124ac</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -281,7 +281,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">7</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -311,10 +311,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#030 rhcsa-objectives-diff</span>
             <span class="ddn__meta">content · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#031 rhcsa-bank-fixes</span>
+            <span class="ddn__meta">content · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">5</span></h3>
+          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -326,10 +330,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#021 rs-cosine-debt</span>
-            <span class="ddn__meta">content · draft</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · draft</span>
           </li>
           <li class="ddn__item">
@@ -345,7 +345,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 29</summary>
-          <div class="spec-group">Утверждены · 7</div>
+          <div class="spec-group">Утверждены · 8</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -354,13 +354,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#028 hide-alerts-details</li>
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
+            <li>#031 rhcsa-bank-fixes</li>
           </ul>
-          <div class="spec-group">Черновики · 4</div>
+          <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
             <li>#016 tf-cosine-debt</li>
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
-            <li>#031 rhcsa-bank-fixes</li>
           </ul>
           <div class="spec-group">Завершены · 14</div>
           <ul class="spec-list">
@@ -396,6 +396,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">f6124ac</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-031 draft</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">a4aea90</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -510,12 +516,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(memory): alerts — подставлен SHA ca62109 (fix answer-reorder)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">ca62109</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(store): AnswerRecord.optionText + миграция v2→v3 (reorder-safe)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -571,11 +571,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-030 decomposition format | push разрешён</li>
         <li><span class="mono muted">29.09</span> · spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-030 close | push разрешён</li>
         <li><span class="mono muted">29.09</span> · spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order…</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-031 draft | push разрешён</li>
+        <li><span class="mono muted">29.09</span> · spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | ещё не закоммичено</li>
     </ul>
   </details>
 
