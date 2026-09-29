@@ -130,3 +130,4 @@
 2026-09-29 | spec | spec 031 — MAS PASS (7/7, QC=pass); банк 225 (delete fp_002 / rewrite sec_007 / add msw_015+msw_016 Flatpak); P14 doc | commit pending
 2026-09-29 | state | current_questions 224→225, progress_percent 74.7→75 (после MAS spec 031) | commit pending
 2026-09-29 | push | authorize push origin main — spec-031 close | [AUTHORIZE]
+2026-09-29 | spec | spec 032 (mas-autonomy-a) — draft: 3 точечных долга (order-manifest CLI + EPERM + goal ownership); 032b отложена в spec 033 | commit pending
