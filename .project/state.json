@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "32484921748460d31bf607a4eddc1f0064a1d5f6",
+  "head": "8f064a8243bdb48e3adb3d717360b4a9990caf3d",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в sync:check | commit pending",
     "2026-09-29 | C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в <details>, specs сгруппированы по статусу, сводка тревог в ddn; технические строки переведены на человеческий на рендере | commit pending",
     "2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending",
     "2026-09-29 | C2a-3 | renderCenter: inSync вычисляется (вариант A, сравнение с git show HEAD); сообщение «есть расхождение» достижимо; идемпотентность sync подтверждена | commit pending",
@@ -757,10 +756,35 @@
     "2026-09-29 | handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts, +метрика 30), §11, §13 | commit pending",
     "2026-09-29 | center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч, STALE_THRESHOLD_MS); fallback getFreshnessTime(); override spec 029 (санкционировано капитаном 29.09); заодно исправлена самоссылка индикатора (contentSansIndicator) | commit pending",
     "2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending",
-    "2026-09-29 | sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | commit pending"
+    "2026-09-29 | sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | commit pending",
+    "2026-09-29 | center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в sync:check/CLI, не в HTML | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "8f064a8",
+      "date": "2026-09-29",
+      "subject": "chore(log): self-ref-fix",
+      "type": "chore"
+    },
+    {
+      "sha": "98f913d",
+      "date": "2026-09-29",
+      "subject": "chore(alerts): self-ref-fix — плитка без inSync",
+      "type": "chore"
+    },
+    {
+      "sha": "65ea9b2",
+      "date": "2026-09-29",
+      "subject": "fix(center): плитка Состояние — только freshness, без самоссылочного inSync",
+      "type": "fix"
+    },
+    {
+      "sha": "8a4afa3",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after check-volatile-aware",
+      "type": "chore"
+    },
     {
       "sha": "3248492",
       "date": "2026-09-29",
@@ -856,30 +880,6 @@
       "date": "2026-09-29",
       "subject": "fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч",
       "type": "fix"
-    },
-    {
-      "sha": "48e97f5",
-      "date": "2026-09-29",
-      "subject": "fix(center): плитка «Состояние» — три статуса (inSync + свежесть last_sync); порог 24ч",
-      "type": "fix"
-    },
-    {
-      "sha": "3e372ff",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after handoff-update (2)",
-      "type": "chore"
-    },
-    {
-      "sha": "07bc3b5",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after handoff-update",
-      "type": "chore"
-    },
-    {
-      "sha": "0977088",
-      "date": "2026-09-29",
-      "subject": "chore(log): handoff-update после C-фазы",
-      "type": "chore"
     }
   ],
   "roles": [
