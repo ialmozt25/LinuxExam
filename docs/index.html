@@ -144,7 +144,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">17</div>
+      <div class="pulse-tile__value">20</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -327,7 +327,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 17 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 20 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -381,6 +381,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">1c99904</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after C2d (2)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">66dd570</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -495,12 +501,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>feat(consistency): check-consistency.mjs + интеграция в sync:check</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">09893b5</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after handoff-create (2)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -532,7 +532,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">25 ч (~1.0 дн)</td>
+          <td class="muted">26 ч (~1.1 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -546,7 +546,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T22:40:00Z</td>
           <td class="mono">19</td>
-          <td class="muted">5 ч</td>
+          <td class="muted">6 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -591,8 +591,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 22</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 22</div>
+    <summary>Тревоги · записей: 26</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 26</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -680,6 +680,22 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">29.09 | process gap | исключение из правила 2 #3 — ПРОДОЛЖЕНИЕ записи `2026-09-28 | исключение из правила 2 cumulative`</div>
           <div class="entry__body muted">Третий случай (spec 029, C1-close журнал событий:88, embedded approve без метки). Предыдущая запись от 2026-09-28 остаётся открытой; эта — её продолжение.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | process gap | V2-кандидат: плитка «Состояние»</div>
+          <div class="entry__body muted">Решение C2d: принят **V1** (только isCenterInSync(), вариант A из C2a-3). Наблюдение: 🔴 достижим, но в нормальном потоке «sync → add → converge» почти всегда 🟢.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | fragile | Метрика первого экрана = 30, порог 30</div>
+          <div class="entry__body muted">Критерий 1 spec 029 («нет прокрутки на 1440×900») выполнен впритык: 30 видимых строк до первого &lt;details&gt;. Любое добавление в первый экран сломает критерий.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | observation | preview-спек нет (на 29.09.2026)</div>
+          <div class="entry__body muted">Плитка «Требует решения» (spec 029, уровень 1) показывает число спек в статусе preview. На 29.09.2026: preview 0; approved 6, done 14, rejected 4, draft 3. Плитка всегда «—».…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | process gap | Тревоги-счётчик: семантика</div>
+          <div class="entry__body muted">openAlerts() считает «открытые = записи без [closed». На 29.09.2026 (до добавления этой записи): 17 «открытых», из них 3…</div>
         </div>
   </details>
 
