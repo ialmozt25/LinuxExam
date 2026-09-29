@@ -7,17 +7,12 @@
 
 ## 1. Где мы (снимок)
 
-- **Продукт:** LinuxExam — тренажёр RHCSA EX200. Банк: **224 / 300** вопросов, **14 тем**.
-- **Фабрика:** MAS Factory — фазы **F0–F5 закрыты** (`docs/FACTORY-PLAN.md`, v2.23).
-- **Развитие процессов:** DEV-PLAN — фазы **D0–D4 закрыты** (`docs/DEV-PLAN.md`, v1.4).
-- **Активная инициатива:** **C (Center evolution)** — отдельный трек, spec `029` — `approved`. **C-фаза завершена, готов к C1-close (push).**
-- **Ветка:** `main`. **Remote:** `origin/main`.
-- **HEAD:** `ea1a026`. **Ahead:** 44 (`origin/main..HEAD`) — на момент обновления этого
-  handoff, **до** коммитов текущего batch.
-- **Дата обновления:** 2026-09-29.
-- **Контент-трек:** заморожен правилом 6, но правило 6 переформулировано
-  «разморожен» (`.project/ORCH-RULES.md`, раздел 6) — фактическая работа по контенту
-  всё равно требует approve капитана.
+- HEAD: `0ffe24d`
+- origin/main: `f334f90` (ahead 3 → 0 после push)
+- Дерево: clean; untracked `.agent-teams/`, `drafts/_mas-results/`
+- Гейты: sync:check 0, consistency:check 0, check:episodic 0
+- C-фаза: C2 закрыт (SELF-REF-FIX, RENAME-TILE, LASTSYNC-FRESHNESS, CHECK-VOLATILE-AWARE).
+- Spec 030 (RHCSA objectives diff) — **approved**; ждёт `/spec-to-team 030`.
 
 ## 2. Что сделано в C
 
@@ -51,6 +46,11 @@
 - **Гигиена C-фазы (расширено 29.09):** +4 записи в `alerts.md` (V2-кандидат,
   хрупкая метрика первого экрана, пустой `preview`, семантика счётчика тревог)
   и урок «Time-box — уточнение» в `procedural.md`. Коммит `e471398`.
+- **C2-close:** LASTSYNC-FRESHNESS → CHECK-VOLATILE-AWARE → SELF-REF-FIX → RENAME-TILE (плитка «Свежесть данных»). Коммиты `a80835f..bc6124d`.
+- **FIX-ANSWER-REORDER:** `AnswerRecord.optionText` + миграция persist v2→v3 (reorder-safe); fix двойного зелёного на `pm_001`. Коммит `ca62109`.
+- **EOL-RULE:** правило 16 в ORCH-RULES. Коммит `f334f90`.
+- **Spec 030 (RHCSA objectives diff):** draft `f17752a` → enhance `1537a78` → converge `0ffe24d` → **approved** (SHA approve-коммита — в `log.md`).
+- **Decision-MAS:** 5 записей MAS-трека в `DECISIONS.md` (оркестратор, C-фаза соло, Swarm закрыт, MAS-применение, Marketing). Коммит `e2701e0`.
 
 ## 3. Что открыто в C
 
@@ -158,12 +158,11 @@
 
 ## 11. Следующее действие
 
-1. **C1-close** — push (`per-command authorization` капитана).
-2. **RHCSA objectives diff** (RHEL 9 → RHEL 10) — продуктовый риск.
-3. **MAS-шаг: RHCSA objectives diff** (RHEL 9 → RHEL 10) — 3 роли через AgentTeams
-   (решение `DECISIONS.md` 29.09.2026, п. 4).
-4. **C2a-4 (опционально)** — агрегация «Состояния» + починка `openAlerts()` (2 подзадачи,
-   тоже кандидат на MAS).
+1. **`/spec-to-team 030`** — первый реальный MAS-прогон на продуктовой задаче. Команда: architect + builder + tester + reviewer. Вход: spec 030 (approved). Выход: список устаревших id + план правок.
+2. **Push 4–5 коммитов** — выполняется в этом же промпте (часть D).
+3. **Spec 031 (MAS-autonomy)** — 6 разрывов из RECON-MAS-AUTONOMY: скрипт-оркестратор, `TASK.md`/`SESSION.md`, spec-gate, авто-отчёт, атомарный коммиттер, метрики.
+4. **Spec 032 (Agent-Training)** — SOP-YAML, presets, learning-файлы; исследование в `semantic.md` (записать отдельно).
+5. **Spec 033 (Marketing MAS)** — Director + Strategist + Content + SEO + Analyst.
 
 ## 12. Что НЕ делать в этом handoff
 

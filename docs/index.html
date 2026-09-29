@@ -281,7 +281,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">6</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">7</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -307,10 +307,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#029 center-redesign</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#030 rhcsa-objectives-diff</span>
+            <span class="ddn__meta">content · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">5</span></h3>
+          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -322,10 +326,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#021 rs-cosine-debt</span>
-            <span class="ddn__meta">content · draft</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#030 rhcsa-objectives-diff</span>
             <span class="ddn__meta">content · draft</span>
           </li>
           <li class="ddn__item">
@@ -341,7 +341,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 28</summary>
-          <div class="spec-group">Утверждены · 6</div>
+          <div class="spec-group">Утверждены · 7</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -349,13 +349,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#025 cleanup-project</li>
             <li>#028 hide-alerts-details</li>
             <li>#029 center-redesign</li>
+            <li>#030 rhcsa-objectives-diff</li>
           </ul>
-          <div class="spec-group">Черновики · 4</div>
+          <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
             <li>#016 tf-cosine-debt</li>
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
-            <li>#030 rhcsa-objectives-diff</li>
           </ul>
           <div class="spec-group">Завершены · 14</div>
           <ul class="spec-list">
@@ -391,6 +391,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">0ffe24d</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-030-enhance</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">1537a78</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -505,12 +511,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>fix(sync): problem #3 volatile-aware — сравнение stripVolatile(HEAD:T) vs stripVolatile(generated)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">feb4c3c</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after lastsync-freshness (2)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -528,7 +528,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">17</td>
-          <td class="muted">12 ч</td>
+          <td class="muted">13 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -549,7 +549,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-29T01:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">9 ч</td>
+          <td class="muted">10 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -566,11 +566,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · rules | EOL-правило в правила оркестратора: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · spec | spec 030 — approved; handoff §1/§2/§11 обновлены | ещё не закоммичено</li>
     </ul>
   </details>
 

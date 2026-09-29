@@ -2,7 +2,7 @@
 id: 030
 slug: rhcsa-objectives-diff
 type: content
-status: draft
+status: approved
 commit: null
 ---
 
