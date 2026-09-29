@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на ba45517</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 79f0584</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -141,7 +141,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
 <!--volatile:end-->
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
-      <div class="pulse-tile__value">224/300 · 74.7%</div>
+      <div class="pulse-tile__value">225/300 · 75%</div>
       <div class="pulse-tile__note">+0 за сутки</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Требует решения</div>
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">30</div>
+      <div class="pulse-tile__value">31</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -340,7 +340,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 30 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 31 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -396,6 +396,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">79f0584</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(alerts): spec-031 — e2e fp_002 + EPERM tech debt</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">ba45517</td>
           <td><span class="ctype ctype--fix">fix</span></td>
@@ -510,12 +516,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-030): enhance — контекст, edge cases, SDD-практики</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">f17752a</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-030): draft — RHCSA objectives diff (RHEL 9→10)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -547,7 +547,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">34 ч (~1.4 дн)</td>
+          <td class="muted">35 ч (~1.5 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -559,8 +559,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-29T12:57:05Z</td>
-          <td class="mono">25</td>
+          <td class="mono muted">2026-09-29T13:20:32Z</td>
+          <td class="mono">26</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
@@ -571,11 +571,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order…</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-031 draft | push разрешён</li>
         <li><span class="mono muted">29.09</span> · spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-031 approve | push разрешён</li>
         <li><span class="mono muted">29.09</span> · spec | spec 031 — MAS PASS (7/7, QC=pass); банк 225 (delete fp_002 / rewrite sec_007 / add msw_015+msw_016 Flatpak); P14 doc | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · state | current_questions 224→225, progress_percent 74.7→75 (после MAS spec 031) | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -606,8 +606,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 39</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 39</div>
+    <summary>Тревоги · записей: 40</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 40</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -763,6 +763,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">29.09 | tech debt | agent_teams_delete EPERM (2 прогона подряд)</div>
           <div class="entry__body muted">agent_teams_delete() возвращает EPERM на rename в .agent-teams/archive/ (spec-030, spec-031).…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | tech debt | состояние проекта.goal — счётчик банка расходится с _topics.json</div>
+          <div class="entry__body muted">После MAS-прогона spec 031 (банк 224 → 225) поля состояние проекта.goal.current_questions и progress_percent остались на 224 / 74.7.…</div>
         </div>
   </details>
 

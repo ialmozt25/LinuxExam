@@ -150,4 +150,7 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 ## 2026-09-29 | tech debt | agent_teams_delete EPERM (2 прогона подряд)
 `agent_teams_delete()` возвращает EPERM на rename в `.agent-teams/archive/` (spec-030, spec-031). Диагностика: плагин/харнесс держит открытые дескрипторы каталогов команд (свежесозданный каталог в том же родителе переименовывается успешно). Evidence остаётся в `.agent-teams/<teamId>` — на deliverable не влияет. Постоянный фикс — spec 032 (MAS-autonomy).
 
-<!-- meta updated: 2026-09-29T12:57:05Z entries_count: 25 -->
+## 2026-09-29 | tech debt | state.json.goal — счётчик банка расходится с _topics.json
+После MAS-прогона spec 031 (банк 224 → 225) поля `state.json.goal.current_questions` и `progress_percent` остались на 224 / 74.7. Причина: `goal` принадлежит `tools/gen-state.mjs` (по merge-контракту), но `sync.mjs` (L1916, L1917, L1995) в `nextState` переносит поле как есть и из `_topics.json` его НЕ пересчитывает. Законный писатель `npm run state:update` в этом шаге не запускался (перезаписывает `docs/dashboard/state.json`, легаси, вне scope). Правка выполнена вручную Node-скриптом (2 поля: 225, 75). Постоянный фикс — spec 032.
+
+<!-- meta updated: 2026-09-29T13:20:32Z entries_count: 26 -->

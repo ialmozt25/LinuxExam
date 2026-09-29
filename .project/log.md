@@ -128,3 +128,4 @@
 2026-09-29 | spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | commit pending
 2026-09-29 | push | authorize push origin main — spec-031 approve | [AUTHORIZE]
 2026-09-29 | spec | spec 031 — MAS PASS (7/7, QC=pass); банк 225 (delete fp_002 / rewrite sec_007 / add msw_015+msw_016 Flatpak); P14 doc | commit pending
+2026-09-29 | state | current_questions 224→225, progress_percent 74.7→75 (после MAS spec 031) | commit pending
