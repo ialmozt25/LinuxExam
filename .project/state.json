@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f6beffc17630c21f858d43a14acdb23ef85c2c85",
+  "head": "a4aea90ee99992d878b30628e366e69b69cb8c34",
   "specs": [
     {
       "id": "022",
@@ -778,7 +778,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]",
     "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending",
     "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending",
@@ -787,10 +786,17 @@
     "2026-09-29 | push | authorize push origin main — spec-030 decomposition format | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 закрыта: интегрированы результаты MAS (2 id: fp_002/sec_007; план delete/rewrite/add; mapping исправлен); HANDOFF §11 перенумерован | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]",
-    "2026-09-29 | spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order — временно Node-скрипт | commit pending"
+    "2026-09-29 | spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order — временно Node-скрипт | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec-031 draft | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "a4aea90",
+      "date": "2026-09-29",
+      "subject": "docs(spec-031): draft — RHCSA bank fixes + _order mechanism + alerts",
+      "type": "docs"
+    },
     {
       "sha": "f6beffc",
       "date": "2026-09-29",
@@ -904,12 +910,6 @@
       "date": "2026-09-29",
       "subject": "fix(store): AnswerRecord.optionText + миграция v2→v3 (reorder-safe)",
       "type": "fix"
-    },
-    {
-      "sha": "e2701e0",
-      "date": "2026-09-29",
-      "subject": "docs(mas): decisions — оркестратор, C-фаза соло, Swarm закрыт, план MAS, Marketing",
-      "type": "docs"
     }
   ],
   "roles": [
