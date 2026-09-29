@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0c2a9722736afd6031a88384b964e33af12414c0",
+  "head": "8024b7df560e311b54f340517ea486157425bee2",
   "specs": [
     {
       "id": "022",
@@ -440,7 +440,7 @@
       "updated": null,
       "commit": null,
       "file": "specs/030-rhcsa-objectives-diff.md",
-      "mtime": 1790679670339.3433,
+      "mtime": 1790680050937.126,
       "goal": "Выявить расхождения между банком (224 вопроса) и текущими objectives RHCSA",
       "acceptance": "1. Документ содержит таблицу diff-анализа целей экзамена с указанием источника и даты.",
       "noTouch": "`src/data/**` — только анализ, правки банка отдельным approve.",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | spec | spec 030 (rhcsa-objectives-diff) — draft: RHEL 9→10 diff + сопоставление банка | commit pending",
     "2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending",
     "2026-09-29 | spec | spec 030 — approved; handoff §1/§2/§11 обновлены | commit pending",
     "2026-09-29 | push | authorize push origin main — spec 030 → approved + handoff §1/§2/§11, 5 коммитов | [AUTHORIZE]",
@@ -772,10 +771,17 @@
     "2026-09-29 | plan | C-PLAN: C2 in_progress → done (C2a-4 отложен); соответствие §1 HANDOFF | commit pending",
     "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending",
-    "2026-09-29 | push | authorize push origin main — spec-030 decomposition | [AUTHORIZE]"
+    "2026-09-29 | push | authorize push origin main — spec-030 decomposition | [AUTHORIZE]",
+    "2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "8024b7d",
+      "date": "2026-09-29",
+      "subject": "chore(log): authorize push (rule 10) — spec-030 decomposition",
+      "type": "chore"
+    },
     {
       "sha": "0c2a972",
       "date": "2026-09-29",
@@ -888,12 +894,6 @@
       "sha": "bc6124d",
       "date": "2026-09-29",
       "subject": "chore(center): плитка «Состояние» → «Свежесть данных» (label + значения)",
-      "type": "chore"
-    },
-    {
-      "sha": "2808177",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after self-ref-fix",
       "type": "chore"
     }
   ],
