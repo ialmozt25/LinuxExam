@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 032 | `mas-autonomy-a` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -35,6 +34,7 @@
 | 017 | `gen-state-schema-v2` | infra | done | — | 2026-09-28 |
 | 018 | `batch5b-shell-scripts` | content | done | — | 2026-09-28 |
 | 020 | `batch5c-running-systems` | content | done | — | 2026-09-28 |
+| 032 | `mas-autonomy-a` | infra | done | 2539526 | — |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

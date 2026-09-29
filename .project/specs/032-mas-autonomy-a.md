@@ -2,8 +2,8 @@
 id: 032
 slug: mas-autonomy-a
 type: infra
-status: approved
-commit: null
+status: done
+commit: 2539526
 ---
 
 # Спека 032 — MAS-autonomy (A): три точечных долга

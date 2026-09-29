@@ -138,3 +138,4 @@
 2026-09-30 | spec | order-manifest: новый id дописывается в конец _order.json (append — детерминированное правило); повторный --add = no-op + WARN; round-trip SHA256 до==после | commit 2539526
 2026-09-30 | spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс — .project/scripts/archive-team.mjs вне плагина + процедура | commit 2539526
 2026-09-30 | state | goal ownership: sync.mjs пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526
+2026-09-30 | spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | commit pending

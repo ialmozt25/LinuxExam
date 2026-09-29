@@ -281,7 +281,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -315,10 +315,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#032 mas-autonomy-a</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -349,7 +345,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 30</summary>
-          <div class="spec-group">Утверждены · 9</div>
+          <div class="spec-group">Утверждены · 8</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -359,7 +355,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
-            <li>#032 mas-autonomy-a</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -367,7 +362,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 14</div>
+          <div class="spec-group">Завершены · 15</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -383,6 +378,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#017 gen-state-schema-v2</li>
             <li>#018 batch5b-shell-scripts</li>
             <li>#020 batch5c-running-systems</li>
+            <li>#032 mas-autonomy-a</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -401,6 +397,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">33d2520</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-032 (log/decisions)</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
         <tr>
           <td class="mono">c10e0de</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -515,12 +517,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-030): decomposition block — strict SKILL.md format</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">8024b7d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — spec-030 decomposition</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -576,11 +572,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-032 approve | push разрешён</li>
         <li><span class="mono muted">30.09</span> · spec | spec 032 (mas-autonomy-a) — MAS PASS (t1–t3 + reviewer pass, 4 агента); 3 инфра-долга закрыты в коде: order-manifest CLI / EPERM archive-helper / goal ownership | commit 2539526</li>
         <li><span class="mono muted">30.09</span> · spec | order-manifest: новый id дописывается в конец _order.json (append — детерминированное правило); повторный --add = no-op + WARN; round-trip SHA256 до==после | commit 2539526</li>
         <li><span class="mono muted">30.09</span> · spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс…</li>
         <li><span class="mono muted">30.09</span> · state | goal ownership: генератор центра пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526</li>
+        <li><span class="mono muted">30.09</span> · spec | spec 032 (mas-autonomy-a) — done (commit 2539526); 3 tech debt закрыты (order-manifest / EPERM / goal ownership) | ещё не закоммичено</li>
     </ul>
   </details>
 
