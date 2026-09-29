@@ -303,8 +303,7 @@ function diffHeadProjected() {
  * получить committed-версию (файл не в HEAD, git недоступен, ещё нет файла) —
  * true, потому что красный индикатор уместен только при ДОКАЗАННОМ расхождении.
  */
-function isCenterInSync() {
-  if (!exists(OUT_CENTER)) return true;
+function isCenterInSync(generated) {
   try {
     // ВАЖНО: НЕ через `git()` — тот обрезает вывод (`trim`) и съедает финальный
     // перевод строки committed-версии, из-за чего сравнение всегда давало false.
@@ -313,8 +312,14 @@ function isCenterInSync() {
       ['show', `HEAD:${path.relative(ROOT, OUT_CENTER).replace(/\\/g, '/')}`],
       { cwd: ROOT, encoding: 'utf8' },
     );
-    const disk = stripVolatile(normalizeLf(readText(OUT_CENTER)));
-    return disk === stripVolatile(normalizeLf(committed));
+    // Сравниваем СГЕНЕРИРОВАННОЕ (то, что центр покажет сейчас), а не файл на
+    // диске: sync пишет файл с актуальным volatile-пином, и сравнение «диск vs
+    // HEAD» всегда давало false сразу после синхронизации.
+    const candidate = generated === undefined
+      ? (exists(OUT_CENTER) ? readText(OUT_CENTER) : null)
+      : generated;
+    if (candidate === null) return true;
+    return stripVolatile(normalizeLf(candidate)) === stripVolatile(normalizeLf(committed));
   } catch (e) {
     return true;
   }
@@ -1268,6 +1273,35 @@ function trimToSentence(text, limit = 180) {
 const alertBodyText = (body) => trimToSentence(String(body ?? '').replace(/`/g, ''), 180);
 
 /**
+ * Порог «данные устарели» для плитки «Состояние»: сутки без обновления
+ * `last_sync`. Санкционированный капитаном (29.09.2026) третий статус:
+ * spec 029 описывает только 🟢/🔴, 🟡 добавлен для честности — плитка должна
+ * показывать свежесть данных, а не только факт синхронности.
+ */
+const STALE_THRESHOLD_MS = 24 * 3600 * 1000;
+
+/**
+ * Время, от которого считается свежесть: `state.last_sync`, а при его
+ * отсутствии — время последнего коммита, затрагивавшего `state.json`.
+ *
+ * Почему нужен fallback: writer `last_sync` (в `main`) выставляет поле только
+ * при его ОТСУТСТВИИ, а при неизменной проекции состояние не перезаписывается
+ * вовсе, поэтому поле статично с 2026-09-27. Возвращает `null`, если ни то,
+ * ни другое недоступно — вызывающий трактует это как «данные устарели».
+ */
+function getFreshnessTime(state) {
+  const fromState = Date.parse(String(state?.last_sync ?? ''));
+  if (Number.isFinite(fromState)) return fromState;
+  try {
+    const ct = git(['log', '-1', '--format=%ct', '--', '.project/state.json']);
+    const sec = Number(String(ct).trim());
+    return Number.isFinite(sec) && sec > 0 ? sec * 1000 : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
  * C2d: Пульс — 4 плитки уровня 1 (spec 029, критерий приёмки 1–4).
  * `tile()` строит одну плитку; пустые значения показываются как «—».
  */
@@ -1280,7 +1314,18 @@ function pulseTiles(ctx) {
     '    </div>',
   ].filter(Boolean).join('\n');
 
-  const stateValue = `<span class="dot dot--${inSync ? 'ok' : 'bad'}"></span>${inSync ? 'Всё работает' : 'Есть расхождение'}`;
+  // Состояние: три статуса — 🔴 расхождение, 🟡 устаревшие данные, 🟢 всё в порядке.
+  const freshAt = getFreshnessTime(state);
+  const age = freshAt === null ? Number.POSITIVE_INFINITY : Date.now() - freshAt;
+  const status = !inSync ? 'bad' : (age > STALE_THRESHOLD_MS ? 'warn' : 'ok');
+  const statusText = status === 'bad'
+    ? 'Есть расхождения'
+    : (status === 'warn' ? 'Данные устарели' : 'Всё работает');
+  const statusNote = status === 'bad'
+    ? 'проверка не прошла'
+    : (freshAt === null ? 'нет данных о синхронизации' : humanTime(state.last_sync));
+  const stateValue = `<span class="dot dot--${status}"></span>${statusText}`;
+
   const bankValue = `${goal.current}/${goal.target} · ${goal.percent}%`;
   const bankNote = goal.added_today != null ? `+${goal.added_today} за сутки` : '';
 
@@ -1289,7 +1334,7 @@ function pulseTiles(ctx) {
 
   return [
     '    <div class="pulse">',
-    tile('Состояние', stateValue, humanTime(state.last_sync)),
+    tile('Состояние', stateValue, statusNote),
     tile('Банк', esc(bankValue), bankNote),
     tile('Требует решения', queued === 0 ? '—' : String(queued), 'спеки в preview'),
     tile('Долги', String(debts.count), debts.oldest ? `старейшая ${shortDate(debts.oldest)}` : ''),
@@ -1543,6 +1588,7 @@ h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; co
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 .dot--ok { background: var(--ok); }
 .dot--bad { background: var(--fail); }
+.dot--warn { background: #d9a800; }
 /* C2d: Пульс — 4 плитки уровня 1 в одном ряду (критерий приёмки 1: без прокрутки) */
 .pulse { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
 @media (max-width: 820px) { .pulse { grid-template-columns: repeat(2, 1fr); } }
@@ -1892,8 +1938,15 @@ function main() {
   };
   const stateMd = renderStateMd({ ...ctxBase, state: nextState });
   const specMd = renderSpecMd({ ...ctxBase, state: nextState });
-  // C2a-3: реальная проверка вместо hardcoded `true` — см. `isCenterInSync()`.
-  const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: isCenterInSync() });
+  // C2a-3: реальная проверка вместо hardcoded `true`. Считается ДО записи по
+  // сгенерированному содержимому: «центр устарел» = то, что генератор выдаёт
+  // сейчас, отличается от committed-версии центру (см. `isCenterInSync`).
+  const centerPreview = renderCenter({ ...ctxBase, state: nextState, inSync: true });
+  const centerHtml = renderCenter({
+    ...ctxBase,
+    state: nextState,
+    inSync: isCenterInSync(centerPreview),
+  });
 
   const targets = [
     { path: OUT_STATE_MD, content: stateMd },

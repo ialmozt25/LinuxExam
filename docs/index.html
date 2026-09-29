@@ -44,6 +44,7 @@ h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; co
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 .dot--ok { background: var(--ok); }
 .dot--bad { background: var(--fail); }
+.dot--warn { background: #d9a800; }
 /* C2d: Пульс — 4 плитки уровня 1 в одном ряду (критерий приёмки 1: без прокрутки) */
 .pulse { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
 @media (max-width: 820px) { .pulse { grid-template-columns: repeat(2, 1fr); } }
@@ -132,8 +133,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
     <div class="pulse">
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--ok"></span>Всё работает</div>
-      <div class="pulse-tile__note">обновлено 28.09, 01:37</div>
+      <div class="pulse-tile__value"><span class="dot dot--bad"></span>Есть расхождения</div>
+      <div class="pulse-tile__note">проверка не прошла</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
       <div class="pulse-tile__value">224/300 · 74.7%</div>
@@ -382,6 +383,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">3e372ff</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after handoff-update (2)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">07bc3b5</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after handoff-update</td>
@@ -493,12 +500,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">a1a9442</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(factory): C2a-2 — банк 206→224 в roles.yaml</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">1b7c6e4</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge (2)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
 <!--volatile:end-->
