@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f6124aca48da4f916c9c8f5341d30b5ea8c34279",
+  "head": "fc2f83ec13e6dabdeeac36be6ea1afb3570972b4",
   "specs": [
     {
       "id": "022",
@@ -778,7 +778,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-030 decomposition | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending",
@@ -787,10 +786,17 @@
     "2026-09-29 | push | authorize push origin main — spec-030 close | [AUTHORIZE]",
     "2026-09-29 | spec | spec 031 (rhcsa-bank-fixes) — draft: 7 пунктов (delete fp_002 / rewrite sec_007+meta / add msw_015+msw_016+shuffle / _order единой транзакцией / sync topics 225 / P14 doc); _order — временно Node-скрипт | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-031 draft | [AUTHORIZE]",
-    "2026-09-29 | spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | commit pending"
+    "2026-09-29 | spec | spec 031 — approved; готов к /spec-to-team 031 (writer+qc, 7 задач) | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec-031 approve | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "fc2f83e",
+      "date": "2026-09-29",
+      "subject": "docs(spec-031): approve",
+      "type": "docs"
+    },
     {
       "sha": "f6124ac",
       "date": "2026-09-29",
@@ -903,12 +909,6 @@
       "sha": "0dec907",
       "date": "2026-09-29",
       "subject": "docs(state): sync derived after answer-reorder-fix (ca62109)",
-      "type": "docs"
-    },
-    {
-      "sha": "37dbdb2",
-      "date": "2026-09-29",
-      "subject": "docs(memory): alerts — подставлен SHA ca62109 (fix answer-reorder)",
       "type": "docs"
     }
   ],
