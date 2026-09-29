@@ -4,18 +4,18 @@
 
 ---
 
-2026-09-29 | spec-031-rhcsa-bank-fixes — прогон AgentTeams закрыт (writer + qc, verdict PASS)
+2026-09-30 | spec-032-mas-autonomy-a — прогон AgentTeams закрыт (builder×3 + reviewer, verdict PASS)
 
-HEAD: 194db93
+HEAD: b58efdf (база прогона; коммиты spec-032 — после этой записи, см. `git log`)
 
 ahead: 0
 
-План: spec 031 (approved); C-PLAN v1.1
+План: spec 032 (approved, infra); C-PLAN v1.1
 
-Фаза: spec-031 — AgentTeams-прогон (t1–t6 + QC t7) завершён
+Фаза: spec-032 — AgentTeams-прогон (t1–t3 параллельно + t4 ревью) завершён
 
-Текущая активность: банк приведён к objectives RHEL 10 — `fp_002` удалён, `sec_007` переписан (`firewall` → `firewalld` + `_meta`), добавлены `msw_015`/`msw_016` (Flatpak), `_order.json`/`_topics.json` = 225 / `manage_software` 16, §«Соответствие банка» в spec 030 приведена к факту. Изменения НЕ закоммичены: 5 файлов банка + spec 030 (88 insertions / 56 deletions).
+Текущая активность: закрыты 3 инфра-долга MAS-автономии — `tools/order-manifest.mjs` (+ `order:add`/`order:remove`/`order:check`), хелпер архивации команд `.project/scripts/archive-team.mjs` (причина EPERM `agent_teams_delete` воспроизведена), `sync.mjs` пересчитывает `goal.current_questions`/`progress_percent` из банка. Три записи tech debt в `docs/memory/alerts.md` закрыты.
 
-Дальше: approve капитана → интеграционный шаг (`npm run sync` → коммит задачи → `chore(state): converge` → `sync:check` = 0). Открытые follow-up: правка фикстур `e2e/quiz-flow.spec.ts` (сидирует удалённый `fp_002`), постоянный инструмент `_order.json` — spec 032.
+Дальше: approve капитана на результат прогона → интеграционный шаг (`npm run sync` → коммит задачи → `chore(state): converge` → `sync:check` = 0); затем spec 033 (032b — 6 компонентов автономии: run-spec.mjs, TASK.md, spec-gate, авто-отчёт, committer, метрики). Открытые follow-up: правка фикстур `e2e/quiz-flow.spec.ts` (сидирует удалённый `fp_002`).
 
-<!-- meta updated: 2026-09-29T12:50:56Z entries_count: 3 -->
+<!-- meta updated: 2026-09-29T23:00:37Z entries_count: 4 -->

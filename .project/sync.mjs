@@ -9,7 +9,9 @@
  *   .project/state.json       — состояние (единственный источник правды)
  *   git log / git rev-parse   — HEAD, последние коммиты, milestone-коммиты
  *   src/data/topics.ts        — канон тем (14), только чтение
- *   src/data/questions/_topics.json — счётчики банка (сумма = total)
+ *   src/data/questions/_topics.json — счётчики банка (сумма = total);
+ *                                    ИСТОЧНИК ИСТИНЫ для goal.current_questions
+ *                                    и goal.progress_percent (spec 032 / t3)
  *   .project/PLAN.md          — чек-листы milestone'ов ([x] / [ ])
  *   .project/specs/*.md       — спеки (frontmatter + разделы)
  *   .project/log.md           — append-only журнал решений
@@ -442,6 +444,28 @@ function readTopicCounts() {
     return out;
   }
   throw new Error('_topics.json: нет byTopic/topics — счётчики банка недоступны');
+}
+
+/**
+ * Полное число вопросов банка — ИСТОЧНИК ИСТИНЫ для `goal.current_questions`.
+ *
+ * spec 032 / t3 (goal ownership): то же поле пишет `tools/gen-state.mjs`
+ * (владелец по merge-контракту spec 017) из этого же файла — `topics.total`.
+ * Значение НЕ берётся из прежнего `state.json`: поле производное, и после
+ * прогона банка (224 → 225) старое значение оставалось бы устаревшим, потому что
+ * `npm run state:update` в контур sync не входит.
+ */
+function readBankTotal() {
+  if (!exists(TOPICS_JSON_PATH)) throw new Error('src/data/questions/_topics.json не найден');
+  const json = JSON.parse(readText(TOPICS_JSON_PATH));
+  const total = Number(json.total);
+  if (Number.isFinite(total) && total > 0) return total;
+  // Fallback для усечённых файлов: сумма счётчиков по темам
+  // (`_topics.json` держит инвариант «сумма = total», проверка — `gen-topics-manifest.mjs`).
+  const counts = readTopicCounts();
+  const sum = Object.values(counts).reduce((s, n) => s + Number(n ?? 0), 0);
+  if (sum > 0) return sum;
+  throw new Error('_topics.json: total отсутствует и сумма счётчиков по темам пуста');
 }
 
 function buildTopics(state) {
@@ -1913,8 +1937,18 @@ function main() {
 
   const goal = state.goal ?? {};
   const target = targetQuestions(state);
-  const current = Number(goal.current_questions ?? topics.reduce((s, t) => s + t.count, 0));
-  const percent = Number(goal.progress_percent ?? Math.round((current / target) * 1000) / 10);
+  /* --- goal ownership (spec 032 / t3): КОНТРАКТ ВЛАДЕНИЯ ПОЛЯ.
+   * ИСТОЧНИК ИСТИНЫ — банк `src/data/questions/_topics.json` (тот же файл, из
+   * которого ниже собирается секция `topics`). ПЕРЕСЧЁТ — здесь, на каждом sync:
+   *   current = total банка — как `tools/gen-state.mjs` (владелец поля по
+   *             merge-контракту spec 017: свой ключ пишет поверх прежнего файла);
+   *   percent = Math.round((current / target) * 1000) / 10 — формула gen-state.mjs.
+   * Прежние `goal.current_questions` / `goal.progress_percent` — ПРОИЗВОДНЫЕ и
+   * приоритета НЕ имеют. Иначе после прогона банка (224 → 225) поле залипает
+   * устаревшим навсегда: `npm run state:update` (второй писатель тех же ключей)
+   * в контур sync не входит и сам по себе дрейф не закрывает. */
+  const current = readBankTotal();
+  const percent = Math.round((current / target) * 1000) / 10;
   const goalView = {
     target,
     current,

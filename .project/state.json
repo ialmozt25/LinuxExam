@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "31050c8167cee43f52b49749fd3fb92529465b77",
+  "head": "b58efdfa91ce908a53b0fb0f25b8c30426f225d3",
   "specs": [
     {
       "id": "022",
@@ -807,6 +807,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "b58efdf",
+      "date": "2026-09-29",
+      "subject": "chore(log): authorize push (rule 10) — spec-032 approve",
+      "type": "chore"
+    },
+    {
       "sha": "31050c8",
       "date": "2026-09-29",
       "subject": "docs(spec-032): approve",
@@ -919,12 +925,6 @@
       "date": "2026-09-29",
       "subject": "docs(plan): C-PLAN — C2 done (C2a-4 отложен в spec 031)",
       "type": "docs"
-    },
-    {
-      "sha": "9afe595",
-      "date": "2026-09-29",
-      "subject": "chore(log): authorize push (rule 10) — handoff §1 fix",
-      "type": "chore"
     }
   ],
   "roles": [

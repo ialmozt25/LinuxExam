@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 31050c8</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на b58efdf</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">31</div>
+      <div class="pulse-tile__value">28</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -344,7 +344,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 31 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 28 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -401,6 +401,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">b58efdf</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-032 approve</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">31050c8</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -515,12 +521,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(plan): C-PLAN — C2 done (C2a-4 отложен в spec 031)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">9afe595</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — handoff §1 fix</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -536,35 +536,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-29T12:50:56Z</td>
-          <td class="mono">19</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-29T23:00:37Z</td>
+          <td class="mono">20</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">27 ч (~1.1 дн)</td>
+          <td class="muted">37 ч (~1.5 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
-          <td class="mono muted">2026-09-28T02:37:25Z</td>
-          <td class="mono">6</td>
-          <td class="muted">35 ч (~1.5 дн)</td>
+          <td class="mono muted">2026-09-29T23:00:37Z</td>
+          <td class="mono">7</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-29T12:50:56Z</td>
-          <td class="mono">3</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-29T23:00:37Z</td>
+          <td class="mono">4</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-29T13:20:32Z</td>
+          <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">26</td>
           <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
@@ -611,8 +611,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 40</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 40</div>
+    <summary>Тревоги · записей: 41</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 41</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -773,11 +773,15 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">29.09 | tech debt | состояние проекта.goal — счётчик банка расходится с _topics.json</div>
           <div class="entry__body muted">После MAS-прогона spec 031 (банк 224 → 225) поля состояние проекта.goal.current_questions и progress_percent остались на 224 / 74.7.…</div>
         </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | [f4-cleaner] предложение</div>
+          <div class="entry__body muted">Кандидатов на свёртку нет: на 2026-09-30 порог «старше 14 дней» (cutoff 2026-09-16) не пересекла ни одна запись episodic.md — все записи датированы 2026-09-28 ……</div>
+        </div>
   </details>
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 8</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 9</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
         </div>
@@ -815,6 +819,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">spec-031-rhcsa-bank-fixes · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: writer (⊘) · qc (⊘)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓ · t5 ✓ · t6 ✓ · t7 ✓</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">spec-032-mas-autonomy-a · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: builder-1 (·) · builder-2 (·) · builder-3 (·) · reviewer (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓</div>
         </div>
   </section>
 

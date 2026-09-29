@@ -23,6 +23,15 @@
  *                           products, audits
  *   ОБЩЕЕ:                  schema_version — gen-state.mjs пишет 2, если поля нет,
  *                           существующее значение сохраняет
+ *   ПЕРЕСЧИТЫВАЮТ ОБА:      goal.current_questions / goal.progress_percent (spec 032 / t3).
+ *                           ИСТОЧНИК — src/data/questions/_topics.json (`total`), формула
+ *                           percent — здешняя: Math.round((current / TARGET_QUESTIONS) * 1000) / 10.
+ *                           sync.mjs пересчитывает эти два ключа из банка на каждом
+ *                           `npm run sync` и НЕ переносит прежнее значение поля: иначе
+ *                           после прогона банка (224 → 225) поле залипает устаревшим
+ *                           до `npm run state:update`, которого в контуре sync нет.
+ *                           Владелец записи — этот генератор; sync лишь приводит
+ *                           производное в соответствие с источником той же формулой.
  *
  * Ключи чужого владельца НЕ трогаются: прежний state.json читается и переносится
  * как есть. Раньше файл собирался с нуля фиксированным набором v1-ключей, из-за чего
@@ -595,6 +604,11 @@ function main() {
   /* --- merge-контракт (spec 017): пишем свои ключи поверх прежнего файла, ключи
    * sync.mjs переносятся как есть. Раньше объект собирался с нуля и v2-контур
    * (head/specs/log_tail/schema_version/commits/roles/products/audits) вычищался. */
+  /* --- goal ownership (spec 032 / t3): ВЛАДЕЛЕЦ `goal.current_questions` и
+   * `goal.progress_percent` — этот генератор; ИСТОЧНИК — `src/data/questions/_topics.json`
+   * (`total`). Те же два поля пересчитывает `.project/sync.mjs` из того же файла
+   * по той же формуле: sync обязан приводить производное в соответствие с банком,
+   * не дожидаясь `npm run state:update` (иначе поле залипает устаревшим). */
   const prevState = previousState();
   const owned = {
     last_update: stamp,
