@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">23</div>
+      <div class="pulse-tile__value">24</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -332,7 +332,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 23 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 24 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -386,6 +386,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">d0f2ce7</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge volatile commits table</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">c2d9b07</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -500,12 +506,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after consistency-lastsync (3)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">3e33541</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after consistency-lastsync (2)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -523,7 +523,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">17</td>
-          <td class="muted">9 ч</td>
+          <td class="muted">10 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -537,21 +537,21 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">28 ч (~1.2 дн)</td>
+          <td class="muted">29 ч (~1.2 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-29T01:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">6 ч</td>
+          <td class="muted">7 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T22:40:00Z</td>
           <td class="mono">19</td>
-          <td class="muted">8 ч</td>
+          <td class="muted">9 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -561,11 +561,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч…</li>
         <li><span class="mono muted">29.09</span> · sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в проверка синхронизации/CLI, не в HTML | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта…</li>
+        <li><span class="mono muted">29.09</span> · MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -596,8 +596,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 32</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 32</div>
+    <summary>Тревоги · записей: 33</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 33</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -725,6 +725,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">29.09 | override | Плитка «Свежесть данных» — переименование</div>
           <div class="entry__body muted">Плитка pulseTiles() переименована: label «Состояние» → «Свежесть данных», значения уровней FRESHNESS_LEVELS → Свежие / Подустарели / Устарели / Критически старые…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | MAS | Решения зафиксированы в DECISIONS.md</div>
+          <div class="entry__body muted">Требование DEV-PLAN D0 (запись выбора оркестратора) выполнено с опозданием.…</div>
         </div>
   </details>
 

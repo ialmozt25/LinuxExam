@@ -74,6 +74,8 @@
 - **AgentTeams: 5 команд в проде** — `linuxexam-f3-smoke`, `linuxexam-m6-phase4`,
   `spec-026-smoke`, `spec-027-memory-test`, `spec-028-hide-alerts`
   (последняя по времени — `spec-028-hide-alerts`, 29.09 06:29).
+- **Решение зафиксировано:** `DECISIONS.md` 29.09.2026 — раздел «MAS — оркестратор,
+  C-фаза соло, закрытие Swarm, план применения» (5 записей MAS-трека).
 
 ## 5. Что работает автономно
 
@@ -158,7 +160,10 @@
 
 1. **C1-close** — push (`per-command authorization` капитана).
 2. **RHCSA objectives diff** (RHEL 9 → RHEL 10) — продуктовый риск.
-3. **C2a-4 (опционально)** — агрегация «Состояния» + починка `openAlerts()`.
+3. **MAS-шаг: RHCSA objectives diff** (RHEL 9 → RHEL 10) — 3 роли через AgentTeams
+   (решение `DECISIONS.md` 29.09.2026, п. 4).
+4. **C2a-4 (опционально)** — агрегация «Состояния» + починка `openAlerts()` (2 подзадачи,
+   тоже кандидат на MAS).
 
 ## 12. Что НЕ делать в этом handoff
 
