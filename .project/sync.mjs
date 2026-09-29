@@ -606,6 +606,12 @@ const FACTORY_PLAN_PATH = rel('docs/FACTORY-PLAN.md');
 const DEV_PLAN_PATH = rel('docs/DEV-PLAN.md');
 
 /**
+ * C2d: активный план центра (инициатива C). Читается тем же `readPlanYaml`,
+ * что и две другие шапки: формат совпадает (плоские скаляры + inline-мапы фаз).
+ */
+const CPLAN_PATH = rel('docs/C-PLAN.md');
+
+/**
  * YAML-шапка плана — машинный источник фаз для центра. Аргумент — абсолютный
  * путь к файлу плана: планов теперь два (мастер `docs/FACTORY-PLAN.md` и
  * активный `docs/DEV-PLAN.md`), парсер один и тот же.
@@ -801,6 +807,24 @@ function readTrends(limit) {
     }
   }
   return { rows: rows.slice(-limit), broken, total: rows.length };
+}
+
+/**
+ * C2d: последние `limit` записей `.project/log.md` для блока «Решения».
+ * Журнал читается как ИСТОЧНИК (append-only), формат вывода правит рендер.
+ */
+function readRecentLog(limit) {
+  const p = rel('.project/log.md');
+  if (!exists(p)) return [];
+  return normalizeLf(readText(p))
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l && !l.startsWith('#'))
+    .map((l) => {
+      const m = /^(\d{4}-\d{2}-\d{2})\s*\|\s*([\s\S]*)$/.exec(l);
+      return m ? { date: m[1], text: m[2].trim() } : { date: '—', text: l };
+    })
+    .slice(-limit);
 }
 
 /**
@@ -1244,6 +1268,36 @@ function trimToSentence(text, limit = 180) {
 const alertBodyText = (body) => trimToSentence(String(body ?? '').replace(/`/g, ''), 180);
 
 /**
+ * C2d: Пульс — 4 плитки уровня 1 (spec 029, критерий приёмки 1–4).
+ * `tile()` строит одну плитку; пустые значения показываются как «—».
+ */
+function pulseTiles(ctx) {
+  const { state, goal, specs, inSync, alerts } = ctx;
+  const tile = (label, value, note) => [
+    `    <div class="pulse-tile"><div class="pulse-tile__label">${esc(label)}</div>`,
+    `      <div class="pulse-tile__value">${value}</div>`,
+    note ? `      <div class="pulse-tile__note">${esc(note)}</div>` : '',
+    '    </div>',
+  ].filter(Boolean).join('\n');
+
+  const stateValue = `<span class="dot dot--${inSync ? 'ok' : 'bad'}"></span>${inSync ? 'Всё работает' : 'Есть расхождение'}`;
+  const bankValue = `${goal.current}/${goal.target} · ${goal.percent}%`;
+  const bankNote = goal.added_today != null ? `+${goal.added_today} за сутки` : '';
+
+  const queued = specs.filter((s) => s.status === 'preview').length;
+  const debts = openAlerts(alerts || { entries: [] });
+
+  return [
+    '    <div class="pulse">',
+    tile('Состояние', stateValue, humanTime(state.last_sync)),
+    tile('Банк', esc(bankValue), bankNote),
+    tile('Требует решения', queued === 0 ? '—' : String(queued), 'спеки в preview'),
+    tile('Долги', String(debts.count), debts.oldest ? `старейшая ${shortDate(debts.oldest)}` : ''),
+    '    </div>',
+  ].join('\n');
+}
+
+/**
  * Секция «Done / Doing / Next» — первый блок центра (M6.0 Phase 2, D3).
  *
  * Три колонки: что закрыто, что в работе, что дальше. Колонки видны ВСЕГДА,
@@ -1258,7 +1312,7 @@ const alertBodyText = (body) => trimToSentence(String(body ?? '').replace(/`/g, 
  * часа без правок, и `sync:check` краснел без реального дрейфа).
  */
 function renderDoneDoingNext(ctx) {
-  const { specs, roles, products, dirtySpecIds } = ctx;
+  const { specs, roles, products, dirtySpecIds, cplanVersion, cplanStep } = ctx;
 
   const done = specs
     .filter((s) => s.status === 'done')
@@ -1308,19 +1362,17 @@ function renderDoneDoingNext(ctx) {
     col('doing', 'Doing', doingItems, 'Ничего не в работе'),
     col('next', 'Next', nextItems, 'Очередь пуста'),
     '    </div>',
-    // C2b-1: строка-сводка по планам вместо удалённых секций plan-factory/plan-dev.
-    // Данные статичны по построению (три плана проекта), wall-clock не участвует.
-    // TODO C2d — вынести в отдельный блок уровня 2 «Дела» с полной раскладкой фаз.
-    '    <div class="ddn__plans muted">Планы: Фабрика v2.23 ✅ · DEV v1.4 ✅ · Центр v1.1 🔵 (C2)</div>',
-    `    <div class="ddn__plans muted">${esc(alertsLine)}</div>`,
+    // C2d: единый блок Плана вместо строки «Планы: …» (C2b-1) и удалённых
+    // plan-factory/plan-dev. Версии читаются из машинных шапок планов, поэтому
+    // строка не стареет руками; completed — закрытые инициативы из материалов C-PLAN.
+    `    <div class="subline muted">План · Центр v${esc(cplanVersion)} 🔵 (${esc(cplanStep)}) · закрыто: F0–F5, D0–D4</div>`,
+    `    <div class="subline muted">${esc(alertsLine)}</div>`,
     '  </section>',
   ].join('\n');
 }
 
 function renderCenter(ctx) {
   const { state, goal, topics, specs, head, inSync, logTail, commits } = ctx;
-  const circle = inSync ? 'ok' : 'bad';
-  const statusText = inSync ? 'синхронизировано' : 'есть расхождение (запусти npm run sync)';
 
   // Группы спек: только реально встречающиеся статусы (`preview`/`running`
   // сегодня не используются) — пустая группа не выводится.
@@ -1372,6 +1424,14 @@ function renderCenter(ctx) {
   /* --- D3: коммиты (20 из git log).
    * Самоссылочный участок: см. VOLATILE выше. Обёрнут маркерами, чтобы `--check`
    * не требовал лишнего коммита из-за появления в списке самого коммита sync. */
+  // C2d: «Решения» — последние записи log.md (источник append-only, читаем).
+  const recentLog = readRecentLog(5);
+  const decisionRows = recentLog.length === 0
+    ? '        <li class="muted">Журнал пуст.</li>'
+    : recentLog
+      .map((d) => `        <li><span class="mono muted">${esc(shortDate(d.date))}</span> · ${esc(humanizeText(trimToSentence(d.text, 200)))}</li>`)
+      .join('\n');
+
   const commitRows = (commits || []).length === 0
     ? '        <tr><td colspan="4" class="muted">Нет данных git log.</td></tr>'
     : commits
@@ -1432,6 +1492,8 @@ function renderCenter(ctx) {
     roles: ctx.roles,
     products: ctx.products,
     alerts: ctx.alerts,
+    cplanVersion: ctx.cplanVersion,
+    cplanStep: ctx.cplanStep,
     dirtySpecIds: readDirtySpecIds(),
   });
 
@@ -1472,15 +1534,24 @@ body {
 }
 code { font-family: var(--mono); font-size: 0.8125rem; }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
-section { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; padding: 20px 24px; }
+section { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; padding: 16px 20px; }
 h1 { font-size: 1.5rem; margin: 0 0 4px; }
 h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin: 0 0 12px; }
 .muted { color: var(--fg-muted); }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-.head__row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 8px; color: var(--fg-muted); }
+.head__row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 4px; color: var(--fg-muted); }
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 .dot--ok { background: var(--ok); }
 .dot--bad { background: var(--fail); }
+/* C2d: Пульс — 4 плитки уровня 1 в одном ряду (критерий приёмки 1: без прокрутки) */
+.pulse { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
+@media (max-width: 820px) { .pulse { grid-template-columns: repeat(2, 1fr); } }
+.pulse-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
+.pulse-tile__label { font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 6px; }
+.pulse-tile__value { font-family: var(--mono); font-size: 1.0625rem; font-variant-numeric: tabular-nums; }
+.pulse-tile__note { color: var(--fg-muted); font-size: 0.75rem; margin-top: 4px; }
+/* C2d: подстрочники внутри карточек (ddn и др.) */
+.subline { margin-top: 10px; font-size: 0.75rem; }
 .progress__nums { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
 .progress__cur { font-size: 2.25rem; font-weight: 700; color: var(--accent); line-height: 1; }
 .progress__tot { font-size: 2.25rem; font-weight: 700; line-height: 1; }
@@ -1535,7 +1606,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 .ddn__title { font-family: var(--mono); font-size: 0.8125rem; }
 .ddn__meta { color: var(--fg-muted); font-size: 0.75rem; }
 .ddn__empty { color: var(--fg-muted); margin: 0; font-size: 0.8125rem; }
-.ddn__plans { margin-top: 14px; font-size: 0.75rem; }
+.ddn__plans { margin-top: 10px; font-size: 0.75rem; }
 /* C2c: группы спек внутри <details id="specs"> */
 .spec-group { margin: 12px 0 6px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); }
 .spec-list { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; }
@@ -1554,24 +1625,17 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <section class="head" id="head">
     <h1>Центр разработки</h1>
-    <div class="muted">LinuxExam · состояние проекта собирается автоматически</div>
     <div class="head__row">
-      ${VOLATILE.start}<span class="mono">состояние на ${esc(String(head).slice(0, 7))}</span>${VOLATILE.end}
-      <span class="mono">${esc(humanTime(state.last_sync))}</span>
-      <span><span class="dot dot--${circle}"></span>${esc(statusText)}</span>
+      <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
+      ${VOLATILE.start}<span class="mono">на ${esc(String(head).slice(0, 7))}</span>${VOLATILE.end}
     </div>
+${pulseTiles({ state, goal, specs, inSync, alerts: ctx.alerts })}
   </section>
 
   <section class="progress" id="progress">
-    <h2>Прогресс банка</h2>
-    <div class="progress__nums">
-      <span class="progress__cur">${goal.current}</span>
-      <span class="progress__tot">/ ${goal.target}</span>
-      <span class="progress__pct">${goal.percent}%${goal.added_today != null ? ` · +${goal.added_today} за сутки` : ''} · осталось ${goal.remaining}</span>
-    </div>
-    <div class="progress__bar"><div class="progress__fill" style="width:${goal.percent}%"></div></div>
+    <h2>Темы банка · ${topics.length}</h2>
     <details class="collapsible progress-topics" id="progress-topics">
-      <summary>Темы · ${topics.length}</summary>
+      <summary>Раскрыть темы · всего: ${topics.length}</summary>
 ${topicRows}
     </details>
   </section>
@@ -1608,6 +1672,13 @@ ${VOLATILE.end}
 ${VOLATILE.start}${notebookRows}${VOLATILE.end}
       </tbody>
     </table>
+  </details>
+
+  <details class="collapsible decisions" id="decisions">
+    <summary>Решения · последних ${recentLog.length}</summary>
+    <ul class="log">
+${decisionRows}
+    </ul>
   </details>
 
   <details class="collapsible policies" id="policies">
@@ -1741,6 +1812,10 @@ function main() {
   // развития может быть не подключён, тогда dev = null, а allPhases = фазы мастера.
   const planDoc = readPlanYaml(FACTORY_PLAN_PATH);
   const devPlan = exists(DEV_PLAN_PATH) ? readPlanYaml(DEV_PLAN_PATH) : null;
+  // C2d: активный план (C-PLAN) — третья шапка. Тем же парсером; если файл
+  // отсутствует или шапка битая — `readPlanYaml` бросит исключение с причиной,
+  // и синхронизация упадёт громко, а не покажет «плана нет» как факт.
+  const cplanDoc = readPlanYaml(CPLAN_PATH);
   // `allPhases` — ЕДИНЫЙ список фаз обоих планов для потребителей, которые не
   // знают, сколько планов в проекте (правило 12 в `tools/check-episodic.mjs`,
   // а также любой будущий гейт «каждая закрытая фаза имеет запись в журнале»).
@@ -1811,6 +1886,8 @@ function main() {
     audits: auditIndex,
     plan: planDoc,
     devPlan,
+    cplanVersion: cplanDoc.plan_version,
+    cplanStep: String(cplanDoc.current_step ?? '').replace(/^C2\s*—\s*/i, 'C2 · '),
     alerts: readAlerts(),
   };
   const stateMd = renderStateMd({ ...ctxBase, state: nextState });
