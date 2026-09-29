@@ -142,3 +142,4 @@
 2026-09-30 | push | authorize push origin main — spec-032 close | [AUTHORIZE]
 2026-09-30 | spec | spec 033a (mas-autonomy-spike) — draft: spike программного пути к dsh-agent-teams + run-spec.mjs + TASK/SESSION templates | commit pending
 2026-09-30 | push | authorize push origin main — spec-033a draft | [AUTHORIZE]
+2026-09-30 | spec | spec 033a — approved; готов к /spec-to-team 033a (spike-first: t0 проверка dsh-agent-teams) | commit pending
