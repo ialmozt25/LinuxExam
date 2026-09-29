@@ -10,8 +10,8 @@ describe('Results a11y', () => {
     const questions = useQuizStore.getState().questions;
     useQuizStore.setState({
       answers: [
-        { questionId: questions[0].id, selectedIndex: 0, isCorrect: true },
-        { questionId: questions[1].id, selectedIndex: 0, isCorrect: false },
+        { questionId: questions[0].id, selectedIndex: 0, isCorrect: true, optionText: 'right' },
+        { questionId: questions[1].id, selectedIndex: 0, isCorrect: false, optionText: 'wrong' },
       ],
       currentIndex: 0,
     });

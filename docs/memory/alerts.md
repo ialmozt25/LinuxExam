@@ -132,4 +132,7 @@ Spec 029 (override от 29.09) описывала плитку с 4 уровня
 ## 2026-09-29 | MAS | Решения зафиксированы в DECISIONS.md
 Требование DEV-PLAN D0 (запись выбора оркестратора) выполнено с опозданием. Зафиксированы: (1) оркестратор = dsh-agent-teams; (2) C-фаза соло; (3) Swarm закрыт; (4) MAS для RHCSA-diff и C2a-4; (5) Marketing MAS — spec 031.
 
-<!-- meta updated: 2026-09-28T22:40:00Z entries_count: 19 -->
+## 2026-09-29 | defect | AnswerRecord.selectedIndex позиционный — ломается при reorder
+Запись {questionId: 'pm_001', selectedIndex: 0, isCorrect: true} (сделана до коммита 3bc8470) при текущих данных указывает на неправильный вариант. Симптом: два зелёных в режиме «Продолжить». Fix: optionText + миграция v2→v3 + отложенная нормализация из loadQuestions (банк async — в migrate недоступен); несовместимые записи drop. Commit <SHA>.
+
+<!-- meta updated: 2026-09-28T22:40:00Z entries_count: 20 -->

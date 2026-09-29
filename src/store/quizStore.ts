@@ -75,6 +75,12 @@ interface QuizState {
   examAnswers: AnswerRecord[];
 
   loadQuestions: () => Promise<void>;
+  /**
+   * Re-aligns the persisted answer records with the bank currently on disk.
+   * Called from `loadQuestions` (not from `migrate`): the bank is async, so it
+   * does not exist yet when the persist middleware runs.
+   */
+  normalizeAnswersAgainstBank: () => void;
   recordActivity: () => void;
   navigateTo: (screen: Screen) => void;
   answerQuestion: (questionId: string, selectedIndex: number) => void;
@@ -102,6 +108,41 @@ interface QuizState {
 }
 
 const questionRepo = new QuestionRepository();
+
+/**
+ * Re-aligns one answer stream with the bank. `selectedIndex` is positional: a
+ * stored record keeps pointing at the position it was written with, so a bank
+ * reorder (commit 3bc8470 shuffled options across all topics) silently moves it
+ * onto a different option — that is what painted a wrong option green.
+ *
+ * `optionText` is the stable identity of the pick, so it wins whenever present.
+ * Records written before `optionText` existed fall back to the positional check:
+ * they survive only when index AND isCorrect still match the current data.
+ * Anything that cannot be proven consistent is dropped, never guessed.
+ */
+const normalizeRecordsAgainstBank = (
+  records: AnswerRecord[],
+  questions: Question[],
+): AnswerRecord[] => {
+  const byId = new Map(questions.map((q) => [q.id, q]));
+  const out: AnswerRecord[] = [];
+  for (const r of records) {
+    const q = byId.get(r.questionId);
+    if (!q) continue; // вопрос удалён — drop
+    if (r.optionText) {
+      const idx = q.options.findIndex((o) => o.text === r.optionText);
+      if (idx < 0) continue; // текст не найден — drop
+      const opt = q.options[idx];
+      out.push({ ...r, selectedIndex: idx, isCorrect: opt.correct });
+    } else {
+      const opt = q.options[r.selectedIndex];
+      if (!opt) continue; // индекс вне диапазона — drop
+      if (opt.correct !== r.isCorrect) continue; // данные сдвинулись — drop
+      out.push({ ...r, optionText: opt.text });
+    }
+  }
+  return out;
+};
 
 export const useQuizStore = create<QuizState>()(
   persist(
@@ -145,6 +186,21 @@ export const useQuizStore = create<QuizState>()(
           console.error('[quizStore] failed to load questions', error);
           set({ questions: [], isLoading: false });
         }
+        // Outside try/catch on purpose: re-alignment must not depend on a network
+        // error, and it reads the snapshot set above. A no-op while the bank is empty.
+        get().normalizeAnswersAgainstBank();
+      },
+
+      // v2 → v3 debt: `migrate` runs while the bank is still empty, so the records
+      // are re-aligned here, once `questions` actually exist.
+      normalizeAnswersAgainstBank: () => {
+        const { questions, answers, reviewAnswers, examAnswers } = get();
+        if (questions.length === 0) return; // банк ещё не загружен — no-op
+        set({
+          answers: normalizeRecordsAgainstBank(answers, questions),
+          reviewAnswers: normalizeRecordsAgainstBank(reviewAnswers, questions),
+          examAnswers: normalizeRecordsAgainstBank(examAnswers, questions),
+        });
       },
 
       navigateTo: (screen) => set({ currentScreen: screen }),
@@ -219,7 +275,12 @@ export const useQuizStore = create<QuizState>()(
         if (!question) return;
         if (selectedIndex < 0 || selectedIndex >= question.options.length) return;
         const isCorrect = question.options[selectedIndex].correct;
-        const record: AnswerRecord = { questionId, selectedIndex, isCorrect };
+        const record: AnswerRecord = {
+          questionId,
+          selectedIndex,
+          isCorrect,
+          optionText: question.options[selectedIndex].text,
+        };
         const existingIndex = get().answers.findIndex((a) => a.questionId === questionId);
         const answers =
           existingIndex >= 0
@@ -371,7 +432,12 @@ export const useQuizStore = create<QuizState>()(
         if (!question) return;
         const option = question.options[selectedIndex];
         if (!option) return;
-        const record: AnswerRecord = { questionId, selectedIndex, isCorrect: option.correct };
+        const record: AnswerRecord = {
+          questionId,
+          selectedIndex,
+          isCorrect: option.correct,
+          optionText: option.text,
+        };
         const existingIndex = reviewAnswers.findIndex((a) => a.questionId === questionId);
         const next =
           existingIndex >= 0
@@ -428,7 +494,12 @@ export const useQuizStore = create<QuizState>()(
         if (!question) return;
         const option = question.options[selectedIndex];
         if (!option) return;
-        const record: AnswerRecord = { questionId, selectedIndex, isCorrect: option.correct };
+        const record: AnswerRecord = {
+          questionId,
+          selectedIndex,
+          isCorrect: option.correct,
+          optionText: option.text,
+        };
         const existingIndex = examAnswers.findIndex((a) => a.questionId === questionId);
         const next =
           existingIndex >= 0
@@ -493,18 +564,21 @@ export const useQuizStore = create<QuizState>()(
         examAnswers: state.examAnswers,
         // examLastResult is deliberately NOT persisted - session state only.
       }),
-      version: 2,
+      version: 3,
       migrate: (persistedState, version) => {
+        let s = persistedState as Partial<QuizState>;
         if (version < 2) {
-          return {
-            // defaults FIRST so they cannot overwrite existing values
+          // defaults FIRST so they cannot overwrite existing values
+          s = {
             streak: 0,
             lastActiveDate: null,
             totalXp: 0,
-            ...(persistedState as Partial<QuizState>),
+            ...s,
           } as Partial<QuizState>;
         }
-        return persistedState as Partial<QuizState>;
+        // v2 → v3: answers мигрируются отложенно, после загрузки банка
+        // (см. normalizeAnswersAgainstBank). Здесь банк пуст — трогать нельзя.
+        return s;
       },
     }
   )

@@ -8,8 +8,8 @@ import type { AnswerRecord } from '@/data/models/AnswerRecord';
 // accumulated streak, XP and activity date.
 
 const EXAM_ANSWERS: AnswerRecord[] = [
-  { questionId: 'q1', selectedIndex: 0, isCorrect: true },
-  { questionId: 'q2', selectedIndex: 1, isCorrect: false },
+  { questionId: 'q1', selectedIndex: 0, isCorrect: true, optionText: 'q1 right' },
+  { questionId: 'q2', selectedIndex: 1, isCorrect: false, optionText: 'q2 wrong' },
 ];
 
 function seedExhaustedExam() {
@@ -83,8 +83,8 @@ describe('resetProgress', () => {
   it('still clears the regular and review streams', () => {
     seedExhaustedExam();
     useQuizStore.setState({
-      answers: [{ questionId: 'q1', selectedIndex: 0, isCorrect: true }],
-      reviewAnswers: [{ questionId: 'q2', selectedIndex: 1, isCorrect: false }],
+      answers: [{ questionId: 'q1', selectedIndex: 0, isCorrect: true, optionText: 'q1 right' }],
+      reviewAnswers: [{ questionId: 'q2', selectedIndex: 1, isCorrect: false, optionText: 'q2 wrong' }],
       reviewQuestionIds: ['q2'],
       wrongQuestionIds: ['q2'],
       activeTopic: 'file_permissions',

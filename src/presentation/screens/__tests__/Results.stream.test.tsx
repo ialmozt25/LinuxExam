@@ -32,8 +32,18 @@ function resetStore() {
   });
 }
 
-const right = (questionId: string) => ({ questionId, selectedIndex: 0, isCorrect: true });
-const wrong = (questionId: string) => ({ questionId, selectedIndex: 1, isCorrect: false });
+const right = (questionId: string) => ({
+  questionId,
+  selectedIndex: 0,
+  isCorrect: true,
+  optionText: `${questionId} option 0`,
+});
+const wrong = (questionId: string) => ({
+  questionId,
+  selectedIndex: 1,
+  isCorrect: false,
+  optionText: `${questionId} option 1`,
+});
 
 describe('Results reads the active stream', () => {
   beforeEach(async () => {
