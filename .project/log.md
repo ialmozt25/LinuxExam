@@ -108,3 +108,4 @@
 2026-09-29 | center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта запись-триггер override | commit bc6124d
 2026-09-29 | MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | commit pending
 2026-09-29 | store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | commit pending
+2026-09-29 | rules | EOL-правило в ORCH-RULES: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | commit pending

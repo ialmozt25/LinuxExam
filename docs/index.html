@@ -387,6 +387,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">0dec907</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(state): sync derived after answer-reorder-fix (ca62109)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">37dbdb2</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(memory): alerts — подставлен SHA ca62109 (fix answer-reorder)</td>
@@ -500,12 +506,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(alerts): last_sync-fix: closed + trade-off + tech-debt (dashboard)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">1fd313d</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(sync): убран volatile last_sync; freshness из git ct + .heartbeat; плитка Состояние — 4 уровня, VOLATILE-wrapped</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -523,35 +523,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">17</td>
-          <td class="muted">11 ч</td>
+          <td class="muted">12 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">22 ч</td>
+          <td class="muted">23 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">30 ч (~1.3 дн)</td>
+          <td class="muted">31 ч (~1.3 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-29T01:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">8 ч</td>
+          <td class="muted">9 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T22:40:00Z</td>
           <td class="mono">20</td>
-          <td class="muted">10 ч</td>
+          <td class="muted">11 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -561,11 +561,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в проверка синхронизации/CLI, не в HTML | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта…</li>
         <li><span class="mono muted">29.09</span> · MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · rules | EOL-правило в правила оркестратора: `git ls-files --eol` после правок .ts/.md; Node-нормализация вместо Set-Content | ещё не закоммичено</li>
     </ul>
   </details>
 
