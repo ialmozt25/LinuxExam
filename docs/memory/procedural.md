@@ -27,4 +27,7 @@
 5. Approve капитана обязателен всегда для `type=content` (правило 6: автономия на контент не распространяется).
 6. Интеграция: дописать вопросы в конец `src/data/questions/<topic>.json`, обновить `_order.json`, `npm run manifest`, `npm run shuffle-bank:check`, `npm run qc`, затем коммит.
 
+2026-09-29 | Manual-файлы и self-reference
+Manual-файлы (`working.md` — не пишется sync; `alerts.md`/`procedural.md` — тоже manual, sync их только читает) обновляются с SHA предыдущего коммита. Отставание на 1 коммит допустимо (f4-checker). Если manual-файл коммитится после converge — следующий `sync` даст drift; лечится `git checkout --` на производные. Правило: писать manual-файл ДО converge. НЕ обновлять manual-файл в одном batch с несколькими коммитами (лаг > 1 коммита — семантически неверен); либо обновлять его ПОСЛЕ всех коммитов отдельным, либо оставить на следующий batch.
+
 <!-- meta updated: 2026-09-28T02:37:25Z entries_count: 6 -->

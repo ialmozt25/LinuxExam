@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "c77959ca3d5d23bd37e3572a20c77e6c373dfa7d",
+  "head": "3a2e9313871147945583f12573d4364c390361e7",
   "specs": [
     {
       "id": "022",
@@ -763,6 +763,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "3a2e931",
+      "date": "2026-09-29",
+      "subject": "chore(memory): working.md — C1-fix closed, next C2c",
+      "type": "chore"
+    },
+    {
+      "sha": "a1f1d9c",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C1-fix",
+      "type": "chore"
+    },
+    {
       "sha": "c77959c",
       "date": "2026-09-29",
       "subject": "chore(log): C1-fix запись в log.md",
@@ -869,18 +881,6 @@
       "date": "2026-09-28",
       "subject": "chore(state): converge after D3b",
       "type": "chore"
-    },
-    {
-      "sha": "6fe81fd",
-      "date": "2026-09-28",
-      "subject": "docs(memory): D3b — verify skill memory integration",
-      "type": "docs"
-    },
-    {
-      "sha": "1499400",
-      "date": "2026-09-28",
-      "subject": "docs(dev-plan): D1-close-patch — D0 ✅, working count, context v1.2",
-      "type": "docs"
     }
   ],
   "roles": [

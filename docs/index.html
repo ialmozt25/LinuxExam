@@ -115,7 +115,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="muted">LinuxExam · состояние генерируется из <code>.project/state.json</code></div>
     <div class="head__row">
-      <!--volatile:start--><span class="mono">HEAD c77959ca3d5d23bd37e3572a20c77e6c373dfa7d</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">HEAD 3a2e9313871147945583f12573d4364c390361e7</span><!--volatile:end-->
       <span class="mono">last_sync 2026-09-27T15:37:59.477Z</span>
       <span><span class="dot dot--ok"></span>синхронизировано</span>
     </div>
@@ -539,6 +539,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">3a2e931</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(memory): working.md — C1-fix closed, next C2c</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">a1f1d9c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after C1-fix</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">c77959c</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): C1-fix запись в log.md</td>
@@ -646,18 +658,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after D3b</td>
           <td class="mono muted">2026-09-28</td>
         </tr>
-        <tr>
-          <td class="mono">6fe81fd</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(memory): D3b — verify skill memory integration</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
-        <tr>
-          <td class="mono">1499400</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(dev-plan): D1-close-patch — D0 ✅, working count, context v1.2</td>
-          <td class="mono muted">2026-09-28</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -682,7 +682,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">15 ч</td>
+          <td class="muted">16 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -694,9 +694,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-28T22:05:00Z</td>
+          <td class="mono muted">2026-09-29T01:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">4 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -737,8 +737,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 19</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 19</div>
+    <summary>Тревоги · записей: 22</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 22</div>
         <div class="entry">
           <div class="entry__title">2026-09-28 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">`.project/sync.mjs:884-918` (секция «Пульс агентов») рендерит</div>
@@ -814,6 +814,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">2026-09-28 | C2a-3 (inSync) отложен</div>
           <div class="entry__body muted">`inSync: true` в `renderCenter` (строка `const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true })` в `main()`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-29 | process lesson | working.md — manual-файл (sync не пишет)</div>
+          <div class="entry__body muted">Любой коммит manual-файла после converge передвигает HEAD → следующий `sync` тянет drift → `sync:check` красный. Лечение: писать manual-файл ДО converge, либо принять отставание `state.head` на 1 коммит (f4-checker). Приём Pass 5c C1-fix: `git checkout --` на производные, если drift — артефакт одного не-sync коммита (коммит `3a2e931`).</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-29 | process gap | handoff не отражал провал Swarm-pilot B</div>
+          <div class="entry__body muted">Handoff показывал «статус неизвестен» против факта: FAILED spawn 28.09, 12/12 task-агентов `child stopped: error` (детали — отчёт `C:\Users\Alexey Udotov\swarm-pilot\SWARM-PILOT-B-REPORT.md`, вне репо). Исправляется отдельным коммитом (handoff-update).</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">2026-09-29 | process gap | rule2-exception #3 — ПРОДОЛЖЕНИЕ записи `2026-09-28 | rule2-exception cumulative`</div>
+          <div class="entry__body muted">Третий случай (spec 029, C1-close `log.md:88`, embedded approve без метки). Предыдущая запись от 2026-09-28 остаётся открытой; эта — её продолжение. Кандидат на пересмотр правила 2 (`.project/ORCH-RULES.md`).</div>
         </div>
   </details>
 
