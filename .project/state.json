@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "8024b7df560e311b54f340517ea486157425bee2",
+  "head": "855b9b10b75b57764d66d2d508db0761c03c5074",
   "specs": [
     {
       "id": "022",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending",
     "2026-09-29 | spec | spec 030 — approved; handoff §1/§2/§11 обновлены | commit pending",
     "2026-09-29 | push | authorize push origin main — spec 030 → approved + handoff §1/§2/§11, 5 коммитов | [AUTHORIZE]",
     "2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending",
@@ -772,10 +771,17 @@
     "2026-09-29 | push | authorize push origin main — C-PLAN status fix | [AUTHORIZE]",
     "2026-09-29 | spec | spec 030 — секция «Декомпозиция» (2 задачи: id list + план); подготовка к /spec-to-team 030 | commit pending",
     "2026-09-29 | push | authorize push origin main — spec-030 decomposition | [AUTHORIZE]",
-    "2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending"
+    "2026-09-29 | spec | spec 030 — ## Декомпозиция приведена к формату SKILL.md (по факту, не по гипотезе) | commit pending",
+    "2026-09-29 | push | authorize push origin main — spec-030 decomposition format | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "855b9b1",
+      "date": "2026-09-29",
+      "subject": "docs(spec-030): decomposition block — strict SKILL.md format",
+      "type": "docs"
+    },
     {
       "sha": "8024b7d",
       "date": "2026-09-29",
@@ -888,12 +894,6 @@
       "sha": "5135e77",
       "date": "2026-09-29",
       "subject": "chore(center): переименование плитки — SHA в alerts/log",
-      "type": "chore"
-    },
-    {
-      "sha": "bc6124d",
-      "date": "2026-09-29",
-      "subject": "chore(center): плитка «Состояние» → «Свежесть данных» (label + значения)",
       "type": "chore"
     }
   ],
