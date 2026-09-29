@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "10ce9ea169e9b22aebc77bb11027a208b789b34d",
+  "head": "6f3d8ee021e08fc1a8c539ba60cd99c3c4aa8a8b",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]",
     "2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending",
     "2026-09-28 | C1-close | spec 029 approved; C-PLAN v1.0 → v1.1; старт C2 | commit pending",
     "2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]",
@@ -757,11 +756,36 @@
     "2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —",
     "2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c",
     "2026-09-29 | C1-fix | снято противоречие статуса spec 029: п.5 spec 029 и C-PLAN:48 помечены как снятые (approve — C1-close log.md:88, 28.09); источник истины — frontmatter approved | commit pending",
-    "2026-09-29 | alerts | 3 записи: working.md lesson, handoff-stale, rule2-exception #3 (продолжение cumulative); procedural: manual-файлы | commit pending"
+    "2026-09-29 | alerts | 3 записи: working.md lesson, handoff-stale, rule2-exception #3 (продолжение cumulative); procedural: manual-файлы | commit pending",
+    "2026-09-29 | handoff | заведён живой docs/HANDOFF.md (13 разделов, перенос неудачных попыток/правил/файлов/ограничений из архива); alerts.md: handoff-запись закрыта | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "6f3d8ee",
+      "date": "2026-09-29",
+      "subject": "chore(log): handoff-create запись в log.md",
+      "type": "chore"
+    },
+    {
+      "sha": "8c2280f",
+      "date": "2026-09-29",
+      "subject": "docs(handoff): завести живой docs/HANDOFF.md (13 разделов, перенос архивных секций); alerts.md запись закрыта",
+      "type": "docs"
+    },
+    {
+      "sha": "c39e4e1",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after alerts-hygiene (2)",
+      "type": "chore"
+    },
+    {
+      "sha": "8162de5",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after alerts-hygiene",
+      "type": "chore"
+    },
     {
       "sha": "10ce9ea",
       "date": "2026-09-29",
@@ -856,30 +880,6 @@
       "sha": "ac08fc7",
       "date": "2026-09-29",
       "subject": "docs(center): C1 — C-PLAN v1.0 + spec 029-center-redesign",
-      "type": "docs"
-    },
-    {
-      "sha": "0074d35",
-      "date": "2026-09-29",
-      "subject": "docs(recon): C0 — center audit",
-      "type": "docs"
-    },
-    {
-      "sha": "9000847",
-      "date": "2026-09-29",
-      "subject": "docs(dev-plan): D4 close — DEV-PLAN complete",
-      "type": "docs"
-    },
-    {
-      "sha": "cdc15dd",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after spec-028",
-      "type": "chore"
-    },
-    {
-      "sha": "d453e5b",
-      "date": "2026-09-29",
-      "subject": "docs(center): spec-028 — hide alerts under details",
       "type": "docs"
     }
   ],
