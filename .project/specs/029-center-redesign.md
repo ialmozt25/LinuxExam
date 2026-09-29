@@ -161,4 +161,4 @@ commit: null
    только сводка в Делах.
 4. C-PLAN читается `sync.mjs` третьим источником шапки планов (C2), формат
    шапки — уже машинный.
-5. Статус спеки — `draft`; перевод в `approved` и push — отдельный шаг C1-close.
+5. Статус спеки — `draft`; перевод в `approved` и push — отдельный шаг C1-close. Снято в C1-fix 29.09.2026: статус переведён в approved 28.09.2026 (embedded approve шага C1-close, log.md:88). Источник истины — frontmatter.

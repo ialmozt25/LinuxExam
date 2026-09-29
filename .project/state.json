@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "760ad53e8aeaadb218821fa93f994b77590f894c",
+  "head": "cef07a815c4507ca34e06d1b18ca7a106e11f7dc",
   "specs": [
     {
       "id": "022",
@@ -425,7 +425,7 @@
       "updated": null,
       "commit": null,
       "file": "specs/029-center-redesign.md",
-      "mtime": 1790632210252.8857,
+      "mtime": 1790645683327.3875,
       "goal": "Перестроить `docs/index.html` (генерируется `renderCenter()` в `.project/sync.mjs`)",
       "acceptance": "",
       "noTouch": "`docs/FACTORY-PLAN.md`, `docs/DEV-PLAN.md` — завершённые планы, только чтение.",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | spec-028 | skill spec-to-team, реальная задача hide-alerts-details: блок «Тревоги» свёрнут в `<details class=\"alerts\" id=\"alerts\">` в .project/sync.mjs (CSS только для details.alerts), docs/index.html регенерирован; команда spec-028-hide-alerts — 4 агента, 4 задачи completed, reviewer PASS; гейты sync/check:episodic exit 0, sync:check exit 2 до конвергента (правило 9); D4 остаётся pending — закрытие отдельным шагом D4-close | commit pending",
     "2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending",
     "2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending",
     "2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]",
@@ -757,11 +756,24 @@
     "2026-09-28 | push | authorize push origin main — C1 закрыта, 2 коммита | [AUTHORIZE]",
     "2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455",
     "2026-09-28 | C2b-1 | 10 секций удалены из рендера (queue, journal, roles, products, memory, trends, decisions, audits, plan-factory, plan-dev); строка «Планы» добавлена в ddn | commit 013aaae",
-    "2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —"
+    "2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —",
+    "2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "cef07a8",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after C2b-2",
+      "type": "chore"
+    },
+    {
+      "sha": "3323d4c",
+      "date": "2026-09-29",
+      "subject": "feat(center): C2b-2 — commits/notebooks в <details>, policies возвращён",
+      "type": "feat"
+    },
     {
       "sha": "760ad53",
       "date": "2026-09-29",
@@ -869,18 +881,6 @@
       "date": "2026-09-28",
       "subject": "fix(center): planGlyph учитывает активный план",
       "type": "fix"
-    },
-    {
-      "sha": "c12a7d0",
-      "date": "2026-09-28",
-      "subject": "docs(dev-plan): D0 close + D1 amend (v1.1)",
-      "type": "docs"
-    },
-    {
-      "sha": "adf656f",
-      "date": "2026-09-28",
-      "subject": "docs(dev-plan): DEV-PLAN v1.0 + sync aggregates two plans",
-      "type": "docs"
     }
   ],
   "roles": [
