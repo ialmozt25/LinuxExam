@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на cf7b12e</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на a4460eb</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -281,7 +281,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -315,10 +315,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#032 mas-autonomy-a</span>
+            <span class="ddn__meta">infra · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">5</span></h3>
+          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -333,10 +337,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">content · draft</span>
           </li>
           <li class="ddn__item">
-            <span class="ddn__title">#032 mas-autonomy-a</span>
-            <span class="ddn__meta">infra · draft</span>
-          </li>
-          <li class="ddn__item">
             <span class="ddn__title">продукт: &lt;next&gt;</span>
             <span class="ddn__meta">запланирован</span>
           </li>
@@ -349,7 +349,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 30</summary>
-          <div class="spec-group">Утверждены · 8</div>
+          <div class="spec-group">Утверждены · 9</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -359,13 +359,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
+            <li>#032 mas-autonomy-a</li>
           </ul>
-          <div class="spec-group">Черновики · 4</div>
+          <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
             <li>#016 tf-cosine-debt</li>
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
-            <li>#032 mas-autonomy-a</li>
           </ul>
           <div class="spec-group">Завершены · 14</div>
           <ul class="spec-list">
@@ -401,6 +401,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">a4460eb</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-032 draft</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">cf7b12e</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -515,12 +521,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(handoff): §1 — восстановление продуктовых фактов</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">553e32d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — spec 030 + handoff</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -576,11 +576,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · spec | spec 031 — MAS PASS (7/7, QC=pass); банк 225 (delete fp_002 / rewrite sec_007 / add msw_015+msw_016 Flatpak); P14 doc | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · state | current_questions 224→225, progress_percent 74.7→75 (после MAS spec 031) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-031 close | push разрешён</li>
         <li><span class="mono muted">29.09</span> · spec | spec 032 (mas-autonomy-a) — draft: 3 точечных долга (order-manifest CLI + EPERM + goal ownership); 032b отложена в spec 033 | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-032 draft | push разрешён</li>
+        <li><span class="mono muted">29.09</span> · spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | ещё не закоммичено</li>
     </ul>
   </details>
 

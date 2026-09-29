@@ -2,7 +2,7 @@
 id: 032
 slug: mas-autonomy-a
 type: infra
-status: draft
+status: approved
 commit: null
 ---
 
