@@ -253,6 +253,44 @@ function diffHead(paths) {
 }
 
 /**
+ * Незафиксированный дрейф производных — БЕЗ ложных срабатываний на
+ * самоссылочных участках (VOLATILE).
+ *
+ * Почему не `git status`: он сравнивает байты рабочего дерева с HEAD и про
+ * маркеры не знает. Таблица коммитов (участок в VOLATILE) меняется от КАЖДОГО
+ * коммита, включая коммит самой синхронизации: гейт требовал ещё один коммит,
+ * тот снова сдвигал таблицу — цикл commits↔converge. Здесь сравнивается то же,
+ * что и в остальных местах гейта: `stripVolatile(HEAD:T)` против
+ * `stripVolatile(generated)`. Реальный дрейф (структура, цифры, спеки) ловится
+ * по-прежнему; отставание ВНУТРИ volatile-участка — сознательный компромисс
+ * (см. VOLATILE). Write-путь не тронут: он сравнивает точно и обновляет
+ * самоссылочный участок при каждом `sync`.
+ *
+ * ВАЖНО: НЕ через `git()` — тот обрезает вывод (`trim`) и съедает финальный
+ * перевод строки committed-файла, из-за чего сравнение всегда давало бы дрейф.
+ *
+ * Возвращает: true — незафиксированный дрейф есть (в т.ч. файл отсутствует
+ * в HEAD или git недоступен — это проблема, а не «чисто»), false — чисто.
+ */
+function diffHeadStripped(targets) {
+  for (const t of targets) {
+    const relPath = path.relative(ROOT, t.path).replace(/\\/g, '/');
+    let committed = null;
+    try {
+      committed = execFileSync('git', ['show', `HEAD:${relPath}`], {
+        cwd: ROOT,
+        encoding: 'utf8',
+      });
+    } catch (e) {
+      warn(`git show HEAD:${relPath} не удался (${e.message})`);
+      return true;
+    }
+    if (stripVolatile(normalizeLf(committed)) !== stripVolatile(normalizeLf(t.content))) return true;
+  }
+  return false;
+}
+
+/**
  * Каноническая проекция `state.json` — БЕЗ самоссылочных полей.
  *
  * `commits[]` собирается из `git log`, `log_tail` — из `.project/log.md`. Оба меняются
@@ -2057,9 +2095,12 @@ function main() {
       problems.push(`${path.relative(ROOT, p)} отстал от state.json — нужен npm run sync`);
     }
 
-    // 3) производные + state.json должны быть зафиксированы коммитом
-    const uncommitted =
-      diffHeadProjected() || diffHead(targets.map((t) => t.path));
+    // 3) производные + state.json должны быть зафиксированы коммитом.
+    // Производные сверяются с HEAD БЕЗ самоссылочных участков (VOLATILE): иначе
+    // таблица коммитов давала ложное «изменён» после каждого коммита и требовала
+    // ещё одного — цикл commits↔converge. `state.json` — по проекции
+    // (`diffHeadProjected`): маркеры внутрь JSON не пишутся.
+    const uncommitted = diffHeadProjected() || diffHeadStripped(targets);
     if (uncommitted === true) {
       problems.push('state.json/производные изменены и не закоммичены — sync → git add → commit');
     }
