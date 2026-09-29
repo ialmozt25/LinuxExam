@@ -133,8 +133,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
     <div class="pulse">
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--bad"></span>Есть расхождения</div>
-      <div class="pulse-tile__note">проверка не прошла</div>
+      <div class="pulse-tile__value"><span class="dot dot--warn"></span>Данные устарели</div>
+      <div class="pulse-tile__note">обновлено 28.09, 01:37</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
       <div class="pulse-tile__value">224/300 · 74.7%</div>
@@ -383,6 +383,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">4a4ce85</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after consistency-lastsync</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">dc328cd</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): consistency-lastsync</td>
@@ -494,12 +500,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">000da51</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): C2a-3 запись</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">56d067b</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(sync): C2a-3 — inSync вычисляется сравнением сгенерированного с committed (вариант A)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
 <!--volatile:end-->
