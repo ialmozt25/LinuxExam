@@ -115,31 +115,36 @@ Verdict: `added` — только в current; `removed` — только в hist
 
 ## Соответствие банка
 
-Источник чисел: `src/data/questions/_topics.json` (total 224) + `wc` по 14 файлам тем.
-Статус: `актуальна` — покрытие полное, правок не требуется; `требует правок` — есть
-устаревшие формулировки/пробелы; `устарела` — тема опирается на удалённые objectives.
+Источник чисел: `src/data/questions/_topics.json` (total 225) + `wc` по 14 файлам тем.
+Статус: `актуальна` — покрытие полное, правок не требуется; `актуальна после spec 031` —
+правка выполнена spec 031 (2026-09-29); `требует правок` — есть устаревшие
+формулировки/пробелы; `устарела` — тема опирается на удалённые objectives.
 
 > **Исправление от 2026-09-29 (MAS-прогон spec-030, verdict PASS):**
 > атрибуция set-GID в исходной таблице (`file_systems`) — ошибочна (факт: `file_permissions`);
 > firewall-лексика атрибутирована `networking` — ошибочно (факт: `security`, id `sec_007`).
 > Устаревшие id и план правок — в секциях ниже.
 
+> **Обновление от 2026-09-29 (spec 031, P14):** статусы приведены к факту после правок
+> `fp_002` (delete), `sec_007` (rewrite) и `msw_015`/`msw_016` (add). Пять тем, объявленных
+> ниже `требует правок`, данными не подтвердились (0 затронутых id) и переведены в `актуальна`.
+
 | тема банка | вопросов | категории current objectives | RHEL 10 статус |
 |---|---|---|---|
 | `essential_tools` | 13 | Understand and use essential tools (11) | актуальна |
 | `text_files` | 16 | Understand and use essential tools (grep/regex, man/info, /usr/share/doc) | актуальна |
 | `file_management` | 18 | Understand and use essential tools (create/delete/copy/move, hard/soft links) | актуальна |
-| `file_permissions` | 20 | essential tools (ugo/rwx) + Manage security (default permissions, context, port labels) | актуальна |
-| `users_groups` | 18 | Manage users and groups (4) | требует правок (`Configure privileged access`; проверить формулировки про superuser) |
+| `file_permissions` | 19 | essential tools (ugo/rwx) + Manage security (default permissions, context, port labels) | актуальна после spec 031 (`fp_002` удалён) |
+| `users_groups` | 18 | Manage users and groups (4) | актуальна (0 затронутых id: `superuser` → `privileged` не подтверждено) |
 | `shell_scripts` | 16 | Create simple shell scripts (4) | актуальна |
 | `process_management` | 17 | Operate running systems (10) | актуальна (tuning profiles — проверить покрытие) |
 | `running_systems` | 16 | Operate running systems (10) | актуальна |
-| `local_storage` | 13 | Configure local storage (6, GPT-only) | требует правок (проверить вопросы про MBR) |
-| `file_systems` | 14 | Create and configure file systems (5) + Configure local storage (mount at boot) | требует правок (set-GID удалён; регистр VFAT/XFS) |
-| `manage_software` | 14 | Manage software (4, включая Flatpak) | требует правок (Flatpak — вероятный пробел) |
-| `networking` | 16 | Manage basic networking (4) | требует правок (firewalld-формулировки) |
-| `deploy_systems` | 13 | Deploy, configure, and maintain systems (6) | требует правок (RHN → CDN; at+cron → timer units) |
-| `security` | 20 | Manage security (8) | требует правок (SELinux-нарушения удалены; Boolean-регистр) |
+| `local_storage` | 13 | Configure local storage (6, GPT-only) | актуальна (0 затронутых id: вопросы про MBR не найдены) |
+| `file_systems` | 14 | Create and configure file systems (5) + Configure local storage (mount at boot) | актуальна (0 затронутых id: set-GID атрибутирован `file_permissions`) |
+| `manage_software` | 16 | Manage software (4, включая Flatpak) | актуальна после spec 031 (`msw_015`, `msw_016` — Flatpak) |
+| `networking` | 16 | Manage basic networking (4) | актуальна (0 затронутых id: firewalld-лексика — в `security`) |
+| `deploy_systems` | 13 | Deploy, configure, and maintain systems (6) | актуальна (0 затронутых id: RHN → CDN и at+cron → timer units не подтверждены) |
+| `security` | 20 | Manage security (8) | актуальна после spec 031 (`sec_007`: `firewall` → `firewalld`) |
 
 Покрытие: все 10 категорий current objectives отображаются на 14 тем банка;
 отдельной темы, которой не соответствует ни одна категория, нет. Обратная сторона:
@@ -148,14 +153,16 @@ Verdict: `added` — только в current; `removed` — только в hist
 
 ### Устаревшие id (результат MAS-прогона)
 
-| id | тема | причина |
-|---|---|---|
-| `fp_002` | `file_permissions` | objective «Create and configure set-GID directories for collaboration» удалён из RHEL 10 |
-| `sec_007` | `security` | `firewall-cmd/firewall` → `firewalld and firewall-cmd`: 2 варианта ответа используют устаревшее `firewall` |
+| id | тема | причина | статус |
+|---|---|---|---|
+| `fp_002` | `file_permissions` | objective «Create and configure set-GID directories for collaboration» удалён из RHEL 10 | закрыт spec 031 (2026-09-29): вопрос удалён |
+| `sec_007` | `security` | `firewall-cmd/firewall` → `firewalld and firewall-cmd`: 2 варианта ответа используют устаревшее `firewall` | закрыт spec 031 (2026-09-29): `firewall` → `firewalld` в двух вариантах |
 
 **Опровергнуто данными (0 id):** containers/Podman, MBR, SELinux-violations, superuser→privileged, RHN→CDN, timer units, boolean/Boolean, vfat/xfs, multiuser→multi-user.
 
-**Пробел покрытия:** Flatpak — 0 вопросов в банке; 2 objective RHEL 10 не покрыты.
+**Пробел покрытия:** Flatpak — закрыт spec 031 (2026-09-29): добавлены `msw_015`
+(`Configure access to Flatpak repositories`) и `msw_016` (`Install and remove Flatpak software packages`);
+тема `manage_software` 14 → 16, банк 224 → 225.
 
 ## Список устаревших id (MAS-прогон, 2026-09-29)
 

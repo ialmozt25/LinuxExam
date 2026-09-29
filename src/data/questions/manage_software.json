@@ -376,5 +376,59 @@
       }
     ],
     "explanation": "Опция --scripts выводит сценарии пакета, которые выполняются при его установке и удалении, а ключ -p направляет запрос в файл пакета, а не в базу установленных. Ключ -l с той же опцией -p печатает лишь список файлов пакета, а ключ -i показывает его описание и версию. Ключ -R перечисляет зависимости пакета и сценарии не показывает."
+  },
+  {
+    "id": "msw_015",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "flatpak remote-add: подключение репозитория",
+    "question": "В системе настроен Flatpak, но репозиторий Flathub ещё не подключён. Какая команда добавит репозиторий flathub по адресу https://dl.flathub.org/repo/flathub.flatpakrepo так, чтобы повторный запуск не завершался ошибкой?",
+    "options": [
+      {
+        "text": "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakref",
+        "correct": false
+      },
+      {
+        "text": "flatpak add-remote --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo",
+        "correct": false
+      },
+      {
+        "text": "flatpak remote-list --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo",
+        "correct": false
+      },
+      {
+        "text": "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo",
+        "correct": true
+      }
+    ],
+    "explanation": "Подкоманда remote-add подключает репозиторий, а ключ --if-not-exists делает повторный запуск безопасным. Подкоманды add-remote в Flatpak нет, remote-list только показывает уже подключённые репозитории, а файл .flatpakref описывает одно приложение, а не репозиторий."
+  },
+  {
+    "id": "msw_016",
+    "topic": "manage_software",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "flatpak install / uninstall: установка и удаление приложения",
+    "question": "Приложение org.gnome.Calculator не установлено, а репозиторий flathub подключён в системный каталог /var/lib/flatpak. Какая команда поставит это приложение из данного репозитория?",
+    "options": [
+      {
+        "text": "flatpak uninstall flathub org.gnome.Calculator",
+        "correct": false
+      },
+      {
+        "text": "flatpak search flathub org.gnome.Calculator",
+        "correct": false
+      },
+      {
+        "text": "flatpak update flathub org.gnome.Calculator",
+        "correct": false
+      },
+      {
+        "text": "flatpak install flathub org.gnome.Calculator",
+        "correct": true
+      }
+    ],
+    "explanation": "Подкоманда install ставит приложение из указанного репозитория вместе с нужной средой выполнения; удаляют его командой flatpak uninstall с тем же идентификатором. Подкоманда search только ищет приложение в подключённых репозиториях, а update обновляет уже установленную версию."
   }
 ]

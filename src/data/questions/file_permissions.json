@@ -27,33 +27,6 @@
     "explanation": "Цифра 7 = rwx (владелец), 5 = r-x (группа), 4 = r-- (остальные). Каждая цифра — сумма: чтение=4, запись=2, выполнение=1."
   },
   {
-    "id": "fp_002",
-    "topic": "file_permissions",
-    "difficulty": "medium",
-    "objective_domain": "9",
-    "subtopic": "special bits",
-    "question": "Какая команда установит setgid-бит на директорию /shared?",
-    "options": [
-      {
-        "text": "chmod 1755 /shared",
-        "correct": false
-      },
-      {
-        "text": "chmod 2755 /shared",
-        "correct": true
-      },
-      {
-        "text": "chmod +setgid /shared",
-        "correct": false
-      },
-      {
-        "text": "chmod 4755 /shared",
-        "correct": false
-      }
-    ],
-    "explanation": "Setgid-бит обозначается префиксом 2 перед стандартными тремя цифрами. 2755 = setgid + rwxr-xr-x. Префикс 4 — setuid, 1 — sticky bit."
-  },
-  {
     "id": "fp_003",
     "topic": "file_permissions",
     "difficulty": "medium",
