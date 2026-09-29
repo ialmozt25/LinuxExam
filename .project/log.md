@@ -134,3 +134,7 @@
 2026-09-29 | push | authorize push origin main — spec-032 draft | [AUTHORIZE]
 2026-09-29 | spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | commit pending
 2026-09-29 | push | authorize push origin main — spec-032 approve | [AUTHORIZE]
+2026-09-30 | spec | spec 032 (mas-autonomy-a) — MAS PASS (t1–t3 + reviewer pass, 4 агента); 3 инфра-долга закрыты в коде: order-manifest CLI / EPERM archive-helper / goal ownership | commit 2539526
+2026-09-30 | spec | order-manifest: новый id дописывается в конец _order.json (append — детерминированное правило); повторный --add = no-op + WARN; round-trip SHA256 до==после | commit 2539526
+2026-09-30 | spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс — .project/scripts/archive-team.mjs вне плагина + процедура | commit 2539526
+2026-09-30 | state | goal ownership: sync.mjs пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526

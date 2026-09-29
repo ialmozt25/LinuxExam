@@ -402,6 +402,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">af0658e</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-032</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">2539526</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(spec-032): order-manifest CLI + sync goal recompute + agent-teams archive helper</td>
@@ -515,12 +521,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-030): add ## Декомпозиция — 2 remaining tasks for /spec-to-team</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">39b2249</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — C-PLAN status fix</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -576,11 +576,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-031 close | push разрешён</li>
-        <li><span class="mono muted">29.09</span> · spec | spec 032 (mas-autonomy-a) — draft: 3 точечных долга (order-manifest CLI + EPERM + goal ownership); 032b отложена в spec 033 | ещё не закоммичено</li>
-        <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-032 draft | push разрешён</li>
-        <li><span class="mono muted">29.09</span> · spec | spec 032 — approved; готов к /spec-to-team 032 (3 задачи: order-manifest CLI / EPERM / goal ownership + reviewer) | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · push | authorize push origin main — spec-032 approve | push разрешён</li>
+        <li><span class="mono muted">30.09</span> · spec | spec 032 (mas-autonomy-a) — MAS PASS (t1–t3 + reviewer pass, 4 агента); 3 инфра-долга закрыты в коде: order-manifest CLI / EPERM archive-helper / goal ownership | commit 2539526</li>
+        <li><span class="mono muted">30.09</span> · spec | order-manifest: новый id дописывается в конец _order.json (append — детерминированное правило); повторный --add = no-op + WARN; round-trip SHA256 до==после | commit 2539526</li>
+        <li><span class="mono muted">30.09</span> · spec | EPERM agent_teams_delete: причина — открытый дескриптор ниже переименовываемого каталога без FILE_SHARE_DELETE (плагин ждёт 3×50 мс); фикс…</li>
+        <li><span class="mono muted">30.09</span> · state | goal ownership: генератор центра пересчитывает goal.current_questions/progress_percent из банка (readBankTotal); поле больше не может застрять вручную | commit 2539526</li>
     </ul>
   </details>
 
