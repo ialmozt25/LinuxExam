@@ -132,12 +132,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на ea2af24</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 3248492</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--ok"></span>Всё работает</div>
+      <div class="pulse-tile__value"><span class="dot dot--bad"></span>Есть расхождения</div>
+      <div class="pulse-tile__note">проверка не прошла</div>
     </div>
 <!--volatile:end-->
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
@@ -149,7 +150,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">23</div>
+      <div class="pulse-tile__value">22</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -332,7 +333,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 23 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 22 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -386,6 +387,24 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">3248492</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): check-volatile-aware</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">c9b1908</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(alerts): closed problem-#3 volatile-cycle</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
+          <td class="mono">a80835f</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(sync): problem #3 volatile-aware — сравнение stripVolatile(HEAD:T) vs stripVolatile(generated)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">feb4c3c</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -488,24 +507,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): handoff-update после C-фазы</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">724c800</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(handoff): обновлён после C-фазы — C2 закрыт, готов к C1-close</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">ea1a026</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after C-фаза alerts (2)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">5245628</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after C-фаза alerts</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -561,11 +562,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">29.09</span> · C2d | Пульс: 4 плитки (Состояние по V1, Банк, Требует решения, Долги); ddn: единый блок C-PLAN + «закрыто: F0–F5, D0–D4»; decisions в &lt;details&gt;; метрика первого экрана 30 строк | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | ещё не закоммичено</li>
         <li><span class="mono muted">29.09</span> · handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts…</li>
         <li><span class="mono muted">29.09</span> · center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч…</li>
         <li><span class="mono muted">29.09</span> · sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | ещё не закоммичено</li>
+        <li><span class="mono muted">29.09</span> · sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | ещё не закоммичено</li>
     </ul>
   </details>
 

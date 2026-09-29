@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "ea2af243a6c1d3dec01262f160befce59413c6e9",
+  "head": "32484921748460d31bf607a4eddc1f0064a1d5f6",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | handoff | заведён живой docs/HANDOFF.md (13 разделов, перенос неудачных попыток/правил/файлов/ограничений из архива); alerts.md: handoff-запись закрыта | commit pending",
     "2026-09-29 | consistency | check-consistency.mjs: R1 SPEC-STALE, R2 PLAN-DRAFT, R3 PLAN-STEP, R4 ORPHAN-SHA (R5 снят как дубль check:episodic); интегрирован в sync:check | commit pending",
     "2026-09-29 | C2c | HUMANIZE: плитка «224/300 · 74.7% · +18 за сутки», темы в <details>, specs сгруппированы по статусу, сводка тревог в ddn; технические строки переведены на человеческий на рендере | commit pending",
     "2026-09-29 | C2a-2 | roles.yaml: «банк 206» → 224 (синхронизировано с state.goal.current_questions); шаблон обновлён через factory:sync-template | commit pending",
@@ -757,10 +756,41 @@
     "2026-09-29 | alerts | C-фаза: V2-кандидат (V1 принят), метрика первого экрана = порог 30, preview пусто, тревоги-счётчик 17 vs 14 (на 29.09); procedural: time-box урок C2a-3 | commit pending",
     "2026-09-29 | handoff | обновлён после C-фазы: §1 (HEAD ea1a026, ahead 44, C2 закрыт), §2 (+C2a-2/C2a-3/C2d/гигиена), §3 (открыт только C1-close + RHCSA + C2a-4), §9 (sandbox обновлён, +V2, +openAlerts, +метрика 30), §11, §13 | commit pending",
     "2026-09-29 | center | плитка «Состояние»: три статуса (🟢/🟡/🔴) по inSync + свежести last_sync (порог 24ч, STALE_THRESHOLD_MS); fallback getFreshnessTime(); override spec 029 (санкционировано капитаном 29.09); заодно исправлена самоссылка индикатора (contentSansIndicator) | commit pending",
-    "2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending"
+    "2026-09-29 | sync | last_sync удалён (state/sync/STATE.md/гейт); freshness — git ct + .heartbeat; плитка Состояние — 4 уровня в VOLATILE; note детерминированный; cycle sync-converge устранён | commit pending",
+    "2026-09-29 | sync | problem #3 gate volatile-aware (stripVolatile HEAD vs generated); цикл commits-converge разорван; write-path не тронут (M index.html — ожидаемо) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3248492",
+      "date": "2026-09-29",
+      "subject": "chore(log): check-volatile-aware",
+      "type": "chore"
+    },
+    {
+      "sha": "c9b1908",
+      "date": "2026-09-29",
+      "subject": "chore(alerts): closed problem-#3 volatile-cycle",
+      "type": "chore"
+    },
+    {
+      "sha": "a80835f",
+      "date": "2026-09-29",
+      "subject": "fix(sync): problem #3 volatile-aware — сравнение stripVolatile(HEAD:T) vs stripVolatile(generated)",
+      "type": "fix"
+    },
+    {
+      "sha": "feb4c3c",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after lastsync-freshness (2)",
+      "type": "chore"
+    },
+    {
+      "sha": "e1dfad4",
+      "date": "2026-09-29",
+      "subject": "chore(state): converge after lastsync-freshness",
+      "type": "chore"
+    },
     {
       "sha": "ea2af24",
       "date": "2026-09-29",
@@ -849,36 +879,6 @@
       "sha": "0977088",
       "date": "2026-09-29",
       "subject": "chore(log): handoff-update после C-фазы",
-      "type": "chore"
-    },
-    {
-      "sha": "724c800",
-      "date": "2026-09-29",
-      "subject": "docs(handoff): обновлён после C-фазы — C2 закрыт, готов к C1-close",
-      "type": "docs"
-    },
-    {
-      "sha": "ea1a026",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C-фаза alerts (2)",
-      "type": "chore"
-    },
-    {
-      "sha": "5245628",
-      "date": "2026-09-29",
-      "subject": "chore(state): converge after C-фаза alerts",
-      "type": "chore"
-    },
-    {
-      "sha": "56bef87",
-      "date": "2026-09-29",
-      "subject": "chore(log): C-фаза записи",
-      "type": "chore"
-    },
-    {
-      "sha": "e471398",
-      "date": "2026-09-29",
-      "subject": "chore(memory): C-фаза — 4 записи в alerts + time-box урок в procedural",
       "type": "chore"
     }
   ],
