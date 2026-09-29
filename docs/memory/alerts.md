@@ -144,4 +144,10 @@ Spec 029 (override от 29.09) описывала плитку с 4 уровня
 ## 2026-09-29 | tech debt | _order.json — временно ручной механизм
 CLI-инструмента для обновления `_order.json` в проекте нет: единственный писатель (`tools/split-questions.mjs`) требует удалённый монолит; `manifest` только валидирует. Исторически — ручная правка в батч-коммитах (`ad50dcd`, `0622321`). Решение капитана 29.09.2026: в spec 031 — временно Node-скрипт в %TEMP% (единая транзакция); постоянный инструмент (`tools/order-manifest.mjs`) — spec 032 (infra). Процессный пробел зафиксирован в `procedural.md:28`.
 
-<!-- meta updated: 2026-09-29T11:59:21Z entries_count: 23 -->
+## 2026-09-29 | defect | e2e/quiz-flow.spec.ts использует удалённый fp_002
+QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411, 474–476, 513–515) использует удалённый `fp_002`; `Question.tsx` фильтрует банк по этим id. Тест «review stream 12/12» упадёт после push. Follow-up: заменить фикстуру `fp_002` → `fp_013`. `test:e2e` не гейт spec 031.
+
+## 2026-09-29 | tech debt | agent_teams_delete EPERM (2 прогона подряд)
+`agent_teams_delete()` возвращает EPERM на rename в `.agent-teams/archive/` (spec-030, spec-031). Диагностика: плагин/харнесс держит открытые дескрипторы каталогов команд (свежесозданный каталог в том же родителе переименовывается успешно). Evidence остаётся в `.agent-teams/<teamId>` — на deliverable не влияет. Постоянный фикс — spec 032 (MAS-autonomy).
+
+<!-- meta updated: 2026-09-29T12:57:05Z entries_count: 25 -->

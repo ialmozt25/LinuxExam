@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 194db93</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на ba45517</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">28</div>
+      <div class="pulse-tile__value">30</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     </div>
@@ -340,7 +340,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 28 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 30 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -396,6 +396,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">ba45517</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(bank): RHCSA RHEL 10 — delete fp_002 / rewrite sec_007 / add msw_015+msw_016 (Flatpak)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
         <tr>
           <td class="mono">194db93</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -510,12 +516,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-030): draft — RHCSA objectives diff (RHEL 9→10)</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">f334f90</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(rules): EOL-правило после правок .ts/.md</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -559,9 +559,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-29T11:59:21Z</td>
-          <td class="mono">23</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-29T12:57:05Z</td>
+          <td class="mono">25</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -606,8 +606,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 37</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 37</div>
+    <summary>Тревоги · записей: 39</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 39</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -755,6 +755,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">29.09 | tech debt | _order.json — временно ручной механизм</div>
           <div class="entry__body muted">CLI-инструмента для обновления _order.json в проекте нет: единственный писатель (tools/split-questions.mjs) требует удалённый монолит; manifest только валидирует.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | defect | e2e/quiz-flow.spec.ts использует удалённый fp_002</div>
+          <div class="entry__body muted">QC-1 (medium, вне scope spec 031): e2e/quiz-flow.spec.ts (стр. 405–411, 474–476, 513–515) использует удалённый fp_002; Question.tsx фильтрует банк по этим id.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">29.09 | tech debt | agent_teams_delete EPERM (2 прогона подряд)</div>
+          <div class="entry__body muted">agent_teams_delete() возвращает EPERM на rename в .agent-teams/archive/ (spec-030, spec-031).…</div>
         </div>
   </details>
 
