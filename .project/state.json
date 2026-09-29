@@ -339,7 +339,7 @@
       "message": "docs(rules): record authorized push 5B (rule 10/11 trail)"
     }
   ],
-  "head": "cef07a815c4507ca34e06d1b18ca7a106e11f7dc",
+  "head": "c77959ca3d5d23bd37e3572a20c77e6c373dfa7d",
   "specs": [
     {
       "id": "022",
@@ -748,7 +748,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-28 | D4-close | skill spec-to-team прошёл реальный прогон (spec-028); все 5 фаз DEV-PLAN закрыты | commit pending",
     "2026-09-28 | project | DEV-PLAN завершён: skill spec-to-team работает end-to-end | commit pending",
     "2026-09-28 | push | authorize push origin main — D4 закрыта, все коммиты D0-D4 | [AUTHORIZE]",
     "2026-09-28 | C1 | C-PLAN v1.0 создан; spec 029-center-redesign draft | commit pending",
@@ -757,11 +756,24 @@
     "2026-09-28 | C2a | wall-clock «draft свежий» закрыт (вариант б: свежесть draft объявлена состоянием git вместо Date.now() − mtime) | commit e807455",
     "2026-09-28 | C2b-1 | 10 секций удалены из рендера (queue, journal, roles, products, memory, trends, decisions, audits, plan-factory, plan-dev); строка «Планы» добавлена в ddn | commit 013aaae",
     "2026-09-28 | C2a-3 | отложен (inSync hardcode) — зафиксировано в alerts.md | —",
-    "2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c"
+    "2026-09-28 | C2b-2 | commits и notebooks свёрнуты в <details>; policies возвращён как <details>; CSS details обобщён на класс collapsible; вычищен мусорный CSS удалённых секций | commit 3323d4c",
+    "2026-09-29 | C1-fix | снято противоречие статуса spec 029: п.5 spec 029 и C-PLAN:48 помечены как снятые (approve — C1-close log.md:88, 28.09); источник истины — frontmatter approved | commit pending"
   ],
   "last_sync": "2026-09-27T15:37:59.477Z",
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c77959c",
+      "date": "2026-09-29",
+      "subject": "chore(log): C1-fix запись в log.md",
+      "type": "chore"
+    },
+    {
+      "sha": "a55cd87",
+      "date": "2026-09-29",
+      "subject": "docs(spec 029): снять противоречие статуса — п.5 и C-PLAN помечены как снятые, источник истины frontmatter",
+      "type": "docs"
+    },
     {
       "sha": "cef07a8",
       "date": "2026-09-29",
@@ -869,18 +881,6 @@
       "date": "2026-09-28",
       "subject": "docs(dev-plan): D1-close-patch — D0 ✅, working count, context v1.2",
       "type": "docs"
-    },
-    {
-      "sha": "ce46c10",
-      "date": "2026-09-28",
-      "subject": "docs(dev-plan): D1 close + D2 close (v1.2)",
-      "type": "docs"
-    },
-    {
-      "sha": "42f11f0",
-      "date": "2026-09-28",
-      "subject": "fix(center): planGlyph учитывает активный план",
-      "type": "fix"
     }
   ],
   "roles": [
