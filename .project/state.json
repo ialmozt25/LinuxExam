@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "553e32d4971272c2ebff837866c716de3f669b3d",
+  "head": "26cf0a94cb64c9443c37758fc4c651eb79b3517c",
   "specs": [
     {
       "id": "022",
@@ -763,7 +763,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-29 | center | плитка Состояние — убран самоссылочный inSync, только freshness (override spec 029); signal «центр отстал» — в sync:check/CLI, не в HTML | commit pending",
     "2026-09-29 | center | плитка «Состояние» → «Свежесть данных»: label + значения FRESHNESS_LEVELS (Свежие/Подустарели/Устарели/Критически старые) + null-ветка «Нет данных»; правка только внутри pulseTiles(); закрыта запись-триггер override | commit bc6124d",
     "2026-09-29 | MAS | DECISIONS.md: 5 записей (оркестратор, C-фаза соло, Swarm закрыт, MAS для RHCSA/C2a-4, Marketing spec 031); handoff §4+§11 обновлены | commit pending",
     "2026-09-29 | store | AnswerRecord.optionText + миграция v2→v3; отложенная нормализация в loadQuestions; stale-записи drop; fix двойного зелёного (pm_001) | commit pending",
@@ -772,10 +771,17 @@
     "2026-09-29 | spec | spec 030 — обогащена контекстом, edge cases, измеримыми критериями (SDD) | commit pending",
     "2026-09-29 | spec | spec 030 — approved; handoff §1/§2/§11 обновлены | commit pending",
     "2026-09-29 | push | authorize push origin main — spec 030 → approved + handoff §1/§2/§11, 5 коммитов | [AUTHORIZE]",
-    "2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending"
+    "2026-09-29 | handoff | §1 восстановлены продуктовые факты (LinuxExam / банк 224/300 / F0–F5 / D0–D4 / прод-URL) | commit pending",
+    "2026-09-29 | push | authorize push origin main — handoff §1 fix | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "26cf0a9",
+      "date": "2026-09-29",
+      "subject": "docs(handoff): §1 — восстановление продуктовых фактов",
+      "type": "docs"
+    },
     {
       "sha": "553e32d",
       "date": "2026-09-29",
@@ -888,12 +894,6 @@
       "sha": "8a4afa3",
       "date": "2026-09-29",
       "subject": "chore(state): converge after check-volatile-aware",
-      "type": "chore"
-    },
-    {
-      "sha": "3248492",
-      "date": "2026-09-29",
-      "subject": "chore(log): check-volatile-aware",
       "type": "chore"
     }
   ],
