@@ -46,6 +46,8 @@ coverage/
 .project/evidence/
 .project/archive/
 .project/drafts/cleanup-*.txt
+# Heartbeat свежести (lastsync-freshness): volatile mtime — вне git, иначе churn
+.project/.heartbeat
 # Хранители F4: логи прогонов (сами скрипты — в git)
 .project/scripts/keepers/*.log
 .project/scripts/keepers/.last-checked

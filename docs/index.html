@@ -45,6 +45,9 @@ h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; co
 .dot--ok { background: var(--ok); }
 .dot--bad { background: var(--fail); }
 .dot--warn { background: #d9a800; }
+/* 4 уровня свежести: Aging = .dot--warn (#d9a800), Stale = .dot--warn2 (оранжевый,
+   темнее), Critical = .dot--bad. Пороги/тексты — FRESHNESS_LEVELS (pulseTiles). */
+.dot--warn2 { background: #b87700; }
 /* C2d: Пульс — 4 плитки уровня 1 в одном ряду (критерий приёмки 1: без прокрутки) */
 .pulse { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
 @media (max-width: 820px) { .pulse { grid-template-columns: repeat(2, 1fr); } }
@@ -132,13 +135,15 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <!--volatile:start--><span class="mono">на dc328cd</span><!--volatile:end-->
     </div>
     <div class="pulse">
+<!--volatile:start-->
     <div class="pulse-tile"><div class="pulse-tile__label">Состояние</div>
-      <div class="pulse-tile__value"><span class="dot dot--warn"></span>Данные устарели</div>
-      <div class="pulse-tile__note">обновлено 28.09, 01:37</div>
+      <div class="pulse-tile__value"><span class="dot dot--bad"></span>Есть расхождения</div>
+      <div class="pulse-tile__note">проверка не прошла</div>
     </div>
+<!--volatile:end-->
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
       <div class="pulse-tile__value">224/300 · 74.7%</div>
-      <div class="pulse-tile__note">+18 за сутки</div>
+      <div class="pulse-tile__note">+0 за сутки</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Требует решения</div>
       <div class="pulse-tile__value">—</div>
@@ -383,6 +388,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">3d75323</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after consistency-lastsync (5)</td>
+          <td class="mono muted">2026-09-29</td>
+        </tr>
+        <tr>
           <td class="mono">83c34fa</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after consistency-lastsync (4)</td>
@@ -496,12 +507,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): C2d запись</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">c50877f</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(center): C2d — Пульс (4 плитки), План в ddn, decisions в Справочник</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -519,35 +524,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-28T22:05:00Z</td>
           <td class="mono">17</td>
-          <td class="muted">7 ч</td>
+          <td class="muted">8 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">18 ч</td>
+          <td class="muted">20 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-28T02:37:25Z</td>
           <td class="mono">6</td>
-          <td class="muted">26 ч (~1.1 дн)</td>
+          <td class="muted">28 ч (~1.2 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-29T01:05:00Z</td>
           <td class="mono">1</td>
-          <td class="muted">4 ч</td>
+          <td class="muted">5 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-28T22:40:00Z</td>
           <td class="mono">19</td>
-          <td class="muted">6 ч</td>
+          <td class="muted">8 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>

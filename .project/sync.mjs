@@ -15,7 +15,7 @@
  *   .project/log.md           — append-only журнал решений
  *
  * Производные (генерируются, руками не править):
- *   .project/STATE.md         — прогресс, банк/темы, HEAD, last_sync
+ *   .project/STATE.md         — прогресс, банк/темы, HEAD
  *   .project/SPEC.md          — индекс specs
  *   docs/index.html           — центр разработки (один файл, без фреймворков)
  *
@@ -68,6 +68,13 @@ const TOPICS_JSON_PATH = rel('src/data/questions/_topics.json');
 const OUT_STATE_MD = rel('.project/STATE.md');
 const OUT_SPEC_MD = rel('.project/SPEC.md');
 const OUT_CENTER = rel('docs/index.html');
+/**
+ * Heartbeat свежести: отметка «sync состоялся». Живёт ВНЕ git (`.gitignore`),
+ * потому что это volatile-время: в коммитимом файле оно давало churn.
+ * Второй источник свежести для плитки «Состояние» — см. `getFreshnessTime`.
+ */
+const HEARTBEAT_REL = '.project/.heartbeat';
+const HEARTBEAT_PATH = rel(HEARTBEAT_REL);
 
 const LOG_TAIL_LINES = 10;
 const EXPECTED_TOPIC_COUNT = 14;
@@ -1111,7 +1118,6 @@ function renderStateMd(ctx) {
     // Поэтому участок обёрнут volatile-маркерами: --check его вырезает (`:1288`),
     // а write-путь сравнивает точно (`:1352`) и значение по-прежнему обновляется.
     `${VOLATILE.start}- HEAD: \`${state.head ?? '—'}\`${VOLATILE.end}`,
-    `- last_sync: ${state.last_sync ?? '—'}`,
     '',
     '## Прогресс',
     '',
@@ -1287,32 +1293,60 @@ function trimToSentence(text, limit = 180) {
 const alertBodyText = (body) => trimToSentence(String(body ?? '').replace(/`/g, ''), 180);
 
 /**
- * Порог «данные устарели» для плитки «Состояние»: сутки без обновления
- * `last_sync`. Санкционированный капитаном (29.09.2026) третий статус:
- * spec 029 описывает только 🟢/🔴, 🟡 добавлен для честности — плитка должна
- * показывать свежесть данных, а не только факт синхронности.
+ * Уровни свежести данных для плитки «Состояние» (4 уровня, санкционировано
+ * капитаном 29.09.2026). spec 029 описывает только 🟢/🔴; уровни добавлены для
+ * честности — плитка должна показывать свежесть данных, а не только факт
+ * синхронности.
+ *
+ * Пороги: Fresh < 24 ч, Aging < 48 ч, Stale < 96 ч, Critical ≥ 96 ч.
+ * Возраст считает `getFreshnessTime()` — от времени коммита `state.json` и/или
+ * метки `.project/.heartbeat` (см. ниже). Поле `last_sync` удалено из
+ * `state.json`: volatile timestamp в коммитимом файле давал churn и цикл
+ * sync↔converge (это же — закрытие записи «defect | last_sync статичен»).
  */
-const STALE_THRESHOLD_MS = 24 * 3600 * 1000;
+const FRESHNESS_LEVELS = [
+  { limitMs: 24 * 3600 * 1000, status: 'ok', text: 'Всё работает' },
+  { limitMs: 48 * 3600 * 1000, status: 'warn', text: 'Данные подустарели' },
+  { limitMs: 96 * 3600 * 1000, status: 'warn2', text: 'Данные устарели' },
+  { limitMs: Number.POSITIVE_INFINITY, status: 'bad', text: 'Данные критические старые' },
+];
 
 /**
- * Время, от которого считается свежесть: `state.last_sync`, а при его
- * отсутствии — время последнего коммита, затрагивавшего `state.json`.
+ * Время, от которого считается свежесть данных: максимум из двух источников.
  *
- * Почему нужен fallback: writer `last_sync` (в `main`) выставляет поле только
- * при его ОТСУТСТВИИ, а при неизменной проекции состояние не перезаписывается
- * вовсе, поэтому поле статично с 2026-09-27. Возвращает `null`, если ни то,
- * ни другое недоступно — вызывающий трактует это как «данные устарели».
+ *   1. время последнего коммита, затрагивавшего `.project/state.json`
+ *      (`git log -1 --format=%ct`) — свежесть «по состоянию»;
+ *   2. mtime `.project/.heartbeat` — метка «sync состоялся» (вне git, пишется
+ *      в конце успешного прогона `main`).
+ *
+ * Максимум нужен потому, что `sync` без коммита не двигает git-время:
+ * heartbeat — свидетель «данные только что собраны».
+ *
+ * Возвращает `null`, если недоступны оба — вызывающий трактует это как
+ * «нет данных о синхронизации» (уровень Critical).
+ *
+ * Параметра состояния здесь больше нет: volatile-поле `last_sync` удалено из
+ * `state.json` (timestamp в коммитимом файле = churn и цикл sync↔converge).
  */
-function getFreshnessTime(state) {
-  const fromState = Date.parse(String(state?.last_sync ?? ''));
-  if (Number.isFinite(fromState)) return fromState;
+function getFreshnessTime(root = ROOT) {
+  let gitTime = null;
   try {
     const ct = git(['log', '-1', '--format=%ct', '--', '.project/state.json']);
     const sec = Number(String(ct).trim());
-    return Number.isFinite(sec) && sec > 0 ? sec * 1000 : null;
+    if (Number.isFinite(sec) && sec > 0) gitTime = sec * 1000;
   } catch (e) {
-    return null;
+    gitTime = null;
   }
+  let heartbeatTime = null;
+  try {
+    heartbeatTime = fs.statSync(path.join(root, HEARTBEAT_REL)).mtimeMs;
+  } catch (e) {
+    heartbeatTime = null;
+  }
+  const known = [gitTime, heartbeatTime].filter(
+    (t) => typeof t === 'number' && Number.isFinite(t) && t > 0,
+  );
+  return known.length === 0 ? null : Math.max(...known);
 }
 
 /**
@@ -1320,7 +1354,7 @@ function getFreshnessTime(state) {
  * `tile()` строит одну плитку; пустые значения показываются как «—».
  */
 function pulseTiles(ctx) {
-  const { state, goal, specs, inSync, alerts } = ctx;
+  const { goal, specs, inSync, alerts } = ctx;
   const tile = (label, value, note) => [
     `    <div class="pulse-tile"><div class="pulse-tile__label">${esc(label)}</div>`,
     `      <div class="pulse-tile__value">${value}</div>`,
@@ -1328,16 +1362,23 @@ function pulseTiles(ctx) {
     '    </div>',
   ].filter(Boolean).join('\n');
 
-  // Состояние: три статуса — 🔴 расхождение, 🟡 устаревшие данные, 🟢 всё в порядке.
-  const freshAt = getFreshnessTime(state);
+  // Состояние: 4 уровня свежести (Fresh/Aging/Stale/Critical); 🔴 расхождение —
+  // приоритет выше свежести. Весь блок обёрнут VOLATILE (см. ниже): статус —
+  // функция wall-clock, а `--check` сравнивает производные побайтово; без обёртки
+  // гейт краснел бы от одного течения времени.
+  //
+  // Пометка под плиткой детерминирована состоянием: относительное «обновлено
+  // N назад» зависело бы от текущей минуты и переписывало бы docs/index.html на
+  // каждом sync → git-грязь → гейт «изменён и не закоммичен» → новый цикл.
+  // Свежесть показывает сама плитка — уровнем.
+  const freshAt = getFreshnessTime();
   const age = freshAt === null ? Number.POSITIVE_INFINITY : Date.now() - freshAt;
-  const status = !inSync ? 'bad' : (age > STALE_THRESHOLD_MS ? 'warn' : 'ok');
-  const statusText = status === 'bad'
-    ? 'Есть расхождения'
-    : (status === 'warn' ? 'Данные устарели' : 'Всё работает');
-  const statusNote = status === 'bad'
+  const level = FRESHNESS_LEVELS.find((l) => age < l.limitMs);
+  const status = !inSync ? 'bad' : level.status;
+  const statusText = !inSync ? 'Есть расхождения' : level.text;
+  const statusNote = !inSync
     ? 'проверка не прошла'
-    : (freshAt === null ? 'нет данных о синхронизации' : humanTime(state.last_sync));
+    : (freshAt === null ? 'нет данных о синхронизации' : '');
   const stateValue = `<span class="dot dot--${status}"></span>${statusText}`;
 
   const bankValue = `${goal.current}/${goal.target} · ${goal.percent}%`;
@@ -1348,7 +1389,13 @@ function pulseTiles(ctx) {
 
   return [
     '    <div class="pulse">',
+    // VOLATILE-маркеры — сестринские элементы внутри .pulse, СНАРУЖИ плитки:
+    // note проходит через esc(), и маркеры внутри были бы экранированы —
+    // stripVolatile перестал бы их видеть. Гейт вырезает блок, write-путь
+    // (точное сравнение) обновляет его как обычно.
+    VOLATILE.start,
     tile('Состояние', stateValue, statusNote),
+    VOLATILE.end,
     tile('Банк', esc(bankValue), bankNote),
     tile('Требует решения', queued === 0 ? '—' : String(queued), 'спеки в preview'),
     tile('Долги', String(debts.count), debts.oldest ? `старейшая ${shortDate(debts.oldest)}` : ''),
@@ -1603,6 +1650,9 @@ h2 { font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; co
 .dot--ok { background: var(--ok); }
 .dot--bad { background: var(--fail); }
 .dot--warn { background: #d9a800; }
+/* 4 уровня свежести: Aging = .dot--warn (#d9a800), Stale = .dot--warn2 (оранжевый,
+   темнее), Critical = .dot--bad. Пороги/тексты — FRESHNESS_LEVELS (pulseTiles). */
+.dot--warn2 { background: #b87700; }
 /* C2d: Пульс — 4 плитки уровня 1 в одном ряду (критерий приёмки 1: без прокрутки) */
 .pulse { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
 @media (max-width: 820px) { .pulse { grid-template-columns: repeat(2, 1fr); } }
@@ -1898,7 +1948,6 @@ function main() {
     head,
     specs,
     log_tail: logTail,
-    last_sync: state.last_sync ?? new Date().toISOString(),
     goal: { ...goal, current_questions: current, progress_percent: percent, target_questions: target },
     topics: topics.slice().sort((a, b) => a.slug.localeCompare(b.slug)),
     // --- зеркала фабрики (D1/D3). Истина: roles.yaml и git log; здесь — кэш для
@@ -1917,18 +1966,22 @@ function main() {
     // вместе с docs/FACTORY-PLAN.md, поэтому дрейфа от коммитов не даёт.
     plan: planMirror,
   };
+  // B1: `delete` — ОТДЕЛЬНОЙ строкой ПОСЛЕ литерала. `{ ...state }` переносит
+  // существующий `last_sync` из файла, поэтому одного удаления строки-писателя
+  // недостаточно: поле вернулось бы при первом же sync. Volatile timestamp
+  // в коммитимом файле — источник churn и цикла sync↔converge.
+  delete nextState.last_sync;
   if (specCommit && nextState.specs.length > 0 && !nextState.spec_commit) {
     nextState.spec_commit = specCommit;
   }
 
-  // --- idempotentность: если содержимое не изменилось, last_sync не трогаем
-  // Сравниваем проекции: сдвиг `commits[]`/`log_tail` (проекция) не должен обновлять
-  // `last_sync` и не должен сам по себе означать новое состояние.
+  // --- idempotentность: сравнение проекций состояния
+  // Сдвиг `commits[]`/`log_tail` (проекция) не должен сам по себе означать новое
+  // состояние — иначе каждый коммит требовал бы ещё одного. `last_sync` здесь
+  // больше не копируется: поля нет вовсе. `before`/`after` ИСПОЛЬЗУЮТСЯ ниже
+  // решением о записи state.json (`stateChanged`), поэтому остаются.
   const before = stateProjection(JSON.stringify(state)) ?? JSON.stringify(state);
   const after = stateProjection(JSON.stringify(nextState)) ?? JSON.stringify(nextState);
-  if (before === after) {
-    nextState.last_sync = state.last_sync;
-  }
 
   // --- генерируем производные (в памяти), затем сравниваем с диском
   const ctxBase = {
@@ -1986,7 +2039,10 @@ function main() {
     const problems = [];
 
     // 1) схема state.json: обязательные ключи + версия схемы (spec 009 / D1)
-    for (const key of ['head', 'specs', 'log_tail', 'last_sync']) {
+    // `last_sync` из схемы исключён: volatile timestamp в коммитимом файле
+    // (churn + цикл sync↔converge). Свежесть считает `getFreshnessTime()`
+    // из git-времени state.json и `.project/.heartbeat`.
+    for (const key of ['head', 'specs', 'log_tail']) {
       if (!(key in state)) problems.push(`.project/state.json: нет поля "${key}"`);
     }
     const sv = Number(state.schema_version ?? 1);
@@ -2077,12 +2133,21 @@ function main() {
     fail(problems.join('; '));
     return;
   }
+
+  // --- heartbeat свежести: отметка «sync состоялся», вне git (HEARTBEAT_PATH).
+  // Пишется ПОСЛЕДНЕЙ — после того как все производные записаны и проверены,
+  // чтобы метка не «омолаживала» данные, которых нет на диске.
+  try {
+    writeLf(HEARTBEAT_PATH, String(Date.now()) + '\n');
+  } catch (e) {
+    warn(`не удалось записать ${HEARTBEAT_REL}: ${e.message}`);
+  }
+
   const bytes = fs.readFileSync(OUT_CENTER);
 
   const out = [
     'sync: .project/STATE.md + .project/SPEC.md + docs/index.html обновлены',
     `  HEAD: ${head}`,
-    `  last_sync: ${nextState.last_sync}`,
     `  банк: ${current}/${target} (${percent}%)`,
     `  темы: ${topics.length}`,
     `  specs: ${specs.length} (в очереди preview: ${specs.filter((s) => s.status === 'preview').length})`,
