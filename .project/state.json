@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "572de550324125600ea90a5f043bbccf30eff31a",
+  "head": "eb47f5090b0acf9f724542028b718c7706122f65",
   "specs": [
     {
       "id": "022",
@@ -808,7 +808,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — draft: spike программного пути к dsh-agent-teams + run-spec.mjs + TASK/SESSION templates | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 033a — approved; готов к /spec-to-team 033a (spike-first: t0 проверка dsh-agent-teams) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a approve | [AUTHORIZE]",
@@ -817,10 +816,29 @@
     "2026-09-30 | spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/<teamId>/ | commit pending",
     "2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending",
-    "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060"
+    "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060",
+    "2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "eb47f50",
+      "date": "2026-09-30",
+      "subject": "docs(spec-033a): точный список коммитов прогона + урок архивации команды",
+      "type": "docs"
+    },
+    {
+      "sha": "c44ce3a",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-033a (agents pulse — команда заархивирована)",
+      "type": "chore"
+    },
+    {
+      "sha": "9cde25b",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-033a (report/decisions)",
+      "type": "chore"
+    },
     {
       "sha": "572de55",
       "date": "2026-09-30",
@@ -922,24 +940,6 @@
       "date": "2026-09-29",
       "subject": "docs(spec-032): draft — MAS-autonomy A (3 tech debts)",
       "type": "docs"
-    },
-    {
-      "sha": "3c03eec",
-      "date": "2026-09-29",
-      "subject": "chore(log): authorize push (rule 10) — spec-031 close",
-      "type": "chore"
-    },
-    {
-      "sha": "fff0c24",
-      "date": "2026-09-29",
-      "subject": "fix(state): current_questions 224→225, progress_percent 74.7→75 + alert",
-      "type": "fix"
-    },
-    {
-      "sha": "79f0584",
-      "date": "2026-09-29",
-      "subject": "chore(alerts): spec-031 — e2e fp_002 + EPERM tech debt",
-      "type": "chore"
     }
   ],
   "roles": [
