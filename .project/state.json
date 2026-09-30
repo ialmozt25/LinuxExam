@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "41542ec9fc97ef6da377429c326b676d8f2c3e9c",
+  "head": "d57abf9bcff37b7529f2202aa8ff8d1533cefb33",
   "specs": [
     {
       "id": "022",
@@ -912,6 +912,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "d57abf9",
+      "date": "2026-09-30",
+      "subject": "docs(spec-039): approve - fix template defects, id conventions (ntw_017/018, ug_019/020)",
+      "type": "docs"
+    },
+    {
       "sha": "0310236",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-039 draft",
@@ -1023,12 +1029,6 @@
       "sha": "e26f677",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) - spec-036 close",
-      "type": "chore"
-    },
-    {
-      "sha": "eb192f4",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-036 done",
       "type": "chore"
     }
   ],
