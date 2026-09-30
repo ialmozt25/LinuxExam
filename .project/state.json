@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "443fca0e31d76fa0e51d9d73c7aab7fd2d7f54ae",
+  "head": "91a871be64080931279869f21a006058bda1581d",
   "specs": [
     {
       "id": "022",
@@ -505,6 +505,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "034",
+      "slug": "mas-autonomy-b",
+      "status": "draft",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/034-mas-autonomy-b.md",
+      "mtime": 1790729172412.4888,
+      "goal": "Замкнуть цикл «спека → фабрика → результат + отчёт → память»:",
+      "acceptance": "1. **Step 0 (t0, если не STOP):** профиль `mas` установлен; `run-spec.mjs <spec-id>` (живой прогон, без `--dry-run`) → exit 0 (не 3); отчёт `RUN-SPEC-LIVE.md`.",
+      "noTouch": "`src/**` (продукт).",
+      "preview": ""
     },
     {
       "id": "001",
@@ -808,7 +823,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-033a approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — MAS PASS (t0–t2 + reviewer verdict=pass, 2 агента); spike: PATH=H2 (`dsh --profile <p> \"/agent-teams …\"`), H1 HTTP API и H4 node-инвокация отклонены, H3 — только read-канал | commit pending",
     "2026-09-30 | spec | run-spec.mjs: детерминированный контур спека → задача → preflight H2 → execute → H3 read-back → атомарная история .project/mas-runs.json; коды 0/1/2/3 (3 = precondition-missing с fix-командами); npm script spec:run | commit pending",
     "2026-09-30 | spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/<teamId>/ | commit pending",
@@ -817,10 +831,17 @@
     "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060",
     "2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "91a871b",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-033a close",
+      "type": "chore"
+    },
     {
       "sha": "443fca0",
       "date": "2026-09-30",
@@ -934,12 +955,6 @@
       "date": "2026-09-30",
       "subject": "feat(spec-032): order-manifest CLI + sync goal recompute + agent-teams archive helper",
       "type": "feat"
-    },
-    {
-      "sha": "b58efdf",
-      "date": "2026-09-29",
-      "subject": "chore(log): authorize push (rule 10) — spec-032 approve",
-      "type": "chore"
     }
   ],
   "roles": [

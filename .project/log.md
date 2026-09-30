@@ -153,3 +153,4 @@
 2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55
 2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending
 2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]
+2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending
