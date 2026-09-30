@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "608c72fc962b737f2486eb0f464a6b2cf7a12574",
+  "head": "58168c1491074d5a54d88cfd5eec1abf4d545552",
   "specs": [
     {
       "id": "022",
@@ -882,6 +882,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "58168c1",
+      "date": "2026-09-30",
+      "subject": "docs(spec-036): done - bank semantic audit",
+      "type": "docs"
+    },
+    {
       "sha": "9d57cdb",
       "date": "2026-09-30",
       "subject": "chore(spec-036): R5 trace - task tokens t1 t2 t3 t4 t5 t6",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-037): draft — user counter (GoatCounter + center tile)",
       "type": "docs"
-    },
-    {
-      "sha": "bf795c9",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-036 approve",
-      "type": "chore"
     }
   ],
   "roles": [
