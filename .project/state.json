@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "250565aa572dfb2618e360c24e6f37dda7fd807b",
+  "head": "1ba3a97364bd186c356f1cfd528867d59a534ad8",
   "specs": [
     {
       "id": "022",
@@ -853,7 +853,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 approve | [AUTHORIZE]",
     "2026-09-30 | spec 035 | прогон AgentTeams (t1 fix spec-resolution в run-spec.mjs — вариант A: материализация спеки в `<workspace>/.project/specs/`; t2 RUN-SPEC-SPIKE-STOP.md = оригинал 6b06d73, байт-в-байт; t3 review round 1 PASS, findings нет) — живые прогоны ревьюера: без --workspace из %TEMP% → exit 0, collect ok; --live --workspace <temp> → exit 0 + team.json в temp-workspace | commit pending",
@@ -862,10 +861,17 @@
     "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
     "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending",
     "2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending"
+    "2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "1ba3a97",
+      "date": "2026-09-30",
+      "subject": "docs(spec-036): draft — bank semantic audit (RHEL 10)",
+      "type": "docs"
+    },
     {
       "sha": "250565a",
       "date": "2026-09-30",
@@ -979,12 +985,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-033a close",
       "type": "chore"
-    },
-    {
-      "sha": "443fca0",
-      "date": "2026-09-30",
-      "subject": "docs(spec-033a): done — MAS-autonomy spike (PATH: H2)",
-      "type": "docs"
     }
   ],
   "roles": [
