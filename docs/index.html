@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 98603e2</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 955a36c</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -400,6 +400,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">955a36c</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-034): done — PASS 7/7 (t0 closed via manual smoke)</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">98603e2</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): spec-034 - memory, orchestrator report, decisions; review t6 t8 PASS; converge after archive</td>
@@ -513,12 +519,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): authorize push (rule 10) — spec-033a draft</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">87702f1</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-033a): draft — MAS-autonomy spike + foundation</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -574,11 +574,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-034 fix + approve | push разрешён</li>
         <li><span class="mono muted">30.09</span> · spec 034 | прогон AgentTeams (t1 spec-gate R5, t2 report-run + блок «Последний MAS-прогон», t3 committer, t4 метрики runs:log) — ревью t6 PASS…</li>
         <li><span class="mono muted">30.09</span> · decision | spec 034: установка dsh-tier-router ^0.6.0 в профиль mas авторизована капитаном после RECON (NO_ADAPTER закрыт; остался только API-ключ, ключ через чат не передаётся…</li>
         <li><span class="mono muted">30.09</span> · lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; ур…</li>
         <li><span class="mono muted">30.09</span> · spec | spec 034 — done (PASS 7/7); t0 закрыт вручную: run-spec.mjs 013 → exit 0, team.json создан, RUN-SPEC-LIVE.md; staged spec-013-local-aliases архивирована | ещё не закоммичено</li>
+        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-034 close (PASS) | push разрешён</li>
     </ul>
   </details>
 
