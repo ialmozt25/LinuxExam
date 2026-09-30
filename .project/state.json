@@ -470,9 +470,9 @@
       "updated": null,
       "commit": null,
       "file": "specs/036-bank-semantic-audit.md",
-      "mtime": 1790747815605.0693,
+      "mtime": 1790756189732.02,
       "goal": "Для **каждого** из 225 вопросов — verdict:",
-      "acceptance": "1. `.project/specs/030-objectives-full.md` существует (или t0 = no-op skip).",
+      "acceptance": "1. `.project/objectives/030-objectives-full.md` существует (или t0 = no-op skip).",
       "noTouch": "`src/**` (только чтение).",
       "preview": ""
     },
@@ -882,6 +882,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "977deb3",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after push-trail",
+      "type": "chore"
+    },
+    {
       "sha": "d03f570",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) - spec-037 close",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-036): draft — bank semantic audit (RHEL 10)",
       "type": "docs"
-    },
-    {
-      "sha": "250565a",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — env-fix run-spec",
-      "type": "chore"
     }
   ],
   "roles": [

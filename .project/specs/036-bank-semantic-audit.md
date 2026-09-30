@@ -46,7 +46,7 @@ Grep-аудит (spec 030) нашёл только `fp_002` (set-GID) и `sec_00
 
 ## Декомпозиция
 
-1. `id: t0` · `subject: fetch objectives RHEL 10 (URL из spec 030) — сохранить полный current-список (10 категорий, 62 пункта) в .project/specs/030-objectives-full.md; если в 030 уже есть полный список — no-op (skip); сеть недоступна и полного нет — STOP` · `assignee: writer` · `dependencies: []`
+1. `id: t0` · `subject: fetch objectives RHEL 10 (URL из spec 030) — сохранить полный current-список (10 категорий, 62 пункта) в .project/objectives/030-objectives-full.md; если в 030 уже есть полный список — no-op (skip); сеть недоступна и полного нет — STOP` · `assignee: writer` · `dependencies: []`
 2. `id: t1` · `subject: семантический аудит 4 тем — essential_tools (13), text_files (16), file_management (18), file_permissions (19); для каждого вопроса — verdict (актуален/требует правок/устарел/требует ручного решения) + причина; результат → .project/drafts/audit-036-group1.md` · `assignee: writer` · `dependencies: [t0]`
 3. `id: t2` · `subject: семантический аудит 4 тем — shell_scripts (16), process_management (17), running_systems (16), users_groups (18); результат → .project/drafts/audit-036-group2.md` · `assignee: writer` · `dependencies: [t0]`
 4. `id: t3` · `subject: семантический аудит 3 тем — local_storage (13), file_systems (14), manage_software (16); результат → .project/drafts/audit-036-group3.md` · `assignee: writer` · `dependencies: [t0]`
@@ -72,12 +72,16 @@ Grep-аудит (spec 030) нашёл только `fp_002` (set-GID) и `sec_00
 
 ## Критерии приёмки
 
-1. `.project/specs/030-objectives-full.md` существует (или t0 = no-op skip).
+1. `.project/objectives/030-objectives-full.md` существует (или t0 = no-op skip).
 2. `.project/drafts/audit-036-group1..4.md` — существуют.
 3. Каждый из 225 вопросов имеет verdict + причину (в одном из group-файлов).
 4. Список id — формат `id — тема — verdict — причина`.
 5. Сводка: категории + топ-5.
 6. qc verdict = pass.
+
+## Отклонения
+
+2026-09-30: критерий 1 аммендирован — артефакт перенесён из `.project/specs/` в `.project/objectives/`. Причина: путь `.project/specs/` сканируется `readSpecs()` в `.project/sync.mjs`; не-spect-артефакт интерпретировался как спека `id=030 status=draft`, гейт `sync:check`=2. Эксперимент: перенос → exit 0, возврат → exit 2.
 
 ## Что НЕ трогать
 

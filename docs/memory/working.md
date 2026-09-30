@@ -4,6 +4,20 @@
 
 ---
 
+2026-09-30 | spec-036-bank-semantic-audit — прогон AgentTeams завершён, QC verdict=pass (6/6 задач completed)
+
+HEAD: 977deb3 (база прогона; коммитов прогона нет — аудит ничего не коммитил)
+
+ahead: 0
+
+План: spec 036 (approved, content) исполнена как **аудит без правок банка**; approve капитана обязателен (правило 6, type: content). Правки банка — отдельная spec 037.
+
+Фаза: spec-036 — DAG: t0 (fetch objectives RHEL 10) → t1…t4 (семантический аудит 225 вопросов банка в 4 группах 66+67+43+49, параллельно) → t5 (QC-интеграция, verdict **pass**). Верификация лида независимым скриптом: 225 id банка = 225 строк-вердиктов, 0 пропусков / дублей / лишних.
+
+Текущая активность: прогон завершён (6/6 задач completed, все члены idle). Артефакты (все новые, untracked): `.project/specs/030-objectives-full.md` (10 категорий / 62 objectives RHEL 10, контроль `<li aria-level>` = 72), `.project/drafts/audit-036-group1..4.md`, `.project/drafts/audit-036-summary.md` (сводные 225 строк `id — тема — verdict — причина` + топ-5 + findings). Вердикты: **актуален 214 · требует правок 10 · устарел 0 · требует ручного решения 1**. `src/**` и `tools/**` не тронуты (tracked-diff к HEAD пуст). Гейты: `typecheck` 0, `test:run` 0 (28 файлов / 198 тестов) — до и после прогона одинаково.
+
+Дальше: (1) approve капитана на результат прогона; (2) **блокер `sync:check` = 2 (SYNC DRIFT)** — root cause: `readSpecs()` (`.project/sync.mjs:538-546`) читает любой `*.md` в `.project/specs/` без frontmatter-guard, поэтому обязательный по критерию 1 спеки `030-objectives-full.md` становится «фантомной» спекой `id=030, status=draft` → `.project/SPEC.md` и `docs/index.html` расходятся с диском; решение (перенести снапшот из `.project/specs/` либо frontmatter-guard в `readSpecs()` отдельной infra-спекой) — за капитаном, генератор без спеки не правился; (3) spec 037 — правки банка по списку из аудита + пробелы покрытия (IPv6/8.3, 7.6 bootloader, 4.3/4.8, tuned, 1.7, 9.4 sudo/wheel) + гигиена `objective_domain` (legacy 1–9) и `_meta.verified_rhel: "9.8"`; (4) перевод spec 036 в `done` после закрытия (2) — `npm run sync` → коммит → `chore(state): converge` → `sync:check` = 0.
+
 2026-09-30 | spec-037-user-counter — прогон AgentTeams завершён, reviewer verdict=PASS
 
 HEAD: 652c507 (коммит реализации прогона; approve-коммит spec 037 — aaef60f)

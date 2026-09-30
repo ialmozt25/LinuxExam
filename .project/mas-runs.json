@@ -2154,6 +2154,37 @@
           "verdict"
         ]
       }
+    },
+    {
+      "spec": "036",
+      "teamId": "spec-036-bank-semantic-audit",
+      "startedAt": "2026-09-30T07:25:05.074Z",
+      "finishedAt": "2026-09-30T07:43:44.453Z",
+      "status": "completed",
+      "durationMs": 1119379,
+      "tokens": null,
+      "verdict": "completed",
+      "tasks": {
+        "completed": 6
+      },
+      "report": {
+        "tool": "runs-log",
+        "historyVersion": 1,
+        "teamFile": ".agent-teams/archive/spec-036-bank-semantic-audit/team.json",
+        "teamFileSha256": "5b36f61212ade2be801e756ad1ef82d54ea11cc1701cbe4c339f76170daebfa2",
+        "archived": true,
+        "specSource": "team.json (описания задач)",
+        "specSlug": "036-bank-semantic-audit",
+        "durationSource": "createdAt↔последнее обновление задач",
+        "verdictSource": "все задачи завершены (ревью-задачи нет)",
+        "tokensSource": null,
+        "schemaFields": [
+          "teamId",
+          "durationMs",
+          "tokens",
+          "verdict"
+        ]
+      }
     }
   ]
 }
