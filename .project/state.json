@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "030dbc8484b418385756a116dedd925588e67a69",
+  "head": "aa1f6c2a6bd9984f38a239d48e3ff467e2fb33b0",
   "specs": [
     {
       "id": "022",
@@ -883,7 +883,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
     "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)",
     "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]",
     "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)",
@@ -892,10 +891,23 @@
     "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
     "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
     "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf",
-    "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]",
+    "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "aa1f6c2",
+      "date": "2026-09-30",
+      "subject": "docs(memory): post-mortem spec-038 — 6 alerts",
+      "type": "docs"
+    },
+    {
+      "sha": "6767526",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-038 push-trail",
+      "type": "chore"
+    },
     {
       "sha": "030dbc8",
       "date": "2026-09-30",
@@ -1002,18 +1014,6 @@
       "sha": "d1d7ed1",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-036 artifacts",
-      "type": "chore"
-    },
-    {
-      "sha": "608c72f",
-      "date": "2026-09-30",
-      "subject": "docs(spec-036): semantic audit artifacts + criterion 1 amendment",
-      "type": "docs"
-    },
-    {
-      "sha": "977deb3",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after push-trail",
       "type": "chore"
     }
   ],
