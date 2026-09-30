@@ -166,3 +166,5 @@
 2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]
 2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending
 2026-09-30 | push | authorize push origin main — spec-035 approve | [AUTHORIZE]
+2026-09-30 | spec 035 | прогон AgentTeams (t1 fix spec-resolution в run-spec.mjs — вариант A: материализация спеки в `<workspace>/.project/specs/`; t2 RUN-SPEC-SPIKE-STOP.md = оригинал 6b06d73, байт-в-байт; t3 review round 1 PASS, findings нет) — живые прогоны ревьюера: без --workspace из %TEMP% → exit 0, collect ok; --live --workspace <temp> → exit 0 + team.json в temp-workspace | commit pending
+2026-09-30 | lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`, иначе ложный ROUTE_FAILED (воспроизведено и builder'ом, и ревьюером) | commit pending

@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на be408ea</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на a017846</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -405,6 +405,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">a017846</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-035 approve</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">be408ea</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-035): approve</td>
@@ -518,12 +524,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-033a): orchestrator report + decisions (PATH: H2, граница мутации среды)</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">7b0b3a9</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-033a</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -539,9 +539,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-30T03:38:06Z</td>
-          <td class="mono">23</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-30T04:47:17Z</td>
+          <td class="mono">24</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -555,14 +555,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">5 ч</td>
+          <td class="muted">6 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-30T02:39:14Z</td>
-          <td class="mono">6</td>
-          <td class="muted">2 ч</td>
+          <td class="mono muted">2026-09-30T04:47:17Z</td>
+          <td class="mono">7</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -579,11 +579,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-034 close (PASS) | push разрешён</li>
-        <li><span class="mono muted">30.09</span> · spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-035 draft | push разрешён</li>
         <li><span class="mono muted">30.09</span> · spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-035 approve | push разрешён</li>
+        <li><span class="mono muted">30.09</span> · spec 035 | прогон AgentTeams (t1 fix spec-resolution в run-spec.mjs — вариант A: материализация спеки в `&lt;workspace&gt;/.project/specs/`; t2 RUN-SPEC-SPIKE-STOP.md = оригинал 6b06d73…</li>
+        <li><span class="mono muted">30.09</span> · lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable(&#39;DEEPSEEK_API_KEY&#39;,&#39;…</li>
     </ul>
   </details>
 
@@ -792,7 +792,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 8</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 9</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
         </div>
@@ -805,6 +805,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">linuxexam-m6-phase4 · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: phase4-writer (·) · phase4-verifier (·) · phase4-verifier-2 (·)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✗ · t3 ✓ · t4 ⊘ · t5 ✓ · t6 ✓</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">spec-013-local-aliases · <span class="chip chip--staged">staged</span> <span class="muted">— ожидает approve</span></div>
+          <div class="entry__body muted">агенты: verifier (·) · auditor (·) · fixer (·) · reviewer (·)</div>
+          <div class="entry__body muted">задачи: t1 ○ · t2 ○ · t3 ○ · t4 ○</div>
         </div>
         <div class="entry">
           <div class="entry__title">spec-026-smoke · <span class="chip chip--running">running</span></div>
@@ -834,13 +839,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </section>
 
   <details class="collapsible mas-run" id="mas-run">
-    <summary>Последний MAS-прогон · записей: 10</summary>
+    <summary>Последний MAS-прогон · записей: 15</summary>
     <div class="muted">Источник: <code>.project/mas-runs.json</code> · последняя: <span class="mono">30.09</span></div>
     <div class="entry">
-      <div class="entry__title">спека <span class="mono">013</span> · статус <span class="mono">ok</span> · вердикт <span class="muted">—</span></div>
-      <div class="entry__body muted">длительность: <span class="mono">—</span> · токены: <span class="mono">—</span></div>
-      <div class="entry__body muted">команда: <span class="mono">—</span> · начало: <span class="mono">30.09</span></div>
-      <div class="entry__body muted">задачи: —</div>
+      <div class="entry__title">спека <span class="mono">035</span> · статус <span class="mono">completed</span> · вердикт <span class="chip chip--done">pass</span></div>
+      <div class="entry__body muted">длительность: <span class="mono">12 мин 6 с</span> <span class="mono">(726314 мс)</span> · токены: <span class="mono">—</span></div>
+      <div class="entry__body muted">команда: <span class="mono">spec-035-run-spec-workspace-fix</span> · начало: <span class="mono">30.09</span></div>
+      <div class="entry__body muted">задачи: completed 3</div>
     </div>
   </details>
 
