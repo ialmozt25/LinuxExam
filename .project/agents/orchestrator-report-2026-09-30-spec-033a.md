@@ -75,7 +75,13 @@ npm-скрипт `spec:run`, handoff-шаблоны `templates/mas/{TASK,SESSION
 
 **Коммиты:** `f43b060` — `feat(spec-033a): run-spec.mjs + npm spec:run + MAS handoff
 templates (PATH: H2)` (14 файлов, +2067/−70); `7b0b3a9` — `chore(state): converge after
-spec-033a` (правило 9). Push не выполнялся (правила 10/11 — нужна per-command
+spec-033a`; `572de55` — `docs(spec-033a): orchestrator report + decisions (PATH: H2,
+граница мутации среды)`; `9cde25b` — `chore(state): converge after spec-033a
+(report/decisions)`; `c44ce3a` — `chore(state): converge after spec-033a (agents pulse —
+команда заархивирована)`. Последний — следствие архивации команды: секция «Пульс
+агентов» в `docs/index.html` считается по `.agent-teams/*/team.json`, поэтому
+`agent_teams_delete()` инвалидирует производную, и converge нужен **после** архивации,
+а не до неё (урок прогона). Push не выполнялся (правила 10/11 — нужна per-command
 авторизация капитана).
 
 **Captain-only действие в прогоне:** контракт ревью t3 был **amended до старта**

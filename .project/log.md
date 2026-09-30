@@ -150,3 +150,4 @@
 2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending
 2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending
 2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060
+2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55

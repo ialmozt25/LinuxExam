@@ -403,6 +403,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">c44ce3a</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-033a (agents pulse — команда заархивирована)</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">9cde25b</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(state): converge after spec-033a (report/decisions)</td>
@@ -516,12 +522,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): authorize push (rule 10) — spec-031 close</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">fff0c24</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(state): current_questions 224→225, progress_percent 74.7→75 + alert</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -577,11 +577,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · spec | run-spec.mjs: детерминированный контур спека → задача → preflight H2 → execute → H3 read-back → атомарная история .project/mas-runs.json; коды 0/1/2/3 (3 = precondition-missing с fix-командами)…</li>
         <li><span class="mono muted">30.09</span> · spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/&lt;teamId&gt;/ | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b…</li>
         <li><span class="mono muted">30.09</span> · spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/проверка синхронизации = 0; перевод spec в done…</li>
+        <li><span class="mono muted">30.09</span> · spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (счи…</li>
     </ul>
   </details>
 
