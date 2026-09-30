@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f46a69f305cbb145d0f7d87e80f012d9dac805dc",
+  "head": "d03f570866058d553aaf358d3dee164f1d525ca0",
   "specs": [
     {
       "id": "022",
@@ -882,6 +882,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "d03f570",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) - spec-037 close",
+      "type": "chore"
+    },
+    {
       "sha": "f46a69f",
       "date": "2026-09-30",
       "subject": "docs(memory): resolve spec-037 closure SHAs",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — env-fix run-spec",
       "type": "chore"
-    },
-    {
-      "sha": "d14195c",
-      "date": "2026-09-30",
-      "subject": "fix(run-spec): auto-resolve DEEPSEEK_API_KEY from User-scope",
-      "type": "fix"
     }
   ],
   "roles": [
