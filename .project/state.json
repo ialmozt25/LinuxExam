@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c0325d0a4a5977783fa2bd6da068d97d89d014b8",
+  "head": "030dbc8484b418385756a116dedd925588e67a69",
   "specs": [
     {
       "id": "022",
@@ -897,6 +897,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "030dbc8",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) - spec-038 close",
+      "type": "chore"
+    },
+    {
       "sha": "c0325d0",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-038 done",
@@ -1008,12 +1014,6 @@
       "sha": "977deb3",
       "date": "2026-09-30",
       "subject": "chore(state): converge after push-trail",
-      "type": "chore"
-    },
-    {
-      "sha": "d03f570",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) - spec-037 close",
       "type": "chore"
     }
   ],
