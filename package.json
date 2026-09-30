@@ -16,6 +16,7 @@
     "order:add": "node tools/order-manifest.mjs --add",
     "order:remove": "node tools/order-manifest.mjs --remove",
     "state:update": "node tools/gen-state.mjs",
+    "stats:users": "node .project/scripts/fetch-stats.mjs",
     "sync": "node .project/sync.mjs",
     "factory:sync-template": "node .project/scripts/factory-sync-template.mjs",
     "factory:scaffold": "node .project/scripts/factory-scaffold.mjs",

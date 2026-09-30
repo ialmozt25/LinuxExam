@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0cc7ae6b9210abb8b0ff95209400b1887b807280",
+  "head": "aaef60febc3202920313f78a1ba7084977658a54",
   "specs": [
     {
       "id": "022",
@@ -882,6 +882,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "aaef60f",
+      "date": "2026-09-30",
+      "subject": "docs(spec-037): approve",
+      "type": "docs"
+    },
+    {
       "sha": "0cc7ae6",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) - spec-037 revisions",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-035 draft",
       "type": "chore"
-    },
-    {
-      "sha": "4c045cd",
-      "date": "2026-09-30",
-      "subject": "docs(spec-035): draft — run-spec workspace fix + cleanup",
-      "type": "docs"
     }
   ],
   "roles": [

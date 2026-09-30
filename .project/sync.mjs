@@ -1540,11 +1540,12 @@ function getFreshnessTime(root = ROOT) {
 }
 
 /**
- * C2d: Пульс — 4 плитки уровня 1 (spec 029, критерий приёмки 1–4).
- * `tile()` строит одну плитку; пустые значения показываются как «—».
+ * C2d: Пульс — 5 плиток уровня 1 (spec 029, критерий приёмки 1–4; пятая —
+ * «Пользователи», spec 037). `tile()` строит одну плитку; пустые значения
+ * показываются как «—».
  */
 function pulseTiles(ctx) {
-  const { goal, specs, alerts } = ctx;
+  const { goal, specs, alerts, userCounter } = ctx;
   const tile = (label, value, note) => [
     `    <div class="pulse-tile"><div class="pulse-tile__label">${esc(label)}</div>`,
     `      <div class="pulse-tile__value">${value}</div>`,
@@ -1583,6 +1584,40 @@ function pulseTiles(ctx) {
   const queued = specs.filter((s) => s.status === 'preview').length;
   const debts = openAlerts(alerts || { entries: [] });
 
+  /* --- spec 037: плитка «Пользователи» (GoatCounter, site barsik).
+   * Источник — `state.user_counter` (пишет `.project/scripts/fetch-stats.mjs`):
+   * `{ unique_users, pageviews, period: { start, end }, fetched_at, source }`.
+   *
+   * ПУСТО И НОЛЬ показываются как «—», а не как `0`: у только что
+   * зарегистрированного сайта GoatCounter отдаёт `total = 0`, и плитка с нулём
+   * читалась бы как данные, хотя данных нет (edge case спеки 037). Поле
+   * `pageviews` ответ `stats/total` не содержит (допускается `null`) — тогда
+   * выводится только N (уникальные), иначе `N/M` (уникальные/просмотры).
+   *
+   * Плитка стоит СНАРУЖИ VOLATILE-маркеров (они обнимают «Свежесть данных»):
+   * её значение детерминировано `state.json`, поэтому реальный дрейф обязан
+   * ловиться побайтовым `--check`, в отличие от функции wall-clock. */
+  const uc = userCounter !== null && typeof userCounter === 'object' ? userCounter : null;
+  const users = Number(uc?.unique_users);
+  const hasUsers = uc !== null && Number.isFinite(users) && users > 0;
+  const views = Number(uc?.pageviews);
+  const usersValue = !hasUsers
+    ? '—'
+    : Number.isFinite(views) && views > 0
+      ? `${users}/${views}`
+      : String(users);
+  const periodStart = shortDate(uc?.period?.start);
+  const periodEnd = shortDate(uc?.period?.end);
+  const periodNote = periodStart && periodEnd ? `${periodStart} — ${periodEnd}` : '';
+  const fetchedNote = uc?.fetched_at ? `обновлено ${shortDate(uc.fetched_at)}` : '';
+  // `source` в state.json — машинный `goatcounter` (см. спеку 037); на плитке
+  // показывается человекочитаемое имя, как и все остальные тексты центра.
+  const source = String(uc?.source ?? 'goatcounter');
+  const sourceLabel = /^goatcounter$/i.test(source) ? 'GoatCounter' : source;
+  const usersNote = uc === null
+    ? ''
+    : [periodNote || `из ${sourceLabel}`, fetchedNote].filter(Boolean).join(' · ');
+
   return [
     '    <div class="pulse">',
     // VOLATILE-маркеры — сестринские элементы внутри .pulse, СНАРУЖИ плитки:
@@ -1595,6 +1630,7 @@ function pulseTiles(ctx) {
     tile('Банк', esc(bankValue), bankNote),
     tile('Требует решения', queued === 0 ? '—' : String(queued), 'спеки в preview'),
     tile('Долги', String(debts.count), debts.oldest ? `старейшая ${shortDate(debts.oldest)}` : ''),
+    tile('Пользователи', esc(usersValue), usersNote),
     '    </div>',
   ].join('\n');
 }
@@ -1944,7 +1980,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
       ${VOLATILE.start}<span class="mono">на ${esc(String(head).slice(0, 7))}</span>${VOLATILE.end}
     </div>
-${pulseTiles({ state, goal, specs, inSync, alerts: ctx.alerts })}
+${pulseTiles({ state, goal, specs, inSync, alerts: ctx.alerts, userCounter: state.user_counter })}
   </section>
 
   <section class="progress" id="progress">

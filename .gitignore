@@ -51,3 +51,6 @@ coverage/
 # Хранители F4: логи прогонов (сами скрипты — в git)
 .project/scripts/keepers/*.log
 .project/scripts/keepers/.last-checked
+# GoatCounter token (вне репо: ~/.dsh/goatcounter-token.json) — на случай копирования внутрь
+/.dsh/
+*goatcounter-token*.json
