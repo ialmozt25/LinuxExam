@@ -4,6 +4,20 @@
 
 ---
 
+2026-09-30 | spec-038-close-spec-automation — прогон AgentTeams завершён, reviewer verdict=PASS
+
+HEAD: b3f9b25 (база прогона; коммитов прогона нет — правки ещё не закоммичены)
+
+ahead: 0
+
+План: spec 038 (approved, infra) исполнена; approve капитана обязателен (type: infra с правками `package.json`). Перевод спеки в `done` — за капитаном, теперь одной командой: `npm run spec:close -- 038`.
+
+Фаза: spec-038 — DAG: t1 (`.project/scripts/close-spec.mjs` — резолв спеки, поиск `team.json`, проверка `verdict=pass`, токены R5, скелет `--dry-run`) → t2 (`kind=implementation`: шаги 5–11 — commit-chain, `--refresh-working`, npm-скрипт) → t3 (`kind=review`, `reviewedTaskId`=t2, round 1, verdict **PASS**, 6/6 критериев перезапущены лично, 2 LOW-finding, блокеров нет).
+
+Текущая активность: прогон завершён (3/3 задачи completed, все члены idle). Итог: `close-spec.mjs` (новый, 1553 строки, 75 777 Б, Node ESM, zero-deps, только `node:*`, 0 CRLF) — шаги 1–4 (CLI + аддитивные `--json`/`--repo-root`, резолв спеки по frontmatter, рекурсивный поиск `team.json` в корне и `archive/`, проверка `verdict=pass` + извлечение токенов R5) и шаги 5–11 (R5-trace, правка frontmatter, episodic/log, commit-chain `docs(spec-N): done` → `npm run sync` → converge, финальный `sync:check`, `--refresh-working`); `package.json` → `"spec:close": "node .project/scripts/close-spec.mjs"` (+1/−0, зависимости не тронуты). `src/**`, `tools/**`, `.project/sync.mjs`, `check-consistency.mjs`, `run-spec.mjs` не тронуты; критерии 1–5 спеки воспроизведены лидом лично. Гейты: `typecheck` 0, `test:run` 0 (28 файлов / 198 тестов) — идентично baseline до прогона.
+
+Дальше: (1) approve капитана на результат прогона; (2) закрыть spec 038 одной командой — `npm run spec:close -- 038` (сначала `--dry-run`; apply поставит `status: done`, R5-trace, память, commit-chain и `sync:check` = 0); (3) push (правило 10/11, отдельная авторизация). Уточнение лида к LOW-finding ревьюера: `sync:check` = 2 в живом прогоне — эффект секции «Пульс агентов» (live `.agent-teams/*/team.json`, spec 022/034), а НЕ предсуществующий дрейф HEAD: изоляция в чистых worktree на `b3f9b25` — archive-only → 0, + live-команда → 2, + артефакты прогона без live-команды → 0.
+
 2026-09-30 | spec-036-bank-semantic-audit — прогон AgentTeams завершён, QC verdict=pass (6/6 задач completed)
 
 HEAD: 977deb3 (база прогона; коммитов прогона нет — аудит ничего не коммитил)
@@ -59,4 +73,4 @@ ahead: 0
 
 Дальше: approve капитана на результат прогона → перевод spec 034 в `done` (`npm run sync` → коммит → `chore(state): converge` → `sync:check` = 0). Открытые follow-up: (1) Step 0 — живой end-to-end прогон `run-spec.mjs` под DEEPSEEK_API_KEY (профиль `mas` + `dsh-tier-router` уже готовы, попытка ~5 c); (2) неблокирующие LOW-finding ревью: R5 молчит в репозитории с нулём коммитов (как R4), untracked `drafts/_mas-results/f3.2-writer.md` (не от прогона); (3) неточность в отчётах t3/ревьюера про «отсутствие» pre-commit hook — хук есть в `.githooks/` (не блокирует коммиты); (4) правка фикстур `e2e/quiz-flow.spec.ts` (сидирует удалённый `fp_002`).
 
-<!-- meta updated: 2026-09-30T04:47:17Z entries_count: 7 -->
+<!-- meta updated: 2026-09-30T09:43:58Z entries_count: 8 -->

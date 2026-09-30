@@ -21,6 +21,7 @@
     "factory:sync-template": "node .project/scripts/factory-sync-template.mjs",
     "factory:scaffold": "node .project/scripts/factory-scaffold.mjs",
     "spec:run": "node .project/scripts/run-spec.mjs",
+    "spec:close": "node .project/scripts/close-spec.mjs",
     "runs:log": "node .project/scripts/runs-log.mjs",
     "sync:check": "node .project/sync.mjs --check && npm run consistency:check",
     "consistency:check": "node .project/scripts/check-consistency.mjs",

@@ -1074,3 +1074,57 @@ AgentTeams запрещает члену владеть двумя незаве�
 *Decided-by:* Оркестратор (декомпозиция, контракты t1–t3, интеграция, env-оговорка для живых
 прогонов, память/метрики, архивация) + Капитан (approve спеки 035; перевод spec в `done` —
 за капитаном).
+
+## spec 038 — `close-spec.mjs`: автоматизация closing-фазы (2026-09-30)
+
+**Контекст.** Closing-фаза (R5-trace, правка frontmatter, episodic, log, `sync` → `git add` →
+commit ×2, `sync:check`) исполнялась вручную из спеки в спеку; в 036/037 это дало три STOP-отчёта
+по причине дефектов ручных промптов. Спека 038 задаёт CLI, закрывающий спеку одной командой.
+
+**Решение.** Реализован `.project/scripts/close-spec.mjs` (**1553 строки, 75 777 Б, Node ESM,
+zero-deps, только `node:*`**, 0 CRLF — правило 16) + npm-скрипт `"spec:close"`. Шаги 1–4:
+CLI (`<spec-id>`, `--dry-run`, `--refresh-working`, `--help`), резолв `.project/specs/<id>-<slug>.md`
+по frontmatter, **рекурсивный** поиск `team.json` в `.agent-teams` (корень + `archive/**`), проверка
+`verdict=pass` у reviewer-задачи и извлечение токенов R5 = id completed-задач (natural order,
+`cancelled` исключены — ровно то, что требует R5-гейт в `check-consistency.mjs`). Шаги 5–11:
+R5-trace (`--allow-empty`) → точечная правка frontmatter (`status: done`, `commit: <feat-SHA>`) →
+append в `docs/memory/episodic.md` (блок «(закрытие)», шаблон 036/037) и `.project/log.md` →
+`docs(spec-<id>): done - <title>` → `npm run sync` → `chore(state): converge after spec-<id> done` →
+`sync:check` → `--refresh-working`. Контракты: t1 (шаги 1–4 + скелет `--dry-run`, `kind=work`),
+t2 (шаги 5–11 + npm-скрипт, `kind=implementation`), t3 (`kind=review`, `reviewedTaskId`=t2, round 1).
+Verdict reviewer = **PASS** (ratification by re-execution: все 6 критериев перезапущены лично).
+
+**Отклонения/трактовки.**
+1. **Ростер: builder + builder2 + reviewer** вместо литерального `assignee: builder` для t1 и t2.
+   Причина — AgentTeams запрещает члену владеть двумя незавершёнными задачами; t1 и t2 пишут
+   **один и тот же файл**, поэтому связаны последовательной зависимостью `t2 deps [t1]`
+   (write-скоупы не пересекаются во времени). То же отклонение по духу, что в 035/032/033a.
+2. **Два аддитивных флага сверх буквы спеки: `--json` и `--repo-root`.** Ревьюер проверил
+   аддитивность отдельно: критерии 1–5 не ломаются, гейт `verdict=pass` **не обходится** ни в
+   `--json`, ни в `--repo-root` (`verdict != pass` → exit 2 в обоих режимах). `--repo-root`
+   объективно необходим: `close-spec.mjs` — untracked-файл, и в свежем `git worktree` его нет,
+   поэтому критерий 3 спеки иначе не снять. Классифицировано как deviation (LOW), не FAIL.
+3. **Исправлена ошибка диагностики в LOW-finding ревьюера №2.** Ревьюер назвал `sync:check = 2`
+   «предсуществующим дрейфом HEAD b3f9b25» и подтвердил это прогоном в чистом `git worktree`.
+   Проверка была **confounded**: `.agent-teams/` не в индексе (untracked), поэтому в свежем
+   worktree его нет вовсе — а закоммиченный `docs/index.html` сгенерирован **с** ним; отсутствие
+   каталога даёт тот же симптом по другой причине. Лид изолировал причину тремя контролируемыми
+   кейсами в чистых worktree на `b3f9b25`: (A) `archive/` + `retired-members.json` → **exit 0**;
+   (B) A + live-команда `spec-038-…` → **exit 2**; (C) A + `close-spec.mjs` + изменённый
+   `package.json` **без** live-команды → **exit 0**. Реальная причина — известный эффект секции
+   «Пульс агентов» (рендер live `.agent-teams/*/team.json`, spec 022/034), а **не** дрейф HEAD.
+   Подтверждено предсказанием и его проверкой: после `agent_teams_delete()` (архивации команды)
+   `sync:check` вернулся в **exit 0** без converge-коммита. Урок: «воспроизводится в чистом
+   worktree» — не доказательство предсуществования, если проверяемый вход **untracked**.
+4. **Живой apply на спеке 038 не запускался.** `close-spec.mjs 038 --dry-run` → exit 2 на момент
+   прогона: reviewer-задача t3 ещё не `completed` с `verdict=pass`, а apply закрыл бы спеку до
+   вердикта ревью. Сквозной apply проверен в одноразовой fixture-репе `%TEMP%` (3 коммита,
+   frontmatter, episodic/log/working, converge, `sync:check` = 0, идемпотентный повтор, красный
+   гейт → exit 2 без отката). Закрытие spec 038 — за капитаном: `npm run spec:close -- 038`.
+5. **Коммитов прогона нет вовсе.** Правки остались незакоммиченными (`M package.json`,
+   `?? .project/scripts/close-spec.mjs`); правило 11 не нарушалось (ни один член команды не
+   коммитил и не пушил), push не выполнялся.
+
+*Decided-by:* Оркестратор (декомпозиция, контракты t1–t3, качественный гейт `kind=review`,
+интеграция, изоляция дрейфа `sync:check`, память, архивация) + Капитан (approve спеки 038;
+решение по отклонению «`--json`/`--repo-root`» и перевод spec в `done` — за капитаном).
