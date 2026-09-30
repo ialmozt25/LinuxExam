@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "aa1f6c2a6bd9984f38a239d48e3ff467e2fb33b0",
+  "head": "41542ec9fc97ef6da377429c326b676d8f2c3e9c",
   "specs": [
     {
       "id": "022",
@@ -912,6 +912,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "41542ec",
+      "date": "2026-09-30",
+      "subject": "docs(spec-039): draft - bank-audit-036-fixes",
+      "type": "docs"
+    },
+    {
       "sha": "88bab32",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-038 post-mortem",
@@ -1024,12 +1030,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-036): done - bank semantic audit",
       "type": "docs"
-    },
-    {
-      "sha": "9d57cdb",
-      "date": "2026-09-30",
-      "subject": "chore(spec-036): R5 trace - task tokens t1 t2 t3 t4 t5 t6",
-      "type": "chore"
     }
   ],
   "roles": [
