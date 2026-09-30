@@ -470,7 +470,7 @@
       "updated": null,
       "commit": null,
       "file": "specs/038-close-spec-automation.md",
-      "mtime": 1790759085215.9075,
+      "mtime": 1790762619822.1462,
       "goal": "Одна команда `node .project/scripts/close-spec.mjs <spec-id>` закрывает",
       "acceptance": "1. `node .project/scripts/close-spec.mjs 999 --dry-run` на несуществующей",
       "noTouch": "src/**, tools/**, .project/sync.mjs, check-consistency.mjs,",
@@ -897,6 +897,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "08c18a1",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-038 feat",
+      "type": "chore"
+    },
+    {
       "sha": "78c0eaf",
       "date": "2026-09-30",
       "subject": "feat(spec-038): close-spec.mjs + npm script + run artifacts (t1 t2 t3)",
@@ -1009,12 +1015,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-037 run",
       "type": "chore"
-    },
-    {
-      "sha": "5d7db9a",
-      "date": "2026-09-30",
-      "subject": "docs(memory): spec-037 run log (rule 12) - user counter PASS",
-      "type": "docs"
     }
   ],
   "roles": [

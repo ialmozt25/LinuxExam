@@ -28,6 +28,8 @@ sync → add → commit × 2, sync:check). Шаги детерминирован
 ## Что делаем
 
 1. CLI-скрипт `.project/scripts/close-spec.mjs` (Node ESM, zero-deps).
+   Флаги: `--dry-run`, `--refresh-working`, `--json` (READ-ONLY),
+   `--repo-root <dir>` (изоляция workspace).
 2. Резолв spec: `.project/specs/<id>-<slug>.md` (frontmatter `id: <id>`,
    `status: approved`).
 3. Поиск `team.json` в `.agent-teams/**/spec-<id>*/` (корень + archive).
@@ -42,7 +44,12 @@ sync → add → commit × 2, sync:check). Шаги детерминирован
 10. Финальный `npm run sync:check` — exit 0 = success.
 11. Флаг `--refresh-working` — обновляет docs/memory/working.md.
 12. Флаг `--dry-run` — печатает шаги, не коммитит.
-13. npm-скрипт `"spec:close": "node .project/scripts/close-spec.mjs"`.
+13. Флаг `--json` (READ-ONLY) — машинный отчёт в stdout; не обходит гейт
+    `verdict=pass` и не делает мутаций.
+14. Флаг `--repo-root <dir>` — корень репозитория вместо корня скрипта
+    (изоляция workspace, напр. для dry-run в git worktree); не обходит
+    гейт `verdict=pass`.
+15. npm-скрипт `"spec:close": "node .project/scripts/close-spec.mjs"`.
 
 ## Декомпозиция
 
@@ -87,6 +94,8 @@ sync → add → commit × 2, sync:check). Шаги детерминирован
 4. `node --check .project/scripts/close-spec.mjs` → exit 0.
 5. `npm run spec:close -- --help` → usage.
 6. Reviewer verdict = pass.
+7. `--json` возвращает валидный JSON; `--repo-root <dir>` изолирует
+   операцию. Оба флага не обходят гейт verdict=pass.
 
 ## Что НЕ трогать
 
