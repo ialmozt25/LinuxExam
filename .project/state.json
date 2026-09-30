@@ -477,21 +477,6 @@
       "preview": ""
     },
     {
-      "id": "037",
-      "slug": "user-counter",
-      "status": "approved",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/037-user-counter.md",
-      "mtime": 1790750421260.2979,
-      "goal": "1. Сбор: скрипт GoatCounter в `dist/index.html` (из `index.html` корня).",
-      "acceptance": "1. `index.html` содержит GoatCounter script (site code `barsik`).",
-      "noTouch": "`src/data/**`, `tools/**`.",
-      "preview": ""
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -807,6 +792,21 @@
       "preview": ""
     },
     {
+      "id": "037",
+      "slug": "user-counter",
+      "status": "done",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": "652c507",
+      "file": "specs/037-user-counter.md",
+      "mtime": 1790752022284.9028,
+      "goal": "1. Сбор: скрипт GoatCounter в `dist/index.html` (из `index.html` корня).",
+      "acceptance": "1. `index.html` содержит GoatCounter script (site code `barsik`).",
+      "noTouch": "`src/data/**`, `tools/**`.",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -868,7 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]",
     "2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending",
@@ -877,10 +876,23 @@
     "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]",
     "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending"
+    "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
+    "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "d6d86f1",
+      "date": "2026-09-30",
+      "subject": "chore(spec-037): R5 trace - task tokens t1 t2 t3 t4 t5",
+      "type": "chore"
+    },
+    {
+      "sha": "67e61a5",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-037 run",
+      "type": "chore"
+    },
     {
       "sha": "5d7db9a",
       "date": "2026-09-30",
@@ -987,18 +999,6 @@
       "sha": "1d6c707",
       "date": "2026-09-30",
       "subject": "chore(state): spec-035 - memory, orchestrator report, decisions; review t3 PASS; converge after archive",
-      "type": "chore"
-    },
-    {
-      "sha": "7f07643",
-      "date": "2026-09-30",
-      "subject": "feat(spec-035): run-spec workspace spec-resolution (variant A) + --live alias; restore SPIKE-STOP narrative (t1 t2 t3)",
-      "type": "feat"
-    },
-    {
-      "sha": "a017846",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-035 approve",
       "type": "chore"
     }
   ],

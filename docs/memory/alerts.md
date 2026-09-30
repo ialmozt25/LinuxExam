@@ -167,4 +167,7 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 
 [closed 2026-09-30: fix — `resolveApiKey()` в `run-spec.mjs` подтягивает из User-scope (Windows); preflight +7-я проверка; проброс в child env; commit pending]
 
-<!-- meta updated: 2026-09-30T04:57:52Z entries_count: 29 -->
+## 2026-09-30 | process gap | эксперимент с frontmatter живого файла spec 037
+При проверке гейта R5 в «изолированном» клоне был затронут живой `.project/specs/037-user-counter.md` — frontmatter получил `status: done` до готовности коммита (следствие: `npm run sync:check` → exit 2, R5-находки). Устранено в той же сессии: файл возвращён к `approved` / `commit: null`, коммита не было, потерь нет. Урок: R5 проверять только на копии в `%TEMP%` с явно скопированным `.agent-teams`; живой файл spec 037 — только чтение. Дополнительно: R5 считается по реальному `.agent-teams` (untracked), в клоне он отсутствует — гейт молчит, поэтому изоляцию клона нужно восстанавливать копированием `.agent-teams`.
+
+<!-- meta updated: 2026-09-30T07:22:00Z entries_count: 30 -->

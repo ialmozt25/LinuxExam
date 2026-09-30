@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">30</div>
+      <div class="pulse-tile__value">31</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -284,7 +284,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">10</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -322,10 +322,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#036 bank-semantic-audit</span>
             <span class="ddn__meta">content · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#037 user-counter</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -351,12 +347,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 30 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 31 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 35</summary>
-          <div class="spec-group">Утверждены · 10</div>
+          <div class="spec-group">Утверждены · 9</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -367,7 +363,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
             <li>#036 bank-semantic-audit</li>
-            <li>#037 user-counter</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -375,7 +370,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 18</div>
+          <div class="spec-group">Завершены · 19</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -395,6 +390,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#033 mas-autonomy-spike</li>
             <li>#034 mas-autonomy-b</li>
             <li>#035 run-spec-workspace-fix</li>
+            <li>#037 user-counter</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -413,6 +409,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">d6d86f1</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec-037): R5 trace - task tokens t1 t2 t3 t4 t5</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
+          <td class="mono">67e61a5</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-037 run</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
         <tr>
           <td class="mono">5d7db9a</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -521,18 +529,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): spec-035 - memory, orchestrator report, decisions; review t3 PASS; converge after archive</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">7f07643</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(spec-035): run-spec workspace spec-resolution (variant A) + --live alias; restore SPIKE-STOP narrative (t1 t2 t3)</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
-        <tr>
-          <td class="mono">a017846</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — spec-035 approve</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -548,9 +544,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-30T04:47:17Z</td>
-          <td class="mono">24</td>
-          <td class="muted">2 ч</td>
+          <td class="mono muted">2026-09-30T07:22:00Z</td>
+          <td class="mono">25</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -576,9 +572,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-30T04:57:52Z</td>
-          <td class="mono">29</td>
-          <td class="muted">2 ч</td>
+          <td class="mono muted">2026-09-30T07:22:00Z</td>
+          <td class="mono">30</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -588,11 +584,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-037 draft | push разрешён</li>
         <li><span class="mono muted">30.09</span> · sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам)…</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-037 revisions | push разрешён</li>
         <li><span class="mono muted">30.09</span> · spec | spec 037 — approved (embedded captain approval) | ещё не закоммичено</li>
+        <li><span class="mono muted">30.09</span> · spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)</li>
     </ul>
   </details>
 
@@ -623,8 +619,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 44</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 44</div>
+    <summary>Тревоги · записей: 45</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 45</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -800,6 +796,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">30.09 | process gap | DEEPSEEK_API_KEY не наследуется harness-процессом</div>
           <div class="entry__body muted">Живой прогон run-spec.mjs требует явного re-export User-переменной в PowerShell-сессии: $env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable(&#39;DEEPSEEK_API_KEY&#39;,&#39;User&#39;).…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | process gap | эксперимент с frontmatter живого файла spec 037</div>
+          <div class="entry__body muted">При проверке гейта R5 в «изолированном» клоне был затронут живой .project/specs/037-user-counter.md…</div>
         </div>
   </details>
 

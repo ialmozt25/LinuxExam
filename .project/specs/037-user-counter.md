@@ -2,8 +2,8 @@
 id: 037
 slug: user-counter
 type: infra
-status: approved
-commit: null
+status: done
+commit: 652c507
 ---
 
 # Спека 037 — счётчик уникальных пользователей и заходов

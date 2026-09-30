@@ -181,3 +181,4 @@
 2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending
 2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]
 2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending
+2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)
