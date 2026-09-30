@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "2262636cd5b57b1b2ee5108ded8b2ab77e9787ae",
+  "head": "fbdfb54ce8d9a2675285fa4210741f81d78f00fc",
   "specs": [
     {
       "id": "022",
@@ -882,6 +882,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "fbdfb54",
+      "date": "2026-09-30",
+      "subject": "docs(spec-037): decisions - site barsik, token path, API contract",
+      "type": "docs"
+    },
+    {
       "sha": "2262636",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-037 draft",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): spec-034 - memory, orchestrator report, decisions; review t6 t8 PASS; converge after archive",
       "type": "chore"
-    },
-    {
-      "sha": "6b06d73",
-      "date": "2026-09-30",
-      "subject": "feat(spec-034): mas-autonomy B - spec-gate R5, report-run, committer, runs:log, Step 0 STOP (t1 t2 t3 t4 t5 t7)",
-      "type": "feat"
     }
   ],
   "roles": [
