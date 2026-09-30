@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "5ee11bedd2a830a4acf5074e732dd3127b68efae",
+  "head": "78c0eaf86fbe1c19fcb828fe9b96e8d2fe39119c",
   "specs": [
     {
       "id": "022",
@@ -883,7 +883,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]",
     "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
@@ -892,10 +891,23 @@
     "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)",
     "2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending",
-    "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending"
+    "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
+    "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "78c0eaf",
+      "date": "2026-09-30",
+      "subject": "feat(spec-038): close-spec.mjs + npm script + run artifacts (t1 t2 t3)",
+      "type": "feat"
+    },
+    {
+      "sha": "b3f9b25",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-038 approve",
+      "type": "chore"
+    },
     {
       "sha": "5ee11be",
       "date": "2026-09-30",
@@ -1002,18 +1014,6 @@
       "sha": "5d7db9a",
       "date": "2026-09-30",
       "subject": "docs(memory): spec-037 run log (rule 12) - user counter PASS",
-      "type": "docs"
-    },
-    {
-      "sha": "652c507",
-      "date": "2026-09-30",
-      "subject": "feat(spec-037): user counter - GoatCounter fetch + center tile",
-      "type": "feat"
-    },
-    {
-      "sha": "aaef60f",
-      "date": "2026-09-30",
-      "subject": "docs(spec-037): approve",
       "type": "docs"
     }
   ],
