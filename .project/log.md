@@ -174,3 +174,4 @@
 2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]
 2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending
 2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]
+2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending

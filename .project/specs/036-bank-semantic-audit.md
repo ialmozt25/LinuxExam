@@ -2,7 +2,7 @@
 id: 036
 slug: bank-semantic-audit
 type: content
-status: draft
+status: approved
 commit: null
 ---
 

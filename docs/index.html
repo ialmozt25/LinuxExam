@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 1ba3a97</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 299a77a</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -281,7 +281,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -315,10 +315,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#036 bank-semantic-audit</span>
+            <span class="ddn__meta">content · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">5</span></h3>
+          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -330,10 +334,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </li>
           <li class="ddn__item">
             <span class="ddn__title">#021 rs-cosine-debt</span>
-            <span class="ddn__meta">content · draft</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#036 bank-semantic-audit</span>
             <span class="ddn__meta">content · draft</span>
           </li>
           <li class="ddn__item">
@@ -349,7 +349,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 34</summary>
-          <div class="spec-group">Утверждены · 8</div>
+          <div class="spec-group">Утверждены · 9</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -359,13 +359,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
+            <li>#036 bank-semantic-audit</li>
           </ul>
-          <div class="spec-group">Черновики · 4</div>
+          <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
             <li>#016 tf-cosine-debt</li>
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
-            <li>#036 bank-semantic-audit</li>
           </ul>
           <div class="spec-group">Завершены · 18</div>
           <ul class="spec-list">
@@ -405,6 +405,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">299a77a</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-036 draft</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
         <tr>
           <td class="mono">1ba3a97</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -519,12 +525,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-034): draft — MAS-autonomy B (4 components + live smoke)</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">91a871b</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — spec-033a close</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -549,7 +549,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">43 ч (~1.8 дн)</td>
+          <td class="muted">44 ч (~1.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -580,11 +580,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-035 close | push разрешён</li>
         <li><span class="mono muted">30.09</span> · sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — env-fix run-spec | push разрешён</li>
         <li><span class="mono muted">30.09</span> · spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-036 draft | push разрешён</li>
+        <li><span class="mono muted">30.09</span> · spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | ещё не закоммичено</li>
     </ul>
   </details>
 
