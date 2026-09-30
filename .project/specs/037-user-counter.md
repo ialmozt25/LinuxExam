@@ -2,7 +2,7 @@
 id: 037
 slug: user-counter
 type: infra
-status: draft
+status: approved
 commit: null
 ---
 

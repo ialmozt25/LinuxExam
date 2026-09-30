@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "fbdfb54ce8d9a2675285fa4210741f81d78f00fc",
+  "head": "0cc7ae6b9210abb8b0ff95209400b1887b807280",
   "specs": [
     {
       "id": "022",
@@ -477,6 +477,21 @@
       "preview": ""
     },
     {
+      "id": "037",
+      "slug": "user-counter",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/037-user-counter.md",
+      "mtime": 1790750421260.2979,
+      "goal": "1. Сбор: скрипт GoatCounter в `dist/index.html` (из `index.html` корня).",
+      "acceptance": "1. `index.html` содержит GoatCounter script (site code `barsik`).",
+      "noTouch": "`src/data/**`, `tools/**`.",
+      "preview": ""
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -520,21 +535,6 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
-    },
-    {
-      "id": "037",
-      "slug": "user-counter",
-      "status": "draft",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/037-user-counter.md",
-      "mtime": 1790749681140.4778,
-      "goal": "1. Сбор: скрипт GoatCounter в `dist/index.html` (из `index.html` корня).",
-      "acceptance": "1. `index.html` содержит GoatCounter script (site code `barsik`).",
-      "noTouch": "`src/data/**`, `tools/**`.",
-      "preview": ""
     },
     {
       "id": "001",
@@ -868,8 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
-    "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending",
     "2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]",
     "2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]",
@@ -877,10 +875,30 @@
     "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]",
-    "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending"
+    "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0cc7ae6",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) - spec-037 revisions",
+      "type": "chore"
+    },
+    {
+      "sha": "8e502e1",
+      "date": "2026-09-30",
+      "subject": "chore(state): sync derived after spec-037 decisions",
+      "type": "chore"
+    },
+    {
+      "sha": "f8d9602",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-037 decisions",
+      "type": "chore"
+    },
     {
       "sha": "fbdfb54",
       "date": "2026-09-30",
@@ -982,24 +1000,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-035): draft — run-spec workspace fix + cleanup",
       "type": "docs"
-    },
-    {
-      "sha": "3c05061",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-034 close (PASS)",
-      "type": "chore"
-    },
-    {
-      "sha": "955a36c",
-      "date": "2026-09-30",
-      "subject": "docs(spec-034): done — PASS 7/7 (t0 closed via manual smoke)",
-      "type": "docs"
-    },
-    {
-      "sha": "98603e2",
-      "date": "2026-09-30",
-      "subject": "chore(state): spec-034 - memory, orchestrator report, decisions; review t6 t8 PASS; converge after archive",
-      "type": "chore"
     }
   ],
   "roles": [
