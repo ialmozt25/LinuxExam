@@ -4,7 +4,7 @@
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
 <!--volatile:start-->- HEAD: `e26f677a3c582e1e2fa820729548cb36a21c1108`<!--volatile:end-->
-- Спек: 35
+- Спек: 36
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
@@ -20,6 +20,7 @@
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
+| 038 | `close-spec-automation` | infra | draft | — | — |
 | 001 | `file-management-batch-4` | content | done | f4e2538 | 2026-09-27 |
 | 002 | `dehardcode-positional-test` | feature | done | cd6ce8d | 2026-09-27 |
 | 004 | `batch-5-generation` | content | done | 12c8439 | 2026-09-27 |
