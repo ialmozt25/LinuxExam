@@ -184,3 +184,4 @@
 2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)
 2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]
 2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)
+2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]
