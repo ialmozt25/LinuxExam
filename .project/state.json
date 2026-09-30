@@ -462,21 +462,6 @@
       "preview": ""
     },
     {
-      "id": "036",
-      "slug": "bank-semantic-audit",
-      "status": "approved",
-      "type": "content",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/036-bank-semantic-audit.md",
-      "mtime": 1790756189732.02,
-      "goal": "Для **каждого** из 225 вопросов — verdict:",
-      "acceptance": "1. `.project/objectives/030-objectives-full.md` существует (или t0 = no-op skip).",
-      "noTouch": "`src/**` (только чтение).",
-      "preview": ""
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -792,6 +777,21 @@
       "preview": ""
     },
     {
+      "id": "036",
+      "slug": "bank-semantic-audit",
+      "status": "done",
+      "type": "content",
+      "created": null,
+      "updated": null,
+      "commit": "608c72fc962b737f2486eb0f464a6b2cf7a12574",
+      "file": "specs/036-bank-semantic-audit.md",
+      "mtime": 1790756251605.2473,
+      "goal": "Для **каждого** из 225 вопросов — verdict:",
+      "acceptance": "1. `.project/objectives/030-objectives-full.md` существует (или t0 = no-op skip).",
+      "noTouch": "`src/**` (только чтение).",
+      "preview": ""
+    },
+    {
       "id": "037",
       "slug": "user-counter",
       "status": "done",
@@ -868,7 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending",
@@ -877,10 +876,23 @@
     "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
     "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)",
-    "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]",
+    "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "9d57cdb",
+      "date": "2026-09-30",
+      "subject": "chore(spec-036): R5 trace - task tokens t1 t2 t3 t4 t5 t6",
+      "type": "chore"
+    },
+    {
+      "sha": "d1d7ed1",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-036 artifacts",
+      "type": "chore"
+    },
     {
       "sha": "608c72f",
       "date": "2026-09-30",
@@ -987,18 +999,6 @@
       "sha": "bf795c9",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-036 approve",
-      "type": "chore"
-    },
-    {
-      "sha": "259d7d4",
-      "date": "2026-09-30",
-      "subject": "docs(spec-036): approve",
-      "type": "docs"
-    },
-    {
-      "sha": "299a77a",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-036 draft",
       "type": "chore"
     }
   ],

@@ -155,4 +155,7 @@ Evidence: `.agent-teams/spec-036-bank-semantic-audit`. Push не выполня�
 ## 2026-09-30 | spec-037-user-counter (закрытие)
 Прогон AgentTeams (team `spec-037-user-counter`, 5 задач t1..t5, verdict=**pass**). Артефакты: `.project/scripts/fetch-stats.mjs` (521 строка, Node ESM, zero-deps), `package.json` → `stats:users`, GoatCounter script (site barsik) в `index.html` L59, `.gitignore` (`/.dsh/` + `*goatcounter-token*.json`), плитка «Пользователи» в центре (`pulseTiles()`, значение «—» без `user_counter`). Коммиты: `652c507` (feat, 9 файлов, +592/−22), `d6d86f1` (R5 trace — токены задач t1..t5 для spec-gate R5), `67955b4` (docs: frontmatter + память), `20903f8` (converge). Проверка: `consistency:check` → OK (0 findings) после закрытия. Режим B: живой GoatCounter API не вызывался (сайт/токен — операция капитана), плитка показывает «—».
 
-<!-- meta updated: 2026-09-30T07:46:54Z entries_count: 26 -->
+## 2026-09-30 | spec-036-bank-semantic-audit (закрытие)
+Прогон AgentTeams (team `spec-036-bank-semantic-audit`, 6 задач t1..t6, verdict=**pass**, durationMs 1119379 ≈ 18 мин 39 с). Аудит 225/225: актуален 214, требует правок 10, устарел 0, требует ручного решения 1. Находки: `ms_004` (модульные потоки), `msw_011`/`msw_014` (`.el9`), `fm_008` (mlocate→plocate), `net_001-003`, `ug_002/007`, `fs_004`. Пробелы: IPv6, 9.4 sudo/wheel. Артефакты закоммичены в `608c72f` (criterion 1 amended: `objectives-full` перенесён в `.project/objectives/`, строка 49 spec 036 приведена в соответствие); R5 trace — `9d57cdb`; close-коммиты (done + converge) — см. `git log`. Follow-up: spec для правок банка — номер TBD.
+
+<!-- meta updated: 2026-09-30T08:17:40Z entries_count: 27 -->

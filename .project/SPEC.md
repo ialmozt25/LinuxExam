@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 036 | `bank-semantic-audit` | content | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -39,6 +38,7 @@
 | 033 | `mas-autonomy-spike` | infra | done | f43b060 | — |
 | 034 | `mas-autonomy-b` | infra | done | 6b06d73 | — |
 | 035 | `run-spec-workspace-fix` | infra | done | 7f07643 | — |
+| 036 | `bank-semantic-audit` | content | done | 608c72fc962b737f2486eb0f464a6b2cf7a12574 | — |
 | 037 | `user-counter` | infra | done | 652c507 | — |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |

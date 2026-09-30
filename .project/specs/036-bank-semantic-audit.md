@@ -2,8 +2,8 @@
 id: 036
 slug: bank-semantic-audit
 type: content
-status: approved
-commit: null
+status: done
+commit: 608c72fc962b737f2486eb0f464a6b2cf7a12574
 ---
 
 # Спека 036 — семантический аудит банка (RHEL 10)
