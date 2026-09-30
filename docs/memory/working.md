@@ -4,18 +4,18 @@
 
 ---
 
-2026-09-30 | spec-033a-mas-autonomy-spike — прогон AgentTeams закрыт (builder + reviewer, verdict PASS)
+2026-09-30 | spec-034-mas-autonomy-b — прогон AgentTeams закрыт как PARTIAL (Step 0 STOP, остальные компоненты PASS)
 
-HEAD: bfb7ca2 (база прогона; коммиты spec-033a — после этой записи, см. `git log`)
+HEAD: 187cb84 (база прогона; коммиты spec-034 — после этой записи, см. `git log`)
 
 ahead: 0
 
-План: spec 033a (approved, infra) закрыта; следующая — 033b (spec-gate / авто-отчёт / committer / метрики)
+План: spec 034 (approved, infra) исполнена; перевод спеки в `done` — за капитаном (R5 закрывается коммитами прогона: `spec-034` + токены t1…t8 в subject). Step 0 (живой smoke `run-spec.mjs`) — follow-up вручную капитаном: нужен DEEPSEEK_API_KEY для профиля `mas`.
 
-Фаза: spec-033a — AgentTeams-прогон (t0 spike → t1 run-spec.mjs → t2 templates/mas → t3 независимое ревью) завершён
+Фаза: spec-034 — AgentTeams-прогон завершён: t1 (spec-gate R5) ∥ t2 (report-run + блок «Последний MAS-прогон») ∥ t3 (коммиттер) → t4 (метрики `runs:log`) → t5 (Step 0: профиль `mas` + живой smoke) — STOP; ревью t6 (round 1) PASS → найденный лидом дефект `runs-log.mjs` → repair t7 → ревью t8 (round 2) PASS.
 
-Текущая активность: определён программируемый путь к `dsh-agent-teams` (spike: `PATH: H2` — CLI one-shot `dsh --profile <p> "/agent-teams <цель>"`; H1 HTTP API и H4 node-инвокация отклонены; H3 — только read-канал, watcher'а у плагина нет); реализованы `.project/scripts/run-spec.mjs` + `npm run spec:run` (детерминированный контур: спека → задача → preflight → execute → H3 read-back → атомарная история `.project/mas-runs.json`, коды 0/1/2/3); добавлены `templates/mas/TASK.md` и `templates/mas/SESSION.md` (ODAF) со стадией копирования в `.agent-teams/<teamId>/`.
+Текущая активность: реализованы 4 замыкающих компонента автономии MAS — spec-gate R5 в `check-consistency.mjs` (completed-задача спеки ↔ коммит `spec-NNN`+`tN`, whitelist с reasons, гейт внутри `sync:check`), авто-отчёт `report-run.mjs` + блок «Последний MAS-прогон» в центре (рендер в `sync.mjs`, `docs/index.html` только через `sync`), атомарный `committer.mjs` (staged-set ⊆ allowed до коммита, `--dry-run`), метрики `runs-log.mjs` + `npm run runs:log` (идемпотентная дозапись; поля `teamId`/`durationMs`/`tokens`/`verdict`). Step 0: профиль `mas` создан, установлены `@nanmicoder/dsh-agent-teams ^0.1.21` и `dsh-tier-router ^0.6.0`, preflight зелёный (precondition-missing из 033a исчез), но живой smoke падает на отсутствии ключа DeepSeek в credential-сторе — критерий 1 спеки 034 не выполнен по решению капитана (вариант B, PARTIAL).
 
-Дальше: approve капитана на результат прогона → интеграционный шаг (`npm run sync` → коммит задачи → `chore(state): converge` → `sync:check` = 0); затем spec 033b. Открытые follow-up: (1) живой end-to-end прогон `run-spec.mjs` (`status=ok`) — требует разовой установки профиля `mas` (pnpm-установка вне репозитория) + расхода токенов, только под авторизацию капитана; (2) гейт стадии staging на `pre.ok` (сейчас копии шаблонов создаются до preflight); (3) правка фикстур `e2e/quiz-flow.spec.ts` (сидирует удалённый `fp_002`).
+Дальше: approve капитана на результат прогона → перевод spec 034 в `done` (`npm run sync` → коммит → `chore(state): converge` → `sync:check` = 0). Открытые follow-up: (1) Step 0 — живой end-to-end прогон `run-spec.mjs` под DEEPSEEK_API_KEY (профиль `mas` + `dsh-tier-router` уже готовы, попытка ~5 c); (2) неблокирующие LOW-finding ревью: R5 молчит в репозитории с нулём коммитов (как R4), untracked `drafts/_mas-results/f3.2-writer.md` (не от прогона); (3) неточность в отчётах t3/ревьюера про «отсутствие» pre-commit hook — хук есть в `.githooks/` (не блокирует коммиты); (4) правка фикстур `e2e/quiz-flow.spec.ts` (сидирует удалённый `fp_002`).
 
-<!-- meta updated: 2026-09-30T00:27:19Z entries_count: 5 -->
+<!-- meta updated: 2026-09-30T02:39:14Z entries_count: 6 -->

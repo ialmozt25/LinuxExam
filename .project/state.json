@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "187cb8482f97966294250a7fc3b95e827c3a2bfe",
+  "head": "6b06d73eb8f453ec377b3e186e5819fc2b60b67f",
   "specs": [
     {
       "id": "022",
@@ -823,19 +823,25 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending",
-    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending",
-    "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060",
     "2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]",
+    "2026-09-30 | spec 034 | прогон AgentTeams (t1 spec-gate R5, t2 report-run + блок «Последний MAS-прогон», t3 committer, t4 метрики runs:log) — ревью t6 PASS, repair t7 + ревью t8 PASS; Step 0 = STOP (нет DEEPSEEK_API_KEY в профиле mas; precondition-missing из 033a закрыт) — прогон PARTIAL по решению капитана (вариант B) | commit pending",
+    "2026-09-30 | decision | spec 034: установка dsh-tier-router ^0.6.0 в профиль mas авторизована капитаном после RECON (NO_ADAPTER закрыт; остался только API-ключ, ключ через чат не передаётся — security policy) | commit pending",
+    "2026-09-30 | lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; урок — контракт «доказательства на копиях» обязан отдельно требовать проверку дефолтного пути/вызова | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "6b06d73",
+      "date": "2026-09-30",
+      "subject": "feat(spec-034): mas-autonomy B - spec-gate R5, report-run, committer, runs:log, Step 0 STOP (t1 t2 t3 t4 t5 t7)",
+      "type": "feat"
+    },
     {
       "sha": "187cb84",
       "date": "2026-09-30",
@@ -949,12 +955,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-032 close",
       "type": "chore"
-    },
-    {
-      "sha": "a42fa61",
-      "date": "2026-09-30",
-      "subject": "docs(spec-032): done — MAS-autonomy A закрыта (3 tech debts)",
-      "type": "docs"
     }
   ],
   "roles": [

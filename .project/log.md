@@ -157,3 +157,6 @@
 2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]
 2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending
 2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]
+2026-09-30 | spec 034 | прогон AgentTeams (t1 spec-gate R5, t2 report-run + блок «Последний MAS-прогон», t3 committer, t4 метрики runs:log) — ревью t6 PASS, repair t7 + ревью t8 PASS; Step 0 = STOP (нет DEEPSEEK_API_KEY в профиле mas; precondition-missing из 033a закрыт) — прогон PARTIAL по решению капитана (вариант B) | commit pending
+2026-09-30 | decision | spec 034: установка dsh-tier-router ^0.6.0 в профиль mas авторизована капитаном после RECON (NO_ADAPTER закрыт; остался только API-ключ, ключ через чат не передаётся — security policy) | commit pending
+2026-09-30 | lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; урок — контракт «доказательства на копиях» обязан отдельно требовать проверку дефолтного пути/вызова | commit pending

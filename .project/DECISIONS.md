@@ -970,3 +970,77 @@ frontmatter spec 033a в `status: done` (+`commit`), затем **откатил
 
 *Decided-by:* Оркестратор (spike-вердикт H2, граница мутации среды, amendment контракта
 ревью, интеграция) + Капитан (approve спеки 033a; перевод spec в `done` — за капитаном).
+
+## 2026-09-30 · spec 034 (MAS-autonomy B) — прогон AgentTeams: 4 компонента закрыты, Step 0 STOP (PARTIAL)
+
+**Context:** прогон skill `spec-to-team` по спеке `.project/specs/034-mas-autonomy-b.md`
+(type: infra, approved, база `48576af`). Команда `spec-034-mas-autonomy-b`: builder ×4
+(`deepseek-official/deepseek-v4-flash`, effort high) + reviewer (`deepseek-official/deepseek-v4-pro`,
+effort high). DAG: t1 (spec-gate) ∥ t2 (report-run) ∥ t3 (committer) → t4 (метрики, deps t1) →
+t5 (Step 0, deps t4) → t6 ревью (round 1, **pass**) → t7 repair → t8 ревью (round 2, **pass**).
+Прогон закрыт как **PARTIAL**: 6 из 7 критериев спеки.
+
+**1. Что реализовано (t1–t4).** spec-gate R5 SPEC-COMMIT в `check-consistency.mjs`
+(completed-задача `done`-спеки ↔ коммит с `spec-<label>` + `\btN\b`; источник — лист задач
+`.agent-teams/**/team.json`, включая `archive/**`; whitelist с причинами; гейт внутри
+`sync:check` через существующий `consistency:check`, `package.json` не менялся);
+`.project/scripts/report-run.mjs` + блок «Последний MAS-прогон»; `.project/scripts/committer.mjs`
+(staged-set ⊆ allowed ДО коммита, `--dry-run`, коды 0/1/2/3); `.project/scripts/runs-log.mjs` +
+`npm run runs:log` (идемпотентная атомарная дозапись истории).
+
+**2. Контрактные решения оркестратора (зафиксированы до старта, чтобы t2 и t4 шли
+параллельно).** Схема записи `.project/mas-runs.json` расширена ЧЕТЫРЬМЯ ОПЦИОНАЛЬНЫМИ
+полями: `teamId`, `durationMs`, `tokens`, `verdict`; `version` сознательно НЕ является
+маркером схемы (`run-spec.mjs:647` — артефакт 033a, не правится — жёстко пишет `doc.version = 1`
+при каждой дозаписи), читатели обязаны определять наличие полей по факту. Дозапись
+идемпотентна по `teamId` (фолбэк `spec|startedAt`). Отклонение от буквы декомпозиции спеки:
+задача Step 0 получила `dependencies: [t4]` (в спеке — `[]`) — не для параллелизма, а для
+сериализации единственного общего write-пути (`mas-runs.json`: живой smoke дописывает запись
+через `run-spec.mjs`, t4 владеет схемой); свойство «STOP по t0 не блокирует остальные» при этом
+сохранено.
+
+**3. Step 0 (A) — FAILED/STOP, решение капитана (вариант B).** Профиль `mas` создан
+(`dsh --profile mas --from-default-profile headless`), установлены `@nanmicoder/dsh-agent-teams
+^0.1.21` (в рамках Step 0) и `dsh-tier-router ^0.6.0` (отдельная авторизация капитана после
+RECON: `settings.yaml` → `agent-default-model.provider: tier-router`, а роутер в профиль `mas`
+не копируется — `--from-default-profile` разворачивает ВСТРОЕННЫЙ шаблон, а не рабочий каталог
+`headless`). Итог: `NO_ADAPTER` закрыт, preflight стал полностью зелёным, исход
+`precondition-missing` из 033a **исчез**; но живой smoke падает
+`ROUTE_FAILED … llm-deepseek: no API key for provider route "deepseek-official"` — в
+credential-сторе ключа DeepSeek нет, а передавать ключ через чат капитан запретил (security
+policy). Решение капитана: критерий приёмки 1 спеки 034 **не выполнен**, Step 0 не
+переоткрывать, остальные 6 критериев принять, прогон закрыть как PARTIAL. Отчёт —
+`.project/scripts/RUN-SPEC-LIVE.md` (§STOP с fix-командами).
+
+**4. Дефект, найденный ЛИДОМ на интеграции, и урок про доказательства.** В
+`runs-log.mjs` хелпер `rel` был унарным (`(p) => path.join(ROOT, p)`), поэтому
+`rel('.project','mas-runs.json')` молча отбрасывал второй аргумент, `DEFAULT_HISTORY_PATH`
+указывал на каталог `.project`, и `npm run runs:log -- <teamId>` падал `EISDIR` (exit 1) —
+критерий 5 спеки в буквальной форме не выполнялся. Ни исполнитель (t4), ни ревью раунда 1 этого
+не поймали: все доказательства снимались с ЯВНЫМ `--history` на копиях, а дефолтный путь не
+проверялся. Repair `t7` (вариадический `rel`, 5 строк) + ревью `t8` (round 2) — pass. Урок:
+контракт, требующий «проверок на копиях», обязан отдельно требовать доказательство ДЕФОЛТНОГО
+пути/дефолтного вызова; иначе гейт проверяет только флаг, а не рабочий сценарий.
+
+**5. `sync:check` в живом прогоне красный — структурно, не дефект.** Секция «Пульс агентов»
+в `docs/index.html` считается по `.agent-teams/*/team.json` (`sync.mjs:968-1066`) и НЕ обёрнута
+volatile-маркерами, поэтому любая живая команда даёт drift против HEAD (exit 2) до архивации и
+коммита. Урок 033a подтверждён кодом; зелёный `sync:check` достигается только после
+`agent_teams_delete` + `npm run sync` + converge-коммита. Следствие для процесса: критерии
+ревью формулируются как «факт + атрибуция расхождения», а не как «exit 0 в живом прогоне».
+
+**6. Отклонения и трактовки (зафиксированы явно).** (а) Рендер блока «Последний MAS-прогон»
+добавлен в `.project/sync.mjs`, а не в `docs/index.html`: центр — производный файл, прямая
+запись стирается `sync` и краснит гейт; спека разрешает правку `docs/index.html` «(через sync)»,
+`sync.mjs` в «Что НЕ трогать» не значится. (б) `--json` у `report-run.mjs` сделан READ-ONLY,
+чтобы verify-команда контракта не портила out-of-scope `docs/memory/episodic.md`. (в) Ростер
+сокращён до builder ×4 + reviewer (декомпозиция спеки не даёт работы архитектору/тестировщику —
+то же отклонение, что в 032/033a). (г) Реальные git-коммиты прогона — за лидом (правило 11:
+ни один член команды не коммитил и не пушил). (д) Факт, ошибочно названный в отчётах t3 и
+ревьюера: pre-commit hook в репозитории СУЩЕСТВУЕТ (`.githooks/pre-commit`,
+`core.hooksPath=.githooks`) и коммиты не блокирует (любой исход кроме ошибки запуска → exit 0);
+проверялся только `.git/hooks/` — неблокирующая неточность (LOW).
+
+*Decided-by:* Оркестратор (декомпозиция и контракты, интеграция, поимка дефекта `runs-log`,
+архивация) + Капитан (approve спеки 034; авторизация установки `dsh-tier-router` после RECON;
+вариант B — PARTIAL и отказ от передачи API-ключа; перевод spec в `done` — за капитаном).
