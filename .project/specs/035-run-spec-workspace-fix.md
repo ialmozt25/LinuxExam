@@ -2,8 +2,8 @@
 id: 035
 slug: run-spec-workspace-fix
 type: infra
-status: approved
-commit: null
+status: done
+commit: 7f07643
 ---
 
 # Спека 035 — run-spec.mjs: spec-resolution в любом workspace + cleanup

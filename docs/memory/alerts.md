@@ -162,4 +162,7 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 ## 2026-09-30 | MAS | t0 (Step 0) закрыт вручную — цикл автономии технически замкнут
 Живой smoke `run-spec.mjs 013 --workspace . --timeout-ms 600000` → exit 0, 105716 ms, `team.json` создан в `.agent-teams/spec-013-local-aliases/` (staged, 3 члена, 3 задачи). API key `DEEPSEEK_API_KEY` в env; профиль `mas` собран (dsh-tier-router, @nanmicoder/dsh-agent-teams). Отчёт — `.project/scripts/RUN-SPEC-LIVE.md`. Модель в headless остановилась на «present plan, end turn for review» — правильное поведение. Spec 034 → done (7/7). Остаток: `run-spec.mjs` не передаёт spec в изолированный workspace (fix — spec 035).
 
-<!-- meta updated: 2026-09-30T03:38:06Z entries_count: 28 -->
+## 2026-09-30 | process gap | DEEPSEEK_API_KEY не наследуется harness-процессом
+Живой прогон `run-spec.mjs` требует явного re-export User-переменной в PowerShell-сессии: `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`. Иначе DSH headless-профиль `mas` получает пустой ключ и выдаёт ложный `ROUTE_FAILED … no API key`. Воспроизведено: spec-034 (t5, builder и reviewer) и spec-035 (t3, независимо). Кандидат: preflight-проверка в `run-spec.mjs` — при отсутствии `$env:DEEPSEEK_API_KEY` подтягивать из User-scope (Windows) или явно требовать. Spec 036 (fix) или follow-up.
+
+<!-- meta updated: 2026-09-30T04:57:52Z entries_count: 29 -->

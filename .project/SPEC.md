@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `a017846d6ce2c4a5597a99e0ac2cfa79cdcf92e3`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `1d6c707d1130aead41b855b398f5af2465b79596`<!--volatile:end-->
 - Спек: 33
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 035 | `run-spec-workspace-fix` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -38,6 +37,7 @@
 | 032 | `mas-autonomy-a` | infra | done | 2539526 | — |
 | 033 | `mas-autonomy-spike` | infra | done | f43b060 | — |
 | 034 | `mas-autonomy-b` | infra | done | 6b06d73 | — |
+| 035 | `run-spec-workspace-fix` | infra | done | 7f07643 | — |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
