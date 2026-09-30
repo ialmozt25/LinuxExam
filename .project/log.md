@@ -144,3 +144,8 @@
 2026-09-30 | push | authorize push origin main — spec-033a draft | [AUTHORIZE]
 2026-09-30 | spec | spec 033a — approved; готов к /spec-to-team 033a (spike-first: t0 проверка dsh-agent-teams) | commit pending
 2026-09-30 | push | authorize push origin main — spec-033a approve | [AUTHORIZE]
+2026-09-30 | spec | spec 033a (mas-autonomy-spike) — MAS PASS (t0–t2 + reviewer verdict=pass, 2 агента); spike: PATH=H2 (`dsh --profile <p> "/agent-teams …"`), H1 HTTP API и H4 node-инвокация отклонены, H3 — только read-канал | commit pending
+2026-09-30 | spec | run-spec.mjs: детерминированный контур спека → задача → preflight H2 → execute → H3 read-back → атомарная история .project/mas-runs.json; коды 0/1/2/3 (3 = precondition-missing с fix-командами); npm script spec:run | commit pending
+2026-09-30 | spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/<teamId>/ | commit pending
+2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending
+2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending

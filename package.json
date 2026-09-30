@@ -19,6 +19,7 @@
     "sync": "node .project/sync.mjs",
     "factory:sync-template": "node .project/scripts/factory-sync-template.mjs",
     "factory:scaffold": "node .project/scripts/factory-scaffold.mjs",
+    "spec:run": "node .project/scripts/run-spec.mjs",
     "sync:check": "node .project/sync.mjs --check && npm run consistency:check",
     "consistency:check": "node .project/scripts/check-consistency.mjs",
     "check:episodic": "node tools/check-episodic.mjs",

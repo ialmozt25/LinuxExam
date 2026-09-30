@@ -1,0 +1,475 @@
+{
+  "version": 1,
+  "runs": [
+    {
+      "spec": "033a",
+      "startedAt": "2026-09-30T00:05:39.665Z",
+      "finishedAt": "2026-09-30T00:05:39.997Z",
+      "status": "precondition-missing",
+      "report": {
+        "tool": "run-spec",
+        "spec": "033a",
+        "path": "H2",
+        "pathDetail": "CLI one-shot: dsh --profile <p> \"/agent-teams <цель>\"",
+        "mode": "run",
+        "profile": "mas",
+        "workspace": "C:\\Users\\Alexey Udotov\\LinuxExam",
+        "startedAt": "2026-09-30T00:05:39.665Z",
+        "finishedAt": "2026-09-30T00:05:39.997Z",
+        "steps": [
+          {
+            "name": "resolve-spec",
+            "status": "ok",
+            "detail": ".project/specs/033a-mas-autonomy-spike.md (5933 Б, type=infra, status=approved)"
+          },
+          {
+            "name": "preflight",
+            "status": "failed",
+            "detail": "не выполнено: профиль mas, плагин @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "plan",
+            "status": "ok",
+            "detail": "\"C:\\Program Files\\nodejs\\node.exe\" \"C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js\" --profile mas \"/agent-teams Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md). Спека: .project/specs/033a-mas-autonomy-spike.md. Ожидаемое имя команды: spec-033a-mas-autonomy-spike.\""
+          },
+          {
+            "name": "execute",
+            "status": "failed",
+            "detail": "реальный прогон не стартовал: precondition не выполнено"
+          },
+          {
+            "name": "collect",
+            "status": "skipped",
+            "detail": "прогон не стартовал"
+          }
+        ],
+        "precondition": [
+          {
+            "name": "dsh CLI",
+            "ok": true,
+            "detail": "node C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js --version → 0.1.5-rc.2",
+            "fix": "проверить установку/вызов dsh вручную"
+          },
+          {
+            "name": "профиль mas",
+            "ok": false,
+            "detail": "нет каталога C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas",
+            "fix": "dsh --profile mas --from-default-profile headless"
+          },
+          {
+            "name": "плагин @nanmicoder/dsh-agent-teams",
+            "ok": false,
+            "detail": "профиль отсутствует — резолв @nanmicoder/dsh-agent-teams невозможен",
+            "fix": "dsh plugin --profile mas add @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "workspace",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam",
+            "fix": "указать существующий --workspace"
+          },
+          {
+            "name": "каталог состояния .agent-teams",
+            "ok": true,
+            "optional": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams",
+            "fix": null
+          }
+        ],
+        "plan": {
+          "teamIdHint": "spec-033a-mas-autonomy-spike",
+          "stateDir": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-033a-mas-autonomy-spike",
+          "taskText": "/agent-teams Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md). Спека: .project/specs/033a-mas-autonomy-spike.md. Ожидаемое имя команды: spec-033a-mas-autonomy-spike.",
+          "command": {
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "argv": [
+              "C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js",
+              "--profile",
+              "mas",
+              "/agent-teams Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md). Спека: .project/specs/033a-mas-autonomy-spike.md. Ожидаемое имя команды: spec-033a-mas-autonomy-spike."
+            ]
+          },
+          "cwd": "C:\\Users\\Alexey Udotov\\LinuxExam",
+          "timeoutMs": 1800000
+        },
+        "result": {
+          "status": "precondition-missing",
+          "reason": "путь H2 недоступен: профиль mas (dsh --profile mas --from-default-profile headless); плагин @nanmicoder/dsh-agent-teams (dsh plugin --profile mas add @nanmicoder/dsh-agent-teams)"
+        },
+        "history": null,
+        "specFile": ".project/specs/033a-mas-autonomy-spike.md",
+        "specTitle": "Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md)"
+      }
+    },
+    {
+      "spec": "033a",
+      "startedAt": "2026-09-30T00:05:46.580Z",
+      "finishedAt": "2026-09-30T00:05:47.013Z",
+      "status": "precondition-missing",
+      "report": {
+        "tool": "run-spec",
+        "spec": "033a",
+        "path": "H2",
+        "pathDetail": "CLI one-shot: dsh --profile <p> \"/agent-teams <цель>\"",
+        "mode": "run",
+        "profile": "mas",
+        "workspace": "C:\\Users\\Alexey Udotov\\LinuxExam",
+        "startedAt": "2026-09-30T00:05:46.580Z",
+        "finishedAt": "2026-09-30T00:05:47.013Z",
+        "steps": [
+          {
+            "name": "resolve-spec",
+            "status": "ok",
+            "detail": ".project/specs/033a-mas-autonomy-spike.md (5933 Б, type=infra, status=approved)"
+          },
+          {
+            "name": "preflight",
+            "status": "failed",
+            "detail": "не выполнено: профиль mas, плагин @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "plan",
+            "status": "ok",
+            "detail": "\"C:\\Program Files\\nodejs\\node.exe\" \"C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js\" --profile mas \"/agent-teams Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md). Спека: .project/specs/033a-mas-autonomy-spike.md. Ожидаемое имя команды: spec-033a-mas-autonomy-spike.\""
+          },
+          {
+            "name": "execute",
+            "status": "failed",
+            "detail": "реальный прогон не стартовал: precondition не выполнено"
+          },
+          {
+            "name": "collect",
+            "status": "skipped",
+            "detail": "прогон не стартовал"
+          }
+        ],
+        "precondition": [
+          {
+            "name": "dsh CLI",
+            "ok": true,
+            "detail": "node C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js --version → 0.1.5-rc.2",
+            "fix": "проверить установку/вызов dsh вручную"
+          },
+          {
+            "name": "профиль mas",
+            "ok": false,
+            "detail": "нет каталога C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas",
+            "fix": "dsh --profile mas --from-default-profile headless"
+          },
+          {
+            "name": "плагин @nanmicoder/dsh-agent-teams",
+            "ok": false,
+            "detail": "профиль отсутствует — резолв @nanmicoder/dsh-agent-teams невозможен",
+            "fix": "dsh plugin --profile mas add @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "workspace",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam",
+            "fix": "указать существующий --workspace"
+          },
+          {
+            "name": "каталог состояния .agent-teams",
+            "ok": true,
+            "optional": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams",
+            "fix": null
+          }
+        ],
+        "plan": {
+          "teamIdHint": "spec-033a-mas-autonomy-spike",
+          "stateDir": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-033a-mas-autonomy-spike",
+          "taskText": "/agent-teams Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md). Спека: .project/specs/033a-mas-autonomy-spike.md. Ожидаемое имя команды: spec-033a-mas-autonomy-spike.",
+          "command": {
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "argv": [
+              "C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js",
+              "--profile",
+              "mas",
+              "/agent-teams Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md). Спека: .project/specs/033a-mas-autonomy-spike.md. Ожидаемое имя команды: spec-033a-mas-autonomy-spike."
+            ]
+          },
+          "cwd": "C:\\Users\\Alexey Udotov\\LinuxExam",
+          "timeoutMs": 1800000
+        },
+        "result": {
+          "status": "precondition-missing",
+          "reason": "путь H2 недоступен: профиль mas (dsh --profile mas --from-default-profile headless); плагин @nanmicoder/dsh-agent-teams (dsh plugin --profile mas add @nanmicoder/dsh-agent-teams)"
+        },
+        "history": null,
+        "specFile": ".project/specs/033a-mas-autonomy-spike.md",
+        "specTitle": "Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md)"
+      }
+    },
+    {
+      "spec": "013",
+      "startedAt": "2026-09-30T00:18:35.040Z",
+      "finishedAt": "2026-09-30T00:18:35.198Z",
+      "status": "precondition-missing",
+      "report": {
+        "tool": "run-spec",
+        "spec": "013",
+        "path": "H2",
+        "pathDetail": "CLI one-shot: dsh --profile <p> \"/agent-teams <цель>\"",
+        "mode": "run",
+        "profile": "mas",
+        "workspace": "C:\\Users\\Alexey Udotov\\LinuxExam",
+        "startedAt": "2026-09-30T00:18:35.040Z",
+        "finishedAt": "2026-09-30T00:18:35.198Z",
+        "steps": [
+          {
+            "name": "resolve-spec",
+            "status": "ok",
+            "detail": ".project/specs/013-local-aliases.md (8701 Б, type=docs, status=done)"
+          },
+          {
+            "name": "preflight",
+            "status": "failed",
+            "detail": "не выполнено: профиль mas, плагин @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "plan",
+            "status": "ok",
+            "detail": "\"C:\\Program Files\\nodejs\\node.exe\" \"C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js\" --profile mas \"/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.\""
+          },
+          {
+            "name": "stage-templates",
+            "status": "ok",
+            "detail": "templates/mas/TASK.md → C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\TASK.md (6842 Б, sha256:9e7da0767267e2ff, байт-в-байт: true); templates/mas/SESSION.md → C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\SESSION.md (4993 Б, sha256:20507558fb5a5381, байт-в-байт: true)"
+          },
+          {
+            "name": "execute",
+            "status": "failed",
+            "detail": "реальный прогон не стартовал: precondition не выполнено"
+          },
+          {
+            "name": "collect",
+            "status": "skipped",
+            "detail": "прогон не стартовал"
+          }
+        ],
+        "precondition": [
+          {
+            "name": "dsh CLI",
+            "ok": true,
+            "detail": "node C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js --version → 0.1.5-rc.2",
+            "fix": "проверить установку/вызов dsh вручную"
+          },
+          {
+            "name": "профиль mas",
+            "ok": false,
+            "detail": "нет каталога C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas",
+            "fix": "dsh --profile mas --from-default-profile headless"
+          },
+          {
+            "name": "плагин @nanmicoder/dsh-agent-teams",
+            "ok": false,
+            "detail": "профиль отсутствует — резолв @nanmicoder/dsh-agent-teams невозможен",
+            "fix": "dsh plugin --profile mas add @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "workspace",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam",
+            "fix": "указать существующий --workspace"
+          },
+          {
+            "name": "каталог состояния .agent-teams",
+            "ok": true,
+            "optional": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams",
+            "fix": null
+          },
+          {
+            "name": "шаблоны templates/mas",
+            "ok": true,
+            "detail": "templates/mas/TASK.md, SESSION.md",
+            "fix": "восстановить templates/mas/{TASK,SESSION}.md (spec 033a, «Что делаем 3»)"
+          }
+        ],
+        "plan": {
+          "teamIdHint": "spec-013-local-aliases",
+          "stateDir": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases",
+          "taskText": "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.",
+          "command": {
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "argv": [
+              "C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js",
+              "--profile",
+              "mas",
+              "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases."
+            ]
+          },
+          "cwd": "C:\\Users\\Alexey Udotov\\LinuxExam",
+          "timeoutMs": 1800000
+        },
+        "result": {
+          "status": "precondition-missing",
+          "reason": "путь H2 недоступен: профиль mas (dsh --profile mas --from-default-profile headless); плагин @nanmicoder/dsh-agent-teams (dsh plugin --profile mas add @nanmicoder/dsh-agent-teams)"
+        },
+        "history": null,
+        "specFile": ".project/specs/013-local-aliases.md",
+        "specTitle": "",
+        "templates": {
+          "dir": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases",
+          "source": "templates/mas",
+          "files": [
+            {
+              "name": "TASK.md",
+              "source": "templates/mas/TASK.md",
+              "target": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\TASK.md",
+              "bytes": 6842,
+              "sha256": "9e7da0767267e2ff",
+              "lastByte": 10,
+              "equal": true
+            },
+            {
+              "name": "SESSION.md",
+              "source": "templates/mas/SESSION.md",
+              "target": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\SESSION.md",
+              "bytes": 4993,
+              "sha256": "20507558fb5a5381",
+              "lastByte": 10,
+              "equal": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "spec": "013",
+      "startedAt": "2026-09-30T00:18:51.773Z",
+      "finishedAt": "2026-09-30T00:18:51.952Z",
+      "status": "precondition-missing",
+      "report": {
+        "tool": "run-spec",
+        "spec": "013",
+        "path": "H2",
+        "pathDetail": "CLI one-shot: dsh --profile <p> \"/agent-teams <цель>\"",
+        "mode": "run",
+        "profile": "mas",
+        "workspace": "C:\\Users\\Alexey Udotov\\LinuxExam",
+        "startedAt": "2026-09-30T00:18:51.773Z",
+        "finishedAt": "2026-09-30T00:18:51.952Z",
+        "steps": [
+          {
+            "name": "resolve-spec",
+            "status": "ok",
+            "detail": ".project/specs/013-local-aliases.md (8701 Б, type=docs, status=done)"
+          },
+          {
+            "name": "preflight",
+            "status": "failed",
+            "detail": "не выполнено: профиль mas, плагин @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "plan",
+            "status": "ok",
+            "detail": "\"C:\\Program Files\\nodejs\\node.exe\" \"C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js\" --profile mas \"/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.\""
+          },
+          {
+            "name": "stage-templates",
+            "status": "ok",
+            "detail": "templates/mas/TASK.md → C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\TASK.md (6842 Б, sha256:9e7da0767267e2ff, байт-в-байт: true); templates/mas/SESSION.md → C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\SESSION.md (4993 Б, sha256:20507558fb5a5381, байт-в-байт: true)"
+          },
+          {
+            "name": "execute",
+            "status": "failed",
+            "detail": "реальный прогон не стартовал: precondition не выполнено"
+          },
+          {
+            "name": "collect",
+            "status": "skipped",
+            "detail": "прогон не стартовал"
+          }
+        ],
+        "precondition": [
+          {
+            "name": "dsh CLI",
+            "ok": true,
+            "detail": "node C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js --version → 0.1.5-rc.2",
+            "fix": "проверить установку/вызов dsh вручную"
+          },
+          {
+            "name": "профиль mas",
+            "ok": false,
+            "detail": "нет каталога C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas",
+            "fix": "dsh --profile mas --from-default-profile headless"
+          },
+          {
+            "name": "плагин @nanmicoder/dsh-agent-teams",
+            "ok": false,
+            "detail": "профиль отсутствует — резолв @nanmicoder/dsh-agent-teams невозможен",
+            "fix": "dsh plugin --profile mas add @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "workspace",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam",
+            "fix": "указать существующий --workspace"
+          },
+          {
+            "name": "каталог состояния .agent-teams",
+            "ok": true,
+            "optional": true,
+            "detail": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams",
+            "fix": null
+          },
+          {
+            "name": "шаблоны templates/mas",
+            "ok": true,
+            "detail": "templates/mas/TASK.md, SESSION.md",
+            "fix": "восстановить templates/mas/{TASK,SESSION}.md (spec 033a, «Что делаем 3»)"
+          }
+        ],
+        "plan": {
+          "teamIdHint": "spec-013-local-aliases",
+          "stateDir": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases",
+          "taskText": "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.",
+          "command": {
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "argv": [
+              "C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js",
+              "--profile",
+              "mas",
+              "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases."
+            ]
+          },
+          "cwd": "C:\\Users\\Alexey Udotov\\LinuxExam",
+          "timeoutMs": 1800000
+        },
+        "result": {
+          "status": "precondition-missing",
+          "reason": "путь H2 недоступен: профиль mas (dsh --profile mas --from-default-profile headless); плагин @nanmicoder/dsh-agent-teams (dsh plugin --profile mas add @nanmicoder/dsh-agent-teams)"
+        },
+        "history": null,
+        "specFile": ".project/specs/013-local-aliases.md",
+        "specTitle": "",
+        "templates": {
+          "dir": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases",
+          "source": "templates/mas",
+          "files": [
+            {
+              "name": "TASK.md",
+              "source": "templates/mas/TASK.md",
+              "target": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\TASK.md",
+              "bytes": 6842,
+              "sha256": "9e7da0767267e2ff",
+              "lastByte": 10,
+              "equal": true
+            },
+            {
+              "name": "SESSION.md",
+              "source": "templates/mas/SESSION.md",
+              "target": "C:\\Users\\Alexey Udotov\\LinuxExam\\.agent-teams\\spec-013-local-aliases\\SESSION.md",
+              "bytes": 4993,
+              "sha256": "20507558fb5a5381",
+              "lastByte": 10,
+              "equal": true
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

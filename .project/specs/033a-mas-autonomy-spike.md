@@ -2,7 +2,7 @@
 id: 033
 slug: mas-autonomy-spike
 type: infra
-status: approved
+status: done
 commit: null
 ---
 
