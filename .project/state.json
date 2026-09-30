@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "bf795c99140f5140bc08bb6a858d7a586827dd37",
+  "head": "27d9c2086de061629f8c74cd6f2defd413c81dc8",
   "specs": [
     {
       "id": "022",
@@ -868,7 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`, иначе ложный ROUTE_FAILED (воспроизведено и builder'ом, и ревьюером) | commit pending",
     "2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
     "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending",
@@ -877,10 +876,17 @@
     "2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending"
+    "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "27d9c20",
+      "date": "2026-09-30",
+      "subject": "docs(spec-037): draft — user counter (GoatCounter + center tile)",
+      "type": "docs"
+    },
     {
       "sha": "bf795c9",
       "date": "2026-09-30",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-034 fix + approve",
       "type": "chore"
-    },
-    {
-      "sha": "48576af",
-      "date": "2026-09-30",
-      "subject": "docs(spec-034): fix t4 deps + approve",
-      "type": "docs"
     }
   ],
   "roles": [
