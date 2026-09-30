@@ -507,6 +507,21 @@
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
     },
     {
+      "id": "039",
+      "slug": "bank-audit-036-fixes",
+      "status": "draft",
+      "type": "content",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/039-bank-audit-036-fixes.md",
+      "mtime": 1790765712325.586,
+      "goal": "1. Rewrite 9 вопросов из audit-036 (ms_004, msw_011, msw_014, net_001,",
+      "acceptance": "1. 10 вопросов rewritten — нет меток «Rocky 9», «RHEL 9», `.el9`,",
+      "noTouch": "Другие 9 тем банка (essential_tools, text_files, file_permissions,",
+      "preview": ""
+    },
+    {
       "id": "001",
       "slug": "file-management-batch-4",
       "status": "done",
@@ -883,7 +898,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)",
     "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]",
     "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)",
     "2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]",
@@ -892,10 +906,17 @@
     "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
     "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf",
     "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]",
-    "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending"
+    "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending",
+    "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "88bab32",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-038 post-mortem",
+      "type": "chore"
+    },
     {
       "sha": "aa1f6c2",
       "date": "2026-09-30",
@@ -1008,12 +1029,6 @@
       "sha": "9d57cdb",
       "date": "2026-09-30",
       "subject": "chore(spec-036): R5 trace - task tokens t1 t2 t3 t4 t5 t6",
-      "type": "chore"
-    },
-    {
-      "sha": "d1d7ed1",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-036 artifacts",
       "type": "chore"
     }
   ],
