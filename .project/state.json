@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "aaef60febc3202920313f78a1ba7084977658a54",
+  "head": "5d7db9a6fbd73f9b1a6fe7a127afe3959ef034b9",
   "specs": [
     {
       "id": "022",
@@ -882,6 +882,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "5d7db9a",
+      "date": "2026-09-30",
+      "subject": "docs(memory): spec-037 run log (rule 12) - user counter PASS",
+      "type": "docs"
+    },
+    {
+      "sha": "652c507",
+      "date": "2026-09-30",
+      "subject": "feat(spec-037): user counter - GoatCounter fetch + center tile",
+      "type": "feat"
+    },
+    {
       "sha": "aaef60f",
       "date": "2026-09-30",
       "subject": "docs(spec-037): approve",
@@ -987,18 +999,6 @@
       "sha": "a017846",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-035 approve",
-      "type": "chore"
-    },
-    {
-      "sha": "be408ea",
-      "date": "2026-09-30",
-      "subject": "docs(spec-035): approve",
-      "type": "docs"
-    },
-    {
-      "sha": "312670f",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-035 draft",
       "type": "chore"
     }
   ],
