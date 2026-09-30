@@ -4,6 +4,19 @@
 
 ---
 
+2026-09-30 | spec-037-user-counter — прогон AgentTeams завершён, reviewer verdict=PASS
+
+HEAD: 652c507 (коммит реализации прогона; approve-коммит spec 037 — aaef60f)
+
+ahead: 0
+
+План: spec 037 (approved, infra) исполнена в режиме B (без живого API — сайт barsik.goatcounter.com ещё не создан, токен-файл отсутствует); перевод спеки в `done` и закрытие R5 — за капитаном (R5 закрывается коммитом прогона: `spec-037` + токены t1…t4 в subject).
+
+Фаза: spec-037 — DAG: t1 (`.project/scripts/fetch-stats.mjs`) ∥ t2 (`npm run stats:users`) ∥ t3 (плитка «Пользователи» в `.project/sync.mjs`) ∥ t4 (`index.html` + `.gitignore`) → t5 (reviewer, независимая приёмка, verdict **PASS**, 9/9 критериев сырыми выводами, findings нет).
+
+Текущая активность: прогон завершён (5/5 задач completed). Итог: GoatCounter site code `barsik` (скрипт в `index.html` L59 перед `</body>`, подтверждён в `dist/index.html` после `npm run build` exit 0); `fetch-stats.mjs` (521 строка, zero-deps, Node ESM) — токен `~/.dsh/goatcounter-token.json` (+env `GOATCOUNTER_TOKEN`), `GET https://barsik.goatcounter.com/api/v0/stats/total` с Bearer/Accept/Content-Type и `start`/`end`, запись `state.user_counter = {unique_users(=total), pageviews:null, period, fetched_at, source}` — read-modify-write только этого ключа, атомарно (temp+rename), ретраи 429/5xx с backoff, 401/403 без ретраев, значение токена не печатается ни в одном из 7 сценариев; плитка «Пользователи» — 5-я в центре, без данных показывает «—» (не 0); `.gitignore` — анкерное `/.dsh/` + `*goatcounter-token*.json` (негативный контроль `src/.dsh/x` → не игнорируется).
+
+Дальше: approve капитана на результат прогона → push (правило 10/11, отдельная авторизация) → перевод spec 037 в `done` (`npm run sync` → коммит → `chore(state): converge` → `sync:check` = 0). Открытые неблокирующие наблюдения приёмки: (N1) `index.html` в рабочем дереве CRLF при `i/lf` в индексе (pre-existing, git нормализует при коммите; опционально пересохранить в LF); (N2) производные коммита 652c507 отстают по `state.head` на 1 коммит (не гейт, spec 009; опциональный converge-коммит); (N3) секция «Пульс агентов» в `docs/index.html` (L806–817) рендерит live `.agent-teams/*/team.json` вне VOLATILE-маркеров → побайтовый `--check` дрожит от смены статусов задач (pre-existing, spec 022; кандидат в отдельную спеку).
 2026-09-30 | spec-035-run-spec-workspace-fix — прогон AgentTeams завершён, reviewer verdict=PASS
 
 HEAD: a017846 (база прогона; коммиты spec-035 — после этой записи, см. `git log`)
