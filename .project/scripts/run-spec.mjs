@@ -396,6 +396,56 @@ export function buildTaskText(spec, teamId) {
 }
 
 // ---------------------------------------------------------------------------
+// DEEPSEEK_API_KEY: источник (fix alert 2026-09-30, process gap)
+// ---------------------------------------------------------------------------
+
+/** Имя переменной окружения, которую ждёт дочерний процесс dsh. */
+const API_KEY_VAR = 'DEEPSEEK_API_KEY';
+
+/** Область системного окружения для чтения ключа на Windows. */
+const API_KEY_SCOPE = 'User';
+
+/** Подсказка «как выставить ключ в текущей сессии» (одна строка, копируется целиком). */
+export const API_KEY_EXPORT_HINT = `$env:${API_KEY_VAR} = [Environment]::GetEnvironmentVariable('${API_KEY_VAR}','${API_KEY_SCOPE}')`;
+
+/**
+ * Прочитать DEEPSEEK_API_KEY из User-scope (только Windows) через PowerShell.
+ * Аргументы передаются массивом — без shell-интерполяции. Любая ошибка или
+ * таймаут → `{ key: null }` (проверка preflight сама покажет причину).
+ * @returns {{key: string|null}}
+ */
+export function resolveApiKeyFromSystem() {
+  if (process.platform !== 'win32') return { key: null };
+  try {
+    const res = spawnSync(
+      'powershell.exe',
+      ['-NoProfile', '-Command', `[Environment]::GetEnvironmentVariable('${API_KEY_VAR}','${API_KEY_SCOPE}')`],
+      { encoding: 'utf8', timeout: 5000, windowsHide: true },
+    );
+    const raw = (res.stdout ?? '').trim();
+    if (res.status === 0 && raw !== '') return { key: raw };
+  } catch {
+    /* fall through: ключ считается отсутствующим */
+  }
+  return { key: null };
+}
+
+/**
+ * Нормализовать результат чтения ключа: `{ key, source }`, где
+ * `source: 'env' | 'user-scope' | 'missing'`. Побочных эффектов нет — значение
+ * уже прочитано (env имеет приоритет над системным окружением).
+ * @param {{key: string|null|undefined}} [entry] - результат resolveApiKeyFromSystem().
+ * @returns {{key: string|null, source: 'env'|'user-scope'|'missing'}}
+ */
+export function resolveApiKey(entry) {
+  const envKey = process.env[API_KEY_VAR];
+  if (typeof envKey === 'string' && envKey.trim() !== '') return { key: envKey.trim(), source: 'env' };
+  const raw = typeof entry?.key === 'string' ? entry.key.trim() : '';
+  if (raw !== '') return { key: raw, source: 'user-scope' };
+  return { key: null, source: 'missing' };
+}
+
+// ---------------------------------------------------------------------------
 // Precondition пути H2
 // ---------------------------------------------------------------------------
 
@@ -454,10 +504,14 @@ export function findOnPath(name) {
  * Проверить precondition пути H2. Ничего не меняет: только чтение каталогов и
  * один прогон `dsh --version` (он не создаёт команд и не поднимает сервер).
  * @param {{profile: string, workspace: string}} input
- * @returns {{checks: object[], ok: boolean, dsh: object|null}}
+ * @param {{key: string|null|undefined}} [apiKeyEntry] - уже прочитанное системное
+ *   значение (resolveApiKeyFromSystem), чтобы preflight не дёргал PowerShell дважды.
+ * @returns {{checks: object[], ok: boolean, dsh: object|null, apiKey: object}}
  */
-export function preflight(input) {
+export function preflight(input, apiKeyEntry) {
   const checks = [];
+  const apiKey =
+    resolveApiKey(apiKeyEntry);
   const dsh = locateDsh();
   if (dsh === null) {
     checks.push({
@@ -540,7 +594,19 @@ export function preflight(input) {
     fix: 'восстановить templates/mas/{TASK,SESSION}.md (spec 033a, «Что делаем 3»)',
   });
 
-  return { checks, ok: checks.every((check) => check.ok || check.optional === true), dsh };
+  checks.push({
+    name: API_KEY_VAR,
+    ok: apiKey.source !== 'missing',
+    detail:
+      apiKey.source === 'env'
+        ? 'из env'
+        : apiKey.source === 'user-scope'
+          ? 'из User-scope (Windows)'
+          : `missing — выполнить: ${API_KEY_EXPORT_HINT}`,
+    fix: apiKey.source === 'missing' ? API_KEY_EXPORT_HINT : null,
+  });
+
+  return { checks, ok: checks.every((check) => check.ok || check.optional === true), dsh, apiKey };
 }
 
 // ---------------------------------------------------------------------------
@@ -773,7 +839,9 @@ export async function runSpec(options) {
   const workspaceSpecPath = path.join(options.workspace, WORKSPACE_SPECS_DIR, spec.file);
   const specPromptPath = path.relative(options.workspace, workspaceSpecPath).split(path.sep).join('/');
   const taskText = buildTaskText({ ...spec, relativePath: specPromptPath }, teamId);
-  const pre = preflight({ profile: options.profile, workspace: options.workspace });
+  const apiKeyEntry = resolveApiKeyFromSystem();
+  const pre =
+    preflight({ profile: options.profile, workspace: options.workspace }, apiKeyEntry);
   report.precondition = pre.checks;
   report.steps.push({
     name: 'preflight',
@@ -917,7 +985,7 @@ export async function runSpec(options) {
     return { exitCode: 0, report };
   }
 
-  const execution = executeRun(command, options);
+  const execution = executeRun(command, options, pre.apiKey);
   report.steps.push({ name: 'execute', status: execution.ok ? 'ok' : 'failed', detail: execution.detail });
   report.execution = execution.evidence;
 
@@ -959,10 +1027,16 @@ export function toRecord(report, options) {
 }
 
 /** Синхронный запуск one-shot прогона с ограничением времени. */
-export function executeRun(command, options) {
+export function executeRun(command, options, apiKey) {
+  const key = apiKey ?? { key: null, source: 'missing' };
   const startedAtMs = Date.now();
+  // Harness-процесс не наследует User-scope переменные (alert 2026-09-30):
+  // если ключ не пришёл из env, он пробрасывается в дочерний процесс явно.
+  const childEnv = { ...process.env };
+  if (key.source === 'user-scope' && key.key) childEnv[API_KEY_VAR] = key.key;
   const probe = spawnSync(command.command, command.argv, {
     cwd: options.workspace,
+    env: childEnv,
     encoding: 'utf8',
     timeout: options.timeoutMs,
     maxBuffer: 32 * 1024 * 1024,

@@ -170,3 +170,4 @@
 2026-09-30 | lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`, иначе ложный ROUTE_FAILED (воспроизведено и builder'ом, и ревьюером) | commit pending
 2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending
 2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]
+2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending

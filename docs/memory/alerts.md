@@ -165,4 +165,6 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 ## 2026-09-30 | process gap | DEEPSEEK_API_KEY не наследуется harness-процессом
 Живой прогон `run-spec.mjs` требует явного re-export User-переменной в PowerShell-сессии: `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`. Иначе DSH headless-профиль `mas` получает пустой ключ и выдаёт ложный `ROUTE_FAILED … no API key`. Воспроизведено: spec-034 (t5, builder и reviewer) и spec-035 (t3, независимо). Кандидат: preflight-проверка в `run-spec.mjs` — при отсутствии `$env:DEEPSEEK_API_KEY` подтягивать из User-scope (Windows) или явно требовать. Spec 036 (fix) или follow-up.
 
+[closed 2026-09-30: fix — `resolveApiKey()` в `run-spec.mjs` подтягивает из User-scope (Windows); preflight +7-я проверка; проброс в child env; commit pending]
+
 <!-- meta updated: 2026-09-30T04:57:52Z entries_count: 29 -->

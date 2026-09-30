@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "1c6d3bb47b9a128644b9c8cf6ba9db6ec2b57ac0",
+  "head": "2b92337d540296a356d68444c4378406335fa92f",
   "specs": [
     {
       "id": "022",
@@ -838,7 +838,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 034 — done (PASS 7/7); t0 закрыт вручную: run-spec.mjs 013 → exit 0, team.json создан, RUN-SPEC-LIVE.md; staged spec-013-local-aliases архивирована | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]",
     "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]",
@@ -847,10 +846,17 @@
     "2026-09-30 | spec 035 | прогон AgentTeams (t1 fix spec-resolution в run-spec.mjs — вариант A: материализация спеки в `<workspace>/.project/specs/`; t2 RUN-SPEC-SPIKE-STOP.md = оригинал 6b06d73, байт-в-байт; t3 review round 1 PASS, findings нет) — живые прогоны ревьюера: без --workspace из %TEMP% → exit 0, collect ok; --live --workspace <temp> → exit 0 + team.json в temp-workspace | commit pending",
     "2026-09-30 | lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`, иначе ложный ROUTE_FAILED (воспроизведено и builder'ом, и ревьюером) | commit pending",
     "2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
+    "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "2b92337",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-035 close",
+      "type": "chore"
+    },
     {
       "sha": "1c6d3bb",
       "date": "2026-09-30",
@@ -964,12 +970,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-033a (log/report fixes)",
       "type": "chore"
-    },
-    {
-      "sha": "eb47f50",
-      "date": "2026-09-30",
-      "subject": "docs(spec-033a): точный список коммитов прогона + урок архивации команды",
-      "type": "docs"
     }
   ],
   "roles": [

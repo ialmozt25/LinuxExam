@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 1c6d3bb</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 2b92337</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -401,6 +401,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">2b92337</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-035 close</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">1c6d3bb</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-035): done — run-spec workspace fix (PASS)</td>
@@ -514,12 +520,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-033a (log/report fixes)</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">eb47f50</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-033a): точный список коммитов прогона + урок архивации команды</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -537,7 +537,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T04:47:17Z</td>
           <td class="mono">24</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -551,21 +551,21 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">6 ч</td>
+          <td class="muted">7 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T04:47:17Z</td>
           <td class="mono">7</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-30T04:57:52Z</td>
           <td class="mono">29</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -575,11 +575,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-035 approve | push разрешён</li>
         <li><span class="mono muted">30.09</span> · spec 035 | прогон AgentTeams (t1 fix spec-resolution в run-spec.mjs — вариант A: материализация спеки в `&lt;workspace&gt;/.project/specs/`; t2 RUN-SPEC-SPIKE-STOP.md = оригинал 6b06d73…</li>
         <li><span class="mono muted">30.09</span> · lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable(&#39;DEEPSEEK_API_KEY&#39;,&#39;…</li>
         <li><span class="mono muted">30.09</span> · spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-035 close | push разрешён</li>
+        <li><span class="mono muted">30.09</span> · sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | ещё не закоммичено</li>
     </ul>
   </details>
 
