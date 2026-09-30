@@ -2,7 +2,7 @@
 id: 035
 slug: run-spec-workspace-fix
 type: infra
-status: draft
+status: approved
 commit: null
 ---
 

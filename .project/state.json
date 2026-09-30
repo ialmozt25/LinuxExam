@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "4c045cd9a44efde253ad84062c0afd3494f95d54",
+  "head": "312670f8635a7954a425eb9e5511410ae46285e3",
   "specs": [
     {
       "id": "022",
@@ -462,6 +462,21 @@
       "preview": ""
     },
     {
+      "id": "035",
+      "slug": "run-spec-workspace-fix",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/035-run-spec-workspace-fix.md",
+      "mtime": 1790742238875.9944,
+      "goal": "1. Fix spec-resolution: `run-spec.mjs <spec-id> [--workspace <dir>]` работает из любой директории.",
+      "acceptance": "1. `node .project/scripts/run-spec.mjs 013` (без `--workspace`, из `/tmp`; на Windows — любой каталог вне репозитория, например `%TEMP%`) → exit 0; team.json создан.",
+      "noTouch": "`src/**`, `tools/**`, `.project/factory/**`, `docs/archive/**`, `templates/factory/**`, спеки 028–034.",
+      "preview": ""
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -505,21 +520,6 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
-    },
-    {
-      "id": "035",
-      "slug": "run-spec-workspace-fix",
-      "status": "draft",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/035-run-spec-workspace-fix.md",
-      "mtime": 1790741261821.961,
-      "goal": "1. Fix spec-resolution: `run-spec.mjs <spec-id> [--workspace <dir>]` работает из любой директории.",
-      "acceptance": "1. `node .project/scripts/run-spec.mjs 013` (без `--workspace`, из `/tmp`; на Windows — любой каталог вне репозитория, например `%TEMP%`) → exit 0; team.json создан.",
-      "noTouch": "`src/**`, `tools/**`, `.project/factory/**`, `docs/archive/**`, `templates/factory/**`, спеки 028–034.",
-      "preview": ""
     },
     {
       "id": "001",
@@ -838,7 +838,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]",
     "2026-09-30 | spec 034 | прогон AgentTeams (t1 spec-gate R5, t2 report-run + блок «Последний MAS-прогон», t3 committer, t4 метрики runs:log) — ревью t6 PASS, repair t7 + ревью t8 PASS; Step 0 = STOP (нет DEEPSEEK_API_KEY в профиле mas; precondition-missing из 033a закрыт) — прогон PARTIAL по решению капитана (вариант B) | commit pending",
@@ -847,10 +846,17 @@
     "2026-09-30 | spec | spec 034 — done (PASS 7/7); t0 закрыт вручную: run-spec.mjs 013 → exit 0, team.json создан, RUN-SPEC-LIVE.md; staged spec-013-local-aliases архивирована | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]",
     "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "312670f",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-035 draft",
+      "type": "chore"
+    },
     {
       "sha": "4c045cd",
       "date": "2026-09-30",
@@ -964,12 +970,6 @@
       "date": "2026-09-30",
       "subject": "feat(spec-033a): run-spec.mjs + npm spec:run + MAS handoff templates (PATH: H2)",
       "type": "feat"
-    },
-    {
-      "sha": "bfb7ca2",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-033a approve",
-      "type": "chore"
     }
   ],
   "roles": [
