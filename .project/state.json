@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "955a36c1d47c8e21f7365e076551f5deee7909ae",
+  "head": "3c05061deba69d4aad29137355853dbed0704965",
   "specs": [
     {
       "id": "022",
@@ -505,6 +505,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "035",
+      "slug": "run-spec-workspace-fix",
+      "status": "draft",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/035-run-spec-workspace-fix.md",
+      "mtime": 1790741261821.961,
+      "goal": "1. Fix spec-resolution: `run-spec.mjs <spec-id> [--workspace <dir>]` работает из любой директории.",
+      "acceptance": "1. `node .project/scripts/run-spec.mjs 013` (без `--workspace`, из `/tmp`; на Windows — любой каталог вне репозитория, например `%TEMP%`) → exit 0; team.json создан.",
+      "noTouch": "`src/**`, `tools/**`, `.project/factory/**`, `docs/archive/**`, `templates/factory/**`, спеки 028–034.",
+      "preview": ""
     },
     {
       "id": "001",
@@ -823,7 +838,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending",
@@ -832,10 +846,17 @@
     "2026-09-30 | decision | spec 034: установка dsh-tier-router ^0.6.0 в профиль mas авторизована капитаном после RECON (NO_ADAPTER закрыт; остался только API-ключ, ключ через чат не передаётся — security policy) | commit pending",
     "2026-09-30 | lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; урок — контракт «доказательства на копиях» обязан отдельно требовать проверку дефолтного пути/вызова | commit pending",
     "2026-09-30 | spec | spec 034 — done (PASS 7/7); t0 закрыт вручную: run-spec.mjs 013 → exit 0, team.json создан, RUN-SPEC-LIVE.md; staged spec-013-local-aliases архивирована | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3c05061",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-034 close (PASS)",
+      "type": "chore"
+    },
     {
       "sha": "955a36c",
       "date": "2026-09-30",
@@ -949,12 +970,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-033a): approve",
       "type": "docs"
-    },
-    {
-      "sha": "882a2c1",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-033a draft",
-      "type": "chore"
     }
   ],
   "roles": [

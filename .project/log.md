@@ -162,3 +162,4 @@
 2026-09-30 | lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; урок — контракт «доказательства на копиях» обязан отдельно требовать проверку дефолтного пути/вызова | commit pending
 2026-09-30 | spec | spec 034 — done (PASS 7/7); t0 закрыт вручную: run-spec.mjs 013 → exit 0, team.json создан, RUN-SPEC-LIVE.md; staged spec-013-local-aliases архивирована | commit pending
 2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]
+2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending
