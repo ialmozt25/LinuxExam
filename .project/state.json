@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "e66b6ec620b28574554a19173b54fcff7b0a4f8a",
+  "head": "443fca0e31d76fa0e51d9d73c7aab7fd2d7f54ae",
   "specs": [
     {
       "id": "022",
@@ -808,7 +808,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 033a — approved; готов к /spec-to-team 033a (spike-first: t0 проверка dsh-agent-teams) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — MAS PASS (t0–t2 + reviewer verdict=pass, 2 агента); spike: PATH=H2 (`dsh --profile <p> \"/agent-teams …\"`), H1 HTTP API и H4 node-инвокация отклонены, H3 — только read-канал | commit pending",
     "2026-09-30 | spec | run-spec.mjs: детерминированный контур спека → задача → preflight H2 → execute → H3 read-back → атомарная история .project/mas-runs.json; коды 0/1/2/3 (3 = precondition-missing с fix-командами); npm script spec:run | commit pending",
@@ -817,10 +816,17 @@
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending",
     "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060",
     "2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55",
-    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending"
+    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "443fca0",
+      "date": "2026-09-30",
+      "subject": "docs(spec-033a): done — MAS-autonomy spike (PATH: H2)",
+      "type": "docs"
+    },
     {
       "sha": "e66b6ec",
       "date": "2026-09-30",
@@ -934,12 +940,6 @@
       "date": "2026-09-29",
       "subject": "chore(log): authorize push (rule 10) — spec-032 approve",
       "type": "chore"
-    },
-    {
-      "sha": "31050c8",
-      "date": "2026-09-29",
-      "subject": "docs(spec-032): approve",
-      "type": "docs"
     }
   ],
   "roles": [
