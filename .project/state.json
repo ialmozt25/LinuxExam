@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "4a3573b707812190fdf9c00fd5a9a3fe415df589",
+  "head": "48576af65c76729546b20bda91ee6feca9b59fe6",
   "specs": [
     {
       "id": "022",
@@ -823,7 +823,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/<teamId>/ | commit pending",
     "2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending",
     "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060",
@@ -832,10 +831,17 @@
     "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending"
+    "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "48576af",
+      "date": "2026-09-30",
+      "subject": "docs(spec-034): fix t4 deps + approve",
+      "type": "docs"
+    },
     {
       "sha": "4a3573b",
       "date": "2026-09-30",
@@ -949,12 +955,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-032 (log/decisions)",
       "type": "chore"
-    },
-    {
-      "sha": "c10e0de",
-      "date": "2026-09-30",
-      "subject": "docs(spec-032): log decisions + orchestrator report",
-      "type": "docs"
     }
   ],
   "roles": [
