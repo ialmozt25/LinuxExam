@@ -2,7 +2,7 @@
 id: 038
 slug: close-spec-automation
 type: infra
-status: draft
+status: approved
 commit: null
 ---
 
@@ -92,4 +92,4 @@ sync → add → commit × 2, sync:check). Шаги детерминирован
 
 - src/**, tools/**, .project/sync.mjs, check-consistency.mjs,
   .project/scripts/run-spec.mjs.
-- Спеки 028–038.
+- Спеки 028–037.

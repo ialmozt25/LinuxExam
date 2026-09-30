@@ -462,6 +462,21 @@
       "preview": ""
     },
     {
+      "id": "038",
+      "slug": "close-spec-automation",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/038-close-spec-automation.md",
+      "mtime": 1790759085215.9075,
+      "goal": "Одна команда `node .project/scripts/close-spec.mjs <spec-id>` закрывает",
+      "acceptance": "1. `node .project/scripts/close-spec.mjs 999 --dry-run` на несуществующей",
+      "noTouch": "src/**, tools/**, .project/sync.mjs, check-consistency.mjs,",
+      "preview": ""
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -505,21 +520,6 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
-    },
-    {
-      "id": "038",
-      "slug": "close-spec-automation",
-      "status": "draft",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/038-close-spec-automation.md",
-      "mtime": 1790758755798.3237,
-      "goal": "Одна команда `node .project/scripts/close-spec.mjs <spec-id>` закрывает",
-      "acceptance": "1. `node .project/scripts/close-spec.mjs 999 --dry-run` на несуществующей",
-      "noTouch": "src/**, tools/**, .project/sync.mjs, check-consistency.mjs,",
-      "preview": ""
     },
     {
       "id": "001",
@@ -883,7 +883,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]",
     "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
@@ -892,10 +891,17 @@
     "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]",
     "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)",
     "2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending"
+    "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending",
+    "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3135795",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-038 draft",
+      "type": "chore"
+    },
     {
       "sha": "799205f",
       "date": "2026-09-30",
@@ -1008,12 +1014,6 @@
       "sha": "0cc7ae6",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) - spec-037 revisions",
-      "type": "chore"
-    },
-    {
-      "sha": "8e502e1",
-      "date": "2026-09-30",
-      "subject": "chore(state): sync derived after spec-037 decisions",
       "type": "chore"
     }
   ],
