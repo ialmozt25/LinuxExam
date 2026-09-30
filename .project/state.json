@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "58168c1491074d5a54d88cfd5eec1abf4d545552",
+  "head": "e26f677a3c582e1e2fa820729548cb36a21c1108",
   "specs": [
     {
       "id": "022",
@@ -868,7 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]",
@@ -877,10 +876,23 @@
     "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
     "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)",
     "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]",
-    "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)"
+    "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)",
+    "2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e26f677",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) - spec-036 close",
+      "type": "chore"
+    },
+    {
+      "sha": "eb192f4",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-036 done",
+      "type": "chore"
+    },
     {
       "sha": "58168c1",
       "date": "2026-09-30",
@@ -987,18 +999,6 @@
       "sha": "fbdfb54",
       "date": "2026-09-30",
       "subject": "docs(spec-037): decisions - site barsik, token path, API contract",
-      "type": "docs"
-    },
-    {
-      "sha": "2262636",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-037 draft",
-      "type": "chore"
-    },
-    {
-      "sha": "27d9c20",
-      "date": "2026-09-30",
-      "subject": "docs(spec-037): draft — user counter (GoatCounter + center tile)",
       "type": "docs"
     }
   ],
