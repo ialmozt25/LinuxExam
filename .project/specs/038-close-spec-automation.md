@@ -2,8 +2,8 @@
 id: 038
 slug: close-spec-automation
 type: infra
-status: approved
-commit: null
+status: done
+commit: 78c0eaf
 ---
 
 # Спека 038 — close-spec.mjs: автоматизация closing-фазы
