@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f29336956d1089bdf311868722a4ef0e3d14d7c9",
+  "head": "4a3573b707812190fdf9c00fd5a9a3fe415df589",
   "specs": [
     {
       "id": "022",
@@ -462,6 +462,21 @@
       "preview": ""
     },
     {
+      "id": "034",
+      "slug": "mas-autonomy-b",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/034-mas-autonomy-b.md",
+      "mtime": 1790729843422.9243,
+      "goal": "Замкнуть цикл «спека → фабрика → результат + отчёт → память»:",
+      "acceptance": "1. **Step 0 (t0, если не STOP):** профиль `mas` установлен; `run-spec.mjs <spec-id>` (живой прогон, без `--dry-run`) → exit 0 (не 3); отчёт `RUN-SPEC-LIVE.md`.",
+      "noTouch": "`src/**` (продукт).",
+      "preview": ""
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -505,21 +520,6 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
-    },
-    {
-      "id": "034",
-      "slug": "mas-autonomy-b",
-      "status": "draft",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/034-mas-autonomy-b.md",
-      "mtime": 1790729172412.4888,
-      "goal": "Замкнуть цикл «спека → фабрика → результат + отчёт → память»:",
-      "acceptance": "1. **Step 0 (t0, если не STOP):** профиль `mas` установлен; `run-spec.mjs <spec-id>` (живой прогон, без `--dry-run`) → exit 0 (не 3); отчёт `RUN-SPEC-LIVE.md`.",
-      "noTouch": "`src/**` (продукт).",
-      "preview": ""
     },
     {
       "id": "001",
@@ -823,7 +823,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | run-spec.mjs: детерминированный контур спека → задача → preflight H2 → execute → H3 read-back → атомарная история .project/mas-runs.json; коды 0/1/2/3 (3 = precondition-missing с fix-командами); npm script spec:run | commit pending",
     "2026-09-30 | spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/<teamId>/ | commit pending",
     "2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending",
@@ -832,10 +831,17 @@
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "4a3573b",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-034 draft",
+      "type": "chore"
+    },
     {
       "sha": "f293369",
       "date": "2026-09-30",
@@ -949,12 +955,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-032): log decisions + orchestrator report",
       "type": "docs"
-    },
-    {
-      "sha": "af0658e",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-032",
-      "type": "chore"
     }
   ],
   "roles": [

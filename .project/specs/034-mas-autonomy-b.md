@@ -2,7 +2,7 @@
 id: 034
 slug: mas-autonomy-b
 type: infra
-status: draft
+status: approved
 commit: null
 ---
 
@@ -47,7 +47,7 @@ PATH H2 (033a): программируемого вызова `agent_teams_creat
 2. `id: t1` · `subject: spec-gate R5 в check-consistency.mjs — completed-задача спеки ↔ коммит (subject содержит spec-NNN + tN); whitelist cancelled; интеграция в sync:check` · `assignee: builder` · `dependencies: []`
 3. `id: t2` · `subject: .project/scripts/report-run.mjs — team.json → выжимка (verdict/duration/tasks) → docs/index.html (блок «Последний MAS-прогон») + episodic.md (rule 12)` · `assignee: builder` · `dependencies: []`
 4. `id: t3` · `subject: .project/scripts/committer.mjs — атомарный git add/commit; --dry-run; проверка staged-set ⊆ allowed` · `assignee: builder` · `dependencies: []`
-5. `id: t4` · `subject: mas-runs.json — расширение (durationMs, tokens, verdict) + npm runs:log (идемпотентный append)` · `assignee: builder` · `dependencies: []`
+5. `id: t4` · `subject: mas-runs.json — расширение (durationMs, tokens, verdict) + npm runs:log (идемпотентный append)` · `assignee: builder` · `dependencies: [t1]`
 6. `id: t5` · `subject: reviewer — независимое ревью t0–t4; verdict=pass; integration: run-spec → team → report-run → mas-runs → sync:check` · `assignee: reviewer` · `dependencies: [t0, t1, t2, t3, t4]`
 
 Оговорки:
@@ -55,6 +55,7 @@ PATH H2 (033a): программируемого вызова `agent_teams_creat
 - **t0 независим** от t1–t4. Если t0 STOP (нет сети/pnpm) — t1/t2/t3/t4 всё равно выполняются; t0 отражает в отчёте.
 - Правки — в `.project/scripts/`, `.project/mas-runs.json`, `docs/index.html` (через sync), `docs/memory/episodic.md`, `package.json`.
 - Approve капитана обязателен.
+- **Write-скоупы:** потенциальный overlap между t1 (spec-gate R5 — может потребовать правки `package.json`, если `sync:check` меняется) и t4 (`runs:log` — добавляет npm-скрипт в `package.json`). Чтобы гарантировать непараллельную запись в `package.json`, t4 сделан последовательным: `dependencies: [t1]`. Если t1 не модифицирует `package.json` (R5 — только `check-consistency.mjs`, уже вызывается из `sync:check`) — зависимость безвредна.
 
 ## Edge Cases и стратегия проверки
 

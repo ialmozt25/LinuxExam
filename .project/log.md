@@ -155,3 +155,4 @@
 2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]
 2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending
 2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]
+2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending

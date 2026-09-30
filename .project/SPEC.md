@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `f29336956d1089bdf311868722a4ef0e3d14d7c9`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `4a3573b707812190fdf9c00fd5a9a3fe415df589`<!--volatile:end-->
 - Спек: 32
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,10 +17,10 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
+| 034 | `mas-autonomy-b` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
-| 034 | `mas-autonomy-b` | infra | draft | — | — |
 | 001 | `file-management-batch-4` | content | done | f4e2538 | 2026-09-27 |
 | 002 | `dehardcode-positional-test` | feature | done | cd6ce8d | 2026-09-27 |
 | 004 | `batch-5-generation` | content | done | 12c8439 | 2026-09-27 |
