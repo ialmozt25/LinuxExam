@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "67955b4e45a7017ab42acd834db8617fb21f0978",
+  "head": "f46a69f305cbb145d0f7d87e80f012d9dac805dc",
   "specs": [
     {
       "id": "022",
@@ -868,7 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]",
@@ -877,10 +876,23 @@
     "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
-    "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)"
+    "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)",
+    "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f46a69f",
+      "date": "2026-09-30",
+      "subject": "docs(memory): resolve spec-037 closure SHAs",
+      "type": "docs"
+    },
+    {
+      "sha": "20903f8",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-037 done",
+      "type": "chore"
+    },
     {
       "sha": "67955b4",
       "date": "2026-09-30",
@@ -988,18 +1000,6 @@
       "date": "2026-09-30",
       "subject": "fix(run-spec): auto-resolve DEEPSEEK_API_KEY from User-scope",
       "type": "fix"
-    },
-    {
-      "sha": "2b92337",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-035 close",
-      "type": "chore"
-    },
-    {
-      "sha": "1c6d3bb",
-      "date": "2026-09-30",
-      "subject": "docs(spec-035): done — run-spec workspace fix (PASS)",
-      "type": "docs"
     }
   ],
   "roles": [
