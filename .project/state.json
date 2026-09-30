@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d03f570866058d553aaf358d3dee164f1d525ca0",
+  "head": "608c72fc962b737f2486eb0f464a6b2cf7a12574",
   "specs": [
     {
       "id": "022",
@@ -882,6 +882,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "608c72f",
+      "date": "2026-09-30",
+      "subject": "docs(spec-036): semantic audit artifacts + criterion 1 amendment",
+      "type": "docs"
+    },
+    {
       "sha": "977deb3",
       "date": "2026-09-30",
       "subject": "chore(state): converge after push-trail",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-036 draft",
       "type": "chore"
-    },
-    {
-      "sha": "1ba3a97",
-      "date": "2026-09-30",
-      "subject": "docs(spec-036): draft — bank semantic audit (RHEL 10)",
-      "type": "docs"
     }
   ],
   "roles": [
