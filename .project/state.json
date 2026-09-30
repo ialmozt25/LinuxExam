@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "259d7d41588d615310dd0c8af5ea621ac8d3ca7a",
+  "head": "bf795c99140f5140bc08bb6a858d7a586827dd37",
   "specs": [
     {
       "id": "022",
@@ -520,6 +520,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "037",
+      "slug": "user-counter",
+      "status": "draft",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/037-user-counter.md",
+      "mtime": 1790749336598.412,
+      "goal": "1. Сбор: скрипт GoatCounter в `dist/index.html` (из `index.html` корня).",
+      "acceptance": "1. `index.html` содержит GoatCounter script.",
+      "noTouch": "`src/data/**`, `tools/**`.",
+      "preview": ""
     },
     {
       "id": "001",
@@ -853,7 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec 035 | прогон AgentTeams (t1 fix spec-resolution в run-spec.mjs — вариант A: материализация спеки в `<workspace>/.project/specs/`; t2 RUN-SPEC-SPIKE-STOP.md = оригинал 6b06d73, байт-в-байт; t3 review round 1 PASS, findings нет) — живые прогоны ревьюера: без --workspace из %TEMP% → exit 0, collect ok; --live --workspace <temp> → exit 0 + team.json в temp-workspace | commit pending",
     "2026-09-30 | lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`, иначе ложный ROUTE_FAILED (воспроизведено и builder'ом, и ревьюером) | commit pending",
     "2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
@@ -862,10 +876,17 @@
     "2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "bf795c9",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-036 approve",
+      "type": "chore"
+    },
     {
       "sha": "259d7d4",
       "date": "2026-09-30",
@@ -979,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-034): fix t4 deps + approve",
       "type": "docs"
-    },
-    {
-      "sha": "4a3573b",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-034 draft",
-      "type": "chore"
     }
   ],
   "roles": [
