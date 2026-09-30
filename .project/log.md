@@ -192,3 +192,4 @@
 2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]
 2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending
 2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending
+2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending
