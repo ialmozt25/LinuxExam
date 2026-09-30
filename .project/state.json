@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "7b0b3a992312f50897eee07c864836894915303d",
+  "head": "572de550324125600ea90a5f043bbccf30eff31a",
   "specs": [
     {
       "id": "022",
@@ -822,6 +822,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "572de55",
+      "date": "2026-09-30",
+      "subject": "docs(spec-033a): orchestrator report + decisions (PATH: H2, граница мутации среды)",
+      "type": "docs"
+    },
+    {
       "sha": "7b0b3a9",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-033a",
@@ -934,12 +940,6 @@
       "date": "2026-09-29",
       "subject": "chore(alerts): spec-031 — e2e fp_002 + EPERM tech debt",
       "type": "chore"
-    },
-    {
-      "sha": "ba45517",
-      "date": "2026-09-29",
-      "subject": "fix(bank): RHCSA RHEL 10 — delete fp_002 / rewrite sec_007 / add msw_015+msw_016 (Flatpak)",
-      "type": "fix"
     }
   ],
   "roles": [
