@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "799205facd0b929cb3dd40a2b8d59135dc03dc20",
+  "head": "5ee11bedd2a830a4acf5074e732dd3127b68efae",
   "specs": [
     {
       "id": "022",
@@ -897,6 +897,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "5ee11be",
+      "date": "2026-09-30",
+      "subject": "docs(spec-038): approve + fix self-reference in no-touch",
+      "type": "docs"
+    },
+    {
       "sha": "3135795",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-038 draft",
@@ -1009,12 +1015,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-037): approve",
       "type": "docs"
-    },
-    {
-      "sha": "0cc7ae6",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) - spec-037 revisions",
-      "type": "chore"
     }
   ],
   "roles": [
