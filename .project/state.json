@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d14195cd2c109a7891df401181ca6aa31956c65b",
+  "head": "250565aa572dfb2618e360c24e6f37dda7fd807b",
   "specs": [
     {
       "id": "022",
@@ -505,6 +505,21 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
+    },
+    {
+      "id": "036",
+      "slug": "bank-semantic-audit",
+      "status": "draft",
+      "type": "content",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/036-bank-semantic-audit.md",
+      "mtime": 1790747675538.877,
+      "goal": "Для **каждого** из 225 вопросов — verdict:",
+      "acceptance": "1. `.project/specs/030-objectives-full.md` существует (или t0 = no-op skip).",
+      "noTouch": "`src/**` (только чтение).",
+      "preview": ""
     },
     {
       "id": "001",
@@ -838,7 +853,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 approve | [AUTHORIZE]",
@@ -847,10 +861,17 @@
     "2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
     "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending",
-    "2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]",
+    "2026-09-30 | spec | spec 036 (bank-semantic-audit) — draft: семантический аудит 225 вопросов RHEL 10 (t0 fetch + 4 writer-группы + qc); правки — spec 037 | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "250565a",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — env-fix run-spec",
+      "type": "chore"
+    },
     {
       "sha": "d14195c",
       "date": "2026-09-30",
@@ -963,12 +984,6 @@
       "sha": "443fca0",
       "date": "2026-09-30",
       "subject": "docs(spec-033a): done — MAS-autonomy spike (PATH: H2)",
-      "type": "docs"
-    },
-    {
-      "sha": "e66b6ec",
-      "date": "2026-09-30",
-      "subject": "docs(spec-033a): отчёт — не фиксировать число коммитов прогона (SHA после коммита)",
       "type": "docs"
     }
   ],
