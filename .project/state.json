@@ -470,7 +470,7 @@
       "updated": null,
       "commit": null,
       "file": "specs/039-bank-audit-036-fixes.md",
-      "mtime": 1790765926436.5698,
+      "mtime": 1790766044796.5967,
       "goal": "1. Rewrite 10 вопросов из audit-036 (ms_004, msw_011, msw_014, net_001,",
       "acceptance": "1. 10 вопросов rewritten — нет меток «Rocky 9», «RHEL 9», `.el9`,",
       "noTouch": "Другие 9 тем банка (essential_tools, text_files, file_permissions,",
@@ -912,6 +912,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "d881eb8",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-039 approve",
+      "type": "chore"
+    },
+    {
       "sha": "d57abf9",
       "date": "2026-09-30",
       "subject": "docs(spec-039): approve - fix template defects, id conventions (ntw_017/018, ug_019/020)",
@@ -1023,12 +1029,6 @@
       "sha": "cd1e82f",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-036 push-trail",
-      "type": "chore"
-    },
-    {
-      "sha": "e26f677",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) - spec-036 close",
       "type": "chore"
     }
   ],
