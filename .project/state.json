@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "2b92337d540296a356d68444c4378406335fa92f",
+  "head": "d14195cd2c109a7891df401181ca6aa31956c65b",
   "specs": [
     {
       "id": "022",
@@ -838,7 +838,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]",
     "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending",
@@ -847,10 +846,17 @@
     "2026-09-30 | lesson | spec 035: harness-процесс НЕ наследует User-переменную DEEPSEEK_API_KEY → живой прогон run-spec.mjs требует `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`, иначе ложный ROUTE_FAILED (воспроизведено и builder'ом, и ревьюером) | commit pending",
     "2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
-    "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending"
+    "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending",
+    "2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "d14195c",
+      "date": "2026-09-30",
+      "subject": "fix(run-spec): auto-resolve DEEPSEEK_API_KEY from User-scope",
+      "type": "fix"
+    },
     {
       "sha": "2b92337",
       "date": "2026-09-30",
@@ -964,12 +970,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-033a): отчёт — не фиксировать число коммитов прогона (SHA после коммита)",
       "type": "docs"
-    },
-    {
-      "sha": "89cafce",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-033a (log/report fixes)",
-      "type": "chore"
     }
   ],
   "roles": [

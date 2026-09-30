@@ -171,3 +171,4 @@
 2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending
 2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]
 2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending
+2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]
