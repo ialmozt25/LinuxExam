@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">31</div>
+      <div class="pulse-tile__value">37</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -343,7 +343,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 31 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 37 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -406,6 +406,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">6767526</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-038 push-trail</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
         <tr>
           <td class="mono">030dbc8</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -520,12 +526,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-036): semantic audit artifacts + criterion 1 amendment</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">977deb3</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after push-trail</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -557,7 +557,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">11 ч</td>
+          <td class="muted">12 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -569,9 +569,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-30T07:22:00Z</td>
-          <td class="mono">30</td>
-          <td class="muted">3 ч</td>
+          <td class="mono muted">2026-09-30T10:40:38Z</td>
+          <td class="mono">36</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -581,11 +581,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, проверка синхронизации) + --refresh-working | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-038 close | push разрешён</li>
+        <li><span class="mono muted">30.09</span> · memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -616,8 +616,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 45</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 45</div>
+    <summary>Тревоги · записей: 51</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 51</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -797,6 +797,30 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">30.09 | process gap | эксперимент с frontmatter живого файла spec 037</div>
           <div class="entry__body muted">При проверке гейта R5 в «изолированном» клоне был затронут живой .project/specs/037-user-counter.md…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | defect | close-spec.mjs использует git commit --amend внутри</div>
+          <div class="entry__body muted">Лог apply (spec 038): «converge-коммит ec6f72e вписан в docs/memory/episodic.md (докоммичен amend&#39;ом)».…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | observation | commit: в spec 038 указывает на feat до body-fix</div>
+          <div class="entry__body muted">frontmatter spec 038: commit: 78c0eaf. Финальный текст спеки (adopt флагов --json/--repo-root + критерий 7) живёт в 9e6f97d.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | tech debt | DEP0190 warning в close-spec.mjs</div>
+          <div class="entry__body muted">При apply в stderr: «DeprecationWarning: [DEP0190] Passing args to a child process with shell option true…». Не блокирует.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | tech debt | working.md содержит ahead: 0 при реальном ahead 11</div>
+          <div class="entry__body muted">Артефакт прогона 038 (запись от MAS-капитана). Зафиксировано в журнал событий 2026-09-30. Статус: ОТКРЫТ.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | observation | retired-members.json в .agent-teams/</div>
+          <div class="entry__body muted">Источник установлен: плагинный артефакт @nanmicoder/dsh-agent-teams — lib/state.js:27 (const RETIRED_MEMBERS_FILE = &#39;retired-members.json&#39;)…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">30.09 | tech debt | Dependabot: 54 vulnerabilities (обновление)</div>
+          <div class="entry__body muted">Было 52 (2026-09-28). Стало 54 (2026-09-30). Из них: 1 critical, 23 high, 26 moderate, 4 low.…</div>
         </div>
   </details>
 

@@ -170,4 +170,22 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 ## 2026-09-30 | process gap | эксперимент с frontmatter живого файла spec 037
 При проверке гейта R5 в «изолированном» клоне был затронут живой `.project/specs/037-user-counter.md` — frontmatter получил `status: done` до готовности коммита (следствие: `npm run sync:check` → exit 2, R5-находки). Устранено в той же сессии: файл возвращён к `approved` / `commit: null`, коммита не было, потерь нет. Урок: R5 проверять только на копии в `%TEMP%` с явно скопированным `.agent-teams`; живой файл spec 037 — только чтение. Дополнительно: R5 считается по реальному `.agent-teams` (untracked), в клоне он отсутствует — гейт молчит, поэтому изоляцию клона нужно восстанавливать копированием `.agent-teams`.
 
-<!-- meta updated: 2026-09-30T07:22:00Z entries_count: 30 -->
+## 2026-09-30 | defect | close-spec.mjs использует git commit --amend внутри
+Лог apply (spec 038): «converge-коммит ec6f72e вписан в docs/memory/episodic.md (докоммичен amend'ом)». Правило 8 (история не переписывается) применяется к ручным операциям; здесь amend делается инструментом внутри commit-chain. Прецедент: следующий close может переписать видимую историю. Кандидат в spec-fix: заменить amend на отдельный commits-append или на sed-in-place до первого коммита. Финализированный ec6f72e в git log не виден. Строки в close-spec.mjs: 1310, 1313–1316 (`runGitWrite(root, ['commit', '--amend', '--no-edit', '--only', '--', ...touched])`). Публикация безопасна постфактум: amend не был запущен, пока предыдущий коммит оставался неопубликованным (`origin/main` = `cd1e82f` до push). Риск — для будущего close в состоянии «предыдущий коммит уже опубликован»: `--amend` перепишет видимую историю. Статус: ОТКРЫТ.
+
+## 2026-09-30 | observation | commit: в spec 038 указывает на feat до body-fix
+frontmatter spec 038: commit: 78c0eaf. Финальный текст спеки (adopt флагов --json/--repo-root + критерий 7) живёт в 9e6f97d. Гейты sync:check/R5 не сравнивают содержимое — зазор не ловится. Сознательно принято капитаном 2026-09-30. Кандидат: close-spec.mjs при записи commit: должен брать последний коммит, содержащий файл спеки (git log -1 --format=%H -- <spec>).
+
+## 2026-09-30 | tech debt | DEP0190 warning в close-spec.mjs
+При apply в stderr: «DeprecationWarning: [DEP0190] Passing args to a child process with shell option true…». Не блокирует. Кандидат: убрать shell: true в вызовах spawnSync, где аргументы уже массив.
+
+## 2026-09-30 | tech debt | working.md содержит ahead: 0 при реальном ahead 11
+Артефакт прогона 038 (запись от MAS-капитана). Зафиксировано в log.md 2026-09-30. Статус: ОТКРЫТ. Кандидат: `npm run spec:close -- --refresh-working` при следующем close; либо шаг 8 протокола spec-to-team должен писать working.md через git status, а не статикой.
+
+## 2026-09-30 | observation | retired-members.json в .agent-teams/
+Источник установлен: плагинный артефакт `@nanmicoder/dsh-agent-teams` — `lib/state.js:27` (`const RETIRED_MEMBERS_FILE = 'retired-members.json'`), запись через `recordRetiredMemberIds()` (`lib/state.js:288`, `withTeamLock(...)` + `atomicWriteText`); durable deny-list session-id удалённых членов. Размер: 969 Б. mtime: 2026-09-30 19:44:34 (локальное). Содержимое: JSON-массив из 23 UUID (в ASCII-сортированном порядке). Не удалять: может быть артефактом плагина (ретрай-логика dsh-agent-teams). Статус: подтверждён как плагинный; ОТКРЫТ (вне git-контроля).
+
+## 2026-09-30 | tech debt | Dependabot: 54 vulnerabilities (обновление)
+Было 52 (2026-09-28). Стало 54 (2026-09-30). Из них: 1 critical, 23 high, 26 moderate, 4 low. Источник: отчёт push spec 038 (fallback — `gh api …/dependabot/alerts` → HTTP 403, нужен scope `admin:repo_hook`). Не блокирует. Внешний долг. Статус: ОТКРЫТ.
+
+<!-- meta updated: 2026-09-30T10:40:38Z entries_count: 36 -->
