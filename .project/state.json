@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "78c0eaf86fbe1c19fcb828fe9b96e8d2fe39119c",
+  "head": "9e6f97d160446c6aed1dbc92ac31e943e1f6e80b",
   "specs": [
     {
       "id": "022",
@@ -897,6 +897,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "9e6f97d",
+      "date": "2026-09-30",
+      "subject": "docs(spec-038): adopt --json and --repo-root flags (post-run)",
+      "type": "docs"
+    },
+    {
       "sha": "08c18a1",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-038 feat",
@@ -1008,12 +1014,6 @@
       "sha": "d6d86f1",
       "date": "2026-09-30",
       "subject": "chore(spec-037): R5 trace - task tokens t1 t2 t3 t4 t5",
-      "type": "chore"
-    },
-    {
-      "sha": "67e61a5",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-037 run",
       "type": "chore"
     }
   ],
