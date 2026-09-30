@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f43b060ba1d1311d62580bd5b51f166c1a8bb8bf",
+  "head": "7b0b3a992312f50897eee07c864836894915303d",
   "specs": [
     {
       "id": "022",
@@ -459,6 +459,21 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
+      "preview": ""
+    },
+    {
+      "id": "033",
+      "slug": "mas-autonomy-spike",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/033a-mas-autonomy-spike.md",
+      "mtime": 1790728281470.019,
+      "goal": "1. **Spike (t0):** определить программируемый путь к `dsh-agent-teams`.",
+      "acceptance": "1. **t0:** отчёт `.project/scripts/RUN-SPEC-SPIKE.md` — есть; указан работающий путь (H1/H2/H3) или STOP.",
+      "noTouch": "`src/**` (продукт).",
       "preview": ""
     },
     {
@@ -732,21 +747,6 @@
       "preview": ""
     },
     {
-      "id": "033",
-      "slug": "mas-autonomy-spike",
-      "status": "done",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": "f43b060",
-      "file": "specs/033a-mas-autonomy-spike.md",
-      "mtime": 1790728243916.6694,
-      "goal": "1. **Spike (t0):** определить программируемый путь к `dsh-agent-teams`.",
-      "acceptance": "1. **t0:** отчёт `.project/scripts/RUN-SPEC-SPIKE.md` — есть; указан работающий путь (H1/H2/H3) или STOP.",
-      "noTouch": "`src/**` (продукт).",
-      "preview": ""
-    },
-    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -808,7 +808,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-032 close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — draft: spike программного пути к dsh-agent-teams + run-spec.mjs + TASK/SESSION templates | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 033a — approved; готов к /spec-to-team 033a (spike-first: t0 проверка dsh-agent-teams) | commit pending",
@@ -817,10 +816,17 @@
     "2026-09-30 | spec | run-spec.mjs: детерминированный контур спека → задача → preflight H2 → execute → H3 read-back → атомарная история .project/mas-runs.json; коды 0/1/2/3 (3 = precondition-missing с fix-командами); npm script spec:run | commit pending",
     "2026-09-30 | spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/<teamId>/ | commit pending",
     "2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending",
-    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending"
+    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending",
+    "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "7b0b3a9",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-033a",
+      "type": "chore"
+    },
     {
       "sha": "f43b060",
       "date": "2026-09-30",
@@ -934,12 +940,6 @@
       "date": "2026-09-29",
       "subject": "fix(bank): RHCSA RHEL 10 — delete fp_002 / rewrite sec_007 / add msw_015+msw_016 (Flatpak)",
       "type": "fix"
-    },
-    {
-      "sha": "194db93",
-      "date": "2026-09-29",
-      "subject": "chore(log): authorize push (rule 10) — spec-031 approve",
-      "type": "chore"
     }
   ],
   "roles": [

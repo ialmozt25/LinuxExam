@@ -2,8 +2,8 @@
 id: 033
 slug: mas-autonomy-spike
 type: infra
-status: done
-commit: f43b060
+status: approved
+commit: null
 ---
 
 # Спека 033a — MAS-autonomy: spike + фундамент (run-spec.mjs, TASK.md)
