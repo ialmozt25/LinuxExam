@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `bfb7ca2d2153e35a6e72adcb749e468a7689f038`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `f43b060ba1d1311d62580bd5b51f166c1a8bb8bf`<!--volatile:end-->
 - Спек: 31
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -35,7 +35,7 @@
 | 018 | `batch5b-shell-scripts` | content | done | — | 2026-09-28 |
 | 020 | `batch5c-running-systems` | content | done | — | 2026-09-28 |
 | 032 | `mas-autonomy-a` | infra | done | 2539526 | — |
-| 033 | `mas-autonomy-spike` | infra | done | — | — |
+| 033 | `mas-autonomy-spike` | infra | done | f43b060 | — |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

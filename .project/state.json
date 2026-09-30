@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "bfb7ca2d2153e35a6e72adcb749e468a7689f038",
+  "head": "f43b060ba1d1311d62580bd5b51f166c1a8bb8bf",
   "specs": [
     {
       "id": "022",
@@ -738,9 +738,9 @@
       "type": "infra",
       "created": null,
       "updated": null,
-      "commit": null,
+      "commit": "f43b060",
       "file": "specs/033a-mas-autonomy-spike.md",
-      "mtime": 1790728042071.7842,
+      "mtime": 1790728243916.6694,
       "goal": "1. **Spike (t0):** определить программируемый путь к `dsh-agent-teams`.",
       "acceptance": "1. **t0:** отчёт `.project/scripts/RUN-SPEC-SPIKE.md` — есть; указан работающий путь (H1/H2/H3) или STOP.",
       "noTouch": "`src/**` (продукт).",
@@ -821,6 +821,12 @@
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f43b060",
+      "date": "2026-09-30",
+      "subject": "feat(spec-033a): run-spec.mjs + npm spec:run + MAS handoff templates (PATH: H2)",
+      "type": "feat"
+    },
     {
       "sha": "bfb7ca2",
       "date": "2026-09-30",
@@ -934,12 +940,6 @@
       "date": "2026-09-29",
       "subject": "chore(log): authorize push (rule 10) — spec-031 approve",
       "type": "chore"
-    },
-    {
-      "sha": "fc2f83e",
-      "date": "2026-09-29",
-      "subject": "docs(spec-031): approve",
-      "type": "docs"
     }
   ],
   "roles": [
