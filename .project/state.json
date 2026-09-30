@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "9e6f97d160446c6aed1dbc92ac31e943e1f6e80b",
+  "head": "b66a012d82eadd377a75067dfd642ac12c700696",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "038",
-      "slug": "close-spec-automation",
-      "status": "approved",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/038-close-spec-automation.md",
-      "mtime": 1790762619822.1462,
-      "goal": "Одна команда `node .project/scripts/close-spec.mjs <spec-id>` закрывает",
-      "acceptance": "1. `node .project/scripts/close-spec.mjs 999 --dry-run` на несуществующей",
-      "noTouch": "src/**, tools/**, .project/sync.mjs, check-consistency.mjs,",
       "preview": ""
     },
     {
@@ -822,6 +807,21 @@
       "preview": ""
     },
     {
+      "id": "038",
+      "slug": "close-spec-automation",
+      "status": "done",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": "78c0eaf",
+      "file": "specs/038-close-spec-automation.md",
+      "mtime": 1790762667321.3286,
+      "goal": "Одна команда `node .project/scripts/close-spec.mjs <spec-id>` закрывает",
+      "acceptance": "1. `node .project/scripts/close-spec.mjs 999 --dry-run` на несуществующей",
+      "noTouch": "src/**, tools/**, .project/sync.mjs, check-consistency.mjs,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -883,7 +883,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
     "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)",
@@ -892,10 +891,29 @@
     "2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
-    "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending"
+    "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
+    "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "b66a012",
+      "date": "2026-09-30",
+      "subject": "docs(spec-038): done - close-spec.mjs: автоматизация closing-фазы",
+      "type": "docs"
+    },
+    {
+      "sha": "aea5a06",
+      "date": "2026-09-30",
+      "subject": "chore(spec-038): R5 trace - task tokens t1 t2 t3",
+      "type": "chore"
+    },
+    {
+      "sha": "246b379",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-038 body fix",
+      "type": "chore"
+    },
     {
       "sha": "9e6f97d",
       "date": "2026-09-30",
@@ -997,24 +1015,6 @@
       "date": "2026-09-30",
       "subject": "docs(memory): resolve spec-037 closure SHAs",
       "type": "docs"
-    },
-    {
-      "sha": "20903f8",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-037 done",
-      "type": "chore"
-    },
-    {
-      "sha": "67955b4",
-      "date": "2026-09-30",
-      "subject": "docs(spec-037): done - user counter (GoatCounter + center tile)",
-      "type": "docs"
-    },
-    {
-      "sha": "d6d86f1",
-      "date": "2026-09-30",
-      "subject": "chore(spec-037): R5 trace - task tokens t1 t2 t3 t4 t5",
-      "type": "chore"
     }
   ],
   "roles": [
