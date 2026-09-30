@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "312670f8635a7954a425eb9e5511410ae46285e3",
+  "head": "be408eae6260f6ed8fe2d89cbe171d0784c7ba68",
   "specs": [
     {
       "id": "022",
@@ -838,7 +838,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]",
     "2026-09-30 | spec 034 | прогон AgentTeams (t1 spec-gate R5, t2 report-run + блок «Последний MAS-прогон», t3 committer, t4 метрики runs:log) — ревью t6 PASS, repair t7 + ревью t8 PASS; Step 0 = STOP (нет DEEPSEEK_API_KEY в профиле mas; precondition-missing из 033a закрыт) — прогон PARTIAL по решению капитана (вариант B) | commit pending",
     "2026-09-30 | decision | spec 034: установка dsh-tier-router ^0.6.0 в профиль mas авторизована капитаном после RECON (NO_ADAPTER закрыт; остался только API-ключ, ключ через чат не передаётся — security policy) | commit pending",
@@ -847,10 +846,17 @@
     "2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]",
     "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending"
+    "2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-035 approve | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "be408ea",
+      "date": "2026-09-30",
+      "subject": "docs(spec-035): approve",
+      "type": "docs"
+    },
     {
       "sha": "312670f",
       "date": "2026-09-30",
@@ -964,12 +970,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-033a",
       "type": "chore"
-    },
-    {
-      "sha": "f43b060",
-      "date": "2026-09-30",
-      "subject": "feat(spec-033a): run-spec.mjs + npm spec:run + MAS handoff templates (PATH: H2)",
-      "type": "feat"
     }
   ],
   "roles": [

@@ -165,3 +165,4 @@
 2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending
 2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]
 2026-09-30 | spec | spec 035 — approved; готов к /spec-to-team 035 (t1 fix spec-resolution + --live, t2 cleanup RUN-SPEC-SPIKE-STOP, t3 reviewer) | commit pending
+2026-09-30 | push | authorize push origin main — spec-035 approve | [AUTHORIZE]
