@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "3c05061deba69d4aad29137355853dbed0704965",
+  "head": "4c045cd9a44efde253ad84062c0afd3494f95d54",
   "specs": [
     {
       "id": "022",
@@ -838,7 +838,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]",
@@ -847,10 +846,17 @@
     "2026-09-30 | lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; урок — контракт «доказательства на копиях» обязан отдельно требовать проверку дефолтного пути/вызова | commit pending",
     "2026-09-30 | spec | spec 034 — done (PASS 7/7); t0 закрыт вручную: run-spec.mjs 013 → exit 0, team.json создан, RUN-SPEC-LIVE.md; staged spec-013-local-aliases архивирована | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-034 close (PASS) | [AUTHORIZE]",
-    "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending"
+    "2026-09-30 | spec | spec 035 (run-spec-workspace-fix) — draft: fix spec-resolution + cleanup RUN-SPEC-LIVE (SPIKE-STOP) + --live alias | commit pending",
+    "2026-09-30 | push | authorize push origin main — spec-035 draft | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "4c045cd",
+      "date": "2026-09-30",
+      "subject": "docs(spec-035): draft — run-spec workspace fix + cleanup",
+      "type": "docs"
+    },
     {
       "sha": "3c05061",
       "date": "2026-09-30",
@@ -964,12 +970,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) — spec-033a approve",
       "type": "chore"
-    },
-    {
-      "sha": "93aef04",
-      "date": "2026-09-30",
-      "subject": "docs(spec-033a): approve",
-      "type": "docs"
     }
   ],
   "roles": [
