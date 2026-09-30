@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "b66a012d82eadd377a75067dfd642ac12c700696",
+  "head": "c0325d0a4a5977783fa2bd6da068d97d89d014b8",
   "specs": [
     {
       "id": "022",
@@ -883,7 +883,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 — approved (embedded captain approval) | commit pending",
     "2026-09-30 | spec-037 | done - user counter (GoatCounter + center tile) | commit d6d86f1 (R5 trace; feat 652c507)",
     "2026-09-30 | push | authorize push origin main — spec-037 close | [AUTHORIZE]",
@@ -892,10 +891,17 @@
     "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
     "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
-    "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf"
+    "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf",
+    "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c0325d0",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-038 done",
+      "type": "chore"
+    },
     {
       "sha": "b66a012",
       "date": "2026-09-30",
@@ -1009,12 +1015,6 @@
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) - spec-037 close",
       "type": "chore"
-    },
-    {
-      "sha": "f46a69f",
-      "date": "2026-09-30",
-      "subject": "docs(memory): resolve spec-037 closure SHAs",
-      "type": "docs"
     }
   ],
   "roles": [
