@@ -179,3 +179,4 @@
 2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending
 2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]
 2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending
+2026-09-30 | push | authorize push origin main — spec-037 revisions | [AUTHORIZE]
