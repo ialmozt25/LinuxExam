@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "6b06d73eb8f453ec377b3e186e5819fc2b60b67f",
+  "head": "98603e230a1d6f1c88e074bab4e80e46fa4c48d5",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "034",
-      "slug": "mas-autonomy-b",
-      "status": "approved",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/034-mas-autonomy-b.md",
-      "mtime": 1790729843422.9243,
-      "goal": "Замкнуть цикл «спека → фабрика → результат + отчёт → память»:",
-      "acceptance": "1. **Step 0 (t0, если не STOP):** профиль `mas` установлен; `run-spec.mjs <spec-id>` (живой прогон, без `--dry-run`) → exit 0 (не 3); отчёт `RUN-SPEC-LIVE.md`.",
-      "noTouch": "`src/**` (продукт).",
       "preview": ""
     },
     {
@@ -762,6 +747,21 @@
       "preview": ""
     },
     {
+      "id": "034",
+      "slug": "mas-autonomy-b",
+      "status": "done",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": "6b06d73",
+      "file": "specs/034-mas-autonomy-b.md",
+      "mtime": 1790739469193.881,
+      "goal": "Замкнуть цикл «спека → фабрика → результат + отчёт → память»:",
+      "acceptance": "1. **Step 0 (t0, если не STOP):** профиль `mas` установлен; `run-spec.mjs <spec-id>` (живой прогон, без `--dry-run`) → exit 0 (не 3); отчёт `RUN-SPEC-LIVE.md`.",
+      "noTouch": "`src/**` (продукт).",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -823,7 +823,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | commit pending",
@@ -832,10 +831,17 @@
     "2026-09-30 | push | authorize push origin main — spec-034 fix + approve | [AUTHORIZE]",
     "2026-09-30 | spec 034 | прогон AgentTeams (t1 spec-gate R5, t2 report-run + блок «Последний MAS-прогон», t3 committer, t4 метрики runs:log) — ревью t6 PASS, repair t7 + ревью t8 PASS; Step 0 = STOP (нет DEEPSEEK_API_KEY в профиле mas; precondition-missing из 033a закрыт) — прогон PARTIAL по решению капитана (вариант B) | commit pending",
     "2026-09-30 | decision | spec 034: установка dsh-tier-router ^0.6.0 в профиль mas авторизована капитаном после RECON (NO_ADAPTER закрыт; остался только API-ключ, ключ через чат не передаётся — security policy) | commit pending",
-    "2026-09-30 | lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; урок — контракт «доказательства на копиях» обязан отдельно требовать проверку дефолтного пути/вызова | commit pending"
+    "2026-09-30 | lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; урок — контракт «доказательства на копиях» обязан отдельно требовать проверку дефолтного пути/вызова | commit pending",
+    "2026-09-30 | spec | spec 034 — done (PASS 7/7); t0 закрыт вручную: run-spec.mjs 013 → exit 0, team.json создан, RUN-SPEC-LIVE.md; staged spec-013-local-aliases архивирована | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "98603e2",
+      "date": "2026-09-30",
+      "subject": "chore(state): spec-034 - memory, orchestrator report, decisions; review t6 t8 PASS; converge after archive",
+      "type": "chore"
+    },
     {
       "sha": "6b06d73",
       "date": "2026-09-30",
@@ -949,12 +955,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-033a): draft — MAS-autonomy spike + foundation",
       "type": "docs"
-    },
-    {
-      "sha": "e10d8ca",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-032 close",
-      "type": "chore"
     }
   ],
   "roles": [

@@ -159,4 +159,7 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 ## 2026-09-30 | observation | [f4-cleaner] в коммите 2539526 без meta-инкремента
 Запись `[f4-cleaner] предложение` (alerts.md стр. 156–157, `[closed 2026-09-30: кандидатов нет]`) попала в коммит `2539526` (MAS-прогон spec 032) между чтением файла и `git add` — параллельный writer. Запись безвредна, само-закрыта, гейты не затронуты. `entries_count` в meta не инкрементирован. При spec 033b — учесть в whitelist spec-gate.
 
-<!-- meta updated: 2026-09-29T23:33:11Z entries_count: 27 -->
+## 2026-09-30 | MAS | t0 (Step 0) закрыт вручную — цикл автономии технически замкнут
+Живой smoke `run-spec.mjs 013 --workspace . --timeout-ms 600000` → exit 0, 105716 ms, `team.json` создан в `.agent-teams/spec-013-local-aliases/` (staged, 3 члена, 3 задачи). API key `DEEPSEEK_API_KEY` в env; профиль `mas` собран (dsh-tier-router, @nanmicoder/dsh-agent-teams). Отчёт — `.project/scripts/RUN-SPEC-LIVE.md`. Модель в headless остановилась на «present plan, end turn for review» — правильное поведение. Spec 034 → done (7/7). Остаток: `run-spec.mjs` не передаёт spec в изолированный workspace (fix — spec 035).
+
+<!-- meta updated: 2026-09-30T03:38:06Z entries_count: 28 -->

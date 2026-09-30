@@ -2,8 +2,8 @@
 id: 034
 slug: mas-autonomy-b
 type: infra
-status: approved
-commit: null
+status: done
+commit: 6b06d73
 ---
 
 # Спека 034 — MAS-autonomy (B): spec-gate + авто-отчёт + committer + метрики + живой smoke

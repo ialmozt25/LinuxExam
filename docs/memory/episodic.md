@@ -130,4 +130,7 @@ Evidence: `.agent-teams/spec-032-mas-autonomy-a`.
 Гейты (перепроверены лидом на интеграции): `typecheck` 0, `test:run` 0 (28 файлов / 198 тестов), `consistency:check` 0; `sync:check` — **2 в живом прогоне** (ожидаемо: не-volatile секция «Пульс агентов» считается по `.agent-teams/*/team.json`, `sync.mjs:968-1066` — урок 033a подтверждён кодом) и **0 после архивации команды + converge-коммита**.
 Отклонения/трактовки: (а) рендер блока — в `sync.mjs`, а не в `docs/index.html` (иначе drift и красный гейт); (б) `--json` у `report-run.mjs` read-only, чтобы verify-команда не портила out-of-scope `episodic.md`; (в) реальные git-коммиты прогона — за лидом (правило 11 не нарушалось: члены команды не коммитили и не пушили); (г) хук `.githooks/pre-commit` существует (`core.hooksPath=.githooks`) и коммиты НЕ блокирует (любой исход кроме ошибки запуска → exit 0); в отчётах t3 и ревьюера он назван отсутствующим — проверялся только `.git/hooks/` (неблокирующая неточность, LOW). Evidence: `.agent-teams/spec-034-mas-autonomy-b` (после архивации — `.agent-teams/archive/spec-034-mas-autonomy-b`). Коммиты прогона — см. `git log` (SHA пишется после коммита).
 
-<!-- meta updated: 2026-09-30T02:39:14Z entries_count: 22 -->
+## 2026-09-30 | spec-034-t0-closed
+Живой smoke `run-spec.mjs 013 --workspace . --timeout-ms 600000` — exit 0, 105716 ms; team.json создан в .agent-teams/spec-013-local-aliases (staged, 3 члена, 3 задачи); RUN-SPEC-LIVE.md создан. Step 0 закрыт вручную капитаном (DEEPSEEK_API_KEY в env). Spec 034 → done (PASS 7/7). Команда spec-013-local-aliases архивирована. Дальше: spec 035 — fix spec-resolution в run-spec.mjs.
+
+<!-- meta updated: 2026-09-30T03:38:06Z entries_count: 23 -->
