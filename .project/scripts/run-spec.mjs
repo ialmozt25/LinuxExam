@@ -26,9 +26,10 @@
 //     живой процесс DSH внешнюю запись не замечает).
 //
 // Использование:
-//   node .project/scripts/run-spec.mjs <spec-id> [--dry-run] [--json]
+//   node .project/scripts/run-spec.mjs <spec-id> [--dry-run|--live] [--json]
 //        [--profile <name>] [--workspace <dir>] [--timeout-ms <ms>]
 //   npm run spec:run -- 033a --dry-run
+//   node .project/scripts/run-spec.mjs 013 --live --workspace %TEMP%\\ws
 //
 // Коды выхода (по образцу archive-team.mjs):
 //   0 — успех: dry-run-отчёт либо реальный прогон со status=ok;
@@ -43,6 +44,17 @@
 // `<workspace>/.agent-teams/<teamId>/` (пути — от корня репозитория, копирование
 // идемпотентно, отсутствие шаблона — понятная ошибка с точным путём). В --dry-run
 // копирование не выполняется: печатается только план.
+//
+// СПЕКА (spec 035, fix spec-resolution): каталог спек жёстко привязан к корню репо
+// (`SPECS_DIR`), а cwd вложенного агента = `--workspace`, поэтому перед реальным
+// прогоном файл спеки материализуется в `<workspace>/.project/specs/<file>.md`
+// (вариант A). В /agent-teams-промпт идёт `.project/specs/<file>.md` — путь,
+// который существует относительно cwd вложенного агента. При workspace = корень
+// репо целевой путь совпадает с исходным: копирование пропускается, текст промпта
+// прежний. В --dry-run копирование не выполняется (печатается только план).
+//
+// `--live` — алиас не-dry-run (явный реальный прогон); одиночный `--dry-run`
+// по-прежнему даёт dry-run.
 
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -58,6 +70,13 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
 
 /** Каталог спек. */
 export const SPECS_DIR = path.join(REPO_ROOT, '.project', 'specs');
+
+/**
+ * Каталог спеки внутри workspace (относительно `<workspace>`) — ровно тот путь,
+ * который подставляется в /agent-teams-промпт и существует относительно cwd
+ * вложенного агента (spec 035, вариант A).
+ */
+export const WORKSPACE_SPECS_DIR = path.join('.project', 'specs');
 
 /** Канонический путь истории прогонов (выбран капитаном для spec 033a). */
 export const HISTORY_PATH = path.join(REPO_ROOT, '.project', 'mas-runs.json');
@@ -87,7 +106,7 @@ const DEFAULTS = {
 };
 
 const USAGE = [
-  'usage: node .project/scripts/run-spec.mjs <spec-id> [--dry-run] [--json]',
+  'usage: node .project/scripts/run-spec.mjs <spec-id> [--dry-run|--live] [--json]',
   '       [--profile <name>] [--workspace <dir>] [--timeout-ms <ms>]',
   '',
   'MAS-прогон по спеке через CLI-путь к dsh-agent-teams (spec 033a, вердикт t0: PATH: H2).',
@@ -98,6 +117,7 @@ const USAGE = [
   'Флаги:',
   '  --dry-run            только отчёт: команда не запускается, шаблоны не копируются,',
   '                       .project/mas-runs.json не пишется',
+  '  --live               алиас не-dry-run: явный реальный прогон (обратное к --dry-run)',
   '  --json               печатать отчёт в виде JSON',
   '  --profile <name>     DSH-профиль с плагином agent-teams (по умолчанию mas)',
   '  --workspace <dir>    рабочая директория прогона (по умолчанию корень репозитория)',
@@ -105,7 +125,7 @@ const USAGE = [
   '  -h, --help           эта справка',
   '',
   'Перед реальным прогоном templates/mas/{TASK,SESSION}.md копируются в',
-  '<workspace>/.agent-teams/<teamId>/.',
+  '<workspace>/.agent-teams/<teamId>/, а файл спеки — в <workspace>/.project/specs/.',
 ].join('\n');
 
 // ---------------------------------------------------------------------------
@@ -137,6 +157,10 @@ export function parseArgs(argv) {
     switch (flag) {
       case '--dry-run':
         options.dryRun = true;
+        break;
+      case '--live':
+        // Алиас не-dry-run (spec 035): явный реальный прогон.
+        options.dryRun = false;
         break;
       case '--json':
         options.json = true;
@@ -245,6 +269,49 @@ export async function resolveSpec(specsDir, specIdRaw) {
 }
 
 /**
+ * Материализовать файл спеки внутри workspace (spec 035, вариант A): вложенный
+ * агент запускается с `cwd = --workspace`, поэтому относительный путь спеки должен
+ * существовать именно там. Копия идемпотентна (перезапись байтами исходника);
+ * если целевой путь совпадает с исходным (workspace = корень репо) — записи нет.
+ * @param {string} workspace - рабочая директория прогона.
+ * @param {{file: string, path: string, relativePath: string, bytes: number}} spec
+ * @returns {Promise<{ok: boolean, path: string, relativePath: string, copied: boolean, bytes: number|null, error: string|null}>}
+ */
+export async function materializeSpec(workspace, spec) {
+  const target = path.join(workspace, WORKSPACE_SPECS_DIR, spec.file);
+  const relativePath = path.relative(workspace, target).split(path.sep).join('/');
+  if (path.resolve(target) === path.resolve(spec.path)) {
+    return { ok: true, path: target, relativePath, copied: false, bytes: spec.bytes, error: null };
+  }
+  try {
+    const bytes = await fsp.readFile(spec.path);
+    await fsp.mkdir(path.dirname(target), { recursive: true });
+    await fsp.writeFile(target, bytes);
+    const written = await fsp.readFile(target);
+    if (!written.equals(bytes)) {
+      return {
+        ok: false,
+        path: target,
+        relativePath,
+        copied: false,
+        bytes: bytes.length,
+        error: `копия спеки ${target} не совпала с исходником побайтово`,
+      };
+    }
+    return { ok: true, path: target, relativePath, copied: true, bytes: bytes.length, error: null };
+  } catch (error) {
+    return {
+      ok: false,
+      path: target,
+      relativePath,
+      copied: false,
+      bytes: null,
+      error: `спека не материализована в workspace: ${target} (${errorCodeOf(error)})`,
+    };
+  }
+}
+
+/**
  * Разбор markdown-спеки: front-matter, заголовок первого уровня, список целей из
  * секции «## Цель». Зависимостей нет, парсер намеренно минимальный.
  * @param {string} raw - содержимое файла.
@@ -309,6 +376,8 @@ export function sanitizeKey(name) {
 /**
  * Текст задачи для one-shot прогона: ведущий `/agent-teams` + цель из спеки.
  * Детерминирован (никаких вызовов модели здесь) и ограничен по длине.
+ * `spec.relativePath` — путь спеки, существующий относительно cwd вложенного
+ * агента (= `--workspace`), см. materializeSpec (spec 035).
  * @param {{specId: string, slug: string|null, title: string, goals: string[], relativePath: string}} spec
  * @param {string} teamId - ожидаемое имя команды.
  */
@@ -699,7 +768,11 @@ export async function runSpec(options) {
   });
 
   const teamId = teamIdFor(spec);
-  const taskText = buildTaskText(spec, teamId);
+  // spec 035 (вариант A): cwd вложенного агента = workspace, поэтому спека
+  // материализуется внутрь workspace, а в промпт идёт путь, существующий там.
+  const workspaceSpecPath = path.join(options.workspace, WORKSPACE_SPECS_DIR, spec.file);
+  const specPromptPath = path.relative(options.workspace, workspaceSpecPath).split(path.sep).join('/');
+  const taskText = buildTaskText({ ...spec, relativePath: specPromptPath }, teamId);
   const pre = preflight({ profile: options.profile, workspace: options.workspace });
   report.precondition = pre.checks;
   report.steps.push({
@@ -714,6 +787,8 @@ export async function runSpec(options) {
   report.plan = {
     teamIdHint: teamId,
     stateDir: path.join(options.workspace, STATE_DIR_NAME, teamId),
+    specPathInWorkspace: workspaceSpecPath,
+    specPromptPath,
     taskText,
     command,
     cwd: options.workspace,
@@ -731,6 +806,38 @@ export async function runSpec(options) {
       report.steps.push({ name: 'history', status: 'failed', detail: String(error.message) });
     }
   };
+
+  if (options.dryRun) {
+    report.steps.push({
+      name: 'materialize-spec',
+      status: 'skipped',
+      detail: `dry-run: спека не копируется; план: ${spec.relativePath} → ${workspaceSpecPath} (путь в промпте: ${specPromptPath})`,
+    });
+  } else {
+    const materialized = await materializeSpec(options.workspace, spec);
+    report.specMaterialized = {
+      source: spec.relativePath,
+      target: materialized.path,
+      relativePath: materialized.relativePath,
+      copied: materialized.copied,
+      bytes: materialized.bytes,
+    };
+    report.steps.push({
+      name: 'materialize-spec',
+      status: materialized.ok ? 'ok' : 'failed',
+      detail: materialized.ok
+        ? materialized.copied
+          ? `${spec.relativePath} → ${materialized.path} (${materialized.bytes} Б, путь в промпте: ${materialized.relativePath})`
+          : `workspace = корень репо: копирование не нужно, спека уже на месте (${materialized.relativePath})`
+        : materialized.error,
+    });
+    if (!materialized.ok) {
+      report.result = { status: 'failed', reason: materialized.error };
+      report.finishedAt = new Date().toISOString();
+      await recordHistory();
+      return { exitCode: 1, report };
+    }
+  }
 
   if (options.dryRun) {
     report.steps.push({
