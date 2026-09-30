@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "27d9c2086de061629f8c74cd6f2defd413c81dc8",
+  "head": "2262636cd5b57b1b2ee5108ded8b2ab77e9787ae",
   "specs": [
     {
       "id": "022",
@@ -530,9 +530,9 @@
       "updated": null,
       "commit": null,
       "file": "specs/037-user-counter.md",
-      "mtime": 1790749336598.412,
+      "mtime": 1790749681140.4778,
       "goal": "1. Сбор: скрипт GoatCounter в `dist/index.html` (из `index.html` корня).",
-      "acceptance": "1. `index.html` содержит GoatCounter script.",
+      "acceptance": "1. `index.html` содержит GoatCounter script (site code `barsik`).",
       "noTouch": "`src/data/**`, `tools/**`.",
       "preview": ""
     },
@@ -868,7 +868,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 035 — done (commit 7f07643); run-spec.mjs: spec-resolution в любом workspace (вариант A, materializeSpec) + RUN-SPEC-SPIKE-STOP.md + --live | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-035 close | [AUTHORIZE]",
     "2026-09-30 | sync | run-spec.mjs: resolveApiKey() — auto-подтягивание DEEPSEEK_API_KEY из User-scope (Windows); preflight +7-я проверка; проброс в child env; alert closed | commit pending",
     "2026-09-30 | push | authorize push origin main — env-fix run-spec | [AUTHORIZE]",
@@ -877,10 +876,17 @@
     "2026-09-30 | spec | spec 036 — approved; готов к /spec-to-team 036 (t0 fetch + 4 writer + qc; семантический аудит 225 вопросов RHEL 10) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-036 approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 037 (user-counter) — draft: GoatCounter (hosted free) + API → state.user_counter + плитка в центре; токен вне репо | commit pending",
-    "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]"
+    "2026-09-30 | push | authorize push origin main — spec-037 draft | [AUTHORIZE]",
+    "2026-09-30 | sync | spec 037 — решения: site barsik, токен ~/.dsh/goatcounter-token.json, API-контракт stats/total (проверен по исходникам), .gitignore точечно; .agent-teams: 7 команд архивированы (корень = только archive) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "2262636",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-037 draft",
+      "type": "chore"
+    },
     {
       "sha": "27d9c20",
       "date": "2026-09-30",
@@ -994,12 +1000,6 @@
       "date": "2026-09-30",
       "subject": "feat(spec-034): mas-autonomy B - spec-gate R5, report-run, committer, runs:log, Step 0 STOP (t1 t2 t3 t4 t5 t7)",
       "type": "feat"
-    },
-    {
-      "sha": "187cb84",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) — spec-034 fix + approve",
-      "type": "chore"
     }
   ],
   "roles": [
