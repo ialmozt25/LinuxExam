@@ -1065,6 +1065,134 @@ function renderAgentTeamCard(t) {
   ].join('\n');
 }
 
+/* ------------------------------------------------- B.2 (spec 034, t2): прогон MAS
+ *
+ * Блок «Последний MAS-прогон»: единственный источник — `.project/mas-runs.json`
+ * (последняя запись `runs[]`). Контракт чтения (зафиксирован оркестратором
+ * spec 034): поля `teamId`, `durationMs`, `tokens`, `verdict` ОПЦИОНАЛЬНЫ —
+ * отсутствие означает «неизвестно» и рендерится как «—», падения быть не должно.
+ * Поле `version` НЕ является маркером схемы (писатель `run-spec.mjs` ставит 1
+ * всегда), поэтому наличие полей из него не выводится.
+ *
+ * Сводка задач: из самой записи (`tasks`: массив `{id,status}` либо объект
+ * «статус → число»), иначе — из АРХИВНОЙ копии `team.json` команды записи
+ * (`.agent-teams/archive/<teamId>/team.json`). Живой каталог
+ * `.agent-teams/<teamId>/` здесь намеренно НЕ читается: его состояние уже
+ * показывает секция «Пульс агентов», и оно меняется от каждого шага команды —
+ * второй нестабильный источник в коммитимом файле дал бы лишний churn в
+ * `sync:check`. Архив же заморожен и deterministic.
+ */
+const MAS_RUNS_PATH = rel('.project/mas-runs.json');
+const MAS_RUN_ARCHIVE_DIR = rel('.agent-teams/archive');
+
+/** Последняя запись истории прогонов; отсутствие/битый файл — не ошибка. */
+function readLastMasRun() {
+  let json;
+  try {
+    json = JSON.parse(fs.readFileSync(MAS_RUNS_PATH, 'utf8'));
+  } catch {
+    return { present: false, count: 0, last: null };
+  }
+  const runs = json && Array.isArray(json.runs) ? json.runs : [];
+  const tail = runs.length > 0 ? runs[runs.length - 1] : null;
+  const last = tail && typeof tail === 'object' && !Array.isArray(tail) ? tail : null;
+  return { present: true, count: runs.length, last };
+}
+
+/** Текст поля записи истории: пустое/чужого типа → «—» (контракт: опционально). */
+function masRunField(value) {
+  if (typeof value === 'string' && value.trim() !== '') return value.trim();
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return '—';
+}
+
+/** Длительность в человекочитаемом виде: 1606077 → «26 мин 46 с»; нет данных → «—». */
+function formatDurationMs(ms) {
+  if (typeof ms !== 'number' || !Number.isFinite(ms) || ms < 0) return '—';
+  if (ms < 1000) return `${Math.round(ms)} мс`;
+  if (ms < 60_000) return `${(ms / 1000).toFixed(1)} с`;
+  const min = Math.floor(ms / 60_000);
+  if (min < 60) return `${min} мин ${Math.round((ms - min * 60_000) / 1000)} с`;
+  const hours = Math.floor(min / 60);
+  return `${hours} ч ${min - hours * 60} мин`;
+}
+
+/** `chip`-класс под вердикт: переиспользуем существующие классы (CSS не добавляем). */
+const MAS_RUN_VERDICT_CHIP = {
+  pass: 'chip--done',
+  needs_revision: 'chip--preview',
+  reject: 'chip--rejected',
+  failed: 'chip--rejected',
+};
+
+/** Сводка задач из архивного `team.json` команды записи (живой каталог не читаем). */
+function masRunTasksFromArchive(teamId) {
+  if (typeof teamId !== 'string' || teamId.trim() === '' || teamId === '..') return null;
+  if (!/^[A-Za-z0-9._-]+$/.test(teamId)) return null;
+  let json;
+  try {
+    json = JSON.parse(fs.readFileSync(path.join(MAS_RUN_ARCHIVE_DIR, teamId, 'team.json'), 'utf8'));
+  } catch {
+    return null;
+  }
+  const tasks = Array.isArray(json.tasks) ? json.tasks : [];
+  if (tasks.length === 0) return null;
+  const byStatus = {};
+  for (const task of tasks) {
+    const status = task && typeof task.status === 'string' ? task.status : 'unknown';
+    byStatus[status] = (byStatus[status] || 0) + 1;
+  }
+  return `${tasks.length} · ${Object.keys(byStatus).sort().map((k) => `${k} ${byStatus[k]}`).join(' · ')}`;
+}
+
+/** Строка «задачи: …» для блока; нет данных ни в записи, ни в архиве → «—». */
+function masRunTasksText(record) {
+  const raw = record.tasks !== undefined
+    ? record.tasks
+    : record.report && typeof record.report === 'object'
+      ? record.report.tasks
+      : undefined;
+  if (typeof raw === 'string' && raw.trim() !== '') return raw.trim();
+  if (Array.isArray(raw) && raw.length > 0) {
+    const byStatus = {};
+    for (const task of raw) {
+      const status = task && typeof task.status === 'string' ? task.status : 'unknown';
+      byStatus[status] = (byStatus[status] || 0) + 1;
+    }
+    return `${raw.length} · ${Object.keys(byStatus).sort().map((k) => `${k} ${byStatus[k]}`).join(' · ')}`;
+  }
+  if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+    const keys = Object.keys(raw).filter((k) => Number.isFinite(Number(raw[k])));
+    if (keys.length > 0) return keys.sort().map((k) => `${k} ${raw[k]}`).join(' · ');
+  }
+  return masRunTasksFromArchive(typeof record.teamId === 'string' ? record.teamId : null) ?? '—';
+}
+
+/** HTML блока «Последний MAS-прогон» (внутренность `<details>`). */
+function renderMasRunBlock(record) {
+  const verdict = masRunField(record.verdict);
+  const chipCls = MAS_RUN_VERDICT_CHIP[verdict];
+  const verdictHtml = chipCls
+    ? `<span class="chip ${chipCls}">${esc(verdict)}</span>`
+    : `<span class="muted">${esc(verdict)}</span>`;
+  const tokens = record.tokens && typeof record.tokens === 'object' ? record.tokens : null;
+  const tokensText = tokens === null
+    ? '—'
+    : ['input', 'output', 'total']
+      .map((k) => `${k} ${masRunField(tokens[k])}`)
+      .join(' · ');
+  const started = masRunField(record.startedAt);
+  const startedText = started === '—' ? '—' : shortDate(started) || started;
+  return [
+    '    <div class="entry">',
+    `      <div class="entry__title">спека <span class="mono">${esc(masRunField(record.spec))}</span> · статус <span class="mono">${esc(masRunField(record.status))}</span> · вердикт ${verdictHtml}</div>`,
+    `      <div class="entry__body muted">длительность: <span class="mono">${esc(formatDurationMs(record.durationMs))}</span>${typeof record.durationMs === 'number' && Number.isFinite(record.durationMs) ? ` <span class="mono">(${record.durationMs} мс)</span>` : ''} · токены: <span class="mono">${esc(tokensText)}</span></div>`,
+    `      <div class="entry__body muted">команда: <span class="mono">${esc(masRunField(record.teamId))}</span> · начало: <span class="mono">${esc(startedText)}</span></div>`,
+    `      <div class="entry__body muted">задачи: ${esc(masRunTasksText(record))}</div>`,
+    '    </div>',
+  ].join('\n');
+}
+
 /** `git log` — коммиты для секции центра и зеркала state.json.commits. */
 function readGitCommits(limit) {
   try {
@@ -1661,6 +1789,15 @@ function renderCenter(ctx) {
     ? `        <p class="empty">${agentsDoc.present ? 'нет данных — команд нет' : 'нет данных — каталог .agent-teams/ отсутствует'}</p>`
     : agentsDoc.teams.map(renderAgentTeamCard).join('\n');
 
+  /* --- B.2 блок 7 (spec 034, t2): «Последний MAS-прогон» — см. readLastMasRun */
+  const masRunDoc = readLastMasRun();
+  const masRunHtml = masRunDoc.last === null
+    ? `    <p class="empty">${masRunDoc.present ? 'нет данных — история прогонов пуста' : 'нет данных — .project/mas-runs.json отсутствует или не читается'}</p>`
+    : renderMasRunBlock(masRunDoc.last);
+  const masRunStamp = masRunDoc.last === null
+    ? '—'
+    : (shortDate(masRunField(masRunDoc.last.startedAt)) || masRunField(masRunDoc.last.startedAt));
+
   const doneDoingNextHtml = renderDoneDoingNext({
     specs,
     roles: ctx.roles,
@@ -1877,6 +2014,12 @@ ${alertsHtml}
     <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: ${agentsDoc.teams.length}</div>
 ${agentsHtml}
   </section>
+
+  <details class="collapsible mas-run" id="mas-run">
+    <summary>Последний MAS-прогон · записей: ${masRunDoc.count}</summary>
+    <div class="muted">Источник: <code>.project/mas-runs.json</code> · последняя: <span class="mono">${esc(masRunStamp)}</span></div>
+${masRunHtml}
+  </details>
 
 </div>
 </body>

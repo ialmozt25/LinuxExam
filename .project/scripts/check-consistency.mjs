@@ -19,6 +19,43 @@
  *                    присутствует записью в `.project/log.md` (шаг выполнен).
  *   R4 ORPHAN-SHA  — в спеке или плане указан SHA коммита, которого нет в
  *                    репозитории (перебазирование/history rewrite/spec 009).
+ *   R5 SPEC-COMMIT — для спеки со статусом `done` каждая её completed-задача
+ *                    имеет хотя бы один коммит с `spec-<id спеки>` и токеном
+ *                    задачи (`tN`) в subject. Правило spec-gate (spec 034/B.1).
+ *
+ * R5 — источники и сопоставление (spec 034, задача t1):
+ *
+ *   Лист задач. `.agent-teams/<teamId>/team.json` — объект
+ *   { name, id, members[], tasks[{ id, subject, status }] }. Допустимые статусы
+ *   задач: pending / claimed / in_progress / completed / failed / cancelled.
+ *   Обход рекурсивный по `.agent-teams/**` (глубина <= 4), поэтому
+ *   архивированные команды (`.agent-teams/archive/<teamId>/team.json`)
+ *   учитываются наравне с живыми.
+ *
+ *   Сопоставление teamId <-> spec id. Spec-ключ берётся из имени каталога
+ *   команды: /^spec-([0-9a-z]+?)(?:-|$)/i — `spec-032-mas-autonomy-a` -> `032`,
+ *   `spec-033a-mas-autonomy-spike` -> `033a`, `spec-034-mas-autonomy-b` -> `034`
+ *   (fallback — поле `name` в team.json). Ключ привязывается к спеке из
+ *   `.project/specs`, если он равен frontmatter `id` спеки ИЛИ равен `id` +
+ *   буквенный суффикс (`033a` -> спека с `id: 033`; так закрывается фактическое
+ *   расхождение: у `033a-mas-autonomy-spike.md` frontmatter `id: 033`, а
+ *   каталог команды называется `spec-033a-...`).
+ *   Команды без спеки, спеки без листа задач и спеки не в статусе `done`
+ *   правило молча пропускает — findings не выдумываются.
+ *
+ *   Коммиты. `git log --all --format=%H%x00%s` (по всем ref, а не только HEAD):
+ *   subject проверяется на `spec-<label>` (label — frontmatter id или spec-ключ
+ *   команды) без склейки с буквенно-цифровым хвостом (`spec-999a` != `spec-999`)
+ *   и на токен задачи как отдельное слово (`\bt1\b`, поэтому `t1` не
+ *   схлопывается с `t10`). Требуется ХОТЯ БЫ ОДИН
+ *   коммит — multi-commit задачи допустимы; «чужие» записи в subject безвредны,
+ *   так как проверяется наличие своей записи, а не отсутствие посторонних
+ *   (alerts 2026-09-30: параллельный writer может вклиниться между чтением
+ *   файла и `git add` — на такой шум гейт падать не должен).
+ *
+ *   Whitelist R5_WHITELIST ниже — адресный, каждая запись обязана нести
+ *   `reason`. Blanket-skip (отключение R5 целиком) и «пустое» правило
+ *   запрещены: fixture-прогон через `--root <dir>` доказывает невакуумность.
  *
  * Формат вывода — ASCII, без emoji и без внешних зависимостей.
  * Exit codes: 0 — чисто, 1 — найдены findings, 2 — ошибка чтения.
@@ -220,6 +257,183 @@ function ruleOrphanSha(file, text) {
   });
 }
 
+/* --------------------------------------------------------- R5 whitelist */
+
+/**
+ * R5 SPEC-COMMIT whitelist — адресные исключения, у каждого обязателен `reason`.
+ * Запись без reason останавливает правило (exit 2), а не пропускает проверку
+ * молча. Исключения бывают только двух видов:
+ *   kind: 'task-status' — статус задачи, для которого коммит не требуется;
+ *   kind: 'spec'        — конкретная спека (legacy-прогон), `aliases` — её
+ *                         spec-ключи/ид, встречающиеся в именах каталогов.
+ */
+const R5_WHITELIST = [
+  {
+    kind: 'task-status',
+    status: 'cancelled',
+    reason: 'cancelled — работа отменена до исполнения: изменений в репозитории нет, коммита быть не может',
+  },
+  {
+    kind: 'spec',
+    spec: '032',
+    aliases: [],
+    reason: 'legacy-прогон до появления R5 (spec-032 закрыта коммитом 2539526 "feat(spec-032): order-manifest ..."): коммиты нумеровались по спеке, токенов задач tN в subject нет',
+  },
+  {
+    kind: 'spec',
+    spec: '033',
+    aliases: ['033a'],
+    reason: 'legacy-прогон до появления R5 (spec 033a, каталог spec-033a-mas-autonomy-spike, закрыта коммитом f43b060 "feat(spec-033a): run-spec.mjs ..."): коммиты не нумеровались по задачам',
+  },
+];
+
+/* -------------------------------------------------------- R5 primitives */
+
+const TEAMS_DIR = rel('.agent-teams');
+
+/** Экранирование литерала для RegExp. */
+const escRe = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/** Рекурсивный поиск `team.json` под `.agent-teams` (archive/** — включительно). */
+function readTeamListFiles(dir, depth = 0) {
+  if (depth > 4 || !fs.existsSync(dir)) return [];
+  let entries;
+  try {
+    entries = fs.readdirSync(dir, { withFileTypes: true });
+  } catch (e) {
+    throw new Error(`не читается: ${dir} (${e.code || e.message})`);
+  }
+  const out = [];
+  for (const e of entries) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) out.push(...readTeamListFiles(p, depth + 1));
+    else if (e.name === 'team.json') out.push(p);
+  }
+  return out.sort();
+}
+
+/** Spec-ключ из имени каталога команды: `spec-033a-mas-autonomy-spike` -> `033a`. */
+function specKeyOf(name) {
+  const m = /^spec-([0-9a-z]+?)(?:-|$)/i.exec(String(name || ''));
+  return m ? m[1].toLowerCase() : null;
+}
+
+/** Привязка spec-ключа команды к спеке: `034` -> spec 034, `033a` -> spec 033. */
+function specOfKey(specs, key) {
+  if (!key) return null;
+  for (const s of specs) {
+    const id = String(s.id).toLowerCase();
+    if (!id) continue;
+    if (key === id) return s;
+    if (key.startsWith(id) && /^[a-z]+$/.test(key.slice(id.length))) return s;
+  }
+  return null;
+}
+
+/** Лист задач команды: { file, key, tasks[] }. Битый JSON/нет файла — ошибка чтения. */
+function readTeamList(file) {
+  const text = readTextSafe(file);
+  if (text === null) throw new Error(`не читается: ${file}`);
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (e) {
+    throw new Error(`team.json не парсится: ${file} (${e.message})`);
+  }
+  const dirName = path.basename(path.dirname(file));
+  const named = typeof data?.name === 'string' ? data.name : '';
+  return {
+    file: path.relative(ROOT, file).split(path.sep).join('/'),
+    key: specKeyOf(dirName) || specKeyOf(named),
+    tasks: Array.isArray(data?.tasks) ? data.tasks : [],
+  };
+}
+
+/** Задача исключена по whitelist (статус). */
+const r5TaskExempt = (task) =>
+  R5_WHITELIST.some(
+    (w) => w.kind === 'task-status' && w.status === String(task?.status || '').toLowerCase(),
+  );
+
+/** Спека исключена по whitelist (legacy-прогон); сверяются id спеки и spec-ключ команды. */
+function r5SpecExempt(spec, key) {
+  const labels = [String(spec.id).toLowerCase(), String(key || '').toLowerCase()];
+  return R5_WHITELIST.some(
+    (w) =>
+      w.kind === 'spec' &&
+      [w.spec, ...(Array.isArray(w.aliases) ? w.aliases : [])].some((x) =>
+        labels.includes(String(x || '').toLowerCase()),
+      ),
+  );
+}
+
+/** Валидация whitelist: каждая запись объяснена, kind известен. */
+function validateR5Whitelist() {
+  for (const w of R5_WHITELIST) {
+    if (!w || typeof w.reason !== 'string' || w.reason.trim() === '') {
+      throw new Error('R5 whitelist: запись без reason — исключение обязано объясняться');
+    }
+    if (w.kind !== 'task-status' && w.kind !== 'spec') {
+      throw new Error(`R5 whitelist: неизвестный kind "${w.kind}"`);
+    }
+  }
+}
+
+/** Subjects коммитов репозитория. null — git недоступен/нет истории (правило молчит, как R4). */
+let commitCache;
+function readCommitSubjects() {
+  if (commitCache !== undefined) return commitCache;
+  const r = spawnSync('git', ['log', '--all', '--format=%H%x00%s'], {
+    cwd: ROOT,
+    encoding: 'utf8',
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  if (r.error || r.status !== 0) {
+    commitCache = null;
+    return commitCache;
+  }
+  commitCache = String(r.stdout)
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((l) => {
+      const i = l.indexOf('\u0000');
+      return { sha: i === -1 ? l : l.slice(0, i), subject: i === -1 ? '' : l.slice(i + 1) };
+    });
+  return commitCache;
+}
+
+/** R5: completed-задача спеки в статусе done без коммита `spec-<id>` + `tN`. */
+function ruleSpecCommit(specs, teamLists) {
+  const commits = readCommitSubjects();
+  if (commits === null) return;
+  for (const team of teamLists) {
+    const spec = specOfKey(specs, team.key);
+    if (!spec) continue; // команда без спеки — молча
+    if (spec.status !== 'done') continue; // проверяются только закрытые спеки
+    if (r5SpecExempt(spec, team.key)) continue; // legacy-прогон (whitelist + reason)
+    const labels = [...new Set([String(spec.id), String(team.key || '')].filter(Boolean))];
+    for (const task of team.tasks) {
+      if (r5TaskExempt(task)) continue; // cancelled и прочие исключённые статусы
+      if (String(task?.status || '').toLowerCase() !== 'completed') continue;
+      const id = String(task?.id || '').trim();
+      if (!id) continue;
+      const covered = commits.some(
+        ({ subject }) =>
+          labels.some((l) => new RegExp(`\\bspec-${escRe(l)}(?![a-z0-9])`, 'i').test(subject)) &&
+          new RegExp(`\\b${escRe(id)}\\b`).test(subject),
+      );
+      if (covered) continue;
+      add(
+        'R5',
+        spec.file,
+        0,
+        `спека ${spec.id} (${spec.slug}) в статусе done: задача ${id} (completed) без коммита — нет subject с "spec-${labels[0]}" и токеном "${id}" (лист задач: ${team.file})`,
+      );
+    }
+  }
+}
+
 /* --------------------------------------------------------------- main */
 
 function main() {
@@ -231,6 +445,8 @@ function main() {
     for (const s of specs) ruleOrphanSha(path.join(SPECS_DIR, s.file.split('/').pop()), s.text);
     const cplanText = readTextSafe(CPLAN);
     if (cplanText !== null) ruleOrphanSha(CPLAN, cplanText);
+    validateR5Whitelist();
+    ruleSpecCommit(specs, readTeamListFiles(TEAMS_DIR).map(readTeamList));
   } catch (e) {
     process.stdout.write(`consistency: read error — ${e.message}\n`);
     process.exitCode = 2;

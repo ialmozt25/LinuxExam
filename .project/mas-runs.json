@@ -470,6 +470,326 @@
           ]
         }
       }
+    },
+    {
+      "spec": "013",
+      "startedAt": "2026-09-30T01:16:40.668Z",
+      "finishedAt": "2026-09-30T01:16:45.197Z",
+      "status": "failed",
+      "report": {
+        "tool": "run-spec",
+        "spec": "013",
+        "path": "H2",
+        "pathDetail": "CLI one-shot: dsh --profile <p> \"/agent-teams <цель>\"",
+        "mode": "run",
+        "profile": "mas",
+        "workspace": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws",
+        "startedAt": "2026-09-30T01:16:40.668Z",
+        "finishedAt": "2026-09-30T01:16:45.197Z",
+        "steps": [
+          {
+            "name": "resolve-spec",
+            "status": "ok",
+            "detail": ".project/specs/013-local-aliases.md (8701 Б, type=docs, status=done)"
+          },
+          {
+            "name": "preflight",
+            "status": "ok",
+            "detail": "precondition пути H2 выполнено"
+          },
+          {
+            "name": "plan",
+            "status": "ok",
+            "detail": "\"C:\\Program Files\\nodejs\\node.exe\" \"C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js\" --profile mas \"/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.\""
+          },
+          {
+            "name": "stage-templates",
+            "status": "ok",
+            "detail": "templates/mas/TASK.md → C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\TASK.md (6842 Б, sha256:9e7da0767267e2ff, байт-в-байт: true); templates/mas/SESSION.md → C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\SESSION.md (4993 Б, sha256:20507558fb5a5381, байт-в-байт: true)"
+          },
+          {
+            "name": "execute",
+            "status": "failed",
+            "detail": "exit=1, 4372 мс"
+          },
+          {
+            "name": "collect",
+            "status": "failed",
+            "detail": "team.json не найден (проверены C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases и свежие команды в C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams)"
+          }
+        ],
+        "precondition": [
+          {
+            "name": "dsh CLI",
+            "ok": true,
+            "detail": "node C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js --version → 0.1.5-rc.2",
+            "fix": "проверить установку/вызов dsh вручную"
+          },
+          {
+            "name": "профиль mas",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas",
+            "fix": "dsh --profile mas --from-default-profile headless"
+          },
+          {
+            "name": "плагин @nanmicoder/dsh-agent-teams",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas\\node_modules\\@nanmicoder\\dsh-agent-teams\\lib\\index.js",
+            "fix": "dsh plugin --profile mas add @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "workspace",
+            "ok": true,
+            "detail": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws",
+            "fix": "указать существующий --workspace"
+          },
+          {
+            "name": "каталог состояния .agent-teams",
+            "ok": true,
+            "optional": true,
+            "detail": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams (будет создан плагином при прогоне)",
+            "fix": null
+          },
+          {
+            "name": "шаблоны templates/mas",
+            "ok": true,
+            "detail": "templates/mas/TASK.md, SESSION.md",
+            "fix": "восстановить templates/mas/{TASK,SESSION}.md (spec 033a, «Что делаем 3»)"
+          }
+        ],
+        "plan": {
+          "teamIdHint": "spec-013-local-aliases",
+          "stateDir": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases",
+          "taskText": "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.",
+          "command": {
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "argv": [
+              "C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js",
+              "--profile",
+              "mas",
+              "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases."
+            ]
+          },
+          "cwd": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws",
+          "timeoutMs": 600000
+        },
+        "result": {
+          "status": "failed",
+          "reason": "прогон завершился неуспешно: exit=1, 4372 мс"
+        },
+        "history": null,
+        "specFile": ".project/specs/013-local-aliases.md",
+        "specTitle": "",
+        "templates": {
+          "dir": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases",
+          "source": "templates/mas",
+          "files": [
+            {
+              "name": "TASK.md",
+              "source": "templates/mas/TASK.md",
+              "target": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\TASK.md",
+              "bytes": 6842,
+              "sha256": "9e7da0767267e2ff",
+              "lastByte": 10,
+              "equal": true
+            },
+            {
+              "name": "SESSION.md",
+              "source": "templates/mas/SESSION.md",
+              "target": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\SESSION.md",
+              "bytes": 4993,
+              "sha256": "20507558fb5a5381",
+              "lastByte": 10,
+              "equal": true
+            }
+          ]
+        },
+        "execution": {
+          "exitCode": 1,
+          "signal": null,
+          "elapsedMs": 4372,
+          "timedOut": false,
+          "stdoutTail": "\n",
+          "stderrTail": "dsh: NO_ADAPTER: no adapter registered for provider \"tier-router\"\n",
+          "error": null
+        }
+      }
+    },
+    {
+      "spec": "013",
+      "startedAt": "2026-09-30T01:42:28.876Z",
+      "finishedAt": "2026-09-30T01:42:33.083Z",
+      "status": "failed",
+      "report": {
+        "tool": "run-spec",
+        "spec": "013",
+        "path": "H2",
+        "pathDetail": "CLI one-shot: dsh --profile <p> \"/agent-teams <цель>\"",
+        "mode": "run",
+        "profile": "mas",
+        "workspace": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws",
+        "startedAt": "2026-09-30T01:42:28.876Z",
+        "finishedAt": "2026-09-30T01:42:33.083Z",
+        "steps": [
+          {
+            "name": "resolve-spec",
+            "status": "ok",
+            "detail": ".project/specs/013-local-aliases.md (8701 Б, type=docs, status=done)"
+          },
+          {
+            "name": "preflight",
+            "status": "ok",
+            "detail": "precondition пути H2 выполнено"
+          },
+          {
+            "name": "plan",
+            "status": "ok",
+            "detail": "\"C:\\Program Files\\nodejs\\node.exe\" \"C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js\" --profile mas \"/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.\""
+          },
+          {
+            "name": "stage-templates",
+            "status": "ok",
+            "detail": "templates/mas/TASK.md → C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\TASK.md (6842 Б, sha256:9e7da0767267e2ff, байт-в-байт: true); templates/mas/SESSION.md → C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\SESSION.md (4993 Б, sha256:20507558fb5a5381, байт-в-байт: true)"
+          },
+          {
+            "name": "execute",
+            "status": "failed",
+            "detail": "exit=1, 4054 мс"
+          },
+          {
+            "name": "collect",
+            "status": "failed",
+            "detail": "team.json не найден (проверены C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases и свежие команды в C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams)"
+          }
+        ],
+        "precondition": [
+          {
+            "name": "dsh CLI",
+            "ok": true,
+            "detail": "node C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js --version → 0.1.5-rc.2",
+            "fix": "проверить установку/вызов dsh вручную"
+          },
+          {
+            "name": "профиль mas",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas",
+            "fix": "dsh --profile mas --from-default-profile headless"
+          },
+          {
+            "name": "плагин @nanmicoder/dsh-agent-teams",
+            "ok": true,
+            "detail": "C:\\Users\\Alexey Udotov\\.dsh\\profiles\\mas\\node_modules\\@nanmicoder\\dsh-agent-teams\\lib\\index.js",
+            "fix": "dsh plugin --profile mas add @nanmicoder/dsh-agent-teams"
+          },
+          {
+            "name": "workspace",
+            "ok": true,
+            "detail": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws",
+            "fix": "указать существующий --workspace"
+          },
+          {
+            "name": "каталог состояния .agent-teams",
+            "ok": true,
+            "optional": true,
+            "detail": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams",
+            "fix": null
+          },
+          {
+            "name": "шаблоны templates/mas",
+            "ok": true,
+            "detail": "templates/mas/TASK.md, SESSION.md",
+            "fix": "восстановить templates/mas/{TASK,SESSION}.md (spec 033a, «Что делаем 3»)"
+          }
+        ],
+        "plan": {
+          "teamIdHint": "spec-013-local-aliases",
+          "stateDir": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases",
+          "taskText": "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases.",
+          "command": {
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "argv": [
+              "C:\\Users\\Alexey Udotov\\AppData\\Roaming\\npm\\node_modules\\@deepseek-ai\\dsh\\lib\\bin.js",
+              "--profile",
+              "mas",
+              "/agent-teams Спека 013 (local-aliases). Спека: .project/specs/013-local-aliases.md. Ожидаемое имя команды: spec-013-local-aliases."
+            ]
+          },
+          "cwd": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws",
+          "timeoutMs": 600000
+        },
+        "result": {
+          "status": "failed",
+          "reason": "прогон завершился неуспешно: exit=1, 4054 мс"
+        },
+        "history": null,
+        "specFile": ".project/specs/013-local-aliases.md",
+        "specTitle": "",
+        "templates": {
+          "dir": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases",
+          "source": "templates/mas",
+          "files": [
+            {
+              "name": "TASK.md",
+              "source": "templates/mas/TASK.md",
+              "target": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\TASK.md",
+              "bytes": 6842,
+              "sha256": "9e7da0767267e2ff",
+              "lastByte": 10,
+              "equal": true
+            },
+            {
+              "name": "SESSION.md",
+              "source": "templates/mas/SESSION.md",
+              "target": "C:\\Users\\ALEXEY~1\\AppData\\Local\\Temp\\mas-live-034\\ws\\.agent-teams\\spec-013-local-aliases\\SESSION.md",
+              "bytes": 4993,
+              "sha256": "20507558fb5a5381",
+              "lastByte": 10,
+              "equal": true
+            }
+          ]
+        },
+        "execution": {
+          "exitCode": 1,
+          "signal": null,
+          "elapsedMs": 4054,
+          "timedOut": false,
+          "stdoutTail": "\n",
+          "stderrTail": "dsh: ROUTE_FAILED: tier-router: every route failed (deepseek-official/deepseek-flash, deepseek-official/deepseek-v4-pro, deepseek-official/deepseek-v4-flash): Error: route deepseek-official/deepseek-v4-flash failed before any output: llm-deepseek: no API key for provider route \"deepseek-official\"; store DEEPSEEK_API_KEY through the credentials service (the web Models page writes it), or export DEEPSEEK_API_KEY in the launching environment\n",
+          "error": null
+        }
+      }
+    },
+    {
+      "spec": "034",
+      "teamId": "spec-034-mas-autonomy-b",
+      "startedAt": "2026-09-30T01:03:28.726Z",
+      "finishedAt": "2026-09-30T02:34:31.418Z",
+      "status": "completed",
+      "durationMs": 5462692,
+      "tokens": null,
+      "verdict": "pass",
+      "tasks": {
+        "completed": 7,
+        "failed": 1
+      },
+      "report": {
+        "tool": "runs-log",
+        "historyVersion": 1,
+        "teamFile": ".agent-teams/spec-034-mas-autonomy-b/team.json",
+        "teamFileSha256": "a5f4befea765fcebf5da2d0a82d1f6883f7cd89ec45d2802d05ae5c2ee28aba4",
+        "archived": false,
+        "specSource": "team.json (описания задач)",
+        "specSlug": "034-mas-autonomy-b",
+        "durationSource": "createdAt↔последнее обновление задач",
+        "verdictSource": "ревью-задача t8 (поле verdict)",
+        "tokensSource": null,
+        "schemaFields": [
+          "teamId",
+          "durationMs",
+          "tokens",
+          "verdict"
+        ]
+      }
     }
   ]
 }

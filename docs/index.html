@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 48576af</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 187cb84</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -404,6 +404,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">187cb84</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): authorize push (rule 10) — spec-034 fix + approve</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">48576af</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-034): fix t4 deps + approve</td>
@@ -517,12 +523,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-032): done — MAS-autonomy A закрыта (3 tech debts)</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">33d2520</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-032 (log/decisions)</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -538,37 +538,37 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->        <tr>
           <td class="mono">episodic</td>
-          <td class="mono muted">2026-09-30T00:27:19Z</td>
-          <td class="mono">21</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-30T02:39:14Z</td>
+          <td class="mono">22</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">39 ч (~1.6 дн)</td>
+          <td class="muted">40 ч (~1.7 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">2 ч</td>
+          <td class="muted">4 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
-          <td class="mono muted">2026-09-30T00:27:19Z</td>
-          <td class="mono">5</td>
-          <td class="muted">1 ч</td>
+          <td class="mono muted">2026-09-30T02:39:14Z</td>
+          <td class="mono">6</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-29T23:33:11Z</td>
           <td class="mono">27</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">3 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -578,11 +578,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-033a close | push разрешён</li>
-        <li><span class="mono muted">30.09</span> · spec | spec 034 (mas-autonomy-b) — draft: 4 компонента (spec-gate / авто-отчёт / committer / метрики) + Step 0 (профиль mas + живой smoke) | ещё не закоммичено</li>
-        <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-034 draft | push разрешён</li>
         <li><span class="mono muted">30.09</span> · spec | spec 034 — fix (t4 dep [t1] — непараллельная запись package.json) + approved; готов к /spec-to-team 034 | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · push | authorize push origin main — spec-034 fix + approve | push разрешён</li>
+        <li><span class="mono muted">30.09</span> · spec 034 | прогон AgentTeams (t1 spec-gate R5, t2 report-run + блок «Последний MAS-прогон», t3 committer, t4 метрики runs:log) — ревью t6 PASS…</li>
+        <li><span class="mono muted">30.09</span> · decision | spec 034: установка dsh-tier-router ^0.6.0 в профиль mas авторизована капитаном после RECON (NO_ADAPTER закрыт; остался только API-ключ, ключ через чат не передаётся…</li>
+        <li><span class="mono muted">30.09</span> · lesson | spec 034: интеграционная проверка поймала дефект runs-log.mjs (унарный rel → DEFAULT_HISTORY_PATH = каталог .project → `npm run runs:log` без --history падал EISDIR); repair t7 + ревью t8; ур…</li>
     </ul>
   </details>
 
@@ -787,7 +787,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 8</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 9</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
         </div>
@@ -826,7 +826,23 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__body muted">агенты: writer (⊘) · qc (⊘)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓ · t5 ✓ · t6 ✓ · t7 ✓</div>
         </div>
+        <div class="entry">
+          <div class="entry__title">spec-034-mas-autonomy-b · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: builder-gate (·) · builder-report (·) · builder-commit (·) · builder-metrics (·) · reviewer (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓ · t5 ✗ · t6 ✓ · t7 ✓ · t8 ✓</div>
+        </div>
   </section>
+
+  <details class="collapsible mas-run" id="mas-run">
+    <summary>Последний MAS-прогон · записей: 7</summary>
+    <div class="muted">Источник: <code>.project/mas-runs.json</code> · последняя: <span class="mono">30.09</span></div>
+    <div class="entry">
+      <div class="entry__title">спека <span class="mono">034</span> · статус <span class="mono">completed</span> · вердикт <span class="chip chip--done">pass</span></div>
+      <div class="entry__body muted">длительность: <span class="mono">1 ч 31 мин</span> <span class="mono">(5462692 мс)</span> · токены: <span class="mono">—</span></div>
+      <div class="entry__body muted">команда: <span class="mono">spec-034-mas-autonomy-b</span> · начало: <span class="mono">30.09</span></div>
+      <div class="entry__body muted">задачи: completed 7 · failed 1</div>
+    </div>
+  </details>
 
 </div>
 </body>

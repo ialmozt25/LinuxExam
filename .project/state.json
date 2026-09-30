@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "48576af65c76729546b20bda91ee6feca9b59fe6",
+  "head": "187cb8482f97966294250a7fc3b95e827c3a2bfe",
   "specs": [
     {
       "id": "022",
@@ -837,6 +837,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "187cb84",
+      "date": "2026-09-30",
+      "subject": "chore(log): authorize push (rule 10) — spec-034 fix + approve",
+      "type": "chore"
+    },
+    {
       "sha": "48576af",
       "date": "2026-09-30",
       "subject": "docs(spec-034): fix t4 deps + approve",
@@ -949,12 +955,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-032): done — MAS-autonomy A закрыта (3 tech debts)",
       "type": "docs"
-    },
-    {
-      "sha": "33d2520",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-032 (log/decisions)",
-      "type": "chore"
     }
   ],
   "roles": [
