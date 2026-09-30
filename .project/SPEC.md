@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `eb47f5090b0acf9f724542028b718c7706122f65`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `e66b6ec620b28574554a19173b54fcff7b0a4f8a`<!--volatile:end-->
 - Спек: 31
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 033 | `mas-autonomy-spike` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -36,6 +35,7 @@
 | 018 | `batch5b-shell-scripts` | content | done | — | 2026-09-28 |
 | 020 | `batch5c-running-systems` | content | done | — | 2026-09-28 |
 | 032 | `mas-autonomy-a` | infra | done | 2539526 | — |
+| 033 | `mas-autonomy-spike` | infra | done | f43b060 | — |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

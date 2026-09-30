@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "eb47f5090b0acf9f724542028b718c7706122f65",
+  "head": "e66b6ec620b28574554a19173b54fcff7b0a4f8a",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "033",
-      "slug": "mas-autonomy-spike",
-      "status": "approved",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/033a-mas-autonomy-spike.md",
-      "mtime": 1790728281470.019,
-      "goal": "1. **Spike (t0):** определить программируемый путь к `dsh-agent-teams`.",
-      "acceptance": "1. **t0:** отчёт `.project/scripts/RUN-SPEC-SPIKE.md` — есть; указан работающий путь (H1/H2/H3) или STOP.",
-      "noTouch": "`src/**` (продукт).",
       "preview": ""
     },
     {
@@ -747,6 +732,21 @@
       "preview": ""
     },
     {
+      "id": "033",
+      "slug": "mas-autonomy-spike",
+      "status": "done",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": "f43b060",
+      "file": "specs/033a-mas-autonomy-spike.md",
+      "mtime": 1790728876853.4915,
+      "goal": "1. **Spike (t0):** определить программируемый путь к `dsh-agent-teams`.",
+      "acceptance": "1. **t0:** отчёт `.project/scripts/RUN-SPEC-SPIKE.md` — есть; указан работающий путь (H1/H2/H3) или STOP.",
+      "noTouch": "`src/**` (продукт).",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -808,7 +808,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-033a draft | [AUTHORIZE]",
     "2026-09-30 | spec | spec 033a — approved; готов к /spec-to-team 033a (spike-first: t0 проверка dsh-agent-teams) | commit pending",
     "2026-09-30 | push | authorize push origin main — spec-033a approve | [AUTHORIZE]",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — MAS PASS (t0–t2 + reviewer verdict=pass, 2 агента); spike: PATH=H2 (`dsh --profile <p> \"/agent-teams …\"`), H1 HTTP API и H4 node-инвокация отклонены, H3 — только read-канал | commit pending",
@@ -817,10 +816,23 @@
     "2026-09-30 | decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b, контракт ревью t3 amended до старта | commit pending",
     "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | commit pending",
     "2026-09-30 | spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/sync:check = 0; перевод spec в done — за капитаном | commit f43b060",
-    "2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55"
+    "2026-09-30 | spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (считается по .agent-teams/*/team.json) — converge нужен ПОСЛЕ архивации команды | commit 572de55",
+    "2026-09-30 | spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e66b6ec",
+      "date": "2026-09-30",
+      "subject": "docs(spec-033a): отчёт — не фиксировать число коммитов прогона (SHA после коммита)",
+      "type": "docs"
+    },
+    {
+      "sha": "89cafce",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-033a (log/report fixes)",
+      "type": "chore"
+    },
     {
       "sha": "eb47f50",
       "date": "2026-09-30",
@@ -927,18 +939,6 @@
       "sha": "31050c8",
       "date": "2026-09-29",
       "subject": "docs(spec-032): approve",
-      "type": "docs"
-    },
-    {
-      "sha": "a4460eb",
-      "date": "2026-09-29",
-      "subject": "chore(log): authorize push (rule 10) — spec-032 draft",
-      "type": "chore"
-    },
-    {
-      "sha": "cf7b12e",
-      "date": "2026-09-29",
-      "subject": "docs(spec-032): draft — MAS-autonomy A (3 tech debts)",
       "type": "docs"
     }
   ],

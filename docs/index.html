@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на eb47f50</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на e66b6ec</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -281,7 +281,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -315,10 +315,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#033 mas-autonomy-spike</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -349,7 +345,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 31</summary>
-          <div class="spec-group">Утверждены · 9</div>
+          <div class="spec-group">Утверждены · 8</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -359,7 +355,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
-            <li>#033 mas-autonomy-spike</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -367,7 +362,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 15</div>
+          <div class="spec-group">Завершены · 16</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -384,6 +379,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#018 batch5b-shell-scripts</li>
             <li>#020 batch5c-running-systems</li>
             <li>#032 mas-autonomy-a</li>
+            <li>#033 mas-autonomy-spike</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -402,6 +398,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">e66b6ec</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-033a): отчёт — не фиксировать число коммитов прогона (SHA после коммита)</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
+          <td class="mono">89cafce</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-033a (log/report fixes)</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
         <tr>
           <td class="mono">eb47f50</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -510,18 +518,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-032): approve</td>
           <td class="mono muted">2026-09-29</td>
         </tr>
-        <tr>
-          <td class="mono">a4460eb</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) — spec-032 draft</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
-        <tr>
-          <td class="mono">cf7b12e</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-032): draft — MAS-autonomy A (3 tech debts)</td>
-          <td class="mono muted">2026-09-29</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -577,11 +573,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · spec | templates/mas/{TASK,SESSION}.md: ODAF расшифрован решением исполнителя (канона в репозитории нет) + стадия stage-templates копирует шаблоны в .agent-teams/&lt;teamId&gt;/ | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · decision | живой end-to-end MAS-прогон (status=ok) в 033a НЕ исполнялся: нужны разовая установка профиля mas (pnpm вне репо) + токены — мутация окружения без авторизации; вынесен в 033b…</li>
         <li><span class="mono muted">30.09</span> · spec | spec 033a (mas-autonomy-spike) — done (spike + фундамент автономии) | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · spec | spec 033a — интеграция: f43b060 (задача: run-spec.mjs + templates) + 7b0b3a9 (converge); гейты typecheck/build/test:run/consistency/проверка синхронизации = 0; перевод spec в done…</li>
         <li><span class="mono muted">30.09</span> · spec | spec 033a — закрытие прогона: 572de55 (отчёт оркестратора + запись в DECISIONS) + 9cde25b/c44ce3a (converge); урок: agent_teams_delete инвалидирует секцию «Пульс агентов» в docs/index.html (счи…</li>
+        <li><span class="mono muted">30.09</span> · spec | spec 033a (mas-autonomy-spike) — done (commit f43b060); PATH: H2 (dsh CLI one-shot); run-spec.mjs + templates/mas + mas-runs.json | ещё не закоммичено</li>
     </ul>
   </details>
 
