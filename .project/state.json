@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "a1e87d0227c823c2f78a3d26dcd1798ae750842c",
+  "head": "b1bb8dee9801641f67847a64f2c4e5c8c55311f4",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "046",
-      "slug": "run-spec-chain-content-stop",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-02",
-      "updated": "2026-10-02",
-      "commit": null,
-      "file": "specs/046-run-spec-chain-content-stop.md",
-      "mtime": 1790895498446.578,
-      "goal": "Добавить в `docs/spec-chain/skills/run-spec-chain/SKILL.md` **STOP-точку D** —",
-      "acceptance": "1. В `docs/spec-chain/skills/run-spec-chain/SKILL.md` есть подраздел «Шаг 4a — STOP-точка D»;",
-      "noTouch": "`.project/sync.mjs`, `.project/contracts/**`, `tools/**` (в том числе `qc.cjs`,",
       "preview": ""
     },
     {
@@ -927,6 +912,21 @@
       "preview": ""
     },
     {
+      "id": "046",
+      "slug": "run-spec-chain-content-stop",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-02",
+      "updated": "2026-10-02",
+      "commit": "a1e87d0",
+      "file": "specs/046-run-spec-chain-content-stop.md",
+      "mtime": 1790895538507.3096,
+      "goal": "Добавить в `docs/spec-chain/skills/run-spec-chain/SKILL.md` **STOP-точку D** —",
+      "acceptance": "1. В `docs/spec-chain/skills/run-spec-chain/SKILL.md` есть подраздел «Шаг 4a — STOP-точка D»;",
+      "noTouch": "`.project/sync.mjs`, `.project/contracts/**`, `tools/**` (в том числе `qc.cjs`,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -988,7 +988,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]",
     "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a",
     "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0",
     "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6",
@@ -997,10 +996,29 @@
     "2026-10-01 | rule2-exception | авторизован перевод spec 045 в approved через embedded approve капитана (spec создана сразу как approved, минуя draft/preview) | commit 45c48fa",
     "2026-10-02 | spec-045 | done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL | commit 90fe7d4",
     "2026-10-02 | push | authorize push origin main — spec-045 close; опубликовано ecf6e8d..3a16c0d (7 коммитов, tip 3a16c0d), origin/main = 3a16c0d, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) — публикуется следующим авторизованным push | commit 3a16c0d",
-    "2026-10-02 | push | authorize push origin main — долги: удалён SKILL.md.bak-d3b из обоих пресетов + правило «push-трейл писать ДО push» в docs/memory/procedural.md; этим push публикуются 3a16c0d..<tip этого коммита «docs(proc): rule11 trail before push + cleanup»> (2 коммита: f09c8ea + этот), ahead 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; трейл записан ДО push по новому правилу | commit pending"
+    "2026-10-02 | push | authorize push origin main — долги: удалён SKILL.md.bak-d3b из обоих пресетов + правило «push-трейл писать ДО push» в docs/memory/procedural.md; этим push публикуются 3a16c0d..<tip этого коммита «docs(proc): rule11 trail before push + cleanup»> (2 коммита: f09c8ea + этот), ahead 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; трейл записан ДО push по новому правилу | commit pending",
+    "2026-10-02 | spec-046 | done - 1. Якоря STOP D (после правки) | commit a1e87d0"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "b1bb8de",
+      "date": "2026-10-02",
+      "subject": "docs(spec-046): done - 1. Якоря STOP D (после правки)",
+      "type": "docs"
+    },
+    {
+      "sha": "31dc80d",
+      "date": "2026-10-02",
+      "subject": "chore(spec-046): R5 trace - task tokens t1 t2",
+      "type": "chore"
+    },
+    {
+      "sha": "8af2ab9",
+      "date": "2026-10-02",
+      "subject": "chore(state): converge after spec-046 team archive",
+      "type": "chore"
+    },
     {
       "sha": "a1e87d0",
       "date": "2026-10-02",
@@ -1102,24 +1120,6 @@
       "date": "2026-10-01",
       "subject": "docs(memory): убран мусор f4-watchdog (U+FFFD) + фикс EOL в alerts.md",
       "type": "docs"
-    },
-    {
-      "sha": "2828d8b",
-      "date": "2026-10-01",
-      "subject": "docs(memory): alerts - инлайн-спеки не закрываются без MAS-прогона",
-      "type": "docs"
-    },
-    {
-      "sha": "0379e72",
-      "date": "2026-10-01",
-      "subject": "fix(spec-044): бюджет короткого имени 55 -> 45 (все 22 спеки <= 100)",
-      "type": "fix"
-    },
-    {
-      "sha": "b897d16",
-      "date": "2026-10-01",
-      "subject": "fix(spec-044): бюджет короткого имени 55 симв. + regex для id с буквенным суффиксом",
-      "type": "fix"
     }
   ],
   "roles": [
