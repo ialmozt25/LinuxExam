@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "2f09f5b15f5b4e0dcb63d6c9e77d9408d2b2f0dd",
+  "head": "7640440c2f18452105e3c6d74207596f615710ce",
   "specs": [
     {
       "id": "022",
@@ -470,7 +470,7 @@
       "updated": "2026-10-01",
       "commit": null,
       "file": "specs/044-telegram-messages.md",
-      "mtime": 1790854144211.7715,
+      "mtime": 1790854649760.3823,
       "goal": "Каждое уведомление читается капитаном с одного взгляда: сначала результат,",
       "acceptance": "1. Все 9 текстов соответствуют колонке «стало»; каждое ≤ 100 символов.",
       "noTouch": "`.project/scripts/notify.mjs`, `.project/notify-config.json` — вне скоупа.",
@@ -972,6 +972,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "7640440",
+      "date": "2026-10-01",
+      "subject": "feat(spec-044): человекочитаемые тексты Telegram-уведомлений",
+      "type": "feat"
+    },
+    {
       "sha": "2f09f5b",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-042 push record",
@@ -1084,12 +1090,6 @@
       "date": "2026-10-01",
       "subject": "docs(spec-040): done - spec-chain: фабрика end-to-end",
       "type": "docs"
-    },
-    {
-      "sha": "2fd2b24",
-      "date": "2026-10-01",
-      "subject": "chore(spec-040): R5 trace - task tokens t1 t2 t3 t4 t5 t7 t8 t9 t10 t11",
-      "type": "chore"
     }
   ],
   "roles": [
