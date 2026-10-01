@@ -462,6 +462,21 @@
       "preview": ""
     },
     {
+      "id": "041",
+      "slug": "enrich-spec-reconcile-windows-url",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/041-enrich-spec-reconcile-windows-url.md",
+      "mtime": 1790829132407.5354,
+      "goal": "Устранить:",
+      "acceptance": "1. `node .project/scripts/enrich-spec.mjs smoke-enrich-test --max-iterations 2`",
+      "noTouch": "`.project/scripts/validate-spec.mjs` (правки в нём → STOP, отдельная спека)",
+      "preview": ""
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -927,6 +942,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "7d8c28d",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-040 push-trail",
+      "type": "chore"
+    },
+    {
       "sha": "3c326ca",
       "date": "2026-10-01",
       "subject": "chore(log): authorize push (rule 10) - spec-040 close",
@@ -1039,12 +1060,6 @@
       "date": "2026-10-01",
       "subject": "feat(spec-039): bank-audit-036-fixes - 10 rewrite + fm_011 + 4 add (t1 t2 t3 t4)",
       "type": "feat"
-    },
-    {
-      "sha": "0abd658",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-039 stale-refs fix",
-      "type": "chore"
     }
   ],
   "roles": [
