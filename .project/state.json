@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "58d46bc690da24695b6b7b8a41fc34916423f4ac",
+  "head": "afe011b8483d3dcb714b3304c324bd78d65b87df",
   "specs": [
     {
       "id": "022",
@@ -459,6 +459,21 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
+      "preview": ""
+    },
+    {
+      "id": "042",
+      "slug": "telegram-notify",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-01",
+      "updated": "2026-10-01",
+      "commit": null,
+      "file": "specs/042-telegram-notify.md",
+      "mtime": 1790849195567.3403,
+      "goal": "`npm run notify -- \"текст\" --event <type>` шлёт сообщение в Telegram.",
+      "acceptance": "1. `notify --dry-run --event spec_closed` → 0, печатает `DRY-RUN`.",
+      "noTouch": "`src/**`, `tools/**`",
       "preview": ""
     },
     {
@@ -942,6 +957,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "afe011b",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-041 done",
+      "type": "chore"
+    },
+    {
       "sha": "58d46bc",
       "date": "2026-10-01",
       "subject": "docs(spec-041): done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation",
@@ -1054,12 +1075,6 @@
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-040 draft",
       "type": "chore"
-    },
-    {
-      "sha": "6c6252c",
-      "date": "2026-10-01",
-      "subject": "docs(spec-040): draft - spec-chain (Проверяльщик + Оркестратор + пресет)",
-      "type": "docs"
     }
   ],
   "roles": [
