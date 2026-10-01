@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "b9fdee9d3c3be04b30c3c315f91081943ef38dea",
+  "head": "f09c8ea936458f1ae77b1c466a75c7528259d961",
   "specs": [
     {
       "id": "022",
@@ -973,8 +973,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
-    "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4",
     "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]",
     "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a",
     "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0",
@@ -982,10 +980,24 @@
     "2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72",
     "2026-10-01 | push | authorize push origin main — spec-044 close; опубликовано 2f09f5b..acf8dd0 (9 коммитов, tip acf8dd0), origin/main = acf8dd0, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) и опубликуется следующим авторизованным push | commit acf8dd0",
     "2026-10-01 | rule2-exception | авторизован перевод spec 045 в approved через embedded approve капитана (spec создана сразу как approved, минуя draft/preview) | commit 45c48fa",
-    "2026-10-02 | spec-045 | done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL | commit 90fe7d4"
+    "2026-10-02 | spec-045 | done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL | commit 90fe7d4",
+    "2026-10-02 | push | authorize push origin main — spec-045 close; опубликовано ecf6e8d..3a16c0d (7 коммитов, tip 3a16c0d), origin/main = 3a16c0d, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) — публикуется следующим авторизованным push | commit 3a16c0d",
+    "2026-10-02 | push | authorize push origin main — долги: удалён SKILL.md.bak-d3b из обоих пресетов + правило «push-трейл писать ДО push» в docs/memory/procedural.md; этим push публикуются 3a16c0d..<tip этого коммита «docs(proc): rule11 trail before push + cleanup»> (2 коммита: f09c8ea + этот), ahead 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; трейл записан ДО push по новому правилу | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "f09c8ea",
+      "date": "2026-10-02",
+      "subject": "docs(log): rule11-трейл для push spec-045",
+      "type": "docs"
+    },
+    {
+      "sha": "3a16c0d",
+      "date": "2026-10-02",
+      "subject": "chore(state): converge after spec-045 team archive",
+      "type": "chore"
+    },
     {
       "sha": "b9fdee9",
       "date": "2026-10-02",
@@ -1092,18 +1104,6 @@
       "sha": "d164cf6",
       "date": "2026-10-01",
       "subject": "docs(memory): correct spec-042 working.md (ahead 5, closure record)",
-      "type": "docs"
-    },
-    {
-      "sha": "b10ce84",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-042 done",
-      "type": "chore"
-    },
-    {
-      "sha": "e990d35",
-      "date": "2026-10-01",
-      "subject": "docs(spec-042): done - Spec 042 — Telegram-уведомления о ходе работ",
       "type": "docs"
     }
   ],
