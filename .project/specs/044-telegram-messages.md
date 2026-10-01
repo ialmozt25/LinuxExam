@@ -2,10 +2,10 @@
 id: 044
 slug: telegram-messages
 type: infra
-status: approved
+status: done
 created: 2026-10-01
 updated: 2026-10-01
-commit: null
+commit: 0379e72
 ---
 
 # Spec 044 — человекочитаемые тексты Telegram-уведомлений

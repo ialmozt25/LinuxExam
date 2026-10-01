@@ -203,3 +203,4 @@
 2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a
 2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0
 2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6
+2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72

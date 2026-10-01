@@ -215,3 +215,6 @@ Evidence: `.agent-teams/spec-040-spec-chain` (после архивации — 
 
 ## 2026-10-01 | spec-042-telegram-notify (закрытие)
 Прогон AgentTeams (team `spec-042-telegram-notify`, 8 задач — t1, t2, t3, t4, t5, t6, t7, t8, verdict=**pass**). Артефакты реализации: коммит `65fc9c0` — "feat(spec-042): Telegram-уведомления о ходе работ (T1-T4)". Закрытие: R5-trace `65fc9c0`, frontmatter `.project/specs/042-telegram-notify.md` → `status: done` (commit `65fc9c0`), запись в `.project/log.md`, converge `ef77868`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
+
+## 2026-10-01 | spec-044-telegram-messages (закрытие)
+Прогон AgentTeams (team `spec-044-telegram-messages`, 2 задач — t1, t2, verdict=**pass**). Артефакты реализации: коммит `0379e72` — "fix(spec-044): бюджет короткого имени 55 -> 45 (все 22 спеки <= 100)". Закрытие: R5-trace `0379e72`, frontmatter `.project/specs/044-telegram-messages.md` → `status: done` (commit `0379e72`), запись в `.project/log.md`, converge `<converge>`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
