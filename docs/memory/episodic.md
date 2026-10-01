@@ -221,3 +221,6 @@ Evidence: `.agent-teams/spec-040-spec-chain` (после архивации — 
 
 ## 2026-10-02 | spec-045-spec-chain-readme-fix (закрытие)
 Прогон AgentTeams (team `spec-045-spec-chain-readme-fix`, 2 задач — t1, t2, verdict=**pass**). Артефакты реализации: коммит `90fe7d4` — "docs(spec-045): D+E - agent.cordis.yml без close-spec + README шаг 11 на <id>". Закрытие: R5-trace `90fe7d4`, frontmatter `.project/specs/045-spec-chain-readme-fix.md` → `status: done` (commit `90fe7d4`), запись в `.project/log.md`, converge `84cebc0`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
+
+## 2026-10-02 | spec-046-run-spec-chain-content-stop (закрытие)
+Прогон AgentTeams (team `spec-046-run-spec-chain-content-stop`, 2 задач — t1, t2, verdict=**pass**). Артефакты реализации: коммит `a1e87d0` — "docs(spec-046): поправки критериев 1/6/12 после прогона t1". Закрытие: R5-trace `a1e87d0`, frontmatter `.project/specs/046-run-spec-chain-content-stop.md` → `status: done` (commit `a1e87d0`), запись в `.project/log.md`, converge `<converge>`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).

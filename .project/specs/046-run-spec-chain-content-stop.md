@@ -1,11 +1,11 @@
 ---
 id: 046
 slug: run-spec-chain-content-stop
-status: approved
+status: done
 type: infra
 created: 2026-10-02
 updated: 2026-10-02
-commit: null
+commit: a1e87d0
 embedded_approve: rule 2 (исключение: embedded approve для перевода spec в approved), правило 6 (content) не применяется — type: infra
 commit_format: "docs(spec-046): content STOP D - preview approve (rule 6)"
 ---
