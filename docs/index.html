@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на b897d16</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 0379e72</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">40</div>
+      <div class="pulse-tile__value">41</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -347,7 +347,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 40 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 41 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -415,6 +415,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">0379e72</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(spec-044): бюджет короткого имени 55 -&gt; 45 (все 22 спеки &lt;= 100)</td>
+          <td class="mono muted">2026-10-01</td>
+        </tr>
         <tr>
           <td class="mono">b897d16</td>
           <td><span class="ctype ctype--fix">fix</span></td>
@@ -529,12 +535,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): authorize push (rule 10) - spec-040 close</td>
           <td class="mono muted">2026-10-01</td>
         </tr>
-        <tr>
-          <td class="mono">7ffb5c3</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-040 done</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -626,8 +626,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 54</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 54</div>
+    <summary>Тревоги · записей: 55</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 55</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -841,6 +841,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">01.10 | tech debt | spec 042: блок «Решения» в центре не обёрнут VOLATILE (`генератор центра:1833-1839`, `readRecentLog(5)`) — любая правка `журнал событий` после converge делает закоммиченный `docs/index.html` устаревшим → `проверка синхронизации` = 2 (соседний блок коммитов обёрнут, комментарий `:1830-1832`); лечение: писать manual-файл до converge либо обернуть блок по его образцу — код `генератор центра` НЕ правился, кандидат в отдельную спеку</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">01.10 | process gap | инлайн-спеки не закрываются `close-spec.mjs` без MAS-прогона: шаг 3 требует `.agent-teams/**/spec-&lt;id&gt;*/team.json`, шаг 4 — задачу роли reviewer/qc с `verdict=pass`; spec 044 исполнена правками напрямую (без `/spec-to-team`) → `npm run spec:close -- 044 --dry-run` = **exit 3 (precondition-missing)**; лечение: мини-прогон AgentTeams с задачей `kind=review` (применено) либо режим `--no-team` отдельной спекой</div>
         </div>
   </details>
 

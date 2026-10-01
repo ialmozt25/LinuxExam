@@ -205,4 +205,6 @@ spec-enrich эти дефекты до MAS.
 
 ## 2026-10-01 | tech debt | spec 042: блок «Решения» в центре не обёрнут VOLATILE (`.project/sync.mjs:1833-1839`, `readRecentLog(5)`) — любая правка `log.md` после converge делает закоммиченный `docs/index.html` устаревшим → `sync:check` = 2 (соседний блок коммитов обёрнут, комментарий `:1830-1832`); лечение: писать manual-файл до converge либо обернуть блок по его образцу — код `sync.mjs` НЕ правился, кандидат в отдельную спеку
 
+## 2026-10-01 | process gap | инлайн-спеки не закрываются `close-spec.mjs` без MAS-прогона: шаг 3 требует `.agent-teams/**/spec-<id>*/team.json`, шаг 4 — задачу роли reviewer/qc с `verdict=pass`; spec 044 исполнена правками напрямую (без `/spec-to-team`) → `npm run spec:close -- 044 --dry-run` = **exit 3 (precondition-missing)**; лечение: мини-прогон AgentTeams с задачей `kind=review` (применено) либо режим `--no-team` отдельной спекой
+
 <!-- meta updated: 2026-09-30T10:40:38Z entries_count: 36 -->
