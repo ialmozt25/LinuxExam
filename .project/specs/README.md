@@ -57,6 +57,7 @@ commit_regex:  "^feat\\(bank\\), (\\d+)\\s+questions?"
 | `created` | да | `YYYY-MM-DD` |
 | `updated` | да | `YYYY-MM-DD` |
 | `commit` | нет | короткий SHA после коммита, иначе `null` |
+| `track` | нет | `small` · `full` — трек прогона цепочки: `small` = без enrich и с минимальной MAS-командой (1 builder, `kind=work`, ревью второй задачей), `full` = полная цепочка enrich → MAS → закрытие. Порог классификации — раздел «Двухтрековый режим» в `.project/ORCH-RULES.md`; поле необязательное, отсутствие трактуется как `full` |
 | `commit_format` | для `type=content` | шаблон subject'а коммита, см. ниже |
 | `commit_regex` | для `type=content` | regex, которым этот subject матчится в `tools/gen-state.mjs` |
 

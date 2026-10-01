@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "37f6e59f7ba1ae2a155bd668af9e9adbddb6aa07",
+  "head": "621d927377c8faaf375b639195a3918eff9323f2",
   "specs": [
     {
       "id": "022",
@@ -1017,6 +1017,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "621d927",
+      "date": "2026-10-02",
+      "subject": "docs(spec-047): dual-track spec-chain - Small/Full threshold table (rule 13)",
+      "type": "docs"
+    },
+    {
       "sha": "37f6e59",
       "date": "2026-10-02",
       "subject": "chore(log): rule2-exception для spec 046 (embedded approve)",
@@ -1129,12 +1135,6 @@
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-044 done",
       "type": "chore"
-    },
-    {
-      "sha": "a82f782",
-      "date": "2026-10-01",
-      "subject": "docs(spec-044): done - Spec 044 — человекочитаемые тексты Telegram-уведомлений",
-      "type": "docs"
     }
   ],
   "roles": [
