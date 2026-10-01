@@ -2,10 +2,10 @@
 id: 042
 slug: telegram-notify
 type: infra
-status: approved
+status: done
 created: 2026-10-01
 updated: 2026-10-01
-commit: null
+commit: 65fc9c0
 ---
 
 # Spec 042 — Telegram-уведомления о ходе работ
@@ -122,7 +122,7 @@ t6  → read-only (отчёт reviewer)
 4. Rate limit (persist): 2 вызова → 2-й `status:rate_limited`.
 5. Dedup (persist): 2 вызова с тем же `--event` и текстом в окне
    `--dedup-window-override 3` → 1 отправка, 2-й `status:deduped`.
-6. HTML: `test <b>x</b> & y` → жирный + `&`.
+6. HTML: `test <b>x</b> & y` → escape корректен, `&` доставлен, HTML-разметка не поддерживается (безопасность — нет инъекции).
 7. Redaction: `123456789:ABCdef...` → `[REDACTED]` в отправке + WARN.
 8. Circuit breaker: 5 вызовов `--token-file <invalid>` → 5×`error`,
    6-й → `circuit_open`.
