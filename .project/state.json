@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c5d86b49f7c5befe1fdf8e9b08226d0911a159f8",
+  "head": "c4c244e36b0f0df6ba709966076f4d43522d69d6",
   "specs": [
     {
       "id": "022",
@@ -913,7 +913,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
     "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf",
     "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]",
     "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending",
@@ -922,10 +921,23 @@
     "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
     "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
     "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
-    "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending"
+    "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
+    "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c4c244e",
+      "date": "2026-10-01",
+      "subject": "docs(spec-040): fix delta metric + post-mortem (alerts + semantic)",
+      "type": "docs"
+    },
+    {
+      "sha": "50a09be",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-040 feat",
+      "type": "chore"
+    },
     {
       "sha": "c5d86b4",
       "date": "2026-10-01",
@@ -1032,18 +1044,6 @@
       "sha": "41542ec",
       "date": "2026-09-30",
       "subject": "docs(spec-039): draft - bank-audit-036-fixes",
-      "type": "docs"
-    },
-    {
-      "sha": "88bab32",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-038 post-mortem",
-      "type": "chore"
-    },
-    {
-      "sha": "aa1f6c2",
-      "date": "2026-09-30",
-      "subject": "docs(memory): post-mortem spec-038 — 6 alerts",
       "type": "docs"
     }
   ],
