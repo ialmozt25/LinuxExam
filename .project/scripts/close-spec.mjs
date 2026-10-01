@@ -124,6 +124,32 @@ export const USAGE = [
   '             3 — precondition-missing (нет спеки или команды).',
 ].join('\n');
 
+/* --------------------------------------- Telegram-уведомления (spec 042/T2) */
+
+/** Ядро уведомлений (spec 042/T1). */
+const NOTIFY_SCRIPT = path.join(REPO_ROOT, '.project', 'scripts', 'notify.mjs');
+
+/**
+ * Fire-and-forget Telegram-уведомление (spec 042/T2). Никогда не бросает, не
+ * блокирует родителя, ничего не пишет в stdout парсеров и не влияет на
+ * exit-код: дочерний процесс detached + unref, его вывод не читается
+ * (`stdio: 'ignore'`). Сбой Telegram не ломает прогон закрытия.
+ */
+function notifyFireAndForget(event, message) {
+  try {
+    const child = spawn(process.execPath, [NOTIFY_SCRIPT, message, '--event', event], {
+      cwd: REPO_ROOT,
+      stdio: 'ignore',
+      windowsHide: true,
+      detached: true,
+    });
+    child.on('error', () => {});
+    child.unref();
+  } catch {
+    /* уведомление не должно ломать прогон */
+  }
+}
+
 /* --------------------------------------------------- хелперы I/O и EOL */
 
 /** Код ошибки ввода-вывода (`ENOENT`, `EACCES`, …) или `UNKNOWN`. */
@@ -1336,6 +1362,10 @@ export async function executeClosingSteps(ctx, plan, options) {
     report.gates.push({ step: 10.5, command: 'node .project/sync.mjs --check', exitCode: 0 });
     report.headAfterClose = convergeSha;
   }
+
+  // Терминальный успех закрытия (no-op-ветки идемпотентного повтора выше
+  // уведомления не шлют). Fire-and-forget: exit-код и stdout не меняются.
+  notifyFireAndForget('spec_closed', `Спека ${id} закрыта: ${title} (sync:check=0)`);
 
   return finish(EXIT.ok, 'closing-фаза завершена: sync:check = 0 (спека закрыта)');
 }

@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "events": [
+    "spec_closed",
+    "gate_failed",
+    "mas_started",
+    "mas_finished",
+    "stop_point"
+  ],
+  "rate_limit_sec": 1,
+  "dedup_window_sec": 300,
+  "circuit_breaker_threshold": 5,
+  "circuit_breaker_cooldown_sec": 60
+}

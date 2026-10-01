@@ -56,7 +56,7 @@
 // `--live` — алиас не-dry-run (явный реальный прогон); одиночный `--dry-run`
 // по-прежнему даёт dry-run.
 
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fsp from 'node:fs/promises';
 import { createRequire } from 'node:module';
@@ -95,6 +95,32 @@ export const PLUGIN_PACKAGE = '@nanmicoder/dsh-agent-teams';
 
 /** Ведущий маркер активации протокола капитана на headless-поверхности. */
 export const ACTIVATION_PREFIX = '/agent-teams';
+
+/* --------------------------------------- Telegram-уведомления (spec 042/T2) */
+
+/** Ядро уведомлений (spec 042/T1). */
+const NOTIFY_SCRIPT = path.join(REPO_ROOT, '.project', 'scripts', 'notify.mjs');
+
+/**
+ * Fire-and-forget Telegram-уведомление (spec 042/T2). Никогда не бросает, не
+ * блокирует родителя, ничего не пишет в stdout парсеров и не влияет на
+ * exit-код: дочерний процесс detached + unref, его вывод не читается
+ * (`stdio: 'ignore'`). Сбой Telegram не ломает прогон.
+ */
+function notifyFireAndForget(event, message) {
+  try {
+    const child = spawn(process.execPath, [NOTIFY_SCRIPT, message, '--event', event], {
+      cwd: REPO_ROOT,
+      stdio: 'ignore',
+      windowsHide: true,
+      detached: true,
+    });
+    child.on('error', () => {});
+    child.unref();
+  } catch {
+    /* уведомление не должно ломать прогон */
+  }
+}
 
 const DEFAULTS = {
   dryRun: false,
@@ -985,6 +1011,9 @@ export async function runSpec(options) {
     return { exitCode: 0, report };
   }
 
+  // Реальный старт прогона (dry-run и ранние failure-возвраты сюда не доходят).
+  notifyFireAndForget('mas_started', `MAS-прогон спеки ${options.specId} стартовал (team ${teamId})`);
+
   const execution = executeRun(command, options, pre.apiKey);
   report.steps.push({ name: 'execute', status: execution.ok ? 'ok' : 'failed', detail: execution.detail });
   report.execution = execution.evidence;
@@ -1012,6 +1041,9 @@ export async function runSpec(options) {
   };
   report.finishedAt = new Date().toISOString();
   await recordHistory();
+  // Терминальная точка после старта (единственная): mas_started уже отправлен.
+  notifyFireAndForget('mas_finished', `MAS-прогон спеки ${options.specId} завершён: ${report.result.status}`);
+
   return { exitCode: ok ? 0 : 1, report };
 }
 

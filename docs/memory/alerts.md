@@ -201,4 +201,6 @@ mtime + relative time + untracked .agent-teams в docs/index.html).
 Кандидат в spec-041 (пилот на batch 6): проверить, ловит ли
 spec-enrich эти дефекты до MAS.
 
+## 2026-10-01 | accepted-risk | severity: medium | source: F1 | spec 042 критерий 6: escape `<`,`>`,`&` оставлен, HTML-разметка не поддерживается (безопасность — нет инъекции); решение капитана 2026-10-01, notify.mjs не правился
+
 <!-- meta updated: 2026-09-30T10:40:38Z entries_count: 36 -->

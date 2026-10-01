@@ -24,6 +24,8 @@
     "spec:close": "node .project/scripts/close-spec.mjs",
     "spec:enrich": "node .project/scripts/enrich-spec.mjs",
     "runs:log": "node .project/scripts/runs-log.mjs",
+    "notify": "node .project/scripts/notify.mjs",
+    "notify:health": "node .project/scripts/notify.mjs --health",
     "sync:check": "node .project/sync.mjs --check && npm run consistency:check",
     "consistency:check": "node .project/scripts/check-consistency.mjs",
     "check:episodic": "node tools/check-episodic.mjs",

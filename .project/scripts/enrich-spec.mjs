@@ -41,7 +41,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const EXIT_CLEAN = 0;
@@ -170,6 +170,32 @@ function resolveRoot() {
 const ROOT = resolveRoot();
 const VALIDATE_ABS = path.join(ROOT, VALIDATE_REL);
 const SKILL_ABS = path.join(ROOT, SKILL_REL);
+
+/* --------------------------------------- Telegram-уведомления (spec 042/T2) */
+
+/** Ядро уведомлений (spec 042/T1). */
+const NOTIFY_SCRIPT = path.join(ROOT, '.project', 'scripts', 'notify.mjs');
+
+/**
+ * Fire-and-forget Telegram-уведомление (spec 042/T2). Никогда не бросает, не
+ * блокирует родителя, ничего не пишет в stdout парсеров и не влияет на
+ * exit-код: дочерний процесс detached + unref, его вывод не читается
+ * (`stdio: 'ignore'`). Сбой Telegram не ломает прогон обогащения.
+ */
+function notifyFireAndForget(event, message) {
+  try {
+    const child = spawn(process.execPath, [NOTIFY_SCRIPT, message, '--event', event], {
+      cwd: ROOT,
+      stdio: 'ignore',
+      windowsHide: true,
+      detached: true,
+    });
+    child.on('error', () => {});
+    child.unref();
+  } catch {
+    /* уведомление не должно ломать прогон */
+  }
+}
 
 /** Спека по пути или по id: сначала .project/specs/, затем .project/drafts/ (S6). */
 function resolveSpec(spec) {
@@ -1692,6 +1718,7 @@ async function main() {
     });
     writeText(path.join(runDirAbs, 'report.md'), report);
     say(`отчёт: ${posixJoin(runDirRel, 'report.md')}`);
+    notifyFireAndForget('gate_failed', `Спека ${specId}: enrich hard-fail — детерминированные фазы`);
     process.exit(EXIT_HARD_FAIL);
   }
 
@@ -2079,6 +2106,13 @@ async function main() {
     for (const w of warnings) say(`WARN ${w}`);
     say(`Отчёт: ${posixJoin(runDirRel, 'report.md')}`);
     say(`Итог: ${verdict}`);
+  }
+
+  // Терминальный исход enrichment: hard-fail (в т.ч. откат Фазы 9) vs успех.
+  if (exitCode === EXIT_HARD_FAIL) {
+    notifyFireAndForget('gate_failed', `Спека ${specId}: enrich hard-fail — external audit INTENT-CHANGED`);
+  } else {
+    notifyFireAndForget('spec_closed', `Спека ${specId}: enrichment завершён (score ${scoreBefore}→${scoreAfter})`);
   }
 
   process.exit(exitCode);

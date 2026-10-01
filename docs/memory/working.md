@@ -4,6 +4,20 @@
 
 ---
 
+2026-10-01 | spec-042-telegram-notify — прогон AgentTeams завершён, tester 11/13 (ratification by re-execution) + reviewer verdict=pass (8/8 задач completed)
+
+HEAD: 871fa29 (база прогона: регистрация спеки; коммитов прогона НЕТ — правки T1–T4 ещё не закоммичены)
+
+ahead: 0 (main = origin/main)
+
+План: spec 042 (infra, approved) исполнена; approve капитана обязателен, закрытие — за капитаном: `npm run spec:close -- 042` (сначала `--dry-run`; push — отдельная per-command авторизация, правила 10/11). Спека зарегистрирована в репо коммитом `871fa29` (файла 042 на диске не было — текст спеки передан капитаном в чате).
+
+Фаза: spec-042 — DAG: t1 (design, architect: интерфейс + JSON-схемы state/log + точки интеграции) → t2 (`notify.mjs`, ядро) → t3 ∥ t4 ∥ t5 (интеграция в 4 файла · `package.json`+config+`.gitignore` · строка `Уведомления:` в `.project/sync.mjs`) → t6 (tester: критерии 1–13) → t7 (reviewer: PASS) → t8 (`kind=review`, машинно-читаемый verdict-гейт).
+
+Текущая активность: прогон завершён (все 4 члена idle, 8/8 задач completed). Итог: `notify.mjs` (990 строк, zero-deps ESM, `node:https`), fire-and-forget интеграция в `close-spec`/`enrich-spec`/`run-spec`/skill `run-spec-chain` (аддитивно, 118+/5−), `package.json` (+`notify`, `notify:health`), `.project/notify-config.json`, `.gitignore`, и ровно одна строка `Уведомления:` в блоке «Память» центра — обёрнута `VOLATILE`, без новой плитки.
+
+Дальше: (1) решение капитана по **F1 (medium)** — противоречие внутри спеки: обязательный HTML-escape `<`,`>`,`&` несовместим с критерием 6 «жирный» (нужно переформулировать критерий либо снять escape; не дефект кода, закрытие не блокирует); (2) закрытие — `npm run spec:close -- 042 --dry-run` → apply; шаг 4 уже проходит (`reviewer: t8 — verdict=pass`), `sync:check` = 2 транзиентно и закрывается штатным commit-chain (`sync → git add → commit`); (3) push — отдельная авторизация (правила 10/11). Гейты лида: `node --check` ×5 = 0, `typecheck` 0, `test:run` 0 (28/198), `consistency:check` 0, `spec:close --dry-run` 0; C2 подтверждён сырым ответом API (HTTP 200, `ok:true`, `message_id=30`, бот `linux_exam_bot`); секреты в git отсутствуют.
+
 2026-10-01 | spec-041-enrich-reconcile — прогон AgentTeams завершён, qc verdict=pass + reviewer verdict=pass (4/4 задач completed)
 
 HEAD: 5368a61 (коммиты прогона: `1965c43` t1, `5368a61` t2)

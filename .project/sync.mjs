@@ -1099,6 +1099,74 @@ function readLastMasRun() {
   return { present: true, count: runs.length, last };
 }
 
+/* ---------------------------- spec 042/T4: строка «Уведомления:» в центре */
+
+/** Runtime-артефакты notify (spec 042/T1); оба могут отсутствовать — это норма. */
+const NOTIFY_STATE_PATH = rel('.project/scripts/notify-state.json');
+const NOTIFY_LOG_PATH = rel('.project/logs/notify-log.jsonl');
+
+/** Локальная дата `YYYY-MM-DD` — ровно тот формат, что пишет notify в sent_today. */
+function notifyDateKey(ms) {
+  const d = new Date(ms);
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+/**
+ * Статус последней читаемой записи notify-log.jsonl (append-only JSONL).
+ * Файла нет / битые строки → null: журнал не гейт (образец — readTrends()).
+ */
+function readLastNotifyStatus() {
+  if (!exists(NOTIFY_LOG_PATH)) return null;
+  let lines;
+  try {
+    lines = normalizeLf(readText(NOTIFY_LOG_PATH)).split('\n').filter((l) => l.trim() !== '');
+  } catch {
+    return null;
+  }
+  const tail = lines.slice(-200);
+  for (let i = tail.length - 1; i >= 0; i -= 1) {
+    try {
+      const entry = JSON.parse(tail[i]);
+      if (entry && typeof entry === 'object' && typeof entry.status === 'string') return entry.status;
+    } catch {
+      /* битая строка — пропускаем, как в readTrends */
+    }
+  }
+  return null;
+}
+
+/**
+ * Значение строки «Уведомления:» (design 042 §5.3). Никогда не бросает: любая
+ * ошибка чтения/парсинга → «—» (§5.4). Приоритет веток фиксирован:
+ * нет state → circuit open → последний invalid_token → «✓ отправлено N сегодня».
+ */
+function readNotifyLine() {
+  const now = Date.now();
+  let state;
+  try {
+    state = JSON.parse(readText(NOTIFY_STATE_PATH));
+  } catch {
+    return '—';
+  }
+  if (!state || typeof state !== 'object' || Array.isArray(state)) return '—';
+
+  const circuit = state.circuit && typeof state.circuit === 'object' ? state.circuit : {};
+  const cooldownUntil = Number.isFinite(circuit.cooldown_until_ms) ? Number(circuit.cooldown_until_ms) : 0;
+  if (cooldownUntil > now) {
+    const openedAt = Number.isFinite(circuit.opened_at_ms) ? Number(circuit.opened_at_ms) : now;
+    return `⚠ circuit open (${Math.max(0, Math.round((now - openedAt) / 60_000))} мин назад)`;
+  }
+
+  if (readLastNotifyStatus() === 'invalid_token') return '⚠ invalid token';
+
+  const sent = state.sent_today && typeof state.sent_today === 'object' ? state.sent_today : {};
+  const count = sent.date === notifyDateKey(now) && Number.isFinite(sent.count) && sent.count >= 0
+    ? Math.floor(Number(sent.count))
+    : 0;
+  return `✓ отправлено ${count} сегодня`;
+}
+
 /** Текст поля записи истории: пустое/чужого типа → «—» (контракт: опционально). */
 function masRunField(value) {
   if (typeof value === 'string' && value.trim() !== '') return value.trim();
@@ -1806,6 +1874,12 @@ function renderCenter(ctx) {
     ].join('\n');
   }).join('\n');
 
+  /* --- spec 042/T4: одна строка видимости «Уведомления:» (VOLATILE, §5.2).
+   * Значение зависит от gitignored-рантайма notify-state.json и от wall-clock
+   * («N мин назад»), поэтому строка обёрнута VOLATILE как сестринские элементы:
+   * `--check` вырезает её вместе с участком и не краснеет от смены времени. */
+  const notifyLine = esc(readNotifyLine());
+
   /* --- F2.4 блок 4: «Тревоги» — все записи alerts.md, новые сверху */
   const alertsDoc = readAlerts();
   const alertsHtml = alertsDoc.entries.length === 0
@@ -2015,6 +2089,7 @@ ${VOLATILE.end}
   <details class="collapsible notebooks" id="notebooks">
     <summary>Память · тетрадей: ${NOTEBOOKS.length}</summary>
     <div class="muted">Свежесть: 🟢 &lt;1 фазы (&lt;72 ч) · 🟡 1–2 фазы (72–144 ч) · 🔴 &gt;2 фаз (&gt;144 ч)</div>
+    ${VOLATILE.start}<div class="muted">Уведомления: ${notifyLine}</div>${VOLATILE.end}
     <table>
       <thead>
         <tr><th>тетрадь</th><th>updated</th><th>записей</th><th>возраст</th><th>свежесть</th></tr>

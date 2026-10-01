@@ -54,3 +54,10 @@ coverage/
 # GoatCounter token (вне репо: ~/.dsh/goatcounter-token.json) — на случай копирования внутрь
 /.dsh/
 *goatcounter-token*.json
+
+# spec 042: Telegram-уведомления — runtime-артефакты, в git не попадают
+# (state+lock живут рядом с notify.mjs; лог создаётся при первом вызове)
+notify-state.json
+notify-state.json.lock
+.lock
+/.project/logs/
