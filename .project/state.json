@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f09c8ea936458f1ae77b1c466a75c7528259d961",
+  "head": "d30c9182f92758c62e49101dff6fc05dd53fe586",
   "specs": [
     {
       "id": "022",
@@ -459,6 +459,21 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
+      "preview": ""
+    },
+    {
+      "id": "046",
+      "slug": "run-spec-chain-content-stop",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-02",
+      "updated": "2026-10-02",
+      "commit": null,
+      "file": "specs/046-run-spec-chain-content-stop.md",
+      "mtime": 1790894338068.524,
+      "goal": "Добавить в `docs/spec-chain/skills/run-spec-chain/SKILL.md` **STOP-точку D** —",
+      "acceptance": "1. В `docs/spec-chain/skills/run-spec-chain/SKILL.md` есть подраздел «Шаг 4a — STOP-точка D»;",
+      "noTouch": "`.project/sync.mjs`, `.project/contracts/**`, `tools/**` (в том числе `qc.cjs`,",
       "preview": ""
     },
     {
@@ -987,6 +1002,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "d30c918",
+      "date": "2026-10-02",
+      "subject": "docs(proc): rule11 trail before push + cleanup",
+      "type": "docs"
+    },
+    {
       "sha": "f09c8ea",
       "date": "2026-10-02",
       "subject": "docs(log): rule11-трейл для push spec-045",
@@ -1099,12 +1120,6 @@
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-042 push record",
       "type": "chore"
-    },
-    {
-      "sha": "d164cf6",
-      "date": "2026-10-01",
-      "subject": "docs(memory): correct spec-042 working.md (ahead 5, closure record)",
-      "type": "docs"
     }
   ],
   "roles": [
