@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "e990d35538549e64d7f434d65786c9e3317ad7e5",
+  "head": "d164cf638a1e29c537dcf4459bcf14db7d331209",
   "specs": [
     {
       "id": "022",
@@ -943,7 +943,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
     "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
     "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
     "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
@@ -952,10 +951,23 @@
     "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4",
     "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]",
     "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a",
-    "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0"
+    "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0",
+    "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "d164cf6",
+      "date": "2026-10-01",
+      "subject": "docs(memory): correct spec-042 working.md (ahead 5, closure record)",
+      "type": "docs"
+    },
+    {
+      "sha": "b10ce84",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-042 done",
+      "type": "chore"
+    },
     {
       "sha": "e990d35",
       "date": "2026-10-01",
@@ -1062,18 +1074,6 @@
       "sha": "f64482c",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-040 post-mortem",
-      "type": "chore"
-    },
-    {
-      "sha": "c4c244e",
-      "date": "2026-10-01",
-      "subject": "docs(spec-040): fix delta metric + post-mortem (alerts + semantic)",
-      "type": "docs"
-    },
-    {
-      "sha": "50a09be",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-040 feat",
       "type": "chore"
     }
   ],
