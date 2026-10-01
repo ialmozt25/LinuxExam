@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "afe011b8483d3dcb714b3304c324bd78d65b87df",
+  "head": "e990d35538549e64d7f434d65786c9e3317ad7e5",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "042",
-      "slug": "telegram-notify",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-01",
-      "updated": "2026-10-01",
-      "commit": null,
-      "file": "specs/042-telegram-notify.md",
-      "mtime": 1790849195567.3403,
-      "goal": "`npm run notify -- \"текст\" --event <type>` шлёт сообщение в Telegram.",
-      "acceptance": "1. `notify --dry-run --event spec_closed` → 0, печатает `DRY-RUN`.",
-      "noTouch": "`src/**`, `tools/**`",
       "preview": ""
     },
     {
@@ -882,6 +867,21 @@
       "preview": ""
     },
     {
+      "id": "042",
+      "slug": "telegram-notify",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-01",
+      "updated": "2026-10-01",
+      "commit": "65fc9c0",
+      "file": "specs/042-telegram-notify.md",
+      "mtime": 1790852987410.4153,
+      "goal": "`npm run notify -- \"текст\" --event <type>` шлёт сообщение в Telegram.",
+      "acceptance": "1. `notify --dry-run --event spec_closed` → 0, печатает `DRY-RUN`.",
+      "noTouch": "`src/**`, `tools/**`",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -943,7 +943,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
     "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
     "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
@@ -952,10 +951,35 @@
     "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
     "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4",
     "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]",
-    "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a"
+    "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a",
+    "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e990d35",
+      "date": "2026-10-01",
+      "subject": "docs(spec-042): done - Spec 042 — Telegram-уведомления о ходе работ",
+      "type": "docs"
+    },
+    {
+      "sha": "47d4c09",
+      "date": "2026-10-01",
+      "subject": "chore(spec-042): R5 trace - task tokens t1 t2 t3 t4 t5 t6 t7 t8",
+      "type": "chore"
+    },
+    {
+      "sha": "65fc9c0",
+      "date": "2026-10-01",
+      "subject": "feat(spec-042): Telegram-уведомления о ходе работ (T1-T4)",
+      "type": "feat"
+    },
+    {
+      "sha": "871fa29",
+      "date": "2026-10-01",
+      "subject": "docs(spec-042): register approved telegram-notify spec",
+      "type": "docs"
+    },
     {
       "sha": "afe011b",
       "date": "2026-10-01",
@@ -1050,30 +1074,6 @@
       "sha": "50a09be",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-040 feat",
-      "type": "chore"
-    },
-    {
-      "sha": "c5d86b4",
-      "date": "2026-10-01",
-      "subject": "feat(spec-040): spec-chain factory - validator + enricher + orchestrator + preset docs (t1 t2 t3 t4 t5 t8 t9 t10 t11)",
-      "type": "feat"
-    },
-    {
-      "sha": "09448a5",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-040 approve",
-      "type": "chore"
-    },
-    {
-      "sha": "519c5f0",
-      "date": "2026-10-01",
-      "subject": "docs(spec-040): approve",
-      "type": "docs"
-    },
-    {
-      "sha": "aa372c8",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-040 draft",
       "type": "chore"
     }
   ],
