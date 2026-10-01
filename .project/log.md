@@ -194,3 +194,4 @@
 2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending
 2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending
 2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a
+2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]

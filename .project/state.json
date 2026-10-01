@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d61dac91ed515206eaa7d60d855c7154533072b2",
+  "head": "4b0149e5ab5346d98e16712e9e1f6f450c6adf49",
   "specs": [
     {
       "id": "022",
@@ -898,7 +898,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
     "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
@@ -907,10 +906,17 @@
     "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
-    "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a"
+    "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
+    "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "4b0149e",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-039 done",
+      "type": "chore"
+    },
     {
       "sha": "d61dac9",
       "date": "2026-10-01",
@@ -1024,12 +1030,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-038): adopt --json and --repo-root flags (post-run)",
       "type": "docs"
-    },
-    {
-      "sha": "08c18a1",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-038 feat",
-      "type": "chore"
     }
   ],
   "roles": [
