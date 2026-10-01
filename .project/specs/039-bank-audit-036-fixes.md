@@ -2,8 +2,8 @@
 id: 039
 slug: bank-audit-036-fixes
 type: content
-status: approved
-commit: null
+status: done
+commit: 50cd24a
 ---
 
 # Спека 039 — правки банка по результатам audit-036
