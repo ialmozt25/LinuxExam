@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "25fe4a96a57e3ef5f3006a6435d91140ada67606",
+  "head": "6c6252c853b047c8de6f07d939ebb6f2a393a5d7",
   "specs": [
     {
       "id": "022",
@@ -927,6 +927,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "6c6252c",
+      "date": "2026-10-01",
+      "subject": "docs(spec-040): draft - spec-chain (Проверяльщик + Оркестратор + пресет)",
+      "type": "docs"
+    },
+    {
       "sha": "da53dab",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-039 push-trail",
@@ -1039,12 +1045,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-038): done - close-spec.mjs: автоматизация closing-фазы",
       "type": "docs"
-    },
-    {
-      "sha": "aea5a06",
-      "date": "2026-09-30",
-      "subject": "chore(spec-038): R5 trace - task tokens t1 t2 t3",
-      "type": "chore"
     }
   ],
   "roles": [
