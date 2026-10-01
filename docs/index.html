@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 0379e72</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 2828d8b</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">41</div>
+      <div class="pulse-tile__value">42</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -347,7 +347,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 41 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 42 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -415,6 +415,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">2828d8b</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(memory): alerts - инлайн-спеки не закрываются без MAS-прогона</td>
+          <td class="mono muted">2026-10-01</td>
+        </tr>
         <tr>
           <td class="mono">0379e72</td>
           <td><span class="ctype ctype--fix">fix</span></td>
@@ -529,12 +535,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-040 push-trail</td>
           <td class="mono muted">2026-10-01</td>
         </tr>
-        <tr>
-          <td class="mono">3c326ca</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): authorize push (rule 10) - spec-040 close</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -560,7 +560,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">73 ч (~3.0 дн)</td>
+          <td class="muted">74 ч (~3.1 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -581,7 +581,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-30T10:40:38Z</td>
           <td class="mono">36</td>
-          <td class="muted">25 ч (~1.0 дн)</td>
+          <td class="muted">26 ч (~1.1 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -626,8 +626,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 55</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 55</div>
+    <summary>Тревоги · записей: 56</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 56</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -845,13 +845,21 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">01.10 | process gap | инлайн-спеки не закрываются `close-spec.mjs` без MAS-прогона: шаг 3 требует `.agent-teams/**/spec-&lt;id&gt;*/team.json`, шаг 4 — задачу роли reviewer/qc с `verdict=pass`; spec 044 исполнена правками напрямую (без `/spec-to-team`) → `npm run spec:close -- 044 --dry-run` = **exit 3 (precondition-missing)**; лечение: мини-прогон AgentTeams с задачей `kind=review` (применено) либо режим `--no-team` отдельной спекой</div>
         </div>
+        <div class="entry">
+          <div class="entry__title">01.10 | defect | f4-watchdog пишет в docs/memory/журнал тревог нечитаемый мусор: строка `[f4-watchdog]` пришла как последовательность U+FFFD (исходный текст утерян ДО записи, восстановлению не подлежит) плюс CRLF в lf-файле (нарушение правила 16); строка удалена как информационно пустая, сигнал хранителя утерян; кандидат — фикс кодировки и EOL в скрипте хранителя (отдельная спека)</div>
+        </div>
   </details>
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 1</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 2</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">spec-044-telegram-messages · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: builder (·) · reviewer (·)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓</div>
         </div>
   </section>
 

@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0379e72c6deead8e89fa0afbc6191c52d5e7cd4f",
+  "head": "2828d8b0dc02c0b3babe046bf33d642fdb4d2200",
   "specs": [
     {
       "id": "022",
@@ -972,6 +972,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "2828d8b",
+      "date": "2026-10-01",
+      "subject": "docs(memory): alerts - инлайн-спеки не закрываются без MAS-прогона",
+      "type": "docs"
+    },
+    {
       "sha": "0379e72",
       "date": "2026-10-01",
       "subject": "fix(spec-044): бюджет короткого имени 55 -> 45 (все 22 спеки <= 100)",
@@ -1083,12 +1089,6 @@
       "sha": "7d8c28d",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-040 push-trail",
-      "type": "chore"
-    },
-    {
-      "sha": "3c326ca",
-      "date": "2026-10-01",
-      "subject": "chore(log): authorize push (rule 10) - spec-040 close",
       "type": "chore"
     }
   ],

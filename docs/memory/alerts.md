@@ -207,4 +207,6 @@ spec-enrich эти дефекты до MAS.
 
 ## 2026-10-01 | process gap | инлайн-спеки не закрываются `close-spec.mjs` без MAS-прогона: шаг 3 требует `.agent-teams/**/spec-<id>*/team.json`, шаг 4 — задачу роли reviewer/qc с `verdict=pass`; spec 044 исполнена правками напрямую (без `/spec-to-team`) → `npm run spec:close -- 044 --dry-run` = **exit 3 (precondition-missing)**; лечение: мини-прогон AgentTeams с задачей `kind=review` (применено) либо режим `--no-team` отдельной спекой
 
+## 2026-10-01 | defect | f4-watchdog пишет в docs/memory/alerts.md нечитаемый мусор: строка `[f4-watchdog]` пришла как последовательность U+FFFD (исходный текст утерян ДО записи, восстановлению не подлежит) плюс CRLF в lf-файле (нарушение правила 16); строка удалена как информационно пустая, сигнал хранителя утерян; кандидат — фикс кодировки и EOL в скрипте хранителя (отдельная спека)
+
 <!-- meta updated: 2026-09-30T10:40:38Z entries_count: 36 -->
