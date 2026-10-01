@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "7fec36cf86d1e950c7368954af315bb7f2e99c2d",
+  "head": "b9fdee9d3c3be04b30c3c315f91081943ef38dea",
   "specs": [
     {
       "id": "022",
@@ -987,6 +987,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "b9fdee9",
+      "date": "2026-10-02",
+      "subject": "chore(state): converge after spec-045 done",
+      "type": "chore"
+    },
+    {
       "sha": "7fec36c",
       "date": "2026-10-02",
       "subject": "docs(spec-045): done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL",
@@ -1099,12 +1105,6 @@
       "date": "2026-10-01",
       "subject": "docs(spec-042): done - Spec 042 — Telegram-уведомления о ходе работ",
       "type": "docs"
-    },
-    {
-      "sha": "47d4c09",
-      "date": "2026-10-01",
-      "subject": "chore(spec-042): R5 trace - task tokens t1 t2 t3 t4 t5 t6 t7 t8",
-      "type": "chore"
     }
   ],
   "roles": [
