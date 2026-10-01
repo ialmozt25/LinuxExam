@@ -4,6 +4,20 @@
 
 ---
 
+2026-10-01 | spec-041-enrich-reconcile — прогон AgentTeams завершён, qc verdict=pass + reviewer verdict=pass (4/4 задач completed)
+
+HEAD: 5368a61 (коммиты прогона: `1965c43` t1, `5368a61` t2)
+
+ahead: 5
+
+План: spec 041 (approved, infra) исполнена. Устранены S1 (reconcile-контракт: SHA-снимки Фаз 2/3/5/9 + синтез `applied_edits[]` из diff → traceability правок в `run-log.jsonl`), S2 (Windows spawn через `cmd.exe /d /s /c` без `shell:true`), S3 (HEAD-валидация URL + маркер `|unverified` + finding medium), S4 (метрика улики Фазы 2 = delta URL к `spec-original.md`), S5 (`resolveApiKey` + проброс `DEEPSEEK_API_KEY` в `childEnv`), S6 (`.project/drafts/` в `resolveSpec`).
+
+Фаза: spec-041 — DAG: t1 (`.project/scripts/enrich-spec.mjs`, +989/−82) → t2 (`docs/spec-chain/skills/spec-enrich/SKILL.md`, +169/−22) → t3 (qc, ratification by re-execution критериев 1–6 на живом `dsh --profile headless` без `--llm-cmd`) → t4 (reviewer, verdict pass, блокирующих findings нет).
+
+Текущая активность: прогон завершён (все члены idle), спека НЕ переведена в `done` — требуется approve капитана, затем `npm run spec:close -- 041`. Гейты: `typecheck` 0, `test:run` 0 (28 файлов / 198 тестов). Принятые отклонения: C1 время 42.3 мин > порога 20 мин (9 живых LLM-фаз) и C7 `sync:check` (lifecycle-артефакт `docs/index.html`).
+
+Дальше: (1) approve капитана (type: infra) → `npm run spec:close -- 041` (`--dry-run` сначала) → перевод frontmatter в `done` → `chore(state): converge` → `sync:check` = 0; (2) push не выполнялся (правила 10/11 — отдельная per-command авторизация); (3) follow-up для отдельной спеки: двойной писатель `run-log.jsonl` (headless-модель дописывает свои записи, 14 на 9 CLI-вызовов, недокументированное `edit_source:"native-session"`) — пометить владельца записи или запретить модели писать run-log; (4) неблокирующая асимметрия меток reconcile (`edit_source:"none"` при CLI-only против «cli-only» в таблице отчёта).
+
 2026-10-01 | spec-040-spec-chain — прогон AgentTeams завершён, qc-раунд 2 verdict=PASS + reviewer verdict=PASS (11 задач: 10 completed, 1 failed = needs_revision раунда 1)
 
 HEAD: 09448a5 (база прогона; коммитов прогона нет — `package.json` и артефакты ещё не закоммичены)

@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "3c326ca13acf90297df1e09c9ed3ffdc43eff6b7",
+  "head": "5368a61ce9cd3ea5fd38c0305b23e96e8ec59bad",
   "specs": [
     {
       "id": "022",
@@ -942,6 +942,30 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "5368a61",
+      "date": "2026-10-01",
+      "subject": "docs(spec-enrich): S4 delta metric + reconcile contract + URL validation docs",
+      "type": "docs"
+    },
+    {
+      "sha": "1965c43",
+      "date": "2026-10-01",
+      "subject": "fix(spec-enrich): reconcile contract (S1), Windows spawn (S2), URL validation (S3), API key (S5), drafts root (S6)",
+      "type": "fix"
+    },
+    {
+      "sha": "9253b4e",
+      "date": "2026-10-01",
+      "subject": "chore(state): regenerate docs/index.html to converge after spec-040",
+      "type": "chore"
+    },
+    {
+      "sha": "882936d",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-040 push-trail",
+      "type": "chore"
+    },
+    {
       "sha": "7d8c28d",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-040 push-trail",
@@ -1036,30 +1060,6 @@
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-039 done",
       "type": "chore"
-    },
-    {
-      "sha": "d61dac9",
-      "date": "2026-10-01",
-      "subject": "docs(spec-039): done - правки банка по результатам audit-036",
-      "type": "docs"
-    },
-    {
-      "sha": "16dc7d6",
-      "date": "2026-10-01",
-      "subject": "chore(spec-039): R5 trace - task tokens t1 t2 t3 t4 t5 t7 t8 t9",
-      "type": "chore"
-    },
-    {
-      "sha": "21d147b",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-039 feat",
-      "type": "chore"
-    },
-    {
-      "sha": "50cd24a",
-      "date": "2026-10-01",
-      "subject": "feat(spec-039): bank-audit-036-fixes - 10 rewrite + fm_011 + 4 add (t1 t2 t3 t4)",
-      "type": "feat"
     }
   ],
   "roles": [
