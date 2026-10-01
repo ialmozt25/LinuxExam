@@ -188,4 +188,17 @@ frontmatter spec 038: commit: 78c0eaf. Финальный текст спеки 
 ## 2026-09-30 | tech debt | Dependabot: 54 vulnerabilities (обновление)
 Было 52 (2026-09-28). Стало 54 (2026-09-30). Из них: 1 critical, 23 high, 26 moderate, 4 low. Источник: отчёт push spec 038 (fallback — `gh api …/dependabot/alerts` → HTTP 403, нужен scope `admin:repo_hook`). Не блокирует. Внешний долг. Статус: ОТКРЫТ.
 
+## 2026-10-01 | observation | spec 040 findings — метрика для spec-enrich
+Прогон spec 040: 8 findings от qc round 1. 6 закрыты ремонтами
+(F2/F3/F4/F6/F7/F8), F5 — капитаном (edit_plan t7→reviewer),
+F1 — pre-existing (sync:check красный на чистом checkout из-за
+mtime + relative time + untracked .agent-teams в docs/index.html).
+Дефекты моей спеки 040, которые spec-enrich должен был поймать:
+1) Unicode \b не работает с кириллицей (JS regex);
+2) scoring vs hard-fail не разделены;
+3) орфан-критерии 8, 9 (traceability);
+4) метрика delta ≥ +20 недостижима (baseline 85).
+Кандидат в spec-041 (пилот на batch 6): проверить, ловит ли
+spec-enrich эти дефекты до MAS.
+
 <!-- meta updated: 2026-09-30T10:40:38Z entries_count: 36 -->

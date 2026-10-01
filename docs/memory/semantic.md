@@ -42,4 +42,18 @@ MAS Factory — переиспользуемая система разработ
 2026-09-28 | Структура планов проекта
 `docs/FACTORY-PLAN.md` — **исторический** план (v2.23, F0–F5 done), не редактируется. `docs/DEV-PLAN.md` — **активный** план развития (v1.0, D0–D4). Оба парсятся одним парсером `.project/sync.mjs` (`readPlanYaml(path)`), агрегируются в `.project/state.json` → `plan.factory` / `plan.dev` / `plan.allPhases` (11 фаз: F0–F5 + D0–D4). `npm run check:episodic` читает `plan.allPhases`, поэтому правило 12 (запись в `episodic.md` для каждой закрытой фазы) применяется **к обоим планам**: новая фаза в DEV-PLAN попадает под правило 12 без правок скрипта. `plan.allPhases` отсутствует → фолбэк на YAML-шапку FACTORY-PLAN.
 
+## 2026-10-01 | spec 040 factory — JSON-контракт и правила
+- **JSON-контракт validate-spec.mjs → spec-enrich/SKILL.md:**
+  `phase0{weights, weightSum, score, threshold, dimensions[]}`,
+  `phase1.checks[]` (15 проверок m01–m15 с severity),
+  `phase4{orphans, links, hardFail}`.
+  Изменение структуры — синхронное в обоих файлах.
+- **MAS-декомпозиция расширяется фактически:** спека 040 = 7 задач,
+  прогон = 11 задач (3 ремонта + 2 раунда qc). Типовое расширение ~1.5×.
+- **LLM-фазы через стенд:** если `dsh --profile headless` не поднят,
+  LLM-фазы (2, 5–10) прогоняются через `--llm-cmd` стендом; помечается
+  оговоркой «structural-only», не pass.
+- **close-spec.mjs читает team.json** и в живом каталоге, и в
+  `archive/` (приоритет живому).
+
 <!-- meta updated: 2026-09-28T10:26:00Z entries_count: 10 -->

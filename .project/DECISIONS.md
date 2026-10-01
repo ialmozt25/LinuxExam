@@ -1228,8 +1228,11 @@ spec-to-team, close-spec, run-spec-chain), системный промпт.
 - (C) Создать автономию без STOP-точек (отклонено — правило 2/6/10,
   риск specification gaming).
 
-**Metrics:** score delta спеки ≥ +20; дефекты на спеку 1–3 → 0–1;
-раундов на спеку 6–8 → 2.
+**Metrics:** score delta ≥ +20 на спеке с baseline < 70;
+score delta > 0 на спеке с baseline ≥ 70 (без регрессии);
+дефекты на спеку 1–3 → 0–1; раундов на спеку 6–8 → 2.
+Обоснование: baseline 040 = 85 при пороге 70 — +20 недостижим
+по построению. Метрика уточнена после прогона 040.
 
 **Sources:** исследование 2026-10-01 (400+ источников): TRLC (BMW),
 EARS (Rolls-Royce), INCOSE GfWR, ARTEMIS (Stanford/NASA ICSE 2026),

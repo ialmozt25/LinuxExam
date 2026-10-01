@@ -197,3 +197,4 @@
 2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]
 2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending
 2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending
+2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending
