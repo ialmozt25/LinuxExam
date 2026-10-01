@@ -284,7 +284,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -318,10 +318,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#040 spec-chain</span>
+            <span class="ddn__meta">infra · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
-          <h3 class="ddn__h">Next <span class="ddn__count">5</span></h3>
+          <h3 class="ddn__h">Next <span class="ddn__count">4</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#016 tf-cosine-debt</span>
@@ -336,10 +340,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">content · draft</span>
           </li>
           <li class="ddn__item">
-            <span class="ddn__title">#040 spec-chain</span>
-            <span class="ddn__meta">infra · draft</span>
-          </li>
-          <li class="ddn__item">
             <span class="ddn__title">продукт: &lt;next&gt;</span>
             <span class="ddn__meta">запланирован</span>
           </li>
@@ -352,7 +352,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 38</summary>
-          <div class="spec-group">Утверждены · 8</div>
+          <div class="spec-group">Утверждены · 9</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -362,13 +362,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
+            <li>#040 spec-chain</li>
           </ul>
-          <div class="spec-group">Черновики · 4</div>
+          <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
             <li>#016 tf-cosine-debt</li>
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
-            <li>#040 spec-chain</li>
           </ul>
           <div class="spec-group">Завершены · 22</div>
           <ul class="spec-list">
@@ -412,6 +412,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">aa372c8</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-040 draft</td>
+          <td class="mono muted">2026-10-01</td>
+        </tr>
         <tr>
           <td class="mono">6c6252c</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -526,12 +532,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-038 done</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">b66a012</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-038): done - close-spec.mjs: автоматизация closing-фазы</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -563,7 +563,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">26 ч (~1.1 дн)</td>
+          <td class="muted">27 ч (~1.1 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -587,11 +587,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">30.09</span> · spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | ещё не закоммичено</li>
         <li><span class="mono muted">30.09</span> · spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | ещё не закоммичено</li>
         <li><span class="mono muted">01.10</span> · spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a</li>
         <li><span class="mono muted">01.10</span> · push | authorize push origin main — spec-039 закрыта, trail перед push | push разрешён</li>
         <li><span class="mono muted">01.10</span> · spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | ещё не закоммичено</li>
+        <li><span class="mono muted">01.10</span> · spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | ещё не закоммичено</li>
     </ul>
   </details>
 

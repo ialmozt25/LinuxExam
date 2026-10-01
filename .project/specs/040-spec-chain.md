@@ -2,7 +2,7 @@
 id: 040
 slug: spec-chain
 type: infra
-status: draft
+status: approved
 commit: null
 ---
 

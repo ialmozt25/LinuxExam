@@ -462,6 +462,21 @@
       "preview": ""
     },
     {
+      "id": "040",
+      "slug": "spec-chain",
+      "status": "approved",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/040-spec-chain.md",
+      "mtime": 1790818363898.6667,
+      "goal": "Одна команда `/run-spec-chain <spec-id>` доводит спеку от черновика до",
+      "acceptance": "1. `.project/scripts/validate-spec.mjs` существует; `node --check` exit 0.",
+      "noTouch": "src/** (банк).",
+      "preview": ""
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -505,21 +520,6 @@
       "acceptance": "[ ] `node tools/cosine.cjs --intra-batch src/data/questions/running_systems.json` →",
       "noTouch": "Батч 5C (`rs_011`..`rs_016`) — принят, отдельной правки не требует.",
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
-    },
-    {
-      "id": "040",
-      "slug": "spec-chain",
-      "status": "draft",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/040-spec-chain.md",
-      "mtime": 1790818177505.1472,
-      "goal": "Одна команда `/run-spec-chain <spec-id>` доводит спеку от черновика до",
-      "acceptance": "1. `.project/scripts/validate-spec.mjs` существует; `node --check` exit 0.",
-      "noTouch": "src/** (банк).",
-      "preview": ""
     },
     {
       "id": "001",
@@ -913,7 +913,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
     "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
     "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf",
     "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]",
@@ -922,10 +921,17 @@
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
     "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
     "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
-    "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending"
+    "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
+    "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "aa372c8",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-040 draft",
+      "type": "chore"
+    },
     {
       "sha": "6c6252c",
       "date": "2026-10-01",
@@ -1039,12 +1045,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-038 done",
       "type": "chore"
-    },
-    {
-      "sha": "b66a012",
-      "date": "2026-09-30",
-      "subject": "docs(spec-038): done - close-spec.mjs: автоматизация closing-фазы",
-      "type": "docs"
     }
   ],
   "roles": [
