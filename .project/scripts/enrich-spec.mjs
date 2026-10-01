@@ -1718,7 +1718,7 @@ async function main() {
     });
     writeText(path.join(runDirAbs, 'report.md'), report);
     say(`отчёт: ${posixJoin(runDirRel, 'report.md')}`);
-    notifyFireAndForget('gate_failed', `Спека ${specId}: enrich hard-fail — детерминированные фазы`);
+    notifyFireAndForget('gate_failed', `⚠️ Спека ${specId}: проверка остановлена, обязательные правила не выполнены. Нужен разбор.`);
     process.exit(EXIT_HARD_FAIL);
   }
 
@@ -2110,9 +2110,9 @@ async function main() {
 
   // Терминальный исход enrichment: hard-fail (в т.ч. откат Фазы 9) vs успех.
   if (exitCode === EXIT_HARD_FAIL) {
-    notifyFireAndForget('gate_failed', `Спека ${specId}: enrich hard-fail — external audit INTENT-CHANGED`);
+    notifyFireAndForget('gate_failed', `⚠️ Спека ${specId}: правки откатили — внешняя проверка нашла смену замысла. Нужен разбор.`);
   } else {
-    notifyFireAndForget('spec_closed', `Спека ${specId}: enrichment завершён (score ${scoreBefore}→${scoreAfter})`);
+    notifyFireAndForget('spec_closed', `✅ Спека ${specId}: обогащение готово, оценка выросла ${scoreBefore} → ${scoreAfter}. Жду твоё решение.`);
   }
 
   process.exit(exitCode);

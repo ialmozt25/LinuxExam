@@ -128,7 +128,7 @@ tiered sources, список правок Фазы 9.
 мешает цепочке):
 
 ```
-npm run notify -- "STOP A: спека <id> — жду решение капитана" --event stop_point
+npm run notify -- "⏳ Спека <id>: STOP A — обогащённая спека готова. Жду твоё решение." --event stop_point
 ```
 
 Сводка:
@@ -201,7 +201,7 @@ docs → writer, reviewer; мелкая правка (1 файл) → builder + 
    write-скоупы не пересекаются.
 2. `agent_teams_status` — проверка, что сессия не ведёт другую команду.
 3. **STOP B**: перед показом плана уведомить капитана —
-   `npm run notify -- "STOP B: спека <id> — план MAS ждёт approve капитана" --event stop_point` —
+   `npm run notify -- "⏳ Спека <id>: STOP B — план прогона готов. Жду твоё согласие." --event stop_point` —
    затем показать капитану план MAS — `team_id`-кандидат, роли/модели,
    список задач с assignee, dependencies, write-скоупами, kinds и evidence.
    Ждать явный approve.
@@ -273,7 +273,7 @@ npm run spec:close -- <id>             # apply: status done + R5-trace + пам�
 После apply — уведомить капитана о STOP-точке (fire-and-forget):
 
 ```
-npm run notify -- "STOP C: спека <id> — отчёт + ожидание push-авторизации капитана" --event stop_point
+npm run notify -- "ℹ️ Спека <id>: STOP C — отчёт готов. Жду разрешение на публикацию." --event stop_point
 ```
 
 Затем собрать отчёт и **STOP C**: показать капитану отчёт и список

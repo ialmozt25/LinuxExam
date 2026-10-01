@@ -1012,7 +1012,7 @@ export async function runSpec(options) {
   }
 
   // Реальный старт прогона (dry-run и ранние failure-возвраты сюда не доходят).
-  notifyFireAndForget('mas_started', `MAS-прогон спеки ${options.specId} стартовал (team ${teamId})`);
+  notifyFireAndForget('mas_started', `⏳ Спека ${options.specId}: прогон команды запущен. Делать ничего не нужно.`);
 
   const execution = executeRun(command, options, pre.apiKey);
   report.steps.push({ name: 'execute', status: execution.ok ? 'ok' : 'failed', detail: execution.detail });
@@ -1042,7 +1042,12 @@ export async function runSpec(options) {
   report.finishedAt = new Date().toISOString();
   await recordHistory();
   // Терминальная точка после старта (единственная): mas_started уже отправлен.
-  notifyFireAndForget('mas_finished', `MAS-прогон спеки ${options.specId} завершён: ${report.result.status}`);
+  notifyFireAndForget(
+    'mas_finished',
+    report.result.status === 'ok'
+      ? `✅ Спека ${options.specId}: прогон завершён успешно. Дальше — приёмка отчёта.`
+      : `⚠️ Спека ${options.specId}: прогон завершён с ошибкой. Нужен разбор.`,
+  );
 
   return { exitCode: ok ? 0 : 1, report };
 }
