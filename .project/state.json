@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "50cd24afbe1bb10953b276d14b623aadd9ecd402",
+  "head": "d61dac91ed515206eaa7d60d855c7154533072b2",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "039",
-      "slug": "bank-audit-036-fixes",
-      "status": "approved",
-      "type": "content",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/039-bank-audit-036-fixes.md",
-      "mtime": 1790766044796.5967,
-      "goal": "1. Rewrite 10 вопросов из audit-036 (ms_004, msw_011, msw_014, net_001,",
-      "acceptance": "1. 10 вопросов rewritten — нет меток «Rocky 9», «RHEL 9», `.el9`,",
-      "noTouch": "Другие 9 тем банка (essential_tools, text_files, file_permissions,",
       "preview": ""
     },
     {
@@ -837,6 +822,21 @@
       "preview": ""
     },
     {
+      "id": "039",
+      "slug": "bank-audit-036-fixes",
+      "status": "done",
+      "type": "content",
+      "created": null,
+      "updated": null,
+      "commit": "50cd24a",
+      "file": "specs/039-bank-audit-036-fixes.md",
+      "mtime": 1790813033372.9524,
+      "goal": "1. Rewrite 10 вопросов из audit-036 (ms_004, msw_011, msw_014, net_001,",
+      "acceptance": "1. 10 вопросов rewritten — нет меток «Rocky 9», «RHEL 9», `.el9`,",
+      "noTouch": "Другие 9 тем банка (essential_tools, text_files, file_permissions,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -898,7 +898,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec-036 | done - bank semantic audit (225/225, 10 fix, 1 manual) | commit 608c72f (R5 trace 9d57cdb)",
     "2026-09-30 | push | authorize push origin main — spec-036 close | [AUTHORIZE]",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
@@ -907,10 +906,29 @@
     "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]",
     "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending",
-    "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending"
+    "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
+    "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "d61dac9",
+      "date": "2026-10-01",
+      "subject": "docs(spec-039): done - правки банка по результатам audit-036",
+      "type": "docs"
+    },
+    {
+      "sha": "16dc7d6",
+      "date": "2026-10-01",
+      "subject": "chore(spec-039): R5 trace - task tokens t1 t2 t3 t4 t5 t7 t8 t9",
+      "type": "chore"
+    },
+    {
+      "sha": "21d147b",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-039 feat",
+      "type": "chore"
+    },
     {
       "sha": "50cd24a",
       "date": "2026-10-01",
@@ -1012,24 +1030,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-038 feat",
       "type": "chore"
-    },
-    {
-      "sha": "78c0eaf",
-      "date": "2026-09-30",
-      "subject": "feat(spec-038): close-spec.mjs + npm script + run artifacts (t1 t2 t3)",
-      "type": "feat"
-    },
-    {
-      "sha": "b3f9b25",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-038 approve",
-      "type": "chore"
-    },
-    {
-      "sha": "5ee11be",
-      "date": "2026-09-30",
-      "subject": "docs(spec-038): approve + fix self-reference in no-touch",
-      "type": "docs"
     }
   ],
   "roles": [
