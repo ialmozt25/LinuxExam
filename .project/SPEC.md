@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `621d927377c8faaf375b639195a3918eff9323f2`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `f8048007a1270328109d0fd654d0a54a470984a8`<!--volatile:end-->
 - Спек: 44
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 047 | `spec-chain-dual-track` | infra | approved | — | 2026-10-02 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -49,6 +48,7 @@
 | 044 | `telegram-messages` | infra | done | 0379e72 | 2026-10-01 |
 | 045 | `spec-chain-readme-fix` | infra | done | 90fe7d4 | 2026-10-01 |
 | 046 | `run-spec-chain-content-stop` | infra | done | a1e87d0 | 2026-10-02 |
+| 047 | `spec-chain-dual-track` | infra | done | 41e42d8 | 2026-10-02 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 621d927</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на f804800</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -246,6 +246,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">infra</span>
           </li>
           <li class="ddn__item">
+            <span class="ddn__title">#047 spec-chain-dual-track</span>
+            <span class="ddn__meta">infra</span>
+          </li>
+          <li class="ddn__item">
             <span class="ddn__title">#042 telegram-notify</span>
             <span class="ddn__meta">infra</span>
           </li>
@@ -277,14 +281,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#015 batch5a-text-files</span>
             <span class="ddn__meta">content</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#017 gen-state-schema-v2</span>
-            <span class="ddn__meta">infra</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -318,10 +318,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#047 spec-chain-dual-track</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -352,7 +348,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 44</summary>
-          <div class="spec-group">Утверждены · 9</div>
+          <div class="spec-group">Утверждены · 8</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -362,7 +358,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
-            <li>#047 spec-chain-dual-track</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -370,7 +365,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 28</div>
+          <div class="spec-group">Завершены · 29</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -400,6 +395,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#044 telegram-messages</li>
             <li>#045 spec-chain-readme-fix</li>
             <li>#046 run-spec-chain-content-stop</li>
+            <li>#047 spec-chain-dual-track</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -418,6 +414,24 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">f804800</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-047): done - 1. Раздел в ORCH-RULES: == 1</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
+        <tr>
+          <td class="mono">4c851be</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec-047): R5 trace - task tokens t1 t2</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
+        <tr>
+          <td class="mono">41e42d8</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-047): dual-track spec-chain - Small/Full threshold table (rule 13)</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
         <tr>
           <td class="mono">621d927</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -520,24 +534,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-045): README spec-chain + run-spec-chain - A/B/C фиксы</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">ecf6e8d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-044 push record</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
-        <tr>
-          <td class="mono">acf8dd0</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-044 team archive</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
-        <tr>
-          <td class="mono">49084f4</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-044 done</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -594,11 +590,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">02.10</span> · push | authorize push origin main — долги: удалён SKILL.md.bak-d3b из обоих пресетов + правило «push-трейл писать ДО push» в docs/memory/procedural.md; этим push публикуются 3a16c0d..&lt;tip этого коммит…</li>
         <li><span class="mono muted">02.10</span> · spec-046 | done - 1. Якоря STOP D (после правки) | commit a1e87d0</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 2 | авторизован перевод spec 046 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать .project/specs/046-run-spec-chain-cont…</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 2 | авторизован перевод spec 047 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать spec 047 (infra, approved)»)…</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 13 | авторизована правка .project/правила оркестратора.md через embedded approve капитана: новый раздел «Двухтрековый режим» (порог Small/Full, spec 047) | ещё не закоммичено</li>
+        <li><span class="mono muted">02.10</span> · spec-047 | done - 1. Раздел в правила оркестратора: == 1 | commit 41e42d8</li>
     </ul>
   </details>
 
