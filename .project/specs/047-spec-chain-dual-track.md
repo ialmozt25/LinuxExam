@@ -1,11 +1,11 @@
 ---
 id: 047
 slug: spec-chain-dual-track
-status: approved
+status: done
 type: infra
 created: 2026-10-02
 updated: 2026-10-02
-commit: null
+commit: 41e42d8
 embedded_approve: rule 2 (исключение F5.0a: явная формулировка капитана «Создать spec 047 (infra, approved)» в задании 2026-10-02), rule 13 (исключение: правка .project/ORCH-RULES.md явно названа в задании), rule 6 не применяется — type: infra
 commit_format: "docs(spec-047): dual-track spec-chain - Small/Full threshold table (rule 13)"
 ---

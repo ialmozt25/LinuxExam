@@ -213,3 +213,4 @@
 2026-10-02 | rule2-exception | авторизован перевод spec 046 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать .project/specs/046-run-spec-chain-content-stop.md (infra, approved, embedded approve)») | commit pending
 2026-10-02 | rule2-exception | авторизован перевод spec 047 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать spec 047 (infra, approved)») — Small-трек | commit pending
 2026-10-02 | rule13-exception | авторизована правка .project/ORCH-RULES.md через embedded approve капитана: новый раздел «Двухтрековый режим» (порог Small/Full, spec 047) | commit pending
+2026-10-02 | spec-047 | done - 1. Раздел в ORCH-RULES: == 1 | commit 41e42d8

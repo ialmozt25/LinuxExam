@@ -224,3 +224,6 @@ Evidence: `.agent-teams/spec-040-spec-chain` (после архивации — 
 
 ## 2026-10-02 | spec-046-run-spec-chain-content-stop (закрытие)
 Прогон AgentTeams (team `spec-046-run-spec-chain-content-stop`, 2 задач — t1, t2, verdict=**pass**). Артефакты реализации: коммит `a1e87d0` — "docs(spec-046): поправки критериев 1/6/12 после прогона t1". Закрытие: R5-trace `a1e87d0`, frontmatter `.project/specs/046-run-spec-chain-content-stop.md` → `status: done` (commit `a1e87d0`), запись в `.project/log.md`, converge `b6c4df4`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
+
+## 2026-10-02 | spec-047-spec-chain-dual-track (закрытие)
+Прогон AgentTeams (team `spec-047-spec-chain-dual-track`, 2 задач — t1, t2, verdict=**pass**). Артефакты реализации: коммит `41e42d8` — "docs(spec-047): dual-track spec-chain - Small/Full threshold table (rule 13)". Закрытие: R5-trace `41e42d8`, frontmatter `.project/specs/047-spec-chain-dual-track.md` → `status: done` (commit `41e42d8`), запись в `.project/log.md`, converge `<converge>`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
