@@ -141,7 +141,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
 <!--volatile:end-->
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
-      <div class="pulse-tile__value">225/300 · 75%</div>
+      <div class="pulse-tile__value">229/300 · 76.3%</div>
       <div class="pulse-tile__note">+0 за сутки</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Требует решения</div>
@@ -188,11 +188,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="topic__count">16 / 22</div>
         </div>
         <div class="topic">
-          <div class="topic__label">Сеть</div>
-          <div class="topic__bar"><div class="topic__fill" style="width:73%"></div></div>
-          <div class="topic__count">16 / 22</div>
-        </div>
-        <div class="topic">
           <div class="topic__label">Управление системами</div>
           <div class="topic__bar"><div class="topic__fill" style="width:73%"></div></div>
           <div class="topic__count">16 / 22</div>
@@ -218,7 +213,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="topic__count">18 / 22</div>
         </div>
         <div class="topic">
-          <div class="topic__label">Пользователи и группы</div>
+          <div class="topic__label">Сеть</div>
           <div class="topic__bar"><div class="topic__fill" style="width:82%"></div></div>
           <div class="topic__count">18 / 22</div>
         </div>
@@ -229,6 +224,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="topic">
           <div class="topic__label">Безопасность</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:91%"></div></div>
+          <div class="topic__count">20 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Пользователи и группы</div>
           <div class="topic__bar"><div class="topic__fill" style="width:91%"></div></div>
           <div class="topic__count">20 / 22</div>
         </div>
@@ -412,6 +412,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">0abd658</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-039 stale-refs fix</td>
+          <td class="mono muted">2026-09-30</td>
+        </tr>
+        <tr>
           <td class="mono">d8b8d13</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-039): fix 2 stale cross-refs to decisions section</td>
@@ -525,12 +531,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-038 draft</td>
           <td class="mono muted">2026-09-30</td>
         </tr>
-        <tr>
-          <td class="mono">799205f</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-038): draft - close-spec automation</td>
-          <td class="mono muted">2026-09-30</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -548,35 +548,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">14 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">49 ч (~2.0 дн)</td>
+          <td class="muted">62 ч (~2.6 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">12 ч</td>
+          <td class="muted">25 ч (~1.0 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">14 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-09-30T10:40:38Z</td>
           <td class="mono">36</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="muted">13 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -838,13 +838,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </section>
 
   <details class="collapsible mas-run" id="mas-run">
-    <summary>Последний MAS-прогон · записей: 16</summary>
+    <summary>Последний MAS-прогон · записей: 17</summary>
     <div class="muted">Источник: <code>.project/mas-runs.json</code> · последняя: <span class="mono">30.09</span></div>
     <div class="entry">
-      <div class="entry__title">спека <span class="mono">036</span> · статус <span class="mono">completed</span> · вердикт <span class="muted">completed</span></div>
-      <div class="entry__body muted">длительность: <span class="mono">18 мин 39 с</span> <span class="mono">(1119379 мс)</span> · токены: <span class="mono">—</span></div>
-      <div class="entry__body muted">команда: <span class="mono">spec-036-bank-semantic-audit</span> · начало: <span class="mono">30.09</span></div>
-      <div class="entry__body muted">задачи: completed 6</div>
+      <div class="entry__title">спека <span class="mono">039</span> · статус <span class="mono">completed</span> · вердикт <span class="chip chip--done">pass</span></div>
+      <div class="entry__body muted">длительность: <span class="mono">37 мин 54 с</span> <span class="mono">(2273617 мс)</span> · токены: <span class="mono">—</span></div>
+      <div class="entry__body muted">команда: <span class="mono">spec-039-bank-audit-036-fixes</span> · начало: <span class="mono">30.09</span></div>
+      <div class="entry__body muted">задачи: completed 8 · failed 1</div>
     </div>
   </details>
 

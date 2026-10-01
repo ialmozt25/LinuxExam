@@ -205,7 +205,7 @@
         "correct": false
       },
       {
-        "text": "mlocate -r",
+        "text": "plocate -r",
         "correct": false
       },
       {
@@ -213,7 +213,7 @@
         "correct": true
       }
     ],
-    "explanation": "Команда updatedb перестраивает индекс mlocate.db, поэтому locate находит файлы без обхода файловой системы. Ключи -b, -c и -r у locate управляют выборкой (базовое имя, подсчёт совпадений, регулярное выражение), но саму базу данных не перестраивают."
+    "explanation": "Команда updatedb перестраивает базу /var/lib/plocate/plocate.db, поэтому locate находит файлы без обхода файловой системы. Ключи -b, -c и -r у locate управляют выборкой (базовое имя, подсчёт совпадений, регулярное выражение), но саму базу данных не перестраивают."
   },
   {
     "id": "fm_009",
@@ -282,11 +282,11 @@
         "correct": false
       },
       {
-        "text": "tar -cJf backup.tar.bz2 /home",
+        "text": "tar -cf backup.tar.bz2 /home",
         "correct": false
       },
       {
-        "text": "tar -cf backup.tar.bz2 --bzip2 /home",
+        "text": "tar -cJf backup.tar.bz2 /home",
         "correct": false
       },
       {
@@ -294,7 +294,7 @@
         "correct": true
       }
     ],
-    "explanation": "Сжатие bzip2 включает ключ j, ключ z даёт gzip, а J — xz. Ключ --long-option с именем файла без -f не создаст архив нужного вида, поэтому верен только вариант с -cjf."
+    "explanation": "Сжатие bzip2 включает ключ j, тогда как z задаёт gzip, а J — xz. Поэтому вариант tar -cJf backup.tar.bz2 /home создаёт архив в формате xz, а вариант без ключа сжатия — обычный несжатый tar, несмотря на расширение в имени файла. Нужный формат bzip2 даёт только -cjf."
   },
   {
     "id": "fm_012",

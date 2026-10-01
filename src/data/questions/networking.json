@@ -24,7 +24,7 @@
         "correct": false
       }
     ],
-    "explanation": "Опция ipv4.method принимает только значения auto, manual, link-local и disabled; запись auto ipv4.addresses … синтаксически допустима, но метод auto означает получение адреса по DHCP и статический адрес не применяется. Ключ connection add создаёт новое подключение, а не изменяет существующее, поэтому в системе появилось бы второе подключение, и команда без обязательного типа (--type ethernet) завершилась бы ошибкой. Вариант с командой ip addr add меняет адрес только до перезапуска или до следующего применения профиля NetworkManager и не сохраняется в конфигурации подключения."
+    "explanation": "Опция ipv4.method принимает значения auto, manual, link-local и disabled, и только manual разрешает статический адрес, поэтому запись auto ipv4.addresses … синтаксически допустима, но адрес задаётся по DHCP и не применяется. Ключ connection show eth0 только печатает настройки профиля и не активирует их, поэтому интерфейс остаётся с прежней конфигурацией. Ключ connection add без обязательных аргументов (тип соединения, --type ethernet) завершается ошибкой и к тому же создаёт новое подключение, а не изменяет существующее."
   },
   {
     "id": "net_002",
@@ -32,7 +32,7 @@
     "difficulty": "easy",
     "objective_domain": "7",
     "subtopic": "hostname и hostnamectl",
-    "question": "Какая команда на Rocky 9 изменит статическое имя хоста на db1.example.com и сохранит его после перезагрузки?",
+    "question": "Какая команда изменит статическое имя хоста на db1.example.com и сохранит его после перезагрузки?",
     "options": [
       {
         "text": "sysctl hostname set db1.example.com",
@@ -51,7 +51,7 @@
         "correct": false
       }
     ],
-    "explanation": "hostname db1.example.com меняет только текущее (transient) имя в ядре и теряется после перезагрузки. Утилита sysctl работает с параметрами ядра вида имя=значение, ключа set у неё нет, и имя хоста так не задаётся. Ключ --transient у hostnamectl, наоборот, задаёт только временное имя для текущей загрузки, а статическое имя в /etc/hostname остаётся прежним."
+    "explanation": "hostnamectl set-hostname меняет статическое имя хоста и записывает его в /etc/hostname, поэтому оно сохраняется после перезагрузки. Команда hostname db1.example.com задаёт только текущее (transient) имя в ядре, и после перезагрузки оно теряется. Утилита sysctl работает с параметрами ядра вида имя=значение, ключа set у неё нет, и имя хоста так не задаётся. Ключ --transient у hostnamectl, наоборот, задаёт только временное имя для текущей загрузки, а статическое имя остаётся прежним; ключа --set-static у команды hostname не существует."
   },
   {
     "id": "net_003",
@@ -59,7 +59,7 @@
     "difficulty": "easy",
     "objective_domain": "7",
     "subtopic": "/etc/resolv.conf и DNS",
-    "question": "В каком файле на Rocky 9 хранятся адреса DNS-серверов, которые система использует для разрешения имён?",
+    "question": "В каком файле хранятся адреса DNS-серверов, которые система использует для разрешения имён?",
     "options": [
       {
         "text": "/etc/host.conf",
@@ -78,7 +78,7 @@
         "correct": true
       }
     ],
-    "explanation": "Адреса DNS-серверов перечисляются именно в /etc/resolv.conf: строки nameserver <IP> задают серверы имён, к которым резолвер обращается за разрешением. /etc/nsswitch.conf задаёт только порядок источников разрешения (например, «hosts: files dns»), но адресов серверов не содержит. /etc/hosts.allow относится к TCP wrappers и управляет доступом к службам, а не разрешением имён; на типовой Rocky 9 пакет tcp_wrappers не установлен, поэтому файла в системе нет. /etc/host.conf — устаревший файл glibc (в Rocky 9 содержит, например, «multi on») и адреса серверов имён тоже не хранит."
+    "explanation": "Адреса DNS-серверов перечисляются именно в /etc/resolv.conf: строки nameserver <IP> задают серверы имён, к которым резолвер обращается за разрешением. /etc/nsswitch.conf задаёт только порядок источников разрешения (например, «hosts: files dns»), но адресов серверов не содержит. /etc/hosts.allow относится к TCP wrappers и управляет доступом к службам по адресу клиента, а не разрешением имён, поэтому адресов DNS-серверов в нём не было и нет. /etc/host.conf — устаревший файл glibc и адреса серверов имён тоже не хранит."
   },
   {
     "id": "net_011",
@@ -430,5 +430,77 @@
       }
     ],
     "explanation": "Ключ -c count останавливает ping после отправки указанного числа запросов, поэтому ping -c 3 отправит ровно три пакета и завершится сам. Ключ -i 3 задаёт интервал в три секунды между запросами, но их число не ограничивает. Ключ -t задаёт TTL, а -W — время ожидания ответа, поэтому такие команды продолжают работу до прерывания."
+  },
+  {
+    "id": "ntw_017",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "8",
+    "subtopic": "nmcli: статический IPv6-адрес",
+    "question": "Интерфейсу eth0 нужно назначить статический IPv6-адрес 2001:db8::10/64 со шлюзом 2001:db8::1 так, чтобы настройка сохранилась после перезагрузки. Какая последовательность команд это выполнит?",
+    "options": [
+      {
+        "text": "nmcli connection modify eth0 ipv6.method manual ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli connection up eth0",
+        "correct": true
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv6.method auto ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli connection up eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection add con-name eth0 type ethernet ipv6.method manual ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli device reapply eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv6.method manual ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli connection show eth0",
+        "correct": false
+      }
+    ],
+    "explanation": "Профиль NetworkManager настраивают ключом connection modify с ipv6.method manual, ipv6.addresses и ipv6.gateway, а команда nmcli connection up eth0 сразу применяет эти параметры к интерфейсу; они хранятся в профиле и сохраняются после перезагрузки. Метод auto означает автоконфигурацию IPv6 (SLAAC), и заданный вручную адрес не применяется. Ключ connection add создаёт новое подключение с именем con-name, а не изменяет существующий профиль eth0. Последний вариант лишь печатает параметры профиля, ничего не меняя.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30T00:00:00Z",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/configuring_and_managing_networking/",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ntw_018",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "8",
+    "subtopic": "ip -6 addr add: временный IPv6-адрес",
+    "question": "Нужно добавить интерфейсу eth0 адрес 2001:db8::20/64, действующий до ближайшей перезагрузки, без правки профилей NetworkManager. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "ip -6 addr add 2001:db8::20/64 dev eth0",
+        "correct": true
+      },
+      {
+        "text": "ip addr add 2001:db8::20/64 dev eth0",
+        "correct": false
+      },
+      {
+        "text": "ip -4 addr add 2001:db8::20/64 dev eth0",
+        "correct": false
+      },
+      {
+        "text": "ip -6 addr add 2001:db8::20:0:0:64 dev eth0",
+        "correct": false
+      }
+    ],
+    "explanation": "Семейство адресов у команды ip задаёт ключ -6, поэтому ip -6 addr add добавляет адрес IPv6 в ядро до ближайшей перезагрузки. Без ключа -6 команда ip addr add по умолчанию работает с IPv4 и IPv6-литерал отвергает, а ip -4 addr add явно выбирает семейство IPv4, где такой адрес недопустим. Последний вариант искажает запись длины префикса и IPv6-адресом не является.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30T00:00:00Z",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/configuring_and_managing_networking/",
+      "status": "active"
+    }
   }
 ]

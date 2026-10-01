@@ -60,14 +60,14 @@
         "correct": true
       }
     ],
-    "explanation": "Ключ -m (--create-home) явно создаёт домашний каталог нового пользователя и наполняет его из /etc/skel, поэтому он работает независимо от системных настроек. Ключ -n не определён в man-странице и в --help: на Rocky 9.8 он является недокументированным алиасом --no-user-group, то есть создаёт пользователя БЕЗ домашнего каталога. Ключ -s задаёт командную оболочку пользователя, а не каталог. Ключ -d лишь указывает путь к домашнему каталогу в записи /etc/passwd: каталог при этом появится только если в /etc/login.defs включена опция CREATE_HOME, поэтому ключ -d зависит от настроек системы и условию «независимо от настроек» не удовлетворяет.",
+    "explanation": "Ключ -m (--create-home) явно создаёт домашний каталог нового пользователя и наполняет его из /etc/skel, поэтому он работает независимо от системных настроек. Ключ -d лишь указывает путь к домашнему каталогу в записи /etc/passwd: каталог появится только при -m или при CREATE_HOME yes в /etc/login.defs, то есть -d зависит от настроек системы и условию «независимо от настроек» не удовлетворяет. Ключ -s задаёт командную оболочку пользователя, а ключ -n в man useradd RHEL 10 не документирован и явным способом создания каталога не является.",
     "_meta": {
       "added_at": "2026-09-23",
       "pipeline_version": "4.4",
-      "verified_rhel": "9.8",
-      "verified_at": "2026-09-23T05:29:13Z",
-      "source": "pipeline_users_groups_iter1",
-      "reference": "man useradd",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "man useradd (shadow-utils 4.15, EL10) https://github.com/shadow-maint/shadow/blob/master/man/useradd.8.xml",
       "status": "active"
     }
   },
@@ -240,24 +240,15 @@
         "correct": false
       }
     ],
-    "explanation": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. ВАЖНО: man-страница userdel для ключа -f утверждает, что он тоже удаляет домашний каталог и почтовый ящик, однако на Rocky 9.8 это неверно — userdel -f удаляет только учётную запись, а каталог остаётся на месте (проверено эмпирически). Ключ -R задаёт каталог chroot-окружения, а не рекурсивное удаление, поэтому к удалению каталога он отношения не имеет. Вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте.",
+    "explanation": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. Ключ -f (--force) только снимает проверки при удалении (например, для вошедшего в систему пользователя) и сам домашний каталог не удаляет: в shadow-utils удаление каталога выполняется лишь в ветке -r. Ключ -R задаёт каталог chroot-окружения, а не рекурсивное удаление, и вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте.",
     "_meta": {
       "added_at": "2026-09-23",
       "pipeline_version": "4.4",
-      "verified_rhel": "9.8",
-      "verified_at": "2026-09-23T05:29:13Z",
-      "source": "pipeline_users_groups_iter1",
-      "reference": "man userdel",
-      "status": "active",
-      "flags": [
-        "educational_man_limitation"
-      ],
-      "human_review": {
-        "verdict_before": "pass_with_flag",
-        "verdict_after": "pass_with_flag",
-        "reviewed_at": "2026-09-23",
-        "reason": "man userdel -f неточен на RHEL 9, дистрактор объективно неверен"
-      }
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "man userdel; src/userdel.c (shadow-utils 4.15, EL10) https://github.com/shadow-maint/shadow/blob/master/src/userdel.c",
+      "status": "active"
     }
   },
   {
@@ -653,6 +644,78 @@
       "verified_at": "2026-09-26",
       "source": "pipeline_users_groups_m2.8-r2",
       "reference": "man useradd",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_019",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "sudo: группа wheel",
+    "question": "Членство пользователя в какой группе даёт ему права sudo в RHEL 10 по умолчанию?",
+    "options": [
+      {
+        "text": "sudo",
+        "correct": false
+      },
+      {
+        "text": "root",
+        "correct": false
+      },
+      {
+        "text": "wheel",
+        "correct": true
+      },
+      {
+        "text": "users",
+        "correct": false
+      }
+    ],
+    "explanation": "В RHEL 10 право запускать команды через sudo по умолчанию даёт членство в группе wheel: строка %wheel ALL=(ALL) ALL в /etc/sudoers действует на всю группу. Группы sudo в RHEL нет, а членство в root или users доступа к sudo не открывает.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/security_hardening/managing-sudo-access",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_020",
+    "topic": "users_groups",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "sudo: каталог /etc/sudoers.d",
+    "question": "В каком каталоге в RHEL 10 лежат отдельные файлы с правилами sudo, подключённые к основному конфигурационному файлу?",
+    "options": [
+      {
+        "text": "/etc/sudoers.d/rules",
+        "correct": true
+      },
+      {
+        "text": "/etc/sudo.conf.d/rules",
+        "correct": false
+      },
+      {
+        "text": "/etc/sudo.d/rules",
+        "correct": false
+      },
+      {
+        "text": "/etc/sudoers/rules.d",
+        "correct": false
+      }
+    ],
+    "explanation": "Основной файл /etc/sudoers подключает каталог /etc/sudoers.d, поэтому отдельные правила кладут туда: они читаются наравне с основным файлом и не конфликтуют с обновлением пакета sudo. Остальные пути sudo не читает, а файлы с точкой в имени или с тильдой в конце в /etc/sudoers.d игнорируются.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/security_hardening/managing-sudo-access",
       "status": "active"
     }
   }

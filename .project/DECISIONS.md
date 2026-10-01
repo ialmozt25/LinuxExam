@@ -1128,3 +1128,65 @@ Verdict reviewer = **PASS** (ratification by re-execution: все 6 критер
 *Decided-by:* Оркестратор (декомпозиция, контракты t1–t3, качественный гейт `kind=review`,
 интеграция, изоляция дрейфа `sync:check`, память, архивация) + Капитан (approve спеки 038;
 решение по отклонению «`--json`/`--repo-root`» и перевод spec в `done` — за капитаном).
+
+## 2026-09-30 · spec 039 — правки банка по audit-036: цикл repair, `lsl_009`, дрейф `sync:check`
+
+**Прогон.** `/spec-to-team 039` — команда `spec-039-bank-audit-036-fixes`, 5 членов: `writer-software`
++ `writer-network` + `writer-accounts` (`deepseek-official/deepseek-v4-flash`, effort high), `qc` +
+`reviewer` (`deepseek-official/deepseek-v4-pro`, effort high). DAG = декомпозиция спеки (t1 ∥ t2 ∥ t3 →
+t4) **плюс обязательный цикл после ревью**: t5 (qc, ratification by re-execution) → t6 (ревью раунда 1,
+verdict **needs_revision**) → t7 (repair `r6-f1`) → t8 (verification) → t9 (ревью раунда 2, verdict
+**pass**). Итог: 9 задач — 8 completed, 1 failed (t6 — собственный вердикт `needs_revision`),
+durationMs 2273617 ≈ 37 мин 53 с.
+
+**Результат.** Банк **225 → 229** (networking 18, users_groups 20); 15 затронутых id: 10 переписанных
+по audit-036, `fm_011` (решение капитана п.2), 4 новых (`ntw_017`/`ntw_018` IPv6 — объектив 8.1,
+`ug_019`/`ug_020` sudo/wheel — объектив 9.4). `_order.json` 225 → 229 (чистый append +4), `_topics.json`
+total 229 / networking 18 / users_groups 20; `correctIndex` у 11 переписанных не менялся. Гейты
+(перепроверены лидом лично): `qc` 0 (229 / Fails 0 / **Warns 22 = baseline**), `shuffle-bank:check` 0
+(`BANK 229 = 69/51/48/61`, `--apply` не потребовался и не запускался), `order:check` 0, `manifest` 0
+(`OK: 229 questions, 14 topics`), `test:run` 0 (28 файлов / 198 тестов), `typecheck` 0, cosine по 15 id 0
+(max 0.7701 при пороге 0.80).
+
+**1. Ростер расширен до трёх writer'ов — по правилу владения AgentTeams.** Декомпозиция спеки называет
+одного `writer` на t1–t3, но член команды не может владеть двумя незавершёнными задачами, а t1–t3
+параллельны и пишут в непересекающиеся файлы (`manage_software.json` / `networking.json` /
+`{file_management,users_groups,file_systems}.json`). Тот же приём, что в 036 (5 writer'ов) и 038
+(builder + builder2); t4 (интеграция манифестов) отдан `writer-software` — к моменту её готовности он
+свободен, зависимость `t4 deps [t1,t2,t3]` это гарантирует.
+
+**2. Цикл repair запущен решением капитана, а не «принят как known issue».** qc дал `pass` с 3 low
+(qc-f1/qc-f2 — разбор `ntw_017`, qc-f3 — форма `ug_020`). Капитан запросил у ревьюера **явный adjudicate
+по каждому пункту**, и ревьюер перевёл **qc-f1 в must-fix**: ложная клауза «и в нём неверно записан ключ
+длины префикса» при корректном `/64` у дистрактора — тот же класс «разбор не соответствует options»,
+что `net_001`, отнесённый audit-036 к «требует правок». Далее repair t7 (удалена ровно одна подстрока),
+verification t8 (независимый перезапуск), ревью раунда 2 t9 = **pass** без новых находок. Основание:
+правки 039 существуют ради удаления ложных утверждений из банка, поэтому вносить новое ложное
+утверждение нельзя даже на уровне low; qc-f2/qc-f3 оставлены `accepted-low` (ложных фактов нет).
+
+**3. `lsl_009` (тема `local_storage`) — вне скоупа 039, принят как предсуществующий долг (вариант «а»).**
+Шаг «`haladyna all --auto-only` → exit 0» в контракте t4 оказался **недостижимым**: на снимке HEAD тот же
+прогон даёт Auto-perfect 224/225 и exit 1 (единственный сбой — `lsl_009`, AUTO_FAIL[5] «длина верной
+опции»; долг осознанно записан в `docs/archive/HANDOFF.md:308-311`). `local_storage` — одна из 9 тем,
+прямо запрещённых скоупом 039, поэтому правка не делалась; скоуповый контроль — `haladyna --batch` по
+15 вопросам прогона = 15/15, exit 0. Судьба долга (отдельная спека / backlog) — **за капитаном**.
+
+**4. `sync:check` = 2 на момент завершения прогона — ожидаемое предзакрытийное состояние, не дефект.**
+Изолировано лидом контролируемым экспериментом (бэкап памяти → `git checkout -- docs/memory/` → замер →
+восстановление; затем `git stash push -- src/data/questions` → замер → `git stash pop`; банк после
+round-trip побайтно совпал с SHA, заявленными членами — `manage_software` `2dd8de56…`, `_order`
+`6aed065b…`, `_topics` `9d359c83…`): (A) память откачена, банк изменён → drift с диагностикой
+«`.project/STATE.md` отстал от `state.json`»; (B) банк откачен, память и `mas-runs.json` изменены → drift
+только по `docs/index.html`. Причина — штатные входы генератора: банк 225 → 229 (`sync.mjs` пересчитывает
+`goal.current_questions` из `_topics.json`), запись `npm run runs:log` в `.project/mas-runs.json` (16 → 17)
+и memory-блок в центре. Это ровно та цепочка `sync → git add → commit → converge`, которую выполняет
+`npm run spec:close`; сам прогон `npm run sync` не запускал — состояние банка в `STATE.md` (225) обновится
+на закрытии.
+
+**5. Коммитов и push прогон не делал** (правила 10/11): approve капитана обязателен (rule 6,
+`type: content`), закрытие — `npm run spec:close -- 039` (сначала `--dry-run`). Артефакты прогона —
+untracked `.project/drafts/spec-039-*` (12 файлов) и `.agent-teams/archive/spec-039-bank-audit-036-fixes/`.
+
+*Decided-by:* Оркестратор (декомпозиция, write-скоупы, adjudication-запрос, интеграция, изоляция
+`sync:check`, память, архивация) + Капитан (approve спеки 039; решение запустить цикл repair; судьба
+`lsl_009` и перевод спеки в `done` — за капитаном).

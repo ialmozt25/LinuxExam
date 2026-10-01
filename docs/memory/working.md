@@ -4,6 +4,20 @@
 
 ---
 
+2026-09-30 | spec-039-bank-audit-036-fixes — прогон AgentTeams завершён, ревью раунда 2 verdict=PASS (9 задач: 8 completed, 1 failed = needs_revision раунда 1)
+
+HEAD: 0abd658 (база прогона; коммитов прогона нет — правки банка ещё не закоммичены)
+
+ahead: 0
+
+План: spec 039 (approved, content) исполнена; approve капитана обязателен (rule 6, type: content). Закрытие спеки — за капитаном: `npm run spec:close -- 039` (сначала `--dry-run`).
+
+Фаза: spec-039 — DAG: t1 ∥ t2 ∥ t3 (правки в трёх непересекающихся скоупах) → t4 (`_order.json` +4 append, `_topics.json` через `npm run manifest`, shuffle-гейт, полные гейты) → t5 (qc: ratification by re-execution, verdict pass, 3 low) → t6 (ревью раунда 1, **needs_revision**: 1 must-fix `r6-f1`) → t7 (repair: удаление ложной клаузы в explanation `ntw_017`) → t8 (verification, pass) → t9 (ревью раунда 2, **PASS**).
+
+Текущая активность: прогон завершён (t9 completed, все члены idle). Итог: банк **225 → 229** (networking 18, users_groups 20), 15 затронутых id (10 переписанных по audit-036 + `fm_011` + 4 новых IPv6/sudo-wheel), `correctIndex` переписанных не менялся, stale-токены `.el9`/`mlocate`/`Rocky 9`/модульные потоки = 0. Гейты перепроверены лидом лично: `order:check` 0 (229), `manifest` 0 (229/14), `shuffle-bank:check` 0 (229 = 69/51/48/61), `qc` 0 (229 / Fails 0 / Warns 22 = baseline), `test:run` 0 (28/198), `typecheck` 0, cosine по 15 id 0 (max 0.7701).
+
+Дальше: (1) approve капитана (rule 6, content); (2) закрытие — `npm run spec:close -- 039 --dry-run`, затем apply (frontmatter `done` + R5-trace + память + commit-chain + converge + `sync:check` = 0); (3) остаточные пункты: qc-f2/qc-f3 — `accepted-low`; `lsl_009` (`haladyna all` exit 1, тема `local_storage`) — вне скоупа 039, предсуществующий долг (`HANDOFF.md:308-311`), решение о его судьбе (отдельная спека / backlog) — за капитаном; (4) push — отдельная авторизация (правила 10/11).
+
 2026-09-30 | spec-038-close-spec-automation — прогон AgentTeams завершён, reviewer verdict=PASS
 
 HEAD: b3f9b25 (база прогона; коммитов прогона нет — правки ещё не закоммичены)

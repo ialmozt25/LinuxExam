@@ -2185,6 +2185,38 @@
           "verdict"
         ]
       }
+    },
+    {
+      "spec": "039",
+      "teamId": "spec-039-bank-audit-036-fixes",
+      "startedAt": "2026-09-30T11:07:41.785Z",
+      "finishedAt": "2026-09-30T11:45:35.402Z",
+      "status": "completed",
+      "durationMs": 2273617,
+      "tokens": null,
+      "verdict": "pass",
+      "tasks": {
+        "completed": 8,
+        "failed": 1
+      },
+      "report": {
+        "tool": "runs-log",
+        "historyVersion": 1,
+        "teamFile": ".agent-teams/spec-039-bank-audit-036-fixes/team.json",
+        "teamFileSha256": "aa17f9c03d1715cf99b6811cfb427dbf918e43a137d5a2d6ad3d64e3b1601428",
+        "archived": false,
+        "specSource": "team.json (описания задач)",
+        "specSlug": "039-bank-audit-036-fixes",
+        "durationSource": "createdAt↔последнее обновление задач",
+        "verdictSource": "ревью-задача t9 (поле verdict)",
+        "tokensSource": null,
+        "schemaFields": [
+          "teamId",
+          "durationMs",
+          "tokens",
+          "verdict"
+        ]
+      }
     }
   ]
 }

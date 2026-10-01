@@ -1,0 +1,461 @@
+[
+  {
+    "id": "ms_004",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "post-modular: версия в имени пакета",
+    "question": "В RHEL 10 применяется post-modular подход: каждая версия приложения поставляется отдельным пакетом. Нужно установить PostgreSQL версии 16 из репозитория RHEL 10 с помощью dnf. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "dnf info postgresql16",
+        "correct": false
+      },
+      {
+        "text": "dnf install postgresql-16",
+        "correct": false
+      },
+      {
+        "text": "dnf download postgresql16",
+        "correct": false
+      },
+      {
+        "text": "dnf install postgresql16",
+        "correct": true
+      }
+    ],
+    "explanation": "В RHEL 10 версия приложения стала суффиксом имени пакета, поэтому PostgreSQL 16 ставит команда dnf install postgresql16. Команда dnf info только печатает метаданные пакета, а dnf download лишь скачивает rpm-файл, не выполняя установку. Имя с дефисом (postgresql-16) не соответствует versioned-имени пакета в RHEL 10, поэтому нужный пакет такая команда не выбирает."
+  },
+  {
+    "id": "msw_011",
+    "topic": "manage_software",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "rpm -ivh: установка локального rpm-файла",
+    "question": "Интернета нет, репозитории не подключены, но в текущем каталоге лежит файл htop-3.2.2-1.el10.x86_64.rpm, и его нужно установить. Какая команда установит этот пакет из файла?",
+    "options": [
+      {
+        "text": "rpm -ivh htop-3.2.2-1.el10.x86_64.rpm",
+        "correct": true
+      },
+      {
+        "text": "rpm -ql htop-3.2.2-1.el10.x86_64.rpm",
+        "correct": false
+      },
+      {
+        "text": "rpm -qa htop-3.2.2-1.el10.x86_64.rpm",
+        "correct": false
+      },
+      {
+        "text": "dnf install htop-3.2.2-1.el10.x86_64.rpm",
+        "correct": false
+      }
+    ],
+    "explanation": "Установку файла пакета выполняет ключ -i, а -v и -h добавляют подробный вывод и индикатор хода установки. Ключ -ql только перечисляет файлы, входящие в пакет, а -qa перечисляет установленные пакеты системы — обе команды ничего не устанавливают. Команда dnf install тоже умеет ставить локальный rpm-файл, но путь к нему указывают явно (./htop-3.2.2-1.el10.x86_64.rpm), а без пути dnf ищет аргумент как имя пакета в репозиториях; установка ключом rpm -i от репозиториев не зависит."
+  },
+  {
+    "id": "msw_014",
+    "topic": "manage_software",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "rpm -qp --scripts: сценарии установки из файла пакета",
+    "question": "Перед установкой скачанного файла myapp-2.1.0-1.el10.x86_64.rpm нужно посмотреть, какие сценарии установки и удаления он выполняет. Какая команда покажет эти сценарии из файла пакета?",
+    "options": [
+      {
+        "text": "rpm -qlp myapp-2.1.0-1.el10.x86_64.rpm",
+        "correct": false
+      },
+      {
+        "text": "rpm -qp -R myapp-2.1.0-1.el10.x86_64.rpm",
+        "correct": false
+      },
+      {
+        "text": "rpm -qp --scripts myapp-2.1.0-1.el10.x86_64.rpm",
+        "correct": true
+      },
+      {
+        "text": "rpm -qip myapp-2.1.0-1.el10.x86_64.rpm",
+        "correct": false
+      }
+    ],
+    "explanation": "Опция --scripts выводит сценарии пакета, которые выполняются при его установке и удалении, а ключ -p направляет запрос в файл пакета, а не в базу установленных. Ключ -l с той же опцией -p печатает лишь список файлов пакета, а ключ -i показывает его описание и версию. Ключ -R перечисляет зависимости пакета и сценарии не показывает."
+  },
+  {
+    "id": "net_001",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "7",
+    "subtopic": "nmcli connection add/modify/up/down",
+    "question": "Существующему подключению NetworkManager с именем eth0 требуется вручную задать статический адрес 192.168.10.50/24 и шлюз 192.168.10.1, причём так, чтобы настройка сразу применилась к интерфейсу, без перезагрузки. Какая последовательность команд это выполнит?",
+    "options": [
+      {
+        "text": "nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "correct": true
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection show eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv4.method auto ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection add eth0 ipv4.method manual ipv4.addresses 192.168.10.50/24 ipv4.gateway 192.168.10.1 && nmcli connection up eth0",
+        "correct": false
+      }
+    ],
+    "explanation": "Опция ipv4.method принимает значения auto, manual, link-local и disabled, и только manual разрешает статический адрес, поэтому запись auto ipv4.addresses … синтаксически допустима, но адрес задаётся по DHCP и не применяется. Ключ connection show eth0 только печатает настройки профиля и не активирует их, поэтому интерфейс остаётся с прежней конфигурацией. Ключ connection add без обязательных аргументов (тип соединения, --type ethernet) завершается ошибкой и к тому же создаёт новое подключение, а не изменяет существующее."
+  },
+  {
+    "id": "net_002",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "hostname и hostnamectl",
+    "question": "Какая команда изменит статическое имя хоста на db1.example.com и сохранит его после перезагрузки?",
+    "options": [
+      {
+        "text": "sysctl hostname set db1.example.com",
+        "correct": false
+      },
+      {
+        "text": "hostname db1.example.com --set-static",
+        "correct": false
+      },
+      {
+        "text": "hostnamectl set-hostname db1.example.com",
+        "correct": true
+      },
+      {
+        "text": "hostnamectl --transient db1.example.com",
+        "correct": false
+      }
+    ],
+    "explanation": "hostnamectl set-hostname меняет статическое имя хоста и записывает его в /etc/hostname, поэтому оно сохраняется после перезагрузки. Команда hostname db1.example.com задаёт только текущее (transient) имя в ядре, и после перезагрузки оно теряется. Утилита sysctl работает с параметрами ядра вида имя=значение, ключа set у неё нет, и имя хоста так не задаётся. Ключ --transient у hostnamectl, наоборот, задаёт только временное имя для текущей загрузки, а статическое имя остаётся прежним; ключа --set-static у команды hostname не существует."
+  },
+  {
+    "id": "net_003",
+    "topic": "networking",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "/etc/resolv.conf и DNS",
+    "question": "В каком файле хранятся адреса DNS-серверов, которые система использует для разрешения имён?",
+    "options": [
+      {
+        "text": "/etc/host.conf",
+        "correct": false
+      },
+      {
+        "text": "/etc/hosts.allow",
+        "correct": false
+      },
+      {
+        "text": "/etc/nsswitch.conf",
+        "correct": false
+      },
+      {
+        "text": "/etc/resolv.conf",
+        "correct": true
+      }
+    ],
+    "explanation": "Адреса DNS-серверов перечисляются именно в /etc/resolv.conf: строки nameserver <IP> задают серверы имён, к которым резолвер обращается за разрешением. /etc/nsswitch.conf задаёт только порядок источников разрешения (например, «hosts: files dns»), но адресов серверов не содержит. /etc/hosts.allow относится к TCP wrappers и управляет доступом к службам по адресу клиента, а не разрешением имён, поэтому адресов DNS-серверов в нём не было и нет. /etc/host.conf — устаревший файл glibc и адреса серверов имён тоже не хранит."
+  },
+  {
+    "id": "ntw_017",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "8",
+    "subtopic": "nmcli: статический IPv6-адрес",
+    "question": "Интерфейсу eth0 нужно назначить статический IPv6-адрес 2001:db8::10/64 со шлюзом 2001:db8::1 так, чтобы настройка сохранилась после перезагрузки. Какая последовательность команд это выполнит?",
+    "options": [
+      {
+        "text": "nmcli connection modify eth0 ipv6.method manual ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli connection up eth0",
+        "correct": true
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv6.method auto ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli connection up eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection add con-name eth0 type ethernet ipv6.method manual ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli device reapply eth0",
+        "correct": false
+      },
+      {
+        "text": "nmcli connection modify eth0 ipv6.method manual ipv6.addresses 2001:db8::10/64 ipv6.gateway 2001:db8::1 && nmcli connection show eth0",
+        "correct": false
+      }
+    ],
+    "explanation": "Профиль NetworkManager настраивают ключом connection modify с ipv6.method manual, ipv6.addresses и ipv6.gateway, а команда nmcli connection up eth0 сразу применяет эти параметры к интерфейсу; они хранятся в профиле и сохраняются после перезагрузки. Метод auto означает автоконфигурацию IPv6 (SLAAC), и заданный вручную адрес не применяется. Ключ connection add создаёт новое подключение с именем con-name, а не изменяет существующий профиль eth0. Последний вариант лишь печатает параметры профиля, ничего не меняя, и в нём неверно записан ключ длины префикса.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30T00:00:00Z",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/configuring_and_managing_networking/",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ntw_018",
+    "topic": "networking",
+    "difficulty": "medium",
+    "objective_domain": "8",
+    "subtopic": "ip -6 addr add: временный IPv6-адрес",
+    "question": "Нужно добавить интерфейсу eth0 адрес 2001:db8::20/64, действующий до ближайшей перезагрузки, без правки профилей NetworkManager. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "ip -6 addr add 2001:db8::20/64 dev eth0",
+        "correct": true
+      },
+      {
+        "text": "ip addr add 2001:db8::20/64 dev eth0",
+        "correct": false
+      },
+      {
+        "text": "ip -4 addr add 2001:db8::20/64 dev eth0",
+        "correct": false
+      },
+      {
+        "text": "ip -6 addr add 2001:db8::20:0:0:64 dev eth0",
+        "correct": false
+      }
+    ],
+    "explanation": "Семейство адресов у команды ip задаёт ключ -6, поэтому ip -6 addr add добавляет адрес IPv6 в ядро до ближайшей перезагрузки. Без ключа -6 команда ip addr add по умолчанию работает с IPv4 и IPv6-литерал отвергает, а ip -4 addr add явно выбирает семейство IPv4, где такой адрес недопустим. Последний вариант искажает запись длины префикса и IPv6-адресом не является.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30T00:00:00Z",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/configuring_and_managing_networking/",
+      "status": "active"
+    }
+  },
+  {
+    "id": "fm_008",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "locate / updatedb",
+    "question": "Какая команда обновляет базу данных для locate?",
+    "options": [
+      {
+        "text": "locate -c",
+        "correct": false
+      },
+      {
+        "text": "locate -b",
+        "correct": false
+      },
+      {
+        "text": "plocate -r",
+        "correct": false
+      },
+      {
+        "text": "updatedb",
+        "correct": true
+      }
+    ],
+    "explanation": "Команда updatedb перестраивает базу /var/lib/plocate/plocate.db, поэтому locate находит файлы без обхода файловой системы. Ключи -b, -c и -r у locate управляют выборкой (базовое имя, подсчёт совпадений, регулярное выражение), но саму базу данных не перестраивают."
+  },
+  {
+    "id": "fm_011",
+    "topic": "file_management",
+    "difficulty": "easy",
+    "objective_domain": "4",
+    "subtopic": "tar / gzip / bzip2",
+    "question": "Какая команда создаст архив, сжатый bzip2?",
+    "options": [
+      {
+        "text": "tar -czf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
+        "text": "tar -cf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
+        "text": "tar -cJf backup.tar.bz2 /home",
+        "correct": false
+      },
+      {
+        "text": "tar -cjf backup.tar.bz2 /home",
+        "correct": true
+      }
+    ],
+    "explanation": "Сжатие bzip2 включает ключ j, тогда как z задаёт gzip, а J — xz. Поэтому вариант tar -cJf backup.tar.bz2 /home создаёт архив в формате xz, а вариант без ключа сжатия — обычный несжатый tar, несмотря на расширение в имени файла. Нужный формат bzip2 даёт только -cjf."
+  },
+  {
+    "id": "fs_004",
+    "topic": "file_systems",
+    "difficulty": "medium",
+    "objective_domain": "5",
+    "subtopic": "CIFS/SMB: монтирование общего ресурса",
+    "question": "Нужно смонтировать SMB-ресурс //srv/share в /mnt/smb с логином user1. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "mount -t cifs //srv/share /mnt/smb -o username=user1",
+        "correct": true
+      },
+      {
+        "text": "mount -t nfs //srv/share /mnt/smb -o username=user1",
+        "correct": false
+      },
+      {
+        "text": "mount --cifs //srv/share /mnt/smb -o username=user1",
+        "correct": false
+      },
+      {
+        "text": "mount -t smbfs //srv/share /mnt/smb -o username=user1",
+        "correct": false
+      }
+    ],
+    "explanation": "Общий ресурс SMB монтируют типом cifs, а логин передают опцией username. Тип nfs относится к другому протоколу и по SMB-пути не работает. Тип smbfs устарел и в RHEL 10 не поддерживается: для SMB служит только cifs, поэтому такая команда завершается ошибкой неизвестного типа файловой системы. Отдельной опции --cifs у mount нет."
+  },
+  {
+    "id": "ug_002",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "useradd -m",
+    "question": "Какой ключ useradd явно создаёт домашний каталог независимо от настроек системы?",
+    "options": [
+      {
+        "text": "useradd -n alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -d alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -s alice",
+        "correct": false
+      },
+      {
+        "text": "useradd -m alice",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ -m (--create-home) явно создаёт домашний каталог нового пользователя и наполняет его из /etc/skel, поэтому он работает независимо от системных настроек. Ключ -d лишь указывает путь к домашнему каталогу в записи /etc/passwd: каталог появится только при -m или при CREATE_HOME yes в /etc/login.defs, то есть -d зависит от настроек системы и условию «независимо от настроек» не удовлетворяет. Ключ -s задаёт командную оболочку пользователя, а ключ -n в man useradd RHEL 10 не документирован и явным способом создания каталога не является.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "man useradd (shadow-utils 4.15, EL10) https://github.com/shadow-maint/shadow/blob/master/man/useradd.8.xml",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_007",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "7",
+    "subtopic": "userdel -r",
+    "question": "Какая команда удалит пользователя alice вместе с его домашним каталогом?",
+    "options": [
+      {
+        "text": "userdel -R alice",
+        "correct": false
+      },
+      {
+        "text": "userdel -r alice",
+        "correct": true
+      },
+      {
+        "text": "userdel alice",
+        "correct": false
+      },
+      {
+        "text": "userdel -f alice",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -r (--remove) удаляет учётную запись вместе с домашним каталогом и почтовым ящиком, поэтому каталог исчезает с диска. Ключ -f (--force) только снимает проверки при удалении (например, для вошедшего в систему пользователя) и сам домашний каталог не удаляет: в shadow-utils удаление каталога выполняется лишь в ветке -r. Ключ -R задаёт каталог chroot-окружения, а не рекурсивное удаление, и вызов без ключей удаляет только запись в /etc/passwd, оставляя файлы домашнего каталога на месте.",
+    "_meta": {
+      "added_at": "2026-09-23",
+      "pipeline_version": "4.4",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "man userdel; src/userdel.c (shadow-utils 4.15, EL10) https://github.com/shadow-maint/shadow/blob/master/src/userdel.c",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_019",
+    "topic": "users_groups",
+    "difficulty": "easy",
+    "objective_domain": "9",
+    "subtopic": "sudo: группа wheel",
+    "question": "Членство пользователя в какой группе даёт ему права sudo в RHEL 10 по умолчанию?",
+    "options": [
+      {
+        "text": "sudo",
+        "correct": false
+      },
+      {
+        "text": "root",
+        "correct": false
+      },
+      {
+        "text": "wheel",
+        "correct": true
+      },
+      {
+        "text": "users",
+        "correct": false
+      }
+    ],
+    "explanation": "В RHEL 10 право запускать команды через sudo по умолчанию даёт членство в группе wheel: строка %wheel ALL=(ALL) ALL в /etc/sudoers действует на всю группу. Группы sudo в RHEL нет, а членство в root или users доступа к sudo не открывает.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/security_hardening/managing-sudo-access",
+      "status": "active"
+    }
+  },
+  {
+    "id": "ug_020",
+    "topic": "users_groups",
+    "difficulty": "medium",
+    "objective_domain": "9",
+    "subtopic": "sudo: каталог /etc/sudoers.d",
+    "question": "В каком каталоге в RHEL 10 лежат отдельные файлы с правилами sudo, подключённые к основному конфигурационному файлу?",
+    "options": [
+      {
+        "text": "/etc/sudoers.d/rules",
+        "correct": true
+      },
+      {
+        "text": "/etc/sudo.conf.d/rules",
+        "correct": false
+      },
+      {
+        "text": "/etc/sudo.d/rules",
+        "correct": false
+      },
+      {
+        "text": "/etc/sudoers/rules.d",
+        "correct": false
+      }
+    ],
+    "explanation": "Основной файл /etc/sudoers подключает каталог /etc/sudoers.d, поэтому отдельные правила кладут туда: они читаются наравне с основным файлом и не конфликтуют с обновлением пакета sudo. Остальные пути sudo не читает, а файлы с точкой в имени или с тильдой в конце в /etc/sudoers.d игнорируются.",
+    "_meta": {
+      "added_at": "2026-09-30",
+      "pipeline_version": "spec-039",
+      "verified_rhel": "10",
+      "verified_at": "2026-09-30",
+      "source": "spec-039-bank-audit-036-fixes",
+      "reference": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/security_hardening/managing-sudo-access",
+      "status": "active"
+    }
+  }
+]

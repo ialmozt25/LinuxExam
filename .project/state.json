@@ -2,8 +2,8 @@
   "last_update": "2026-09-29T06:06:35.675Z",
   "goal": {
     "target_questions": 300,
-    "current_questions": 225,
-    "progress_percent": 75,
+    "current_questions": 229,
+    "progress_percent": 76.3,
     "target_deadline": null,
     "added_today": 0,
     "avg_daily_7d": "9.14",
@@ -55,7 +55,7 @@
     {
       "slug": "networking",
       "label": "Сеть",
-      "count": 16,
+      "count": 18,
       "target": 22
     },
     {
@@ -91,7 +91,7 @@
     {
       "slug": "users_groups",
       "label": "Пользователи и группы",
-      "count": 18,
+      "count": 20,
       "target": 22
     }
   ],
@@ -912,6 +912,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "0abd658",
+      "date": "2026-09-30",
+      "subject": "chore(state): converge after spec-039 stale-refs fix",
+      "type": "chore"
+    },
+    {
       "sha": "d8b8d13",
       "date": "2026-09-30",
       "subject": "docs(spec-039): fix 2 stale cross-refs to decisions section",
@@ -1024,12 +1030,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-038 draft",
       "type": "chore"
-    },
-    {
-      "sha": "799205f",
-      "date": "2026-09-30",
-      "subject": "docs(spec-038): draft - close-spec automation",
-      "type": "docs"
     }
   ],
   "roles": [
@@ -1104,7 +1104,7 @@
     {
       "name": "LinuxExam",
       "status": "frozen",
-      "metric": "225 / 300 вопросов",
+      "metric": "229 / 300 вопросов",
       "metric_source": "goal",
       "frozen_at": "2026-09-27",
       "frozen_by": "ORCH-RULES правило 6"
