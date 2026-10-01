@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на f804800</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 63869f3</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">44</div>
+      <div class="pulse-tile__value">45</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -343,7 +343,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 44 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 45 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -414,6 +414,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">63869f3</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-047 done</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
         <tr>
           <td class="mono">f804800</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -528,12 +534,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(log): rule2-exception для spec 045 (embedded approve)</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">45c48fa</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-045): README spec-chain + run-spec-chain - A/B/C фиксы</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -566,7 +566,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">48 ч (~2.0 дн)</td>
+          <td class="muted">49 ч (~2.0 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -578,9 +578,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-09-30T10:40:38Z</td>
-          <td class="mono">36</td>
-          <td class="muted">37 ч (~1.5 дн)</td>
+          <td class="mono muted">2026-10-01T23:38:55Z</td>
+          <td class="mono">59</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -590,11 +590,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">02.10</span> · spec-046 | done - 1. Якоря STOP D (после правки) | commit a1e87d0</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 2 | авторизован перевод spec 046 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать .project/specs/046-run-spec-chain-cont…</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 2 | авторизован перевод spec 047 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать spec 047 (infra, approved)»)…</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 13 | авторизована правка .project/правила оркестратора.md через embedded approve капитана: новый раздел «Двухтрековый режим» (порог Small/Full, spec 047) | ещё не закоммичено</li>
         <li><span class="mono muted">02.10</span> · spec-047 | done - 1. Раздел в правила оркестратора: == 1 | commit 41e42d8</li>
+        <li><span class="mono muted">02.10</span> · per_topic_target | per_topic_target 22 оставить, принять перебор +8 (банк 308) — решение капитана 2026-10-02; вариант 21 (294) отклонён; правок состояние проекта / tools/gen-state.mjs не требуется (22…</li>
     </ul>
   </details>
 
@@ -625,8 +625,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 58</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 58</div>
+    <summary>Тревоги · записей: 59</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 59</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -855,18 +855,17 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">02.10 | process gap | `type: ui` из правила оркестратора п.2 не покрыт цепочкой run-spec-chain</div>
           <div class="entry__body muted">правила оркестратора.md:31-32 (редакция правила 2) требует preview как часть приёмки для типов</div>
         </div>
+        <div class="entry">
+          <div class="entry__title">02.10 | accepted-risk | severity: low | source: капитан | per_topic_target 22 оставлен, перебор +8 принят (банк 308)</div>
+          <div class="entry__body muted">goal.per_topic_target: 22 × 14 тем = **308** против target_questions: 300 — перебор **+8 принят**</div>
+        </div>
   </details>
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 2</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 1</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
-        </div>
-        <div class="entry">
-          <div class="entry__title">spec-047-spec-chain-dual-track · <span class="chip chip--running">running</span></div>
-          <div class="entry__body muted">агенты: builder (·) · reviewer (·)</div>
-          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓</div>
         </div>
   </section>
 

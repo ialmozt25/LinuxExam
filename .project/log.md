@@ -214,3 +214,4 @@
 2026-10-02 | rule2-exception | авторизован перевод spec 047 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать spec 047 (infra, approved)») — Small-трек | commit pending
 2026-10-02 | rule13-exception | авторизована правка .project/ORCH-RULES.md через embedded approve капитана: новый раздел «Двухтрековый режим» (порог Small/Full, spec 047) | commit pending
 2026-10-02 | spec-047 | done - 1. Раздел в ORCH-RULES: == 1 | commit 41e42d8
+2026-10-02 | per_topic_target | per_topic_target 22 оставить, принять перебор +8 (банк 308) — решение капитана 2026-10-02; вариант 21 (294) отклонён; правок state.json / tools/gen-state.mjs не требуется (22 — текущее значение, Math.ceil(300/14)); фиксация до npm run sync — запись в docs/memory/alerts.md помечена accepted-risk, finding «Решение отложено (за капитаном)» закрыт | commit pending
