@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c4c244e36b0f0df6ba709966076f4d43522d69d6",
+  "head": "9d1af57bf649f7efff14dcb3b762302ad8826d3c",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "040",
-      "slug": "spec-chain",
-      "status": "approved",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/040-spec-chain.md",
-      "mtime": 1790818363898.6667,
-      "goal": "Одна команда `/run-spec-chain <spec-id>` доводит спеку от черновика до",
-      "acceptance": "1. `.project/scripts/validate-spec.mjs` существует; `node --check` exit 0.",
-      "noTouch": "src/** (банк).",
       "preview": ""
     },
     {
@@ -852,6 +837,21 @@
       "preview": ""
     },
     {
+      "id": "040",
+      "slug": "spec-chain",
+      "status": "done",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": "c5d86b4",
+      "file": "specs/040-spec-chain.md",
+      "mtime": 1790823663869.8477,
+      "goal": "Одна команда `/run-spec-chain <spec-id>` доводит спеку от черновика до",
+      "acceptance": "1. `.project/scripts/validate-spec.mjs` существует; `node --check` exit 0.",
+      "noTouch": "src/** (банк).",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -913,7 +913,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf",
     "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]",
     "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending",
@@ -922,10 +921,29 @@
     "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
     "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
     "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
-    "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending"
+    "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
+    "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "9d1af57",
+      "date": "2026-10-01",
+      "subject": "docs(spec-040): done - spec-chain: фабрика end-to-end",
+      "type": "docs"
+    },
+    {
+      "sha": "2fd2b24",
+      "date": "2026-10-01",
+      "subject": "chore(spec-040): R5 trace - task tokens t1 t2 t3 t4 t5 t7 t8 t9 t10 t11",
+      "type": "chore"
+    },
+    {
+      "sha": "f64482c",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-040 post-mortem",
+      "type": "chore"
+    },
     {
       "sha": "c4c244e",
       "date": "2026-10-01",
@@ -1027,24 +1045,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-039 approve",
       "type": "chore"
-    },
-    {
-      "sha": "d57abf9",
-      "date": "2026-09-30",
-      "subject": "docs(spec-039): approve - fix template defects, id conventions (ntw_017/018, ug_019/020)",
-      "type": "docs"
-    },
-    {
-      "sha": "0310236",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-039 draft",
-      "type": "chore"
-    },
-    {
-      "sha": "41542ec",
-      "date": "2026-09-30",
-      "subject": "docs(spec-039): draft - bank-audit-036-fixes",
-      "type": "docs"
     }
   ],
   "roles": [

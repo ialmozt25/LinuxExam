@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `c4c244e36b0f0df6ba709966076f4d43522d69d6`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `9d1af57bf649f7efff14dcb3b762302ad8826d3c`<!--volatile:end-->
 - Спек: 38
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 040 | `spec-chain` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -43,6 +42,7 @@
 | 037 | `user-counter` | infra | done | 652c507 | — |
 | 038 | `close-spec-automation` | infra | done | 78c0eaf | — |
 | 039 | `bank-audit-036-fixes` | content | done | 50cd24a | — |
+| 040 | `spec-chain` | infra | done | c5d86b4 | — |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
