@@ -199,3 +199,4 @@
 2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending
 2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending
 2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4
+2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]

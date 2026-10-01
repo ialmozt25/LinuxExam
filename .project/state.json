@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "9d1af57bf649f7efff14dcb3b762302ad8826d3c",
+  "head": "7ffb5c37532a0d54690c38e4d581953dbc8a0847",
   "specs": [
     {
       "id": "022",
@@ -913,7 +913,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | push | authorize push origin main — spec-038 close | [AUTHORIZE]",
     "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
@@ -922,10 +921,17 @@
     "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
     "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
     "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
-    "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4"
+    "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4",
+    "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "7ffb5c3",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-040 done",
+      "type": "chore"
+    },
     {
       "sha": "9d1af57",
       "date": "2026-10-01",
@@ -1039,12 +1045,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-039): fix 2 stale cross-refs to decisions section",
       "type": "docs"
-    },
-    {
-      "sha": "d881eb8",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-039 approve",
-      "type": "chore"
     }
   ],
   "roles": [
