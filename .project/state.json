@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "a82f782dde17b3ac8cdb9db235c2bf8f35b64578",
+  "head": "49084f4cd8ea1c7c24128bb6df5761cc0e4d8695",
   "specs": [
     {
       "id": "022",
@@ -972,6 +972,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "49084f4",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-044 done",
+      "type": "chore"
+    },
+    {
       "sha": "a82f782",
       "date": "2026-10-01",
       "subject": "docs(spec-044): done - Spec 044 — человекочитаемые тексты Telegram-уведомлений",
@@ -1084,12 +1090,6 @@
       "date": "2026-10-01",
       "subject": "docs(spec-enrich): S4 delta metric + reconcile contract + URL validation docs",
       "type": "docs"
-    },
-    {
-      "sha": "1965c43",
-      "date": "2026-10-01",
-      "subject": "fix(spec-enrich): reconcile contract (S1), Windows spawn (S2), URL validation (S3), API key (S5), drafts root (S6)",
-      "type": "fix"
     }
   ],
   "roles": [
