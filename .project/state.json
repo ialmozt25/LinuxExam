@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "ecf6e8d9c97d80290368aa1e334373eae3b6e6fc",
+  "head": "45c48fa1cfaf3c234a7ddff84ab5127f3f169881",
   "specs": [
     {
       "id": "022",
@@ -973,7 +973,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
     "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
     "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
     "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4",
@@ -982,10 +981,17 @@
     "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0",
     "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6",
     "2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72",
-    "2026-10-01 | push | authorize push origin main — spec-044 close; опубликовано 2f09f5b..acf8dd0 (9 коммитов, tip acf8dd0), origin/main = acf8dd0, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) и опубликуется следующим авторизованным push | commit acf8dd0"
+    "2026-10-01 | push | authorize push origin main — spec-044 close; опубликовано 2f09f5b..acf8dd0 (9 коммитов, tip acf8dd0), origin/main = acf8dd0, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) и опубликуется следующим авторизованным push | commit acf8dd0",
+    "2026-10-01 | rule2-exception | авторизован перевод spec 045 в approved через embedded approve капитана (spec создана сразу как approved, минуя draft/preview) | commit 45c48fa"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "45c48fa",
+      "date": "2026-10-02",
+      "subject": "docs(spec-045): README spec-chain + run-spec-chain - A/B/C фиксы",
+      "type": "docs"
+    },
     {
       "sha": "ecf6e8d",
       "date": "2026-10-02",
@@ -1099,12 +1105,6 @@
       "date": "2026-10-01",
       "subject": "docs(spec-041): done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation",
       "type": "docs"
-    },
-    {
-      "sha": "4027b8a",
-      "date": "2026-10-01",
-      "subject": "chore(spec-041): R5 trace - task tokens t1 t2 t3 t4",
-      "type": "chore"
     }
   ],
   "roles": [
