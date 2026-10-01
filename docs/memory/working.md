@@ -6,17 +6,17 @@
 
 2026-10-01 | spec-042-telegram-notify — прогон AgentTeams завершён, tester 11/13 (ratification by re-execution) + reviewer verdict=pass (8/8 задач completed)
 
-HEAD: 871fa29 (база прогона: регистрация спеки; коммитов прогона НЕТ — правки T1–T4 ещё не закоммичены)
+HEAD: b10ce84 (спека закрыта; коммиты прогона/закрытия: `65fc9c0` реализация T1–T4, `47d4c09` R5-trace, `e990d35` docs done, `b10ce84` converge; база прогона — `871fa29`)
 
-ahead: 0 (main = origin/main)
+ahead: 5 (origin/main = afe011b)
 
-План: spec 042 (infra, approved) исполнена; approve капитана обязателен, закрытие — за капитаном: `npm run spec:close -- 042` (сначала `--dry-run`; push — отдельная per-command авторизация, правила 10/11). Спека зарегистрирована в репо коммитом `871fa29` (файла 042 на диске не было — текст спеки передан капитаном в чате).
+План: spec 042 (infra, approved → **done**) исполнена и **закрыта** 2026-10-01: решение капитана по F1 (escape оставлен, `notify.mjs` не правился, критерий 6 переформулирован), `npm run spec:close -- 042 --dry-run` = 0 → apply = 0, `sync:check` = 0, frontmatter `status: done` / `commit: 65fc9c0`. Спека зарегистрирована в репо коммитом `871fa29` (файла 042 на диске не было — текст спеки передан капитаном в чате). Push не выполнялся (правила 10/11).
 
 Фаза: spec-042 — DAG: t1 (design, architect: интерфейс + JSON-схемы state/log + точки интеграции) → t2 (`notify.mjs`, ядро) → t3 ∥ t4 ∥ t5 (интеграция в 4 файла · `package.json`+config+`.gitignore` · строка `Уведомления:` в `.project/sync.mjs`) → t6 (tester: критерии 1–13) → t7 (reviewer: PASS) → t8 (`kind=review`, машинно-читаемый verdict-гейт).
 
 Текущая активность: прогон завершён (все 4 члена idle, 8/8 задач completed). Итог: `notify.mjs` (990 строк, zero-deps ESM, `node:https`), fire-and-forget интеграция в `close-spec`/`enrich-spec`/`run-spec`/skill `run-spec-chain` (аддитивно, 118+/5−), `package.json` (+`notify`, `notify:health`), `.project/notify-config.json`, `.gitignore`, и ровно одна строка `Уведомления:` в блоке «Память» центра — обёрнута `VOLATILE`, без новой плитки.
 
-Дальше: (1) решение капитана по **F1 (medium)** — противоречие внутри спеки: обязательный HTML-escape `<`,`>`,`&` несовместим с критерием 6 «жирный» (нужно переформулировать критерий либо снять escape; не дефект кода, закрытие не блокирует); (2) закрытие — `npm run spec:close -- 042 --dry-run` → apply; шаг 4 уже проходит (`reviewer: t8 — verdict=pass`), `sync:check` = 2 транзиентно и закрывается штатным commit-chain (`sync → git add → commit`); (3) push — отдельная авторизация (правила 10/11). Гейты лида: `node --check` ×5 = 0, `typecheck` 0, `test:run` 0 (28/198), `consistency:check` 0, `spec:close --dry-run` 0; C2 подтверждён сырым ответом API (HTTP 200, `ok:true`, `message_id=30`, бот `linux_exam_bot`); секреты в git отсутствуют.
+Дальше: (1) **push** — отдельная per-command авторизация капитана (правила 10/11); (2) F1 закрыт решением капитана 2026-10-01 (escape оставлен, `notify.mjs` не правился, критерий 6 переформулирован «escape корректен, `&` доставлен, HTML-разметка не поддерживается», accepted-risk severity medium / source F1 — одной строкой в `docs/memory/alerts.md`); (3) известный долг ВОСПРОИЗВЕДЁН: `close-spec.mjs` докоммичивает converge в `episodic.md` через `git commit --amend` (запись в `alerts.md`, статус ОТКРЫТ) — при закрытии 042 amend затронул коммит `e990d35`; (4) `alerts.md:182` ВОСПРОИЗВЕДЁН: статический `ahead: 0`, записанный протоколом в working.md, разошёлся с фактом (исправлено на `ahead: 5`). Гейты лида: `node --check` ×5 = 0, `typecheck` 0, `test:run` 0 (28/198), `consistency:check` 0, `spec:close --dry-run` 0, финальный `sync:check` 0; C2 подтверждён сырым ответом API (HTTP 200, `ok:true`, `message_id=30`, бот `linux_exam_bot`) и собственной отправкой лида; секреты в git отсутствуют.
 
 2026-10-01 | spec-041-enrich-reconcile — прогон AgentTeams завершён, qc verdict=pass + reviewer verdict=pass (4/4 задач completed)
 
