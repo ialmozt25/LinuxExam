@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d8b8d1382fc54fc99db927f4d182159ce0fc2c1b",
+  "head": "50cd24afbe1bb10953b276d14b623aadd9ecd402",
   "specs": [
     {
       "id": "022",
@@ -912,6 +912,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "50cd24a",
+      "date": "2026-10-01",
+      "subject": "feat(spec-039): bank-audit-036-fixes - 10 rewrite + fm_011 + 4 add (t1 t2 t3 t4)",
+      "type": "feat"
+    },
+    {
       "sha": "0abd658",
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-039 stale-refs fix",
@@ -1024,12 +1030,6 @@
       "date": "2026-09-30",
       "subject": "docs(spec-038): approve + fix self-reference in no-touch",
       "type": "docs"
-    },
-    {
-      "sha": "3135795",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-038 draft",
-      "type": "chore"
     }
   ],
   "roles": [
