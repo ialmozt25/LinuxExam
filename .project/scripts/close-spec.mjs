@@ -1367,12 +1367,13 @@ export async function executeClosingSteps(ctx, plan, options) {
   // уведомления не шлют). Fire-and-forget: exit-код и stdout не меняются.
   // spec 044: короткое имя спеки — inline-обрезка префикса; regex покрывает id
   // с буквенным суффиксом (033a) — решение капитана B. Бюджет короткого имени —
-  // 55 символов с «…» на конце — решение капитана A. `shortSpecTitle()` НЕ
-  // трогаем: он кормит subject'ы коммитов (:1092) и строки log.md (:1512)
-  // спек 038-042, видимые гейту R5.
+  // 45 символов с «…» на конце — решение капитана A (55 не проходило проверку
+  // «≤ 100 для любой спеки»: накладные префикса и хвоста = 54-55 симв.).
+  // `shortSpecTitle()` НЕ трогаем: он кормит subject'ы коммитов (:1092)
+  // и строки log.md (:1512) спек 038-042, видимые гейту R5.
   const notifyTitle = title.replace(/^(Спека|Spec)\s+\d+[a-z]?\s*[—–-]\s*/i, '');
-  const notifyTitleShort = [...notifyTitle].length > 55
-    ? `${[...notifyTitle].slice(0, 54).join('')}…`
+  const notifyTitleShort = [...notifyTitle].length > 45
+    ? `${[...notifyTitle].slice(0, 44).join('')}…`
     : notifyTitle;
   notifyFireAndForget(
     'spec_closed',
