@@ -1190,3 +1190,50 @@ untracked `.project/drafts/spec-039-*` (12 файлов) и `.agent-teams/archiv
 *Decided-by:* Оркестратор (декомпозиция, write-скоупы, adjudication-запрос, интеграция, изоляция
 `sync:check`, память, архивация) + Капитан (approve спеки 039; решение запустить цикл repair; судьба
 `lsl_009` и перевод спеки в `done` — за капитаном).
+
+## 2026-10-01 · Фабрика spec-chain — архитектура end-to-end
+
+**Decision:** построить фабрику разработки LinuxExam из трёх компонентов:
+(1) Проверяльщик спек — CLI+skill spec-enrich, 11 фаз валидации и
+обогащения (baseline score, 15 механических проверок, research+enrich,
+fact-check против репо, traceability, семантика, adversarial, simulation,
+regeneration, repair loop, external audit).
+(2) Оркестратор цепочки — skill run-spec-chain, склеивает
+enrich → MAS → close в одну команду с двумя STOP-точками (approve плана
+и approve закрытия) — финальная точка push за капитаном.
+(3) Пресет linuxexam-spec-chain в ~/.dsh/.agent-presets/ — фиксирует
+состав сессии: инструменты (agent_teams_*, npm, git), скиллы (spec-enrich,
+spec-to-team, close-spec, run-spec-chain), системный промпт.
+
+**Why:** за 2026-09-30 — 2026-10-01 закрыто 4 спеки (036, 037, 038, 039),
+каждая — 6–8 раундов обмена промптами между капитаном и ассистентом;
+1–3 дефекта на промпт находил агент, не автор. Причина — 7 проходов
+одного типа мышления. Решение — вынести валидацию и обогащение в
+детерминированный + LLM-конвейер. Целевой эффект: 6–8 раундов → 2
+действия капитана.
+
+**Target process:**
+- Капитан + ассистент → черновик spec.
+- Капитан → /run-spec-chain <id> в web-UI DSH.
+- Оркестратор → spec-enrich (11 фаз) → STOP (diff, approve).
+- Оркестратор → /spec-to-team (MAS-команда: builders × N + qc + reviewer).
+- Оркестратор → close-spec (R5-trace, frontmatter, episodic, log, converge).
+- Оркестратор → STOP (отчёт, ожидание push-авторизации).
+- Капитан → git push (per-command, rule 10/11).
+
+**Alternatives:**
+- (A) Продолжать 6–8 раундов промптов (отклонено — медленно, дефекты).
+- (B) Использовать готовый dsh-expert-orchestrator (отклонено —
+  peer-зависимости, чужой пайплайн).
+- (C) Создать автономию без STOP-точек (отклонено — правило 2/6/10,
+  риск specification gaming).
+
+**Metrics:** score delta спеки ≥ +20; дефекты на спеку 1–3 → 0–1;
+раундов на спеку 6–8 → 2.
+
+**Sources:** исследование 2026-10-01 (400+ источников): TRLC (BMW),
+EARS (Rolls-Royce), INCOSE GfWR, ARTEMIS (Stanford/NASA ICSE 2026),
+Fidelity Probes (AWS), OpenSpec Adversarial Multi-Agent, Speclint,
+ADVOCATUS, Spec Kit Agents, Mitase, TTool-AI.
+
+**Decision-by:** Капитан + Оркестратор.

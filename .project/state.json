@@ -507,6 +507,21 @@
       "preview": "Перед approve капитан видит: (1) таблицу «до» (три пары с числами) и «после»"
     },
     {
+      "id": "040",
+      "slug": "spec-chain",
+      "status": "draft",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": null,
+      "file": "specs/040-spec-chain.md",
+      "mtime": 1790818177505.1472,
+      "goal": "Одна команда `/run-spec-chain <spec-id>` доводит спеку от черновика до",
+      "acceptance": "1. `.project/scripts/validate-spec.mjs` существует; `node --check` exit 0.",
+      "noTouch": "src/** (банк).",
+      "preview": ""
+    },
+    {
       "id": "001",
       "slug": "file-management-batch-4",
       "status": "done",
@@ -898,7 +913,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | spec | spec 038 (close-spec-automation) — draft: CLI для closing-фазы (R5-trace, frontmatter, memory, commit-chain, sync:check) + --refresh-working | commit pending",
     "2026-09-30 | spec | spec 038 (close-spec-automation) — approved + fix self-reference (028–037); ожидает ручного /spec-to-team 038 (капитан) | commit pending",
     "2026-09-30 | memory | working.md содержит ahead:0 при реальном ahead 4 (артефакт прогона 038, не исправлено) | commit pending",
     "2026-09-30 | spec-038 | done - close-spec.mjs: автоматизация closing-фазы | commit 78c0eaf",
@@ -907,10 +921,17 @@
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
     "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
-    "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]"
+    "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
+    "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "da53dab",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-039 push-trail",
+      "type": "chore"
+    },
     {
       "sha": "25fe4a9",
       "date": "2026-10-01",
@@ -1023,12 +1044,6 @@
       "sha": "aea5a06",
       "date": "2026-09-30",
       "subject": "chore(spec-038): R5 trace - task tokens t1 t2 t3",
-      "type": "chore"
-    },
-    {
-      "sha": "246b379",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-038 body fix",
       "type": "chore"
     }
   ],
