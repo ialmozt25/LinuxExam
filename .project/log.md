@@ -206,3 +206,4 @@
 2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72
 2026-10-01 | push | authorize push origin main — spec-044 close; опубликовано 2f09f5b..acf8dd0 (9 коммитов, tip acf8dd0), origin/main = acf8dd0, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) и опубликуется следующим авторизованным push | commit acf8dd0
 2026-10-01 | rule2-exception | авторизован перевод spec 045 в approved через embedded approve капитана (spec создана сразу как approved, минуя draft/preview) | commit 45c48fa
+2026-10-02 | spec-045 | done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL | commit 90fe7d4

@@ -2,10 +2,10 @@
 id: 045
 slug: spec-chain-readme-fix
 type: infra
-status: approved
+status: done
 created: 2026-10-01
 updated: 2026-10-01
-commit: null
+commit: 90fe7d4
 ---
 
 # Spec 045 — фикс README spec-chain + run-spec-chain SKILL
