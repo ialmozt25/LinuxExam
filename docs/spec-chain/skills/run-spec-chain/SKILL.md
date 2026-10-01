@@ -27,7 +27,7 @@
 | текущий SHA | `git log -1 --format=%H` |
 | роли и модели | `~/.dsh/.agent-presets/linuxexam-orchestrator/skills/spec-to-team/roster.yaml` (вне репо); если недоступен — fallback-дефолт ростера из Шага 3 |
 | инструменты | `agent_teams_*`, `npm`, `git`, Read / Write / Edit |
-| скиллы | `spec-enrich`, `spec-to-team`, `close-spec`, `run-spec-chain` |
+| скиллы | `spec-enrich`, `spec-to-team`, `run-spec-chain`; закрытие — CLI `npm run spec:close`, не скилл |
 
 ## Предусловия
 
@@ -258,7 +258,7 @@ claim чужих задач, создавать/удалять команду.
 изменений статуса → отчёт и STOP (чужую команду не завершать). Всегда
 действует запрет push (правила 10/11).
 
-### Шаг 5 — close-spec + STOP-точка C: отчёт и push-авторизация
+### Шаг 5 — npm run spec:close + STOP-точка C: отчёт и push-авторизация
 
 **Вход.** Прогон MAS завершён с reviewer `verdict=pass`; спека `approved`;
 известны `team_id`, токены задач (id completed), файлы и гейты прогона.

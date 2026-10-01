@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "49084f4cd8ea1c7c24128bb6df5761cc0e4d8695",
+  "head": "ecf6e8d9c97d80290368aa1e334373eae3b6e6fc",
   "specs": [
     {
       "id": "022",
@@ -459,6 +459,21 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
+      "preview": ""
+    },
+    {
+      "id": "045",
+      "slug": "spec-chain-readme-fix",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-01",
+      "updated": "2026-10-01",
+      "commit": null,
+      "file": "specs/045-spec-chain-readme-fix.md",
+      "mtime": 1790867532862.0059,
+      "goal": "",
+      "acceptance": "1. В `docs/spec-chain/README.md` и",
+      "noTouch": "`.project/scripts/**` (в т.ч. `close-spec.mjs`), `src/**`, `tools/**`.",
       "preview": ""
     },
     {
@@ -958,7 +973,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
     "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
     "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
     "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
@@ -967,10 +981,23 @@
     "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a",
     "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0",
     "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6",
-    "2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72"
+    "2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72",
+    "2026-10-01 | push | authorize push origin main — spec-044 close; опубликовано 2f09f5b..acf8dd0 (9 коммитов, tip acf8dd0), origin/main = acf8dd0, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) и опубликуется следующим авторизованным push | commit acf8dd0"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "ecf6e8d",
+      "date": "2026-10-02",
+      "subject": "chore(state): converge after spec-044 push record",
+      "type": "chore"
+    },
+    {
+      "sha": "acf8dd0",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-044 team archive",
+      "type": "chore"
+    },
     {
       "sha": "49084f4",
       "date": "2026-10-01",
@@ -1078,18 +1105,6 @@
       "date": "2026-10-01",
       "subject": "chore(spec-041): R5 trace - task tokens t1 t2 t3 t4",
       "type": "chore"
-    },
-    {
-      "sha": "e927d02",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-041 + episodic/working records",
-      "type": "chore"
-    },
-    {
-      "sha": "5368a61",
-      "date": "2026-10-01",
-      "subject": "docs(spec-enrich): S4 delta metric + reconcile contract + URL validation docs",
-      "type": "docs"
     }
   ],
   "roles": [

@@ -34,7 +34,6 @@ linuxexam-spec-chain/               # ~/.dsh/.agent-presets/linuxexam-spec-chain
 └── skills/                         # customSkillDirs пресета
     ├── spec-enrich/SKILL.md        # Компонент A: 11 фаз проверки/обогащения
     ├── spec-to-team/SKILL.md       # MAS-команда из спеки (уже установлен в linuxexam-orchestrator)
-    ├── close-spec/SKILL.md         # R5-trace, frontmatter, episodic, log, converge
     └── run-spec-chain/SKILL.md     # Компонент B: оркестратор, 5 шагов, STOP-точки A/B/C
 ```
 
@@ -77,16 +76,18 @@ vs preset»). Пресет со своей стороны даёт `npm`/`git` �
 
 ## Скиллы
 
-| Скилл | Роль в цепочке |
+| Скилл / команда | Роль в цепочке |
 |---|---|
 | `spec-enrich` | Компонент A: Проверяльщик спек, 11 фаз (baseline score → 15 механических проверок → research+enrich → fact-check → traceability → семантика → adversarial → simulation → regeneration → repair loop → external audit). CLI-обёртка: `npm run spec:enrich <id>` |
 | `spec-to-team` | Превращает спеку из `.project/specs/` в команду AgentTeams и ведёт её до приёмки (MAS-команда: builders × N + qc + reviewer) |
-| `close-spec` | Закрытие спеки: R5-trace, frontmatter (`status: done`, commit), episodic-память, log, converge |
+| `npm run spec:close -- <id>` | Закрытие спеки: R5-trace, frontmatter (`status: done`, commit), episodic-память, log, converge — CLI-скрипт `.project/scripts/close-spec.mjs`, **не скилл** |
 | `run-spec-chain` | Компонент B: оркестратор цепочки, 5 шагов с STOP-точками A (approve enriched-спеки), B (approve плана MAS-команды), C (отчёт + push-авторизация) |
 
 Скиллы `spec-enrich` и `run-spec-chain` — reference-копии в
-`docs/spec-chain/skills/`; `spec-to-team` и `close-spec` уже поставляются
-пресетом `linuxexam-orchestrator` и могут быть переиспользованы копированием.
+`docs/spec-chain/skills/`; `spec-to-team` уже поставляется пресетом
+`linuxexam-orchestrator` и может быть переиспользован копированием.
+Закрытие спеки скиллом **не является**: его делает CLI
+`npm run spec:close -- <id>` (`.project/scripts/close-spec.mjs`, spec 038).
 
 ## Установка
 
@@ -113,13 +114,15 @@ vs preset»). Пресет со своей стороны даёт `npm`/`git` �
    — так `docs/spec-chain/skills/**` (как минимум `spec-enrich/SKILL.md` и
    `run-spec-chain/SKILL.md`) оказываются в
    `~/.dsh/.agent-presets/linuxexam-spec-chain/skills/`.
-7. Добавить недостающие скиллы `spec-to-team` и `close-spec`
-   (например, из уже установленного `linuxexam-orchestrator`):
-   `Copy-Item ~/.dsh/.agent-presets/linuxexam-orchestrator/skills/spec-to-team ~/.dsh/.agent-presets/linuxexam-spec-chain/skills/ -Recurse -Force`;
-   для `close-spec` — из его источника (проектный/пользовательский каталог скиллов).
+7. Добавить недостающий скилл `spec-to-team`
+   (из уже установленного `linuxexam-orchestrator`):
+   `Copy-Item ~/.dsh/.agent-presets/linuxexam-orchestrator/skills/spec-to-team ~/.dsh/.agent-presets/linuxexam-spec-chain/skills/ -Recurse -Force`.
+   Закрытие спеки скиллом не является — его выполняет CLI
+   `npm run spec:close -- <id>`; отдельный скилл не нужен и в пресет не копируется.
 8. Структурно провалидировать пресет (не полагаться на SHA256 — см.
    `docs/knowledge/dsh/preset-structural-validation.md`): `js-yaml` load с
-   заменой `!!js` → `!!str` в памяти, затем сверить, что top-level строк ≥ 20,
+   заменой `!!js` → `!!str` в памяти, затем сверить, что top-level строк ≥ 18
+   (эталон — `.project/drafts/spec-040-t5-report.md`: `top_level_rows=18`),
    у `persona` ключи `prefix,suffix`, `suffix` содержит `{{cwd}}`, а
    `skill-filesystem` — `customSkillDirs`. Ожидаемый счётчик строк шаблона и
    вывод валидации зафиксированы в `.project/drafts/spec-040-t5-report.md`.
@@ -127,8 +130,9 @@ vs preset»). Пресет со своей стороны даёт `npm`/`git` �
    должен напечатать 11 фаз и baseline score, не правя спеку.
 10. Перезапустить DSH (или дождаться `patchReload: live`) и выбрать в сессии
     пресет `LinuxExam Spec Chain`; проверить, что в каталоге скиллов видны
-    `spec-enrich`, `spec-to-team`, `close-spec`, `run-spec-chain`.
-11. Приёмочный прогон: `/run-spec-chain 040` — убедиться, что цепочка
+    `spec-enrich`, `spec-to-team`, `run-spec-chain` — три скилла; закрытие спеки
+    выполняется CLI `npm run spec:close` и скиллом не является.
+11. Приёмочный прогон: `/run-spec-chain 043` — убедиться, что цепочка
     доходит до STOP-точки A и ждёт approve капитана (остановка в STOP-точке —
     ожидаемое поведение, а не сбой).
 

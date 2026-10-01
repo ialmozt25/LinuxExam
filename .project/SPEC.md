@@ -3,8 +3,8 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `49084f4cd8ea1c7c24128bb6df5761cc0e4d8695`<!--volatile:end-->
-- Спек: 41
+<!--volatile:start-->- HEAD: `ecf6e8d9c97d80290368aa1e334373eae3b6e6fc`<!--volatile:end-->
+- Спек: 42
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
@@ -17,6 +17,7 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
+| 045 | `spec-chain-readme-fix` | infra | approved | — | 2026-10-01 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
