@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "7ffb5c37532a0d54690c38e4d581953dbc8a0847",
+  "head": "3c326ca13acf90297df1e09c9ed3ffdc43eff6b7",
   "specs": [
     {
       "id": "022",
@@ -927,6 +927,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "3c326ca",
+      "date": "2026-10-01",
+      "subject": "chore(log): authorize push (rule 10) - spec-040 close",
+      "type": "chore"
+    },
+    {
       "sha": "7ffb5c3",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-040 done",
@@ -1039,12 +1045,6 @@
       "date": "2026-09-30",
       "subject": "chore(state): converge after spec-039 stale-refs fix",
       "type": "chore"
-    },
-    {
-      "sha": "d8b8d13",
-      "date": "2026-09-30",
-      "subject": "docs(spec-039): fix 2 stale cross-refs to decisions section",
-      "type": "docs"
     }
   ],
   "roles": [
