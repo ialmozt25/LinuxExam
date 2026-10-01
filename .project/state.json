@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "6c6252c853b047c8de6f07d939ebb6f2a393a5d7",
+  "head": "519c5f0821342d38d9c0a49b857d0812b96b44bc",
   "specs": [
     {
       "id": "022",
@@ -927,6 +927,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "519c5f0",
+      "date": "2026-10-01",
+      "subject": "docs(spec-040): approve",
+      "type": "docs"
+    },
+    {
       "sha": "aa372c8",
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-040 draft",
@@ -1038,12 +1044,6 @@
       "sha": "030dbc8",
       "date": "2026-09-30",
       "subject": "chore(log): authorize push (rule 10) - spec-038 close",
-      "type": "chore"
-    },
-    {
-      "sha": "c0325d0",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-038 done",
       "type": "chore"
     }
   ],
