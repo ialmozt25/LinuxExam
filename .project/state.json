@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "519c5f0821342d38d9c0a49b857d0812b96b44bc",
+  "head": "c5d86b49f7c5befe1fdf8e9b08226d0911a159f8",
   "specs": [
     {
       "id": "022",
@@ -927,6 +927,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "c5d86b4",
+      "date": "2026-10-01",
+      "subject": "feat(spec-040): spec-chain factory - validator + enricher + orchestrator + preset docs (t1 t2 t3 t4 t5 t8 t9 t10 t11)",
+      "type": "feat"
+    },
+    {
+      "sha": "09448a5",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-040 approve",
+      "type": "chore"
+    },
+    {
       "sha": "519c5f0",
       "date": "2026-10-01",
       "subject": "docs(spec-040): approve",
@@ -1033,18 +1045,6 @@
       "date": "2026-09-30",
       "subject": "docs(memory): post-mortem spec-038 — 6 alerts",
       "type": "docs"
-    },
-    {
-      "sha": "6767526",
-      "date": "2026-09-30",
-      "subject": "chore(state): converge after spec-038 push-trail",
-      "type": "chore"
-    },
-    {
-      "sha": "030dbc8",
-      "date": "2026-09-30",
-      "subject": "chore(log): authorize push (rule 10) - spec-038 close",
-      "type": "chore"
     }
   ],
   "roles": [
