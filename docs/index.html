@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на d30c918</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на a1e87d0</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">43</div>
+      <div class="pulse-tile__value">44</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -347,7 +347,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 43 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 44 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -417,6 +417,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">a1e87d0</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-046): поправки критериев 1/6/12 после прогона t1</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
+        <tr>
+          <td class="mono">19708ec</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-046): content STOP D - preview approve (rule 6)</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
         <tr>
           <td class="mono">d30c918</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -525,18 +537,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>fix(spec-044): бюджет короткого имени 55 симв. + regex для id с буквенным суффиксом</td>
           <td class="mono muted">2026-10-01</td>
         </tr>
-        <tr>
-          <td class="mono">7640440</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(spec-044): человекочитаемые тексты Telegram-уведомлений</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
-        <tr>
-          <td class="mono">2f09f5b</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-042 push record</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -562,7 +562,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">84 ч (~3.5 дн)</td>
+          <td class="muted">85 ч (~3.5 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -628,8 +628,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 57</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 57</div>
+    <summary>Тревоги · записей: 58</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 58</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -853,6 +853,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">02.10 | observation | per_topic_target 22 × 14 тем = 308 &gt; глобальная цель 300</div>
           <div class="entry__body muted">состояние проекта.goal: per_topic_target: 22 при 14 темах (src/data/questions/_topics.json)</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">02.10 | process gap | `type: ui` из правила оркестратора п.2 не покрыт цепочкой run-spec-chain</div>
+          <div class="entry__body muted">правила оркестратора.md:31-32 (редакция правила 2) требует preview как часть приёмки для типов</div>
         </div>
   </details>
 

@@ -219,4 +219,14 @@ spec-enrich эти дефекты до MAS.
 перебор по 4 темам, либо пересчитать цель. Правок `state.json` / `tools/gen-state.mjs`
 не вносилось — запись фиксирует наблюдение (найдено на recon перед spec 043).
 
+## 2026-10-02 | process gap | `type: ui` из ORCH-RULES п.2 не покрыт цепочкой run-spec-chain
+`ORCH-RULES.md:31-32` (редакция правила 2) требует preview как часть приёмки для типов
+`content` **и** `ui`, а `docs/spec-chain/skills/run-spec-chain/SKILL.md` знает только
+четыре типа спеки (`infra`/`feature`/`content`/`docs`) и вводит STOP-точку D лишь для
+`content` (spec 046). Дополнительно тип `ui` не входит в перечень `spec-to-team`
+(состав ролей по типу) и в типы, с которыми работает `validate-spec.mjs`. Находка
+ревьюера t2 прогона spec 046 (low, pre-existing, вне scope 046). Спеки с `type: ui`
+в `.project/specs/` отсутствуют — дефект латентный. Кандидат: отдельная infra-спека
+(расширить STOP D на `ui` либо исключить `ui` из правила 2).
+
 <!-- meta updated: 2026-09-30T10:40:38Z entries_count: 36 -->

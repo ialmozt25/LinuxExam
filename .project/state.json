@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d30c9182f92758c62e49101dff6fc05dd53fe586",
+  "head": "a1e87d0227c823c2f78a3d26dcd1798ae750842c",
   "specs": [
     {
       "id": "022",
@@ -470,7 +470,7 @@
       "updated": "2026-10-02",
       "commit": null,
       "file": "specs/046-run-spec-chain-content-stop.md",
-      "mtime": 1790894338068.524,
+      "mtime": 1790895498446.578,
       "goal": "Добавить в `docs/spec-chain/skills/run-spec-chain/SKILL.md` **STOP-точку D** —",
       "acceptance": "1. В `docs/spec-chain/skills/run-spec-chain/SKILL.md` есть подраздел «Шаг 4a — STOP-точка D»;",
       "noTouch": "`.project/sync.mjs`, `.project/contracts/**`, `tools/**` (в том числе `qc.cjs`,",
@@ -1002,6 +1002,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "a1e87d0",
+      "date": "2026-10-02",
+      "subject": "docs(spec-046): поправки критериев 1/6/12 после прогона t1",
+      "type": "docs"
+    },
+    {
+      "sha": "19708ec",
+      "date": "2026-10-02",
+      "subject": "docs(spec-046): content STOP D - preview approve (rule 6)",
+      "type": "docs"
+    },
+    {
       "sha": "d30c918",
       "date": "2026-10-02",
       "subject": "docs(proc): rule11 trail before push + cleanup",
@@ -1108,18 +1120,6 @@
       "date": "2026-10-01",
       "subject": "fix(spec-044): бюджет короткого имени 55 симв. + regex для id с буквенным суффиксом",
       "type": "fix"
-    },
-    {
-      "sha": "7640440",
-      "date": "2026-10-01",
-      "subject": "feat(spec-044): человекочитаемые тексты Telegram-уведомлений",
-      "type": "feat"
-    },
-    {
-      "sha": "2f09f5b",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-042 push record",
-      "type": "chore"
     }
   ],
   "roles": [
