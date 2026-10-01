@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "b1bb8dee9801641f67847a64f2c4e5c8c55311f4",
+  "head": "c0b05d2a6e941822e85e1e679aa0bf5c80800385",
   "specs": [
     {
       "id": "022",
@@ -988,7 +988,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a",
     "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0",
     "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6",
     "2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72",
@@ -997,10 +996,17 @@
     "2026-10-02 | spec-045 | done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL | commit 90fe7d4",
     "2026-10-02 | push | authorize push origin main — spec-045 close; опубликовано ecf6e8d..3a16c0d (7 коммитов, tip 3a16c0d), origin/main = 3a16c0d, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) — публикуется следующим авторизованным push | commit 3a16c0d",
     "2026-10-02 | push | authorize push origin main — долги: удалён SKILL.md.bak-d3b из обоих пресетов + правило «push-трейл писать ДО push» в docs/memory/procedural.md; этим push публикуются 3a16c0d..<tip этого коммита «docs(proc): rule11 trail before push + cleanup»> (2 коммита: f09c8ea + этот), ahead 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; трейл записан ДО push по новому правилу | commit pending",
-    "2026-10-02 | spec-046 | done - 1. Якоря STOP D (после правки) | commit a1e87d0"
+    "2026-10-02 | spec-046 | done - 1. Якоря STOP D (после правки) | commit a1e87d0",
+    "2026-10-02 | rule2-exception | авторизован перевод spec 046 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать .project/specs/046-run-spec-chain-content-stop.md (infra, approved, embedded approve)») | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c0b05d2",
+      "date": "2026-10-02",
+      "subject": "chore(state): converge after spec-046 done",
+      "type": "chore"
+    },
     {
       "sha": "b1bb8de",
       "date": "2026-10-02",
@@ -1114,12 +1120,6 @@
       "date": "2026-10-01",
       "subject": "chore(spec-044): R5 trace - task tokens t1 t2",
       "type": "chore"
-    },
-    {
-      "sha": "ea9b03a",
-      "date": "2026-10-01",
-      "subject": "docs(memory): убран мусор f4-watchdog (U+FFFD) + фикс EOL в alerts.md",
-      "type": "docs"
     }
   ],
   "roles": [
