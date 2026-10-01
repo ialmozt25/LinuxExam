@@ -2,8 +2,8 @@
 id: 040
 slug: spec-chain
 type: infra
-status: approved
-commit: null
+status: done
+commit: c5d86b4
 ---
 
 # Спека 040 — spec-chain: фабрика end-to-end
