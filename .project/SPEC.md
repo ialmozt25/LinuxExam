@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `5368a61ce9cd3ea5fd38c0305b23e96e8ec59bad`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `58d46bc690da24695b6b7b8a41fc34916423f4ac`<!--volatile:end-->
 - Спек: 39
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 041 | `enrich-spec-reconcile-windows-url` | infra | approved | — | — |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -44,6 +43,7 @@
 | 038 | `close-spec-automation` | infra | done | 78c0eaf | — |
 | 039 | `bank-audit-036-fixes` | content | done | 50cd24a | — |
 | 040 | `spec-chain` | infra | done | c5d86b4 | — |
+| 041 | `enrich-spec-reconcile-windows-url` | infra | done | 4027b8a | — |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

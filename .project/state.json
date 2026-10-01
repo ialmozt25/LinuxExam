@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "5368a61ce9cd3ea5fd38c0305b23e96e8ec59bad",
+  "head": "58d46bc690da24695b6b7b8a41fc34916423f4ac",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "041",
-      "slug": "enrich-spec-reconcile-windows-url",
-      "status": "approved",
-      "type": "infra",
-      "created": null,
-      "updated": null,
-      "commit": null,
-      "file": "specs/041-enrich-spec-reconcile-windows-url.md",
-      "mtime": 1790829132407.5354,
-      "goal": "Устранить:",
-      "acceptance": "1. `node .project/scripts/enrich-spec.mjs smoke-enrich-test --max-iterations 2`",
-      "noTouch": "`.project/scripts/validate-spec.mjs` (правки в нём → STOP, отдельная спека)",
       "preview": ""
     },
     {
@@ -867,6 +852,21 @@
       "preview": ""
     },
     {
+      "id": "041",
+      "slug": "enrich-spec-reconcile-windows-url",
+      "status": "done",
+      "type": "infra",
+      "created": null,
+      "updated": null,
+      "commit": "4027b8a",
+      "file": "specs/041-enrich-spec-reconcile-windows-url.md",
+      "mtime": 1790848346777.3208,
+      "goal": "Устранить:",
+      "acceptance": "1. `node .project/scripts/enrich-spec.mjs smoke-enrich-test --max-iterations 2`",
+      "noTouch": "`.project/scripts/validate-spec.mjs` (правки в нём → STOP, отдельная спека)",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -928,7 +928,6 @@
     }
   ],
   "log_tail": [
-    "2026-09-30 | memory | post-mortem spec 038 — 6 долгов в alerts (amend в close-spec.mjs, commit-SHA gap, DEP0190, working.md, retired-members.json, Dependabot 54) | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — draft: 10 rewrite + fm_011 (manual) + 4 add (IPv6, sudo/wheel); банк 225 → 229 | commit pending",
     "2026-09-30 | spec | spec 039 (bank-audit-036-fixes) — approved: 10 rewrite + fm_011 (дистрактор) + 4 add (ntw_017/018 IPv6; ug_019/020 sudo/wheel); банк 225 → 229 | commit pending",
     "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
@@ -937,10 +936,29 @@
     "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
     "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
     "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4",
-    "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]"
+    "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]",
+    "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "58d46bc",
+      "date": "2026-10-01",
+      "subject": "docs(spec-041): done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation",
+      "type": "docs"
+    },
+    {
+      "sha": "4027b8a",
+      "date": "2026-10-01",
+      "subject": "chore(spec-041): R5 trace - task tokens t1 t2 t3 t4",
+      "type": "chore"
+    },
+    {
+      "sha": "e927d02",
+      "date": "2026-10-01",
+      "subject": "chore(state): converge after spec-041 + episodic/working records",
+      "type": "chore"
+    },
     {
       "sha": "5368a61",
       "date": "2026-10-01",
@@ -1042,24 +1060,6 @@
       "date": "2026-10-01",
       "subject": "docs(spec-040): draft - spec-chain (Проверяльщик + Оркестратор + пресет)",
       "type": "docs"
-    },
-    {
-      "sha": "da53dab",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-039 push-trail",
-      "type": "chore"
-    },
-    {
-      "sha": "25fe4a9",
-      "date": "2026-10-01",
-      "subject": "chore(log): authorize push (rule 10) - spec-039 close",
-      "type": "chore"
-    },
-    {
-      "sha": "4b0149e",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-039 done",
-      "type": "chore"
     }
   ],
   "roles": [
