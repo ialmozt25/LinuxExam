@@ -1,0 +1,191 @@
+# Пресет linuxexam-spec-chain — ШАБЛОН (reference-копия в репо).
+#
+# Это не рабочий конфиг, а шаблон структуры пресета. Капитан вручную копирует
+# его в:
+#   ~/.dsh/.agent-presets/linuxexam-spec-chain/agent.cordis.yml
+#
+# Установка пресета в ~/.dsh/.agent-presets/ — ОПЕРАЦИЯ КАПИТАНА (вне репо).
+# Агент её не выполняет, в ~/.dsh/.agent-presets/ ничего не пишет.
+# Репозиторий хранит только документацию (docs/spec-chain/README.md) и
+# reference-копии скиллов (docs/spec-chain/skills/<name>/SKILL.md).
+#
+# Пресет = agent.cordis.yml + preset.yml + skills/.
+# Секретов, токенов и абсолютных пользовательских путей в шаблоне НЕТ:
+# путь к skills/ вычисляется от baseUrl самого пресета.
+#
+# Спека-источник: .project/specs/040-spec-chain.md (Компонент C).
+# Решение: .project/DECISIONS.md, 2026-10-01 «Фабрика spec-chain — архитектура end-to-end».
+
+# ── persona: системный промпт оркестратора цепочки ──────────────────────────
+
+- id: persona
+  name: '@deepseek-ai/dsh-persona'
+  config:
+    prefix: |-
+      Ты — оркестратор цепочки. Твоя задача — исполнять run-spec-chain с STOP-точками для approve капитана.
+
+      Рабочий цикл скилла run-spec-chain (5 шагов, STOP-точки A/B/C):
+      1. `npm run spec:enrich <spec-id>` — 11 фаз Проверяльщика (baseline score, 15 механических
+         проверок, research+enrich, fact-check, traceability, семантика, adversarial, simulation,
+         regeneration, repair loop, external audit).
+      2. STOP A: показать капитану diff и score delta, ждать «ок». Без approve — не продолжать.
+      3. `/spec-to-team <spec-id>` — план MAS-команды (builders × N + qc + reviewer).
+      4. STOP B: показать план MAS-команды, ждать approve. Дальше исполняет MAS.
+      5. STOP C: отчёт close-spec и ожидание push-авторизации капитана.
+
+      Границы:
+      - push делает капитан (per-command авторизация) — сам не пушить.
+      - пресет в ~/.dsh/.agent-presets/ не создавать и не править — это операция капитана.
+      - нет инструментов agent_teams_* в сессии → STOP с диагностикой, не имитировать команду.
+      - капитан не отвечает на STOP-точку → таймаут 30 мин, отчёт, не продолжать.
+    suffix: "Твоя рабочая директория: {{cwd}}."
+
+- id: agent-instructions
+  name: '@deepseek-ai/dsh-agent-instructions'
+  config:
+    maxBytes: 65536
+
+# ── shell: npm, git, node — через команды шелла ─────────────────────────────
+
+- id: tool-bash
+  name: '@deepseek-ai/dsh-tool-bash'
+  disabled: !!js process.platform === 'win32'
+
+- id: tool-pwsh
+  name: '@deepseek-ai/dsh-tool-pwsh'
+  disabled: !!js process.platform !== 'win32'
+
+# ── файлы: Read / Write / Edit + поиск ──────────────────────────────────────
+
+- id: tool-fs
+  name: '@deepseek-ai/dsh-tool-fs'
+
+- id: tool-fs-search
+  name: '@deepseek-ai/dsh-tool-fs-search'
+  config:
+    sampleOverCapGlobResults: false
+
+# ── фоновые задачи ──────────────────────────────────────────────────────────
+
+- id: tool-jobs
+  name: '@deepseek-ai/dsh-tool-jobs'
+
+# ── цели и plan mode ────────────────────────────────────────────────────────
+
+- id: command-goal
+  name: '@deepseek-ai/dsh-command-goal'
+
+- id: tool-goal
+  name: '@deepseek-ai/dsh-tool-goal'
+
+- id: planning
+  name: cordis:group
+  group: true
+  isolate:
+    planMode: true
+  config:
+    - id: plan-mode
+      name: '@deepseek-ai/dsh-plan-mode'
+      config:
+        section: |
+          Ты в plan mode. Оставайся в нём, пока не сработает exit_plan_mode или пользователь не
+          переключит режим. Сначала исследуй читающими операциями (read, search, grep); не правь
+          файлы и не коммить. Когда план готов — вызови exit_plan_mode с полным markdown-планом.
+
+# ── компактация контекста ───────────────────────────────────────────────────
+
+- id: compaction
+  name: cordis:group
+  group: true
+  isolate:
+    compaction: true
+    toolResultPruner: true
+  config:
+    - id: compaction-basic
+      name: '@deepseek-ai/dsh-compaction-basic'
+
+    - id: command-compact
+      name: '@deepseek-ai/dsh-command-compact'
+
+    - id: tool-result-pruner
+      name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+      config:
+        thresholdChars: 8192
+        headChars: 4096
+        tailChars: 1024
+
+# ── делегирование (нужно для MAS-шага 4) ────────────────────────────────────
+
+- id: delegation
+  name: cordis:group
+  group: true
+  isolate:
+    workflowEngine: true
+  config:
+    - id: tool-subagent-control
+      name: '@deepseek-ai/dsh-tool-subagent-control'
+
+    - id: tool-subagent-list-agents
+      name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+
+    - id: tool-subagent
+      name: '@deepseek-ai/dsh-tool-subagent'
+      config:
+        provider: spawn
+        toolName: subagent
+        modelSelectionSettings: true
+        backgroundMode: continuable
+
+    - id: tool-subagent-fork
+      name: '@deepseek-ai/dsh-tool-subagent'
+      config:
+        provider: fork
+        toolName: subagent_fork
+        backgroundMode: continuable
+
+# ── остальные model-facing строки ───────────────────────────────────────────
+
+- id: tool-ask-user
+  name: '@deepseek-ai/dsh-tool-ask-user'
+
+- id: tool-todo
+  name: '@deepseek-ai/dsh-tool-todo'
+  config:
+    allowParallelInProgress: true
+
+- id: tool-web
+  name: '@deepseek-ai/dsh-tool-web'
+  config:
+    fetch: true
+    searchTimeoutMs: 60000
+
+# ── скиллы пресета ──────────────────────────────────────────────────────────
+#
+# customSkillDirs указывает на skills/ ВНУТРИ пресета (путь от baseUrl), поэтому
+# абсолютных путей в файле нет. Скиллы: spec-enrich, spec-to-team, close-spec,
+# run-spec-chain (см. README, раздел «Скиллы»).
+
+- id: skill-filesystem
+  name: '@deepseek-ai/dsh-skill-filesystem'
+  config:
+    customSkillDirs:
+      - !!js "process.getBuiltinModule('node:url').fileURLToPath(new URL('skills/', baseUrl))"
+
+- id: tool-skill
+  name: '@deepseek-ai/dsh-tool-skill'
+
+- id: present
+  name: '@deepseek-ai/dsh-tool-present'
+
+# ── AgentTeams (host-plane, НЕ строка пресета) ──────────────────────────────
+#
+# Инструменты agent_teams_* (claim_task, update_task, send_message, status,
+# create/delete team) регистрирует бандл @nanmicoder/dsh-agent-teams в
+# host-композиции профиля — в общий tools registry, поэтому в agent.cordis.yml
+# строки для него НЕТ (принцип «Host vs preset»: shared — host, per-session —
+# preset). Ставится в профиль капитаном:
+#
+#   dsh plugin --profile web add @nanmicoder/dsh-agent-teams
+#
+# Проверка доступности из сессии: вызов agent_teams_status. Если инструментов
+# нет — STOP с диагностикой (см. крайние случаи спеки 040).

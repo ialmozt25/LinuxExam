@@ -2217,6 +2217,38 @@
           "verdict"
         ]
       }
+    },
+    {
+      "spec": "040",
+      "teamId": "spec-040-spec-chain",
+      "startedAt": "2026-10-01T01:38:31.475Z",
+      "finishedAt": "2026-10-01T02:52:00.928Z",
+      "status": "completed",
+      "durationMs": 4409453,
+      "tokens": null,
+      "verdict": "pass",
+      "tasks": {
+        "completed": 10,
+        "failed": 1
+      },
+      "report": {
+        "tool": "runs-log",
+        "historyVersion": 1,
+        "teamFile": ".agent-teams/archive/spec-040-spec-chain/team.json",
+        "teamFileSha256": "ad8a90069039da307cad6e14f66ca138195e3fa506d7b4c05d09b72b0d8b17e6",
+        "archived": true,
+        "specSource": "team.json (описания задач)",
+        "specSlug": "040-spec-chain",
+        "durationSource": "createdAt↔последнее обновление задач",
+        "verdictSource": "ревью-задача t7 (поле verdict)",
+        "tokensSource": null,
+        "schemaFields": [
+          "teamId",
+          "durationMs",
+          "tokens",
+          "verdict"
+        ]
+      }
     }
   ]
 }

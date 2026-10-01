@@ -4,6 +4,20 @@
 
 ---
 
+2026-10-01 | spec-040-spec-chain — прогон AgentTeams завершён, qc-раунд 2 verdict=PASS + reviewer verdict=PASS (11 задач: 10 completed, 1 failed = needs_revision раунда 1)
+
+HEAD: 09448a5 (база прогона; коммитов прогона нет — `package.json` и артефакты ещё не закоммичены)
+
+ahead: 4
+
+План: spec 040 (approved, infra) исполнена; approve капитана обязателен (type: infra — правки `package.json` и скриптов). Закрытие спеки — за капитаном: `npm run spec:close -- 040` (сначала `--dry-run`; push — отдельная per-command авторизация, правила 10/11).
+
+Фаза: spec-040 — DAG: t1 ∥ t2 ∥ t3 ∥ t4 (четыре непересекающихся write-скоупа) → t5 (CLI `npm run spec:enrich`, deps t1+t2) → t6 (верификация раунда 1, **needs_revision**: 8 находок) → t8 ∥ t9 ∥ t10 (ремонты F2/F3/F6/F8 · F7 · F4) → t11 (qc-раунд 2, **pass**) → t7 (ревью, **PASS**, 14/14 критериев).
+
+Текущая активность: прогон завершён (все 6 членов idle). Итог: Компонент A — `.project/scripts/validate-spec.mjs` (Фазы 0/1/4, 15 проверок m01–m15, baseline 85/100 на spec 040, сирот 0), `docs/spec-chain/skills/spec-enrich/SKILL.md` (11 фаз), `.project/scripts/enrich-spec.mjs` (11 фаз, `--dry-run/--out/--json/--llm-cmd`, intent-guard, repair loop max 3 с rollback, WARN-деградация без раннера), `package.json` (+1 строка `spec:enrich`); Компонент B — `docs/spec-chain/skills/run-spec-chain/SKILL.md` (5 шагов, STOP A/B/C); Компонент C — `docs/spec-chain/README.md` (11 шагов установки пресета) + `agent.cordis.yml`. Гейты перепроверены лидом лично: `typecheck` 0, `test:run` 0 (28 файлов / 198 тестов), `node --check` обоих скриптов 0, `validate-spec.mjs 040` → 0.
+
+Дальше: (1) approve капитана; (2) закрытие — `npm run spec:close -- 040 --dry-run`, затем apply (frontmatter `done` + R5-trace + память + commit-chain + converge + `sync:check` = 0); (3) открытые пункты за капитаном: **F1** — `sync:check` = 2 в рабочем дереве это ожидаемое предзакрытийное состояние, а на голом checkout — pre-existing дрейф производных (`mtime` в `.project/state.json`, относительное время и untracked-секция `.agent-teams` в `docs/index.html`; после `sync → add → commit` снова 0) → кандидат в отдельную спеку по `.project/sync.mjs`; метрика DECISIONS «score delta ≥ +20» недостижима (baseline spec 040 = 85 при пороге 70); accepted-low: human-примечание `validate-spec.mjs` печатает «m01/m02» как hard-fail (фактически только m01); реальный `dsh --profile headless` в прогоне не поднимался (LLM-фазы через `--llm-cmd` стендом) — для боевого прогона нужен раннер-адаптер; (4) push — отдельная авторизация (правила 10/11).
+
 2026-09-30 | spec-039-bank-audit-036-fixes — прогон AgentTeams завершён, ревью раунда 2 verdict=PASS (9 задач: 8 completed, 1 failed = needs_revision раунда 1)
 
 HEAD: 0abd658 (база прогона; коммитов прогона нет — правки банка ещё не закоммичены)

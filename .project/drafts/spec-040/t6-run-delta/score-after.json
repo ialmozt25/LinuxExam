@@ -1,0 +1,419 @@
+{
+  "tool": "validate-spec.mjs",
+  "spec040Component": "A",
+  "phases": [
+    0,
+    1,
+    4
+  ],
+  "spec": {
+    "path": "drafts/_mas-results/spec-040/t6/902-qc-delta.md",
+    "id": "902",
+    "slug": "qc-delta",
+    "type": "infra",
+    "status": "draft",
+    "commit": "null"
+  },
+  "phase0": {
+    "weights": {
+      "Completeness": 30,
+      "Clarity": 25,
+      "Testability": 25,
+      "Consistency": 10,
+      "Scope": 10
+    },
+    "weightSum": 100,
+    "score": 89,
+    "threshold": 70,
+    "dimensions": [
+      {
+        "key": "Completeness",
+        "weight": 30,
+        "normalized": 100,
+        "weighted": 30,
+        "items": [
+          {
+            "label": "секция «Контекст»",
+            "points": 4,
+            "max": 4,
+            "note": ""
+          },
+          {
+            "label": "секция «Цель»",
+            "points": 4,
+            "max": 4,
+            "note": ""
+          },
+          {
+            "label": "секция «Что делаем»",
+            "points": 5,
+            "max": 5,
+            "note": ""
+          },
+          {
+            "label": "секция «Критерии приёмки»",
+            "points": 6,
+            "max": 6,
+            "note": ""
+          },
+          {
+            "label": "секция «Декомпозиция»",
+            "points": 5,
+            "max": 5,
+            "note": ""
+          },
+          {
+            "label": "секция «Источники»",
+            "points": 3,
+            "max": 3,
+            "note": ""
+          },
+          {
+            "label": "секция «Edge Cases»",
+            "points": 2,
+            "max": 2,
+            "note": ""
+          },
+          {
+            "label": "секция «Что НЕ трогать»",
+            "points": 1,
+            "max": 1,
+            "note": ""
+          },
+          {
+            "label": "глубина «Контекст»",
+            "points": 2,
+            "max": 2,
+            "note": ""
+          }
+        ]
+      },
+      {
+        "key": "Clarity",
+        "weight": 25,
+        "normalized": 68,
+        "weighted": 17,
+        "items": [
+          {
+            "label": "длина предложений",
+            "points": 5,
+            "max": 8,
+            "note": "предложений >45 слов: 2 из 22"
+          },
+          {
+            "label": "vague terms",
+            "points": 6,
+            "max": 6,
+            "note": ""
+          },
+          {
+            "label": "открытые вопросы/заглушки",
+            "points": 6,
+            "max": 6,
+            "note": ""
+          },
+          {
+            "label": "структура «Что делаем»",
+            "points": 0,
+            "max": 5,
+            "note": "подразделы компонентов не выделены"
+          }
+        ]
+      },
+      {
+        "key": "Testability",
+        "weight": 25,
+        "normalized": 88,
+        "weighted": 22,
+        "items": [
+          {
+            "label": "критерии приёмки присутствуют",
+            "points": 6,
+            "max": 6,
+            "note": "критериев: 3"
+          },
+          {
+            "label": "проверяемость критериев",
+            "points": 10,
+            "max": 10,
+            "note": "3/3"
+          },
+          {
+            "label": "verify-команды",
+            "points": 6,
+            "max": 6,
+            "note": "3/3"
+          },
+          {
+            "label": "секция Verify",
+            "points": 0,
+            "max": 3,
+            "note": "явной секции нет (критерии несут команды)"
+          }
+        ]
+      },
+      {
+        "key": "Consistency",
+        "weight": 10,
+        "normalized": 100,
+        "weighted": 10,
+        "items": [
+          {
+            "label": "frontmatter поля",
+            "points": 3,
+            "max": 3,
+            "note": "5/5"
+          },
+          {
+            "label": "нумерация фаз 0..N без пропусков",
+            "points": 3,
+            "max": 3,
+            "note": "фаз: 1"
+          },
+          {
+            "label": "cross-refs разрешаются",
+            "points": 2,
+            "max": 2,
+            "note": "1/1"
+          },
+          {
+            "label": "status из допустимого набора",
+            "points": 2,
+            "max": 2,
+            "note": ""
+          }
+        ]
+      },
+      {
+        "key": "Scope",
+        "weight": 10,
+        "normalized": 100,
+        "weighted": 10,
+        "items": [
+          {
+            "label": "write-скоупы задач",
+            "points": 4,
+            "max": 4,
+            "note": "3/3 задач"
+          },
+          {
+            "label": "внешние ограничения/порядок задач",
+            "points": 3,
+            "max": 3,
+            "note": "dependencies объявлены у 3 задач"
+          },
+          {
+            "label": "граница write-скоупов зафиксирована",
+            "points": 3,
+            "max": 3,
+            "note": "задач с write-скоупом: 3/3"
+          }
+        ]
+      }
+    ]
+  },
+  "phase1": {
+    "count": 15,
+    "passed": 14,
+    "failed": 0,
+    "warned": 1,
+    "checks": [
+      {
+        "id": "m01",
+        "name": "frontmatter: блок --- и поля id/slug/type/status/commit",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m02",
+        "name": "id/slug спеки согласованы с именем файла",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m03",
+        "name": "секция «## Декомпозиция» присутствует",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m04",
+        "name": "DAG декомпозиции: известные зависимости, без дублей и циклов",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m05",
+        "name": "уникальность id спеки в .project/specs",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m06",
+        "name": "существование путей, упомянутых в спеке",
+        "status": "PASS",
+        "note": "проверено путей: 1",
+        "issues": []
+      },
+      {
+        "id": "m07",
+        "name": "placeholder-маркеры (TBD/TODO/<id>/[citation needed])",
+        "status": "WARN",
+        "note": "WARN: заглушки допустимы, если спека декларирует фазу, которая их закрывает (см. Фаза 2)",
+        "issues": [
+          {
+            "file": "drafts/_mas-results/spec-040/t6/902-qc-delta.md",
+            "line": 18,
+            "message": "placeholder-маркер: <\\s*(?:id|spec-id|url|path|name|value)\\s*>"
+          }
+        ]
+      },
+      {
+        "id": "m08",
+        "name": "self-reference: спека не пишет сама в себя",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m09",
+        "name": "write-scope overlap: задачи не делят файлы, не пишут в «НЕ трогать»",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m10",
+        "name": "поле commit/SHA согласовано со статусом спеки",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m11",
+        "name": "критерии приёмки: наличие и проверяемость каждого",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m12",
+        "name": "обязательные секции: Контекст/Цель/Что делаем/Критерии приёмки",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m13",
+        "name": "критерии приёмки содержат verify-команды",
+        "status": "PASS",
+        "note": "критериев с командой: 3/3",
+        "issues": []
+      },
+      {
+        "id": "m14",
+        "name": "edge cases описаны (секция + непустой список)",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m15",
+        "name": "внутренние ссылки (спеки, документы) разрешаются",
+        "status": "PASS",
+        "note": null,
+        "issues": []
+      }
+    ]
+  },
+  "phase4": {
+    "decompositionPresent": true,
+    "advisory": [],
+    "orphanGoals": [],
+    "orphanCriteria": [],
+    "orphanTasks": [],
+    "external": [],
+    "links": [
+      {
+        "criterion": 1,
+        "line": 63,
+        "tasks": [
+          {
+            "task": "t1",
+            "via": "token:фикстур"
+          },
+          {
+            "task": "t2",
+            "via": "token:фикстур"
+          },
+          {
+            "task": "t3",
+            "via": "token:фикстур"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 2,
+        "line": 64,
+        "tasks": [
+          {
+            "task": "t1",
+            "via": "token:project"
+          },
+          {
+            "task": "t2",
+            "via": "atom:.project/scripts/fixture-two.mjs"
+          },
+          {
+            "task": "t3",
+            "via": "token:project"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 3,
+        "line": 65,
+        "tasks": [
+          {
+            "task": "t1",
+            "via": "token:project"
+          },
+          {
+            "task": "t2",
+            "via": "token:project"
+          },
+          {
+            "task": "t3",
+            "via": "atom:.project/scripts/fixture-three.mjs"
+          }
+        ],
+        "external": false
+      }
+    ],
+    "goalLinks": [
+      {
+        "goal": 1,
+        "line": 31,
+        "coveredBy": [
+          1,
+          "task:t1",
+          2,
+          3,
+          "task:t2",
+          "task:t3"
+        ],
+        "external": false
+      }
+    ],
+    "hardFail": false
+  },
+  "hardFail": false,
+  "exitCode": 0
+}
