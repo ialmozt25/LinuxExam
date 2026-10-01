@@ -41,7 +41,7 @@ Recon перед установкой пресета `linuxexam-spec-chain` (rea
 
 ## Что делаем
 
-Только документация: 2 файла, никакого кода, никаких новых зависимостей.
+Только документация: 3 файла, никакого кода, никаких новых зависимостей.
 
 | # | файл | было | стало |
 |---|---|---|---|
@@ -54,6 +54,14 @@ Recon перед установкой пресета `linuxexam-spec-chain` (rea
 | C | `README.md` шаг 11 | `/run-spec-chain 040` | `/run-spec-chain 043` |
 | A6 | `run-spec-chain/SKILL.md` (шапка-таблица) | «скиллы: `spec-enrich`, `spec-to-team`, `close-spec`, `run-spec-chain`» | «скиллы: `spec-enrich`, `spec-to-team`, `run-spec-chain`; закрытие — CLI `npm run spec:close`» |
 | A7 | `run-spec-chain/SKILL.md` (заголовок Шага 5) | `### Шаг 5 — close-spec + STOP-точка C` | `### Шаг 5 — npm run spec:close + STOP-точка C` |
+| **D1** | `agent.cordis.yml` (persona, стр. 34) | «отчёт close-spec» | «отчёт npm run spec:close» |
+| **D2** | `agent.cordis.yml` (комментарий, стр. 165–166) | «Скиллы: spec-enrich, spec-to-team, close-spec, run-spec-chain» | «Скиллы: spec-enrich, spec-to-team, run-spec-chain; закрытие — CLI `npm run spec:close`, не скилл» |
+| **E** | `README.md` шаг 11 | `/run-spec-chain 043` | `/run-spec-chain <id>` + «первый прогон — на свежей approved-спеке» |
+
+**D+E — дополнение скоупа капитаном (2026-10-01):** `agent.cordis.yml` включён
+в скоуп (был вынесен на STOP). SHA-эталон шаблона в
+`.project/drafts/spec-040-t5-report.md` **не обновляется** — устаревает
+осознанно, прямое решение капитана.
 
 Упоминания CLI `spec:close` (с двоеточием) и общие слова про «закрытие»
 сохраняются дословно — они корректны.
@@ -67,10 +75,14 @@ Recon перед установкой пресета `linuxexam-spec-chain` (rea
    `Select-String -Pattern 'close-spec/SKILL|скилл\w*\s+`close-spec`|\| `close-spec` \|'`
    → пусто. Упоминания CLI-скрипта `.project/scripts/close-spec.mjs` при этом
    допустимы и ожидаемы (это имя файла, а не скилл).
-2. README шаг 8: порог `18`; шаг 11: пример `/run-spec-chain 043`.
-3. Все прочие упоминания шага 5/закрытия/`spec:close` не изменены по смыслу.
-4. `npm run typecheck` = 0, `npm run test:run` = 0, `npm run sync:check` = 0.
-5. `.project/scripts/**`, `src/**`, `tools/**` и `notify*` не тронуты.
+2. README шаг 8: порог `18`; шаг 11: пример `/run-spec-chain <id>` с оговоркой
+   «первый прогон — на свежей approved-спеке».
+3. `docs/spec-chain/agent.cordis.yml`: `Select-String -Pattern 'close-spec'`
+   → **пусто** (обе правки D1/D2 внесены). SHA-эталон шаблона в
+   `spec-040-t5-report.md` не обновляется.
+4. Все прочие упоминания шага 5/закрытия/`spec:close` не изменены по смыслу.
+5. `npm run typecheck` = 0, `npm run test:run` = 0, `npm run sync:check` = 0.
+6. `.project/scripts/**`, `src/**`, `tools/**` и `notify*` не тронуты.
 
 ## Что НЕ трогать
 
@@ -79,17 +91,17 @@ Recon перед установкой пресета `linuxexam-spec-chain` (rea
 - Спеки 028–044.
 - `docs/memory/log.md` — single-writer, только через closing-фазу.
 
-## Замечено при выполнении (решение за капитаном)
+## Замечено при выполнении → включено в скоуп решением капитана
 
-- `docs/spec-chain/agent.cordis.yml` **тоже** содержит два упоминания
-  `close-spec`: строка ~34 (persona: «отчёт close-spec») и строка ~165
-  (комментарий «Скиллы: spec-enrich, spec-to-team, close-spec, run-spec-chain»).
-  В скоуп 045 не входят (капитан назвал два файла) — вынесено на STOP.
+- `docs/spec-chain/agent.cordis.yml` содержал два упоминания `close-spec`
+  (persona стр. 34, комментарий стр. 165) — было вынесено на STOP и
+  **включено в скоуп как D**. После правок `close-spec` в файле нет.
 
 ## Отчёт капитану
 
-- diff по двум файлам, «было / стало» по каждому из 9 мест.
-- `grep -n close-spec` по обоим файлам → пусто.
+- diff по трём файлам, «было / стало» по каждому из 12 мест (A1–A7, B, C, D1, D2, E).
+- `Select-String -Pattern 'close-spec'` по `agent.cordis.yml` → пусто;
+  по README/SKILL.md — только путь CLI-скрипта `close-spec.mjs`.
 - exit-коды `typecheck`, `test:run`, `sync:check`.
 
 ## Push не выполнять (правило 10/11).

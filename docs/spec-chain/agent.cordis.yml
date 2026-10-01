@@ -31,7 +31,7 @@
       2. STOP A: показать капитану diff и score delta, ждать «ок». Без approve — не продолжать.
       3. `/spec-to-team <spec-id>` — план MAS-команды (builders × N + qc + reviewer).
       4. STOP B: показать план MAS-команды, ждать approve. Дальше исполняет MAS.
-      5. STOP C: отчёт close-spec и ожидание push-авторизации капитана.
+      5. STOP C: отчёт npm run spec:close и ожидание push-авторизации капитана.
 
       Границы:
       - push делает капитан (per-command авторизация) — сам не пушить.
@@ -162,8 +162,9 @@
 # ── скиллы пресета ──────────────────────────────────────────────────────────
 #
 # customSkillDirs указывает на skills/ ВНУТРИ пресета (путь от baseUrl), поэтому
-# абсолютных путей в файле нет. Скиллы: spec-enrich, spec-to-team, close-spec,
-# run-spec-chain (см. README, раздел «Скиллы»).
+# абсолютных путей в файле нет. Скиллы: spec-enrich, spec-to-team,
+# run-spec-chain; закрытие — CLI npm run spec:close, не скилл
+# (см. README, раздел «Скиллы»).
 
 - id: skill-filesystem
   name: '@deepseek-ai/dsh-skill-filesystem'

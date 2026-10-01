@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "45c48fa1cfaf3c234a7ddff84ab5127f3f169881",
+  "head": "a3ef837b73428c0924f5ea6420a1473b363a7e9e",
   "specs": [
     {
       "id": "022",
@@ -470,7 +470,7 @@
       "updated": "2026-10-01",
       "commit": null,
       "file": "specs/045-spec-chain-readme-fix.md",
-      "mtime": 1790867532862.0059,
+      "mtime": 1790867760996.83,
       "goal": "",
       "acceptance": "1. В `docs/spec-chain/README.md` и",
       "noTouch": "`.project/scripts/**` (в т.ч. `close-spec.mjs`), `src/**`, `tools/**`.",
@@ -987,6 +987,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "a3ef837",
+      "date": "2026-10-02",
+      "subject": "docs(log): rule2-exception для spec 045 (embedded approve)",
+      "type": "docs"
+    },
+    {
       "sha": "45c48fa",
       "date": "2026-10-02",
       "subject": "docs(spec-045): README spec-chain + run-spec-chain - A/B/C фиксы",
@@ -1099,12 +1105,6 @@
       "date": "2026-10-01",
       "subject": "chore(state): converge after spec-041 done",
       "type": "chore"
-    },
-    {
-      "sha": "58d46bc",
-      "date": "2026-10-01",
-      "subject": "docs(spec-041): done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation",
-      "type": "docs"
     }
   ],
   "roles": [
