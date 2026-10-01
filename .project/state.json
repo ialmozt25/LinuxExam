@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "a3ef837b73428c0924f5ea6420a1473b363a7e9e",
+  "head": "7fec36cf86d1e950c7368954af315bb7f2e99c2d",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "045",
-      "slug": "spec-chain-readme-fix",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-01",
-      "updated": "2026-10-01",
-      "commit": null,
-      "file": "specs/045-spec-chain-readme-fix.md",
-      "mtime": 1790867760996.83,
-      "goal": "",
-      "acceptance": "1. В `docs/spec-chain/README.md` и",
-      "noTouch": "`.project/scripts/**` (в т.ч. `close-spec.mjs`), `src/**`, `tools/**`.",
       "preview": ""
     },
     {
@@ -912,6 +897,21 @@
       "preview": ""
     },
     {
+      "id": "045",
+      "slug": "spec-chain-readme-fix",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-01",
+      "updated": "2026-10-01",
+      "commit": "90fe7d4",
+      "file": "specs/045-spec-chain-readme-fix.md",
+      "mtime": 1790868772666.372,
+      "goal": "",
+      "acceptance": "1. В `docs/spec-chain/README.md` и",
+      "noTouch": "`.project/scripts/**` (в т.ч. `close-spec.mjs`), `src/**`, `tools/**`.",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -973,7 +973,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
     "2026-10-01 | spec | spec 040 — fix метрики delta в DECISIONS; пост-мортем (alerts + semantic): 8 findings qc round 1 | commit pending",
     "2026-10-01 | spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4",
     "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]",
@@ -982,10 +981,29 @@
     "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6",
     "2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72",
     "2026-10-01 | push | authorize push origin main — spec-044 close; опубликовано 2f09f5b..acf8dd0 (9 коммитов, tip acf8dd0), origin/main = acf8dd0, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) и опубликуется следующим авторизованным push | commit acf8dd0",
-    "2026-10-01 | rule2-exception | авторизован перевод spec 045 в approved через embedded approve капитана (spec создана сразу как approved, минуя draft/preview) | commit 45c48fa"
+    "2026-10-01 | rule2-exception | авторизован перевод spec 045 в approved через embedded approve капитана (spec создана сразу как approved, минуя draft/preview) | commit 45c48fa",
+    "2026-10-02 | spec-045 | done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL | commit 90fe7d4"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "7fec36c",
+      "date": "2026-10-02",
+      "subject": "docs(spec-045): done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL",
+      "type": "docs"
+    },
+    {
+      "sha": "78a80e9",
+      "date": "2026-10-02",
+      "subject": "chore(spec-045): R5 trace - task tokens t1 t2",
+      "type": "chore"
+    },
+    {
+      "sha": "90fe7d4",
+      "date": "2026-10-02",
+      "subject": "docs(spec-045): D+E - agent.cordis.yml без close-spec + README шаг 11 на <id>",
+      "type": "docs"
+    },
     {
       "sha": "a3ef837",
       "date": "2026-10-02",
@@ -1086,24 +1104,6 @@
       "sha": "47d4c09",
       "date": "2026-10-01",
       "subject": "chore(spec-042): R5 trace - task tokens t1 t2 t3 t4 t5 t6 t7 t8",
-      "type": "chore"
-    },
-    {
-      "sha": "65fc9c0",
-      "date": "2026-10-01",
-      "subject": "feat(spec-042): Telegram-уведомления о ходе работ (T1-T4)",
-      "type": "feat"
-    },
-    {
-      "sha": "871fa29",
-      "date": "2026-10-01",
-      "subject": "docs(spec-042): register approved telegram-notify spec",
-      "type": "docs"
-    },
-    {
-      "sha": "afe011b",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-041 done",
       "type": "chore"
     }
   ],
