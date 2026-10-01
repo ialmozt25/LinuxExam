@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "2828d8b0dc02c0b3babe046bf33d642fdb4d2200",
+  "head": "a82f782dde17b3ac8cdb9db235c2bf8f35b64578",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "044",
-      "slug": "telegram-messages",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-01",
-      "updated": "2026-10-01",
-      "commit": null,
-      "file": "specs/044-telegram-messages.md",
-      "mtime": 1790854982768.666,
-      "goal": "Каждое уведомление читается капитаном с одного взгляда: сначала результат,",
-      "acceptance": "1. Все 9 текстов соответствуют колонке «стало»; каждое ≤ 100 символов.",
-      "noTouch": "`.project/scripts/notify.mjs`, `.project/notify-config.json` — вне скоупа.",
       "preview": ""
     },
     {
@@ -897,6 +882,21 @@
       "preview": ""
     },
     {
+      "id": "044",
+      "slug": "telegram-messages",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-01",
+      "updated": "2026-10-01",
+      "commit": "0379e72",
+      "file": "specs/044-telegram-messages.md",
+      "mtime": 1790856786617.1528,
+      "goal": "Каждое уведомление читается капитаном с одного взгляда: сначала результат,",
+      "acceptance": "1. Все 9 текстов соответствуют колонке «стало»; каждое ≤ 100 символов.",
+      "noTouch": "`.project/scripts/notify.mjs`, `.project/notify-config.json` — вне скоупа.",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -958,7 +958,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-01 | spec-039 | done - правки банка по результатам audit-036 | commit 50cd24a",
     "2026-10-01 | push | authorize push origin main — spec-039 закрыта, trail перед push | [AUTHORIZE]",
     "2026-10-01 | spec | spec 040 (spec-chain) — draft: фабрика end-to-end (Проверяльщик 11 фаз + Оркестратор run-spec-chain + пресет linuxexam-spec-chain); цель — 2 действия капитана на спеку | commit pending",
     "2026-10-01 | spec | spec 040 (spec-chain) — approved (embedded); готов к /spec-to-team 040 | commit pending",
@@ -967,10 +966,29 @@
     "2026-10-01 | push | authorize push origin main — spec-040 close | [AUTHORIZE]",
     "2026-10-01 | spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a",
     "2026-10-01 | spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0",
-    "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6"
+    "2026-10-01 | push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6, ahead 0); push #2 публикует этот converge-коммит с записью правила 11 и структурным долгом в alerts.md; авторизация — команды капитана «Push authorized (rule 10, per-command, один раз). git push origin main» и «Push-трейл → converge → повторный push. Обе операции авторизованы» | commit d164cf6",
+    "2026-10-01 | spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "a82f782",
+      "date": "2026-10-01",
+      "subject": "docs(spec-044): done - Spec 044 — человекочитаемые тексты Telegram-уведомлений",
+      "type": "docs"
+    },
+    {
+      "sha": "c419ed9",
+      "date": "2026-10-01",
+      "subject": "chore(spec-044): R5 trace - task tokens t1 t2",
+      "type": "chore"
+    },
+    {
+      "sha": "ea9b03a",
+      "date": "2026-10-01",
+      "subject": "docs(memory): убран мусор f4-watchdog (U+FFFD) + фикс EOL в alerts.md",
+      "type": "docs"
+    },
     {
       "sha": "2828d8b",
       "date": "2026-10-01",
@@ -1072,24 +1090,6 @@
       "date": "2026-10-01",
       "subject": "fix(spec-enrich): reconcile contract (S1), Windows spawn (S2), URL validation (S3), API key (S5), drafts root (S6)",
       "type": "fix"
-    },
-    {
-      "sha": "9253b4e",
-      "date": "2026-10-01",
-      "subject": "chore(state): regenerate docs/index.html to converge after spec-040",
-      "type": "chore"
-    },
-    {
-      "sha": "882936d",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-040 push-trail",
-      "type": "chore"
-    },
-    {
-      "sha": "7d8c28d",
-      "date": "2026-10-01",
-      "subject": "chore(state): converge after spec-040 push-trail",
-      "type": "chore"
     }
   ],
   "roles": [

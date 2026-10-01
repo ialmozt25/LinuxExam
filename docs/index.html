@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 2828d8b</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на a82f782</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -246,6 +246,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">infra</span>
           </li>
           <li class="ddn__item">
+            <span class="ddn__title">#044 telegram-messages</span>
+            <span class="ddn__meta">infra</span>
+          </li>
+          <li class="ddn__item">
             <span class="ddn__title">#007 qc-ratio-semantics</span>
             <span class="ddn__meta">feature</span>
           </li>
@@ -277,14 +281,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#020 batch5c-running-systems</span>
             <span class="ddn__meta">content</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#001 file-management-batch-4</span>
-            <span class="ddn__meta">content</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -318,10 +318,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#044 telegram-messages</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -352,7 +348,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 41</summary>
-          <div class="spec-group">Утверждены · 9</div>
+          <div class="spec-group">Утверждены · 8</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -362,7 +358,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
-            <li>#044 telegram-messages</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -370,7 +365,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 25</div>
+          <div class="spec-group">Завершены · 26</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -397,6 +392,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#040 spec-chain</li>
             <li>#041 enrich-spec-reconcile-windows-url</li>
             <li>#042 telegram-notify</li>
+            <li>#044 telegram-messages</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -415,6 +411,24 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">a82f782</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-044): done - Spec 044 — человекочитаемые тексты Telegram-уведомлений</td>
+          <td class="mono muted">2026-10-01</td>
+        </tr>
+        <tr>
+          <td class="mono">c419ed9</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec-044): R5 trace - task tokens t1 t2</td>
+          <td class="mono muted">2026-10-01</td>
+        </tr>
+        <tr>
+          <td class="mono">ea9b03a</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(memory): убран мусор f4-watchdog (U+FFFD) + фикс EOL в alerts.md</td>
+          <td class="mono muted">2026-10-01</td>
+        </tr>
         <tr>
           <td class="mono">2828d8b</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -517,24 +531,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>fix(spec-enrich): reconcile contract (S1), Windows spawn (S2), URL validation (S3), API key (S5), drafts root (S6)</td>
           <td class="mono muted">2026-10-01</td>
         </tr>
-        <tr>
-          <td class="mono">9253b4e</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): regenerate docs/index.html to converge after spec-040</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
-        <tr>
-          <td class="mono">882936d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-040 push-trail</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
-        <tr>
-          <td class="mono">7d8c28d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-040 push-trail</td>
-          <td class="mono muted">2026-10-01</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -591,11 +587,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">01.10</span> · spec-040 | done - spec-chain: фабрика end-to-end | commit c5d86b4</li>
         <li><span class="mono muted">01.10</span> · push | authorize push origin main — spec-040 close | push разрешён</li>
         <li><span class="mono muted">01.10</span> · spec-041 | done - Spec 041 — enrich-spec: reconcile contract + Windows spawn + URL validation | commit 4027b8a</li>
         <li><span class="mono muted">01.10</span> · spec-042 | done - Spec 042 — Telegram-уведомления о ходе работ | commit 65fc9c0</li>
         <li><span class="mono muted">01.10</span> · push | authorize push origin main — spec-042: push #1 опубликовал afe011b..d164cf6 (6 коммитов, tip d164cf6, origin/main = d164cf6…</li>
+        <li><span class="mono muted">01.10</span> · spec-044 | done - Spec 044 — человекочитаемые тексты Telegram-уведомлений | commit 0379e72</li>
     </ul>
   </details>
 

@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `2828d8b0dc02c0b3babe046bf33d642fdb4d2200`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `a82f782dde17b3ac8cdb9db235c2bf8f35b64578`<!--volatile:end-->
 - Спек: 41
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 044 | `telegram-messages` | infra | approved | — | 2026-10-01 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -46,6 +45,7 @@
 | 040 | `spec-chain` | infra | done | c5d86b4 | — |
 | 041 | `enrich-spec-reconcile-windows-url` | infra | done | 4027b8a | — |
 | 042 | `telegram-notify` | infra | done | 65fc9c0 | 2026-10-01 |
+| 044 | `telegram-messages` | infra | done | 0379e72 | 2026-10-01 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
