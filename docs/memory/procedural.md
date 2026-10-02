@@ -40,4 +40,7 @@ Manual-файлы (`working.md` — не пишется sync; `alerts.md`/`proce
 
 2026-10-02 | push-trail | Push-трейл правила 11 писать ДО push, указывая диапазон <prev-tip>..<converge-коммит>, а не точный tip после отправки. Тогда один push публикует и код, и трейл, ahead остаётся 0.
 
-<!-- meta updated: 2026-09-29T23:00:37Z entries_count: 7 -->
+2026-10-02 | Playwright E2E — только для `type: feature` / `type: ui`
+Обязательный Playwright-гейт (SKILL Шаг 4b: `npx playwright install chromium` → `npm run test:e2e`, CLI, не MCP) запускается **только** для спек `type: feature` / `type: ui`. Для `infra` / `docs` / `content` E2E-прогон не запускать без отдельного обоснования капитана: набор `e2e/**` проверяет UI-потоки приложения, и его дрейф делает гейт красным по причине, не относящейся к предмету такой спеки. Прецедент spec 048 (infra): t6 `npm run test:e2e` = 1 в трёх прогонах из-за фикстур `fp_001..fp_012` против живых 19 вопросов `file_permissions` — дрейф зафиксирован в `alerts.md` 2026-10-02 и признан out-of-scope; спека закрыта по вердикту t5 (reviewer, verdict=pass). Правила 3, 16.
+
+<!-- meta updated: 2026-10-02T08:00:50Z entries_count: 8 -->

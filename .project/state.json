@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "afe1c09417f303eefee0cbc8ef3733bbc77044a3",
+  "head": "21f05761ce9af04d373ac86078a1bdcd18370db1",
   "specs": [
     {
       "id": "022",
@@ -1047,6 +1047,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "21f0576",
+      "date": "2026-10-02",
+      "subject": "chore(state): converge after spec-048 done",
+      "type": "chore"
+    },
+    {
       "sha": "afe1c09",
       "date": "2026-10-02",
       "subject": "docs(spec-048): done - 0. Шаг 1 задания капитана: leftover изолирован, гейт test:run зелёный до MAS",
@@ -1156,12 +1162,6 @@
     },
     {
       "sha": "41e42d8",
-      "date": "2026-10-02",
-      "subject": "docs(spec-047): dual-track spec-chain - Small/Full threshold table (rule 13)",
-      "type": "docs"
-    },
-    {
-      "sha": "621d927",
       "date": "2026-10-02",
       "subject": "docs(spec-047): dual-track spec-chain - Small/Full threshold table (rule 13)",
       "type": "docs"
