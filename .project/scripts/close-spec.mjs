@@ -31,7 +31,9 @@
 //       недоступен, team.json не разбирается как JSON);
 //   2 — STOP: закрывать нельзя — spec-id неоднозначен, status не `approved`,
 //       reviewer-вердикт != `pass`, reviewer-задача отсутствует, а также режим
-//       применения, пока шаги 5–11 не реализованы (t2);
+//       применения, пока шаги 5–11 не реализованы (t2); плюс guard капитанской
+//       сессии spec 049 (нет `.project/.captain-session-id` или
+//       `DSH_SESSION_ID` != его содержимому — действует и на `--dry-run`);
 //   3 — precondition-missing: спеки нет в `.project/specs/`, команды нет
 //       (`.agent-teams/**/spec-<id>*/team.json` не найден).
 //
@@ -1385,6 +1387,46 @@ export async function executeClosingSteps(ctx, plan, options) {
 
 /* ------------------------------------------------------ оркестрация и main */
 
+/** Файл-якорь капитанской сессии (вне git; создаётся SETUP'ом капитана, см. docs/SETUP.md). */
+const CAPTAIN_SESSION_FILE = '.project/.captain-session-id';
+
+/**
+ * Guard капитанской сессии (spec 049 «fast-track-guards», компонент b).
+ *
+ * Признак «кто исполняет» — `DSH_SESSION_ID` процесса: у каждого агента DSH он
+ * свой, воркер его не подделывает. Капитанская сессия зафиксирована файлом
+ * `.project/.captain-session-id` (одно значение + LF, вне git).
+ *
+ * Возвращает `{ ok, lines }`: `ok: true` — сессия капитанская (поведение дальше
+ * не меняется ни в `--dry-run`, ни в apply); `ok: false` — печатаются причина и
+ * `exit 2`. Содержимое файла-якоря НИКОГДА не печатается — только вердикт.
+ * Обходных флагов нет (spec 049: обход — только правкой файла сессии).
+ */
+async function checkCaptainSession(root) {
+  const file = path.join(root, CAPTAIN_SESSION_FILE);
+  let captainSessionId = '';
+  try {
+    // readTextLf: CRLF → LF (правило 16); в файле ровно одно значение.
+    captainSessionId = (await readTextLf(file)).trim();
+  } catch {
+    // Нет файла (ENOENT) или он недоступен — закрывать нельзя: инструкция та же.
+    return {
+      ok: false,
+      lines: [
+        "STOP: нет .project/.captain-session-id (guard spec 049: создайте файл SETUP'ом капитана, см. docs/SETUP.md)",
+      ],
+    };
+  }
+  const currentSessionId = String(process.env.DSH_SESSION_ID ?? '').trim();
+  if (captainSessionId === '' || currentSessionId === '' || currentSessionId !== captainSessionId) {
+    return {
+      ok: false,
+      lines: ['STOP: tester/worker не может закрывать спеку, только капитанская сессия (guard spec 049)'],
+    };
+  }
+  return { ok: true, lines: ['  сессия: капитанская (guard spec 049 — DSH_SESSION_ID совпал с .project/.captain-session-id)'] };
+}
+
 /**
  * Основная операция. Никогда не бросает на ожидаемых состояниях: возвращает
  * `{ exitCode, lines, report }`.
@@ -1405,6 +1447,17 @@ export async function closeSpec(options) {
     mutations: 0,
   };
   const lines = [`close-spec: spec ${options.specId} — корень ${report.root}`];
+
+  // Guard капитанской сессии (spec 049 «fast-track-guards», компонент b): единая
+  // точка входа для dry-run и apply — обходного флага нет, обход возможен только
+  // правкой самого файла-якоря. Стоит ДО любых проверок спеки: чужая сессия не
+  // должна даже читать план закрытия.
+  const guard = await checkCaptainSession(root);
+  if (!guard.ok) {
+    for (const line of guard.lines) lines.push(line);
+    return { exitCode: EXIT.stop, lines, report };
+  }
+  lines.push(guard.lines[0]);
 
   // Шаг 2: резолв спеки (frontmatter `id`).
   const resolved = await resolveSpec(path.join(root, PATHS.specs), options.specId);

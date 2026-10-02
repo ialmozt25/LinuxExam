@@ -17,8 +17,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  // lucide-react is a barrel of ~1600 icon modules. Excluding it from dependency
+  // pre-bundling made every dev page load fetch all of them — measured ~1600
+  // module requests per context, 5.6-6.7 s to the dashboard warm and 12.8-17.2 s
+  // cold, which is what made `npm run test:e2e` time out on the first test of each
+  // Playwright worker (spec 049). Pre-bundling serves the same icons in ~55
+  // requests (~1.7 s warm).
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    include: ['lucide-react'],
   },
   server: {
     host: 'localhost',

@@ -61,3 +61,7 @@ notify-state.json
 notify-state.json.lock
 .lock
 /.project/logs/
+
+# spec 049: id капитанской сессии DSH для guard'а push/close (правило 11).
+# Машинозависимый файл — создаётся SETUP'ом капитана на каждой машине, в git не попадает.
+.project/.captain-session-id

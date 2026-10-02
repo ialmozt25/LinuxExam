@@ -1,0 +1,53 @@
+#!/bin/sh
+# M6.1 / spec 049 (c) — pre-push hook LinuxExam: session-id guard (правило 11).
+#
+# Активация (один раз на клон):
+#   git config core.hooksPath .githooks
+#
+# Задача: push разрешён только капитанской сессии. Якорь — DSH_SESSION_ID
+# против .project/.captain-session-id. Env-флаг воркеров не изолирует (у членов
+# команды общий процесс), различим только session-id. Прецедент — breach 048:
+# worker t6 выполнил `git push` без авторизации. Настройка — docs/SETUP.md.
+#
+# Содержимое файла сессии НЕ печатается: в вывод идут только вердикт и причина.
+# Исход: 0 — сессия капитанская (push разрешён); 1 — guard сработал (блок).
+
+SESSION_FILE=".project/.captain-session-id"
+
+if [ ! -f "$SESSION_FILE" ]; then
+  echo "pre-push: push заблокирован (guard spec 049, правило 11)."
+  echo "причина: нет $SESSION_FILE — файл создаётся SETUP'ом капитана, см. docs/SETUP.md"
+  exit 1
+fi
+
+if [ ! -s "$SESSION_FILE" ]; then
+  echo "pre-push: push заблокирован (guard spec 049, правило 11)."
+  echo "причина: $SESSION_FILE пуст — восстановите файл по docs/SETUP.md"
+  exit 1
+fi
+
+# Первая строка файла, без завершающих пробелов и CR (LF-файл, CRLF-устойчиво).
+expected=$(sed -n -e '1{s/[[:space:]]*$//;p;}' "$SESSION_FILE")
+
+if [ -z "$expected" ]; then
+  echo "pre-push: push заблокирован (guard spec 049, правило 11)."
+  echo "причина: не удалось прочитать $SESSION_FILE — проверьте файл по docs/SETUP.md"
+  exit 1
+fi
+
+if [ -z "$DSH_SESSION_ID" ]; then
+  echo "pre-push: push заблокирован (guard spec 049, правило 11)."
+  echo "причина: DSH_SESSION_ID не задан — только капитанская сессия может пушить"
+  echo "см. docs/SETUP.md (настройка guard'а и файла сессии капитана)"
+  exit 1
+fi
+
+if [ "$DSH_SESSION_ID" != "$expected" ]; then
+  echo "pre-push: push заблокирован (guard spec 049, правило 11)."
+  echo "причина: DSH_SESSION_ID этой сессии не совпадает с $SESSION_FILE"
+  echo "tester/worker не может пушить, только капитанская сессия (см. docs/SETUP.md)"
+  exit 1
+fi
+
+echo "pre-push: сессия капитанская — push разрешён (guard spec 049)"
+exit 0

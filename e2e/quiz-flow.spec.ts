@@ -1,4 +1,96 @@
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { test, expect } from '@playwright/test';
+
+/**
+ * Live-bank fixtures (spec 049, component a).
+ *
+ * The question bank drifts: items are added and removed by tooling, so a literal
+ * copy of a topic inside a spec goes stale without any visible failure — the suite
+ * then asserts `N / 12` while the bank serves 19 questions. Both the id list and
+ * the topic size are read from the bank itself instead. Playwright runs specs in
+ * Node, so `src/data/questions/*.json` is on disk next to this file.
+ */
+type BankOption = { text: string; correct: boolean };
+type BankQuestion = { id: string; options: BankOption[] };
+type TopicIndex = { byTopic: Record<string, number> };
+
+const QUESTIONS_DIR = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '..',
+  'src',
+  'data',
+  'questions'
+);
+
+/** The topic behind the dashboard button «Начать тему: Права доступа». */
+const TOPIC = 'file_permissions';
+
+function readBank<T>(file: string): T {
+  return JSON.parse(readFileSync(join(QUESTIONS_DIR, file), 'utf8')) as T;
+}
+
+const TOPIC_QUESTIONS = readBank<BankQuestion[]>(`${TOPIC}.json`);
+
+/** Live ids of the topic, in bank order — the review stream is filtered in this order. */
+const TOPIC_IDS: string[] = TOPIC_QUESTIONS.map((q) => q.id);
+
+/** Topic size as the generated `_topics.json` declares it: the counter denominator. */
+const TOPIC_SIZE: number = readBank<TopicIndex>('_topics.json').byTopic[TOPIC];
+
+if (TOPIC_IDS.length === 0 || TOPIC_IDS.length !== TOPIC_SIZE) {
+  throw new Error(
+    `live bank drift: ${TOPIC}.json holds ${TOPIC_IDS.length} questions, ` +
+      `_topics.json declares ${TOPIC_SIZE} — the E2E fixtures follow the bank`
+  );
+}
+
+/**
+ * A stored answer record for one live question, in the shape the app itself writes.
+ * `optionText` is the identity the store re-aligns against, so a seed may not guess
+ * at an option index — the option order drifts with the bank (a wrong guess is
+ * silently dropped by normalizeAnswersAgainstBank, which then reports 0 / 0).
+ */
+type AnswerSeed = {
+  questionId: string;
+  selectedIndex: number;
+  isCorrect: boolean;
+  optionText: string;
+};
+
+function correctAnswer(id: string): AnswerSeed {
+  const question = TOPIC_QUESTIONS.find((q) => q.id === id);
+  const option = question?.options.find((o) => o.correct);
+  if (!question || !option) {
+    throw new Error(`live bank drift: ${id} in ${TOPIC}.json has no correct option`);
+  }
+  return {
+    questionId: id,
+    selectedIndex: question.options.indexOf(option),
+    isCorrect: true,
+    optionText: option.text,
+  };
+}
+
+/** The `N / total` counter text the question screen renders. */
+function counter(question: number): RegExp {
+  return new RegExp(`${question}\\s*/\\s*${TOPIC_SIZE}`);
+}
+
+/**
+ * `index.html` loads a third-party analytics beacon (`//gc.zgo.at/count.js`). It is
+ * not part of the app under test, but `page.goto` waits for the `load` event and
+ * `load` waits for that script, so a slow answer from the CDN fails the navigation
+ * while the screen is already painted — observed 2026-10-03: the app fully rendered
+ * (heading + dashboard in the failure snapshot) and `page.goto` still hit the 30 s
+ * test timeout in two tests. Hanging the beacon on purpose reproduces it on demand
+ * (goto timeout, heading visible); aborting it drops that navigation to ~0.3 s.
+ * No assertion in this suite touches analytics, so the beacon is blocked.
+ */
+test.beforeEach(async ({ page }) => {
+  await page.route(/gc\.zgo\.at/, (route) => route.abort());
+});
 
 test('full quiz journey', async ({ page }) => {
   await page.goto('/');
@@ -24,7 +116,7 @@ test('topic click starts filtered quiz', async ({ page }) => {
     timeout: 10000,
   });
   await page.getByRole('button', { name: /Начать тему: Права доступа/ }).click();
-  await expect(page.getByText(/1\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(counter(1))).toBeVisible({ timeout: 5000 });
 });
 
 test('inherit mode follows the system colour scheme live', async ({ page }) => {
@@ -372,64 +464,63 @@ test('review first question has no back', async ({ page }) => {
   // question, so neither the header back control nor Telegram's BackButton may
   // be offered (previousQuestion() is a no-op at index 0).
   await page.getByRole('button', { name: /Начать тему: Права доступа/ }).click();
-  await expect(page.getByText(/1\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(counter(1))).toBeVisible({ timeout: 5000 });
   await expect(page.getByRole('button', { name: 'Назад' })).toHaveCount(0);
 
   // Answering and advancing must bring the control back for question 2.
   await page.locator('button[aria-label^="Ответ"]').first().click();
   await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
-  await expect(page.getByText(/2\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(counter(2))).toBeVisible({ timeout: 5000 });
   await expect(page.getByRole('button', { name: 'Назад' })).toBeVisible();
 });
 
 test('a completed topic run reports the review stream, not an empty screen', async ({ page }) => {
   // Seeded on the LAST question of a topic run, with currentScreen = 'question'
   // so the app boots straight into it (an unfinished review run is not offered
-  // as a resumable banner, and driving all 12 questions is impossible for a free
+  // as a resumable banner, and driving the whole topic is impossible for a free
   // user - see the report on the free-question gate). This isolates the defect
   // under repair: a finished topic run must land on the REVIEW results and must
   // not claim "Вы ещё не ответили ни на один вопрос".
-  await page.addInitScript(() => {
-    window.localStorage.setItem(
-      'rhcsa_progress',
-      JSON.stringify({
-        version: 2,
-        state: {
-          answers: [],
-          currentIndex: 11,
-          isPro: true,
-          streak: 3,
-          lastActiveDate: null,
-          totalXp: 30,
-          wrongQuestionIds: [],
-          reviewQuestionIds: [
-            'fp_001', 'fp_002', 'fp_003', 'fp_004', 'fp_005', 'fp_006',
-            'fp_007', 'fp_008', 'fp_009', 'fp_010', 'fp_011', 'fp_012',
-          ],
-          reviewAnswers: [
-            { questionId: 'fp_001', selectedIndex: 0, isCorrect: true },
-            { questionId: 'fp_002', selectedIndex: 0, isCorrect: true },
-          ],
-          isQuizInProgress: true,
-          currentScreen: 'question',
-          // activeTopic is session-only (never persisted), so a topic run that is
-          // resumed in a fresh session cannot restore its own title. Seed it here
-          // to exercise the topic-title branch end to end.
-          activeTopic: 'file_permissions',
-          examActive: false,
-          examStartedAt: null,
-          examDurationMs: 0,
-          examQuestionIds: [],
-          examAnswers: [],
-        },
-      })
-    );
-  });
+  // The seeded stream is the WHOLE live topic, so the last index is its last id,
+  // and the two already-answered questions are built from their live correct option.
+  await page.addInitScript(
+    ({ ids, answers }: { ids: string[]; answers: AnswerSeed[] }) => {
+      window.localStorage.setItem(
+        'rhcsa_progress',
+        JSON.stringify({
+          version: 2,
+          state: {
+            answers: [],
+            currentIndex: ids.length - 1,
+            isPro: true,
+            streak: 3,
+            lastActiveDate: null,
+            totalXp: 30,
+            wrongQuestionIds: [],
+            reviewQuestionIds: ids,
+            reviewAnswers: answers,
+            isQuizInProgress: true,
+            currentScreen: 'question',
+            // activeTopic is session-only (never persisted), so a topic run that is
+            // resumed in a fresh session cannot restore its own title. Seed it here
+            // to exercise the topic-title branch end to end.
+            activeTopic: 'file_permissions',
+            examActive: false,
+            examStartedAt: null,
+            examDurationMs: 0,
+            examQuestionIds: [],
+            examAnswers: [],
+          },
+        })
+      );
+    },
+    { ids: TOPIC_IDS, answers: [correctAnswer(TOPIC_IDS[0]), correctAnswer(TOPIC_IDS[1])] }
+  );
 
   await page.goto('/');
 
-  // The review stream is live: 12 questions, the last one open.
-  await expect(page.getByText(/12\s*\/\s*12/)).toBeVisible({ timeout: 10000 });
+  // The review stream is live: the whole topic, its last question open.
+  await expect(page.getByText(counter(TOPIC_SIZE))).toBeVisible({ timeout: 10000 });
   await page.locator('button[aria-label^="Ответ"]').first().click();
   await page.getByRole('button', { name: 'Завершить', exact: true }).click();
 
@@ -450,37 +541,39 @@ test('a finished exam still shows the exam summary', async ({ page }) => {
   // its REAL auto-finish path: a persisted running exam whose time has already
   // elapsed triggers finishExam from useExamTimer, which populates
   // examLastResult (session-only, so it cannot be seeded directly).
-  await page.addInitScript(() => {
-    window.localStorage.setItem(
-      'rhcsa_progress',
-      JSON.stringify({
-        version: 2,
-        state: {
-          answers: [],
-          currentIndex: 0,
-          isPro: true,
-          streak: 0,
-          lastActiveDate: null,
-          totalXp: 0,
-          wrongQuestionIds: [],
-          reviewQuestionIds: null,
-          reviewAnswers: [],
-          isQuizInProgress: true,
-          currentScreen: 'question',
-          activeTopic: null,
-          examActive: true,
-          examStartedAt: Date.now() - 120000,
-          examDurationMs: 60000,
-          examQuestionIds: ['fp_001', 'fp_002'],
-          examAnswers: [
-            { questionId: 'fp_002', selectedIndex: 1, isCorrect: true },
-            { questionId: 'fp_003', selectedIndex: 1, isCorrect: true },
-          ],
-          examLastResult: null,
-        },
-      })
-    );
-  });
+  // The exam questions/answers are seeded from the live topic: the two answers are
+  // the live correct options, so the summary really is 2 correct out of 2 answered.
+  await page.addInitScript(
+    ({ ids, answers }: { ids: string[]; answers: AnswerSeed[] }) => {
+      window.localStorage.setItem(
+        'rhcsa_progress',
+        JSON.stringify({
+          version: 2,
+          state: {
+            answers: [],
+            currentIndex: 0,
+            isPro: true,
+            streak: 0,
+            lastActiveDate: null,
+            totalXp: 0,
+            wrongQuestionIds: [],
+            reviewQuestionIds: null,
+            reviewAnswers: [],
+            isQuizInProgress: true,
+            currentScreen: 'question',
+            activeTopic: null,
+            examActive: true,
+            examStartedAt: Date.now() - 120000,
+            examDurationMs: 60000,
+            examQuestionIds: [ids[0], ids[1]],
+            examAnswers: answers,
+            examLastResult: null,
+          },
+        })
+      );
+    },
+    { ids: TOPIC_IDS, answers: [correctAnswer(TOPIC_IDS[1]), correctAnswer(TOPIC_IDS[2])] }
+  );
 
   await page.goto('/');
 
@@ -495,57 +588,59 @@ test('a finished exam still shows the exam summary', async ({ page }) => {
 test('a free user can advance past the limit inside a topic run (B1)', async ({ page }) => {
   // B1: nextQuestion applied FREE_QUESTION_LIMIT to the review stream while
   // Question.tsx hides the paywall for review, so a free user froze at the limit
-  // with nothing to act on. Seeded AT the limit with isPro false: one click must
-  // move to the next question and must not surface the paywall.
-  await page.addInitScript(() => {
-    window.localStorage.setItem(
-      'rhcsa_progress',
-      JSON.stringify({
-        version: 2,
-        state: {
-          answers: [],
-          currentIndex: 4,
-          isPro: false,
-          streak: 0,
-          lastActiveDate: null,
-          totalXp: 0,
-          wrongQuestionIds: [],
-          reviewQuestionIds: [
-            'fp_001', 'fp_002', 'fp_003', 'fp_004', 'fp_005', 'fp_006',
-            'fp_007', 'fp_008', 'fp_009', 'fp_010', 'fp_011', 'fp_012',
-          ],
-          reviewAnswers: [{ questionId: 'fp_005', selectedIndex: 0, isCorrect: true }],
-          isQuizInProgress: true,
-          currentScreen: 'question',
-          activeTopic: 'file_permissions',
-          examActive: false,
-          examStartedAt: null,
-          examDurationMs: 0,
-          examQuestionIds: [],
-          examAnswers: [],
-        },
-      })
-    );
-  });
+  // with nothing to act on. Seeded AT the limit (index 4 = the fifth question,
+  // FREE_QUESTION_LIMIT - 1) with isPro false: one click must move to the next
+  // question and must not surface the paywall. The stream itself is the live topic,
+  // and the already-answered fifth question carries its live correct option.
+  await page.addInitScript(
+    ({ ids, answers }: { ids: string[]; answers: AnswerSeed[] }) => {
+      window.localStorage.setItem(
+        'rhcsa_progress',
+        JSON.stringify({
+          version: 2,
+          state: {
+            answers: [],
+            currentIndex: 4,
+            isPro: false,
+            streak: 0,
+            lastActiveDate: null,
+            totalXp: 0,
+            wrongQuestionIds: [],
+            reviewQuestionIds: ids,
+            reviewAnswers: answers,
+            isQuizInProgress: true,
+            currentScreen: 'question',
+            activeTopic: 'file_permissions',
+            examActive: false,
+            examStartedAt: null,
+            examDurationMs: 0,
+            examQuestionIds: [],
+            examAnswers: [],
+          },
+        })
+      );
+    },
+    { ids: TOPIC_IDS, answers: [correctAnswer(TOPIC_IDS[4])] }
+  );
 
   await page.goto('/');
 
   // Fifth question of the topic run (the last free index) for a non-pro user.
-  await expect(page.getByText(/5\s*\/\s*12/)).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText(counter(5))).toBeVisible({ timeout: 10000 });
 
   await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
 
-  // Advanced past the free limit: question 6 of 12 renders and no paywall is
-  // shown. Before the fix this stuck at 5 / 12.
-  await expect(page.getByText(/6\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  // Advanced past the free limit: question 6 renders and no paywall is shown.
+  // Before the fix this stuck at 5 / N.
+  await expect(page.getByText(counter(6))).toBeVisible({ timeout: 5000 });
   await expect(page.getByText('Бесплатные вопросы закончились')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Следующий вопрос', exact: true })).toBeVisible();
 
-  // The run keeps going: two more steps land on 8 / 12.
+  // The run keeps going: two more steps land on 8 / N.
   await page.locator('button[aria-label^="Ответ"]').first().click();
   await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
   await page.locator('button[aria-label^="Ответ"]').first().click();
   await page.getByRole('button', { name: 'Следующий вопрос', exact: true }).click();
-  await expect(page.getByText(/8\s*\/\s*12/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(counter(8))).toBeVisible({ timeout: 5000 });
   await expect(page.getByText('Бесплатные вопросы закончились')).toHaveCount(0);
 });
