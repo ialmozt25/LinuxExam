@@ -394,5 +394,329 @@
       "reference": "man systemd-analyze",
       "status": "active"
     }
+  },
+  {
+    "id": "ds_014",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemd timer: OnBootSec (задержка от загрузки)",
+    "question": "На физическом сервере RHEL 9 служба резервного копирования должна запускаться через 15 минут после каждой загрузки, а не по календарному расписанию. Какую строку добавить в юнит-таймер /etc/systemd/system/mybackup.timer?",
+    "options": [
+      {
+        "text": "В секции Timer таймера: OnBootSec=15min",
+        "correct": true
+      },
+      {
+        "text": "В секции Service таймера: OnBootSec=15min",
+        "correct": false
+      },
+      {
+        "text": "В секции Timer таймера: OnCalendar=00:15",
+        "correct": false
+      },
+      {
+        "text": "В секции Timer таймера: OnStartupSec=15min",
+        "correct": false
+      }
+    ],
+    "explanation": "Директива OnBootSec отсчитывает задержку от момента загрузки машины, поэтому таймер сработает через 15 минут после каждой загрузки. Место директивы — секция Timer: в секции Service systemd её не знает. Директива OnCalendar задаёт календарное расписание (здесь 00:15 каждые сутки), а не задержку от загрузки. Директива OnStartupSec отсчитывает время от запуска менеджера служб, а не от загрузки ядра."
+  },
+  {
+    "id": "ds_015",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemd: CPUQuota (предел процессорного времени юнита)",
+    "question": "Служба myapp.service из /etc/systemd/system/myapp.service на сервере RHEL 9 загружает процессор на полную мощность. Её нужно ограничить половиной одного ядра, не правя файл юнита из пакета; drop-in кладётся в /etc/systemd/system/myapp.service.d/. Какую строку добавить в drop-in этого юнита?",
+    "options": [
+      {
+        "text": "В секции Service: CPUQuota=50",
+        "correct": false
+      },
+      {
+        "text": "В секции Service: CPUQuota=50%",
+        "correct": true
+      },
+      {
+        "text": "В секции Service: CPUQuota=0.5",
+        "correct": false
+      },
+      {
+        "text": "В секции Service: CPUWeight=50",
+        "correct": false
+      }
+    ],
+    "explanation": "Директива CPUQuota задаёт жёсткий предел процессорного времени и принимает процент со знаком процента относительно одного ядра: 50% — половина одного ядра, а значение выше 100% распределяется по нескольким ядрам. Запись CPUQuota=50 без знака процента systemd отклоняет как невалидную. Запись CPUQuota=0.5 не задаёт половину ядра: процент записывают со знаком процента. Директива CPUWeight задаёт относительный вес юнита при конкуренции за процессор, а не предел в половину ядра."
+  },
+  {
+    "id": "ds_016",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemd: MemoryMax (жёсткий предел памяти юнита)",
+    "question": "Службе analytics.service на сервере RHEL 9 нужен жёсткий предел памяти в 1 ГиБ: при его превышении ядро убивает процессы внутри юнита. Какую строку добавить в секцию Service юнита /etc/systemd/system/analytics.service?",
+    "options": [
+      {
+        "text": "В секции Service: MemoryMax=1",
+        "correct": false
+      },
+      {
+        "text": "В секции Service: MemoryHigh=1G",
+        "correct": false
+      },
+      {
+        "text": "В секции Service: MemoryMax=1G",
+        "correct": true
+      },
+      {
+        "text": "В секции Service: MemoryLimit=1G",
+        "correct": false
+      }
+    ],
+    "explanation": "Директива MemoryMax задаёт жёсткий предел памяти: при его превышении ядро запускает OOM-killer внутри юнита и завершает его процессы. Значение без суффикса считается байтами, поэтому MemoryMax=1 — это один байт, а не один гигабайт. Директива MemoryHigh задаёт мягкий порог: память вытесняется и работа замедляется, но процессы не убиваются. Директивы MemoryLimit в systemd нет, и в юнит-файле её не существует."
+  },
+  {
+    "id": "ds_017",
+    "topic": "deploy_systems",
+    "difficulty": "hard",
+    "objective_domain": "6",
+    "subtopic": "systemd: Restart и RestartSec (автоперезапуск юнита)",
+    "question": "Служба worker.service на сервере RHEL 9 должна запускаться заново только после аварийного завершения (ненулевой код возврата или сигнал, кроме SIGHUP, SIGINT, SIGTERM и SIGPIPE), а при нормальном завершении оставаться остановленной. Перед повторной попыткой нужна пауза 5 секунд. Какие строки добавить в секцию Service юнита /etc/systemd/system/worker.service?",
+    "options": [
+      {
+        "text": "В секции Service: Restart=always и RestartSec=5",
+        "correct": false
+      },
+      {
+        "text": "В секции Service: Restart=on-failure и Restart=5",
+        "correct": false
+      },
+      {
+        "text": "В секции Service: RestartSec=on-failure и RestartSec=5",
+        "correct": false
+      },
+      {
+        "text": "В секции Service: Restart=on-failure и RestartSec=5",
+        "correct": true
+      }
+    ],
+    "explanation": "Значение on-failure перезапускает службу при ненулевом коде возврата, сигнале (кроме SIGHUP, SIGINT, SIGTERM и SIGPIPE) и таймауте операции. Значение always перезапускает юнит и после нормального завершения с кодом 0, поэтому условие «только после аварии» оно не выполняет. Паузу задаёт отдельная директива RestartSec: в Restart интервал не указывают, а RestartSec принимает интервал времени, поэтому политику on-failure в неё не подставляют. По умолчанию Restart=no и RestartSec=100ms."
+  },
+  {
+    "id": "ds_018",
+    "topic": "deploy_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl list-unit-files --type=service --state=disabled (аудит отключённых служб)",
+    "question": "Администратору сервера RHEL 9 нужен перечень установленных служб (unit-файлов service) с отключённым автозапуском, чтобы решить, какие из них удалять. Какой командой systemctl получают только такие службы, не меняя состояние юнитов?",
+    "options": [
+      {
+        "text": "systemctl list-unit-files --type=service --state=disabled",
+        "correct": true
+      },
+      {
+        "text": "systemctl list-unit-files --type=service --state=masked",
+        "correct": false
+      },
+      {
+        "text": "systemctl list-units --type=service --state=disabled",
+        "correct": false
+      },
+      {
+        "text": "systemctl is-enabled --type=service --state=disabled",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда list-unit-files печатает таблицу установленных файлов юнитов со столбцом STATE: связка --type=service (только службы) и --state=disabled (только отключённые) оставляет отключённые службы и ничего не меняет. Значение masked отбирает замаскированные службы, которые не запускаются вообще, то есть другой набор. Команда list-units показывает лишь загруженные в память юниты, и состояния disabled среди её значений нет: такой фильтр завершится ошибкой. Команда is-enabled принимает имя одного юнита, а не фильтр состояния."
+  },
+  {
+    "id": "ds_019",
+    "topic": "deploy_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "systemctl list-timers (таймеры, которые сработают)",
+    "question": "На сервере RHEL 9 нужно узнать, какие таймеры из /etc/systemd/system загружены в память и когда каждый из них сработает в следующий раз. Какая команда выведет таблицу со временем следующего запуска?",
+    "options": [
+      {
+        "text": "systemctl list-units",
+        "correct": false
+      },
+      {
+        "text": "systemctl list-timers",
+        "correct": true
+      },
+      {
+        "text": "systemctl list-timer",
+        "correct": false
+      },
+      {
+        "text": "systemctl timer-status",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда list-timers печатает загруженные в память таймеры со столбцами времени следующего запуска и юнита, который они активируют, поэтому она и отвечает про следующий запуск. Команда list-units выводит загруженные юниты с состоянием ACTIVE и SUB, но времени следующего срабатывания не показывает. Подкоманды list-timer в systemctl нет. Подкоманды timer-status тоже нет: состояние отдельного таймера смотрят командой status."
+  },
+  {
+    "id": "ds_020",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "systemctl restart: применение правки конфигурации службы",
+    "question": "В RHEL 9 администратор изменил файл /etc/myapp/myapp.conf, который служба myapp.service читает только при старте процесса. Правку нужно применить немедленно, не перезагружая сервер. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "systemctl reload myapp.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl start myapp.service",
+        "correct": false
+      },
+      {
+        "text": "systemctl restart myapp.service",
+        "correct": true
+      },
+      {
+        "text": "systemctl daemon-reload myapp.service",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда restart останавливает и снова запускает службу, поэтому при старте процесса конфигурационный файл читается заново и правка применяется. Команда reload просит службу перечитать конфигурацию на ходу, но эта служба так не умеет: файл читается только при старте. Команда start для уже запущенной службы ничего не делает, и процесс продолжает работать со старой конфигурацией. Команда daemon-reload перечитывает файлы юнитов systemd, а конфигурацию запущенной службы не перечитывает."
+  },
+  {
+    "id": "ds_021",
+    "topic": "deploy_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "timedatectl set-timezone (часовой пояс системы)",
+    "question": "Сервер RHEL 9 настроен на пояс UTC, а администратору нужно, чтобы системные часы и службы работали по поясу Europe/Moscow и настройка сохранилась после перезагрузки. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "timedatectl set-time Europe/Moscow",
+        "correct": false
+      },
+      {
+        "text": "timedatectl set-ntp Europe/Moscow",
+        "correct": false
+      },
+      {
+        "text": "timedatectl set-local-rtc Europe/Moscow",
+        "correct": false
+      },
+      {
+        "text": "timedatectl set-timezone Europe/Moscow",
+        "correct": true
+      }
+    ],
+    "explanation": "Подкоманда set-timezone записывает пояс в симлинк /etc/localtime, поэтому его видят системные часы и службы, и настройка сохраняется после перезагрузки. Подкоманда set-time задаёт время вручную и ожидает время, а не имя пояса, поэтому с аргументом Europe/Moscow команда завершится ошибкой. Подкоманда set-ntp принимает логическое значение и включает сетевую синхронизацию, а пояс не трогает. Подкоманда set-local-rtc тоже принимает логическое значение и лишь указывает, считать ли аппаратные часы местным временем."
+  },
+  {
+    "id": "ds_022",
+    "topic": "deploy_systems",
+    "difficulty": "easy",
+    "objective_domain": "6",
+    "subtopic": "localectl set-locale (локаль системы)",
+    "question": "Серверу RHEL 9 нужна системная локаль en_US.UTF-8 в файле /etc/locale.conf, чтобы она сохранилась после перезагрузки и действовала для служб. Раскладку клавиатуры менять не требуется. Какая команда задаст эту локаль?",
+    "options": [
+      {
+        "text": "localectl set-locale LANG=en_US.UTF-8",
+        "correct": true
+      },
+      {
+        "text": "localectl set-locale en_US.UTF-8",
+        "correct": false
+      },
+      {
+        "text": "localectl set-keymap en_US.UTF-8",
+        "correct": false
+      },
+      {
+        "text": "localectl set-x11-keymap en_US.UTF-8",
+        "correct": false
+      }
+    ],
+    "explanation": "Подкоманда set-locale записывает значение в /etc/locale.conf, поэтому локаль сохраняется после перезагрузки и действует для служб. Локаль задают присваиванием переменной в виде LANG=значение: аргумент без имени переменной локаль не задаёт. Подкоманда set-keymap задаёт раскладку клавиатуры консоли, а не локаль. Подкоманда set-x11-keymap задаёт раскладку графического окружения и тоже не меняет локаль."
+  },
+  {
+    "id": "ds_023",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "grubby --update-kernel=ALL --args (параметр ядра)",
+    "question": "На сервере RHEL 9 в параметры командной строки ядра нужно добавить transparent_hugepage=never в записи загрузчика каждого установленного ядра в /boot/loader/entries, чтобы параметр действовал после перезагрузки. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "grubby --update-kernel=DEFAULT --args=transparent_hugepage=never",
+        "correct": false
+      },
+      {
+        "text": "grubby --update-kernel=ALL --args=transparent_hugepage=never",
+        "correct": true
+      },
+      {
+        "text": "grubby --update-kernel=ALL --remove-args=transparent_hugepage=never",
+        "correct": false
+      },
+      {
+        "text": "grubby --set-kernel=ALL --args=transparent_hugepage=never",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ --update-kernel=ALL применяет изменение к каждому установленному ядру, а --args= добавляет параметр в записи загрузчика, поэтому он вступит в силу после перезагрузки. Значение DEFAULT меняет только запись ядра по умолчанию, оставляя остальные ядра без параметра. Ключ --remove-args удаляет параметр из записей загрузчика, то есть делает обратное. Ключа --set-kernel у grubby нет: команда завершится ошибкой разбора аргументов."
+  },
+  {
+    "id": "ds_024",
+    "topic": "deploy_systems",
+    "difficulty": "medium",
+    "objective_domain": "6",
+    "subtopic": "chronyc tracking против chronyc sources (состояние синхронизации)",
+    "question": "Служба chronyd на сервере RHEL 9 запущена с настройками из /etc/chrony.conf. Администратору нужно проверить, синхронизированы ли системные часы и насколько велико текущее смещение. Какой командой это смотрят?",
+    "options": [
+      {
+        "text": "chronyc makestep",
+        "correct": false
+      },
+      {
+        "text": "chronyc sourcestats",
+        "correct": false
+      },
+      {
+        "text": "chronyc tracking",
+        "correct": true
+      },
+      {
+        "text": "chronyc sources",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда chronyc tracking показывает состояние синхронизации: выбранный источник, смещение системных часов и оценку ошибки, поэтому она и отвечает про саму синхронизацию. Команда chronyc sources печатает список опрашиваемых источников с их состоянием, но смещение часов не показывает. Команда chronyc sourcestats выводит статистику по каждому источнику за время наблюдения. Команда chronyc makestep не проверяет синхронизацию, а принудительно сдвигает системные часы шагом вместо плавной подстройки."
+  },
+  {
+    "id": "ds_025",
+    "topic": "deploy_systems",
+    "difficulty": "hard",
+    "objective_domain": "6",
+    "subtopic": "logind: закрытие крышки в док-станции (HandleLidSwitchDocked)",
+    "question": "Ноутбук с RHEL 9 стоит в док-станции, и при закрытии крышки он должен уходить в спящий режим, а не оставаться включённым. Какую строку задать явным значением в файле logind.conf для этого сценария?",
+    "options": [
+      {
+        "text": "В файле logind.conf: HandleLidSwitch=suspend",
+        "correct": false
+      },
+      {
+        "text": "В файле logind.conf: HandleLidSwitchDocked=ignore",
+        "correct": false
+      },
+      {
+        "text": "В файле logind.conf: LidSwitchIgnoreInhibited=suspend",
+        "correct": false
+      },
+      {
+        "text": "В файле logind.conf: HandleLidSwitchDocked=suspend",
+        "correct": true
+      }
+    ],
+    "explanation": "Для сценария с док-станцией systemd-logind использует отдельную директиву HandleLidSwitchDocked, поэтому значение suspend у неё и даёт сон при закрытии крышки. Директива HandleLidSwitch задаёт поведение без док-станции: при подключённом доке её значение не применяется. Значение ignore у директивы док-станции оставляет систему включённой, то есть нужного поведения не даёт. Директива LidSwitchIgnoreInhibited принимает логическое значение, а не режим питания."
   }
 ]

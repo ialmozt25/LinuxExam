@@ -2,8 +2,8 @@
   "last_update": "2026-09-29T06:06:35.675Z",
   "goal": {
     "target_questions": 300,
-    "current_questions": 229,
-    "progress_percent": 76.3,
+    "current_questions": 241,
+    "progress_percent": 80.3,
     "target_deadline": null,
     "added_today": 0,
     "avg_daily_7d": "9.14",
@@ -13,7 +13,7 @@
     {
       "slug": "deploy_systems",
       "label": "Развёртывание систем",
-      "count": 13,
+      "count": 25,
       "target": 22
     },
     {
@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "de151099f0de5faad0aed01e9762b12c56b91a4f",
+  "head": "3370bdffb13c88eb40298d36501f4d2e286b2203",
   "specs": [
     {
       "id": "022",
@@ -1032,6 +1032,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "3370bdf",
+      "date": "2026-10-02",
+      "subject": "docs(spec-043): fix criterion 7 (shuffle per-topic)",
+      "type": "docs"
+    },
+    {
       "sha": "de15109",
       "date": "2026-10-02",
       "subject": "docs(spec-043): resolve 9 hard-fail",
@@ -1144,12 +1150,6 @@
       "date": "2026-10-02",
       "subject": "docs(log): rule11-трейл для push spec-045",
       "type": "docs"
-    },
-    {
-      "sha": "3a16c0d",
-      "date": "2026-10-02",
-      "subject": "chore(state): converge after spec-045 team archive",
-      "type": "chore"
     }
   ],
   "roles": [
@@ -1224,7 +1224,7 @@
     {
       "name": "LinuxExam",
       "status": "frozen",
-      "metric": "229 / 300 вопросов",
+      "metric": "241 / 300 вопросов",
       "metric_source": "goal",
       "frozen_at": "2026-09-27",
       "frozen_by": "ORCH-RULES правило 6"

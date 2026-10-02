@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на de15109</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 3370bdf</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -141,7 +141,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
 <!--volatile:end-->
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
-      <div class="pulse-tile__value">229/300 · 76.3%</div>
+      <div class="pulse-tile__value">241/300 · 80.3%</div>
       <div class="pulse-tile__note">+0 за сутки</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Требует решения</div>
@@ -162,11 +162,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h2>Темы банка · 14</h2>
     <details class="collapsible progress-topics" id="progress-topics">
       <summary>Раскрыть темы · всего: 14</summary>
-        <div class="topic">
-          <div class="topic__label">Развёртывание систем</div>
-          <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
-          <div class="topic__count">13 / 22</div>
-        </div>
         <div class="topic">
           <div class="topic__label">Базовые инструменты</div>
           <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
@@ -231,6 +226,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="topic__label">Пользователи и группы</div>
           <div class="topic__bar"><div class="topic__fill" style="width:91%"></div></div>
           <div class="topic__count">20 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Развёртывание систем</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:100%"></div></div>
+          <div class="topic__count">25 / 22</div>
         </div>
     </details>
   </section>
@@ -420,6 +420,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">3370bdf</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-043): fix criterion 7 (shuffle per-topic)</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
+        <tr>
           <td class="mono">de15109</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-043): resolve 9 hard-fail</td>
@@ -533,12 +539,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(log): rule11-трейл для push spec-045</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">3a16c0d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-045 team archive</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -571,7 +571,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">53 ч (~2.2 дн)</td>
+          <td class="muted">54 ч (~2.3 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -585,7 +585,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-02T00:00:00Z</td>
           <td class="mono">60</td>
-          <td class="muted">4 ч</td>
+          <td class="muted">5 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -872,9 +872,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <section class="agents" id="agents">
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 1</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 2</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">spec-043-batch6 · <span class="chip chip--running">running</span></div>
+          <div class="entry__body muted">агенты: writer (·) · qc (·) · builder (▶)</div>
+          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓ · t5 ▶ · t6 ○ · t7 ○</div>
         </div>
   </section>
 
