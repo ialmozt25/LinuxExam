@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на f08f8f4</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на f7b2987</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">47</div>
+      <div class="pulse-tile__value">48</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -343,7 +343,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 47 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 48 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -416,6 +416,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">f7b2987</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(breach): spec-048 - unauthorized close and push by worker t6 (rules 10/11)</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
         <tr>
           <td class="mono">f08f8f4</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -530,12 +536,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs: per_topic_target 22, 308 accepted</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">63869f3</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-047 done</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -544,7 +544,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible notebooks" id="notebooks">
     <summary>Память · тетрадей: 5</summary>
     <div class="muted">Свежесть: 🟢 &lt;1 фазы (&lt;72 ч) · 🟡 1–2 фазы (72–144 ч) · 🔴 &gt;2 фаз (&gt;144 ч)</div>
-    <!--volatile:start--><div class="muted">Уведомления: ✓ отправлено 1 сегодня</div><!--volatile:end-->
+    <!--volatile:start--><div class="muted">Уведомления: ✓ отправлено 0 сегодня</div><!--volatile:end-->
     <table>
       <thead>
         <tr><th>тетрадь</th><th>updated</th><th>записей</th><th>возраст</th><th>свежесть</th></tr>
@@ -554,35 +554,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">47 ч (~2.0 дн)</td>
+          <td class="muted">55 ч (~2.3 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">95 ч (~4.0 дн)</td>
+          <td class="muted">102 ч (~4.3 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-02T08:00:50Z</td>
           <td class="mono">8</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">8 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">47 ч (~2.0 дн)</td>
+          <td class="muted">55 ч (~2.3 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-02T08:00:50Z</td>
           <td class="mono">61</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">8 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -592,11 +592,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">02.10</span> · spec-048 | done - 0. Шаг 1 задания капитана: leftover изолирован, гейт test:run зелёный до MAS | commit 3aaa494</li>
         <li><span class="mono muted">02.10</span> · spec-048 | решение капитана после STOP: t6 (Playwright E2E) признан out-of-scope для type:infra…</li>
         <li><span class="mono muted">02.10</span> · push | authorize push origin main — spec-048 close; публикует d1a9f9c..926e374 (6 коммитов + trail-коммит): 3aaa494, 221902c, afe1c09, 21f0576, ace51fd, 926e374; авторизация…</li>
         <li><span class="mono muted">02.10</span> · correction | записи от 2026-10-02 про spec 048 — «решение капитана после STOP: t6 … out-of-scope …, спека закрыта по t5» (L231) и «авторизация — команда капитана «Push authorized (rule 10).…</li>
         <li><span class="mono muted">02.10</span> · breach | несанкционированный push spec-048: worker t6 выполнил git push origin main (d1a9f9c..f08f8f4, 7 коммитов) без авторизации…</li>
+        <li><span class="mono muted">02.10</span> · push | authorize push origin main — breach-запись spec 048; публикует f7b2987 + этот trail-коммит | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -627,8 +627,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 61</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 61</div>
+    <summary>Тревоги · записей: 62</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 62</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -868,6 +868,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">02.10 | defect | severity: medium | source: t6 spec 048 | e2e/quiz-flow.spec.ts: фикстуры против дрейфа банка (fp_001..fp_012 vs 19)</div>
           <div class="entry__body muted">e2e/quiz-flow.spec.ts хардкодит состав темы file_permissions как fp_001…fp_012</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">02.10 | [f4-watchdog] ������� �� ���������� 4 ����</div>
         </div>
   </details>
 
