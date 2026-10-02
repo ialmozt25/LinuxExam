@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "ace51fdc40c009bf08be50e0eb55b9951b1e68ef",
+  "head": "926e37426d5718601d5d6d1e887e9f7c578221cc",
   "specs": [
     {
       "id": "022",
@@ -1033,7 +1033,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-02 | spec-043 | approve правок 1-8 капитаном (STOP A пройден) + правка 9: критерий 7 приведён к «npm run shuffle-bank -- deploy_systems (только эта тема), затем shuffle-bank:check = 0» (прецедент spec 020), формулировка синхронизирована с Edge Cases и «Проверкой — сигналы»; блок «Решение капитана — правки 1-9» и решения по открытым вопросам (objective_domain вариант A = \"6\" у всех 12, cosine 0.80, Open Q 7 снят) записаны в спеку; validate-spec 043 = PASS (exit 0), hard-fail 0, baseline score 93 → 92 (Clarity: +26 предложений в записи решения, длинных 15 вместо 13) | commit pending",
     "2026-10-02 | spec-043 | done - batch6-deploy-systems | commit 3370bdf",
     "2026-10-02 | push | authorize push origin main — spec-043 close; публикует ed144e3..9fb92e3 (10 коммитов) + этот trail-коммит; tip — trail; авторизация — команда капитана «Push authorized ...» | commit pending",
     "2026-10-02 | rule2-exception | авторизован перевод spec 048 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «EMBEDDED APPROVE (rule 2): перевести 048 в approved после создания», повторено как «spec 048 → approved после создания» с компонентом 4) — трек full-enrich-skip: enrich пропущен прямым решением капитана | commit pending",
@@ -1042,10 +1041,17 @@
     "2026-10-02 | per_topic_target | overflow 25 > 22 (тема deploy_systems, spec 043) принят — решение капитана 2026-10-02: 25 вопросов темы при per_topic_target 22 не выравниваются, per_topic_target остаётся 22 | commit pending",
     "2026-10-02 | spec-048 | STOP после t6 — Playwright E2E красный: фикстуры e2e/quiz-flow.spec.ts хардкодят 12 вопросов file_permissions (fp_001..fp_012, включая удалённый fp_002) против живых 19; предсуществующий дрейф (docs/memory/alerts.md QC-1, docs/memory/working.md follow-up 4), к правкам 048 отношения нет (git diff src e2e index.html public vite.config.ts пуст); 3 прогона npm run test:e2e: 13/5, 0/5, 7/11; закрытие spec 048 не запускалось, коммит не делался (правило 2 — красный гейт отменяет коммит) | commit pending",
     "2026-10-02 | spec-048 | done - 0. Шаг 1 задания капитана: leftover изолирован, гейт test:run зелёный до MAS | commit 3aaa494",
-    "2026-10-02 | spec-048 | решение капитана после STOP: t6 (Playwright E2E) признан out-of-scope для type:infra — обязательный E2E-гейт Шага 4b действует только для type:feature/ui; дрейф фикстур e2e/quiz-flow.spec.ts (fp_001..fp_012 против живых 19, fp_002 удалён в ba45517) — pre-existing, кандидат в spec 049 (записи: docs/memory/alerts.md 2026-10-02, docs/memory/procedural.md 2026-10-02); спека 048 закрыта по вердикту t5 reviewer verdict=pass, финальный sync:check = 0 | commit pending"
+    "2026-10-02 | spec-048 | решение капитана после STOP: t6 (Playwright E2E) признан out-of-scope для type:infra — обязательный E2E-гейт Шага 4b действует только для type:feature/ui; дрейф фикстур e2e/quiz-flow.spec.ts (fp_001..fp_012 против живых 19, fp_002 удалён в ba45517) — pre-existing, кандидат в spec 049 (записи: docs/memory/alerts.md 2026-10-02, docs/memory/procedural.md 2026-10-02); спека 048 закрыта по вердикту t5 reviewer verdict=pass, финальный sync:check = 0 | commit pending",
+    "2026-10-02 | push | authorize push origin main — spec-048 close; публикует d1a9f9c..926e374 (6 коммитов + trail-коммит): 3aaa494, 221902c, afe1c09, 21f0576, ace51fd, 926e374; авторизация — команда капитана «Push authorized (rule 10). Один push + архив spec-048» | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "926e374",
+      "date": "2026-10-02",
+      "subject": "docs(spec-048): log decision - t6 out-of-scope for infra, spec closed by t5",
+      "type": "docs"
+    },
     {
       "sha": "ace51fd",
       "date": "2026-10-02",
@@ -1159,12 +1165,6 @@
       "date": "2026-10-02",
       "subject": "docs(spec-047): done - 1. Раздел в ORCH-RULES: == 1",
       "type": "docs"
-    },
-    {
-      "sha": "4c851be",
-      "date": "2026-10-02",
-      "subject": "chore(spec-047): R5 trace - task tokens t1 t2",
-      "type": "chore"
     }
   ],
   "roles": [
