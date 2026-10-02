@@ -1,12 +1,12 @@
 ---
 id: 048
 slug: fast-track-obs-tester
-status: approved
+status: done
 type: infra
 track: full-enrich-skip
 created: 2026-10-02
 updated: 2026-10-02
-commit: null
+commit: 3aaa494
 embedded_approve: rule 2 (исключение F5.0a — явная формулировка капитана 2026-10-02: «EMBEDDED APPROVE (rule 2): spec 048 → approved после создания», задание повторено с компонентом 4 в том же дне); rule 13 (исключение — правка .project/ORCH-RULES.md, правило 17, названа капитаном явно и по существу); rule 6 не применяется — type: infra
 commit_format: "docs(spec-048): OBS-1 volatile agents pulse + Fast track + Playwright tester + vitest exclude"
 ---
