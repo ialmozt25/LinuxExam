@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "9fb92e3c784d2203fe35c4150cbe58b8e3680d21",
+  "head": "d1a9f9cbe785678172baa423e13abcc0f6cc994e",
   "specs": [
     {
       "id": "022",
@@ -459,6 +459,21 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
+      "preview": ""
+    },
+    {
+      "id": "048",
+      "slug": "fast-track-obs-tester",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-02",
+      "updated": "2026-10-02",
+      "commit": null,
+      "file": "specs/048-fast-track-obs-tester.md",
+      "mtime": 1790922577525.9304,
+      "goal": "Закрыть OBS-1 (VOLATILE-маркеры вокруг «Пульса агентов»), зафиксировать в правиле 17",
+      "acceptance": "1. **OBS-1 (код).** Содержимое секции `class=\"agents\" id=\"agents\"` в `docs/index.html`",
+      "noTouch": "`~/.dsh/.agent-presets/**` — пресет (`roster.yaml`, рабочая копия скилла): операция",
       "preview": ""
     },
     {
@@ -1018,19 +1033,25 @@
     }
   ],
   "log_tail": [
-    "2026-10-02 | rule13-exception | авторизована правка .project/ORCH-RULES.md через embedded approve капитана: новый раздел «Двухтрековый режим» (порог Small/Full, spec 047) | commit pending",
-    "2026-10-02 | spec-047 | done - 1. Раздел в ORCH-RULES: == 1 | commit 41e42d8",
-    "2026-10-02 | per_topic_target | per_topic_target 22 оставить, принять перебор +8 (банк 308) — решение капитана 2026-10-02; вариант 21 (294) отклонён; правок state.json / tools/gen-state.mjs не требуется (22 — текущее значение, Math.ceil(300/14)); фиксация до npm run sync — запись в docs/memory/alerts.md помечена accepted-risk, finding «Решение отложено (за капитаном)» закрыт | commit pending",
-    "2026-10-02 | spec | spec 043 (batch6-deploy-systems) — draft/approved в одном шаге: 12 новых вопросов deploy_systems (ds_014..ds_025, objective_domain \"6\"); банк 229 → 241; трек Full (type: content) | commit pending",
     "2026-10-02 | rule2-exception | embedded approve spec 043 — перевод spec 043 в approved авторизован явной формулировкой капитана 2026-10-02 («EMBEDDED APPROVE (rule 2, исключение): перевести spec 043 в approved после создания»); запись сделана оркестратором по правилу 2 (редакция F5.0a) | commit pending",
     "2026-10-02 | spec-enrich | spec 043 (batch6-deploy-systems) — enrich применён: score 83 → 93 (+10, порог 70), 14 PASS / 1 FAIL механики (m06: не существует упомянутый путь /etc/systemd/logind.conf, строка 149), Фаза 4 traceability hard-fail false; 8 hard-fail findings (F3-01..F3-03, ADV-d1, ADV-d2, SIM-01..SIM-03) вынесены на решение капитана — STOP-точка A, цикл не запущен | commit 6fe5915",
     "2026-10-02 | spec-043 | hard-fail сняты решением капитана на STOP-точке A: правки 1–8 (F3-01 Цель «топ-3 по count 13», F3-02 критерий 4 cosine 0.80, F3-03 критерий 8 новый путь превью, ADV-d1/SIM-02 write-скоуп t4 + 4 производных и npm run sync, ADV-d2/SIM-03 критерий 6 + t2 dedup по банку 229 с темой соседа, SIM-01 путь t3, m06 строка 149 → «пример: systemd unit file»); открытые решения: objective_domain все 12 = \"6\", порог cosine 0.80; validate-spec 043 = PASS (exit 0), hard-fail 0 (traceability 0 сирот), m06 остаётся диагностикой (31 путь, ложные срабатывания + Edge Case строка 500 с /etc/systemd/logind.conf); Open Q 7 (критерий 7 против shuffle-bank --apply) не входил в решение и остаётся открытым | commit pending",
     "2026-10-02 | spec-043 | approve правок 1-8 капитаном (STOP A пройден) + правка 9: критерий 7 приведён к «npm run shuffle-bank -- deploy_systems (только эта тема), затем shuffle-bank:check = 0» (прецедент spec 020), формулировка синхронизирована с Edge Cases и «Проверкой — сигналы»; блок «Решение капитана — правки 1-9» и решения по открытым вопросам (objective_domain вариант A = \"6\" у всех 12, cosine 0.80, Open Q 7 снят) записаны в спеку; validate-spec 043 = PASS (exit 0), hard-fail 0, baseline score 93 → 92 (Clarity: +26 предложений в записи решения, длинных 15 вместо 13) | commit pending",
     "2026-10-02 | spec-043 | done - batch6-deploy-systems | commit 3370bdf",
-    "2026-10-02 | push | authorize push origin main — spec-043 close; публикует ed144e3..9fb92e3 (10 коммитов) + этот trail-коммит; tip — trail; авторизация — команда капитана «Push authorized ...» | commit pending"
+    "2026-10-02 | push | authorize push origin main — spec-043 close; публикует ed144e3..9fb92e3 (10 коммитов) + этот trail-коммит; tip — trail; авторизация — команда капитана «Push authorized ...» | commit pending",
+    "2026-10-02 | rule2-exception | авторизован перевод spec 048 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «EMBEDDED APPROVE (rule 2): перевести 048 в approved после создания», повторено как «spec 048 → approved после создания» с компонентом 4) — трек full-enrich-skip: enrich пропущен прямым решением капитана | commit pending",
+    "2026-10-02 | rule13-exception | авторизована правка .project/ORCH-RULES.md через embedded approve капитана: правило 17 — третий трек Fast (infra/content с явными требованиями капитана, без enrich, MAS + Playwright; вступает в силу с spec 049) | commit pending",
+    "2026-10-02 | spec | spec 048 (fast-track-obs-tester, infra, трек full-enrich-skip) — четыре компонента: OBS-1 (VOLATILE-маркеры вокруг секции «Пульс агентов», .project/sync.mjs), трек Fast (ORCH-RULES правило 17 + SKILL Шаг 0), обязательный Playwright CLI (не MCP) для type=feature/ui после MAS и до close (SKILL Шаг 4b), исключение .project/drafts/** и .agent-teams/** в vitest.config.ts; гигиена гейта: leftover .project/drafts/test-runs/spec-043-batch6.spec.ts изолирован в .spec.ts.bak, npm run test:run 1 → 0 (28 файлов / 198 тестов) | commit pending",
+    "2026-10-02 | per_topic_target | overflow 25 > 22 (тема deploy_systems, spec 043) принят — решение капитана 2026-10-02: 25 вопросов темы при per_topic_target 22 не выравниваются, per_topic_target остаётся 22 | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "d1a9f9c",
+      "date": "2026-10-02",
+      "subject": "chore(log): trail for spec-043 push",
+      "type": "chore"
+    },
     {
       "sha": "9fb92e3",
       "date": "2026-10-02",
@@ -1144,12 +1165,6 @@
       "date": "2026-10-02",
       "subject": "docs(spec-046): done - 1. Якоря STOP D (после правки)",
       "type": "docs"
-    },
-    {
-      "sha": "31dc80d",
-      "date": "2026-10-02",
-      "subject": "chore(spec-046): R5 trace - task tokens t1 t2",
-      "type": "chore"
     }
   ],
   "roles": [

@@ -1893,7 +1893,12 @@ function renderCenter(ctx) {
       ].filter(Boolean).join('\n'))
       .join('\n');
 
-  /* --- F3.0b блок 6: «Пульс агентов» — из .agent-teams/<teamId>/team.json (спека 022) */
+  /* --- F3.0b блок 6: «Пульс агентов» — из .agent-teams/<teamId>/team.json (спека 022).
+   * OBS-1 (spec 048): блок читает LIVE `.agent-teams/<teamId>/team.json` — состав агентов и
+   * статусы задач живой команды, поэтому меняется от прогона, а не от правки источников.
+   * Секция `class="agents" id="agents"` в шаблоне ниже обёрнута VOLATILE: без маркеров
+   * побайтовый `--check` дрожит от смены статусов задач при корректных производных
+   * (spec 022/034/038; OBS-1 spec 048). */
   const agentsDoc = readAgentTeams();
   const agentsHtml = agentsDoc.teams.length === 0
     ? `        <p class="empty">${agentsDoc.present ? 'нет данных — команд нет' : 'нет данных — каталог .agent-teams/ отсутствует'}</p>`
@@ -2121,9 +2126,11 @@ ${alertsHtml}
   </details>
 
   <section class="agents" id="agents">
+${VOLATILE.start}
     <h2>Пульс агентов</h2>
     <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: ${agentsDoc.teams.length}</div>
 ${agentsHtml}
+${VOLATILE.end}
   </section>
 
   <details class="collapsible mas-run" id="mas-run">

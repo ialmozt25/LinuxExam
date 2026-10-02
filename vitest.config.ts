@@ -18,6 +18,9 @@ export default defineConfig({
     passWithNoTests: true,
     restoreMocks: true,
     // The Playwright specs live in e2e/ and must not be collected by Vitest.
-    exclude: [...configDefaults.exclude, 'e2e/**'],
+    // The technical dirs .project/drafts/** (run drafts) and .agent-teams/**
+    // (live AgentTeams state) hold no app tests; excluding them protects the
+    // test:run gate from stray files left in the tree (spec 048).
+    exclude: [...configDefaults.exclude, 'e2e/**', '.project/drafts/**', '.agent-teams/**'],
   },
 });
