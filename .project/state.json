@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "3370bdffb13c88eb40298d36501f4d2e286b2203",
+  "head": "9f5f16c4a367b80d48062bff6647c46a94d95679",
   "specs": [
     {
       "id": "022",
@@ -1032,6 +1032,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "9f5f16c",
+      "date": "2026-10-02",
+      "subject": "feat(bank): M2.9 batch 6 - 12 questions on deploy_systems (229→241)",
+      "type": "feat"
+    },
+    {
       "sha": "3370bdf",
       "date": "2026-10-02",
       "subject": "docs(spec-043): fix criterion 7 (shuffle per-topic)",
@@ -1143,12 +1149,6 @@
       "sha": "d30c918",
       "date": "2026-10-02",
       "subject": "docs(proc): rule11 trail before push + cleanup",
-      "type": "docs"
-    },
-    {
-      "sha": "f09c8ea",
-      "date": "2026-10-02",
-      "subject": "docs(log): rule11-трейл для push spec-045",
       "type": "docs"
     }
   ],
