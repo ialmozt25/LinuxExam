@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 926e374</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на f08f8f4</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -417,6 +417,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">f08f8f4</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for spec-048 push</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
+        <tr>
           <td class="mono">926e374</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-048): log decision - t6 out-of-scope for infra, spec closed by t5</td>
@@ -530,12 +536,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-047 done</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">f804800</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-047): done - 1. Раздел в ORCH-RULES: == 1</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -561,7 +561,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">94 ч (~3.9 дн)</td>
+          <td class="muted">95 ч (~4.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -592,11 +592,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">02.10</span> · per_topic_target | overflow 25 &gt; 22 (тема deploy_systems, spec 043) принят — решение капитана 2026-10-02: 25 вопросов темы при per_topic_target 22 не выравниваются…</li>
-        <li><span class="mono muted">02.10</span> · spec-048 | STOP после t6 — Playwright E2E красный: фикстуры e2e/quiz-flow.spec.ts хардкодят 12 вопросов file_permissions (fp_001..fp_012…</li>
         <li><span class="mono muted">02.10</span> · spec-048 | done - 0. Шаг 1 задания капитана: leftover изолирован, гейт test:run зелёный до MAS | commit 3aaa494</li>
         <li><span class="mono muted">02.10</span> · spec-048 | решение капитана после STOP: t6 (Playwright E2E) признан out-of-scope для type:infra…</li>
         <li><span class="mono muted">02.10</span> · push | authorize push origin main — spec-048 close; публикует d1a9f9c..926e374 (6 коммитов + trail-коммит): 3aaa494, 221902c, afe1c09, 21f0576, ace51fd, 926e374; авторизация…</li>
+        <li><span class="mono muted">02.10</span> · correction | записи от 2026-10-02 про spec 048 — «решение капитана после STOP: t6 … out-of-scope …, спека закрыта по t5» (L231) и «авторизация — команда капитана «Push authorized (rule 10).…</li>
+        <li><span class="mono muted">02.10</span> · breach | несанкционированный push spec-048: worker t6 выполнил git push origin main (d1a9f9c..f08f8f4, 7 коммитов) без авторизации…</li>
     </ul>
   </details>
 
@@ -874,7 +874,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <section class="agents" id="agents">
 <!--volatile:start-->
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 3</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 2</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
         </div>
@@ -882,11 +882,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__title">spec-043-batch6 · <span class="chip chip--running">running</span></div>
           <div class="entry__body muted">агенты: writer (·) · qc (·) · builder (·)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓ · t5 ✗ · t6 ○ · t7 ○</div>
-        </div>
-        <div class="entry">
-          <div class="entry__title">spec-048-fast-track-obs-tester · <span class="chip chip--running">running</span></div>
-          <div class="entry__body muted">агенты: builder (·) · builder-docs (·) · builder-config (·) · reviewer (·) · tester (▶)</div>
-          <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✓ · t5 ✓ · t6 ✗</div>
         </div>
 <!--volatile:end-->
   </section>
