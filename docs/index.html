@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 63869f3</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 27ae10c</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -284,7 +284,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -318,6 +318,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#043 batch6-deploy-systems</span>
+            <span class="ddn__meta">content · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -347,8 +351,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </section>
 
   <details class="collapsible specs" id="specs">
-    <summary>Спеки · всего: 44</summary>
-          <div class="spec-group">Утверждены · 8</div>
+    <summary>Спеки · всего: 45</summary>
+          <div class="spec-group">Утверждены · 9</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -358,6 +362,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
+            <li>#043 batch6-deploy-systems</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -414,6 +419,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">27ae10c</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs: per_topic_target 22, 308 accepted</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
         <tr>
           <td class="mono">63869f3</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -528,12 +539,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-045): D+E - agent.cordis.yml без close-spec + README шаг 11 на &lt;id&gt;</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">a3ef837</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(log): rule2-exception для spec 045 (embedded approve)</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -559,7 +564,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">85 ч (~3.5 дн)</td>
+          <td class="muted">86 ч (~3.6 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -590,11 +595,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">02.10</span> · исключение из правила 2 | авторизован перевод spec 046 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать .project/specs/046-run-spec-chain-cont…</li>
-        <li><span class="mono muted">02.10</span> · исключение из правила 2 | авторизован перевод spec 047 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать spec 047 (infra, approved)»)…</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 13 | авторизована правка .project/правила оркестратора.md через embedded approve капитана: новый раздел «Двухтрековый режим» (порог Small/Full, spec 047) | ещё не закоммичено</li>
         <li><span class="mono muted">02.10</span> · spec-047 | done - 1. Раздел в правила оркестратора: == 1 | commit 41e42d8</li>
         <li><span class="mono muted">02.10</span> · per_topic_target | per_topic_target 22 оставить, принять перебор +8 (банк 308) — решение капитана 2026-10-02; вариант 21 (294) отклонён; правок состояние проекта / tools/gen-state.mjs не требуется (22…</li>
+        <li><span class="mono muted">02.10</span> · spec | spec 043 (batch6-deploy-systems) — draft/approved в одном шаге: 12 новых вопросов deploy_systems (ds_014..ds_025…</li>
+        <li><span class="mono muted">02.10</span> · исключение из правила 2 | embedded approve spec 043 — перевод spec 043 в approved авторизован явной формулировкой капитана 2026-10-02 («EMBEDDED APPROVE (rule 2…</li>
     </ul>
   </details>
 

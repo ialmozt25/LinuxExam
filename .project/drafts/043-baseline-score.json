@@ -1,0 +1,581 @@
+{
+  "tool": "validate-spec.mjs",
+  "spec040Component": "A",
+  "phases": [
+    0,
+    1,
+    4
+  ],
+  "spec": {
+    "path": ".project/specs/043-batch6-deploy-systems.md",
+    "id": "043",
+    "slug": "batch6-deploy-systems",
+    "type": "content",
+    "status": "approved",
+    "commit": "null"
+  },
+  "phase0": {
+    "weights": {
+      "Completeness": 30,
+      "Clarity": 25,
+      "Testability": 25,
+      "Consistency": 10,
+      "Scope": 10
+    },
+    "weightSum": 100,
+    "score": 81,
+    "threshold": 70,
+    "dimensions": [
+      {
+        "key": "Completeness",
+        "weight": 30,
+        "normalized": 91,
+        "weighted": 27,
+        "items": [
+          {
+            "label": "секция «Контекст»",
+            "points": 4,
+            "max": 4,
+            "note": ""
+          },
+          {
+            "label": "секция «Цель»",
+            "points": 4,
+            "max": 4,
+            "note": ""
+          },
+          {
+            "label": "секция «Что делаем»",
+            "points": 5,
+            "max": 5,
+            "note": ""
+          },
+          {
+            "label": "секция «Критерии приёмки»",
+            "points": 6,
+            "max": 6,
+            "note": ""
+          },
+          {
+            "label": "секция «Декомпозиция»",
+            "points": 5,
+            "max": 5,
+            "note": ""
+          },
+          {
+            "label": "секция «Источники»",
+            "points": 0,
+            "max": 3,
+            "note": "отсутствует"
+          },
+          {
+            "label": "секция «Edge Cases»",
+            "points": 2,
+            "max": 2,
+            "note": ""
+          },
+          {
+            "label": "секция «Что НЕ трогать»",
+            "points": 1,
+            "max": 1,
+            "note": ""
+          },
+          {
+            "label": "глубина «Контекст»",
+            "points": 2,
+            "max": 2,
+            "note": ""
+          }
+        ]
+      },
+      {
+        "key": "Clarity",
+        "weight": 25,
+        "normalized": 72,
+        "weighted": 18,
+        "items": [
+          {
+            "label": "длина предложений",
+            "points": 6,
+            "max": 8,
+            "note": "предложений >45 слов: 6 из 125"
+          },
+          {
+            "label": "vague terms",
+            "points": 6,
+            "max": 6,
+            "note": ""
+          },
+          {
+            "label": "открытые вопросы/заглушки",
+            "points": 6,
+            "max": 6,
+            "note": ""
+          },
+          {
+            "label": "структура «Что делаем»",
+            "points": 0,
+            "max": 5,
+            "note": "подразделы компонентов не выделены"
+          }
+        ]
+      },
+      {
+        "key": "Testability",
+        "weight": 25,
+        "normalized": 76,
+        "weighted": 19,
+        "items": [
+          {
+            "label": "критерии приёмки присутствуют",
+            "points": 6,
+            "max": 6,
+            "note": "критериев: 12"
+          },
+          {
+            "label": "проверяемость критериев",
+            "points": 10,
+            "max": 10,
+            "note": "12/12"
+          },
+          {
+            "label": "verify-команды",
+            "points": 3,
+            "max": 6,
+            "note": "5/12"
+          },
+          {
+            "label": "секция Verify",
+            "points": 0,
+            "max": 3,
+            "note": "явной секции нет (критерии несут команды)"
+          }
+        ]
+      },
+      {
+        "key": "Consistency",
+        "weight": 10,
+        "normalized": 70,
+        "weighted": 7,
+        "items": [
+          {
+            "label": "frontmatter поля",
+            "points": 3,
+            "max": 3,
+            "note": "5/5"
+          },
+          {
+            "label": "нумерация фаз 0..N без пропусков",
+            "points": 0,
+            "max": 3,
+            "note": "фаз не найдено"
+          },
+          {
+            "label": "cross-refs разрешаются",
+            "points": 2,
+            "max": 2,
+            "note": "17/17"
+          },
+          {
+            "label": "status из допустимого набора",
+            "points": 2,
+            "max": 2,
+            "note": ""
+          }
+        ]
+      },
+      {
+        "key": "Scope",
+        "weight": 10,
+        "normalized": 100,
+        "weighted": 10,
+        "items": [
+          {
+            "label": "write-скоупы задач",
+            "points": 4,
+            "max": 4,
+            "note": "5/5 задач"
+          },
+          {
+            "label": "внешние ограничения/порядок задач",
+            "points": 3,
+            "max": 3,
+            "note": "dependencies объявлены у 5 задач"
+          },
+          {
+            "label": "граница write-скоупов зафиксирована",
+            "points": 3,
+            "max": 3,
+            "note": "задач с write-скоупом: 5/5"
+          }
+        ]
+      }
+    ]
+  },
+  "phase1": {
+    "count": 15,
+    "passed": 15,
+    "failed": 0,
+    "warned": 0,
+    "checks": [
+      {
+        "id": "m01",
+        "name": "frontmatter: блок --- и поля id/slug/type/status/commit",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m02",
+        "name": "id/slug спеки согласованы с именем файла",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m03",
+        "name": "секция «## Декомпозиция» присутствует",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m04",
+        "name": "DAG декомпозиции: известные зависимости, без дублей и циклов",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m05",
+        "name": "уникальность id спеки в .project/specs",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m06",
+        "name": "существование путей, упомянутых в спеке",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": "проверено путей: 18",
+        "issues": []
+      },
+      {
+        "id": "m07",
+        "name": "placeholder-маркеры (TBD/TODO/<id>/[citation needed])",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m08",
+        "name": "self-reference: спека не пишет сама в себя",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m09",
+        "name": "write-scope overlap: задачи не делят файлы, не пишут в «НЕ трогать»",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m10",
+        "name": "поле commit/SHA согласовано со статусом спеки",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m11",
+        "name": "критерии приёмки: наличие и проверяемость каждого",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m12",
+        "name": "обязательные секции: Контекст/Цель/Что делаем/Критерии приёмки",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m13",
+        "name": "критерии приёмки содержат verify-команды",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": "критериев с командой: 5/12",
+        "issues": []
+      },
+      {
+        "id": "m14",
+        "name": "edge cases описаны (секция + непустой список)",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      },
+      {
+        "id": "m15",
+        "name": "внутренние ссылки (спеки, документы) разрешаются",
+        "status": "PASS",
+        "severity": "diagnostic",
+        "note": null,
+        "issues": []
+      }
+    ]
+  },
+  "phase4": {
+    "decompositionPresent": true,
+    "advisory": [],
+    "orphanGoals": [],
+    "orphanCriteria": [],
+    "orphanTasks": [],
+    "external": [
+      {
+        "num": 12,
+        "line": 154
+      }
+    ],
+    "links": [
+      {
+        "criterion": 1,
+        "line": 117,
+        "tasks": [
+          {
+            "task": "t4",
+            "via": "atom:src/data/questions/deploy_systems.json"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 2,
+        "line": 121,
+        "tasks": [
+          {
+            "task": "t3",
+            "via": "token:project"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 3,
+        "line": 125,
+        "tasks": [
+          {
+            "task": "t3",
+            "via": "token:вопрос"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 4,
+        "line": 128,
+        "tasks": [
+          {
+            "task": "t3",
+            "via": "token:вопрос"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 5,
+        "line": 132,
+        "tasks": [
+          {
+            "task": "t1",
+            "via": "role"
+          },
+          {
+            "task": "t2",
+            "via": "role"
+          },
+          {
+            "task": "t3",
+            "via": "role"
+          },
+          {
+            "task": "t5",
+            "via": "role"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 6,
+        "line": 134,
+        "tasks": [
+          {
+            "task": "t1",
+            "via": "role"
+          },
+          {
+            "task": "t2",
+            "via": "role"
+          },
+          {
+            "task": "t3",
+            "via": "role"
+          },
+          {
+            "task": "t5",
+            "via": "role"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 7,
+        "line": 138,
+        "tasks": [
+          {
+            "task": "t4",
+            "via": "token:systems"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 8,
+        "line": 141,
+        "tasks": [
+          {
+            "task": "t1",
+            "via": "role"
+          },
+          {
+            "task": "t2",
+            "via": "role"
+          },
+          {
+            "task": "t3",
+            "via": "atom:.project/drafts/batch-6-preview.md"
+          },
+          {
+            "task": "t5",
+            "via": "role"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 9,
+        "line": 144,
+        "tasks": [
+          {
+            "task": "t4",
+            "via": "atom:deploy_systems.json"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 10,
+        "line": 147,
+        "tasks": [
+          {
+            "task": "t1",
+            "via": "role"
+          },
+          {
+            "task": "t2",
+            "via": "role"
+          },
+          {
+            "task": "t3",
+            "via": "role"
+          },
+          {
+            "task": "t5",
+            "via": "role"
+          }
+        ],
+        "external": true
+      },
+      {
+        "criterion": 11,
+        "line": 150,
+        "tasks": [
+          {
+            "task": "t4",
+            "via": "id+atom:src/data/questions/deploy_systems.json"
+          }
+        ],
+        "external": false
+      },
+      {
+        "criterion": 12,
+        "line": 154,
+        "tasks": [],
+        "external": true
+      }
+    ],
+    "goalLinks": [
+      {
+        "goal": 1,
+        "line": 60,
+        "coveredBy": [
+          1,
+          7,
+          9,
+          11,
+          "task:t2",
+          5,
+          6,
+          8,
+          10,
+          "task:t4"
+        ],
+        "external": false
+      },
+      {
+        "goal": 2,
+        "line": 63,
+        "coveredBy": [
+          1,
+          7,
+          9,
+          11,
+          "task:t4"
+        ],
+        "external": false
+      },
+      {
+        "goal": 3,
+        "line": 70,
+        "coveredBy": [
+          1,
+          9,
+          "task:t2",
+          5,
+          6,
+          8,
+          10
+        ],
+        "external": false
+      }
+    ],
+    "hardFail": false
+  },
+  "hardFail": false,
+  "exitCode": 0
+}
