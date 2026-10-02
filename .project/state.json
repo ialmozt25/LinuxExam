@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "06990dd30ef47935fe70fc5715d38dc8ca1526ba",
+  "head": "9fb92e3c784d2203fe35c4150cbe58b8e3680d21",
   "specs": [
     {
       "id": "022",
@@ -1018,7 +1018,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-02 | rule2-exception | авторизован перевод spec 047 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать spec 047 (infra, approved)») — Small-трек | commit pending",
     "2026-10-02 | rule13-exception | авторизована правка .project/ORCH-RULES.md через embedded approve капитана: новый раздел «Двухтрековый режим» (порог Small/Full, spec 047) | commit pending",
     "2026-10-02 | spec-047 | done - 1. Раздел в ORCH-RULES: == 1 | commit 41e42d8",
     "2026-10-02 | per_topic_target | per_topic_target 22 оставить, принять перебор +8 (банк 308) — решение капитана 2026-10-02; вариант 21 (294) отклонён; правок state.json / tools/gen-state.mjs не требуется (22 — текущее значение, Math.ceil(300/14)); фиксация до npm run sync — запись в docs/memory/alerts.md помечена accepted-risk, finding «Решение отложено (за капитаном)» закрыт | commit pending",
@@ -1027,10 +1026,17 @@
     "2026-10-02 | spec-enrich | spec 043 (batch6-deploy-systems) — enrich применён: score 83 → 93 (+10, порог 70), 14 PASS / 1 FAIL механики (m06: не существует упомянутый путь /etc/systemd/logind.conf, строка 149), Фаза 4 traceability hard-fail false; 8 hard-fail findings (F3-01..F3-03, ADV-d1, ADV-d2, SIM-01..SIM-03) вынесены на решение капитана — STOP-точка A, цикл не запущен | commit 6fe5915",
     "2026-10-02 | spec-043 | hard-fail сняты решением капитана на STOP-точке A: правки 1–8 (F3-01 Цель «топ-3 по count 13», F3-02 критерий 4 cosine 0.80, F3-03 критерий 8 новый путь превью, ADV-d1/SIM-02 write-скоуп t4 + 4 производных и npm run sync, ADV-d2/SIM-03 критерий 6 + t2 dedup по банку 229 с темой соседа, SIM-01 путь t3, m06 строка 149 → «пример: systemd unit file»); открытые решения: objective_domain все 12 = \"6\", порог cosine 0.80; validate-spec 043 = PASS (exit 0), hard-fail 0 (traceability 0 сирот), m06 остаётся диагностикой (31 путь, ложные срабатывания + Edge Case строка 500 с /etc/systemd/logind.conf); Open Q 7 (критерий 7 против shuffle-bank --apply) не входил в решение и остаётся открытым | commit pending",
     "2026-10-02 | spec-043 | approve правок 1-8 капитаном (STOP A пройден) + правка 9: критерий 7 приведён к «npm run shuffle-bank -- deploy_systems (только эта тема), затем shuffle-bank:check = 0» (прецедент spec 020), формулировка синхронизирована с Edge Cases и «Проверкой — сигналы»; блок «Решение капитана — правки 1-9» и решения по открытым вопросам (objective_domain вариант A = \"6\" у всех 12, cosine 0.80, Open Q 7 снят) записаны в спеку; validate-spec 043 = PASS (exit 0), hard-fail 0, baseline score 93 → 92 (Clarity: +26 предложений в записи решения, длинных 15 вместо 13) | commit pending",
-    "2026-10-02 | spec-043 | done - batch6-deploy-systems | commit 3370bdf"
+    "2026-10-02 | spec-043 | done - batch6-deploy-systems | commit 3370bdf",
+    "2026-10-02 | push | authorize push origin main — spec-043 close; публикует ed144e3..9fb92e3 (10 коммитов) + этот trail-коммит; tip — trail; авторизация — команда капитана «Push authorized ...» | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "9fb92e3",
+      "date": "2026-10-02",
+      "subject": "chore(state): converge after spec-043 done",
+      "type": "chore"
+    },
     {
       "sha": "06990dd",
       "date": "2026-10-02",
@@ -1143,12 +1149,6 @@
       "sha": "31dc80d",
       "date": "2026-10-02",
       "subject": "chore(spec-046): R5 trace - task tokens t1 t2",
-      "type": "chore"
-    },
-    {
-      "sha": "8af2ab9",
-      "date": "2026-10-02",
-      "subject": "chore(state): converge after spec-046 team archive",
       "type": "chore"
     }
   ],
