@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на d1a9f9c</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на afe1c09</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -254,6 +254,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">infra</span>
           </li>
           <li class="ddn__item">
+            <span class="ddn__title">#048 fast-track-obs-tester</span>
+            <span class="ddn__meta">infra</span>
+          </li>
+          <li class="ddn__item">
             <span class="ddn__title">#042 telegram-notify</span>
             <span class="ddn__meta">infra</span>
           </li>
@@ -277,14 +281,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#013 local-aliases</span>
             <span class="ddn__meta">docs</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#014 subagent-push-lockdown</span>
-            <span class="ddn__meta">docs</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">9</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">8</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -318,10 +318,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#031 rhcsa-bank-fixes</span>
             <span class="ddn__meta">content · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#048 fast-track-obs-tester</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -352,7 +348,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 46</summary>
-          <div class="spec-group">Утверждены · 9</div>
+          <div class="spec-group">Утверждены · 8</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -362,7 +358,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#029 center-redesign</li>
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
-            <li>#048 fast-track-obs-tester</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -370,7 +365,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 30</div>
+          <div class="spec-group">Завершены · 31</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -402,6 +397,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#045 spec-chain-readme-fix</li>
             <li>#046 run-spec-chain-content-stop</li>
             <li>#047 spec-chain-dual-track</li>
+            <li>#048 fast-track-obs-tester</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -420,6 +416,24 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">afe1c09</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-048): done - 0. Шаг 1 задания капитана: leftover изолирован, гейт test:run зелёный до MAS</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
+        <tr>
+          <td class="mono">221902c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec-048): R5 trace - task tokens t1 t2 t3 t4 t5</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
+        <tr>
+          <td class="mono">3aaa494</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-048): OBS-1 volatile agents pulse + Fast track + Playwright tester + vitest exclude</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
         <tr>
           <td class="mono">d1a9f9c</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -522,24 +536,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-047): dual-track spec-chain - Small/Full threshold table (rule 13)</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">37f6e59</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): rule2-exception для spec 046 (embedded approve)</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
-        <tr>
-          <td class="mono">c0b05d2</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-046 done</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
-        <tr>
-          <td class="mono">b1bb8de</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-046): done - 1. Якоря STOP D (после правки)</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -596,11 +592,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">02.10</span> · исключение из правила 2 | авторизован перевод spec 048 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «EMBEDDED APPROVE (rule 2): перевести 048 в app…</li>
         <li><span class="mono muted">02.10</span> · исключение из правила 13 | авторизована правка .project/правила оркестратора.md через embedded approve капитана: правило 17 — третий трек Fast (infra/content с явными требованиями капитана, без enrich…</li>
         <li><span class="mono muted">02.10</span> · spec | spec 048 (fast-track-obs-tester, infra, трек full-enrich-skip) — четыре компонента: OBS-1 (VOLATILE-маркеры вокруг секции «Пульс агентов», генератор центра)…</li>
         <li><span class="mono muted">02.10</span> · per_topic_target | overflow 25 &gt; 22 (тема deploy_systems, spec 043) принят — решение капитана 2026-10-02: 25 вопросов темы при per_topic_target 22 не выравниваются…</li>
         <li><span class="mono muted">02.10</span> · spec-048 | STOP после t6 — Playwright E2E красный: фикстуры e2e/quiz-flow.spec.ts хардкодят 12 вопросов file_permissions (fp_001..fp_012…</li>
+        <li><span class="mono muted">02.10</span> · spec-048 | done - 0. Шаг 1 задания капитана: leftover изолирован, гейт test:run зелёный до MAS | commit 3aaa494</li>
     </ul>
   </details>
 
