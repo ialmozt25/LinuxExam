@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "ed144e357ca405fe70e2861c869f9b69abc50aba",
+  "head": "6fe59152267760588ad56fd0e6f6d0b63d23c6e1",
   "specs": [
     {
       "id": "022",
@@ -1018,7 +1018,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-02 | push | authorize push origin main — spec-045 close; опубликовано ecf6e8d..3a16c0d (7 коммитов, tip 3a16c0d), origin/main = 3a16c0d, ahead 0, behind 0; авторизация — команда капитана «Push authorized (rule 10). git push origin main»; запись правила 11 добавлена после push (SHA известен только постфактум) — публикуется следующим авторизованным push | commit 3a16c0d",
     "2026-10-02 | push | authorize push origin main — долги: удалён SKILL.md.bak-d3b из обоих пресетов + правило «push-трейл писать ДО push» в docs/memory/procedural.md; этим push публикуются 3a16c0d..<tip этого коммита «docs(proc): rule11 trail before push + cleanup»> (2 коммита: f09c8ea + этот), ahead 0; авторизация — команда капитана «Push authorized (rule 10, один раз). git push origin main»; трейл записан ДО push по новому правилу | commit pending",
     "2026-10-02 | spec-046 | done - 1. Якоря STOP D (после правки) | commit a1e87d0",
     "2026-10-02 | rule2-exception | авторизован перевод spec 046 в approved через embedded approve капитана (spec создана сразу как approved; задание капитана 2026-10-02: «Создать .project/specs/046-run-spec-chain-content-stop.md (infra, approved, embedded approve)») | commit pending",
@@ -1027,10 +1026,17 @@
     "2026-10-02 | spec-047 | done - 1. Раздел в ORCH-RULES: == 1 | commit 41e42d8",
     "2026-10-02 | per_topic_target | per_topic_target 22 оставить, принять перебор +8 (банк 308) — решение капитана 2026-10-02; вариант 21 (294) отклонён; правок state.json / tools/gen-state.mjs не требуется (22 — текущее значение, Math.ceil(300/14)); фиксация до npm run sync — запись в docs/memory/alerts.md помечена accepted-risk, finding «Решение отложено (за капитаном)» закрыт | commit pending",
     "2026-10-02 | spec | spec 043 (batch6-deploy-systems) — draft/approved в одном шаге: 12 новых вопросов deploy_systems (ds_014..ds_025, objective_domain \"6\"); банк 229 → 241; трек Full (type: content) | commit pending",
-    "2026-10-02 | rule2-exception | embedded approve spec 043 — перевод spec 043 в approved авторизован явной формулировкой капитана 2026-10-02 («EMBEDDED APPROVE (rule 2, исключение): перевести spec 043 в approved после создания»); запись сделана оркестратором по правилу 2 (редакция F5.0a) | commit pending"
+    "2026-10-02 | rule2-exception | embedded approve spec 043 — перевод spec 043 в approved авторизован явной формулировкой капитана 2026-10-02 («EMBEDDED APPROVE (rule 2, исключение): перевести spec 043 в approved после создания»); запись сделана оркестратором по правилу 2 (редакция F5.0a) | commit pending",
+    "2026-10-02 | spec-enrich | spec 043 (batch6-deploy-systems) — enrich применён: score 83 → 93 (+10, порог 70), 14 PASS / 1 FAIL механики (m06: не существует упомянутый путь /etc/systemd/logind.conf, строка 149), Фаза 4 traceability hard-fail false; 8 hard-fail findings (F3-01..F3-03, ADV-d1, ADV-d2, SIM-01..SIM-03) вынесены на решение капитана — STOP-точка A, цикл не запущен | commit 6fe5915"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "6fe5915",
+      "date": "2026-10-02",
+      "subject": "chore(spec-043): enrich applied (83→93)",
+      "type": "chore"
+    },
     {
       "sha": "ed144e3",
       "date": "2026-10-02",
@@ -1144,12 +1150,6 @@
       "date": "2026-10-02",
       "subject": "docs(spec-045): done - Spec 045 — фикс README spec-chain + run-spec-chain SKILL",
       "type": "docs"
-    },
-    {
-      "sha": "78a80e9",
-      "date": "2026-10-02",
-      "subject": "chore(spec-045): R5 trace - task tokens t1 t2",
-      "type": "chore"
     }
   ],
   "roles": [
