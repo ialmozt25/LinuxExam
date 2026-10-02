@@ -1,12 +1,12 @@
 ---
 id: 043
 slug: batch6-deploy-systems
-status: approved
+status: done
 type: content
 track: full
 created: 2026-10-02
 updated: 2026-10-02
-commit: null
+commit: 3370bdf
 embedded_approve: rule 2 (исключение F5.0a — перевод spec в approved авторизован явной формулировкой капитана 2026-10-02; запись rule2-exception в .project/log.md)
 commit_format: "feat(bank): M2.9 batch 6 - 12 questions on deploy_systems (229->241)"
 commit_regex:  "^feat\\(bank\\): .*?(\\d+)\\s+questions?"
