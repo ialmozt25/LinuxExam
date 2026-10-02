@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "27ae10c4fb6f90697be5d6a090f6afec21e56810",
+  "head": "ed144e357ca405fe70e2861c869f9b69abc50aba",
   "specs": [
     {
       "id": "022",
@@ -470,11 +470,11 @@
       "updated": "2026-10-02",
       "commit": null,
       "file": "specs/043-batch6-deploy-systems.md",
-      "mtime": 1790899109717.3445,
+      "mtime": 1790905856921.7202,
       "goal": "Банк **229 → 241**: добавить **12** вопросов по канонической теме `deploy_systems`",
       "acceptance": "1. **12** новых вопросов, id ровно `ds_014`..`ds_025`, `topic` = `deploy_systems`",
       "noTouch": "**Существующие вопросы банка** — ds_001 — ds_013 и весь остальной банк (229 id);",
-      "preview": "Превью обязательно (правило 6). Файл `.project/drafts/batch-6-preview.md` содержит:"
+      "preview": "Превью обязательно (правило 6). Файл"
     },
     {
       "id": "016",
@@ -1032,6 +1032,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "ed144e3",
+      "date": "2026-10-02",
+      "subject": "docs(spec): approve 043 batch6 deploy_systems (rule 2 embedded approve)",
+      "type": "docs"
+    },
+    {
       "sha": "27ae10c",
       "date": "2026-10-02",
       "subject": "docs: per_topic_target 22, 308 accepted",
@@ -1144,12 +1150,6 @@
       "date": "2026-10-02",
       "subject": "chore(spec-045): R5 trace - task tokens t1 t2",
       "type": "chore"
-    },
-    {
-      "sha": "90fe7d4",
-      "date": "2026-10-02",
-      "subject": "docs(spec-045): D+E - agent.cordis.yml без close-spec + README шаг 11 на <id>",
-      "type": "docs"
     }
   ],
   "roles": [

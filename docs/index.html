@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 27ae10c</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на ed144e3</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">45</div>
+      <div class="pulse-tile__value">46</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -347,7 +347,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 45 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 46 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -419,6 +419,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">ed144e3</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec): approve 043 batch6 deploy_systems (rule 2 embedded approve)</td>
+          <td class="mono muted">2026-10-02</td>
+        </tr>
         <tr>
           <td class="mono">27ae10c</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -533,12 +539,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(spec-045): R5 trace - task tokens t1 t2</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">90fe7d4</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-045): D+E - agent.cordis.yml без close-spec + README шаг 11 на &lt;id&gt;</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -557,35 +557,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">38 ч (~1.6 дн)</td>
+          <td class="muted">42 ч (~1.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">86 ч (~3.6 дн)</td>
+          <td class="muted">90 ч (~3.8 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-09-29T23:00:37Z</td>
           <td class="mono">7</td>
-          <td class="muted">49 ч (~2.0 дн)</td>
+          <td class="muted">53 ч (~2.2 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">38 ч (~1.6 дн)</td>
+          <td class="muted">42 ч (~1.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
-          <td class="mono muted">2026-10-01T23:38:55Z</td>
-          <td class="mono">59</td>
-          <td class="muted">&lt;1 ч</td>
+          <td class="mono muted">2026-10-02T00:00:00Z</td>
+          <td class="mono">60</td>
+          <td class="muted">4 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,8 +630,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 59</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 59</div>
+    <summary>Тревоги · записей: 60</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 60</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -863,6 +863,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">02.10 | accepted-risk | severity: low | source: капитан | per_topic_target 22 оставлен, перебор +8 принят (банк 308)</div>
           <div class="entry__body muted">goal.per_topic_target: 22 × 14 тем = **308** против target_questions: 300 — перебор **+8 принят**</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">02.10 | process gap | regex-debug: 56M токенов на инлайн-прогон</div>
+          <div class="entry__body muted">Отладка regex в сессии съела ~56M токенов: паттерн собирался и</div>
         </div>
   </details>
 
