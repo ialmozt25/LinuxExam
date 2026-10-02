@@ -258,5 +258,9 @@ per-topic плана финиширует на **308**; запись закры�
 Fix: фикстуры по живым id + длина темы из банка. **Кандидат в spec 049** — слот свободен на
 2026-10-02 (`.project/specs/049*` отсутствует). Правила 3, 16.
 
-<!-- meta updated: 2026-10-02T08:00:50Z entries_count: 61 -->
+<!-- meta updated: 2026-10-03T00:00:00Z entries_count: 62 -->
+## 2026-10-03 | defect | ghost-commit от `--amend` при закрытии spec 049
+
+`episodic.md` (закрытие 049) ссылается на converge `4eecdc9`, tip `main` — `98bc700`. `git cat-file -t 4eecdc9` = commit, `git branch --contains 4eecdc9` = пусто → dangling от `git commit --amend` в `close-spec.mjs` (alert 2026-09-30). `episodic.md` не переписываем (правило 8). Ghost не в `main`, push не блокирует.
+
 ## 2026-10-02 | [f4-watchdog] [повреждено: UTF-8 loss, U+FFFD; найдено 2026-10-03]
