@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `9f5f16c4a367b80d48062bff6647c46a94d95679`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `06990dd30ef47935fe70fc5715d38dc8ca1526ba`<!--volatile:end-->
 - Спек: 45
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 043 | `batch6-deploy-systems` | content | approved | — | 2026-10-02 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -46,6 +45,7 @@
 | 040 | `spec-chain` | infra | done | c5d86b4 | — |
 | 041 | `enrich-spec-reconcile-windows-url` | infra | done | 4027b8a | — |
 | 042 | `telegram-notify` | infra | done | 65fc9c0 | 2026-10-01 |
+| 043 | `batch6-deploy-systems` | content | done | 3370bdf | 2026-10-02 |
 | 044 | `telegram-messages` | infra | done | 0379e72 | 2026-10-01 |
 | 045 | `spec-chain-readme-fix` | infra | done | 90fe7d4 | 2026-10-01 |
 | 046 | `run-spec-chain-content-stop` | infra | done | a1e87d0 | 2026-10-02 |
