@@ -235,3 +235,6 @@
 2026-10-02 | push | authorize push origin main — breach-запись spec 048; публикует f7b2987 + этот trail-коммит | commit pending
 2026-10-03 | spec-049 | done - 1. Фикстуры динамические (нет литеральных списков id и удалённого fp_002) | commit 0e3f1f4
 2026-10-03 | push | authorize push origin main — spec-049 close; публикует 853ec5e..98bc700 (0e3f1f4, c589a51, f93e055, 98bc700 + trail); авторизация — команда капитана «Push authorized (rule 10). git push origin main» | commit pending
+2026-10-03 | rule13-exception | авторизована правка ORCH-RULES §17 + блока «Проверка» spec 050 (уточнение Fast/Playwright) | commit pending
+2026-10-03 | spec | spec 050 (batch7-essential-tools, content, approved, track fast) зарегистрирована в git — файл был untracked | commit pending
+2026-10-03 | per_topic_target | overflow 25 > 22 (тема essential_tools, spec 050) принят — per_topic_target остаётся 22 (прецедент spec 043) | commit pending
