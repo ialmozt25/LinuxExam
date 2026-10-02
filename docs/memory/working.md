@@ -130,3 +130,11 @@ ahead: 0
 Дальше: approve капитана на результат прогона → перевод spec 034 в `done` (`npm run sync` → коммит → `chore(state): converge` → `sync:check` = 0). Открытые follow-up: (1) Step 0 — живой end-to-end прогон `run-spec.mjs` под DEEPSEEK_API_KEY (профиль `mas` + `dsh-tier-router` уже готовы, попытка ~5 c); (2) неблокирующие LOW-finding ревью: R5 молчит в репозитории с нулём коммитов (как R4), untracked `drafts/_mas-results/f3.2-writer.md` (не от прогона); (3) неточность в отчётах t3/ревьюера про «отсутствие» pre-commit hook — хук есть в `.githooks/` (не блокирует коммиты); (4) правка фикстур `e2e/quiz-flow.spec.ts` (сидирует удалённый `fp_002`).
 
 <!-- meta updated: 2026-09-30T09:43:58Z entries_count: 8 -->
+
+2026-10-03 | spec-049-fast-track-guards — прогон AgentTeams закрыт спека-скриптом
+
+HEAD: 0e3f1f4
+
+ahead: 0
+
+Прогон AgentTeams (team `spec-049-fast-track-guards`, 6 задач — t1, t2, t3, t4, t5, t6, verdict=**pass**). Артефакты реализации: коммит `0e3f1f4` — "feat(spec-049): session-id guards + e2e from live bank + SETUP". Закрытие: R5-trace `0e3f1f4`, frontmatter `.project/specs/049-fast-track-guards.md` → `status: done` (commit `0e3f1f4`), запись в `.project/log.md`, converge `<converge>`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
