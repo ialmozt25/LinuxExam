@@ -22,6 +22,7 @@
     "factory:scaffold": "node .project/scripts/factory-scaffold.mjs",
     "spec:run": "node .project/scripts/run-spec.mjs",
     "spec:close": "node .project/scripts/close-spec.mjs",
+    "anchor:refresh": "node .project/scripts/anchor-refresh.mjs --log",
     "spec:enrich": "node .project/scripts/enrich-spec.mjs",
     "research:spec": "node .project/scripts/research-spec.mjs",
     "runs:log": "node .project/scripts/runs-log.mjs",
