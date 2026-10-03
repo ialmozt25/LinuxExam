@@ -281,3 +281,5 @@
 2026-10-03 | push | authorize push origin main — spec-060+061; публикует a92096a..HEAD | commit pending
 2026-10-03 | push | выполнен a92096a..875cf33 | commit 875cf33
 2026-10-04 | spec-063 | done - paywall-content (3 Free / 11 Paid, 7-day trial, миграция v6→v7; оплата — spec 064) | commit 5e3fe2a
+2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending
+2026-10-04 | push | authorize push origin main — spec-063; публикует 875cf33..HEAD | commit pending
