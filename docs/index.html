@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 951c592</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на c4cb9b3</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -284,7 +284,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">10</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">11</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -326,6 +326,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#053 risk-scoring-migrate-fix</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#054 exam-mode</span>
+            <span class="ddn__meta">feature · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -355,8 +359,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </section>
 
   <details class="collapsible specs" id="specs">
-    <summary>Спеки · всего: 51</summary>
-          <div class="spec-group">Утверждены · 10</div>
+    <summary>Спеки · всего: 52</summary>
+          <div class="spec-group">Утверждены · 11</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -368,6 +372,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#031 rhcsa-bank-fixes</li>
             <li>#051 autonomous-spec-chain</li>
             <li>#053 risk-scoring-migrate-fix</li>
+            <li>#054 exam-mode</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -429,6 +434,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">c4cb9b3</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(alerts): triage and close stale debts</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
         <tr>
           <td class="mono">951c592</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -543,12 +554,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(spec-050): R5 trace - task tokens t1 t2</td>
           <td class="mono muted">2026-10-03</td>
         </tr>
-        <tr>
-          <td class="mono">76cb148</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-050 done</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -581,7 +586,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-02T08:00:50Z</td>
           <td class="mono">8</td>
-          <td class="muted">23 ч</td>
+          <td class="muted">24 ч (~1.0 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -595,7 +600,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">7 ч</td>
+          <td class="muted">8 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -605,11 +610,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">03.10</span> · spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..&lt;trail-tip&gt; | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · guard | якорь перезаписан на session-db45a482… | ещё не закоммичено</li>
+        <li><span class="mono muted">03.10</span> · spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | ещё не закоммичено</li>
     </ul>
   </details>
 

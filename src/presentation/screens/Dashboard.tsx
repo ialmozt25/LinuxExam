@@ -261,6 +261,32 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </button>
       )}
 
+      {/* Exam mode (spec 054): отдельный поток из трёх экранов (настройка →
+          прогон → итоги) с пресетами 30/60/90 и разбором по темам. Историческая
+          кнопка «Режим экзамена (20 вопросов, 30 минут)» ниже оставлена как есть:
+          на неё опираются существующие e2e-спеки. */}
+      <button
+        type="button"
+        data-testid="exam-mode"
+        onClick={() => navigateTo('exam-setup')}
+        style={{
+          width: '100%',
+          padding: 'var(--space-3)',
+          marginTop: 'var(--space-4)',
+          background: 'transparent',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--accent)',
+          borderRadius: 'var(--radius-md)',
+          fontSize: 'var(--text-sm)',
+          fontWeight: 600,
+          cursor: 'pointer',
+          textAlign: 'left',
+          fontFamily: 'inherit',
+        }}
+      >
+        📝 Exam mode — 30/60/90 вопросов с разбором
+      </button>
+
       {/* «Повторить ошибки» — resumed from the regular stream's wrong answers */}
       {wrongQuestionIds.length > 0 && (
         <button

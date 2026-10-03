@@ -13,6 +13,11 @@ import { useThemeController } from '@/hooks/useThemeController';
 const Dashboard = lazy(() => import('@/presentation/screens/Dashboard'));
 const Question = lazy(() => import('@/presentation/screens/Question'));
 const Results = lazy(() => import('@/presentation/screens/Results'));
+// Exam mode (spec 054): настройка → прогон → итоги. Отдельный поток от
+// исторического инлайн-экзамена в Question.tsx (examActive).
+const ExamSetup = lazy(() => import('@/presentation/screens/ExamSetup'));
+const ExamRun = lazy(() => import('@/presentation/screens/ExamRun'));
+const ExamResults = lazy(() => import('@/presentation/screens/ExamResults'));
 
 function Loading() {
   return (
@@ -56,6 +61,12 @@ function App() {
       <Question />
     ) : currentScreen === 'results' ? (
       <Results />
+    ) : currentScreen === 'exam-setup' ? (
+      <ExamSetup />
+    ) : currentScreen === 'exam-run' ? (
+      <ExamRun />
+    ) : currentScreen === 'exam-results' ? (
+      <ExamResults />
     ) : (
       <Dashboard theme={resolved} onToggleTheme={toggle} />
     );

@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "951c5920d6df23d9a4afe5b0fa11084c055ba5fb",
+  "head": "c4cb9b3d5d96aba9e50dcb17859541b8ad02b453",
   "specs": [
     {
       "id": "022",
@@ -487,6 +487,21 @@
       "file": "specs/053-risk-scoring-migrate-fix.md",
       "mtime": 1791002205179.24,
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
+      "acceptance": "",
+      "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "054",
+      "slug": "exam-mode",
+      "status": "approved",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/054-exam-mode.md",
+      "mtime": 1791013607203.3372,
+      "goal": "Exam mode: 30/60/90 вопросов × 30/60/120 мин, порог 70%. 3 экрана.",
       "acceptance": "",
       "noTouch": "",
       "preview": ""
@@ -1108,7 +1123,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> | commit pending",
     "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> (ce0f72c, 1fd5700 + trail) | commit pending",
     "2026-10-03 | debt | spec-050-batch7-essential-tools в корне .agent-teams (EPERM host PID 1500); MAS не блокирует (failed), архивация отложена до перезапуска Windows | commit pending",
     "2026-10-03 | lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | commit pending",
@@ -1117,10 +1131,17 @@
     "2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending",
     "2026-10-03 | spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..<trail-tip> | commit pending",
-    "2026-10-03 | guard | якорь перезаписан на session-db45a482… | commit pending"
+    "2026-10-03 | guard | якорь перезаписан на session-db45a482… | commit pending",
+    "2026-10-03 | spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c4cb9b3",
+      "date": "2026-10-03",
+      "subject": "docs(alerts): triage and close stale debts",
+      "type": "docs"
+    },
     {
       "sha": "951c592",
       "date": "2026-10-03",
@@ -1233,12 +1254,6 @@
       "sha": "801f4df",
       "date": "2026-10-03",
       "subject": "chore(spec-050): R5 trace - task tokens t1 t2",
-      "type": "chore"
-    },
-    {
-      "sha": "76cb148",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-050 done",
       "type": "chore"
     }
   ],

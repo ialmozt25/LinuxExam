@@ -11,6 +11,17 @@ import {
   scheduleReview,
   type ReviewRecord,
 } from '@/domain/fsrs';
+import {
+  breakdownByTopic,
+  pickExamQuestions,
+  scoreExam,
+  type ExamAnswer,
+  type ExamConfig,
+  type ExamFinishReason,
+  type ExamScore,
+  type ExamState,
+  type TopicBreakdown,
+} from '@/domain/exam';
 
 /**
  * TODO(payments): Replace mock unlockPro with real Stripe / Telegram Stars provider.
@@ -21,7 +32,23 @@ import {
 // TODO(content): raise to 20 after questions.json reaches 50+ items
 export const FREE_QUESTION_LIMIT = 5;
 
-export type Screen = 'dashboard' | 'question' | 'results';
+export type Screen = 'dashboard' | 'question' | 'results' | 'exam-setup' | 'exam-run' | 'exam-results';
+
+/**
+ * Прогон Exam mode (spec 054): пресеты 30/60/90, порог 70 %, разбор по темам.
+ * Session-only — в `partialize` НЕ попадает (см. комментарий там): после reload
+ * незавершённый прогон не должен поднимать пользователя обратно на экзамен.
+ */
+export interface ExamSession {
+  status: ExamState;
+  questionIds: string[];
+  answers: ExamAnswer[];
+  startedAt: number | null;
+  durationMs: number;
+  config: ExamConfig | null;
+  /** Чем закончился прогон: таймером или ответом на последний вопрос. */
+  finishReason: ExamFinishReason | null;
+}
 
 /**
  * Вид review-прогона. `'today'` — FSRS-lite («Повторить сегодня (N)»): ответы
@@ -95,6 +122,11 @@ interface QuizState {
   examQuestionIds: string[];
   examAnswers: AnswerRecord[];
 
+  // Exam mode (spec 054) — отдельный прогон с пресетами и разбором по темам.
+  // Сосуществует с историческим инлайн-экзаменом выше (он остаётся нетронутым:
+  // на него опираются существующие e2e), поэтому имена экшенов другие.
+  examSession: ExamSession;
+
   loadQuestions: () => Promise<void>;
   /**
    * Re-aligns the persisted answer records with the bank currently on disk.
@@ -144,6 +176,26 @@ interface QuizState {
   answerExam: (questionId: string, selectedIndex: number) => void;
   finishExam: () => void;
   cancelExam: () => void;
+
+  // --- Exam mode (spec 054) -------------------------------------------------
+  /** Готовит прогон по пресету и открывает экран прогона. */
+  startExamSession: (config: ExamConfig, allIds: readonly string[]) => void;
+  /** Пишет ответ текущего вопроса. Экран НЕ переключает (это дело nextExamQuestion). */
+  submitExamAnswer: (questionId: string, selectedIndex: number) => void;
+  /** Следующий вопрос; на последнем — завершает прогон ('manual'). */
+  nextExamQuestion: () => void;
+  /** Завершает прогон: 'timeout' (таймер) или 'manual' (ответ на последний вопрос). */
+  finishExamSession: (reason?: ExamFinishReason) => void;
+  /** Сбрасывает прогон и возвращает на Dashboard. */
+  cancelExamSession: () => void;
+  getExamResult: () => ExamScore;
+  getExamBreakdown: () => TopicBreakdown[];
+  /** Текущий вопрос прогона (для экрана прогона). */
+  getExamCurrentQuestionId: () => string | null;
+  /** Индекс текущего вопроса прогона (0-based) и всего вопросов. */
+  getExamProgress: () => { index: number; total: number };
+  /** Таймер прогона: остаток мс и признак истечения (без побочных эффектов). */
+  getExamRemainingMs: (now: number) => number;
 }
 
 const questionRepo = new QuestionRepository();
@@ -210,6 +262,15 @@ export const useQuizStore = create<QuizState>()(
       examDurationMs: 0,
       examQuestionIds: [],
       examAnswers: [],
+      examSession: {
+        status: 'idle',
+        questionIds: [],
+        answers: [],
+        startedAt: null,
+        durationMs: 0,
+        config: null,
+        finishReason: null,
+      },
 
       // The bank is no longer a static import: it arrives as per-topic chunks, so
       // loading is asynchronous. `isLoading` drives the loading gate in App.tsx;
@@ -639,6 +700,120 @@ export const useQuizStore = create<QuizState>()(
           currentScreen: 'dashboard',
           activeTopic: null,
         }),
+
+      // --- Exam mode (spec 054) ----------------------------------------------
+      // Отдельный прогон: пресеты 30/60/90, порог 70 %, разбор по темам.
+      // Исторический инлайн-экзамен (examActive/answerExam/finishExam) не задет.
+      startExamSession: (config, allIds) => {
+        const questionIds = pickExamQuestions(allIds, config.count, Date.now());
+        // Пустой банк — запускать нечего: остаёмся на экране настройки.
+        if (questionIds.length === 0) return;
+        set({
+          examSession: {
+            status: 'run',
+            questionIds,
+            answers: [],
+            startedAt: Date.now(),
+            durationMs: config.durationMs,
+            config,
+            finishReason: null,
+          },
+          currentScreen: 'exam-run',
+        });
+      },
+
+      // Ответ пишется сразу (повторный ответ на тот же qid перезаписывается),
+      // но экран НЕ переключается: переход делает nextExamQuestion.
+      submitExamAnswer: (questionId, selectedIndex) => {
+        const { questions, examSession } = get();
+        if (examSession.status !== 'run') return;
+        if (!examSession.questionIds.includes(questionId)) return;
+        const question = questions.find((q) => q.id === questionId);
+        if (!question) return;
+        const option = question.options[selectedIndex];
+        if (!option) return;
+
+        const answer: ExamAnswer = {
+          questionId,
+          selectedIndex,
+          isCorrect: option.correct,
+        };
+        const existingIndex = examSession.answers.findIndex((a) => a.questionId === questionId);
+        const answers =
+          existingIndex >= 0
+            ? examSession.answers.map((a, i) => (i === existingIndex ? answer : a))
+            : [...examSession.answers, answer];
+
+        set({ examSession: { ...examSession, answers } });
+        get().recordQuestionStat(questionId, option.correct);
+      },
+
+      nextExamQuestion: () => {
+        const { examSession } = get();
+        if (examSession.status !== 'run') return;
+        const answered = examSession.answers.length;
+        if (answered >= examSession.questionIds.length) {
+          get().finishExamSession('manual');
+        }
+        // Индекс = число данных ответов, отдельного счётчика не держим:
+        // прогон линеен (назад нельзя), а reload экзамен не возобновляет.
+      },
+
+      finishExamSession: (reason = 'manual') => {
+        const { examSession } = get();
+        if (examSession.status !== 'run') return;
+        set({
+          examSession: { ...examSession, status: 'done', finishReason: reason },
+          currentScreen: 'exam-results',
+        });
+      },
+
+      cancelExamSession: () => {
+        set({
+          examSession: {
+            status: 'idle',
+            questionIds: [],
+            answers: [],
+            startedAt: null,
+            durationMs: 0,
+            config: null,
+            finishReason: null,
+          },
+          currentScreen: 'dashboard',
+        });
+      },
+
+      getExamResult: () => {
+        const { examSession } = get();
+        return scoreExam(examSession.answers, examSession.questionIds.length);
+      },
+
+      getExamBreakdown: () => {
+        const { examSession, questions } = get();
+        const questionsById: Record<string, { topic: string }> = {};
+        for (const question of questions) {
+          questionsById[question.id] = { topic: question.topic };
+        }
+        return breakdownByTopic(examSession.answers, questionsById);
+      },
+
+      getExamCurrentQuestionId: () => {
+        const { examSession } = get();
+        if (examSession.status === 'idle') return null;
+        const index = examSession.answers.length;
+        return examSession.questionIds[index] ?? null;
+      },
+
+      getExamProgress: () => {
+        const { examSession } = get();
+        return { index: examSession.answers.length, total: examSession.questionIds.length };
+      },
+
+      getExamRemainingMs: (now) => {
+        const { examSession } = get();
+        if (examSession.status !== 'run' || examSession.startedAt === null) return 0;
+        return Math.max(0, examSession.durationMs - (now - examSession.startedAt));
+      },
     }),
     {
       name: 'rhcsa_progress',
@@ -667,6 +842,9 @@ export const useQuizStore = create<QuizState>()(
         examQuestionIds: state.examQuestionIds,
         examAnswers: state.examAnswers,
         // examLastResult is deliberately NOT persisted - session state only.
+        // examSession (spec 054) — тоже НЕ персистится (session-only): иначе
+        // после reload пользователь залипал бы на экране незавершённого экзамена.
+        // Здесь его нет намеренно, поэтому добавлять сюда НЕ нужно.
       }),
       version: 4,
       migrate: (persistedState, version) => {
