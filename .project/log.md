@@ -245,4 +245,6 @@
 2026-10-03 | spec-051 | fix — `resolveSpec` в run-spec.mjs не прокидывал задачи «## Декомпозиции» в объект спеки, из-за чего риск-скоринг видел пустой план (задач 0) и STOP B не мог стать auto; после фикса dry-run даёт задач 4, max-risk 30, DAG valid, `auto-approve STOP B \| DAG valid \| max-risk:30` | commit pending
 2026-10-03 | guard | якорь .captain-session-id перезаписан на session-3c6654b1-… (смена капитанской сессии, SETUP §4) | commit pending
 2026-10-03 | push | authorize push origin main — spec-051 close; публикует 8838183..<trail-tip> (2484748, 9459d17, b7c4104 + trail) | commit pending
+2026-10-03 | guard | якорь перезаписан на session-7c132b50-… (SETUP §4) | commit pending
 2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> | commit pending
+2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> (ce0f72c, 1fd5700 + trail) | commit pending
