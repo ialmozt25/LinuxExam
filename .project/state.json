@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "dc6e38d16b8d9740eed77005d22840733ea969e9",
+  "head": "b7eae1523e45456ffb9274900d923545f1870300",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,36 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "057",
+      "slug": "fix-topic-union",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/057-fix-topic-union.md",
+      "mtime": 1791019567183.6611,
+      "goal": "`Topic` покрывает все 14 тем банка, и это покрытие проверяется регресс-тестом;",
+      "acceptance": "1. В `src/data/models/Question.ts` union `Topic` содержит все слаги",
+      "noTouch": "`src/data/questions/**` (банк 253 и загрузчики), `src/data/topics.ts`,",
+      "preview": ""
+    },
+    {
+      "id": "058",
+      "slug": "analytics",
+      "status": "approved",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/058-analytics.md",
+      "mtime": 1791019567238.4458,
+      "goal": "3 чистые функции (готовность темы, готовность по банку, слабые темы) + тренд за",
+      "acceptance": "1. `src/domain/analytics.ts` — только чистые функции, ноль импортов zustand/react,",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
       "preview": ""
     },
     {
@@ -1152,6 +1182,30 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "b7eae15",
+      "date": "2026-10-03",
+      "subject": "feat(spec-058): analytics - radar, readiness, weak topics",
+      "type": "feat"
+    },
+    {
+      "sha": "8896618",
+      "date": "2026-10-03",
+      "subject": "fix(spec-057): Topic union covers all 14 bank topics",
+      "type": "fix"
+    },
+    {
+      "sha": "1c4fe2f",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after convergence push",
+      "type": "chore"
+    },
+    {
+      "sha": "ad64800",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after convergence push",
+      "type": "chore"
+    },
+    {
       "sha": "dc6e38d",
       "date": "2026-10-03",
       "subject": "chore(log): push done for convergence push",
@@ -1246,30 +1300,6 @@
       "date": "2026-10-03",
       "subject": "chore(log): anchor refresh before spec-052 push",
       "type": "chore"
-    },
-    {
-      "sha": "f87a54e",
-      "date": "2026-10-03",
-      "subject": "chore(log): trail for spec-052 push",
-      "type": "chore"
-    },
-    {
-      "sha": "117165b",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-052 done",
-      "type": "chore"
-    },
-    {
-      "sha": "f568ac8",
-      "date": "2026-10-03",
-      "subject": "chore(spec-052): R5 trace - task tokens t1 t2 t3 t4 t5",
-      "type": "chore"
-    },
-    {
-      "sha": "fd0a787",
-      "date": "2026-10-03",
-      "subject": "docs(spec-052): done - 1. fsrs-lite",
-      "type": "docs"
     }
   ],
   "roles": [
