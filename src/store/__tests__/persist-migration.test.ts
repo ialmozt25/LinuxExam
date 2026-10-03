@@ -144,8 +144,10 @@ describe('persist migration v1 → v2', () => {
     expect(s.questionStats.fp_001.attempts).toBe(1);
     // …а реестр расписания создаётся ПУСТЫМ: банк в migrate недоступен.
     expect(s.scheduledReviews).toEqual({});
-    // Пустой реестр + пустой банк → N = 0 (до загрузки банка повторять нечего).
-    expect(s.getTodayReviewIds()).toEqual([]);
+    // Пустой реестр + пустой банк → сессия пуста (до загрузки банка показывать
+    // нечего). spec 065: обе кнопки входа считаются по отобранной сессии.
+    expect(s.getSessionIds()).toEqual([]);
+    expect(s.getSessionCounts()).toEqual({ newCount: 0, dueCount: 0 });
 
     // Идемпотентность: та же запись v3 ещё раз ничего не дублирует и не добавляет.
     useQuizStore.setState({ scheduledReviews: {} });

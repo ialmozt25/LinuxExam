@@ -8,6 +8,8 @@ import {
   ensureRecords,
   pickToday,
   scheduleReview,
+  SESSION_LIMIT,
+  sortByOverdue,
   type ReviewRecord,
 } from '@/domain/fsrs';
 import {
@@ -214,8 +216,17 @@ interface QuizState {
    * записанным ответом, расписание не трогается, чтобы не разойтись с историей.
    */
   answerAndReschedule: (questionId: string, isCorrect: boolean, selectedIndex: number) => void;
-  /** qid, которые пора повторить: нет записи или next <= now. */
-  getTodayReviewIds: () => string[];
+  /**
+   * Размеры двух пулов прогона: `newQuestions` (записи в расписании нет) и
+   * `dueQuestions` (`next <= now`). Экранам нужны именно числа — Dashboard
+   * выбирает по ним кнопку, а не собирает сессию на каждый рендер.
+   */
+  getSessionCounts: () => { newCount: number; dueCount: number };
+  /**
+   * Идентификаторы одной сессии: сначала просроченные (самые запущенные
+   * первыми), затем новые, до `limit`. Вопросов вне банка здесь быть не может.
+   */
+  getSessionIds: (limit?: number) => string[];
   /** Заполняет отсутствующие записи расписания «пора сейчас» (идемпотентно). */
   ensureReviewsInitialized: (bankIds: readonly string[]) => void;
   startRegularQuiz: () => void;
@@ -691,10 +702,30 @@ export const useQuizStore = create<QuizState>()(
         });
       },
 
-      // FSRS-lite: «пора сейчас» = записи нет ИЛИ next <= now (spec 052).
-      // Считается по загруженному банку, поэтому чужие и удалённые qid в N не
-      // попадают, а до загрузки банка N = 0.
-      getTodayReviewIds: () => pickToday(get().scheduledReviews, get().questions, Date.now()),
+      // FSRS-lite (spec 052 / spec 065): два пула прогона считаются по
+      // ЗАГРУЖЕННОМУ банку, поэтому чужие и удалённые qid не попадают ни в
+      // один из них, а до загрузки банка оба пула пусты.
+      // `due` предшествует `new`: сначала закрываем долг, потом берём новое.
+      getSessionCounts: () => {
+        const { newQuestions, dueQuestions } = pickToday(
+          get().scheduledReviews,
+          get().questions,
+          Date.now(),
+        );
+        return { newCount: newQuestions.length, dueCount: dueQuestions.length };
+      },
+
+      getSessionIds: (limit = SESSION_LIMIT) => {
+        if (limit <= 0) return [];
+        const { questions, scheduledReviews } = get();
+        const now = Date.now();
+        const { newQuestions, dueQuestions } = pickToday(scheduledReviews, questions, now);
+        const ordered = [
+          ...sortByOverdue(scheduledReviews, dueQuestions, now),
+          ...newQuestions,
+        ];
+        return ordered.slice(0, limit);
+      },
 
       // Миграция v3→v4 создаёт ПУСТОЙ реестр: банк на момент migrate ещё не
       // загружен, а отсутствие записи само по себе означает «пора сейчас».

@@ -15,6 +15,8 @@ import {
   nextIntervalRecord,
   pickToday,
   scheduleReview,
+  SESSION_LIMIT,
+  sortByOverdue,
 } from '@/domain/fsrs';
 import type { ReviewRecord } from '@/domain/fsrs';
 import type { Question } from '@/data/models/Question';
@@ -152,38 +154,58 @@ describe('fsrs.scheduleReview — пересчёт записи расписан
   });
 });
 
-describe('fsrs.pickToday — кого пора повторить', () => {
-  it('пустой реестр + пустой банк → []', () => {
-    expect(pickToday({}, [], NOW)).toEqual([]);
+describe('fsrs.pickToday — два пула: новые и просроченные', () => {
+  it('пустой банк → оба пула пусты', () => {
+    expect(pickToday({}, [], NOW)).toEqual({ newQuestions: [], dueQuestions: [] });
   });
 
-  it('пустой реестр + банк → все id банка (нет записи = пора сейчас)', () => {
-    expect(pickToday({}, [q('q1'), q('q2'), q('q3')], NOW)).toEqual(['q1', 'q2', 'q3']);
+  it('пустой реестр + банк → все id в newQuestions, dueQuestions пуст (нет записи = ещё не изучен)', () => {
+    expect(pickToday({}, [q('q1'), q('q2'), q('q3')], NOW)).toEqual({
+      newQuestions: ['q1', 'q2', 'q3'],
+      dueQuestions: [],
+    });
   });
 
-  it('нет записи и для одного из трёх → он тоже в списке', () => {
-    const rec = { next: NOW + DAY_MS, stability: 1.5, difficulty: 0.45 };
-    expect(pickToday({ q1: rec, q3: rec }, [q('q1'), q('q2'), q('q3')], NOW)).toEqual(['q2']);
+  it('записанный вопрос выходит из new и в due не попадает, пока next в будущем', () => {
+    const future = { next: NOW + DAY_MS, stability: 1.5, difficulty: 0.45 };
+    expect(pickToday({ q1: future, q3: future }, [q('q1'), q('q2'), q('q3')], NOW)).toEqual({
+      newQuestions: ['q2'],
+      dueQuestions: [],
+    });
   });
 
-  it('все next > now → []; все next ≤ now → все; смешанный → только истёкшие', () => {
+  it('все next > now → due пуст; все next ≤ now → due полон; смешанный → по пулам', () => {
     const future = { next: NOW + 1, stability: 1, difficulty: 0.5 };
     const past = { next: NOW - 1, stability: 1, difficulty: 0.5 };
     const bank = [q('q1'), q('q2'), q('q3')];
 
-    expect(pickToday({ q1: future, q2: future, q3: future }, bank, NOW)).toEqual([]);
-    expect(pickToday({ q1: past, q2: past, q3: past }, bank, NOW)).toEqual(['q1', 'q2', 'q3']);
-    expect(pickToday({ q1: past, q2: future, q3: past }, bank, NOW)).toEqual(['q1', 'q3']);
+    expect(pickToday({ q1: future, q2: future, q3: future }, bank, NOW)).toEqual({
+      newQuestions: [],
+      dueQuestions: [],
+    });
+    expect(pickToday({ q1: past, q2: past, q3: past }, bank, NOW)).toEqual({
+      newQuestions: [],
+      dueQuestions: ['q1', 'q2', 'q3'],
+    });
+    expect(pickToday({ q1: past, q2: future, q3: past }, bank, NOW)).toEqual({
+      newQuestions: [],
+      dueQuestions: ['q1', 'q3'],
+    });
+    // Ни одного в new: у всех трёх есть запись (даже будущая).
 
     // Граница включительна: next === now уже пора.
-    expect(pickToday({ q1: { next: NOW, stability: 1, difficulty: 0.5 } }, [q('q1')], NOW)).toEqual([
-      'q1',
-    ]);
+    expect(pickToday({ q1: { next: NOW, stability: 1, difficulty: 0.5 } }, [q('q1')], NOW)).toEqual({
+      newQuestions: [],
+      dueQuestions: ['q1'],
+    });
   });
 
-  it('просроченный next входит в N ровно один раз и не теряется', () => {
+  it('просроченный next попадает в due ровно один раз и не теряется', () => {
     const overdue = { next: NOW - 40 * DAY_MS, stability: 1, difficulty: 0.5 };
-    expect(pickToday({ q1: overdue }, [q('q1')], NOW)).toEqual(['q1']);
+    expect(pickToday({ q1: overdue }, [q('q1')], NOW)).toEqual({
+      newQuestions: [],
+      dueQuestions: ['q1'],
+    });
   });
 
   it('id вне банка и битые записи не ломают расчёт', () => {
@@ -194,14 +216,14 @@ describe('fsrs.pickToday — кого пора повторить', () => {
       q2: { next: '2020-01-01' },
       q3: { next: null },
     };
-    // Все три записи невалидны → для q1..q3 это «нет записи» → пора сейчас,
-    // а чужой qid не попадает в результат, потому что его нет в банке.
+    // Все три записи невалидны → для q1..q3 это «нет записи» → newQuestions,
+    // а чужой qid не попадает ни в один пул, потому что его нет в банке.
     expect(
       pickToday(broken as unknown as Record<string, ReviewRecord>, [q('q1'), q('q2'), q('q3')], NOW),
-    ).toEqual(['q1', 'q2', 'q3']);
-    expect(pickToday({ ghost: { next: NOW - 1, stability: 1, difficulty: 0.5 } }, [q('q1')], NOW)).toEqual([
-      'q1',
-    ]);
+    ).toEqual({ newQuestions: ['q1', 'q2', 'q3'], dueQuestions: [] });
+    expect(pickToday({ ghost: { next: NOW - 1, stability: 1, difficulty: 0.5 } }, [q('q1')], NOW)).toEqual(
+      { newQuestions: ['q1'], dueQuestions: [] },
+    );
   });
 
   it('isUsableRecord принимает только конечный числовой next', () => {
@@ -227,12 +249,48 @@ describe('fsrs.pickToday — кого пора повторить', () => {
   });
 });
 
+describe('fsrs.sortByOverdue — порядок повторения', () => {
+  it('самый запущенный вопрос идёт первым', () => {
+    const scheduled: Record<string, ReviewRecord> = {
+      fresh: { next: NOW - DAY_MS, stability: 1, difficulty: 0.5 },
+      ancient: { next: NOW - 30 * DAY_MS, stability: 1, difficulty: 0.5 },
+      middle: { next: NOW - 7 * DAY_MS, stability: 1, difficulty: 0.5 },
+    };
+    expect(sortByOverdue(scheduled, ['fresh', 'ancient', 'middle'], NOW)).toEqual([
+      'ancient',
+      'middle',
+      'fresh',
+    ]);
+  });
+
+  it('id без записи не участвует в порядке: просрочка для него не определена', () => {
+    const scheduled: Record<string, ReviewRecord> = {
+      q1: { next: NOW - DAY_MS, stability: 1, difficulty: 0.5 },
+    };
+    // `ghost` без записи получает просрочку 0 и уходит в конец, но вызывающий
+    // (store) передаёт сюда только список due — то есть только записанные id.
+    expect(sortByOverdue(scheduled, ['ghost', 'q1'], NOW)).toEqual(['q1', 'ghost']);
+  });
+
+  it('пустой вход и один элемент возвращаются как есть (без лишней копии)', () => {
+    expect(sortByOverdue({}, [], NOW)).toEqual([]);
+    const single = ['q1'];
+    expect(sortByOverdue({}, single, NOW)).toBe(single);
+  });
+
+  it('SESSION_LIMIT — размер одной сессии из спеки', () => {
+    expect(SESSION_LIMIT).toBe(30);
+  });
+});
+
 describe('fsrs.ensureRecords — наполнение реестра (ADV-601)', () => {
   it('пустой реестр + банк → запись на каждый id с next = now (N = банк)', () => {
     const filled = ensureRecords({}, ['q1', 'q2'], NOW);
     expect(Object.keys(filled)).toEqual(['q1', 'q2']);
     expect(filled.q1).toEqual({ next: NOW, stability: 1, difficulty: 0.3 });
-    expect(pickToday(filled, [q('q1'), q('q2')], NOW)).toHaveLength(2);
+    // next === now → оба вопроса «пора», то есть в пуле due, а не new.
+    expect(pickToday(filled, [q('q1'), q('q2')], NOW).dueQuestions).toHaveLength(2);
+    expect(pickToday(filled, [q('q1'), q('q2')], NOW).newQuestions).toHaveLength(0);
   });
 
   it('идемпотентно: полный реестр возвращается тем же объектом (нет лишних рендеров)', () => {
@@ -262,7 +320,7 @@ describe('fsrs.ensureRecords — наполнение реестра (ADV-601)',
     const migrated: Record<string, never> = {};
     const bankIds = ['a', 'b', 'c'];
     const first = ensureRecords(migrated, bankIds, NOW);
-    expect(pickToday(first, bankIds.map(q), NOW)).toHaveLength(3);
+    expect(pickToday(first, bankIds.map(q), NOW).dueQuestions).toHaveLength(3);
     const second = ensureRecords(first, bankIds, NOW);
     expect(second).toBe(first);
     expect(Object.keys(second)).toHaveLength(3); // ни дублей, ни потерь

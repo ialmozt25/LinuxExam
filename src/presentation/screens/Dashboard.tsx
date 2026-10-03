@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { Flame, MoonStar, Sun } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
@@ -42,6 +42,32 @@ function openTopic(key: string, hasAccess: boolean) {
   store.startTopicQuiz(key);
 }
 
+/**
+ * Основной CTA дашборда («Начать обучение» / «Повторить сегодня» /
+ * «Продолжить изучение»). Вынесен в константу: три состояния должны выглядеть
+ * одинаково, иначе одно и то же действие снова разъедется по стилям (spec 065).
+ */
+const PRIMARY_CTA: React.CSSProperties = {
+  width: '100%',
+  padding: 'var(--space-3)',
+  marginTop: 'var(--space-4)',
+  background: 'var(--accent)',
+  border: 'none',
+  borderRadius: 'var(--radius-md)',
+  color: 'var(--text-primary)',
+  fontSize: 'var(--text-sm)',
+  fontWeight: 600,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  textAlign: 'left',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+};
+
+/** Правая подпись CTA: счётчик вопросов/тем. */
+const CTA_COUNTER: React.CSSProperties = { fontSize: 'var(--text-xs)', fontWeight: 600 };
+
 export default function Dashboard({ theme, onToggleTheme }: Props) {
   // Counts come from the bank manifest (≈260 B) rather than from the loaded bank:
   // the Dashboard must show real numbers before the topic chunks arrive.
@@ -67,15 +93,52 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // Банк отдаёт store асинхронно (per-topic chunks), поэтому N пересчитывается
   // на каждый его приход — до загрузки банка review-today просто не показывается.
   const bankIds = useQuizStore(useShallow((s) => s.questions.map((question) => question.id)));
+  const questions = useQuizStore((s) => s.questions);
   const scheduledReviews = useQuizStore((s) => s.scheduledReviews);
+  const questionStats = useQuizStore((s) => s.questionStats);
   const ensureReviewsInitialized = useQuizStore((s) => s.ensureReviewsInitialized);
-  const getTodayReviewIds = useQuizStore((s) => s.getTodayReviewIds);
+  const getSessionCounts = useQuizStore((s) => s.getSessionCounts);
+  const getSessionIds = useQuizStore((s) => s.getSessionIds);
 
-  const reviewIds = useMemo(
-    () => getTodayReviewIds(),
-    [getTodayReviewIds, scheduledReviews, bankIds],
+  // Одна сессия — до SESSION_LIMIT вопросов, просроченные первыми (spec 065).
+  // Пересчитывается на каждый приход банка (per-topic chunks) и на каждое
+  // изменение реестра расписания: ответ в прогоне сдвигает `next` в будущее.
+  const sessionIds = useMemo(
+    () => getSessionIds(),
+    [getSessionIds, scheduledReviews, bankIds],
   );
-  const N = reviewIds.length;
+  const counts = useMemo(
+    () => getSessionCounts(),
+    [getSessionCounts, scheduledReviews, bankIds],
+  );
+
+  // Просроченные из отобранной сессии: порядок внутри сессии уже «сначала самые
+  // запущенные», поэтому фильтр сохраняет порядок. Остаток за пределами сессии
+  // считает экран Results — здесь важно только то, что будет пройдено сейчас.
+  const dueIdSet = useMemo(
+    () => new Set(questions.filter((q) => scheduledReviews[q.id] !== undefined).map((q) => q.id)),
+    [questions, scheduledReviews],
+  );
+  const sessionDueIds = sessionIds.filter((id) => dueIdSet.has(id));
+  const sessionNewIds = sessionIds.filter((id) => !dueIdSet.has(id));
+  // Числа берутся из отобранной сессии, а не из общего пула: при пуле больше
+  // SESSION_LIMIT кнопка обещает ровно то, что откроет.
+  const dueCount = sessionDueIds.length;
+  const newCount = sessionNewIds.length;
+  const hasPending = counts.dueCount > dueCount || counts.newCount > newCount;
+
+  // Профиль без единого ответа: показываем приглашение, а не «повторить».
+  // Условие — пустая статистика, а не пустой реестр расписания: реестр
+  // до-наполняется при монтировании (ensureReviewsInitialized НИЖЕ) и на свежем
+  // профиле выглядит так же полным, как у активного пользователя.
+  const hasNoHistory = Object.keys(questionStats).length === 0;
+
+  // «Начать обучение» ведёт не в прогон, а к списку тем: на свежем профиле
+  // пользователю сначала нужен выбор темы, а не первый вопрос подряд.
+  const topicsRef = useRef<HTMLDivElement | null>(null);
+  const scrollToTopics = () => {
+    topicsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   // Реестр расписания до-наполняется «пора сейчас» ровно один раз на банк:
   // экшен идемпотентен и возвращает тот же объект, когда заполнять нечего.
@@ -287,37 +350,59 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </div>
       </div>
 
-      {/* «Повторить сегодня (N)» — FSRS-lite (spec 052). Скрыта при N = 0.
-          Прогон идёт review-стримом, поэтому бесплатный лимит не расходуется. */}
-      {N > 0 && (
+      {/* Вход в занятие (spec 065). Порядок ветвлений: нет ни одного ответа —
+          приглашение к обучению; есть просроченные — повторение; остались
+          только новые — продолжение изучения. Прогон идёт review-стримом,
+          поэтому бесплатный лимит не расходуется. */}
+      {hasNoHistory ? (
+        <button
+          type="button"
+          data-testid="start-learning"
+          onClick={scrollToTopics}
+          style={PRIMARY_CTA}
+        >
+          <span>Начать обучение</span>
+          <span style={CTA_COUNTER}>{`${TOPICS.length} тем`}</span>
+        </button>
+      ) : null}
+
+      {dueCount > 0 ? (
         <button
           type="button"
           data-testid="review-today"
-          onClick={() => startReviewQuiz(reviewIds, 'today')}
+          onClick={() => startReviewQuiz(sessionDueIds, 'today')}
+          style={PRIMARY_CTA}
+        >
+          <span>{`Повторить сегодня (${dueCount})`}</span>
+          <span style={CTA_COUNTER}>{`${dueCount} вопр.`}</span>
+        </button>
+      ) : null}
+
+      {newCount > 0 && dueCount === 0 ? (
+        <button
+          type="button"
+          data-testid="continue-learning"
+          onClick={() => startReviewQuiz(sessionNewIds, 'today')}
+          style={PRIMARY_CTA}
+        >
+          <span>{`Продолжить изучение (${newCount})`}</span>
+          <span style={CTA_COUNTER}>{`${newCount} вопр.`}</span>
+        </button>
+      ) : null}
+
+      {/* Остаток за пределами одной сессии: N в подписи — размер следующей. */}
+      {hasPending && dueCount > 0 ? (
+        <p
+          data-testid="review-today-remainder"
           style={{
-            width: '100%',
-            padding: 'var(--space-3)',
-            marginTop: 'var(--space-4)',
-            background: 'var(--accent)',
-            border: 'none',
-            borderRadius: 'var(--radius-md)',
-            color: 'var(--text-primary)',
-            fontSize: 'var(--text-sm)',
-            fontWeight: 600,
-            cursor: 'pointer',
-            fontFamily: 'inherit',
-            textAlign: 'left',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            margin: `${SPACING.sm} 0 0 0`,
+            fontSize: 'var(--text-xs)',
+            color: 'var(--text-secondary)',
           }}
         >
-          <span>{`Повторить сегодня (${N})`}</span>
-          <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>
-            {`${N} вопр.`}
-          </span>
-        </button>
-      )}
+          {`Осталось повторить: ${counts.dueCount - dueCount}`}
+        </p>
+      ) : null}
 
       {/* Exam mode (spec 054): отдельный поток из трёх экранов (настройка →
           прогон → итоги) с пресетами 30/60/90 и разбором по темам. Историческая
@@ -408,7 +493,12 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       )}
 
       {/* RHCSA Roadmap - informational only, topics are NOT interactive */}
-      <div style={{ marginTop: 'var(--space-6)' }}>
+      <div
+        id="dashboard-topics"
+        data-testid="dashboard-topics"
+        ref={topicsRef}
+        style={{ marginTop: 'var(--space-6)' }}
+      >
         <div
           style={{
             display: 'flex',
@@ -693,6 +783,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </button>
       )}
 
+      {/* Вход в регулярный поток вне Telegram (in-app замена MainButton).
+          НЕ переименовывается в start-learning и НЕ удаляется: это отдельный
+          контракт (browser-mode.spec проверяет его текст «Продолжить»), а
+          start-learning — приглашение для профиля без единого ответа (выше). */}
       {!examActive && !isTelegram && (
         <button
           type="button"

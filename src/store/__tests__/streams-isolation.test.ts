@@ -154,8 +154,10 @@ describe('FSRS-lite: расписание пишет только прогон �
   it('после ответа в прогоне сегодня N уменьшается на 1, next уходит в будущее', () => {
     const before = Date.now();
     useQuizStore.getState().startReviewQuiz(['q1', 'q2'], 'today');
-    // Записей нет ни у одного вопроса банка → «пора сейчас» все три.
-    expect(useQuizStore.getState().getTodayReviewIds()).toEqual(['q1', 'q2', 'q3']);
+    // Записей нет ни у одного вопроса банка → все три — новые (spec 065:
+    // отсутствие записи больше не значит «пора повторить»).
+    expect(useQuizStore.getState().getSessionIds()).toEqual(['q1', 'q2', 'q3']);
+    expect(useQuizStore.getState().getSessionCounts()).toEqual({ newCount: 3, dueCount: 0 });
 
     useQuizStore.getState().answerReview('q1', 0); // 0 = правильный вариант
 
@@ -163,10 +165,32 @@ describe('FSRS-lite: расписание пишет только прогон �
     expect(record).toBeDefined();
     expect(record.next).toBeGreaterThanOrEqual(before); // вопрос вышел из N
     expect(record.stability).toBe(1.5); // Good → stability × 1.5
-    expect(useQuizStore.getState().getTodayReviewIds()).toEqual(['q2', 'q3']);
+    // Запись есть и next > now: вопрос не в due и не в new — он просто не в сессии.
+    expect(useQuizStore.getState().getSessionIds()).toEqual(['q2', 'q3']);
+    expect(useQuizStore.getState().getSessionCounts()).toEqual({ newCount: 2, dueCount: 0 });
     // Ответ при этом остался в review-стриме и ушёл в статистику.
     expect(useQuizStore.getState().reviewAnswers).toHaveLength(1);
     expect(useQuizStore.getState().questionStats.q1.attempts).toBe(1);
+  });
+
+  it('просроченная запись попадает в due и идёт раньше новых', () => {
+    const now = Date.now();
+    useQuizStore.setState({
+      scheduledReviews: {
+        q3: { next: now - 1000, stability: 1, difficulty: 0.3 },
+        q1: { next: now + 86400000, stability: 1, difficulty: 0.3 },
+      },
+    });
+    // q3 просрочен (due), q2 без записи (new), q1 запланирован в будущем.
+    expect(useQuizStore.getState().getSessionCounts()).toEqual({ newCount: 1, dueCount: 1 });
+    expect(useQuizStore.getState().getSessionIds()).toEqual(['q3', 'q2']);
+  });
+
+  it('getSessionIds уважает лимит и умеет отдать пустую сессию', () => {
+    useQuizStore.setState({ scheduledReviews: {} });
+    expect(useQuizStore.getState().getSessionIds(2)).toEqual(['q1', 'q2']);
+    expect(useQuizStore.getState().getSessionIds(0)).toEqual([]);
+    expect(useQuizStore.getState().getSessionIds()).toHaveLength(mockQuestions.length);
   });
 
   it('неверный ответ опускает stability и тоже выводит вопрос из N', () => {
@@ -174,7 +198,7 @@ describe('FSRS-lite: расписание пишет только прогон �
     useQuizStore.setState({ scheduledReviews: {} });
     useQuizStore.setState({ questions: [mockQuestions[0]] });
     useQuizStore.getState().startReviewQuiz(['q1'], 'today');
-    expect(useQuizStore.getState().getTodayReviewIds()).toEqual(['q1']);
+    expect(useQuizStore.getState().getSessionIds()).toEqual(['q1']);
 
     useQuizStore.getState().answerReview('q1', 1); // 1 = неверный вариант
 
@@ -182,7 +206,8 @@ describe('FSRS-lite: расписание пишет только прогон �
     expect(record.stability).toBe(0.5); // Again → stability × 0.5
     expect(record.difficulty).toBeCloseTo(0.4, 10); // 0.3 + 0.10
     expect(record.next).toBeGreaterThan(before);
-    expect(useQuizStore.getState().getTodayReviewIds()).toEqual([]);
+    expect(useQuizStore.getState().getSessionIds()).toEqual([]);
+    expect(useQuizStore.getState().getSessionCounts()).toEqual({ newCount: 0, dueCount: 0 });
   });
 
   it('обычный прогон ошибок и регулярный поток расписание не трогают', () => {
@@ -200,7 +225,11 @@ describe('FSRS-lite: расписание пишет только прогон �
     useQuizStore.getState().startExam(1, 60000);
     useQuizStore.getState().answerExam('q2', 0);
     expect(useQuizStore.getState().scheduledReviews).toEqual({});
-    // …и N по-прежнему равен размеру банка: записей нет = «пора сейчас».
-    expect(useQuizStore.getState().getTodayReviewIds()).toHaveLength(mockQuestions.length);
+    // …и сессия по-прежнему состоит из всего банка: записей нет = все новые.
+    expect(useQuizStore.getState().getSessionIds()).toHaveLength(mockQuestions.length);
+    expect(useQuizStore.getState().getSessionCounts()).toEqual({
+      newCount: mockQuestions.length,
+      dueCount: 0,
+    });
   });
 });

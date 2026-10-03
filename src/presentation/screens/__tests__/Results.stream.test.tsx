@@ -29,6 +29,10 @@ function resetStore() {
     streak: 0,
     lastActiveDate: null,
     totalXp: 0,
+    // spec 065: «Ещё 30» считается по реестру расписания, поэтому он тоже
+    // относится к профилю — без сброса он течёт между кейсами.
+    scheduledReviews: {},
+    questionStats: {},
   });
 }
 
@@ -144,6 +148,59 @@ describe('Results reads the active stream', () => {
     render(<Results />);
 
     expect(screen.queryByRole('button', { name: /Повторить ошибки/ })).toBeNull();
+  });
+
+  it('«Ещё 30» появляется в прогоне, когда остались непройденные вопросы (spec 065)', () => {
+    const bank = useQuizStore.getState().questions;
+    const [q1, q2] = bank;
+    // Две карточки текущей сессии уже отвечены → их `next` в будущем, и
+    // getSessionIds() отдаёт остальной банк. Кнопка не должна предлагать
+    // вопросы, которые пользователь уже прошёл в этом прогоне.
+    const seen = { next: Date.now() + 86_400_000, stability: 1, difficulty: 0.3 };
+    useQuizStore.setState({
+      scheduledReviews: { [q1.id]: seen, [q2.id]: seen },
+      reviewQuestionIds: [q1.id, q2.id],
+      reviewAnswers: [right(q1.id), right(q2.id)],
+      activeTopic: null,
+    });
+
+    render(<Results />);
+
+    const next = screen.getByTestId('review-next-batch');
+    // Остаток — не весь банк: отвеченные исключены, а размер сессии ограничен.
+    const remaining = bank.length - 2;
+    expect(next.textContent).toContain(`Ещё ${Math.min(remaining, 30)}`);
+  });
+
+  it('«Ещё 30» не появляется в регулярном потоке', () => {
+    const [q1, q2] = useQuizStore.getState().questions;
+    useQuizStore.setState({
+      scheduledReviews: {},
+      answers: [right(q1.id), right(q2.id)],
+      reviewQuestionIds: null,
+      reviewAnswers: [],
+      activeTopic: null,
+    });
+
+    render(<Results />);
+
+    expect(screen.queryByTestId('review-next-batch')).toBeNull();
+  });
+
+  it('«Ещё 30» не появляется, когда прогон исчерпал пул', () => {
+    const bank = useQuizStore.getState().questions;
+    const future = { next: Date.now() + 86_400_000, stability: 1, difficulty: 0.3 };
+    useQuizStore.setState({
+      // Весь банк запланирован в будущем: сессия пуста, предлагать нечего.
+      scheduledReviews: Object.fromEntries(bank.map((q) => [q.id, future])),
+      reviewQuestionIds: [bank[0].id],
+      reviewAnswers: [right(bank[0].id)],
+      activeTopic: null,
+    });
+
+    render(<Results />);
+
+    expect(screen.queryByTestId('review-next-batch')).toBeNull();
   });
 
   it('exam summary still wins over a stale review stream', () => {

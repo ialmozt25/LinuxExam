@@ -157,30 +157,64 @@ export function isUsableRecord(record: unknown): record is Scheduled {
 }
 
 /**
- * Идентификаторы, которые пора повторить.
+ * Размер одной сессии повторения/изучения, вопросов.
  *
- * Идёт по банку (`all`), а не по реестру: qid без записи считается «пора
- * сейчас», поэтому пустой реестр даёт весь банк, а запись с истёкшим `next`
- * попадает в результат ровно один раз. Записи вне банка (чужой id, вопрос
- * удалён из банка) молча выбрасываются из результата — persisted-состояние
- * при этом не чистится. Пустой банк даёт пустой список, деления на ноль нет.
+ * Один банк — 253 вопроса, и «повторить всё» одним прогоном не является
+ * продуктовым действием: пользователь не проходит 253 вопроса за сессию.
+ * Лимит живёт в domain-слое, чтобы store и экраны не заводили собственных
+ * копий числа.
+ */
+export const SESSION_LIMIT = 30;
+
+/**
+ * Два пула прогона: то, что пользователь ещё не видел, и то, что пора
+ * повторить.
+ *
+ * `newQuestions` — у вопроса НЕТ записи в реестре расписания (битая запись
+ * считается отсутствующей: восстановить из неё нечего). `dueQuestions` — запись
+ * есть и её `next <= now`.
+ *
+ * Идёт по банку (`all`), а не по реестру: только банк знает про вопрос, у
+ * которого записи нет. Поэтому записи вне банка (чужой id, вопрос удалён из
+ * банка) не попадают ни в один список — persisted-состояние при этом не
+ * чистится. Пустой банк даёт `{ newQuestions: [], dueQuestions: [] }`, деления
+ * на ноль нет.
  */
 export function pickToday(
   scheduled: Record<string, ReviewRecord>,
   all: Question[],
   now: number,
-): string[] {
-  if (all.length === 0) return [];
-  const due: string[] = [];
+): { newQuestions: string[]; dueQuestions: string[] } {
+  const newQuestions: string[] = [];
+  const dueQuestions: string[] = [];
   for (const question of all) {
     const record: unknown = scheduled[question.id];
     if (!isUsableRecord(record)) {
-      due.push(question.id); // записи нет или она битая — считаем «пора сейчас»
+      newQuestions.push(question.id); // записи нет или она битая
       continue;
     }
-    if (record.next <= now) due.push(question.id);
+    if (record.next <= now) dueQuestions.push(question.id);
   }
-  return due;
+  return { newQuestions, dueQuestions };
+}
+
+/**
+ * `ids`, отсортированные по убыванию просрочки (`now - next`): самый
+ * запущенный вопрос идёт первым. Не создаёт копию, когда сортировать нечего.
+ *
+ * id без записи в список не попадают: у них нет `next`, а «просрочка» для них
+ * не определена — их место в пуле новых вопросов (`pickToday`).
+ */
+export function sortByOverdue(
+  scheduled: Record<string, ReviewRecord>,
+  ids: string[],
+  now: number,
+): string[] {
+  const overdueOf = (id: string): number => {
+    const record: unknown = scheduled[id];
+    return isUsableRecord(record) ? now - record.next : 0;
+  };
+  return ids.length < 2 ? ids : [...ids].sort((a, b) => overdueOf(b) - overdueOf(a));
 }
 
 /**

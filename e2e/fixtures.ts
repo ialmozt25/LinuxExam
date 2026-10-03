@@ -395,6 +395,58 @@ export function isoDaysAgo(days: number): string {
 }
 
 // ---------------------------------------------------------------------------
+// FSRS-состояния (spec 052 / spec 065)
+// ---------------------------------------------------------------------------
+
+/**
+ * Заполняет реестр расписания для ВСЕГО банка одним значением `next`.
+ *
+ * Наполнять нужно именно весь банк: `ensureReviewsInitialized` до-заполняет
+ * пропущенные записи значением `next = now` при монтировании Dashboard, поэтому
+ * «полупустой» реестр превратился бы в полностью просроченный.
+ *
+ * `bankIds` берутся из живого манифеста (`_order.json`), а не из литерала: банк
+ * растёт батчами, и захардкоженный размер молча разошёлся бы с реальностью.
+ */
+export function bankReviewRecords(next: number): Record<string, { next: number; stability: number; difficulty: number }> {
+  const record = { next, stability: 1, difficulty: 0.3 };
+  return Object.fromEntries(BANK_ORDER.map((id) => [id, { ...record }]));
+}
+
+/**
+ * Сеет профиль, у которого ВЕСЬ банк просрочен: `next` в прошлом.
+ *
+ * Пулов два (spec 065): просроченные и новые. Здесь просрочено всё, значит
+ * `dueCount` равен размеру ОДНОЙ сессии (`SESSION_LIMIT = 30`), а `newCount`
+ * равен нулю — это профиль пользователя, который уже прошёл банк и вернулся
+ * повторять.
+ */
+export async function seedDueProfile(page: Page, overrides: Partial<PersistedQuizState> = {}) {
+  const state = emptyPersistedState();
+  const now = Date.now();
+  state.scheduledReviews = bankReviewRecords(now - 86400000);
+  // Непустая статистика: иначе Dashboard показал бы онбординг-ветку «Начать
+  // обучение», а сценарий проверяет именно повторение.
+  const first = BANK_ORDER[0];
+  state.questionStats = { [first]: { attempts: 1, correct: 1, lastAt: isoDaysAgo(-1) } };
+  const merged = { ...state, ...overrides };
+  await seedState(page, merged);
+  return merged;
+}
+
+/**
+ * Сеет профиль, у которого повторять нечего: весь реестр в будущем.
+ * Ожидаемый результат — ни одного входа в занятие на Dashboard.
+ */
+export async function seedExhaustedProfile(page: Page, overrides: Partial<PersistedQuizState> = {}) {
+  const state = emptyPersistedState();
+  state.scheduledReviews = bankReviewRecords(Date.now() + 86400000);
+  const first = BANK_ORDER[0];
+  state.questionStats = { [first]: { attempts: 1, correct: 1, lastAt: isoDaysAgo(-1) } };
+  await seedState(page, { ...state, ...overrides });
+}
+
+// ---------------------------------------------------------------------------
 // Raw test ids (data-testid contract from app-map §4)
 // ---------------------------------------------------------------------------
 
@@ -404,6 +456,16 @@ export const TESTID = {
   dashboardSubtitle: 'dashboard-subtitle',
   reviewWrong: 'review-wrong',
   reviewToday: 'review-today',
+  /** spec 065: приглашение к обучению на профиле без единого ответа. */
+  startLearning: 'start-learning',
+  /** spec 065: остались только новые вопросы. */
+  continueLearning: 'continue-learning',
+  /** spec 065: следующая сессия повторения на экране итогов. */
+  reviewNextBatch: 'review-next-batch',
+  /** spec 065: остаток пула за пределами одной сессии. */
+  reviewRemainder: 'review-today-remainder',
+  /** spec 065: якорь списка тем (цель скролла «Начать обучение»). */
+  dashboardTopics: 'dashboard-topics',
   resumeBanner: 'resume-banner',
   resumePosition: 'resume-position',
   resumeButton: 'resume-button',

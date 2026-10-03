@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useQuizStore } from '@/store/quizStore';
 import { shareResult } from '@/platform/telegram_adapter';
 import { SPACING, LAYOUT } from '@/presentation/theme';
+import { SESSION_LIMIT } from '@/domain/fsrs';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { AppHeader } from '@/presentation/components/AppHeader';
@@ -22,6 +23,8 @@ export default function Results() {
   const examLastResult = useQuizStore((s) => s.examLastResult);
   const startExam = useQuizStore((s) => s.startExam);
   const cancelExam = useQuizStore((s) => s.cancelExam);
+  const scheduledReviews = useQuizStore((s) => s.scheduledReviews);
+  const getSessionIds = useQuizStore((s) => s.getSessionIds);
 
   const isTelegram = isTMA();
 
@@ -81,6 +84,33 @@ export default function Results() {
 
   const handleBackToTopics = () => {
     navigateTo('dashboard');
+  };
+
+  /**
+   * «Ещё 30» (spec 065). Во время прогона «сегодня» каждый ответ сдвигает `next`
+   * в будущее, поэтому `getSessionIds()` возвращает уже только то, что осталось:
+   * это и есть материал следующей сессии. Прогон открывается тем же
+   * `kind='today'`, что и вход с Dashboard, — иначе ответы не пересчитывали бы
+   * расписание. Кнопка появляется только когда есть что открывать.
+   */
+  const nextBatch = useMemo(() => getSessionIds(SESSION_LIMIT), [getSessionIds, scheduledReviews]);
+  const seenIds = useMemo(
+    () => new Set([...(reviewQuestionIds ?? []), ...answers.map((a) => a.questionId)]),
+    [reviewQuestionIds, answers],
+  );
+  const nextBatchIds = useMemo(
+    () => nextBatch.filter((id) => !seenIds.has(id)),
+    [nextBatch, seenIds],
+  );
+  // Остаток показываем только в review-прогоне: в регулярном потоке «Ещё N»
+  // конкурировал бы с «Пройти заново» и с «Повторить ошибки».
+  const showNextBatch = isReview && nextBatchIds.length > 0;
+
+  const handleNextBatch = () => {
+    const ids = getSessionIds(SESSION_LIMIT);
+    if (ids.length === 0) return;
+    startReviewQuiz(ids, 'today');
+    navigateTo('question');
   };
 
   // ---- Exam summary takes over the whole screen when a finished exam exists ----
@@ -268,6 +298,36 @@ export default function Results() {
           </>
         )}
       </div>
+
+      {/* «Ещё 30» (spec 065): остаток пула повторения. Кнопка «Пройти заново» на
+          это не годится — она перезапускает ТОТ ЖЕ список, а здесь открывается
+          следующая сессия (до SESSION_LIMIT непройденных). */}
+      {showNextBatch && (
+        <button
+          type="button"
+          data-testid="review-next-batch"
+          onClick={handleNextBatch}
+          style={{
+            width: '100%',
+            padding: SPACING.md,
+            background: 'var(--accent)',
+            color: 'var(--text-primary)',
+            border: 'none',
+            borderRadius: LAYOUT.buttonRadius,
+            fontSize: 16,
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            marginTop: SPACING.lg,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <span>{`Ещё ${SESSION_LIMIT}`}</span>
+          <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>{`${nextBatchIds.length} вопр.`}</span>
+        </button>
+      )}
 
       {/* Review the questions answered incorrectly in the regular stream. Only
           offered in the regular stream: inside a review the list is already the
