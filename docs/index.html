@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 8d58264</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 5191848</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">41</div>
+      <div class="pulse-tile__value">42</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -254,6 +254,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">feature</span>
           </li>
           <li class="ddn__item">
+            <span class="ddn__title">#054 exam-mode</span>
+            <span class="ddn__meta">feature</span>
+          </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#056 mobile-sticky-footer</span>
+            <span class="ddn__meta">fix</span>
+          </li>
+          <li class="ddn__item">
             <span class="ddn__title">#043 batch6-deploy-systems</span>
             <span class="ddn__meta">content</span>
           </li>
@@ -273,18 +281,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#042 telegram-notify</span>
             <span class="ddn__meta">infra</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#044 telegram-messages</span>
-            <span class="ddn__meta">infra</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#045 spec-chain-readme-fix</span>
-            <span class="ddn__meta">infra</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">12</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">10</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -326,14 +326,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#053 risk-scoring-migrate-fix</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#054 exam-mode</span>
-            <span class="ddn__meta">feature · approved</span>
-          </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#056 mobile-sticky-footer</span>
-            <span class="ddn__meta">fix · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -359,12 +351,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 41 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 42 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 53</summary>
-          <div class="spec-group">Утверждены · 12</div>
+          <div class="spec-group">Утверждены · 10</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -376,8 +368,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#031 rhcsa-bank-fixes</li>
             <li>#051 autonomous-spec-chain</li>
             <li>#053 risk-scoring-migrate-fix</li>
-            <li>#054 exam-mode</li>
-            <li>#056 mobile-sticky-footer</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -385,7 +375,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 34</div>
+          <div class="spec-group">Завершены · 36</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -421,6 +411,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#049 fast-track-guards</li>
             <li>#050 batch7-essential-tools</li>
             <li>#052 fsrs-lite</li>
+            <li>#054 exam-mode</li>
+            <li>#056 mobile-sticky-footer</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -439,6 +431,30 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">5191848</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec-054+056): close both specs - done + episodic + alerts debt</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
+          <td class="mono">e358585</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec-056): R5 trace - task tokens</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
+          <td class="mono">ed5b17e</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for spec-054+mobile push</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
+          <td class="mono">010a7ae</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(spec-056): mobile sticky footer on long explanations</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
         <tr>
           <td class="mono">8d58264</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -535,30 +551,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>fix(spec-051): propagate decomposition tasks into the run-spec plan</td>
           <td class="mono muted">2026-10-03</td>
         </tr>
-        <tr>
-          <td class="mono">9459d17</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(spec-051): spec passes its own deterministic gate (15/15, score 90)</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
-        <tr>
-          <td class="mono">2484748</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(spec-051): autonomous spec chain (risk scoring + auto-approve A/B/D + budget + research)</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
-        <tr>
-          <td class="mono">8838183</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for spec-050 push</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
-        <tr>
-          <td class="mono">1ed8515</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after R5 trace spec-050</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -615,11 +607,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">03.10</span> · spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | ещё не закоммичено</li>
-        <li><span class="mono muted">03.10</span> · spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | ещё не закоммичено</li>
-        <li><span class="mono muted">03.10</span> · push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..&lt;trail-tip&gt; | ещё не закоммичено</li>
-        <li><span class="mono muted">03.10</span> · guard | якорь перезаписан на session-db45a482… | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | ещё не закоммичено</li>
+        <li><span class="mono muted">03.10</span> · trail | spec-054 + spec-056: публикуется 8d58264 (feat(spec-054): exam mode) + 010a7ae (fix(spec-056): mobile sticky footer); верификация перед push — typecheck 0, test:run 255/255, test:e2e 66/66…</li>
+        <li><span class="mono muted">03.10</span> · spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует…</li>
+        <li><span class="mono muted">03.10</span> · spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264</li>
+        <li><span class="mono muted">03.10</span> · spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0…</li>
     </ul>
   </details>
 
@@ -650,8 +642,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 66</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 66</div>
+    <summary>Тревоги · записей: 67</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 67</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -914,6 +906,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">02.10 | [f4-watchdog] [повреждено: UTF-8 loss, U+FFFD; найдено 2026-10-03]</div>
           <div class="entry__body muted">[observed 2026-10-03]</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">03.10 | tech debt | Topic union: 3 темы при 14 в банке</div>
+          <div class="entry__body muted">src/data/models/Question.ts: Topic union — 3 темы при 14 в банке; рантайм ок, типизация разбора сломается на 11.</div>
         </div>
   </details>
 

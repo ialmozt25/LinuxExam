@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "8d58264a849a8e676da52145f4168245d0afcf3a",
+  "head": "519184883c2544a67ff8ae163e10ab4c24008420",
   "specs": [
     {
       "id": "022",
@@ -489,36 +489,6 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
-      "preview": ""
-    },
-    {
-      "id": "054",
-      "slug": "exam-mode",
-      "status": "approved",
-      "type": "feature",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/054-exam-mode.md",
-      "mtime": 1791013607203.3372,
-      "goal": "Exam mode: 30/60/90 вопросов × 30/60/120 мин, порог 70%. 3 экрана.",
-      "acceptance": "",
-      "noTouch": "",
-      "preview": ""
-    },
-    {
-      "id": "056",
-      "slug": "mobile-sticky-footer",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/056-mobile-sticky-footer.md",
-      "mtime": 1791015729980.9238,
-      "goal": "Кнопка действия на экране вопроса обязана быть видна без прокрутки на мобильном",
-      "acceptance": "`e2e/mobile-sticky-footer.spec.ts` (viewport 390x844): после ответа на вопрос с",
-      "noTouch": "Логика ответа и стор (`src/store/**`, `src/domain/**`), `src/data/**`,",
       "preview": ""
     },
     {
@@ -1077,6 +1047,36 @@
       "preview": ""
     },
     {
+      "id": "054",
+      "slug": "exam-mode",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "8d58264",
+      "file": "specs/054-exam-mode.md",
+      "mtime": 1791015841749.866,
+      "goal": "Exam mode: 30/60/90 вопросов × 30/60/120 мин, порог 70%. 3 экрана.",
+      "acceptance": "",
+      "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "056",
+      "slug": "mobile-sticky-footer",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "010a7ae",
+      "file": "specs/056-mobile-sticky-footer.md",
+      "mtime": 1791015833207.7747,
+      "goal": "Кнопка действия на экране вопроса обязана быть видна без прокрутки на мобильном",
+      "acceptance": "`e2e/mobile-sticky-footer.spec.ts` (viewport 390x844): после ответа на вопрос с",
+      "noTouch": "Логика ответа и стор (`src/store/**`, `src/domain/**`), `src/data/**`,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1138,19 +1138,43 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> (ce0f72c, 1fd5700 + trail) | commit pending",
-    "2026-10-03 | debt | spec-050-batch7-essential-tools в корне .agent-teams (EPERM host PID 1500); MAS не блокирует (failed), архивация отложена до перезапуска Windows | commit pending",
-    "2026-10-03 | lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | commit pending",
-    "2026-10-03 | debt | spec-052-fsrs-lite не архивирован: archive-team.mjs exit 3 (EPERM, 34 попытки/60 с и 64/120 с, дескриптор на team.json); команда брошена nested-капитаном (session-c2ec0af1-…) в phase=staged, planReviewState=awaiting_review — approve некому выдать; архивация отложена до перезапуска Windows, MAS-прогон не блокирует | commit pending",
     "2026-10-03 | spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | commit pending",
     "2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending",
     "2026-10-03 | spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..<trail-tip> | commit pending",
     "2026-10-03 | guard | якорь перезаписан на session-db45a482… | commit pending",
-    "2026-10-03 | spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | commit pending"
+    "2026-10-03 | spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | commit pending",
+    "2026-10-03 | trail | spec-054 + spec-056: публикуется 8d58264 (feat(spec-054): exam mode) + 010a7ae (fix(spec-056): mobile sticky footer); верификация перед push — typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
+    "2026-10-03 | spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует, прецедент 050/052); feat-коммит 010a7ae fix(spec-056): mobile sticky footer on long explanations; гейты typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
+    "2026-10-03 | spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264",
+    "2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "5191848",
+      "date": "2026-10-03",
+      "subject": "chore(spec-054+056): close both specs - done + episodic + alerts debt",
+      "type": "chore"
+    },
+    {
+      "sha": "e358585",
+      "date": "2026-10-03",
+      "subject": "chore(spec-056): R5 trace - task tokens",
+      "type": "chore"
+    },
+    {
+      "sha": "ed5b17e",
+      "date": "2026-10-03",
+      "subject": "chore(log): trail for spec-054+mobile push",
+      "type": "chore"
+    },
+    {
+      "sha": "010a7ae",
+      "date": "2026-10-03",
+      "subject": "fix(spec-056): mobile sticky footer on long explanations",
+      "type": "fix"
+    },
     {
       "sha": "8d58264",
       "date": "2026-10-03",
@@ -1246,30 +1270,6 @@
       "date": "2026-10-03",
       "subject": "fix(spec-051): propagate decomposition tasks into the run-spec plan",
       "type": "fix"
-    },
-    {
-      "sha": "9459d17",
-      "date": "2026-10-03",
-      "subject": "fix(spec-051): spec passes its own deterministic gate (15/15, score 90)",
-      "type": "fix"
-    },
-    {
-      "sha": "2484748",
-      "date": "2026-10-03",
-      "subject": "feat(spec-051): autonomous spec chain (risk scoring + auto-approve A/B/D + budget + research)",
-      "type": "feat"
-    },
-    {
-      "sha": "8838183",
-      "date": "2026-10-03",
-      "subject": "chore(log): trail for spec-050 push",
-      "type": "chore"
-    },
-    {
-      "sha": "1ed8515",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after R5 trace spec-050",
-      "type": "chore"
     }
   ],
   "roles": [
