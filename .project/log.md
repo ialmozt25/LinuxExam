@@ -262,3 +262,5 @@
 2026-10-03 | spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264
 2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae
 2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending
+2026-10-03 | push | выполнен c4cb9b3..dcd8150 | commit 0d51a19
+2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19
