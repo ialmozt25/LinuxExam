@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "1fd5700971b6c2bb1f9c9c9bf26773384d5574d9",
+  "head": "7efc56c6fe7c4a8f4beed3f2724e2d8a08208371",
   "specs": [
     {
       "id": "022",
@@ -474,6 +474,21 @@
       "goal": "1. Снять STOP-точки A, B и D при выполнении технических pass-условий: риск задачи ниже порога, enrich прошёл с score ≥ 85% и нулём hard-fail, QC = pass с cosine < 0.80 и Haladyna 5/5.",
       "acceptance": "1. `.project/scripts/run-spec.mjs` содержит ACTION_RISK, AUTO_THRESHOLD = 50 и HUMAN_THRESHOLD = 80; каждая задача плана получает risk_score (максимум по actions), план — maxRiskScore и riskDecision; проверка: `node .project/scripts/run-spec.mjs 051 --dry-run` печатает блок «риск-скоринг» со списком задач и STOP B-вердиктом.",
       "noTouch": "`src/data/**`, банк вопросов, `tools/**` — вне области спеки.",
+      "preview": ""
+    },
+    {
+      "id": "052",
+      "slug": "fsrs-lite",
+      "status": "approved",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/052-fsrs-lite.md",
+      "mtime": 1791001166345.2822,
+      "goal": "Кнопка «Повторить сегодня (N)» → прогон ровно тех вопросов, которые пора повторить.",
+      "acceptance": "1. `src/domain/fsrs.ts` (t1) — только чистые функции (нет импортов store/react).",
+      "noTouch": "src/data/** (банк 253), shuffleOptions, существующие 198 тестов (28 файлов),",
       "preview": ""
     },
     {
@@ -1078,8 +1093,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-050 | done - batch 7 - feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253) | commit pending",
-    "2026-10-03 | push | authorize push origin main — spec-050 close; публикует 610872c..1ed8515 (9 коммитов: 673827a, 2e54f96, 506f774, be992c1, e620cd2, 76cb148, 801f4df, 1ed8515 + trail); авторизация — команда капитана «Push authorized (rule 10). git push origin main» | commit pending",
     "2026-10-03 | spec-051 | feat: autonomous spec chain (минимальный) — risk scoring задач плана (ACTION_RISK, пороги 50/80), auto-approve STOP A/B/D (score≥85 ∧ hard-fail 0; DAG valid ∧ max-risk<50; QC pass ∧ cosine<0.80 ∧ Haladyna 5/5), budget cap (--max-cost-usd/--soft-cap-usd/--cost-source, kill exit 3 + alerts.md), research-фаза (research-spec.mjs + Шаг 0.5); попутно исправлен латентный дефект run-spec.mjs: `\\b` после кириллицы глушил извлечение секций «## Цель» и «## Декомпозиция» (goals/tasks были пусты у всех спек); push не автоматизирован, spec остаётся approved до закрытия | commit pending",
     "2026-10-03 | spec-051 | correction — spec переписана под собственный детерминированный гейт (validate-spec): добавлены секции «## Контекст» и «## Edge Cases», снята self-reference задачи t1 (спека больше не пишет сама в себя), убраны не-пути в бэктиках и placeholder-маркеры шаблонов, критерии снабжены verify-командами, commit заполнен реальным SHA; итог: 15P/0F/0W, score 85→90, hard-fail false, сирот traceability нет | commit pending",
     "2026-10-03 | spec-051 | fix — `resolveSpec` в run-spec.mjs не прокидывал задачи «## Декомпозиции» в объект спеки, из-за чего риск-скоринг видел пустой план (задач 0) и STOP B не мог стать auto; после фикса dry-run даёт задач 4, max-risk 30, DAG valid, `auto-approve STOP B \\| DAG valid \\| max-risk:30` | commit pending",
@@ -1087,10 +1100,24 @@
     "2026-10-03 | push | authorize push origin main — spec-051 close; публикует 8838183..<trail-tip> (2484748, 9459d17, b7c4104 + trail) | commit pending",
     "2026-10-03 | guard | якорь перезаписан на session-7c132b50-… (SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> | commit pending",
-    "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> (ce0f72c, 1fd5700 + trail) | commit pending"
+    "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> (ce0f72c, 1fd5700 + trail) | commit pending",
+    "2026-10-03 | debt | spec-050-batch7-essential-tools в корне .agent-teams (EPERM host PID 1500); MAS не блокирует (failed), архивация отложена до перезапуска Windows | commit pending",
+    "2026-10-03 | lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "7efc56c",
+      "date": "2026-10-03",
+      "subject": "feat(spec-051): anchor:refresh helper (SETUP 4 automation)",
+      "type": "feat"
+    },
+    {
+      "sha": "130110b",
+      "date": "2026-10-03",
+      "subject": "chore(log): anchor refresh + trail for e2e push",
+      "type": "chore"
+    },
     {
       "sha": "1fd5700",
       "date": "2026-10-03",
@@ -1198,18 +1225,6 @@
       "date": "2026-10-03",
       "subject": "docs(spec-049): done - 1. Фикстуры динамические (нет литеральных списков id и удалённого fp_002)",
       "type": "docs"
-    },
-    {
-      "sha": "c589a51",
-      "date": "2026-10-03",
-      "subject": "chore(spec-049): R5 trace - task tokens t1 t2 t3 t4 t5 t6",
-      "type": "chore"
-    },
-    {
-      "sha": "0e3f1f4",
-      "date": "2026-10-03",
-      "subject": "feat(spec-049): session-id guards + e2e from live bank + SETUP",
-      "type": "feat"
     }
   ],
   "roles": [
