@@ -688,6 +688,9 @@ export async function resolveSpec(specsDir, specIdRaw) {
       status: parsed.status,
       title: parsed.title,
       goals: parsed.goals,
+      // Задачи «## Декомпозиции» обязаны доехать до плана: без этого поля
+      // риск-скоринг видел пустой список и STOP B всегда оставался ручным.
+      tasks: parsed.tasks,
       path: specPath,
       relativePath: path.relative(REPO_ROOT, specPath).split(path.sep).join('/'),
       bytes: Buffer.byteLength(raw, 'utf8'),

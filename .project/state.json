@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "2484748af7280543008ed14739fae4fb2b6ca275",
+  "head": "9459d17e6f2ee824159d6460223c33783883df24",
   "specs": [
     {
       "id": "022",
@@ -1078,7 +1078,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-02 | push | authorize push origin main — breach-запись spec 048; публикует f7b2987 + этот trail-коммит | commit pending",
     "2026-10-03 | spec-049 | done - 1. Фикстуры динамические (нет литеральных списков id и удалённого fp_002) | commit 0e3f1f4",
     "2026-10-03 | push | authorize push origin main — spec-049 close; публикует 853ec5e..98bc700 (0e3f1f4, c589a51, f93e055, 98bc700 + trail); авторизация — команда капитана «Push authorized (rule 10). git push origin main» | commit pending",
     "2026-10-03 | rule13-exception | авторизована правка ORCH-RULES §17 + блока «Проверка» spec 050 (уточнение Fast/Playwright) | commit pending",
@@ -1087,10 +1086,17 @@
     "2026-10-03 | spec-050 | done - batch 7 - feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-050 close; публикует 610872c..1ed8515 (9 коммитов: 673827a, 2e54f96, 506f774, be992c1, e620cd2, 76cb148, 801f4df, 1ed8515 + trail); авторизация — команда капитана «Push authorized (rule 10). git push origin main» | commit pending",
     "2026-10-03 | spec-051 | feat: autonomous spec chain (минимальный) — risk scoring задач плана (ACTION_RISK, пороги 50/80), auto-approve STOP A/B/D (score≥85 ∧ hard-fail 0; DAG valid ∧ max-risk<50; QC pass ∧ cosine<0.80 ∧ Haladyna 5/5), budget cap (--max-cost-usd/--soft-cap-usd/--cost-source, kill exit 3 + alerts.md), research-фаза (research-spec.mjs + Шаг 0.5); попутно исправлен латентный дефект run-spec.mjs: `\\b` после кириллицы глушил извлечение секций «## Цель» и «## Декомпозиция» (goals/tasks были пусты у всех спек); push не автоматизирован, spec остаётся approved до закрытия | commit pending",
-    "2026-10-03 | spec-051 | correction — spec переписана под собственный детерминированный гейт (validate-spec): добавлены секции «## Контекст» и «## Edge Cases», снята self-reference задачи t1 (спека больше не пишет сама в себя), убраны не-пути в бэктиках и placeholder-маркеры шаблонов, критерии снабжены verify-командами, commit заполнен реальным SHA; итог: 15P/0F/0W, score 85→90, hard-fail false, сирот traceability нет | commit pending"
+    "2026-10-03 | spec-051 | correction — spec переписана под собственный детерминированный гейт (validate-spec): добавлены секции «## Контекст» и «## Edge Cases», снята self-reference задачи t1 (спека больше не пишет сама в себя), убраны не-пути в бэктиках и placeholder-маркеры шаблонов, критерии снабжены verify-командами, commit заполнен реальным SHA; итог: 15P/0F/0W, score 85→90, hard-fail false, сирот traceability нет | commit pending",
+    "2026-10-03 | spec-051 | fix — `resolveSpec` в run-spec.mjs не прокидывал задачи «## Декомпозиции» в объект спеки, из-за чего риск-скоринг видел пустой план (задач 0) и STOP B не мог стать auto; после фикса dry-run даёт задач 4, max-risk 30, DAG valid, `auto-approve STOP B \\| DAG valid \\| max-risk:30` | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "9459d17",
+      "date": "2026-10-03",
+      "subject": "fix(spec-051): spec passes its own deterministic gate (15/15, score 90)",
+      "type": "fix"
+    },
     {
       "sha": "2484748",
       "date": "2026-10-03",
@@ -1203,12 +1209,6 @@
       "sha": "926e374",
       "date": "2026-10-02",
       "subject": "docs(spec-048): log decision - t6 out-of-scope for infra, spec closed by t5",
-      "type": "docs"
-    },
-    {
-      "sha": "ace51fd",
-      "date": "2026-10-02",
-      "subject": "docs(spec-048): fixate - Playwright gate only for feature/ui; e2e fixture drift as spec 049 candidate",
       "type": "docs"
     }
   ],
