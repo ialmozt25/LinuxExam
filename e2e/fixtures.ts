@@ -3,7 +3,6 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test as base, expect, type Page } from '@playwright/test';
 import { TOPICS as topicRegistry } from '../src/data/topics';
-
 /**
  * Shared E2E fixtures (Фаза 2.2).
  *
@@ -132,7 +131,6 @@ export function topicTestId(slug: string): string {
 export async function blockAnalytics(page: Page): Promise<void> {
   await page.route(/gc\.zgo\.at/, (route) => route.abort());
 }
-
 /**
  * Persisted quiz state, in the shape zustand writes it: `{ version, state }`.
  * Only the keys the `partialize` contract persists belong here.
@@ -156,9 +154,20 @@ export interface PersistedQuizState {
   examDurationMs: number;
   examQuestionIds: string[];
   examAnswers: unknown[];
+  /** Онбординг (spec 060): выбранная цель, `null` — не выбрана. */
+  onboardingGoal: string | null;
+  /** Онбординг (spec 060): прохождение завершено. */
+  hasCompletedOnboarding: boolean;
 }
 
-/** A pristine stored profile; every field is present so nothing is merged in. */
+/**
+ * A pristine stored profile; every field is present so nothing is merged in.
+ *
+ * `hasCompletedOnboarding: true` НАМЕРЕННО: онбординг (spec 060) показывается
+ * только когда `hasCompletedOnboarding === false` И `questionStats` пуст — то есть
+ * ровно на свежем профиле. Сид, который не хочет проходить онбординг, обязан
+ * отметить прохождение; сценарии самого онбординга переопределяют флаг явно.
+ */
 export function emptyPersistedState(): PersistedQuizState {
   return {
     answers: [],
@@ -178,6 +187,8 @@ export function emptyPersistedState(): PersistedQuizState {
     examDurationMs: 0,
     examQuestionIds: [],
     examAnswers: [],
+    onboardingGoal: null,
+    hasCompletedOnboarding: true,
   };
 }
 
@@ -205,8 +216,8 @@ export async function seedState(
 }
 
 export const PERSIST_KEY = 'rhcsa_progress';
-/** Current persist version: 4 с spec 052 (FSRS-lite добавил scheduledReviews). */
-export const PERSIST_VERSION = 4;
+/** Current persist version: 5 с spec 060 (онбординг добавил два поля). */
+export const PERSIST_VERSION = 5;
 
 /** Reads the persisted envelope back out of the page. */
 export async function readPersisted(
@@ -270,6 +281,28 @@ export async function seedWrongRegularAnswer(page: Page, question: BankQuestion)
   return { record };
 }
 
+/**
+ * Seeds the ONBOARDING condition (spec 060).
+ *
+ * `complete: false` — свежий профиль: прохождение не отмечено и статистики нет,
+ * поэтому гейт `useNeedsOnboarding` обязан показать онбординг.
+ * `complete: true` — тот же профиль с отмеченным прохождением: онбординг не
+ * показывается, приложение стартует на Dashboard (`emptyPersistedState` уже
+ * выставляет флаг, здесь он задаётся явно, чтобы сценарий читался сам).
+ */
+export async function seedOnboarding(page: Page, complete: boolean): Promise<void> {
+  const state = emptyPersistedState();
+  state.hasCompletedOnboarding = complete;
+  state.onboardingGoal = null;
+  state.questionStats = {};
+  await seedState(page, state);
+}
+
+/** Waits for the first onboarding screen (goal picker). */
+export async function waitForOnboardingGoal(page: Page): Promise<void> {
+  await expect(page.getByTestId(TESTID.onboardingGoal)).toBeVisible({ timeout: 15000 });
+}
+
 // ---------------------------------------------------------------------------
 // Raw test ids (data-testid contract from app-map §4)
 // ---------------------------------------------------------------------------
@@ -322,6 +355,14 @@ export const TESTID = {
   examConfirm: 'exam-confirm',
   examStay: 'exam-stay',
   examLeave: 'exam-leave',
+
+  onboardingGoal: 'onboarding-goal',
+  onboardingDemo: 'onboarding-demo',
+  onboardingDemoProgress: 'onboarding-demo-progress',
+  onboardingDemoNext: 'onboarding-demo-next',
+  onboardingResult: 'onboarding-result',
+  onboardingResultScore: 'onboarding-result-score',
+  onboardingStart: 'onboarding-start',
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -451,9 +492,87 @@ export async function waitForFeedback(page: Page): Promise<void> {
 }
 
 /**
- * Re-exported test object. The analytics beacon is blocked inside `gotoApp`, so
- * every spec that opens the app through the fixtures gets the same treatment.
+ * Профиль «свежего пользователя» для авто-фикстуры.
+ *
+ * Отличается от `emptyPersistedState()` ровно одним полем: `isPro: false`.
+ * `emptyPersistedState()` выставляет `isPro: true` — осознанный обход пейволла для
+ * сидов, которым он мешает, — но спеки, которые НЕ сеют ничего и просто открывают
+ * `/` (`quiz-flow.spec.ts:95`, `question-flow.spec.ts:171`), до spec 060 получали
+ * состояние стора по умолчанию, где `isPro: false`. Сохраняем именно это: пейволл
+ * на 6-м вопросе — часть их сценария, и `isPro: true` его молча отключал.
  */
-export const test = base;
+function freshProfile(): PersistedQuizState {
+  return { ...emptyPersistedState(), isPro: false };
+}
+
+/**
+ * Скрипт-сид, который встраивается в САМ отдаваемый HTML (см. авто-фикстуру).
+ *
+ * Почему не `addInitScript`: порядок гарантирован только «контекст раньше
+ * страницы», а спеки, которым нужен чистый профиль, сами вызывают
+ * `localStorage.clear()` в своих init-скриптах — они стирали бы любой сид,
+ * поставленный хуком. Инлайн-скрипт в документе выполняется ПОСЛЕ всех
+ * `addInitScript` (они инжектятся в head до скриптов документа) и до бандла
+ * приложения, поэтому это единственная точка, где сид виден приложению и не
+ * затирается тестом.
+ */
+function onboardingSeedScript(key: string, version: number, seeded: unknown): string {
+  const payload = JSON.stringify({ version, state: seeded });
+  return (
+    `<script>(function(){try{var k=${JSON.stringify(key)};` +
+    `if(!window.localStorage.getItem(k)){window.localStorage.setItem(k,${JSON.stringify(payload)});}}` +
+    `catch(e){}})();</script>`
+  );
+}
+
+/**
+ * Re-exported test object.
+ *
+ * Два расширения против голого `@playwright/test`, оба нужны, чтобы уже
+ * написанные сценарии не начали проходить онбординг (spec 060):
+ *
+ * 1. `autoOnboardingDone` — авто-фикстура: подменяет ответ на документ,
+ *    добавляя в `<head>` скрипт, который кладёт в localStorage профиль «свежего
+ *    пользователя» (`hasCompletedOnboarding: true`), если записи там нет.
+ *    Онбординг показывается только на пустом хранилище, поэтому без этого хука
+ *    любой сценарий, открывающий `/`, попадал бы на экран цели вместо Dashboard.
+ *    Сценарии онбординга просят обратное явным сидом с `false` — вставка смотрит
+ *    на наличие ключа и не перетирает его.
+ * 2. `blockAnalytics` внутри той же авто-фикстуры: счётчик посещений
+ *    (`//gc.zgo.at/count.js`, `index.html:59`) висит на том же событии `load`,
+ *    что и навигация, и при медленном CDN превращает её в таймаут (наблюдалось
+ *    2026-10-03). Явные вызовы `blockAnalytics(page)` в спеках остаются: хук
+ *    покрывает те страницы, что созданы из этих фикстур, а повторная установка
+ *    маршрута на тот же хост безопасна — Playwright берёт последний обработчик.
+ */
+const autoFixture = base.extend<{ autoOnboardingDone: void }>({
+  autoOnboardingDone: [
+    async ({ page }, use) => {
+      const seed = onboardingSeedScript(PERSIST_KEY, PERSIST_VERSION, freshProfile());
+      await page.route('**/*', async (route) => {
+        if (route.request().resourceType() !== 'document') {
+          await route.continue();
+          return;
+        }
+        const response = await route.fetch();
+        const body = await response.text();
+        const injected = body.includes('</head>')
+          ? body.replace('</head>', `${seed}</head>`)
+          : body;
+        await route.fulfill({ response, body: injected });
+      });
+      // Свой маршрут — и он же снимается: спеки, которые блокируют счётчик сами
+      // в beforeEach (color-regression), иначе получили бы два обработчика на
+      // один хост.
+      await page.route(/gc\.zgo\.at/, (route) => route.abort());
+      await use();
+      await page.unroute(/gc\.zgo\.at/);
+      await page.unroute('**/*');
+    },
+    { auto: true },
+  ],
+});
+
+export const test = autoFixture;
 
 export { expect };

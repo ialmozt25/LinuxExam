@@ -117,7 +117,8 @@ test.describe('повторение ошибок', () => {
     await gotoApp(page);
 
     const stored = await readPersisted(page);
-    expect(stored?.version).toBe(4);
+    // Текущая версия persist: 5 с spec 060 (онбординг добавил два поля).
+    expect(stored?.version).toBe(5);
     const answers = stored?.state.answers as unknown[];
     expect(answers).toHaveLength(1);
     expect(answers[0]).toEqual(record);

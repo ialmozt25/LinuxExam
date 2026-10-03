@@ -82,7 +82,8 @@ test.describe.serial('FSRS-lite — повторение сегодня', () => 
     expect(await reviewTodayCount(page)).toBe(BANK_TOTAL - 2);
 
     const stored = await readPersisted(page);
-    expect(stored?.version).toBe(4);
+    // Текущая версия persist: 5 с spec 060 (онбординг добавил два поля).
+    expect(stored?.version).toBe(5);
     expect(Object.keys(stored?.state.scheduledReviews ?? {})).toHaveLength(BANK_TOTAL);
   });
 

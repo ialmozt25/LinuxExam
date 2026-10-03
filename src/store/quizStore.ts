@@ -39,7 +39,10 @@ export type Screen =
   | 'exam-run'
   | 'exam-results'
   | 'analytics'
-  | 'paywall';
+  | 'paywall'
+  | 'onboarding-goal'
+  | 'onboarding-demo'
+  | 'onboarding-result';
 
 /**
  * Прогон Exam mode (spec 054): пресеты 30/60/90, порог 70 %, разбор по темам.
@@ -115,6 +118,12 @@ interface QuizState {
   // Session-only: deliberately NOT persisted.
   activeTopic: string | null;
 
+  // Онбординг (spec 060). Оба поля персистятся: `hasCompletedOnboarding`
+  // удерживает факт прохождения между сессиями, `onboardingGoal` — выбранную
+  // цель. Дефолт `false` обязателен: см. `useNeedsOnboarding`.
+  onboardingGoal: string | null;
+  hasCompletedOnboarding: boolean;
+
   // Exam mode. Only the gate + last-result slot are introduced here; COMMIT B
   // adds the rest of the exam state (timing, question ids, answers, actions).
   examActive: boolean;
@@ -154,6 +163,12 @@ interface QuizState {
   canAccessQuestion: (index: number) => boolean;
   getProgress: () => ProgressMetrics;
   resumeQuiz: () => void;
+  /** Онбординг (spec 060): фиксирует выбранную цель перед демо-квизом. */
+  setOnboardingGoal: (goalId: string) => void;
+  /** Онбординг: помечает прохождение завершённым (кнопка «Начать» на итоге). */
+  completeOnboarding: () => void;
+  /** Онбординг: сбрасывает прохождение — только для тестов, в UI не вызывается. */
+  resetOnboarding: () => void;
   /**
    * Стартует review-прогон. `kind = 'today'` помечает FSRS-lite-прогон, в
    * котором каждый ответ пересчитывает расписание повторений (spec 052);
@@ -274,6 +289,8 @@ export const useQuizStore = create<QuizState>()(
       reviewKind: null,
       isQuizInProgress: false,
       activeTopic: null,
+      onboardingGoal: null,
+      hasCompletedOnboarding: false,
       examActive: false,
       examLastResult: null,
       examStartedAt: null,
@@ -516,6 +533,14 @@ export const useQuizStore = create<QuizState>()(
       },
 
       resumeQuiz: () => set({ currentScreen: 'question' }),
+
+      // Онбординг (spec 060). Три экшена, все — про два персистируемых поля;
+      // сам поток (какой экран показать) живёт в App.tsx и в экранах.
+      setOnboardingGoal: (goalId) => set({ onboardingGoal: goalId }),
+
+      completeOnboarding: () => set({ hasCompletedOnboarding: true }),
+
+      resetOnboarding: () => set({ onboardingGoal: null, hasCompletedOnboarding: false }),
 
       startReviewQuiz: (ids, kind = null) =>
         set({
@@ -829,12 +854,16 @@ export const useQuizStore = create<QuizState>()(
         examDurationMs: state.examDurationMs,
         examQuestionIds: state.examQuestionIds,
         examAnswers: state.examAnswers,
+        // Онбординг (spec 060) — в КОНЕЦ списка: порядок первых 17 полей
+        // остаётся прежним (контракт partialize не переписывается).
+        onboardingGoal: state.onboardingGoal,
+        hasCompletedOnboarding: state.hasCompletedOnboarding,
         // examLastResult is deliberately NOT persisted - session state only.
         // examSession (spec 054) — тоже НЕ персистится (session-only): иначе
         // после reload пользователь залипал бы на экране незавершённого экзамена.
         // Здесь его нет намеренно, поэтому добавлять сюда НЕ нужно.
       }),
-      version: 4,
+      version: 5,
       migrate: (persistedState, version) => {
         let s = persistedState as Partial<QuizState>;
         if (version < 2) {
@@ -857,6 +886,17 @@ export const useQuizStore = create<QuizState>()(
           s = {
             ...s,
             scheduledReviews: {},
+          } as Partial<QuizState>;
+        }
+        if (version < 5) {
+          // v4 → v5 (spec 060): онбординг. `hasCompletedOnboarding: false` —
+          // обязательный дефолт; сам по себе он НЕ показывает онбординг старым
+          // пользователям: гейт `useNeedsOnboarding` требует ещё и пустых
+          // `questionStats` (см. его комментарий).
+          s = {
+            ...s,
+            onboardingGoal: null,
+            hasCompletedOnboarding: false,
           } as Partial<QuizState>;
         }
         return s;
