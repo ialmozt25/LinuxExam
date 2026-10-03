@@ -266,3 +266,5 @@
 2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19
 2026-10-03 | push | authorize push origin main — convergence after spec-054+056; публикует dcd8150..<trail-SHA> | commit pending
 2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832
+2026-10-03 | spec-057 | done - fix Topic union | commit 8896618
+2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15
