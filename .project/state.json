@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "064",
-      "slug": "telegram-stars",
-      "status": "approved",
-      "type": "feature",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/064-telegram-stars.md",
-      "mtime": 1791066960319.8867,
-      "goal": "Пользователь выбирает тариф, платит Stars и получает `isPro: true` в persist.",
-      "acceptance": "[ ] `backend/tg-stars/index.mjs` экспортирует `export const handler` в формате",
-      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
-      "preview": ""
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1182,6 +1167,21 @@
       "preview": ""
     },
     {
+      "id": "064",
+      "slug": "telegram-stars",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "d8144dd",
+      "file": "specs/064-telegram-stars.md",
+      "mtime": 1791067435224.2456,
+      "goal": "Пользователь выбирает тариф, платит Stars и получает `isPro: true` в persist.",
+      "acceptance": "[ ] `backend/tg-stars/index.mjs` экспортирует `export const handler` в формате",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1243,7 +1243,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a",
     "2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392",
     "2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99",
     "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
@@ -1252,10 +1251,17 @@
     "2026-10-04 | spec-063 | done - paywall-content (3 Free / 11 Paid, 7-day trial, миграция v6→v7; оплата — spec 064) | commit 5e3fe2a",
     "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-063; публикует 875cf33..HEAD | commit pending",
-    "2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68"
+    "2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68",
+    "2026-10-04 | spec-064 | done - telegram-stars | commit d8144dd"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c16dc6a",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-064",
+      "type": "chore"
+    },
     {
       "sha": "d8144dd",
       "date": "2026-10-04",
@@ -1368,12 +1374,6 @@
       "sha": "58c32d4",
       "date": "2026-10-03",
       "subject": "chore(state): converge after push",
-      "type": "chore"
-    },
-    {
-      "sha": "74e435c",
-      "date": "2026-10-03",
-      "subject": "chore(log): push done for spec-059",
       "type": "chore"
     }
   ],
