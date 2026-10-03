@@ -162,6 +162,12 @@ export interface PersistedQuizState {
   dailyGoalXp: number | null;
   /** Retention (spec 061): накоплено XP за сегодня. */
   todayXp: number;
+  /**
+   * Paywall (spec 063): момент старта 7-дневного trial, мс; `null` — trial не
+   * начинался. Обычный профиль сида — с активным trial-ом (см.
+   * `emptyPersistedState`), иначе обновление отобрало бы доступ к 11 темам.
+   */
+  trialStartedAt: number | null;
 }
 
 /**
@@ -198,6 +204,12 @@ export function emptyPersistedState(): PersistedQuizState {
     // Сценарии самого picker-а переопределяют `dailyGoalXp: null` явно.
     dailyGoalXp: 20,
     todayXp: 0,
+    // Paywall (spec 063): «обычный» профиль — это пользователь, который уже
+    // пользовался продуктом, значит он получил 7-дневный trial миграцией
+    // v6 → v7. Сид повторяет именно это, иначе обновление отобрало бы у него
+    // 11 платных тем. Сценарии контентного paywall переопределяют поле на
+    // `null` явно (`seedState(page, { trialStartedAt: null })`).
+    trialStartedAt: Date.now(),
   };
 }
 
@@ -225,8 +237,51 @@ export async function seedState(
 }
 
 export const PERSIST_KEY = 'rhcsa_progress';
-/** Current persist version: 6 с spec 061 (retention добавил dailyGoalXp + todayXp). */
-export const PERSIST_VERSION = 6;
+/**
+ * Current persist version: 7 с spec 063 (paywall добавил `trialStartedAt`).
+ * Сид пишет ИМЕННО текущую версию, поэтому `migrate` на нём не выполняется и
+ * засеянные значения полей доходят до приложения как есть.
+ */
+export const PERSIST_VERSION = 7;
+
+/** Order of the persisted keys — the `partialize` contract (spec 063 adds the last one). */
+export const PERSIST_KEYS: readonly string[] = [
+  'answers',
+  'currentIndex',
+  'isPro',
+  'streak',
+  'lastActiveDate',
+  'totalXp',
+  'wrongQuestionIds',
+  'questionStats',
+  'scheduledReviews',
+  'reviewQuestionIds',
+  'reviewAnswers',
+  'isQuizInProgress',
+  'examActive',
+  'examStartedAt',
+  'examDurationMs',
+  'examQuestionIds',
+  'examAnswers',
+  'onboardingGoal',
+  'hasCompletedOnboarding',
+  'dailyGoalXp',
+  'todayXp',
+  'trialStartedAt',
+];
+
+/**
+ * Seeds the CONTENT-paywall condition (spec 063): профиль без Pro и БЕЗ trial-а —
+ * то есть платные темы закрыты. `hasCompletedOnboarding: true` берётся из
+ * `emptyPersistedState()`: иначе гейт онбординга (spec 060) увёл бы с Dashboard
+ * на экран цели и до списка тем было бы не добраться.
+ */
+export async function seedNoAccess(page: Page): Promise<void> {
+  const state = emptyPersistedState();
+  state.isPro = false;
+  state.trialStartedAt = null;
+  await seedState(page, state);
+}
 
 /** Reads the persisted envelope back out of the page. */
 export async function readPersisted(
@@ -372,6 +427,16 @@ export const TESTID = {
   paywall: 'paywall',
   paywallBuy: 'paywall-buy',
   paywallLater: 'paywall-later',
+  paywallStartTrial: 'paywall-start-trial',
+  paywallFreeTopics: 'paywall-free-topics',
+  paywallPaidTopics: 'paywall-paid-topics',
+  paywallPurchaseNotice: 'paywall-purchase-notice',
+
+  // spec 063: бейджи доступа. Префикс НАМЕРЕННО не `topic-`: dashboard.spec
+  // считает темы селектором `[data-testid^="topic-"]`, и бейдж внутри строки
+  // темы попадал бы в этот счётчик.
+  paywallBadgePro: 'paywall-badge-pro',
+  paywallBadgeFree: 'paywall-badge-free',
 
   resultsScreen: 'results-screen',
   resultsScore: 'results-score',

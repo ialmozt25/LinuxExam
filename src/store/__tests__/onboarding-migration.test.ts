@@ -86,8 +86,8 @@ describe('persist migration v4 → v5 (онбординг, spec 060)', () => {
     useQuizStore.setState({ onboardingGoal: 'rhcsa', hasCompletedOnboarding: true });
 
     const raw = readPersisted();
-    // Версия на запись — текущая (6 с spec 061, retention добавил два поля).
-    expect(raw.version).toBe(6);
+    // Версия на запись — текущая (7 с spec 063: paywall добавил trialStartedAt).
+    expect(raw.version).toBe(7);
     expect(raw.state.onboardingGoal).toBe('rhcsa');
     expect(raw.state.hasCompletedOnboarding).toBe(true);
     expect(raw.state.streak).toBe(5);

@@ -17,6 +17,7 @@ import {
   TOPIC_QUESTIONS,
   TESTID,
   PERSIST_VERSION,
+  PERSIST_KEYS,
 } from './fixtures';
 import type { BankQuestion } from './fixtures';
 
@@ -25,7 +26,7 @@ import type { BankQuestion } from './fixtures';
  * `.project/drafts/app-map.md` §6.
  *
  * Two contracts are checked side by side: what the store WROTE into
- * `rhcsa_progress` (version 4 since spec 052), and what a reload restores from it. `currentScreen`
+ * `rhcsa_progress` (version 7 since spec 063), and what a reload restores from it. `currentScreen`
  * is deliberately not persisted, so a reload always boots on the dashboard.
  */
 
@@ -152,6 +153,12 @@ test.describe('persist — частичная запись состояния', 
     ]) {
       expect(keys, `partialize must not persist "${key}"`).not.toContain(key);
     }
+
+    // spec 063: `trialStartedAt` добавлен В КОНЕЦ, порядок 21 предыдущего поля не
+    // изменён — контракт partialize проверяется целиком и по порядку.
+    expect(keys, 'partialize contract (spec 063: trialStartedAt last)').toEqual(
+      [...PERSIST_KEYS].sort()
+    );
   });
 
   test('a reload on the dashboard keeps the streak and XP earned in the run', async ({ page }) => {

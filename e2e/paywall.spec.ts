@@ -9,15 +9,19 @@ import {
   optionButtons,
   waitForQuestion,
   waitForDashboard,
+  readPersisted,
+  seedNoAccess,
   TESTID,
 } from './fixtures';
 
 /**
- * G5 (free-question gate / paywall) from `.project/drafts/app-map.md` §6.
+ * G5 (free-question gate / paywall) from `.project/drafts/app-map.md` §6,
+ * плюс контентный paywall spec 063 (3 Free-темы / 11 Paid + trial).
  *
- * The paid provider is a 500 ms stub, so the purchase path is exercisable without
- * any network: after «Купить за 490 ₽» the store unlocks Pro and returns to the
- * dashboard, and the sixth question of the regular stream becomes reachable.
+ * Спека знает ДВА входа на один экран: гейт бесплатных ВОПРОСОВ (шестой вопрос
+ * обычного прогона поднимает `isPaywallVisible`) и гейт ТЕМ (клик по платной
+ * теме без Pro и без активного trial). Первый `describe` проверяет старый
+ * инвариант, второй — новый (spec 063).
  *
  * The frozen INTENDED behaviour (the index does not advance while the paywall is
  * up) is deliberately not pinned here — app-map §7 excludes it.
@@ -25,6 +29,8 @@ import {
 
 const TOPIC = 'file_permissions';
 const FREE_LIMIT = 5;
+/** Платная тема (spec 063): не входит в FREE_TOPICS. */
+const PAID_TOPIC = 'networking';
 
 /** Answers `count` questions of the regular stream, ending ON question `count`. */
 async function reachFreeLimit(page: import('@playwright/test').Page) {
@@ -43,7 +49,7 @@ async function reachFreeLimit(page: import('@playwright/test').Page) {
   await answerQuestion(page, 'correct');
 }
 
-test.describe('пейволл', () => {
+test.describe('пейволл — гейт бесплатных вопросов', () => {
   test('appears when a free user tries to leave the fifth question', async ({ page }) => {
     await gotoApp(page);
     await reachFreeLimit(page);
@@ -57,7 +63,7 @@ test.describe('пейволл', () => {
     await expect(page.getByTestId(TESTID.headerCenter)).toHaveText('LinuxExam');
   });
 
-  test('«Позже» hides the paywall, does not unlock Pro and the limit holds', async ({ page }) => {
+  test('«Не сейчас» скрывает paywall, не открывает Pro — лимит держится', async ({ page }) => {
     await gotoApp(page);
     await reachFreeLimit(page);
     await page.getByTestId(TESTID.nextButton).click();
@@ -85,38 +91,34 @@ test.describe('пейволл', () => {
     await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
   });
 
-  test('the purchase stub unlocks Pro and opens the sixth question', async ({ page }) => {
+  test('«Купить» — заглушка spec 064: Pro НЕ открывается', async ({ page }) => {
     await gotoApp(page);
     await reachFreeLimit(page);
     await page.getByTestId(TESTID.nextButton).click();
     await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
 
     const buy = page.getByTestId(TESTID.paywallBuy);
-    await expect(buy).toContainText('Купить за 490 ₽');
-    // Locked while the stub provider is "processing".
-    await expect(buy).toBeEnabled();
+    await expect(buy).toContainText('Купить — 299 Stars/мес');
     await buy.click();
-    await expect(buy).toBeDisabled();
 
-    await waitForDashboard(page);
+    // Платёжный flow не открывается: экран не меняется, сообщение-заглушка на месте.
+    await expect(page.getByTestId(TESTID.paywallPurchaseNotice)).toBeVisible();
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible();
+    await expect(page.getByTestId(TESTID.questionText)).toHaveCount(0);
 
     const persisted = await page.evaluate(() => {
       const raw = window.localStorage.getItem('rhcsa_progress');
       return raw ? JSON.parse(raw).state : null;
     });
-    expect(persisted?.isPro).toBe(true);
+    expect(persisted?.isPro).toBe(false);
 
-    // Sixth question of the regular stream is reachable now.
+    // Гейт держится: следующий шаг снова упирается в paywall.
+    await page.getByTestId(TESTID.paywallLater).click();
+    await waitForDashboard(page);
     await page.getByTestId(TESTID.resumeButton).click();
     await waitForQuestion(page);
-    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(
-      new RegExp(`^${FREE_LIMIT}\\s*/\\s*\\d+$`)
-    );
     await page.getByTestId(TESTID.nextButton).click();
-    await expect(page.getByTestId(TESTID.paywall)).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(
-      new RegExp(`^${FREE_LIMIT + 1}\\s*/\\s*\\d+$`)
-    );
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
   });
 
   test('a topic quiz is never paywalled, even past the free limit', async ({ page }) => {
@@ -174,5 +176,91 @@ test.describe('пейволл', () => {
     // Exam mode gives no feedback at all.
     await expect(page.getByTestId(TESTID.explanation)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.explanationVerdict)).toHaveCount(0);
+  });
+});
+
+/**
+ * Контентный paywall (spec 063). Профиль без Pro и без trial-а сеется ДО
+ * навигации (`seedNoAccess`), поэтому приложение стартует в этом состоянии.
+ */
+test.describe('пейволл — контентный (3 Free / 11 Paid)', () => {
+  test('Free-тема открывается без paywall', async ({ page }) => {
+    await seedNoAccess(page);
+    await gotoApp(page);
+
+    await startTopic(page, TOPIC);
+
+    await expect(page.getByTestId(TESTID.paywall)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.questionText)).toBeVisible();
+  });
+
+  test('Paid-тема без Pro и без trial поднимает paywall и прогон не стартует', async ({ page }) => {
+    await seedNoAccess(page);
+    await gotoApp(page);
+
+    await topicButton(page, PAID_TOPIC).click();
+
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
+    await expect(page.getByTestId(TESTID.questionText)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText('LinuxExam');
+
+    // Секции экрана: 3 бесплатные темы и 11 платных.
+    await expect(page.getByTestId(TESTID.paywallFreeTopics)).toContainText('Бесплатно: 3 темы');
+    await expect(page.getByTestId(TESTID.paywallPaidTopics)).toContainText(
+      'Pro: 11 тем + Exam + Analytics'
+    );
+  });
+
+  test('«Попробовать 7 дней бесплатно» → Dashboard, Paid-тема открывается', async ({ page }) => {
+    await seedNoAccess(page);
+    await gotoApp(page);
+    await topicButton(page, PAID_TOPIC).click();
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
+
+    const trial = page.getByTestId(TESTID.paywallStartTrial);
+    await expect(trial).toContainText('Попробовать 7 дней бесплатно');
+    await trial.click();
+
+    await waitForDashboard(page);
+
+    // Trial записан, Pro по-прежнему не куплен.
+    const persisted = await readPersisted(page);
+    const startedAt = persisted?.state.trialStartedAt as number | null | undefined;
+    expect(typeof startedAt).toBe('number');
+    expect(persisted?.state.isPro).toBe(false);
+
+    // Paid-тема теперь открывается — и без paywall.
+    const size = await startTopic(page, PAID_TOPIC);
+    await expect(page.getByTestId(TESTID.paywall)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(
+      new RegExp(`^1\\s*/\\s*${size}$`)
+    );
+  });
+
+  test('«Не сейчас» → Dashboard без trial, Paid-тема по-прежнему закрыта', async ({ page }) => {
+    await seedNoAccess(page);
+    await gotoApp(page);
+    await topicButton(page, PAID_TOPIC).click();
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
+
+    await page.getByTestId(TESTID.paywallLater).click();
+    await waitForDashboard(page);
+
+    const persisted = await readPersisted(page);
+    expect(persisted?.state.trialStartedAt).toBeNull();
+    expect(persisted?.state.isPro).toBe(false);
+
+    await topicButton(page, PAID_TOPIC).click();
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
+  });
+
+  test('бейджи: Paid-темы помечены PRO, Free-темы — «Бесплатно»', async ({ page }) => {
+    await seedNoAccess(page);
+    await gotoApp(page);
+
+    await expect(page.getByTestId(TESTID.paywallBadgePro)).toHaveCount(11);
+    await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(3);
+    await expect(topicButton(page, TOPIC)).toContainText('Бесплатно');
+    await expect(topicButton(page, PAID_TOPIC)).toContainText('PRO');
   });
 });

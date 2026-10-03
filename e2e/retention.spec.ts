@@ -107,13 +107,13 @@ test.describe('retention UI', () => {
     await expect(picker).toHaveCount(0);
     await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('0 / 50 XP');
 
-    // Выбор ушёл в persist (dailyGoalXp: 50, версия 6) — это и есть контракт
+    // Выбор ушёл в persist (dailyGoalXp: 50, версия 7) — это и есть контракт
     // сохранения; восстановление из persist покрыто unit-тестами
     // `daily-goal.test.ts` (в e2e сид-скрипт фикстуры выполняется на каждой
     // навигации и перетёр бы сохранённый выбор — проверять reload здесь нельзя).
     const stored = await page.evaluate(() => window.localStorage.getItem('rhcsa_progress'));
     expect(stored).toContain('"dailyGoalXp":50');
-    expect(stored).toContain('"version":6');
+    expect(stored).toContain('"version":7');
   });
 
   test('retention-зона не ломает существующие кнопки Dashboard', async ({ page }) => {

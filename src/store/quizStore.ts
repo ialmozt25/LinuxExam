@@ -98,6 +98,14 @@ interface QuizState {
   /** Накопленный за сегодня XP к дневной цели; обнуляется при смене даты. */
   todayXp: number;
 
+  /**
+   * Paywall (spec 063): момент старта 7-дневного trial, мс. `null` — trial не
+   * начинался (кнопка «Попробовать 7 дней бесплатно» не нажата). Дата, а не
+   * булев флаг: истечение считается по времени (`isTrialActive` в
+   * `src/domain/paywall.ts`), поэтому «активен» не нужно переписывать в стор.
+   */
+  trialStartedAt: number | null;
+
   // Wrong-answer tracking for the regular stream (feeds review mode)
   wrongQuestionIds: string[];
 
@@ -164,6 +172,12 @@ interface QuizState {
   setDailyGoal: (xp: number) => void;
   /** Обнуляет todayXp при первом запуске в новый день (вызов при гидратации). */
   resetTodayXpIfNewDay: () => void;
+  /**
+   * Paywall (spec 063): стартует 7-дневный trial, если он ещё не начинался.
+   * Идемпотентно — повторный вызов НЕ отодвигает дату старта (иначе кнопка
+   * «Попробовать 7 дней» давала бы бессрочный доступ).
+   */
+  startTrial: () => void;
   navigateTo: (screen: Screen) => void;
   answerQuestion: (questionId: string, selectedIndex: number) => void;
   /** Records one answer into the local per-question statistics. */
@@ -173,6 +187,8 @@ interface QuizState {
   resetProgress: () => void;
   unlockPro: () => void;
   hidePaywall: () => void;
+  /** Paywall (spec 063): контентный вход — платная тема без доступа. */
+  showPaywall: () => void;
   canAccessQuestion: (index: number) => boolean;
   getProgress: () => ProgressMetrics;
   resumeQuiz: () => void;
@@ -296,6 +312,7 @@ export const useQuizStore = create<QuizState>()(
       totalXp: 0,
       dailyGoalXp: null,
       todayXp: 0,
+      trialStartedAt: null,
       wrongQuestionIds: [],
       questionStats: {},
       scheduledReviews: {},
@@ -416,6 +433,13 @@ export const useQuizStore = create<QuizState>()(
         if (get().lastActiveDate === today) return;
         if (get().todayXp === 0) return;
         set({ todayXp: 0 });
+      },
+
+      // Paywall (spec 063): trial стартует один раз. Уже стоящая дата не
+      // перезаписывается — иначе повторное нажатие продлевало бы доступ.
+      startTrial: () => {
+        if (get().trialStartedAt !== null) return;
+        set({ trialStartedAt: Date.now() });
       },
 
       // Local per-question stats. Kept out of the three answer streams so the
@@ -551,6 +575,14 @@ export const useQuizStore = create<QuizState>()(
 
       hidePaywall: () => {
         set({ isPaywallVisible: false });
+      },
+
+      // spec 063: контентный вход на Paywall. Ставит ФЛАГ и ЭКРАН вместе, по
+      // образцу `unlockPro`/`hidePaywall`: иначе состояние разъезжается —
+      // экран 'paywall' при `isPaywallVisible: false`, из которого «Позже»
+      // уводит на Dashboard, а Question.tsx (смотрит на флаг) платит иначе.
+      showPaywall: () => {
+        set({ isPaywallVisible: true, currentScreen: 'paywall' });
       },
 
       canAccessQuestion: (index: number): boolean => {
@@ -890,12 +922,14 @@ export const useQuizStore = create<QuizState>()(
         // Retention (spec 061) — тоже в КОНЕЦ: порядок первых 19 полей не меняется.
         dailyGoalXp: state.dailyGoalXp,
         todayXp: state.todayXp,
+        // Paywall (spec 063) — в самый КОНЕЦ: порядок первых 21 поля не меняется.
+        trialStartedAt: state.trialStartedAt,
         // examLastResult is deliberately NOT persisted - session state only.
         // examSession (spec 054) — тоже НЕ персистится (session-only): иначе
         // после reload пользователь залипал бы на экране незавершённого экзамена.
         // Здесь его нет намеренно, поэтому добавлять сюда НЕ нужно.
       }),
-      version: 6,
+      version: 7,
       // spec 061: на гидратации дневной счётчик сверяется с календарём.
       onRehydrateStorage: () => (state) => {
         state?.resetTodayXpIfNewDay();
@@ -943,6 +977,21 @@ export const useQuizStore = create<QuizState>()(
             ...s,
             dailyGoalXp: 20,
             todayXp: 0,
+          } as Partial<QuizState>;
+        }
+        if (version < 7) {
+          // v6 → v7 (spec 063): paywall. Существующий пользователь получает
+          // 7-дневный trial, чтобы обновление не отобрало у него уже открытые
+          // 11 платных тем (`hasCompletedOnboarding && !isPro` — то есть профиль,
+          // который уже пользовался продуктом, но Pro не покупал).
+          //
+          // Свежий профиль trial НЕ получает: он начинается осознанным нажатием
+          // «Попробовать 7 дней бесплатно» (`startTrial`). `isPro` не трогается.
+          const existingUser =
+            s.hasCompletedOnboarding === true && s.isPro !== true;
+          s = {
+            ...s,
+            trialStartedAt: existingUser ? Date.now() : null,
           } as Partial<QuizState>;
         }
         return s;

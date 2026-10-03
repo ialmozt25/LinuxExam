@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useQuizStore, FREE_QUESTION_LIMIT } from '@/store/quizStore';
 import { SPACING, LAYOUT } from '@/presentation/theme';
 import { pluralizeQuestions } from '@/utils/pluralize';
-import { defaultPaymentProvider } from '@/platform/payment_provider';
+import { AVAILABLE_TOPICS } from '@/data/topics';
+import { FREE_TOPICS, TRIAL_DAYS } from '@/domain/paywall';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { AppHeader } from '@/presentation/components/AppHeader';
 
@@ -11,35 +12,46 @@ import { AppHeader } from '@/presentation/components/AppHeader';
  * A free user at index 2 (the last free question) clicks "Следующий вопрос" and the store raises isPaywallVisible.
  * "Позже" hides the paywall and returns to the dashboard; pressing "Продолжить" comes back to index 2,
  * so the paywall appears again on the next click. currentIndex is deliberately not advanced.
+ *
+ * spec 063 добавила ВТОРОЙ вход на этот же экран — контентный: клик по платной
+ * теме на Dashboard (`Dashboard.tsx`) при `!isPro` и неактивном trial. Разметка
+ * ниже — общая для обоих входов: гейт бесплатных вопросов (`isPaywallVisible`)
+ * остался в `Question.tsx` и не переписывался.
  */
+
+const PLANS = [
+  '✓ Все вопросы по всем темам',
+  '✓ Подробные объяснения к каждому',
+  '✓ Режим экзамена с таймером',
+] as const;
+
 export default function Paywall() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   const hidePaywall = useQuizStore((s) => s.hidePaywall);
-  const unlockPro = useQuizStore((s) => s.unlockPro);
   const navigateTo = useQuizStore((s) => s.navigateTo);
+  const startTrial = useQuizStore((s) => s.startTrial);
   const totalQuestions = useQuizStore((s) => s.questions.length);
 
-  const provider = defaultPaymentProvider;
-  const isDisabled = loading || !provider.isAvailable();
+  // Списки тем для секций. Заголовки берутся из реестра `src/data/topics.ts`,
+  // а не дублируются строками: реестр — единственный источник подписей.
+  const freeTitles = AVAILABLE_TOPICS.filter((t) => FREE_TOPICS.includes(t.key)).map(
+    (t) => t.title
+  );
+  const paidTitles = AVAILABLE_TOPICS.filter((t) => !FREE_TOPICS.includes(t.key)).map(
+    (t) => t.title
+  );
 
-  const handlePurchase = async () => {
-    setError(null);
-    setLoading(true);
-    try {
-      const result = await provider.purchase();
-      if (result.success) {
-        unlockPro(); // sets isPro: true AND isPaywallVisible: false
-        navigateTo('dashboard');
-      } else {
-        setError(result.error ?? 'Не удалось завершить оплату. Попробуйте ещё раз.');
-      }
-    } catch {
-      setError('Ошибка соединения. Проверьте интернет и попробуйте снова.');
-    } finally {
-      setLoading(false);
-    }
+  // spec 064 подключит реальную оплату. Здесь — осознанная заглушка: платёжный
+  // flow не открывается, `provider.purchase()` не вызывается.
+  const handlePurchase = () => {
+    setNotice('Оплата появится в spec 064 — сейчас подписку оформить нельзя.');
+  };
+
+  const handleStartTrial = () => {
+    startTrial();
+    hidePaywall();
+    navigateTo('dashboard');
   };
 
   const handleClose = () => {
@@ -83,32 +95,85 @@ export default function Paywall() {
           marginBottom: SPACING.xl,
         }}
       >
-        <div style={{ fontSize: 14, marginBottom: SPACING.sm }}>✓ Все вопросы по всем темам</div>
-        <div style={{ fontSize: 14, marginBottom: SPACING.sm }}>
-          ✓ Подробные объяснения к каждому
-        </div>
-        <div style={{ fontSize: 14 }}>✓ Режим экзамена с таймером</div>
+        {PLANS.map((line, index) => (
+          <div
+            key={line}
+            style={{
+              fontSize: 14,
+              marginBottom: index === PLANS.length - 1 ? 0 : SPACING.sm,
+            }}
+          >
+            {line}
+          </div>
+        ))}
       </div>
 
-      {error !== null && (
+      {/* spec 063: что именно бесплатно и что открывает Pro. */}
+      <div
+        data-testid="paywall-free-topics"
+        style={{
+          background: 'var(--bg-surface)',
+          padding: SPACING.md,
+          borderRadius: LAYOUT.cardRadius,
+          marginBottom: SPACING.md,
+        }}
+      >
+        <div style={{ fontSize: 13, fontWeight: 600, marginBottom: SPACING.sm }}>
+          {`Бесплатно: ${FREE_TOPICS.length} темы`}
+        </div>
         <div
           style={{
-            color: 'var(--danger)',
+            fontSize: 13,
+            color: 'var(--text-secondary)',
+            lineHeight: 1.5,
+          }}
+        >
+          {freeTitles.join(' · ')}
+        </div>
+      </div>
+
+      <div
+        data-testid="paywall-paid-topics"
+        style={{
+          background: 'var(--bg-surface)',
+          padding: SPACING.md,
+          borderRadius: LAYOUT.cardRadius,
+          marginBottom: SPACING.xl,
+        }}
+      >
+        <div style={{ fontSize: 13, fontWeight: 600, marginBottom: SPACING.sm }}>
+          {`Pro: ${paidTitles.length} тем + Exam + Analytics`}
+        </div>
+        <div
+          style={{
+            fontSize: 13,
+            color: 'var(--text-secondary)',
+            lineHeight: 1.5,
+          }}
+        >
+          {paidTitles.join(' · ')}
+        </div>
+      </div>
+
+      {notice !== null && (
+        <div
+          data-testid="paywall-purchase-notice"
+          style={{
+            color: 'var(--text-secondary)',
             fontSize: 13,
             textAlign: 'center',
             marginBottom: SPACING.md,
             lineHeight: 1.4,
           }}
         >
-          {error}
+          {notice}
         </div>
       )}
 
       <button
         type="button"
-        data-testid="paywall-buy"
-        disabled={isDisabled}
-        onClick={handlePurchase}
+        data-testid="paywall-start-trial"
+        onClick={handleStartTrial}
         style={{
           width: '100%',
           padding: SPACING.md,
@@ -118,20 +183,39 @@ export default function Paywall() {
           borderRadius: LAYOUT.buttonRadius,
           fontSize: 16,
           fontWeight: 600,
-          cursor: isDisabled ? 'not-allowed' : 'pointer',
+          cursor: 'pointer',
           fontFamily: 'inherit',
-          opacity: isDisabled ? 0.6 : 1,
           marginBottom: SPACING.sm,
         }}
       >
-        {loading ? 'Обработка…' : provider.label}
+        {`Попробовать ${TRIAL_DAYS} дней бесплатно`}
+      </button>
+
+      <button
+        type="button"
+        data-testid="paywall-buy"
+        onClick={handlePurchase}
+        style={{
+          width: '100%',
+          padding: SPACING.md,
+          background: 'transparent',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--accent)',
+          borderRadius: LAYOUT.buttonRadius,
+          fontSize: 16,
+          fontWeight: 600,
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+          marginBottom: SPACING.sm,
+        }}
+      >
+        Купить — 299 Stars/мес
       </button>
 
       <button
         type="button"
         data-testid="paywall-later"
         onClick={handleClose}
-        disabled={loading}
         style={{
           width: '100%',
           padding: SPACING.md,
@@ -140,14 +224,14 @@ export default function Paywall() {
           border: 'none',
           borderRadius: LAYOUT.buttonRadius,
           fontSize: 14,
-          cursor: loading ? 'not-allowed' : 'pointer',
+          cursor: 'pointer',
           fontFamily: 'inherit',
         }}
       >
-        Позже
+        Не сейчас
       </button>
 
-      {/* TODO(payments): add "Оплатить Stars" secondary button in Step 5 */}
+      {/* TODO(payments): заменить заглушку реальным потоком оплаты (spec 064). */}
     </ScreenContainer>
   );
 }

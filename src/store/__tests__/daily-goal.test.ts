@@ -83,14 +83,15 @@ describe('persist migration v5 → v6 (retention, spec 061)', () => {
     expect(s.hasCompletedOnboarding).toBe(true);
   });
 
-  it('пишет состояние под версией 6, включая оба retention-поля', async () => {
+  it('пишет состояние под версией 7, включая оба retention-поля', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V5_PAYLOAD));
     const { useQuizStore: store } = await import('@/store/quizStore');
 
     store.setState({ todayXp: 15 });
 
     const raw = readPersisted();
-    expect(raw.version).toBe(6);
+    // Версия на запись — текущая (7 с spec 063: paywall добавил trialStartedAt).
+    expect(raw.version).toBe(7);
     expect(raw.state.dailyGoalXp).toBe(20);
     expect(raw.state.todayXp).toBe(15);
     expect(raw.state.onboardingGoal).toBe('rhcsa');

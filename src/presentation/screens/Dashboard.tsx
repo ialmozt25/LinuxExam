@@ -11,6 +11,8 @@ import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { useDailyGoalProgress } from '@/store/dailyGoal';
 import { useExamTimer } from '@/hooks/useExamTimer';
+import { useCanAccessTopic } from '@/store/paywall';
+import { isFreeTopic } from '@/domain/paywall';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
 import type { ResolvedTheme } from '@/utils/theme';
@@ -20,6 +22,24 @@ interface Props {
   theme: ResolvedTheme;
   /** Flips the theme, or returns to inherit when it matches the system one. */
   onToggleTheme: () => void;
+}
+
+/** Есть ли у пользователя доступ к теме целиком (spec 063). */
+type TopicGate = (key: string) => boolean;
+
+/**
+ * Клик по теме (spec 063). Доступ есть — открывается существующий прогон
+ * (`startTopicQuiz`); доступа нет (платная тема, `!isPro`, trial неактивен) —
+ * поднимается контентный paywall. Логика Free-тем не меняется: они всегда
+ * проходят по первой ветке.
+ */
+function openTopic(key: string, hasAccess: boolean) {
+  const store = useQuizStore.getState();
+  if (!hasAccess) {
+    store.showPaywall();
+    return;
+  }
+  store.startTopicQuiz(key);
 }
 
 export default function Dashboard({ theme, onToggleTheme }: Props) {
@@ -35,9 +55,13 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const examActive = useQuizStore((s) => s.examActive);
   const startRegularQuiz = useQuizStore((s) => s.startRegularQuiz);
   const startExam = useQuizStore((s) => s.startExam);
-  const startTopicQuiz = useQuizStore((s) => s.startTopicQuiz);
   const wrongQuestionIds = useQuizStore((s) => s.wrongQuestionIds);
   const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
+
+  // Paywall (spec 063). Один хук на компонент: он подписан на `isPro` и
+  // `trialStartedAt`, а сам ответ про конкретную тему считает чистая функция
+  // домена (`canAccessTopic`), поэтому 14 тем не подписывают компонент 14 раз.
+  const paywallAccess: TopicGate = useCanAccessTopic;
 
   // FSRS-lite (spec 052): нагрузка для кнопки «Повторить сегодня (N)».
   // Банк отдаёт store асинхронно (per-topic chunks), поэтому N пересчитывается
@@ -417,6 +441,16 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           const count = getTopicCount(topic.key);
           const isAvailable = topic.status === 'available';
           const Icon = topic.Icon;
+          // spec 063: Free-темы открыты всем, Paid-темы — только Pro или активным
+          // trial-ом. Тема со статусом «Скоро» остаётся неинтерактивной: доступ
+          // для неё не считается, бейджа нет.
+          const isFree = isFreeTopic(topic.key);
+          const allowed = !isAvailable || paywallAccess(topic.key);
+          const badge = !isAvailable
+            ? null
+            : isFree || allowed
+              ? { testid: 'paywall-badge-free', label: 'Бесплатно' }
+              : { testid: 'paywall-badge-pro', label: 'PRO' };
 
           const rowStyle = {
             display: 'flex' as const,
@@ -464,6 +498,25 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   {topic.description}
                 </div>
               </div>
+              {badge !== null && (
+                <span
+                  data-testid={badge.testid}
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    fontWeight: 600,
+                    color: isFree ? 'var(--text-secondary)' : 'var(--accent)',
+                    background: 'var(--bg-elevated)',
+                    border: '1px solid var(--border-subtle)',
+                    padding: '2px 6px',
+                    borderRadius: 'var(--radius-sm)',
+                    flexShrink: 0,
+                    textTransform: 'uppercase',
+                    letterSpacing: 'var(--letter-wide, 0.5px)',
+                  }}
+                >
+                  {badge.label}
+                </span>
+              )}
               {isAvailable ? (
                 <span
                   style={{
@@ -502,7 +555,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                 key={topic.key}
                 type="button"
                 data-testid={`topic-${topic.key}`}
-                onClick={() => startTopicQuiz(topic.key)}
+                onClick={() => openTopic(topic.key, allowed)}
                 aria-label={`Начать тему: ${topic.title}`}
                 style={{ ...rowStyle, cursor: 'pointer' }}
               >
