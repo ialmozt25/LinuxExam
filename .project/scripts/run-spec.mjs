@@ -166,7 +166,8 @@ const ACTION_PATTERNS = [
   { action: 'rm -rf', re: /rm\s+-rf/i },
   { action: 'git push', re: /git\s+push/i },
   { action: 'rm', re: /\brm\s+[-\w.*/]/i },
-  { action: 'migrate', re: /\bmigrat|\bmigration|миграц/i },
+  // кириллица исключена намеренно — паттерн командный, не словарный
+  { action: 'migrate', re: /\bmigrat|\bmigration/i },
   { action: 'git commit', re: /git\s+(commit|add)\b/i },
   { action: 'npm test', re: /npm\s+run\s+(test|typecheck|build)|test:run|test:e2e|playwright|vitest/i },
   { action: 'edit', re: /\bedit\b|\bwrite\b|правк[аиу]|обнов(ить|ление)|\.mjs\b|\.ts\b|\.md\b/i },

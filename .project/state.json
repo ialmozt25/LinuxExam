@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "7efc56c6fe7c4a8f4beed3f2724e2d8a08208371",
+  "head": "eac65e85ed9dbd93637ed41f3cc94233fcd50e5d",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,21 @@
       "goal": "Кнопка «Повторить сегодня (N)» → прогон ровно тех вопросов, которые пора повторить.",
       "acceptance": "1. `src/domain/fsrs.ts` (t1) — только чистые функции (нет импортов store/react).",
       "noTouch": "src/data/** (банк 253), shuffleOptions, существующие 198 тестов (28 файлов),",
+      "preview": ""
+    },
+    {
+      "id": "053",
+      "slug": "risk-scoring-migrate-fix",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/053-risk-scoring-migrate-fix.md",
+      "mtime": 1791002205179.24,
+      "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
+      "acceptance": "",
+      "noTouch": "",
       "preview": ""
     },
     {
@@ -1107,6 +1122,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "eac65e8",
+      "date": "2026-10-03",
+      "subject": "docs(spec-052): fsrs-lite (feature, approved, hard-fail resolved)",
+      "type": "docs"
+    },
+    {
       "sha": "7efc56c",
       "date": "2026-10-03",
       "subject": "feat(spec-051): anchor:refresh helper (SETUP 4 automation)",
@@ -1219,12 +1240,6 @@
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-049 done",
       "type": "chore"
-    },
-    {
-      "sha": "f93e055",
-      "date": "2026-10-03",
-      "subject": "docs(spec-049): done - 1. Фикстуры динамические (нет литеральных списков id и удалённого fp_002)",
-      "type": "docs"
     }
   ],
   "roles": [
