@@ -239,3 +239,4 @@
 2026-10-03 | spec | spec 050 (batch7-essential-tools, content, approved, track fast) зарегистрирована в git — файл был untracked | commit pending
 2026-10-03 | per_topic_target | overflow 25 > 22 (тема essential_tools, spec 050) принят — per_topic_target остаётся 22 (прецедент spec 043) | commit pending
 2026-10-03 | spec-050 | done - batch 7 - feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253) | commit pending
+2026-10-03 | push | authorize push origin main — spec-050 close; публикует 610872c..1ed8515 (9 коммитов: 673827a, 2e54f96, 506f774, be992c1, e620cd2, 76cb148, 801f4df, 1ed8515 + trail); авторизация — команда капитана «Push authorized (rule 10). git push origin main» | commit pending
