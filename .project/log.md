@@ -285,3 +285,5 @@
 2026-10-04 | push | authorize push origin main — spec-063; публикует 875cf33..HEAD | commit pending
 2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68
 2026-10-04 | spec-064 | done - telegram-stars | commit d8144dd
+2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending
+2026-10-04 | push | authorize push origin main — spec-064; публикует 49cee68..HEAD | commit pending
