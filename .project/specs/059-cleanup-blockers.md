@@ -120,7 +120,9 @@ DUP4 (Fisher–Yates + `Math.random` в `startTopicQuiz` vs `startExam`), DUP5
 
 ## Превью
 
-Дифф затрагивает: `src/store/quizStore.ts` (Screen union − 4 экшена),
+Дифф затрагивает: `src/store/quizStore.ts` (Screen union +`'paywall'` − 4 экшена),
 `src/App.tsx` (+1 lazy-импорт, +1 ветвь), тест `exam-session.test.ts`
-(−2 проверки), `docs/memory/alerts.md` (запись по отложенным дублям).
+(−2 проверки, число тестов не менялось), `docs/memory/alerts.md`
+(+36 строк — запись по отложенным дублям DUP3/5/6/7/8: каждый требует правок в
+3+ файлах либо меняет видимое поведение, поэтому оставлен как есть).
 `src/presentation/screens/Paywall.tsx` — без изменений (testid уже есть).
