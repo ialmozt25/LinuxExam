@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "519184883c2544a67ff8ae163e10ab4c24008420",
+  "head": "dcd815014284ffd9e8de33e31d04cf86ddada4ec",
   "specs": [
     {
       "id": "022",
@@ -1138,7 +1138,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | commit pending",
     "2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending",
     "2026-10-03 | spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..<trail-tip> | commit pending",
@@ -1147,10 +1146,23 @@
     "2026-10-03 | trail | spec-054 + spec-056: публикуется 8d58264 (feat(spec-054): exam mode) + 010a7ae (fix(spec-056): mobile sticky footer); верификация перед push — typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
     "2026-10-03 | spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует, прецедент 050/052); feat-коммит 010a7ae fix(spec-056): mobile sticky footer on long explanations; гейты typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
     "2026-10-03 | spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264",
-    "2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae"
+    "2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae",
+    "2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "dcd8150",
+      "date": "2026-10-03",
+      "subject": "chore(log): trail for spec-054 + mobile-sticky push",
+      "type": "chore"
+    },
+    {
+      "sha": "865a5b9",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-054+056 done",
+      "type": "chore"
+    },
     {
       "sha": "5191848",
       "date": "2026-10-03",
@@ -1258,18 +1270,6 @@
       "date": "2026-10-03",
       "subject": "feat(test): e2e app coverage + data-testid (58 tests)",
       "type": "feat"
-    },
-    {
-      "sha": "2960a05",
-      "date": "2026-10-03",
-      "subject": "chore(log): anchor refresh + trail for spec-051 push",
-      "type": "chore"
-    },
-    {
-      "sha": "b7c4104",
-      "date": "2026-10-03",
-      "subject": "fix(spec-051): propagate decomposition tasks into the run-spec plan",
-      "type": "fix"
     }
   ],
   "roles": [
