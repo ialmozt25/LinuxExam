@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "059b118801d8b3b0736d15b772207befa88f3c02",
+  "head": "d8144dd3fd27f3eadc29b49bf81ddfed1188c273",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,21 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "064",
+      "slug": "telegram-stars",
+      "status": "approved",
+      "type": "feature",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/064-telegram-stars.md",
+      "mtime": 1791066960319.8867,
+      "goal": "Пользователь выбирает тариф, платит Stars и получает `isPro: true` в persist.",
+      "acceptance": "[ ] `backend/tg-stars/index.mjs` экспортирует `export const handler` в формате",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
       "preview": ""
     },
     {
@@ -1242,6 +1257,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "d8144dd",
+      "date": "2026-10-04",
+      "subject": "feat(spec-064): telegram stars payment - backend + frontend",
+      "type": "feat"
+    },
+    {
+      "sha": "6d5eebe",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "059b118",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-063",
@@ -1347,18 +1374,6 @@
       "sha": "74e435c",
       "date": "2026-10-03",
       "subject": "chore(log): push done for spec-059",
-      "type": "chore"
-    },
-    {
-      "sha": "a92096a",
-      "date": "2026-10-03",
-      "subject": "chore(log): guard anchor refresh for spec-059 push",
-      "type": "chore"
-    },
-    {
-      "sha": "07dfe48",
-      "date": "2026-10-03",
-      "subject": "chore(log): trail for spec-059 push + deviations",
       "type": "chore"
     }
   ],
