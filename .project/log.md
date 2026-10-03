@@ -268,3 +268,4 @@
 2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832
 2026-10-03 | spec-057 | done - fix Topic union | commit 8896618
 2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15
+2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending
