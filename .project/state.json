@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "673827ab6173ddc5ec5323f614dc5471981fde50",
+  "head": "e620cd27a2237e1003555b63944fe5ce1ce418c0",
   "specs": [
     {
       "id": "022",
@@ -459,21 +459,6 @@
       "goal": "Привести банк в соответствие objectives RHEL 10: удалить устаревшее, исправить формулировки, восполнить пробел Flatpak; синхронизировать `_topics.json` и `_order.json`.",
       "acceptance": "1. `fp_002` отсутствует в `file_permissions.json` **и** в `_order.json` (grep по `src/data/questions/` → 0).",
       "noTouch": "Другие 12 тем банка.",
-      "preview": ""
-    },
-    {
-      "id": "050",
-      "slug": "batch7-essential-tools",
-      "status": "approved",
-      "type": "content",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": "pending",
-      "file": "specs/050-batch7-essential-tools.md",
-      "mtime": 1790984321084.9976,
-      "goal": "Добавить 12 вопросов темы `essential_tools` (241 → 253) строго по конвейеру",
-      "acceptance": "1. **Кандидаты.** 12 вопросов `et_014…et_025` подготовлены с пречеком (id свободны,",
-      "noTouch": "Существующие 13 вопросов `et_001…et_013` — ни текст, ни порядок опций, ни `_meta`.",
       "preview": ""
     },
     {
@@ -1002,6 +987,21 @@
       "preview": ""
     },
     {
+      "id": "050",
+      "slug": "batch7-essential-tools",
+      "status": "done",
+      "type": "content",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "be992c1",
+      "file": "specs/050-batch7-essential-tools.md",
+      "mtime": 1790987366738.912,
+      "goal": "Добавить 12 вопросов темы `essential_tools` (241 → 253) строго по конвейеру",
+      "acceptance": "1. **Кандидаты.** 12 вопросов `et_014…et_025` подготовлены с пречеком (id свободны,",
+      "noTouch": "Существующие 13 вопросов `et_001…et_013` — ни текст, ни порядок опций, ни `_meta`.",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1076,6 +1076,30 @@
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e620cd2",
+      "date": "2026-10-03",
+      "subject": "docs(spec-050): done - 1. Кандидаты: 12 уникальных id et_014..et_025, подтопики не дублируют занятые",
+      "type": "docs"
+    },
+    {
+      "sha": "be992c1",
+      "date": "2026-10-03",
+      "subject": "chore(spec-050): R5 trace - task tokens t3",
+      "type": "chore"
+    },
+    {
+      "sha": "506f774",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after feat(bank) batch 7",
+      "type": "chore"
+    },
+    {
+      "sha": "2e54f96",
+      "date": "2026-10-03",
+      "subject": "feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253)",
+      "type": "feat"
+    },
     {
       "sha": "673827a",
       "date": "2026-10-03",
@@ -1170,30 +1194,6 @@
       "sha": "d1a9f9c",
       "date": "2026-10-02",
       "subject": "chore(log): trail for spec-043 push",
-      "type": "chore"
-    },
-    {
-      "sha": "9fb92e3",
-      "date": "2026-10-02",
-      "subject": "chore(state): converge after spec-043 done",
-      "type": "chore"
-    },
-    {
-      "sha": "06990dd",
-      "date": "2026-10-02",
-      "subject": "docs(spec-043): done - batch6-deploy-systems",
-      "type": "docs"
-    },
-    {
-      "sha": "9660f27",
-      "date": "2026-10-02",
-      "subject": "chore(spec-043): R5 trace - task tokens t1 t2 t3 t4",
-      "type": "chore"
-    },
-    {
-      "sha": "5712629",
-      "date": "2026-10-02",
-      "subject": "chore(state): converge after spec-043 integration",
       "type": "chore"
     }
   ],

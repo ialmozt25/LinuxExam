@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `673827ab6173ddc5ec5323f614dc5471981fde50`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `e620cd27a2237e1003555b63944fe5ce1ce418c0`<!--volatile:end-->
 - Спек: 48
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -17,7 +17,6 @@
 | 029 | `center-redesign` | infra | approved | — | — |
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
-| 050 | `batch7-essential-tools` | content | approved | pending | 2026-10-03 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -53,6 +52,7 @@
 | 047 | `spec-chain-dual-track` | infra | done | 41e42d8 | 2026-10-02 |
 | 048 | `fast-track-obs-tester` | infra | done | 3aaa494 | 2026-10-02 |
 | 049 | `fast-track-guards` | infra | done | 0e3f1f4 | 2026-10-03 |
+| 050 | `batch7-essential-tools` | content | done | be992c1 | 2026-10-03 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
