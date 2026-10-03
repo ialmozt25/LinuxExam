@@ -190,48 +190,63 @@ export default function ExamRun() {
         })}
       </div>
 
-      <button
-        type="button"
-        data-testid="exam-submit"
-        disabled={selectedIndex === null}
-        onClick={handleSubmit}
+      {/* Sticky footer (spec 056): тот же паттерн, что и в Question.tsx — кнопка
+          действия не должна уезжать ниже фолда, когда вопрос длинный. */}
+      <div
         style={{
-          width: '100%',
-          marginTop: SPACING.lg,
-          padding: SPACING.md,
-          background: selectedIndex === null ? 'var(--bg-surface)' : 'var(--accent)',
-          color: 'var(--text-primary)',
-          border: 'none',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
-          fontWeight: 600,
-          cursor: selectedIndex === null ? 'not-allowed' : 'pointer',
-          opacity: selectedIndex === null ? 0.5 : 1,
-          fontFamily: 'inherit',
+          position: 'sticky',
+          bottom: 0,
+          zIndex: 10,
+          marginTop: 'auto',
+          paddingTop: SPACING.sm,
+          paddingBottom: SPACING.xs,
+          background: 'var(--bg-primary)',
+          borderTop: '1px solid var(--border-subtle)',
         }}
       >
-        {index + 1 >= totalQuestions ? 'Завершить экзамен' : 'Ответить'}
-      </button>
+        <button
+          type="button"
+          data-testid="exam-submit"
+          disabled={selectedIndex === null}
+          onClick={handleSubmit}
+          style={{
+            width: '100%',
+            marginTop: SPACING.md,
+            padding: SPACING.md,
+            background: selectedIndex === null ? 'var(--bg-surface)' : 'var(--accent)',
+            color: 'var(--text-primary)',
+            border: 'none',
+            borderRadius: LAYOUT.buttonRadius,
+            fontSize: 16,
+            fontWeight: 600,
+            cursor: selectedIndex === null ? 'not-allowed' : 'pointer',
+            opacity: selectedIndex === null ? 0.5 : 1,
+            fontFamily: 'inherit',
+          }}
+        >
+          {index + 1 >= totalQuestions ? 'Завершить экзамен' : 'Ответить'}
+        </button>
 
-      <button
-        type="button"
-        data-testid="exam-cancel"
-        onClick={cancelExamSession}
-        style={{
-          width: '100%',
-          marginTop: SPACING.sm,
-          padding: SPACING.sm,
-          background: 'transparent',
-          color: 'var(--text-secondary)',
-          border: 'none',
-          fontSize: 'var(--text-xs)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-        }}
-      >
-        Прервать и выйти
-      </button>
+        <button
+          type="button"
+          data-testid="exam-cancel"
+          onClick={cancelExamSession}
+          style={{
+            width: '100%',
+            marginTop: SPACING.sm,
+            padding: SPACING.sm,
+            background: 'transparent',
+            color: 'var(--text-secondary)',
+            border: 'none',
+            fontSize: 'var(--text-xs)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}
+        >
+          Прервать и выйти
+        </button>
+      </div>
     </ScreenContainer>
   );
 }

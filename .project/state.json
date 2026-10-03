@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c4cb9b3d5d96aba9e50dcb17859541b8ad02b453",
+  "head": "8d58264a849a8e676da52145f4168245d0afcf3a",
   "specs": [
     {
       "id": "022",
@@ -504,6 +504,21 @@
       "goal": "Exam mode: 30/60/90 вопросов × 30/60/120 мин, порог 70%. 3 экрана.",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "056",
+      "slug": "mobile-sticky-footer",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/056-mobile-sticky-footer.md",
+      "mtime": 1791015729980.9238,
+      "goal": "Кнопка действия на экране вопроса обязана быть видна без прокрутки на мобильном",
+      "acceptance": "`e2e/mobile-sticky-footer.spec.ts` (viewport 390x844): после ответа на вопрос с",
+      "noTouch": "Логика ответа и стор (`src/store/**`, `src/domain/**`), `src/data/**`,",
       "preview": ""
     },
     {
@@ -1137,6 +1152,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "8d58264",
+      "date": "2026-10-03",
+      "subject": "feat(spec-054): exam mode - setup, run, results",
+      "type": "feat"
+    },
+    {
       "sha": "c4cb9b3",
       "date": "2026-10-03",
       "subject": "docs(alerts): triage and close stale debts",
@@ -1248,12 +1269,6 @@
       "sha": "1ed8515",
       "date": "2026-10-03",
       "subject": "chore(state): converge after R5 trace spec-050",
-      "type": "chore"
-    },
-    {
-      "sha": "801f4df",
-      "date": "2026-10-03",
-      "subject": "chore(spec-050): R5 trace - task tokens t1 t2",
       "type": "chore"
     }
   ],

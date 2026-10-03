@@ -419,37 +419,55 @@ export default function Question() {
 
       {/* Next button (in-app fallback: hidden in Telegram, where MainButton takes over) */}
       {!isTelegram && (
-        <button
-          type="button"
-          data-testid="next-button"
-          disabled={!hasAnswered}
-          onClick={() => {
-            if (isLastExamQuestion) finishExam();
-            else if (isLastQuestion) navigateTo('results');
-            else nextQuestion();
-          }}
+        // Sticky footer (spec 056): объяснение ответа может перерастать высоту
+        // вьюпорта, и кнопка в обычном потоке уезжала ниже фолда (RECON: 4 из 6
+        // вопросов на 390x844, переполнение 25-55px). Липнет к низу
+        // scroll-контейнера `#root`, поэтому видна без прокрутки при любом
+        // объяснении. marginTop:auto держит подпись внизу и на коротком контенте.
+        <div
           style={{
-            width: '100%',
-            padding: SPACING.md,
-            background: hasAnswered ? 'var(--accent)' : 'var(--bg-surface)',
-            color: 'var(--text-primary)',
-            border: 'none',
-            borderRadius: LAYOUT.buttonRadius,
-            fontSize: 16,
-            fontWeight: 600,
-            cursor: hasAnswered ? 'pointer' : 'not-allowed',
-            fontFamily: 'inherit',
-            opacity: hasAnswered ? 1 : 0.5,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: SPACING.sm,
-            marginTop: SPACING.xl,
+            position: 'sticky',
+            bottom: 0,
+            zIndex: 10,
+            marginTop: 'auto',
+            paddingTop: SPACING.sm,
+            paddingBottom: SPACING.xs,
+            background: 'var(--bg-primary)',
+            borderTop: '1px solid var(--border-subtle)',
           }}
         >
-          {isLastExamQuestion ? 'Завершить экзамен' : isLastQuestion ? 'Завершить' : 'Следующий вопрос'}{' '}
-          <ChevronRight size={20} />
-        </button>
+          <button
+            type="button"
+            data-testid="next-button"
+            disabled={!hasAnswered}
+            onClick={() => {
+              if (isLastExamQuestion) finishExam();
+              else if (isLastQuestion) navigateTo('results');
+              else nextQuestion();
+            }}
+            style={{
+              width: '100%',
+              padding: SPACING.md,
+              background: hasAnswered ? 'var(--accent)' : 'var(--bg-surface)',
+              color: 'var(--text-primary)',
+              border: 'none',
+              borderRadius: LAYOUT.buttonRadius,
+              fontSize: 16,
+              fontWeight: 600,
+              cursor: hasAnswered ? 'pointer' : 'not-allowed',
+              fontFamily: 'inherit',
+              opacity: hasAnswered ? 1 : 0.5,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: SPACING.sm,
+              marginTop: SPACING.md,
+            }}
+          >
+            {isLastExamQuestion ? 'Завершить экзамен' : isLastQuestion ? 'Завершить' : 'Следующий вопрос'}{' '}
+            <ChevronRight size={20} />
+          </button>
+        </div>
       )}
       {showConfirm && (
         <div
