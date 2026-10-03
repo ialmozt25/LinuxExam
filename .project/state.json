@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "77fa11676b77fdf7d971771ab0c9106aed66e5b7",
+  "head": "5e3fe2a940d681274a1d694a13f8fb8e8c34c0c0",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,21 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "063",
+      "slug": "paywall-content",
+      "status": "approved",
+      "type": "feature",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/063-paywall-content.md",
+      "mtime": 1791058004836.6184,
+      "goal": "Ввести контентный paywall: **3 темы Free / 11 тем Paid**, **7-дневный trial** и",
+      "acceptance": "",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
       "preview": ""
     },
     {
@@ -1227,6 +1242,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "5e3fe2a",
+      "date": "2026-10-04",
+      "subject": "feat(spec-063): paywall content - 3 free themes, 11 paid, 7-day trial",
+      "type": "feat"
+    },
+    {
+      "sha": "ad01599",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "77fa116",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-060+061",
@@ -1332,18 +1359,6 @@
       "sha": "bdb21ba",
       "date": "2026-10-03",
       "subject": "chore(spec-059): cleanup blockers - paywall route, dead actions, duplicate logic",
-      "type": "chore"
-    },
-    {
-      "sha": "d29b239",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-057+058 push",
-      "type": "chore"
-    },
-    {
-      "sha": "bdb04a2",
-      "date": "2026-10-03",
-      "subject": "chore(log): push done for spec-057+058",
       "type": "chore"
     }
   ],
