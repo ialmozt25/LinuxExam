@@ -1,12 +1,12 @@
 ---
 id: 057
 slug: fix-topic-union
-status: approved
+status: done
 type: infra
 track: small
 created: 2026-10-03
 updated: 2026-10-03
-commit: null
+commit: 8896618
 embedded_approve: rule 2 (F5.0a — задание капитана 2026-10-03, прямой путь, прецедент 054)
 ---
 
