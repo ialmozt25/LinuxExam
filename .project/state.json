@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "74e435cef3871e870e40ccdb687e209f59fc89f6",
+  "head": "6a94392e1b8d91715f3dc70e4960a7793c933b74",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "060",
+      "slug": "onboarding",
+      "status": "approved",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/060-onboarding.md",
+      "mtime": 1791030637273.805,
+      "goal": "3 экрана активации — **цель → демо-квиз → результат** — с детерминированной",
+      "acceptance": "1. `ONBOARDING_GOALS` — 3 цели с уникальными `id`; `pickDemoQuestions`",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `ORCH-RULES.md`,",
+      "preview": "Новые файлы: `src/domain/onboarding.ts`, 3 экрана, 3 тест-файла"
     },
     {
       "id": "016",
@@ -1197,6 +1212,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "6a94392",
+      "date": "2026-10-03",
+      "subject": "feat(spec-060): onboarding - goal, demo quiz, result",
+      "type": "feat"
+    },
+    {
+      "sha": "58c32d4",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "74e435c",
       "date": "2026-10-03",
       "subject": "chore(log): push done for spec-059",
@@ -1302,18 +1329,6 @@
       "sha": "1c4fe2f",
       "date": "2026-10-03",
       "subject": "chore(state): converge after convergence push",
-      "type": "chore"
-    },
-    {
-      "sha": "ad64800",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after convergence push",
-      "type": "chore"
-    },
-    {
-      "sha": "dc6e38d",
-      "date": "2026-10-03",
-      "subject": "chore(log): push done for convergence push",
       "type": "chore"
     }
   ],
