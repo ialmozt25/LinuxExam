@@ -466,5 +466,437 @@
       "reference": "man tar",
       "status": "active"
     }
+  },
+  {
+    "id": "et_014",
+    "topic": "essential_tools",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "find: case-insensitive name matching",
+    "question": "В каталоге /etc/httpd/conf.d лежат файлы конфигурации с расширением .conf, но у части файлов расширение записано заглавными буквами (.CONF). Нужно отобрать обычные файлы с этим расширением независимо от регистра, только в самом каталоге, не заходя в подкаталоги. Какая команда find это сделает?",
+    "options": [
+      {
+        "text": "find /etc/httpd/conf.d -maxdepth 1 -type f -name '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "find /etc/httpd/conf.d -maxdepth 1 -type f -regex '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "find /etc/httpd/conf.d -maxdepth 1 -type f -samefile '*.conf'",
+        "correct": false
+      },
+      {
+        "text": "find /etc/httpd/conf.d -maxdepth 1 -type f -iname '*.conf'",
+        "correct": true
+      }
+    ],
+    "explanation": "Предикат -iname сравнивает имя без учёта регистра, поэтому шаблон '*.conf' подходит и для обычного файла app.conf, и для файла с расширением .CONF. Предикат -name сравнивает имя с учётом регистра, поэтому файл с расширением .CONF под него не попадёт. Предикат -regex проверяет весь путь регулярным выражением, а не имя по шаблону оболочки: звёздочка в начале шаблона как повторитель не работает, поэтому верный вид шаблона здесь — '.*\\.conf', а вариант '*.conf' не даёт ни одного совпадения и find молча выходит с пустым результатом. Предикат -samefile сравнивает файлы с одним уже существующим файлом, а не отбирает имена по шаблону, поэтому на аргументе '*.conf' он завершается ошибкой «No such file or directory».",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man find",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_015",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "grep: recursive directory search",
+    "question": "Нужно найти все строки со словом Permission в файлах внутри каталога /etc, включая вложенные подкаталоги, и увидеть выведенные строки вместе с именем файла, в котором они найдены; переходить при обходе по символическим ссылкам не нужно. Какой ключ grep задаст такой рекурсивный обход?",
+    "options": [
+      {
+        "text": "grep -n 'Permission' /etc",
+        "correct": false
+      },
+      {
+        "text": "grep -l 'Permission' /etc",
+        "correct": false
+      },
+      {
+        "text": "grep -R 'Permission' /etc",
+        "correct": false
+      },
+      {
+        "text": "grep -r 'Permission' /etc",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ -r включает рекурсивный обход указанного каталога, поэтому поиск идёт по всем файлам дерева, а к каждой найденной строке добавляется имя файла. Ключ -R тоже рекурсивен, но, в отличие от -r, разыменовывает все символические ссылки (man grep: «Follow all symbolic links, unlike -r»), поэтому обход уходит и в каталоги, на которые указывают ссылки, то есть условие «переходить по ссылкам не нужно» он не выполняет; на ссылку-петлю grep печатает «warning: recursive directory loop» и всё равно завершается с кодом 0 (проверено на Rocky 9.8). Ключ -l при указании каталога завершается ошибкой «Is a directory» и, кроме того, печатает только имена файлов, а не строки. Ключ -n только добавляет номера строк и без -r на каталоге тоже завершается ошибкой «Is a directory».",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man grep",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_016",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "grep: after-context",
+    "question": "При поиске строки Failed в файле /var/log/messages нужно видеть саму строку Failed и ровно две строки, идущие сразу после неё, потому что подробности сбоя записаны следом за ней; строки перед совпадением в выводе не нужны. Какой ключ grep это сделает?",
+    "options": [
+      {
+        "text": "grep -B 2 'Failed' /var/log/messages",
+        "correct": false
+      },
+      {
+        "text": "grep -l 'Failed' /var/log/messages",
+        "correct": false
+      },
+      {
+        "text": "grep -n 2 'Failed' /var/log/messages",
+        "correct": false
+      },
+      {
+        "text": "grep -A 2 'Failed' /var/log/messages",
+        "correct": true
+      }
+    ],
+    "explanation": "Ключ -A (after) печатает указанное число строк после каждого совпадения между группами вывода, поэтому видно и саму строку Failed, и две следующие за ней. Ключ -B (before) печатает строки перед совпадением и даёт противоположный результат. Ключ -l печатает только имена файлов, а не строки, и при одном файле даёт лишь /var/log/messages. Ключ -n числового аргумента не принимает: в записи grep -n 2 'Failed' FILE число 2 становится шаблоном поиска, а слово Failed — именем файла, поэтому grep отвечает «grep: Failed: No such file or directory» и завершается с кодом 2, а контекст не выводится вовсе (проверено на Rocky 9.8).",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man grep",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_017",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "tar: listing archive contents",
+    "question": "Перед плановым восстановлением узла администратор хочет убедиться, что в gzip-архиве /var/backups/etc.tar.gz каталог etc/nginx сохранён полностью. Нужно вывести перечень путей, записанных в архиве, не создавая и не перезаписывая при этом ни одного файла на диске. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "tar -xvzf /var/backups/etc.tar.gz /etc/nginx",
+        "correct": false
+      },
+      {
+        "text": "tar -tzf /var/backups/etc.tar.gz",
+        "correct": true
+      },
+      {
+        "text": "tar -cvzf /var/backups/etc.tar.gz /etc/nginx",
+        "correct": false
+      },
+      {
+        "text": "tar -dzf /var/backups/etc.tar.gz",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -t переводит tar в режим вывода оглавления, -z включает обработку сжатия gzip, а -f задаёт имя архива, поэтому -tzf печатает перечень путей и не создаёт файлов. Вариант -xvzf распаковывает архив ключом -x: указанное после имени архива значение tar считает не каталогом назначения, а именем члена архива, поэтому запись «распаковать в /etc/nginx» не работает и вызов завершается ошибкой «Not found in archive». Вариант -cvzf создаёт архив ключом -c и на существующем имени перезапишет проверяемый файл. Вариант -dzf ключом -d сравнивает архив с файловой системой и без второго аргумента выдаёт лишь предупреждения «Cannot stat», ничего не перечисляя.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man tar",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_018",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "find: executing a command on results",
+    "question": "Нужно удалить все файлы с расширением .tmp в каталоге /var/tmp вместе с вложенными подкаталогами, передав найденные пути команде rm. Какая форма записи с действием -exec вызовет rm корректно?",
+    "options": [
+      {
+        "text": "find /var/tmp -type f -name '*.tmp' -exec rm {} -print0",
+        "correct": false
+      },
+      {
+        "text": "find /var/tmp -type f -name '*.tmp' -exec rm {} \\;",
+        "correct": true
+      },
+      {
+        "text": "find /var/tmp -type f -name '*.tmp' -xargs rm",
+        "correct": false
+      },
+      {
+        "text": "find /var/tmp -type f -name '*.tmp' -exec-rm {} \\;",
+        "correct": false
+      }
+    ],
+    "explanation": "Действие -exec требует завершающей последовательности: точка с запятой (её пишут как \\; или ';', чтобы оболочка не съела её как разделитель команд) запускает команду отдельно для каждого найденного пути, подставляя его вместо {}; завершитель + тоже годится и собирает пути в один вызов rm. В варианте с -exec rm {} -print0 завершителя нет: -print0 — это не завершитель, а ключ печати имён с нулевым разделителем, поэтому find не запускает rm, а завершается ошибкой «find: missing argument to `-exec'» с кодом 1, и ни один файл не будет удалён (если дописать \\;, аргумент -print0 уйдёт в rm, и тот упадёт с «invalid option -- 'p'» — проверено на Rocky 9.8). В варианте с -xargs find не знает такого предиката и завершается ошибкой «unknown predicate `-xargs'», до запуска rm дело не доходит. Вариант с -exec-rm сливает -exec и -rm в одно слово: find отвечает ошибкой «unknown predicate `-exec-rm'».",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man find",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_019",
+    "topic": "essential_tools",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "stat: custom output format",
+    "question": "Нужно вывести размер файла /var/log/messages в байтах, без остальных сведений команды stat. Какой спецификатор формата задаст именно размер в байтах?",
+    "options": [
+      {
+        "text": "stat -c '%s' /var/log/messages",
+        "correct": true
+      },
+      {
+        "text": "stat -c '%b' /var/log/messages",
+        "correct": false
+      },
+      {
+        "text": "stat -c '%i' /var/log/messages",
+        "correct": false
+      },
+      {
+        "text": "stat -c '%a' /var/log/messages",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -c задаёт свой формат вывода, а спецификатор %s подставляет размер файла в байтах, поэтому в выводе окажется одно число. Спецификатор %b выводит число занятых блоков размером 512 байт, а не размер в байтах. Спецификатор %i подставляет номер инода файла, а %a — восьмеричный код прав доступа. Все четыре команды успешно выполнятся, поэтому выбор определяется именно смыслом спецификатора.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man stat",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_020",
+    "topic": "essential_tools",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "ln: creating a symbolic link",
+    "question": "Нужно создать символическую ссылку /usr/local/bin/edit, указывающую на исполняемый файл /opt/editor/bin/editor. Какая команда это сделает?",
+    "options": [
+      {
+        "text": "ln /opt/editor/bin/editor /usr/local/bin/edit",
+        "correct": false
+      },
+      {
+        "text": "ln -h /opt/editor/bin/editor /usr/local/bin/edit",
+        "correct": false
+      },
+      {
+        "text": "ln -s /opt/editor/bin/editor /usr/local/bin/edit",
+        "correct": true
+      },
+      {
+        "text": "ln -f /opt/editor/bin/editor /usr/local/bin/edit",
+        "correct": false
+      }
+    ],
+    "explanation": "У команды ln первый аргумент задаёт цель ссылки, а второй — её имя, поэтому ключ -s создаёт символическую ссылку /usr/local/bin/edit на указанный файл. Вариант ln без ключей создаёт жёсткую ссылку: она указывает на тот же инод и не сможет пересечь границу файловой системы, если /usr/local/bin смонтирован отдельно. Ключа -h у GNU ln нет: на Rocky 9.8 (coreutils 8.32) вызов «ln -h …» завершается ошибкой «ln: invalid option -- 'h'» с кодом 1, поэтому ссылка не создаётся вовсе; запрет разыменования цели задаёт -n (--no-dereference). Ключ -f лишь разрешает перезаписать уже существующее имя, то есть управляет поведением при конфликте, но сам тип ссылки не выбирает.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man ln",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_021",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "du: summarizing directory usage",
+    "question": "Нужно узнать, сколько места на диске занимает каталог /var/log целиком, вместе со всеми вложенными файлами, и получить одно итоговое значение в удобных единицах. Какая команда это выведет?",
+    "options": [
+      {
+        "text": "du -sh /var/log",
+        "correct": true
+      },
+      {
+        "text": "du -ah /var/log",
+        "correct": false
+      },
+      {
+        "text": "du -h /var/log",
+        "correct": false
+      },
+      {
+        "text": "du -ch /var/log",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -s подавляет вывод отдельных элементов и печатает только итог для каждого указанного каталога, а -h переводит размер в удобные единицы (K, M, G), поэтому -sh выводит одну итоговую строку. Вариант -ah добавляет ключ -a и выводит размер каждого файла дерева, то есть даёт сотни строк вместо одного значения. Вариант -h без ключа -s печатает размер каждого подкаталога вместе с итогом, и требуемого единственного значения сразу не видно. Вариант -ch добавляет ключ -c: итоговая строка «total» появляется, но отдельные подкаталоги всё равно выводятся, и такой вывод осмыслен лишь при нескольких аргументах.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man du",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_022",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "diff: unified output format",
+    "question": "Два файла конфигурации отличаются, и результат сравнения нужно сохранить в файл в виде unified diff — с заголовками --- и +++ и с несколькими строками контекста, чтобы его можно было применить командой patch. Какой ключ diff задаст такой формат?",
+    "options": [
+      {
+        "text": "diff -c app.conf.old app.conf",
+        "correct": false
+      },
+      {
+        "text": "diff -u app.conf.old app.conf",
+        "correct": true
+      },
+      {
+        "text": "diff -q app.conf.old app.conf",
+        "correct": false
+      },
+      {
+        "text": "diff -y app.conf.old app.conf",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -u включает unified-формат: в выводе есть заголовки --- и +++, а изменения сгруппированы в блоки @@ с тремя строками контекста, и именно такой файл принимает patch. Ключ -c включает контекстный формат: он тоже применяется командой patch, но заголовки и разметка блоков другие (*** и ---), поэтому это не unified diff. Ключ -q только сообщает, различаются ли файлы, и самих различий не печатает. Ключ -y выводит файлы двумя колонками рядом, и такой вывод не является патчем.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man diff",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_023",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "comm: comparing sorted files",
+    "question": "Есть два отсортированных файла со списками — allowed.txt и used.txt. Нужно вывести строки, которые есть как в allowed.txt, так и в used.txt, то есть общие для обоих файлов. Какая команда это выведет?",
+    "options": [
+      {
+        "text": "comm -12 allowed.txt used.txt",
+        "correct": true
+      },
+      {
+        "text": "comm -23 allowed.txt used.txt",
+        "correct": false
+      },
+      {
+        "text": "comm -13 allowed.txt used.txt",
+        "correct": false
+      },
+      {
+        "text": "comm -3 allowed.txt used.txt",
+        "correct": false
+      }
+    ],
+    "explanation": "Команда comm печатает три колонки: строки только из первого файла, строки только из второго и строки, общие для обоих. Номер колонки в ключе подавляет её вывод, поэтому -12 оставляет лишь третью колонку с общими строками. Ключ -23 подавляет вторую и третью колонки и оставляет только первую, то есть строки, которых нет во втором файле. Ключ -13 подавляет первую и третью колонки и оставляет только вторую — строки, которых нет в первом файле. Ключ -3 подавляет третью колонку и печатает обе разностные, то есть всё, кроме требуемого. Оба входных файла должны быть отсортированы: на несортированном вводе comm печатает «comm: file N is not in sorted order» и завершается с кодом 1 (проверено на Rocky 9.8); проверку можно отключить ключом --nocheck-order.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man comm",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_024",
+    "topic": "essential_tools",
+    "difficulty": "medium",
+    "objective_domain": "1",
+    "subtopic": "df: human-readable space report",
+    "question": "Нужно быстро оценить, сколько свободного места осталось на всех смонтированных файловых системах, получив размеры в двоичных единицах с шагом 1024 (например, 1K = 1024 байта), а не в блоках по 1 КБ. Какая команда это выведет?",
+    "options": [
+      {
+        "text": "df -H",
+        "correct": false
+      },
+      {
+        "text": "df -h",
+        "correct": true
+      },
+      {
+        "text": "df -T",
+        "correct": false
+      },
+      {
+        "text": "df --total",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -h переводит размеры в удобные двоичные единицы с шагом 1024 (1K = 1024 байта, например 1007G), поэтому таблица читается без пересчёта блоков. Ключ -H тоже даёт удобные единицы, но со шагом 1000 (1K = 1000 байт, man df: «print sizes in powers of 1000»), то есть это уже не двоичные единицы, требуемые условием. Ключ -T добавляет столбец с типом файловой системы и единицы измерения не меняет. Ключ --total добавляет только итоговую строку и на вид размеров не влияет: они по-прежнему останутся в блоках по 1 КБ.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man df",
+      "status": "active"
+    }
+  },
+  {
+    "id": "et_025",
+    "topic": "essential_tools",
+    "difficulty": "easy",
+    "objective_domain": "1",
+    "subtopic": "head: taking the first lines",
+    "question": "Команда grep -n 'nameserver' /etc/resolv.conf выводит все строки с адресами серверов имён, но в ответ нужно вставить только первую из найденных строк целиком. Какой вариант конвейера выведет ровно первую строку результата?",
+    "options": [
+      {
+        "text": "grep -n 'nameserver' /etc/resolv.conf | tail -n 1",
+        "correct": false
+      },
+      {
+        "text": "grep -n 'nameserver' /etc/resolv.conf | head -c 1",
+        "correct": false
+      },
+      {
+        "text": "grep -n 'nameserver' /etc/resolv.conf | head -n 1",
+        "correct": true
+      },
+      {
+        "text": "grep -n 'nameserver' /etc/resolv.conf | tail -c 1",
+        "correct": false
+      }
+    ],
+    "explanation": "Ключ -n 1 у head задаёт вывод первой строки входного потока, поэтому конвейер напечатает ровно первую найденную строку целиком. Команда tail с тем же ключом выводит последнюю строку потока, то есть противоположный конец результата. Ключ -c отмеряет байты, а не строки: head -c 1 выведет один первый символ, а tail -c 1 — один последний байт потока (для файла с завершающим переводом строки это байт перевода строки 0x0A, а не видимый символ), и ни один из этих вариантов не даёт строку целиком.",
+    "_meta": {
+      "added_at": "2026-10-03",
+      "pipeline_version": "3.0",
+      "verified_rhel": "9.8",
+      "verified_at": "2026-10-03T09:05:00Z",
+      "source": "m2.9-batch7-essential_tools",
+      "reference": "man head",
+      "status": "active"
+    }
   }
 ]

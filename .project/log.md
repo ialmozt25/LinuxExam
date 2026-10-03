@@ -238,3 +238,4 @@
 2026-10-03 | rule13-exception | авторизована правка ORCH-RULES §17 + блока «Проверка» spec 050 (уточнение Fast/Playwright) | commit pending
 2026-10-03 | spec | spec 050 (batch7-essential-tools, content, approved, track fast) зарегистрирована в git — файл был untracked | commit pending
 2026-10-03 | per_topic_target | overflow 25 > 22 (тема essential_tools, spec 050) принят — per_topic_target остаётся 22 (прецедент spec 043) | commit pending
+2026-10-03 | spec-050 | done - batch 7 - feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253) | commit pending
