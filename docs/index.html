@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 610872c</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 673827a</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -141,7 +141,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     </div>
 <!--volatile:end-->
     <div class="pulse-tile"><div class="pulse-tile__label">Банк</div>
-      <div class="pulse-tile__value">241/300 · 80.3%</div>
+      <div class="pulse-tile__value">253/300 · 84.3%</div>
       <div class="pulse-tile__note">+0 за сутки</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Требует решения</div>
@@ -162,11 +162,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h2>Темы банка · 14</h2>
     <details class="collapsible progress-topics" id="progress-topics">
       <summary>Раскрыть темы · всего: 14</summary>
-        <div class="topic">
-          <div class="topic__label">Базовые инструменты</div>
-          <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
-          <div class="topic__count">13 / 22</div>
-        </div>
         <div class="topic">
           <div class="topic__label">Локальное хранилище</div>
           <div class="topic__bar"><div class="topic__fill" style="width:59%"></div></div>
@@ -229,6 +224,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="topic">
           <div class="topic__label">Развёртывание систем</div>
+          <div class="topic__bar"><div class="topic__fill" style="width:100%"></div></div>
+          <div class="topic__count">25 / 22</div>
+        </div>
+        <div class="topic">
+          <div class="topic__label">Базовые инструменты</div>
           <div class="topic__bar"><div class="topic__fill" style="width:100%"></div></div>
           <div class="topic__count">25 / 22</div>
         </div>
@@ -423,6 +423,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">673827a</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-chain): register spec 050 + clarify Fast/Playwright scope (rule 17)</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
           <td class="mono">610872c</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(spec-049): trail for push + alerts ghost 4eecdc9</td>
@@ -536,12 +542,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-043 integration</td>
           <td class="mono muted">2026-10-02</td>
         </tr>
-        <tr>
-          <td class="mono">9f5f16c</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(bank): M2.9 batch 6 - 12 questions on deploy_systems (229→241)</td>
-          <td class="mono muted">2026-10-02</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -560,14 +560,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">62 ч (~2.6 дн)</td>
+          <td class="muted">63 ч (~2.6 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">109 ч (~4.5 дн)</td>
+          <td class="muted">110 ч (~4.6 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -581,7 +581,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">62 ч (~2.6 дн)</td>
+          <td class="muted">63 ч (~2.6 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -598,11 +598,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">03.10</span> · spec-049 | done - 1. Фикстуры динамические (нет литеральных списков id и удалённого fp_002) | commit 0e3f1f4</li>
         <li><span class="mono muted">03.10</span> · push | authorize push origin main — spec-049 close; публикует 853ec5e..98bc700 (0e3f1f4, c589a51, f93e055, 98bc700 + trail); авторизация — команда капитана «Push authorized (rule 10).…</li>
         <li><span class="mono muted">03.10</span> · исключение из правила 13 | авторизована правка правила оркестратора §17 + блока «Проверка» spec 050 (уточнение Fast/Playwright) | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · spec | spec 050 (batch7-essential-tools, content, approved, track fast) зарегистрирована в git — файл был untracked | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · per_topic_target | overflow 25 &gt; 22 (тема essential_tools, spec 050) принят — per_topic_target остаётся 22 (прецедент spec 043) | ещё не закоммичено</li>
+        <li><span class="mono muted">03.10</span> · spec-050 | done - batch 7 - feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253) | ещё не закоммичено</li>
     </ul>
   </details>
 

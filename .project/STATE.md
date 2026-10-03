@@ -3,12 +3,12 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/state.json`.
 > Правки здесь затираются. Меняй источник: `.project/state.json` (или `npm run sync`).
 
-<!--volatile:start-->- HEAD: `610872c8e6a830b38eb87589de4f51e334d52a6d`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `673827ab6173ddc5ec5323f614dc5471981fde50`<!--volatile:end-->
 
 ## Прогресс
 
-- Банк: **241 / 300** (80.3%)
-- Осталось: 59
+- Банк: **253 / 300** (84.3%)
+- Осталось: 47
 - Добавлено сегодня: 0
 - Темп (7 дней): 9.14 в день
 
@@ -16,7 +16,6 @@
 
 | count / target | тема | slug |
 |---|---|---|
-| 13 / 22 | Базовые инструменты | `essential_tools` |
 | 13 / 22 | Локальное хранилище | `local_storage` |
 | 14 / 22 | Файловые системы | `file_systems` |
 | 16 / 22 | Управление ПО | `manage_software` |
@@ -30,6 +29,7 @@
 | 20 / 22 | Безопасность | `security` |
 | 20 / 22 | Пользователи и группы | `users_groups` |
 | 25 / 22 | Развёртывание систем | `deploy_systems` |
+| 25 / 22 | Базовые инструменты | `essential_tools` |
 
 ## Milestone
 
@@ -38,9 +38,9 @@
 
 ## Коммиты банка (M4.0)
 
-- Банк 241 / 300
+- Банк 253 / 300
 - новых тем-коммитов: 5 в recent_commits
-- <!--volatile:start-->HEAD (закреплён): `610872c8e6a830b38eb87589de4f51e334d52a6d`<!--volatile:end-->
+- <!--volatile:start-->HEAD (закреплён): `673827ab6173ddc5ec5323f614dc5471981fde50`<!--volatile:end-->
 
 ## Следующие шаги
 
