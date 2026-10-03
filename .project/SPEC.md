@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `bdb21bac9760c424718bb302b7e8ca98edeebdac`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `4c0acdcf47b976b43b1bb41b778360c4a5261253`<!--volatile:end-->
 - Спек: 56
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -19,7 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 059 | `cleanup-blockers` | infra | approved | — | 2026-10-03 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -61,6 +60,7 @@
 | 056 | `mobile-sticky-footer` | fix | done | 010a7ae | 2026-10-03 |
 | 057 | `fix-topic-union` | infra | done | 8896618 | 2026-10-03 |
 | 058 | `analytics` | feature | done | b7eae15 | 2026-10-03 |
+| 059 | `cleanup-blockers` | infra | done | bdb21ba | 2026-10-03 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

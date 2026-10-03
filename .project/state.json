@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "bdb21bac9760c424718bb302b7e8ca98edeebdac",
+  "head": "4c0acdcf47b976b43b1bb41b778360c4a5261253",
   "specs": [
     {
       "id": "022",
@@ -490,21 +490,6 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
-    },
-    {
-      "id": "059",
-      "slug": "cleanup-blockers",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/059-cleanup-blockers.md",
-      "mtime": 1791024806439.5798,
-      "goal": "Устранить именно эти три проблемы из audit §1/§7: (а) `Paywall` получает",
-      "acceptance": "1. `'paywall'` входит в `Screen` (`quizStore.ts`); `App.tsx` содержит",
-      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
-      "preview": "Дифф затрагивает: `src/store/quizStore.ts` (Screen union − 4 экшена),"
     },
     {
       "id": "016",
@@ -1122,6 +1107,21 @@
       "preview": ""
     },
     {
+      "id": "059",
+      "slug": "cleanup-blockers",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "bdb21ba",
+      "file": "specs/059-cleanup-blockers.md",
+      "mtime": 1791024900061.1968,
+      "goal": "Устранить именно эти три проблемы из audit §1/§7: (а) `Paywall` получает",
+      "acceptance": "1. `'paywall'` входит в `Screen` (`quizStore.ts`); `App.tsx` содержит",
+      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": "Дифф затрагивает: `src/store/quizStore.ts` (Screen union − 4 экшена),"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1183,7 +1183,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae",
     "2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending",
     "2026-10-03 | push | выполнен c4cb9b3..dcd8150 | commit 0d51a19",
     "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19",
@@ -1192,10 +1191,23 @@
     "2026-10-03 | spec-057 | done - fix Topic union | commit 8896618",
     "2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15",
     "2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending",
-    "2026-10-03 | push | выполнен f33b832..c2ffb1c | commit c2ffb1c"
+    "2026-10-03 | push | выполнен f33b832..c2ffb1c | commit c2ffb1c",
+    "2026-10-03 | spec-059 | done - cleanup-blockers (paywall route, 4 dead actions, DUP4 сведён) | commit bdb21ba"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "4c0acdc",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-059 done",
+      "type": "chore"
+    },
+    {
+      "sha": "275a908",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-059",
+      "type": "chore"
+    },
     {
       "sha": "bdb21ba",
       "date": "2026-10-03",
@@ -1300,18 +1312,6 @@
     },
     {
       "sha": "753c854",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-054+056 push",
-      "type": "chore"
-    },
-    {
-      "sha": "6a0c05e",
-      "date": "2026-10-03",
-      "subject": "chore(log): push done + guard anchor for spec-054 + mobile-sticky push",
-      "type": "chore"
-    },
-    {
-      "sha": "0d51a19",
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-054+056 push",
       "type": "chore"
