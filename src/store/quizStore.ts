@@ -89,6 +89,15 @@ interface QuizState {
   lastActiveDate: string | null;
   totalXp: number;
 
+  /**
+   * Дневная цель (spec 061). `null` — цель ещё не подтверждена пользователем
+   * (picker не пройден): миграция v5→v6 всегда выставляет 20, поэтому `null`
+   * остаётся только у профиля, прошедшего онбординг в этой же сессии.
+   */
+  dailyGoalXp: number | null;
+  /** Накопленный за сегодня XP к дневной цели; обнуляется при смене даты. */
+  todayXp: number;
+
   // Wrong-answer tracking for the regular stream (feeds review mode)
   wrongQuestionIds: string[];
 
@@ -151,6 +160,10 @@ interface QuizState {
    */
   normalizeAnswersAgainstBank: () => void;
   recordActivity: () => void;
+  /** Дневная цель (spec 061): выставляет выбранный пресет и снимает `null`. */
+  setDailyGoal: (xp: number) => void;
+  /** Обнуляет todayXp при первом запуске в новый день (вызов при гидратации). */
+  resetTodayXpIfNewDay: () => void;
   navigateTo: (screen: Screen) => void;
   answerQuestion: (questionId: string, selectedIndex: number) => void;
   /** Records one answer into the local per-question statistics. */
@@ -281,6 +294,8 @@ export const useQuizStore = create<QuizState>()(
       streak: 0,
       lastActiveDate: null,
       totalXp: 0,
+      dailyGoalXp: null,
+      todayXp: 0,
       wrongQuestionIds: [],
       questionStats: {},
       scheduledReviews: {},
@@ -379,14 +394,28 @@ export const useQuizStore = create<QuizState>()(
 
       recordActivity: () => {
         const today = new Date().toISOString().slice(0, 10);
-        const { lastActiveDate, streak, totalXp } = get();
+        const { lastActiveDate, streak, totalXp, todayXp } = get();
         if (lastActiveDate === today) return;
         const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         set({
           streak: lastActiveDate === yesterday ? streak + 1 : 1,
           lastActiveDate: today,
           totalXp: totalXp + 10,
+          // spec 061: тот же +10 идёт в дневную цель. Активность после перезапуска
+          // в новый день видит todayXp = 0 (см. resetTodayXpIfNewDay).
+          todayXp: todayXp + 10,
         });
+      },
+
+      setDailyGoal: (xp) => set({ dailyGoalXp: xp }),
+
+      // spec 061: гидратация пришла с прошлой датой — дневной счётчик начинается
+      // заново. Идемпотентно: при lastActiveDate === today состояние не трогается.
+      resetTodayXpIfNewDay: () => {
+        const today = new Date().toISOString().slice(0, 10);
+        if (get().lastActiveDate === today) return;
+        if (get().todayXp === 0) return;
+        set({ todayXp: 0 });
       },
 
       // Local per-question stats. Kept out of the three answer streams so the
@@ -858,12 +887,19 @@ export const useQuizStore = create<QuizState>()(
         // остаётся прежним (контракт partialize не переписывается).
         onboardingGoal: state.onboardingGoal,
         hasCompletedOnboarding: state.hasCompletedOnboarding,
+        // Retention (spec 061) — тоже в КОНЕЦ: порядок первых 19 полей не меняется.
+        dailyGoalXp: state.dailyGoalXp,
+        todayXp: state.todayXp,
         // examLastResult is deliberately NOT persisted - session state only.
         // examSession (spec 054) — тоже НЕ персистится (session-only): иначе
         // после reload пользователь залипал бы на экране незавершённого экзамена.
         // Здесь его нет намеренно, поэтому добавлять сюда НЕ нужно.
       }),
-      version: 5,
+      version: 6,
+      // spec 061: на гидратации дневной счётчик сверяется с календарём.
+      onRehydrateStorage: () => (state) => {
+        state?.resetTodayXpIfNewDay();
+      },
       migrate: (persistedState, version) => {
         let s = persistedState as Partial<QuizState>;
         if (version < 2) {
@@ -897,6 +933,16 @@ export const useQuizStore = create<QuizState>()(
             ...s,
             onboardingGoal: null,
             hasCompletedOnboarding: false,
+          } as Partial<QuizState>;
+        }
+        if (version < 6) {
+          // v5 → v6 (spec 061): retention. `dailyGoalXp: 20` — дефолт, поэтому
+          // обновившийся пользователь picker-а не видит; `todayXp: 0` — счётчик
+          // дня начинается заново (гидратация досчитает по lastActiveDate).
+          s = {
+            ...s,
+            dailyGoalXp: 20,
+            todayXp: 0,
           } as Partial<QuizState>;
         }
         return s;

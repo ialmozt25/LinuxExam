@@ -158,6 +158,10 @@ export interface PersistedQuizState {
   onboardingGoal: string | null;
   /** Онбординг (spec 060): прохождение завершено. */
   hasCompletedOnboarding: boolean;
+  /** Retention (spec 061): дневная цель; `null` — picker ещё не подтверждён. */
+  dailyGoalXp: number | null;
+  /** Retention (spec 061): накоплено XP за сегодня. */
+  todayXp: number;
 }
 
 /**
@@ -189,6 +193,11 @@ export function emptyPersistedState(): PersistedQuizState {
     examAnswers: [],
     onboardingGoal: null,
     hasCompletedOnboarding: true,
+    // Retention (spec 061): у «обычного» профиля цель уже подтверждена (20 XP),
+    // поэтому picker не появляется и существующие сценарии не меняются.
+    // Сценарии самого picker-а переопределяют `dailyGoalXp: null` явно.
+    dailyGoalXp: 20,
+    todayXp: 0,
   };
 }
 
@@ -216,8 +225,8 @@ export async function seedState(
 }
 
 export const PERSIST_KEY = 'rhcsa_progress';
-/** Current persist version: 5 с spec 060 (онбординг добавил два поля). */
-export const PERSIST_VERSION = 5;
+/** Current persist version: 6 с spec 061 (retention добавил dailyGoalXp + todayXp). */
+export const PERSIST_VERSION = 6;
 
 /** Reads the persisted envelope back out of the page. */
 export async function readPersisted(
@@ -303,6 +312,33 @@ export async function waitForOnboardingGoal(page: Page): Promise<void> {
   await expect(page.getByTestId(TESTID.onboardingGoal)).toBeVisible({ timeout: 15000 });
 }
 
+/**
+ * Сеет retention-условие (spec 061): streak / XP серии и дневную цель.
+ *
+ * `hasCompletedOnboarding: true` берётся из `emptyPersistedState()` — иначе гейт
+ * онбординга увёл бы с Dashboard на экран цели. `dailyGoalXp` по умолчанию `20`
+ * (как у обычного профиля); `null` сеется только сценариями самого picker-а.
+ * `lastActiveDate` не задаётся: сценарии, которым он важен, пишут его явно
+ * (иначе `onRehydrateStorage` обнулил бы `todayXp` при вчерашней дате).
+ */
+export async function seedRetention(
+  page: Page,
+  options: { streak: number; todayXp: number; dailyGoalXp?: number | null; lastActiveDate?: string | null }
+): Promise<void> {
+  const state = emptyPersistedState();
+  state.streak = options.streak;
+  state.todayXp = options.todayXp;
+  state.totalXp = options.streak * 10;
+  state.dailyGoalXp = options.dailyGoalXp === undefined ? 20 : options.dailyGoalXp;
+  state.lastActiveDate = options.lastActiveDate ?? null;
+  await seedState(page, state);
+}
+
+/** ISO-дата со сдвигом от сегодняшнего дня (`-1` = вчера). */
+export function isoDaysAgo(days: number): string {
+  return new Date(Date.now() + days * 86400000).toISOString().slice(0, 10);
+}
+
 // ---------------------------------------------------------------------------
 // Raw test ids (data-testid contract from app-map §4)
 // ---------------------------------------------------------------------------
@@ -363,6 +399,13 @@ export const TESTID = {
   onboardingResult: 'onboarding-result',
   onboardingResultScore: 'onboarding-result-score',
   onboardingStart: 'onboarding-start',
+
+  dashboardRetention: 'dashboard-retention',
+  streakBadge: 'streak-badge',
+  xpBar: 'xp-bar',
+  xpBarDailyLabel: 'xp-bar-daily-label',
+  xpBarMark: 'xp-bar-mark',
+  dailyGoalPicker: 'daily-goal-picker',
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -500,9 +543,15 @@ export async function waitForFeedback(page: Page): Promise<void> {
  * `/` (`quiz-flow.spec.ts:95`, `question-flow.spec.ts:171`), до spec 060 получали
  * состояние стора по умолчанию, где `isPro: false`. Сохраняем именно это: пейволл
  * на 6-м вопросе — часть их сценария, и `isPro: true` его молча отключал.
+ *
+ * `dailyGoalXp: 20` (spec 061) — то же соображение: этот профиль играет роль
+ * пользователя, который открывает приложение ПОСЛЕ обновления, а апдейт всегда
+ * даёт подтверждённую цель (миграция v5→v6). Без этого поля профиль совпал бы с
+ * «онбординг пройден, цель не выбрана» и на Dashboard всплывал бы picker, ломая
+ * каждый сценарий, который просто открывает `/`.
  */
 function freshProfile(): PersistedQuizState {
-  return { ...emptyPersistedState(), isPro: false };
+  return { ...emptyPersistedState(), isPro: false, dailyGoalXp: 20 };
 }
 
 /**

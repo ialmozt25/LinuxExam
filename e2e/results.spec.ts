@@ -11,6 +11,7 @@ import {
   TOPICS,
   TOPIC_INDEX,
   TOPIC_QUESTIONS,
+  PERSIST_VERSION,
   TESTID,
 } from './fixtures';
 
@@ -117,8 +118,8 @@ test.describe('повторение ошибок', () => {
     await gotoApp(page);
 
     const stored = await readPersisted(page);
-    // Текущая версия persist: 5 с spec 060 (онбординг добавил два поля).
-    expect(stored?.version).toBe(5);
+    // Текущая версия persist: 6 с spec 061 (retention добавил dailyGoalXp + todayXp).
+    expect(stored?.version).toBe(PERSIST_VERSION);
     const answers = stored?.state.answers as unknown[];
     expect(answers).toHaveLength(1);
     expect(answers[0]).toEqual(record);

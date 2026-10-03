@@ -8,6 +8,7 @@ import {
   waitForDashboard,
   waitForQuestion,
   readPersisted,
+  PERSIST_VERSION,
   TESTID,
 } from './fixtures';
 
@@ -82,8 +83,8 @@ test.describe.serial('FSRS-lite — повторение сегодня', () => 
     expect(await reviewTodayCount(page)).toBe(BANK_TOTAL - 2);
 
     const stored = await readPersisted(page);
-    // Текущая версия persist: 5 с spec 060 (онбординг добавил два поля).
-    expect(stored?.version).toBe(5);
+    // Текущая версия persist: 6 с spec 061 (retention добавил dailyGoalXp + todayXp).
+    expect(stored?.version).toBe(PERSIST_VERSION);
     expect(Object.keys(stored?.state.scheduledReviews ?? {})).toHaveLength(BANK_TOTAL);
   });
 

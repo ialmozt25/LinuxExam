@@ -79,14 +79,15 @@ describe('persist migration v4 → v5 (онбординг, spec 060)', () => {
     expect(s.examAnswers).toEqual([]);
   });
 
-  it('пишет состояние под версией 5, включая оба онбординг-поля', async () => {
+  it('пишет состояние под текущей версией, включая оба онбординг-поля', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V4_PAYLOAD));
     const { useQuizStore } = await import('@/store/quizStore');
 
     useQuizStore.setState({ onboardingGoal: 'rhcsa', hasCompletedOnboarding: true });
 
     const raw = readPersisted();
-    expect(raw.version).toBe(5);
+    // Версия на запись — текущая (6 с spec 061, retention добавил два поля).
+    expect(raw.version).toBe(6);
     expect(raw.state.onboardingGoal).toBe('rhcsa');
     expect(raw.state.hasCompletedOnboarding).toBe(true);
     expect(raw.state.streak).toBe(5);

@@ -13,8 +13,9 @@ const V1_PAYLOAD = {
 
 // v2 payload: written before `optionText` existed, and — unlike v1 — at a version
 // that only the v2 → v3 step can see. `answers` deliberately carries no optionText.
-// The write-back stamps the CURRENT version (now 5: FSRS-lite added
-// `scheduledReviews` in spec 052, онбординг добавил два поля в spec 060),
+// The write-back stamps the CURRENT version (now 6: FSRS-lite added
+// `scheduledReviews` in spec 052, онбординг добавил два поля в spec 060,
+// retention добавил `dailyGoalXp`/`todayXp` в spec 061),
 // which is what the assertions below check.
 const V2_PAYLOAD = {
   state: {
@@ -58,15 +59,18 @@ describe('persist migration v1 → v2', () => {
 
     // v1 is four steps behind now: the write-back stamps the current version.
     useQuizStore.setState({ streak: 1 });
-    expect(readPersisted().version).toBe(5);
+    expect(readPersisted().version).toBe(6);
     // v3 → v4 создаёт реестр расписания пустым (наполняет его Dashboard/эффект).
     expect(readPersisted().state.scheduledReviews).toEqual({});
     // v4 → v5 добавляет онбординг-поля с дефолтами (spec 060).
     expect(readPersisted().state.hasCompletedOnboarding).toBe(false);
     expect(readPersisted().state.onboardingGoal).toBeNull();
+    // v5 → v6 добавляет retention-поля с дефолтами (spec 061).
+    expect(readPersisted().state.dailyGoalXp).toBe(20);
+    expect(readPersisted().state.todayXp).toBe(0);
   });
 
-  it('v1 → v5: геймификация и version bump одновременно', async () => {
+  it('v1 → v6: геймификация и version bump одновременно', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V1_PAYLOAD));
     const { useQuizStore } = await import('@/store/quizStore');
     const s = useQuizStore.getState();
@@ -75,11 +79,11 @@ describe('persist migration v1 → v2', () => {
     expect(s.totalXp).toBe(0);
     useQuizStore.setState({ lastActiveDate: '2026-03-10' });
     const raw = readPersisted();
-    expect(raw.version).toBe(5);
+    expect(raw.version).toBe(6);
     expect(raw.state.lastActiveDate).toBe('2026-03-10');
   });
 
-  it('migrated store persists the new fields under version 5', async () => {
+  it('migrated store persists the new fields under version 6', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V1_PAYLOAD));
 
     const { useQuizStore } = await import('@/store/quizStore');
@@ -89,13 +93,13 @@ describe('persist migration v1 → v2', () => {
     expect(raw).not.toBeNull();
     const parsed = JSON.parse(String(raw)) as { state: Record<string, unknown>; version: number };
 
-    expect(parsed.version).toBe(5);
+    expect(parsed.version).toBe(6);
     expect(parsed.state.streak).toBe(4);
     expect(parsed.state.totalXp).toBe(40);
     expect(parsed.state.lastActiveDate).toBe('2026-03-10');
   });
 
-  it('v2 → v5 leaves answers untouched in migrate (bank is empty there)', async () => {
+  it('v2 → v6 leaves answers untouched in migrate (bank is empty there)', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V2_PAYLOAD));
 
     const { useQuizStore } = await import('@/store/quizStore');
@@ -107,7 +111,7 @@ describe('persist migration v1 → v2', () => {
     expect(s.questions).toHaveLength(0);
     expect(s.answers).toHaveLength(1);
     expect(s.answers[0]).toEqual({ questionId: 'fp_001', selectedIndex: 0, isCorrect: true });
-    expect(readPersisted().version).toBe(5);
+    expect(readPersisted().version).toBe(6);
   });
 
   it('v3 → v4 создаёт пустой scheduledReviews и не наполняет его банком', async () => {
@@ -141,7 +145,7 @@ describe('persist migration v1 → v2', () => {
 
     // Идемпотентность: та же запись v3 ещё раз ничего не дублирует и не добавляет.
     useQuizStore.setState({ scheduledReviews: {} });
-    expect(readPersisted().version).toBe(5);
+    expect(readPersisted().version).toBe(6);
     expect(readPersisted().state.scheduledReviews).toEqual({});
   });
 

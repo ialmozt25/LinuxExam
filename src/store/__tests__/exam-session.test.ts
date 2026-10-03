@@ -281,8 +281,8 @@ describe('examSession — прогон Exam mode', () => {
     expect(raw).not.toBeNull();
     const parsed = JSON.parse(String(raw)) as { state: Record<string, unknown>; version: number };
     expect(parsed.state).not.toHaveProperty('examSession');
-    // Текущая версия persist: 5 с spec 060 (онбординг добавил два поля).
-    expect(parsed.version).toBe(5);
+    // Текущая версия persist: 6 с spec 061 (retention добавил dailyGoalXp + todayXp).
+    expect(parsed.version).toBe(6);
     // При этом текущее (in-memory) состояние прогон содержит.
     expect(useQuizStore.getState().examSession.answers).toHaveLength(1);
   });

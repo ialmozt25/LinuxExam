@@ -6,6 +6,10 @@ import { SPACING, LAYOUT } from '@/presentation/theme';
 import { isTMA } from '@telegram-apps/sdk-react';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import { StreakBadge } from '@/presentation/components/StreakBadge';
+import { XpBar } from '@/presentation/components/XpBar';
+import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
+import { useDailyGoalProgress } from '@/store/dailyGoal';
 import { useExamTimer } from '@/hooks/useExamTimer';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
@@ -68,6 +72,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
   const isTelegram = isTMA();
   const { display: timerDisplay } = useExamTimer();
+
+  // Retention (spec 061): дневная цель уже посчитана селектором вне стора.
+  const daily = useDailyGoalProgress();
 
 
   useTelegramMainButton('Продолжить', () => navigateTo('question'));
@@ -185,6 +192,32 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         >
           Подготовка к RHCSA за 15 минут в день
         </p>
+      </div>
+
+      {/* Retention-зона (spec 061): streak badge + XP bar с дневной целью рядом.
+          Существующие блоки ниже не тронуты — зона только добавлена. */}
+      <div
+        id="dashboard-retention"
+        data-testid="dashboard-retention"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-3)',
+          marginTop: '24px',
+        }}
+      >
+        <StreakBadge />
+        <XpBar />
+      </div>
+      <div
+        data-testid="retention-goal-line"
+        style={{
+          marginTop: 'var(--space-2)',
+          fontSize: 'var(--text-sm)',
+          color: 'var(--text-secondary)',
+        }}
+      >
+        {`Цель: ${daily.todayXp} / ${daily.goalXp} XP`}
       </div>
 
       {/* Progress */}
@@ -650,6 +683,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         RHCSA® — торговая марка Red Hat, Inc. CompTIA® и Linux+® — торговые марки CompTIA.
         Вопросы оригинальные, основаны на публично доступных exam objectives.
       </div>
+
+      {/* Показывается ровно один раз: после онбординга и до подтверждения цели. */}
+      <DailyGoalPicker />
 </ScreenContainer>
   );
 }
