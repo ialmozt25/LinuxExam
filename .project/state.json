@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "6a94392e1b8d91715f3dc70e4960a7793c933b74",
+  "head": "d48a3d9862bfd6cd29381dc70ed95d328694efeb",
   "specs": [
     {
       "id": "022",
@@ -490,21 +490,6 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
-    },
-    {
-      "id": "060",
-      "slug": "onboarding",
-      "status": "approved",
-      "type": "feature",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/060-onboarding.md",
-      "mtime": 1791030637273.805,
-      "goal": "3 экрана активации — **цель → демо-квиз → результат** — с детерминированной",
-      "acceptance": "1. `ONBOARDING_GOALS` — 3 цели с уникальными `id`; `pickDemoQuestions`",
-      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `ORCH-RULES.md`,",
-      "preview": "Новые файлы: `src/domain/onboarding.ts`, 3 экрана, 3 тест-файла"
     },
     {
       "id": "016",
@@ -1137,6 +1122,21 @@
       "preview": "Дифф затрагивает: `src/store/quizStore.ts` (Screen union +`'paywall'` − 4 экшена),"
     },
     {
+      "id": "060",
+      "slug": "onboarding",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "6a94392",
+      "file": "specs/060-onboarding.md",
+      "mtime": 1791030937870,
+      "goal": "3 экрана активации — **цель → демо-квиз → результат** — с детерминированной",
+      "acceptance": "1. `ONBOARDING_GOALS` — 3 цели с уникальными `id`; `pickDemoQuestions`",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `ORCH-RULES.md`,",
+      "preview": "Новые файлы: `src/domain/onboarding.ts`, 3 экрана, 3 тест-файла"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1198,7 +1198,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832",
     "2026-10-03 | spec-057 | done - fix Topic union | commit 8896618",
     "2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15",
     "2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending",
@@ -1207,10 +1206,23 @@
     "2026-10-03 | spec-059 | track: small при дифе Full (+197/−43), эскалация отклонена: write-скоупы Small не нарушены, раздутие от alerts.md | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending",
     "2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
-    "2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a"
+    "2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a",
+    "2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "d48a3d9",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-060 done",
+      "type": "chore"
+    },
+    {
+      "sha": "c86a568",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-060",
+      "type": "chore"
+    },
     {
       "sha": "6a94392",
       "date": "2026-10-03",
@@ -1318,18 +1330,6 @@
       "date": "2026-10-03",
       "subject": "feat(spec-058): analytics - radar, readiness, weak topics",
       "type": "feat"
-    },
-    {
-      "sha": "8896618",
-      "date": "2026-10-03",
-      "subject": "fix(spec-057): Topic union covers all 14 bank topics",
-      "type": "fix"
-    },
-    {
-      "sha": "1c4fe2f",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after convergence push",
-      "type": "chore"
     }
   ],
   "roles": [
