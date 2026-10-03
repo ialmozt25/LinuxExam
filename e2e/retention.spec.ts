@@ -35,6 +35,9 @@ test.describe('retention UI', () => {
     await expect(page.getByTestId(TESTID.xpBar)).toHaveAttribute('data-mark-active', 'false');
 
     await expect(page.getByTestId(TESTID.dashboardRetention)).toBeVisible();
+
+    // Превью для приёмки (DOD type=ui): верхняя зона Dashboard на 390×844.
+    await page.screenshot({ path: '.project/drafts/061-retention-dashboard.png' });
   });
 
   test('seed: todayXp = 15 → XpBar 15/20, полоса 75 %, засечка неактивна', async ({ page }) => {
