@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d8144dd3fd27f3eadc29b49bf81ddfed1188c273",
+  "head": "c93435def4059d0f4ea04e87cb979859c76ff354",
   "specs": [
     {
       "id": "022",
@@ -1243,19 +1243,37 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392",
-    "2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99",
-    "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-060+061; публикует a92096a..HEAD | commit pending",
     "2026-10-03 | push | выполнен a92096a..875cf33 | commit 875cf33",
     "2026-10-04 | spec-063 | done - paywall-content (3 Free / 11 Paid, 7-day trial, миграция v6→v7; оплата — spec 064) | commit 5e3fe2a",
     "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-063; публикует 875cf33..HEAD | commit pending",
     "2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68",
-    "2026-10-04 | spec-064 | done - telegram-stars | commit d8144dd"
+    "2026-10-04 | spec-064 | done - telegram-stars | commit d8144dd",
+    "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
+    "2026-10-04 | push | authorize push origin main — spec-064; публикует 49cee68..HEAD | commit pending",
+    "2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c93435d",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for spec-064",
+      "type": "chore"
+    },
+    {
+      "sha": "b13d3ee",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for spec-064 push",
+      "type": "chore"
+    },
+    {
+      "sha": "293ad57",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-064 done",
+      "type": "chore"
+    },
     {
       "sha": "c16dc6a",
       "date": "2026-10-04",
@@ -1356,24 +1374,6 @@
       "sha": "d48a3d9",
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-060 done",
-      "type": "chore"
-    },
-    {
-      "sha": "c86a568",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-060",
-      "type": "chore"
-    },
-    {
-      "sha": "6a94392",
-      "date": "2026-10-03",
-      "subject": "feat(spec-060): onboarding - goal, demo quiz, result",
-      "type": "feat"
-    },
-    {
-      "sha": "58c32d4",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after push",
       "type": "chore"
     }
   ],
