@@ -21,6 +21,10 @@ const ExamResults = lazy(() => import('@/presentation/screens/ExamResults'));
 // Analytics (spec 058): «персональный тренер» — radar по темам, готовность,
 // слабые зоны и тренд за 7 дней. Данные — из уже персистируемого questionStats.
 const Analytics = lazy(() => import('@/presentation/screens/Analytics'));
+// Paywall: экран лимита бесплатных вопросов. Подключён к роутеру (spec 059),
+// чтобы его можно было смонтировать напрямую; штатный вход по-прежнему из
+// Question.tsx по флагу isPaywallVisible.
+const Paywall = lazy(() => import('@/presentation/screens/Paywall'));
 
 function Loading() {
   return (
@@ -72,6 +76,8 @@ function App() {
       <ExamResults />
     ) : currentScreen === 'analytics' ? (
       <Analytics />
+    ) : currentScreen === 'paywall' ? (
+      <Paywall />
     ) : (
       <Dashboard theme={resolved} onToggleTheme={toggle} />
     );

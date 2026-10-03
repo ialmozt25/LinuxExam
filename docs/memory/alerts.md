@@ -282,3 +282,39 @@ INITIAL_DIFFICULTY=0.3 — из промпта.
 ## 2026-10-03 | tech debt | Topic union: 3 темы при 14 в банке
 `src/data/models/Question.ts: Topic union` — 3 темы при 14 в банке; рантайм ок, типизация разбора сломается на 11.
 Кандидат в spec 057 (infra, Small). [observed 2026-10-03]
+
+## 2026-10-03 | tech debt | severity: low | source: audit §1 DUP3–DUP8 | 5 расходящихся дублей логики отложены (spec 059)
+Аудит механики (`app-mechanics-audit.md` §1) подтвердил 6 расходящихся дублей.
+Spec 059 снял DUP4 (Fisher–Yates + `Math.random` в `startTopicQuiz` и `startExam`
+сведён к локальному `shuffleCopy` в `src/store/quizStore.ts`). Остальные 5
+оставлены как есть — каждый требует правок в 3+ файлах либо меняет видимое
+поведение, что выходит за рамки «не рефакторинг»:
+
+- **DUP3** — `quizService.ts:40-61` (`shuffleOptions`: возвращает `ShuffledOption[]`,
+  `seed >>> 0`) vs `exam.ts:75-96` (`seededIndices`: возвращает `number[]`,
+  `(Math.floor(seed) >>> 0) || 0x9e3779b9`). Сведение требует общего хелпера
+  mulberry32 + правки `quizService.ts`, `exam.ts`, `exam.test.ts`,
+  `shuffleOptions.test.ts` (4 файла) со сменой контрактов генераторов. Разная
+  нормализация seed значима: при `seed = 0` ветки дают разные перестановки, а
+  `pickExamQuestions` (`exam.ts:103`) вызывается с `Date.now()`.
+- **DUP5** — `quizService.ts:69` (формула accuracy) vs `Results.tsx:50`
+  (идентичное выражение). Формула одна, но входы разные: `getProgress` считает по
+  `answers`, а `Results` — по активному потоку (`isReview ? reviewAnswers :
+  regularAnswers`, `Results.tsx:45`). Переиспользовать `calculateProgress`
+  значит сменить источник данных review-прогона → видимое поведение.
+- **DUP6** — `quizService.ts:70` (`Math.round`) vs `Dashboard.tsx:84` (без
+  округления) vs `Question.tsx:206` (по `currentIndex + 1`, а не по `answered`).
+  Три разные метрики для трёх разных экранов; сведение изменит проценты в UI
+  (3 файла).
+- **DUP7** — источник total: `getBankTotal()` из `_topics.json`
+  (`Dashboard.tsx:83`, доступен до загрузки банка) vs `questions.length`
+  (`Results.tsx:47`, `Paywall.tsx:22`, `quizStore.ts:509` — 0 до `loadQuestions`).
+  Разная семантика «доступно / загружено»; унификация затрагивает 4 файла и
+  ломает ранний рендер Dashboard.
+- **DUP8** — формат остатка времени: `MM:SS` (`useExamTimer.ts:36-40`,
+  инлайн-экзамен 20 вопросов / 30 мин) vs `HH:MM:SS` (`exam.ts:172-179`, пресеты
+  30/60/90, где 90-й идёт 120 минут). Часы в первом формате не нужны; сведение
+  меняет отображение таймера на `Question.tsx`/`Dashboard.tsx` (3 файла).
+
+Рядом лежащий код не рефакторился. Кандидат в отдельную спеку (Full, 060+).
+[observed 2026-10-03]

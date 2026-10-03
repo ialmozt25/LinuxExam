@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Question, Topic } from '@/data/models/Question';
+import { Question } from '@/data/models/Question';
 import { AnswerRecord } from '@/data/models/AnswerRecord';
 import { QuestionRepository } from '@/data/repositories/QuestionRepository';
-import { filterByTopic, getCurrentQuestion } from '@/domain/selectors';
 import { calculateProgress, ProgressMetrics } from '@/domain/quizService';
 import {
   ensureRecords,
@@ -32,7 +31,15 @@ import {
 // TODO(content): raise to 20 after questions.json reaches 50+ items
 export const FREE_QUESTION_LIMIT = 5;
 
-export type Screen = 'dashboard' | 'question' | 'results' | 'exam-setup' | 'exam-run' | 'exam-results' | 'analytics';
+export type Screen =
+  | 'dashboard'
+  | 'question'
+  | 'results'
+  | 'exam-setup'
+  | 'exam-run'
+  | 'exam-results'
+  | 'analytics'
+  | 'paywall';
 
 /**
  * Прогон Exam mode (spec 054): пресеты 30/60/90, порог 70 %, разбор по темам.
@@ -145,10 +152,7 @@ interface QuizState {
   unlockPro: () => void;
   hidePaywall: () => void;
   canAccessQuestion: (index: number) => boolean;
-  getQuestionsByTopic: (topic: Topic) => Question[];
-  getCurrentQuestion: () => Question | null;
   getProgress: () => ProgressMetrics;
-  getActiveQuestions: () => Question[];
   resumeQuiz: () => void;
   /**
    * Стартует review-прогон. `kind = 'today'` помечает FSRS-lite-прогон, в
@@ -192,8 +196,6 @@ interface QuizState {
   getExamBreakdown: () => TopicBreakdown[];
   /** Текущий вопрос прогона (для экрана прогона). */
   getExamCurrentQuestionId: () => string | null;
-  /** Индекс текущего вопроса прогона (0-based) и всего вопросов. */
-  getExamProgress: () => { index: number; total: number };
   /** Таймер прогона: остаток мс и признак истечения (без побочных эффектов). */
   getExamRemainingMs: (now: number) => number;
 }
@@ -233,6 +235,22 @@ const normalizeRecordsAgainstBank = (
     }
   }
   return out;
+};
+
+/**
+ * Fisher–Yates over a copy of the input (`Math.random`). Extracted from the two
+ * identical inline loops that `startTopicQuiz` and `startExam` each carried
+ * (audit §1 DUP4): the topic pool and the exam pool were shuffled by the same
+ * code copy-pasted, so the two could drift apart silently. The input array is
+ * never mutated.
+ */
+const shuffleCopy = <T>(items: readonly T[]): T[] => {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 };
 
 export const useQuizStore = create<QuizState>()(
@@ -328,11 +346,7 @@ export const useQuizStore = create<QuizState>()(
         const { questions } = get();
         const filtered = questions.filter((q) => q.topic === topic);
         if (filtered.length === 0) return;
-        const shuffled = [...filtered];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
+        const shuffled = shuffleCopy(filtered);
         set({
           reviewQuestionIds: shuffled.map((q) => q.id),
           reviewAnswers: [],
@@ -497,25 +511,8 @@ export const useQuizStore = create<QuizState>()(
         return index < FREE_QUESTION_LIMIT || get().isPro;
       },
 
-      getQuestionsByTopic: (topic: Topic): Question[] => {
-        return filterByTopic(get().questions, topic);
-      },
-
-      getCurrentQuestion: (): Question | null => {
-        return getCurrentQuestion(get().questions, get().currentIndex);
-      },
-
       getProgress: (): ProgressMetrics => {
         return calculateProgress(get().answers, get().questions.length);
-      },
-
-      // Returns the regular question list, or the review subset when a review
-      // session is active. Callers must use this instead of filtering questions
-      // themselves so indexes stay aligned with this store.
-      getActiveQuestions: (): Question[] => {
-        const { questions, reviewQuestionIds } = get();
-        if (!reviewQuestionIds) return questions;
-        return questions.filter((q) => reviewQuestionIds.includes(q.id));
       },
 
       resumeQuiz: () => set({ currentScreen: 'question' }),
@@ -629,11 +626,7 @@ export const useQuizStore = create<QuizState>()(
       // EXAM stream. Fully isolated from answers and reviewAnswers.
       startExam: (count, durationMs) => {
         const { questions } = get();
-        const shuffled = [...questions];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
+        const shuffled = shuffleCopy(questions);
         const selected = shuffled.slice(0, Math.min(count, questions.length));
         set({
           examActive: true,
@@ -802,11 +795,6 @@ export const useQuizStore = create<QuizState>()(
         if (examSession.status === 'idle') return null;
         const index = examSession.answers.length;
         return examSession.questionIds[index] ?? null;
-      },
-
-      getExamProgress: () => {
-        const { examSession } = get();
-        return { index: examSession.answers.length, total: examSession.questionIds.length };
       },
 
       getExamRemainingMs: (now) => {

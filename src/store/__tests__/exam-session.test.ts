@@ -118,7 +118,7 @@ describe('examSession — прогон Exam mode', () => {
     expect(useQuizStore.getState().currentScreen).toBe('dashboard');
   });
 
-  it('submitExamAnswer пишет ответ, не переключая экран; прогресс идёт по ответам', () => {
+  it('submitExamAnswer пишет ответ, не переключая экран', () => {
     useQuizStore.getState().startExamSession(findPreset(30)!, bankIds);
     const first = useQuizStore.getState().getExamCurrentQuestionId();
     expect(first).not.toBeNull();
@@ -131,7 +131,6 @@ describe('examSession — прогон Exam mode', () => {
       { questionId: first!, selectedIndex: 0, isCorrect: true },
     ]);
     expect(s.examSession.answers).toHaveLength(1);
-    expect(s.getExamProgress()).toEqual({ index: 1, total: 30 });
     expect(s.examSession.questionIds).toContain(first!);
     // Статистика вопроса пишется как в остальных потоках.
     expect(s.questionStats[first!]?.attempts).toBe(1);
@@ -181,7 +180,6 @@ describe('examSession — прогон Exam mode', () => {
     expect(s.examSession.status).toBe('done');
     expect(s.examSession.finishReason).toBe('manual');
     expect(s.currentScreen).toBe('exam-results');
-    expect(s.getExamProgress()).toEqual({ index: 30, total: 30 });
     expect(s.getExamCurrentQuestionId()).toBeNull();
     expect(s.getExamResult()).toEqual({ correct: 30, total: 30, percent: 100, passed: true });
   });
