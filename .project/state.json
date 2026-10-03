@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "4f90239f4e3cfb7c7e881dc85786e415c7d4cab8",
+  "head": "c81e4e34167a52c161e8a109e708848d6a4c2697",
   "specs": [
     {
       "id": "022",
@@ -1243,19 +1243,43 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | push | authorize push origin main — spec-060+061; публикует a92096a..HEAD | commit pending",
-    "2026-10-03 | push | выполнен a92096a..875cf33 | commit 875cf33",
-    "2026-10-04 | spec-063 | done - paywall-content (3 Free / 11 Paid, 7-day trial, миграция v6→v7; оплата — spec 064) | commit 5e3fe2a",
-    "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-063; публикует 875cf33..HEAD | commit pending",
     "2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68",
     "2026-10-04 | spec-064 | done - telegram-stars | commit d8144dd",
     "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-064; публикует 49cee68..HEAD | commit pending",
-    "2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee"
+    "2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee",
+    "2026-10-04 | ux | fix - streak duplicate, exit screens, sticky safe-area | commit 8f7581f",
+    "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
+    "2026-10-04 | push | authorize push origin main — ux-fixes; публикует b13d3ee..31847cb | commit pending",
+    "2026-10-04 | push | выполнен b13d3ee..08e267a | commit 31847cb"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c81e4e3",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for ux-fixes",
+      "type": "chore"
+    },
+    {
+      "sha": "08e267a",
+      "date": "2026-10-04",
+      "subject": "chore(log): pin trail-SHA for ux-fixes",
+      "type": "chore"
+    },
+    {
+      "sha": "31847cb",
+      "date": "2026-10-04",
+      "subject": "chore(log): ux-fixes log + trail",
+      "type": "chore"
+    },
+    {
+      "sha": "fcaa119",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after ux-fixes",
+      "type": "chore"
+    },
     {
       "sha": "4f90239",
       "date": "2026-10-04",
@@ -1350,30 +1374,6 @@
       "sha": "77fa116",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-060+061",
-      "type": "chore"
-    },
-    {
-      "sha": "875cf33",
-      "date": "2026-10-04",
-      "subject": "chore(log): trail for spec-060+061 push",
-      "type": "chore"
-    },
-    {
-      "sha": "fbfbe40",
-      "date": "2026-10-03",
-      "subject": "test(spec-061): capture retention dashboard preview on 390x844",
-      "type": "test"
-    },
-    {
-      "sha": "e92a581",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-061 done",
-      "type": "chore"
-    },
-    {
-      "sha": "4bfe692",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-061",
       "type": "chore"
     }
   ],
