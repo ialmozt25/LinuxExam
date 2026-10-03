@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "bdb04a2f1017eb31dd04aa78c21b653f254c5a4f",
+  "head": "bdb21bac9760c424718bb302b7e8ca98edeebdac",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "059",
+      "slug": "cleanup-blockers",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/059-cleanup-blockers.md",
+      "mtime": 1791024806439.5798,
+      "goal": "Устранить именно эти три проблемы из audit §1/§7: (а) `Paywall` получает",
+      "acceptance": "1. `'paywall'` входит в `Screen` (`quizStore.ts`); `App.tsx` содержит",
+      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": "Дифф затрагивает: `src/store/quizStore.ts` (Screen union − 4 экшена),"
     },
     {
       "id": "016",
@@ -1182,6 +1197,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "bdb21ba",
+      "date": "2026-10-03",
+      "subject": "chore(spec-059): cleanup blockers - paywall route, dead actions, duplicate logic",
+      "type": "chore"
+    },
+    {
+      "sha": "d29b239",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-057+058 push",
+      "type": "chore"
+    },
+    {
       "sha": "bdb04a2",
       "date": "2026-10-03",
       "subject": "chore(log): push done for spec-057+058",
@@ -1287,18 +1314,6 @@
       "sha": "0d51a19",
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-054+056 push",
-      "type": "chore"
-    },
-    {
-      "sha": "dcd8150",
-      "date": "2026-10-03",
-      "subject": "chore(log): trail for spec-054 + mobile-sticky push",
-      "type": "chore"
-    },
-    {
-      "sha": "865a5b9",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-054+056 done",
       "type": "chore"
     }
   ],

@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на bdb04a2</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на bdb21ba</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">42</div>
+      <div class="pulse-tile__value">43</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -284,7 +284,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">10</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">11</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -326,6 +326,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#053 risk-scoring-migrate-fix</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
+          <li class="ddn__item">
+            <span class="ddn__title">#059 cleanup-blockers</span>
+            <span class="ddn__meta">infra · approved</span>
+          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -351,12 +355,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 42 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 43 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
-    <summary>Спеки · всего: 55</summary>
-          <div class="spec-group">Утверждены · 10</div>
+    <summary>Спеки · всего: 56</summary>
+          <div class="spec-group">Утверждены · 11</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -368,6 +372,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#031 rhcsa-bank-fixes</li>
             <li>#051 autonomous-spec-chain</li>
             <li>#053 risk-scoring-migrate-fix</li>
+            <li>#059 cleanup-blockers</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -433,6 +438,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">bdb21ba</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(spec-059): cleanup blockers - paywall route, dead actions, duplicate logic</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
+          <td class="mono">d29b239</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-057+058 push</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
         <tr>
           <td class="mono">bdb04a2</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -541,18 +558,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-054+056 push</td>
           <td class="mono muted">2026-10-03</td>
         </tr>
-        <tr>
-          <td class="mono">dcd8150</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for spec-054 + mobile-sticky push</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
-        <tr>
-          <td class="mono">865a5b9</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-054+056 done</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -571,35 +576,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">72 ч (~3.0 дн)</td>
+          <td class="muted">73 ч (~3.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">119 ч (~5.0 дн)</td>
+          <td class="muted">120 ч (~5.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">1 ч</td>
+          <td class="muted">2 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">72 ч (~3.0 дн)</td>
+          <td class="muted">73 ч (~3.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">10 ч</td>
+          <td class="muted">11 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -644,8 +649,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 67</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 67</div>
+    <summary>Тревоги · записей: 68</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 68</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -912,6 +917,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">03.10 | tech debt | Topic union: 3 темы при 14 в банке</div>
           <div class="entry__body muted">src/data/models/Question.ts: Topic union — 3 темы при 14 в банке; рантайм ок, типизация разбора сломается на 11.</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">03.10 | tech debt | severity: low | source: audit §1 DUP3–DUP8 | 5 расходящихся дублей логики отложены (spec 059)</div>
+          <div class="entry__body muted">Аудит механики (app-mechanics-audit.md §1) подтвердил 6 расходящихся дублей.</div>
         </div>
   </details>
 
