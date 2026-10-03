@@ -23,6 +23,7 @@
     "spec:run": "node .project/scripts/run-spec.mjs",
     "spec:close": "node .project/scripts/close-spec.mjs",
     "spec:enrich": "node .project/scripts/enrich-spec.mjs",
+    "research:spec": "node .project/scripts/research-spec.mjs",
     "runs:log": "node .project/scripts/runs-log.mjs",
     "notify": "node .project/scripts/notify.mjs",
     "notify:health": "node .project/scripts/notify.mjs --health",

@@ -28,16 +28,25 @@
 // Использование:
 //   node .project/scripts/run-spec.mjs <spec-id> [--dry-run|--live] [--json]
 //        [--profile <name>] [--workspace <dir>] [--timeout-ms <ms>]
+//        [--max-cost-usd <usd>] [--soft-cap-usd <usd>] [--cost-source <path>]
 //   npm run spec:run -- 033a --dry-run
 //   node .project/scripts/run-spec.mjs 013 --live --workspace %TEMP%\\ws
+//
+// spec 051 (Autonomous Spec Chain, минимальный) добавляет в этот скрипт две
+// компоненты: риск-скоринг задач плана (ACTION_RISK + пороги 50/80, `risk_score`
+// каждой задачи и `maxRiskScore` плана — вход условия STOP B) и бюджет прогона
+// (soft/hard-капы в USD, warn 50% / downgrade pro→flash 80% / kill 100% с
+// evidence `.project/drafts/spec-<id>-budget.json` и записью в `alerts.md`).
 //
 // Коды выхода (по образцу archive-team.mjs):
 //   0 — успех: dry-run-отчёт либо реальный прогон со status=ok;
 //   1 — провал реального прогона или неожиданная ошибка ввода-вывода (в т.ч.
 //       отсутствует handoff-шаблон templates/mas/*);
 //   2 — ошибка использования/ввода (нет spec-id, неизвестный флаг, спека не найдена);
-//   3 — не выполнено precondition пути H2 (нет dsh CLI / нет профиля / плагин не
-//       резолвится): реальный прогон не стартует, запись в историю пишется.
+//   3 — прогон не стартовал по предусловию: не выполнено precondition пути H2
+//       (нет dsh CLI / нет профиля / плагин не резолвится) — `status:
+//       precondition-missing`; ЛИБО бюджет исчерпан (spec 051) — `status:
+//       budget-exceeded`, запись в alerts.md. Различать по `result.status`.
 //
 // ШАБЛОНЫ (spec 033a, п. «Что делаем 3»): перед запуском реального прогона
 // templates/mas/TASK.md и templates/mas/SESSION.md копируются в каталог команды
@@ -122,6 +131,362 @@ function notifyFireAndForget(event, message) {
   }
 }
 
+/* ------------------------------------------- риск-скоринг задач (spec 051) */
+
+/**
+ * Веса действий (spec 051, «Что делаем 1»). Смысл шкалы: обратимое чтение дёшево,
+ * необратимая публикация/удаление дорого. `git push` стоит ровно 80 — на пороге
+ * HUMAN_THRESHOLD, поэтому задача с `git push` в actions всегда уходит человеку.
+ */
+export const ACTION_RISK = {
+  read: 5,
+  'git status': 5,
+  edit: 30,
+  'git commit': 25,
+  'npm test': 20,
+  'git push': 80,
+  rm: 70,
+  'rm -rf': 95,
+  migrate: 60,
+};
+
+/** Ниже AUTO_THRESHOLD — `auto`; 50…79 — `auto-review`; ≥ 80 — `stop` (spec 051). */
+export const AUTO_THRESHOLD = 50;
+
+/** Порог STOP-решения: max risk задачи ≥ 80 → STOP к человеку (spec 051). */
+export const HUMAN_THRESHOLD = 80;
+
+/**
+ * Инференс actions по тексту задачи. Паттерны намеренно «командные»
+ * (`git push`, `rm -rf`), а не словарные: фраза «push не выполняется» — это
+ * ограничение задачи, а не действие, и риск ею поднимать нельзя. Явное поле
+ * `actions:` в задаче всегда имеет приоритет над инференсом.
+ */
+const ACTION_PATTERNS = [
+  { action: 'rm -rf', re: /rm\s+-rf/i },
+  { action: 'git push', re: /git\s+push/i },
+  { action: 'rm', re: /\brm\s+[-\w.*/]/i },
+  { action: 'migrate', re: /\bmigrat|\bmigration|миграц/i },
+  { action: 'git commit', re: /git\s+(commit|add)\b/i },
+  { action: 'npm test', re: /npm\s+run\s+(test|typecheck|build)|test:run|test:e2e|playwright|vitest/i },
+  { action: 'edit', re: /\bedit\b|\bwrite\b|правк[аиу]|обнов(ить|ление)|\.mjs\b|\.ts\b|\.md\b/i },
+  { action: 'read', re: /\bread\b|read-only|recon|чтение|инспек/i },
+];
+
+/** Инференс actions по тексту; пусто → `read` (минимальный риск, но не ноль). */
+export function inferActions(text) {
+  const source = String(text ?? '');
+  const found = [];
+  for (const { action, re } of ACTION_PATTERNS) {
+    if (re.test(source)) found.push(action);
+  }
+  return found.length === 0 ? ['read'] : found;
+}
+
+/** Вес одного action; неизвестный action считается как `read`. */
+export function actionRisk(action) {
+  const key = String(action ?? '').trim().toLowerCase();
+  return typeof ACTION_RISK[key] === 'number' ? ACTION_RISK[key] : ACTION_RISK.read;
+}
+
+/**
+ * Risk задачи = максимум по actions: «преобладающий» трактуется как худшее
+ * действие (spec 051). Среднее занижало бы риск — одна `rm -rf` в задаче с
+ * десятком чтений всё равно необратима.
+ */
+export function riskScoreOf(actions) {
+  const list = Array.isArray(actions) && actions.length > 0 ? actions : ['read'];
+  return list.reduce((max, action) => Math.max(max, actionRisk(action)), 0);
+}
+
+/** Классификация риска: `auto` | `auto-review` | `stop`. */
+export function classifyRisk(score) {
+  if (score >= HUMAN_THRESHOLD) return 'stop';
+  if (score >= AUTO_THRESHOLD) return 'auto-review';
+  return 'auto';
+}
+
+/**
+ * Провалидировать DAG плана: зависимости ссылаются на существующие id и не
+ * образуют циклов. Возвращает `{valid, problems}`.
+ */
+export function validateDag(tasks) {
+  const problems = [];
+  const ids = new Set(tasks.map((task) => task.id));
+  for (const task of tasks) {
+    if (!task.id) problems.push('задача без id');
+    for (const dep of task.dependencies) {
+      if (!ids.has(dep)) problems.push(`${task.id}: неизвестная зависимость ${dep}`);
+      if (dep === task.id) problems.push(`${task.id}: зависимость на себя`);
+    }
+  }
+  const state = new Map();
+  const visit = (id, stack) => {
+    if (state.get(id) === 'done') return;
+    if (state.get(id) === 'active') {
+      problems.push(`цикл: ${[...stack, id].join(' → ')}`);
+      return;
+    }
+    state.set(id, 'active');
+    const task = tasks.find((t) => t.id === id);
+    for (const dep of task?.dependencies ?? []) visit(dep, [...stack, id]);
+    state.set(id, 'done');
+  };
+  for (const task of tasks) visit(task.id, []);
+  return { valid: problems.length === 0, problems };
+}
+
+/**
+ * Условие авто-approve STOP B (spec 051): DAG валиден, задачи есть и
+ * max risk < AUTO_THRESHOLD. Лог-строка при auto:
+ * `auto-approve STOP B | DAG valid | max-risk:N`.
+ */
+export function stopBDecision(maxRiskScore, dag, tasksCount) {
+  const hasTasks = Number(tasksCount) > 0;
+  const auto = dag.valid === true && hasTasks && maxRiskScore < AUTO_THRESHOLD;
+  return {
+    auto,
+    log: `auto-approve STOP B | DAG valid | max-risk:${maxRiskScore}`,
+    reason: auto
+      ? `DAG валиден, задач ${tasksCount}, max-risk ${maxRiskScore} < ${AUTO_THRESHOLD}`
+      : !hasTasks
+        ? 'в декомпозиции спеки нет задач'
+        : !dag.valid
+          ? `DAG невалиден: ${dag.problems.join('; ')}`
+          : `max-risk ${maxRiskScore} ≥ ${AUTO_THRESHOLD}`,
+  };
+}
+
+/** План риск-скоринга: задачи с `risk_score` + максимум + решения (STOP B). */
+export function scorePlanTasks(tasks) {
+  const scored = tasks.map((task) => {
+    const risk = riskScoreOf(task.actions);
+    return { ...task, risk_score: risk, risk_decision: classifyRisk(risk) };
+  });
+  const maxRiskScore = scored.reduce((max, task) => Math.max(max, task.risk_score), 0);
+  const dag = validateDag(scored);
+  return {
+    tasks: scored,
+    maxRiskScore,
+    riskDecision: classifyRisk(maxRiskScore),
+    dag,
+    stopB: stopBDecision(maxRiskScore, dag, scored.length),
+  };
+}
+
+/* ------------------------------------------------- бюджет прогона (spec 051) */
+
+/** Hard-кап по умолчанию (USD). */
+export const DEFAULT_MAX_COST_USD = 5.0;
+
+/** Soft-кап по умолчанию (USD): он же линия warn 50% от hard-капа. */
+export const DEFAULT_SOFT_CAP_USD = 2.5;
+
+/** Источник стоимости по умолчанию: история MAS-прогонов. */
+export const DEFAULT_COST_SOURCE = path.join('.project', 'mas-runs.json');
+
+/** Оценка цены: ~$0.30 за 1M токенов (blended-оценка, не тариф провайдера). */
+export const USD_PER_1K_TOKENS = 0.0003;
+
+/** Fallback-оценка одного LLM-вызова, когда `tokens` неизвестны (spec 051). */
+export const TOKENS_PER_LLM_CALL = 500;
+
+/** Доли hard-капа: 50% — warn, 80% — downgrade pro→flash, 100% — kill (exit 3). */
+export const BUDGET_WARN_RATIO = 0.5;
+export const BUDGET_DOWNGRADE_RATIO = 0.8;
+export const BUDGET_KILL_RATIO = 1.0;
+
+/**
+ * Оценка числа LLM-вызовов последнего прогона для fallback-бюджета: явные счётчики
+ * (`tokens.calls` / `llmCalls` / `report.llmCalls`) → длина `tasks[]` → сводка
+ * `tasks.completed + tasks.failed + tasks.cancelled` (в истории репозитория
+ * `tasks` — именно сводка-объект, а не массив).
+ */
+export function countLlmCalls(record) {
+  if (record === null || typeof record !== 'object') return 0;
+  const candidates = [record?.tokens?.calls, record?.llmCalls, record?.report?.llmCalls];
+  for (const value of candidates) {
+    if (Number.isFinite(Number(value))) return Number(value);
+  }
+  const tasks = record.tasks;
+  if (Array.isArray(tasks)) return tasks.length;
+  if (tasks !== null && typeof tasks === 'object') {
+    const total =
+      (Number(tasks.completed) || 0) + (Number(tasks.failed) || 0) + (Number(tasks.cancelled) || 0);
+    if (total > 0) return total;
+  }
+  return 0;
+}
+
+/**
+ * Прочитать стоимость последнего прогона из cost-source: поле `tokens.total`
+ * последней записи `runs[]`. `tokens: null` (сегодня так у всех 18 записей
+ * `.project/mas-runs.json`) → `estimated: true` и fallback по числу LLM-вызовов
+ * × TOKENS_PER_LLM_CALL (см. countLlmCalls; нечитаемый источник — тоже
+ * `estimated: true` с нулём).
+ * @param {string} costSource - путь (абсолютный или от корня репозитория).
+ */
+export async function readCostSource(costSource) {
+  const abs = path.isAbsolute(costSource) ? costSource : path.join(REPO_ROOT, costSource);
+  const relPath = relativePosix(abs);
+  const empty = {
+    path: abs,
+    relPath,
+    ok: false,
+    runs: 0,
+    spec: null,
+    tokens: null,
+    llmCalls: null,
+    estimated: true,
+    reason: null,
+  };
+  let raw;
+  try {
+    raw = await fsp.readFile(abs, 'utf8');
+  } catch (error) {
+    return { ...empty, reason: `не читается (${errorCodeOf(error)})` };
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { ...empty, reason: 'не разбирается как JSON' };
+  }
+  const runs = Array.isArray(parsed?.runs) ? parsed.runs : Array.isArray(parsed) ? parsed : [];
+  const last = runs.length > 0 ? runs[runs.length - 1] : null;
+  const totalRaw = last?.tokens?.total;
+  const total = Number.isFinite(Number(totalRaw)) ? Number(totalRaw) : null;
+  return {
+    path: abs,
+    relPath,
+    ok: true,
+    runs: runs.length,
+    spec: last?.spec ?? null,
+    tokens: total,
+    llmCalls: countLlmCalls(last),
+    estimated: total === null,
+    reason: total === null ? 'tokens: null — оценка по числу LLM-вызовов' : null,
+  };
+}
+
+/** Округлить USD до 6 знаков (оценки малы, 4 знаков не хватает). */
+function roundUsd(value) {
+  return Math.round(value * 1e6) / 1e6;
+}
+
+/**
+ * Свести бюджет: потрачено (оценка), остаток и статус
+ * (`ok` | `warn` | `downgrade` | `kill`). Доли считаются от hard-капа; soft-кап
+ * добавляет независимую линию warn. Побочных эффектов нет.
+ * @param {{costSource: object, maxCostUsd: number, softCapUsd: number, specId: string}} input
+ */
+export function resolveBudget(input) {
+  const maxCostUsd = Number(input.maxCostUsd) > 0 ? Number(input.maxCostUsd) : DEFAULT_MAX_COST_USD;
+  const softCapUsd =
+    Number.isFinite(Number(input.softCapUsd)) && Number(input.softCapUsd) >= 0
+      ? Number(input.softCapUsd)
+      : DEFAULT_SOFT_CAP_USD;
+  const source = input.costSource;
+  const estimated = source.tokens === null;
+  const tokens = estimated ? (Number(source.llmCalls) || 0) * TOKENS_PER_LLM_CALL : Number(source.tokens);
+  const spentUsd = roundUsd((tokens / 1000) * USD_PER_1K_TOKENS);
+  const remainingUsd = roundUsd(Math.max(0, maxCostUsd - spentUsd));
+  const ratio = maxCostUsd > 0 ? spentUsd / maxCostUsd : 0;
+
+  let status = 'ok';
+  if (ratio >= BUDGET_KILL_RATIO) status = 'kill';
+  else if (ratio >= BUDGET_DOWNGRADE_RATIO) status = 'downgrade';
+  else if (ratio >= BUDGET_WARN_RATIO || (softCapUsd > 0 && spentUsd >= softCapUsd)) status = 'warn';
+
+  const warnings = [];
+  if (estimated) {
+    warnings.push(
+      `[budget: tokens неизвестны — оценка ${tokens} токенов по ${Number(source.llmCalls) || 0} LLM-вызовам × ${TOKENS_PER_LLM_CALL}]`,
+    );
+  }
+  const percent = Math.round(ratio * 100);
+  if (status === 'warn') {
+    warnings.push(`[budget: ${percent}% hard-капа израсходовано — warn]`);
+  }
+  if (status === 'downgrade') {
+    warnings.push(`[budget: ${percent}% hard-капа — downgrade pro → flash]`);
+  }
+  if (status === 'kill') {
+    warnings.push(`[budget: ${percent}% hard-капа — kill, прогон не стартует (exit 3)]`);
+  }
+
+  return {
+    specId: input.specId,
+    status,
+    spentUsd,
+    remainingUsd,
+    ratio,
+    percent,
+    tokens,
+    estimated,
+    llmCalls: source.llmCalls ?? null,
+    maxCostUsd,
+    softCapUsd,
+    downgrade: status === 'downgrade' || status === 'kill' ? 'pro → flash' : null,
+    source: {
+      path: source.relPath,
+      ok: source.ok,
+      runs: source.runs,
+      spec: source.spec,
+      reason: source.reason,
+    },
+    warnings,
+  };
+}
+
+/** Evidence бюджета: `.project/drafts/spec-<id>-budget.json`. */
+export async function writeBudgetEvidence(root, budget) {
+  const file = path.join(root, '.project', 'drafts', `spec-${budget.specId}-budget.json`);
+  await fsp.mkdir(path.dirname(file), { recursive: true });
+  await fsp.writeFile(
+    file,
+    `${JSON.stringify(
+      {
+        tool: 'run-spec.mjs',
+        spec: budget.specId,
+        generatedAt: new Date().toISOString(),
+        status: budget.status,
+        spent: budget.spentUsd,
+        remaining: budget.remainingUsd,
+        ratio: budget.ratio,
+        percent: budget.percent,
+        tokens: budget.tokens,
+        estimated: budget.estimated,
+        llmCalls: budget.llmCalls,
+        caps: { maxCostUsd: budget.maxCostUsd, softCapUsd: budget.softCapUsd },
+        downgrade: budget.downgrade,
+        costSource: budget.source,
+        warnings: budget.warnings,
+      },
+      null,
+      2,
+    )}\n`,
+    'utf8',
+  );
+  return file;
+}
+
+/** Дописать запись в `docs/memory/alerts.md` (append-only, LF, каталог создаётся). */
+export async function appendAlert(root, entry) {
+  const file = path.join(root, 'docs', 'memory', 'alerts.md');
+  let current = '';
+  try {
+    current = await fsp.readFile(file, 'utf8');
+  } catch {
+    current = '';
+  }
+  await fsp.mkdir(path.dirname(file), { recursive: true });
+  const glue = current === '' || current.endsWith('\n\n') ? '' : current.endsWith('\n') ? '\n' : '\n\n';
+  const block = `## ${entry.date} | ${entry.kind} | ${entry.title}\n\n${entry.body}\n`;
+  await fsp.appendFile(file, glue + block, 'utf8');
+  return file;
+}
+
 const DEFAULTS = {
   dryRun: false,
   json: false,
@@ -129,13 +494,18 @@ const DEFAULTS = {
   workspace: REPO_ROOT,
   timeoutMs: 30 * 60 * 1000,
   specId: null,
+  maxCostUsd: DEFAULT_MAX_COST_USD,
+  softCapUsd: DEFAULT_SOFT_CAP_USD,
+  costSource: DEFAULT_COST_SOURCE,
 };
 
 const USAGE = [
   'usage: node .project/scripts/run-spec.mjs <spec-id> [--dry-run|--live] [--json]',
   '       [--profile <name>] [--workspace <dir>] [--timeout-ms <ms>]',
+  '       [--max-cost-usd <usd>] [--soft-cap-usd <usd>] [--cost-source <path>]',
   '',
   'MAS-прогон по спеке через CLI-путь к dsh-agent-teams (spec 033a, вердикт t0: PATH: H2).',
+  'Риск-скоринг задач и бюджет прогона — spec 051.',
   '',
   'Аргументы:',
   '  <spec-id>            идентификатор спеки в .project/specs (например 033a)',
@@ -148,6 +518,10 @@ const USAGE = [
   '  --profile <name>     DSH-профиль с плагином agent-teams (по умолчанию mas)',
   '  --workspace <dir>    рабочая директория прогона (по умолчанию корень репозитория)',
   '  --timeout-ms <ms>    предел ожидания реального прогона (по умолчанию 1800000)',
+  '  --max-cost-usd <usd> hard-кап стоимости прогона (по умолчанию 5.00): 100% → kill, exit 3',
+  '  --soft-cap-usd <usd> soft-кап (по умолчанию 2.50): достигнут → warn',
+  '  --cost-source <path> источник стоимости последнего прогона',
+  '                       (по умолчанию .project/mas-runs.json, поле tokens.total)',
   '  -h, --help           эта справка',
   '',
   'Перед реальным прогоном templates/mas/{TASK,SESSION}.md копируются в',
@@ -208,6 +582,33 @@ export function parseArgs(argv) {
           return { ok: false, error: 'флаг --timeout-ms требует положительное число', exitCode: 2 };
         }
         options.timeoutMs = value;
+        break;
+      }
+      case '--max-cost-usd':
+      case '--soft-cap-usd': {
+        const raw = takeValue();
+        const value = Number(raw);
+        const positive = flag === '--max-cost-usd' ? value > 0 : value >= 0;
+        if (raw === undefined || !Number.isFinite(value) || !positive) {
+          return {
+            ok: false,
+            error:
+              flag === '--max-cost-usd'
+                ? 'флаг --max-cost-usd требует положительное число'
+                : 'флаг --soft-cap-usd требует неотрицательное число',
+            exitCode: 2,
+          };
+        }
+        if (flag === '--max-cost-usd') options.maxCostUsd = value;
+        else options.softCapUsd = value;
+        break;
+      }
+      case '--cost-source': {
+        const raw = takeValue();
+        if (raw === undefined || raw.trim() === '') {
+          return { ok: false, error: 'флаг --cost-source требует значение', exitCode: 2 };
+        }
+        options.costSource = raw.trim();
         break;
       }
       default:
@@ -338,8 +739,94 @@ export async function materializeSpec(workspace, spec) {
 }
 
 /**
+ * Разбор секции `## Декомпозиция` (spec 051): пункты нумерованного списка →
+ * `{id, subject, assignee, dependencies, actions}`. Поддерживаются оба формата
+ * репозитория: сегменты в бэктиках (`` `id: t1` `subject: …` ``, спеки 049/051)
+ * и свободный текст `id: t1, subject: …, assignee: builder, dependencies: []`
+ * (спеки 040/042). `actions` берётся из явного поля `actions:`; если его нет —
+ * выводится инференсом по тексту задачи (см. inferActions).
+ * @param {string[]} lines - строки спеки (уже разбитые по переводам строки).
+ */
+export function parseDecompositionTasks(lines) {
+  const section = [];
+  let inside = false;
+  for (const line of lines) {
+    if (/^##\s+/.test(line)) {
+      // `\b` после кириллицы в JS не матчится («я» — не \w): секция искалась бы
+      // вечно пустой (класс дефекта из docs/memory/alerts.md 2026-10-01).
+      inside = /^##\s+Декомпозиция(?=\s|$)/.test(line);
+      continue;
+    }
+    if (inside) section.push(line);
+  }
+
+  const items = [];
+  let current = null;
+  let closed = false;
+  for (const line of section) {
+    if (!closed && /^\s*\d+\.\s/.test(line)) {
+      if (current !== null) items.push(current);
+      current = line.replace(/^\s*\d+\.\s/, '').trim();
+      continue;
+    }
+    // Продолжением считается только строка с отступом: иначе буллет-блок после
+    // списка («Write-скоупы», «Оговорки») приклеивался бы к последней задаче и
+    // ломал бы её dependencies (проверено на spec 040).
+    if (!closed && current !== null && /^[ \t]+\S/.test(line)) {
+      current += ` ${line.trim()}`;
+      continue;
+    }
+    if (line.trim() !== '') {
+      // Проза ДО списка (вводная строка секции) список не закрывает: закрытие
+      // наступает только после того, как список уже начался.
+      const started = current !== null || items.length > 0;
+      if (current !== null) items.push(current);
+      current = null;
+      if (started) closed = true;
+    }
+  }
+  if (current !== null) items.push(current);
+
+  const tasks = [];
+  for (const item of items) {
+    const fields = {};
+    const ticks = [...item.matchAll(/`([^`]+)`/g)].map((match) => match[1]);
+    const segments =
+      ticks.length > 0 && ticks.some((tick) => /^\s*id\s*:/.test(tick))
+        ? ticks
+        : item.split(/,(?=\s*[A-Za-zа-яА-Я_]+\s*:)/);
+    for (const segment of segments) {
+      const match = /^\s*([A-Za-zа-яА-Я_]+)\s*:\s*(.*)$/.exec(String(segment).trim());
+      if (match === null) continue;
+      fields[match[1].toLowerCase()] = match[2].trim().replace(/[`;]+$/, '').trim();
+    }
+    if (fields.id === undefined || fields.id === '') continue;
+    const actions =
+      fields.actions === undefined || fields.actions === ''
+        ? inferActions(`${fields.subject ?? ''} ${fields.id}`)
+        : fields.actions
+            .split(',')
+            .map((action) => action.trim())
+            .filter(Boolean);
+    tasks.push({
+      id: fields.id,
+      subject: fields.subject ?? '',
+      assignee: fields.assignee ?? null,
+      dependencies: (fields.dependencies ?? '')
+        .replace(/[[\]]/g, ' ')
+        .split(',')
+        .map((dep) => dep.trim())
+        .filter((dep) => dep !== ''),
+      actions,
+    });
+  }
+  return tasks;
+}
+
+/**
  * Разбор markdown-спеки: front-matter, заголовок первого уровня, список целей из
- * секции «## Цель». Зависимостей нет, парсер намеренно минимальный.
+ * секции «## Цель», задачи из «## Декомпозиция». Зависимостей нет, парсер
+ * намеренно минимальный.
  * @param {string} raw - содержимое файла.
  */
 export function parseSpec(raw) {
@@ -364,13 +851,16 @@ export function parseSpec(raw) {
   let inGoals = false;
   for (const line of lines) {
     if (/^##\s+/.test(line)) {
-      inGoals = /^##\s+Цель\b/.test(line);
+      // См. parseDecompositionTasks: `\b` после кириллицы не работает, из-за чего
+      // цели спеки не попадали в задание MAS (дефект найден при spec 051).
+      inGoals = /^##\s+Цель(?=\s|$)/.test(line);
       continue;
     }
     if (!inGoals) continue;
     const match = /^\s*(?:\d+\.|[-*])\s+(.*)$/.exec(line);
     if (match !== null && match[1].trim() !== '') goals.push(match[1].trim());
   }
+  const tasks = parseDecompositionTasks(lines);
   return {
     fmId: fm['id'] ?? null,
     slug: fm['slug'] ?? null,
@@ -378,6 +868,7 @@ export function parseSpec(raw) {
     status: fm['status'] ?? null,
     title,
     goals,
+    tasks,
   };
 }
 
@@ -878,6 +1369,9 @@ export async function runSpec(options) {
   });
 
   const command = pre.dsh === null ? null : { command: pre.dsh.command, argv: [...pre.dsh.argvPrefix, '--profile', options.profile, taskText] };
+  // Риск-скоринг задач плана (spec 051): risk_score по преобладающему action,
+  // максимум по плану и готовое решение STOP B для Шага 3 скилла.
+  const risk = scorePlanTasks(spec.tasks ?? []);
   report.plan = {
     teamIdHint: teamId,
     stateDir: path.join(options.workspace, STATE_DIR_NAME, teamId),
@@ -887,8 +1381,20 @@ export async function runSpec(options) {
     command,
     cwd: options.workspace,
     timeoutMs: options.timeoutMs,
+    tasks: risk.tasks,
+    maxRiskScore: risk.maxRiskScore,
+    riskDecision: risk.riskDecision,
+    dag: risk.dag,
+    stopB: risk.stopB,
   };
   report.steps.push({ name: 'plan', status: 'ok', detail: command === null ? 'команда не построена: dsh не найден' : renderCommand(command) });
+  report.steps.push({
+    name: 'risk',
+    status: risk.stopB.auto ? 'auto-approve' : 'stop',
+    detail:
+      `задач: ${risk.tasks.length}, max-risk: ${risk.maxRiskScore} (${risk.riskDecision}), DAG: ${risk.dag.valid ? 'valid' : 'invalid'}` +
+      ` — ${risk.stopB.auto ? risk.stopB.log : `STOP B: ${risk.stopB.reason}`}`,
+  });
 
   /** Дозаписать запись прогона в историю (единственная запись этого скрипта). */
   const recordHistory = async () => {
@@ -900,6 +1406,49 @@ export async function runSpec(options) {
       report.steps.push({ name: 'history', status: 'failed', detail: String(error.message) });
     }
   };
+
+  /* Бюджет прогона (spec 051): читается всегда, side effects — только в прогоне. */
+  const costSource = await readCostSource(options.costSource);
+  const budget = resolveBudget({
+    costSource,
+    maxCostUsd: options.maxCostUsd,
+    softCapUsd: options.softCapUsd,
+    specId: spec.specId,
+  });
+  report.budget = budget;
+  report.steps.push({
+    name: 'budget',
+    status: budget.status === 'ok' ? 'ok' : budget.status,
+    detail:
+      `источник ${costSource.relPath}${costSource.ok ? ` (записей: ${costSource.runs}, spec: ${costSource.spec ?? '—'})` : ` — ${costSource.reason}`}` +
+      `; ${budget.estimated ? 'оценка' : 'факт'} ${budget.tokens} токенов ≈ $${budget.spentUsd}` +
+      ` из $${budget.maxCostUsd} (${budget.percent}%) — ${budget.status}`,
+  });
+  for (const warning of budget.warnings) {
+    report.steps.push({ name: 'budget-warn', status: 'warn', detail: warning });
+  }
+  if (!options.dryRun) {
+    report.budgetEvidence = relativePosix(await writeBudgetEvidence(REPO_ROOT, budget));
+    if (budget.status === 'kill') {
+      await appendAlert(REPO_ROOT, {
+        date: new Date().toISOString().slice(0, 10),
+        kind: 'budget',
+        title: `spec-${spec.specId}: kill по hard-капу (${budget.percent}% от $${budget.maxCostUsd})`,
+        body:
+          `Бюджет прогона исчерпан: ${budget.estimated ? 'оценка' : 'факт'} ${budget.tokens} токенов ≈ $${budget.spentUsd} ` +
+          `при hard-капе $${budget.maxCostUsd} (soft $${budget.softCapUsd}), источник — ${costSource.relPath}. ` +
+          `Прогон не стартовал, exit 3 (spec 051). Evidence: \`${report.budgetEvidence}\`. Не блокер для других спек; ` +
+          `поднять кап — только решением капитана новым флагом \`--max-cost-usd\`.`,
+      });
+      report.result = {
+        status: 'budget-exceeded',
+        reason: `бюджет прогона исчерпан (${budget.percent}% hard-капа $${budget.maxCostUsd}) — kill, exit 3`,
+      };
+      report.finishedAt = new Date().toISOString();
+      await recordHistory();
+      return { exitCode: 3, report };
+    }
+  }
 
   if (options.dryRun) {
     report.steps.push({
@@ -1135,6 +1684,24 @@ export function renderReport(report) {
   if (report.plan !== null) {
     lines.push(`team id (подсказка): ${report.plan.teamIdHint}`);
     lines.push(`state dir: ${report.plan.stateDir}`);
+  }
+  if (report.plan !== null && Array.isArray(report.plan.tasks)) {
+    lines.push(
+      `риск-скоринг (spec 051): задач ${report.plan.tasks.length}, max-risk ${report.plan.maxRiskScore} (${report.plan.riskDecision}), DAG ${report.plan.dag.valid ? 'valid' : 'invalid'}`,
+    );
+    for (const task of report.plan.tasks) {
+      const deps = task.dependencies.length > 0 ? ` · deps: ${task.dependencies.join(', ')}` : '';
+      lines.push(
+        `  ${task.id}: risk ${task.risk_score} (${task.risk_decision}) · actions: ${task.actions.join(', ')}${deps}`,
+      );
+    }
+    lines.push(`  STOP B: ${report.plan.stopB.auto ? `auto-approve — ${report.plan.stopB.log}` : `STOP — ${report.plan.stopB.reason}`}`);
+  }
+  if (report.budget !== undefined) {
+    lines.push(
+      `бюджет: ${report.budget.status} — ${report.budget.estimated ? 'оценка' : 'факт'} ${report.budget.tokens} токенов ≈ $${report.budget.spentUsd}, остаток $${report.budget.remainingUsd} (hard $${report.budget.maxCostUsd}, soft $${report.budget.softCapUsd})`,
+    );
+    if (report.budgetEvidence !== undefined) lines.push(`evidence бюджета: ${report.budgetEvidence}`);
   }
   lines.push('');
   lines.push('precondition:');

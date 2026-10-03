@@ -33,6 +33,11 @@
  * <spec> — путь (.project/specs/040-spec-chain.md) или id (040).
  * По умолчанию каталог прогона: .project/drafts/spec-<NNN>-enrich/.
  *
+ * spec 051 (Autonomous Spec Chain, минимальный): после Фазы 10 считается решение
+ * STOP-точки A — score ≥ 85% от weightSum ∧ hard-fail = 0 ∧ exit 0 → auto-approve
+ * (лог `auto-approve STOP A | score:N | hard-fail:0` + строка `auto-decision` в
+ * `.project/DECISIONS.md`); иначе STOP-точка A остаётся ручной, как была.
+ *
  * exit 0 — прогон завершён (в т.ч. с WARN [llm: unavailable — ...]);
  * exit 1 — hard-fail (детерминированные фазы или external audit Фазы 10);
  * exit 2 — ошибка использования/чтения.
@@ -58,6 +63,85 @@ const LLM_TIMEOUT_MS = Number(process.env.SPEC_ENRICH_LLM_TIMEOUT_MS || 600000);
 const MAX_BUFFER = 64 * 1024 * 1024;
 /** S3: timeout HEAD-проверки URL (спека 041). */
 const URL_TIMEOUT_MS = Number(process.env.SPEC_ENRICH_URL_TIMEOUT_MS || 5000);
+
+/* ----------------------------------------- STOP A: auto-approve (spec 051) */
+
+/**
+ * Порог auto-approve STOP A (spec 051): score ≥ 85 **% от weightSum** И ноль
+ * hard-fail findings И `exit 0`. Ниже — STOP-точка A остаётся ручной, как была.
+ */
+const AUTO_APPROVE_SCORE = 85;
+
+/** Журнал решений (append-only, правило 8 — существующие записи не правятся). */
+const DECISIONS_REL = '.project/DECISIONS.md';
+
+/** Заголовок секции auto-решений: создаётся один раз при первой записи. */
+const AUTO_DECISIONS_HEADING = '## Auto-decisions (spec 051)';
+
+/**
+ * Решение STOP A по формату spec 051: auto-approve при score ≥ 85% и нуле
+ * hard-fail. Лог-строка успеха — `auto-approve STOP A | score:N | hard-fail:0`.
+ * Побочных эффектов нет.
+ * @param {{exitCode: number, score: number, scoreMax: number, hardFailCount: number}} input
+ */
+export function resolveStopA(input) {
+  const scoreMax = Number(input.scoreMax) || 0;
+  const score = Number(input.score) || 0;
+  const scorePercent = scoreMax > 0 ? Math.round((score / scoreMax) * 100) : 0;
+  const hardFailCount = Number(input.hardFailCount) || 0;
+  const clean = input.exitCode === EXIT_CLEAN;
+  const auto = clean && scorePercent >= AUTO_APPROVE_SCORE && hardFailCount === 0;
+  return {
+    auto,
+    threshold: AUTO_APPROVE_SCORE,
+    score,
+    scoreMax,
+    scorePercent,
+    hardFailCount,
+    log: `auto-approve STOP A | score:${score} | hard-fail:${hardFailCount}`,
+    reason: auto
+      ? `score ${score}/${scoreMax} (${scorePercent}%) ≥ ${AUTO_APPROVE_SCORE}% и hard-fail 0`
+      : !clean
+        ? `exit ${input.exitCode} ≠ 0`
+        : hardFailCount > 0
+          ? `hard-fail ${hardFailCount} > 0`
+          : `score ${score}/${scoreMax} (${scorePercent}%) < ${AUTO_APPROVE_SCORE}%`,
+  };
+}
+
+/** Строка auto-решения: `DATE | auto-decision | STOP | spec-ID | reason:<условия>`. */
+export function formatAutoDecision(entry) {
+  return `${entry.date} | auto-decision | ${entry.stop} | spec-${entry.specId} | reason:${entry.reason}`;
+}
+
+/** Считать hard-fail findings прогона (severity = hard-fail). */
+export function countHardFails(findings) {
+  return (Array.isArray(findings) ? findings : []).filter(
+    (finding) => String(finding?.severity ?? '').toLowerCase() === 'hard-fail',
+  ).length;
+}
+
+/**
+ * Дописать auto-решение в конец `.project/DECISIONS.md` (append-only, LF). Секция
+ * `## Auto-decisions (spec 051)` добавляется один раз; строка решения остаётся
+ * машиночитаемой (`|`-формат spec 051). Записи журнала не переписываются.
+ * @returns {{file: string, line: string, created: boolean}}
+ */
+export function appendAutoDecision(root, entry) {
+  const file = path.join(root, DECISIONS_REL);
+  let current = '';
+  try {
+    current = fs.readFileSync(file, 'utf8');
+  } catch {
+    current = '';
+  }
+  const line = formatAutoDecision(entry);
+  const hasSection = current.includes(AUTO_DECISIONS_HEADING);
+  const glue = current === '' || current.endsWith('\n\n') ? '' : current.endsWith('\n') ? '\n' : '\n\n';
+  const addition = hasSection ? `${line}\n` : `${glue}${AUTO_DECISIONS_HEADING}\n\n${line}\n`;
+  fs.appendFileSync(file, addition, 'utf8');
+  return { file, line, created: !hasSection };
+}
 /** S3: проба доступности сети — отличает «мёртвый URL» от «сети нет» (env-override для QC). */
 const CONNECTIVITY_PROBE_URL = process.env.SPEC_ENRICH_CONNECTIVITY_URL || 'https://example.com/';
 /** S5: переменная окружения, которую ждёт дочерний dsh (спека 035). */
@@ -1550,6 +1634,19 @@ function renderReport(model) {
   else L.push('WARN не зафиксировано.');
   L.push('');
 
+  /* STOP A (spec 051) — печатается в отчёте прогона, когда решение рассчитано. */
+  if (model.stopA !== undefined) {
+    L.push('## STOP A (spec 051)', '');
+    L.push(`- режим: ${model.stopA.auto ? '**auto-approve** (цепочка продолжается без аппрува капитана)' : 'STOP — ждёт аппрув капитана'}`);
+    L.push(`- условие: score ≥ ${model.stopA.threshold}% ∧ hard-fail = 0; факт: score ${model.stopA.score}/${model.stopA.scoreMax} (${model.stopA.scorePercent}%), hard-fail ${model.stopA.hardFailCount}`);
+    if (model.stopA.auto) L.push(`- лог: \`${model.stopA.log}\``);
+    if (model.stopA.decision !== null && model.stopA.decision !== undefined) {
+      L.push(`- DECISIONS.md: \`${model.stopA.decision}\` (записано append-only)`);
+    }
+    if (!model.stopA.auto) L.push(`- причина STOP: ${model.stopA.reason}`);
+    L.push('');
+  }
+
   L.push('## Вердикт прогона', '');
   L.push(`- exit code: ${model.exitCode}`);
   L.push(`- итог: ${model.verdict}`);
@@ -2068,13 +2165,40 @@ async function main() {
   if (oscillation && exitCode === EXIT_CLEAN) verdict = 'STOP (oscillation) — repair loop прекращён';
 
   const scoreAfter = finalJson.phase0.score;
+
+  /* STOP A (spec 051): auto-approve при score ≥ 85% и нуле hard-fail. */
+  const stopA = resolveStopA({
+    exitCode,
+    score: scoreAfter,
+    scoreMax: finalJson.phase0.weightSum,
+    hardFailCount: countHardFails(findings),
+  });
+  stopA.decision = null;
+  stopA.decisionsFile = null;
+  if (stopA.auto) {
+    try {
+      const decision = appendAutoDecision(ROOT, {
+        date: new Date().toISOString().slice(0, 10),
+        stop: 'STOP A',
+        specId,
+        reason: stopA.reason,
+      });
+      stopA.decision = decision.line;
+      stopA.decisionsFile = toRel(decision.file);
+    } catch (e) {
+      warnings.push(
+        `[auto-decision: запись в DECISIONS.md не удалась — ${e && e.message ? e.message : e}]`,
+      );
+    }
+  }
+
   const report = renderReport({
     mode: 'apply', specRel, specId, runDirRel, llmCmd, startedAt,
     phaseStatus, scoreBefore, scoreAfter, scoreMax: finalJson.phase0.weightSum, threshold: finalJson.phase0.threshold,
     dimensionsBefore: detJson.phase0.dimensions, dimensionsAfter: finalJson.phase0.dimensions,
     phase1: finalJson.phase1, phase4: finalJson.phase4, sources, findings, applied, skipped: skippedEdits, rolledBack, repair,
     oscillation, auditCalled, auditVerdict, auditRollback, llmCalls, warnings, exitCode, verdict,
-    intentBlocked, enrichment, urlValidation, reconcile: reconcileTrail,
+    intentBlocked, enrichment, urlValidation, reconcile: reconcileTrail, stopA,
   });
   writeText(path.join(runDirAbs, 'report.md'), report);
 
@@ -2092,6 +2216,12 @@ async function main() {
       urlValidation: urlValidation ? urlValidation.summary : null,
       reconcile: reconcileTrail.map((r) => ({ phase: r.phase, source: r.source, sha_before: r.sha_before, sha_after: r.sha_after, hunks: r.edits.length, desync: r.desync })),
       auditCalled, auditVerdict, oscillation, exitCode,
+      stopA: {
+        auto: stopA.auto, score: stopA.score, scorePercent: stopA.scorePercent,
+        hardFailCount: stopA.hardFailCount, threshold: stopA.threshold,
+        log: stopA.auto ? stopA.log : null, reason: stopA.reason,
+        decision: stopA.decision, decisionsFile: stopA.decisionsFile,
+      },
     }, null, 2));
   } else {
     say('');
@@ -2106,11 +2236,19 @@ async function main() {
     for (const w of warnings) say(`WARN ${w}`);
     say(`Отчёт: ${posixJoin(runDirRel, 'report.md')}`);
     say(`Итог: ${verdict}`);
+    if (stopA.auto) {
+      say(stopA.log);
+      if (stopA.decision !== null) say(`DECISIONS.md: ${stopA.decision}`);
+    } else {
+      say(`STOP A: STOP — ${stopA.reason}`);
+    }
   }
 
   // Терминальный исход enrichment: hard-fail (в т.ч. откат Фазы 9) vs успех.
   if (exitCode === EXIT_HARD_FAIL) {
     notifyFireAndForget('gate_failed', `⚠️ Спека ${specId}: правки откатили — внешняя проверка нашла смену замысла. Нужен разбор.`);
+  } else if (stopA.auto) {
+    notifyFireAndForget('spec_closed', `✅ Спека ${specId}: ${stopA.log} — цепочка идёт дальше без STOP A.`);
   } else {
     notifyFireAndForget('spec_closed', `✅ Спека ${specId}: обогащение готово, оценка выросла ${scoreBefore} → ${scoreAfter}. Жду твоё решение.`);
   }
@@ -2118,7 +2256,11 @@ async function main() {
   process.exit(exitCode);
 }
 
-main().catch((e) => {
-  err(`enrich-spec: непредвиденная ошибка — ${e && e.stack ? e.stack : e}`);
-  process.exit(EXIT_HARD_FAIL);
-});
+// Запуск CLI только при прямом вызове: импорт модуля (проверка чистых функций
+// вроде resolveStopA/appendAutoDecision) не должен исполнять прогон.
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+  main().catch((e) => {
+    err(`enrich-spec: непредвиденная ошибка — ${e && e.stack ? e.stack : e}`);
+    process.exit(EXIT_HARD_FAIL);
+  });
+}
