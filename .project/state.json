@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "94dcf9918d79c20ee85a075ced98c8716a582aeb",
+  "head": "77fa11676b77fdf7d971771ab0c9106aed66e5b7",
   "specs": [
     {
       "id": "022",
@@ -1213,19 +1213,43 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15",
-    "2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending",
-    "2026-10-03 | push | выполнен f33b832..c2ffb1c | commit c2ffb1c",
     "2026-10-03 | spec-059 | done - cleanup-blockers (paywall route, 4 dead actions, DUP4 сведён) | commit bdb21ba",
     "2026-10-03 | spec-059 | track: small при дифе Full (+197/−43), эскалация отклонена: write-скоупы Small не нарушены, раздутие от alerts.md | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending",
     "2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a",
     "2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392",
-    "2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99"
+    "2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99",
+    "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
+    "2026-10-03 | push | authorize push origin main — spec-060+061; публикует a92096a..HEAD | commit pending",
+    "2026-10-03 | push | выполнен a92096a..875cf33 | commit 875cf33"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "77fa116",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for spec-060+061",
+      "type": "chore"
+    },
+    {
+      "sha": "875cf33",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for spec-060+061 push",
+      "type": "chore"
+    },
+    {
+      "sha": "fbfbe40",
+      "date": "2026-10-03",
+      "subject": "test(spec-061): capture retention dashboard preview on 390x844",
+      "type": "test"
+    },
+    {
+      "sha": "e92a581",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-061 done",
+      "type": "chore"
+    },
     {
       "sha": "4bfe692",
       "date": "2026-10-03",
@@ -1321,30 +1345,6 @@
       "date": "2026-10-03",
       "subject": "chore(log): push done for spec-057+058",
       "type": "chore"
-    },
-    {
-      "sha": "c2ffb1c",
-      "date": "2026-10-03",
-      "subject": "chore(log): trail for spec-057+058 push",
-      "type": "chore"
-    },
-    {
-      "sha": "ac01432",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-057+058 done",
-      "type": "chore"
-    },
-    {
-      "sha": "ea321b7",
-      "date": "2026-10-03",
-      "subject": "chore(log): spec-057 + spec-058 closed",
-      "type": "chore"
-    },
-    {
-      "sha": "39ac191",
-      "date": "2026-10-03",
-      "subject": "docs(spec-058): done - analytics",
-      "type": "docs"
     }
   ],
   "roles": [
