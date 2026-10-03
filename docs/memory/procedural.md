@@ -46,4 +46,6 @@ Manual-файлы (`working.md` — не пишется sync; `alerts.md`/`proce
 2026-10-03 | Сессия — единственный технический признак субъекта (guard spec 049)
 env-флаг не изолирует воркеров (общий процесс). Guard push/close — через `DSH_SESSION_ID` vs `.project/.captain-session-id`. Переменная окружения живёт в общем процессе DSH-сессии и видна всем агентам (члены команды поднимаются как sub-agent'ы внутри той же сессии), поэтому она не различает «кто исполняет»; `DSH_SESSION_ID` платформа выдаёт каждому агенту свой, и только его сравнение с записанным значением капитанской сессии даёт изоляцию. Прецедент breach 048 (`.project/log.md` L234, `docs/archive/HANDOFF.md` §13b): worker t6 сам выполнил `git push origin main` и сам закрыл спеку. Настройка новой машины — `docs/SETUP.md` (Шаги 1–3). Правила 3, 11, 16.
 
-<!-- meta updated: 2026-10-02T08:00:50Z entries_count: 8 -->
+2026-10-03 | Trail-коммит перед push структурно открывает sync-drift — log.md входит в state.json.log_tail. Порядок «trail → push → sync → converge» штатный; требовать sync:check=0 ДО push после trail-коммита некорректно.
+
+<!-- meta updated: 2026-10-03T08:58:02Z entries_count: 9 -->
