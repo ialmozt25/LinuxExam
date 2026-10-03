@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "5e3fe2a940d681274a1d694a13f8fb8e8c34c0c0",
+  "head": "059b118801d8b3b0736d15b772207befa88f3c02",
   "specs": [
     {
       "id": "022",
@@ -1228,19 +1228,37 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-059 | track: small при дифе Full (+197/−43), эскалация отклонена: write-скоупы Small не нарушены, раздутие от alerts.md | commit pending",
-    "2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending",
-    "2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a",
     "2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392",
     "2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99",
     "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-060+061; публикует a92096a..HEAD | commit pending",
     "2026-10-03 | push | выполнен a92096a..875cf33 | commit 875cf33",
-    "2026-10-04 | spec-063 | done - paywall-content (3 Free / 11 Paid, 7-day trial, миграция v6→v7; оплата — spec 064) | commit 5e3fe2a"
+    "2026-10-04 | spec-063 | done - paywall-content (3 Free / 11 Paid, 7-day trial, миграция v6→v7; оплата — spec 064) | commit 5e3fe2a",
+    "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
+    "2026-10-04 | push | authorize push origin main — spec-063; публикует 875cf33..HEAD | commit pending",
+    "2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "059b118",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for spec-063",
+      "type": "chore"
+    },
+    {
+      "sha": "49cee68",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for spec-063 push",
+      "type": "chore"
+    },
+    {
+      "sha": "68684f6",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-063 done",
+      "type": "chore"
+    },
     {
       "sha": "e76e01b",
       "date": "2026-10-04",
@@ -1341,24 +1359,6 @@
       "sha": "07dfe48",
       "date": "2026-10-03",
       "subject": "chore(log): trail for spec-059 push + deviations",
-      "type": "chore"
-    },
-    {
-      "sha": "f94f3cf",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-059 done",
-      "type": "chore"
-    },
-    {
-      "sha": "4c0acdc",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-059 done",
-      "type": "chore"
-    },
-    {
-      "sha": "275a908",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-059",
       "type": "chore"
     }
   ],
