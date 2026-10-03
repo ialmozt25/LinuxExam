@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d48a3d9862bfd6cd29381dc70ed95d328694efeb",
+  "head": "94dcf9918d79c20ee85a075ced98c8716a582aeb",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "061",
+      "slug": "retention-ui",
+      "status": "approved",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": null,
+      "file": "specs/061-retention-ui.md",
+      "mtime": 1791032229638.25,
+      "goal": "Retention-зона на Dashboard: **streak badge + XP bar + daily goal picker**.",
+      "acceptance": "`src/domain/goal.ts` — чистые функции из К1, покрытые unit-тестами;",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": "Ordering-инвариант скриншота для приёмки: Dashboard, viewport 390×844, три"
     },
     {
       "id": "016",
@@ -1212,6 +1227,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "94dcf99",
+      "date": "2026-10-03",
+      "subject": "feat(spec-061): retention UI - streak badge, XP bar, daily goal",
+      "type": "feat"
+    },
+    {
+      "sha": "141b84d",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-060 done",
+      "type": "chore"
+    },
+    {
       "sha": "d48a3d9",
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-060 done",
@@ -1318,18 +1345,6 @@
       "date": "2026-10-03",
       "subject": "docs(spec-057): done - fix topic union",
       "type": "docs"
-    },
-    {
-      "sha": "c156af2",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-057 + spec-058",
-      "type": "chore"
-    },
-    {
-      "sha": "b7eae15",
-      "date": "2026-10-03",
-      "subject": "feat(spec-058): analytics - radar, readiness, weak topics",
-      "type": "feat"
     }
   ],
   "roles": [
