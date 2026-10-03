@@ -1,12 +1,12 @@
 ---
 id: 058
 slug: analytics
-status: approved
+status: done
 type: feature
 track: full
 created: 2026-10-03
 updated: 2026-10-03
-commit: null
+commit: b7eae15
 embedded_approve: rule 2 (F5.0a — задание капитана 2026-10-03, прямой путь, прецедент 054)
 execution: direct
 ---
@@ -176,3 +176,14 @@ npm run typecheck; npm run test:run; npm run test:e2e; npm run build
 4. `id: t4` `subject: src/presentation/screens/Analytics.tsx (radar по TOPICS.length, readiness, weak topics, тренд, пустое состояние)` `assignee: builder` `dependencies: [t3]`
 5. `id: t5` `subject: src/presentation/screens/Dashboard.tsx — кнопка analytics-mode` `assignee: builder` `dependencies: [t3]`
 6. `id: t6` `subject: e2e/analytics.spec.ts — пустой и частично заполненный store (значения, не геометрия)` `assignee: builder` `dependencies: [t4, t5]`
+
+## Решения (2026-10-03)
+
+- `lastAt?: string` в `TopicStat` (`src/domain/analytics.ts`): тренд без метки
+  времени не построить. Поле необязательное и структурно совместимо с
+  `QuestionStat` стора; записи без валидного `lastAt` окно тренда игнорирует,
+  `deltaPct = null` («нет базы»), когда предыдущая половина пуста.
+- `useAnalytics` живёт в `src/store/analytics.ts` (прецедент 054: новые файлы
+  рядом с доменом, а не раздувание `quizStore.ts`), вне `persist`: агрегат
+  выводится из уже персистируемых `questionStats` + банка, `partialize` не
+  расширен.
