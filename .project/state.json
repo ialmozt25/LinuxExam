@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "eac65e85ed9dbd93637ed41f3cc94233fcd50e5d",
+  "head": "0451f05f9a28e8c9720a1706d249fecb4390082b",
   "specs": [
     {
       "id": "022",
@@ -1108,19 +1108,25 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-051 | feat: autonomous spec chain (минимальный) — risk scoring задач плана (ACTION_RISK, пороги 50/80), auto-approve STOP A/B/D (score≥85 ∧ hard-fail 0; DAG valid ∧ max-risk<50; QC pass ∧ cosine<0.80 ∧ Haladyna 5/5), budget cap (--max-cost-usd/--soft-cap-usd/--cost-source, kill exit 3 + alerts.md), research-фаза (research-spec.mjs + Шаг 0.5); попутно исправлен латентный дефект run-spec.mjs: `\\b` после кириллицы глушил извлечение секций «## Цель» и «## Декомпозиция» (goals/tasks были пусты у всех спек); push не автоматизирован, spec остаётся approved до закрытия | commit pending",
-    "2026-10-03 | spec-051 | correction — spec переписана под собственный детерминированный гейт (validate-spec): добавлены секции «## Контекст» и «## Edge Cases», снята self-reference задачи t1 (спека больше не пишет сама в себя), убраны не-пути в бэктиках и placeholder-маркеры шаблонов, критерии снабжены verify-командами, commit заполнен реальным SHA; итог: 15P/0F/0W, score 85→90, hard-fail false, сирот traceability нет | commit pending",
-    "2026-10-03 | spec-051 | fix — `resolveSpec` в run-spec.mjs не прокидывал задачи «## Декомпозиции» в объект спеки, из-за чего риск-скоринг видел пустой план (задач 0) и STOP B не мог стать auto; после фикса dry-run даёт задач 4, max-risk 30, DAG valid, `auto-approve STOP B \\| DAG valid \\| max-risk:30` | commit pending",
     "2026-10-03 | guard | якорь .captain-session-id перезаписан на session-3c6654b1-… (смена капитанской сессии, SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-051 close; публикует 8838183..<trail-tip> (2484748, 9459d17, b7c4104 + trail) | commit pending",
     "2026-10-03 | guard | якорь перезаписан на session-7c132b50-… (SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> | commit pending",
     "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> (ce0f72c, 1fd5700 + trail) | commit pending",
     "2026-10-03 | debt | spec-050-batch7-essential-tools в корне .agent-teams (EPERM host PID 1500); MAS не блокирует (failed), архивация отложена до перезапуска Windows | commit pending",
-    "2026-10-03 | lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | commit pending"
+    "2026-10-03 | lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | commit pending",
+    "2026-10-03 | debt | spec-052-fsrs-lite не архивирован: archive-team.mjs exit 3 (EPERM, 34 попытки/60 с и 64/120 с, дескриптор на team.json); команда брошена nested-капитаном (session-c2ec0af1-…) в phase=staged, planReviewState=awaiting_review — approve некому выдать; архивация отложена до перезапуска Windows, MAS-прогон не блокирует | commit pending",
+    "2026-10-03 | spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | commit pending",
+    "2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0451f05",
+      "date": "2026-10-03",
+      "subject": "fix(spec-053): narrow migrate pattern in risk scoring",
+      "type": "fix"
+    },
     {
       "sha": "eac65e8",
       "date": "2026-10-03",
@@ -1233,12 +1239,6 @@
       "sha": "610872c",
       "date": "2026-10-03",
       "subject": "chore(spec-049): trail for push + alerts ghost 4eecdc9",
-      "type": "chore"
-    },
-    {
-      "sha": "98bc700",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-049 done",
       "type": "chore"
     }
   ],

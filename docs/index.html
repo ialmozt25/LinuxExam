@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на eac65e8</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 0451f05</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -434,6 +434,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">0451f05</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(spec-053): narrow migrate pattern in risk scoring</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
           <td class="mono">eac65e8</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-052): fsrs-lite (feature, approved, hard-fail resolved)</td>
@@ -547,12 +553,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(spec-049): trail for push + alerts ghost 4eecdc9</td>
           <td class="mono muted">2026-10-03</td>
         </tr>
-        <tr>
-          <td class="mono">98bc700</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-049 done</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -578,7 +578,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">114 ч (~4.8 дн)</td>
+          <td class="muted">115 ч (~4.8 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -609,11 +609,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">03.10</span> · guard | якорь перезаписан на session-7c132b50-… (SETUP §4) | ещё не закоммичено</li>
-        <li><span class="mono muted">03.10</span> · push | authorize push origin main — e2e app coverage; публикует 2960a05..&lt;trail-tip&gt; | ещё не закоммичено</li>
-        <li><span class="mono muted">03.10</span> · push | authorize push origin main — e2e app coverage; публикует 2960a05..&lt;trail-tip&gt; (ce0f72c, 1fd5700 + trail) | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · debt | spec-050-batch7-essential-tools в корне .agent-teams (EPERM host PID 1500); MAS не блокирует (failed), архивация отложена до перезапуска Windows | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | ещё не закоммичено</li>
+        <li><span class="mono muted">03.10</span> · debt | spec-052-fsrs-lite не архивирован: archive-team.mjs exit 3 (EPERM, 34 попытки/60 с и 64/120 с, дескриптор на team.json); команда брошена nested-капитаном (session-c2ec0af1-…) в phase=staged…</li>
+        <li><span class="mono muted">03.10</span> · spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | ещё не закоммичено</li>
+        <li><span class="mono muted">03.10</span> · spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -906,7 +906,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <section class="agents" id="agents">
 <!--volatile:start-->
     <h2>Пульс агентов</h2>
-    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 2</div>
+    <div class="muted">Источник: <code>.agent-teams/*/team.json</code> · команд: 3</div>
         <div class="entry">
           <div class="entry__title">archive · <span class="muted">нечитаем</span></div>
         </div>
@@ -915,17 +915,22 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__body muted">агенты: writer-a (·) · qc-a (·) · writer-b (·) · builder (·)</div>
           <div class="entry__body muted">задачи: t1 ✓ · t2 ✓ · t3 ✓ · t4 ✗ · t5 ○</div>
         </div>
+        <div class="entry">
+          <div class="entry__title">spec-052-fsrs-lite · <span class="chip chip--staged">staged</span> <span class="muted">— ожидает approve</span></div>
+          <div class="entry__body muted">агенты: builder (·) · e2e-builder (·) · verifier (·) · reviewer (·)</div>
+          <div class="entry__body muted">задачи: t1 ○ · t2 ○ · t3 ○ · t4 ○ · t5 ○ · t6 ○</div>
+        </div>
 <!--volatile:end-->
   </section>
 
   <details class="collapsible mas-run" id="mas-run">
-    <summary>Последний MAS-прогон · записей: 18</summary>
-    <div class="muted">Источник: <code>.project/mas-runs.json</code> · последняя: <span class="mono">01.10</span></div>
+    <summary>Последний MAS-прогон · записей: 19</summary>
+    <div class="muted">Источник: <code>.project/mas-runs.json</code> · последняя: <span class="mono">03.10</span></div>
     <div class="entry">
-      <div class="entry__title">спека <span class="mono">040</span> · статус <span class="mono">completed</span> · вердикт <span class="chip chip--done">pass</span></div>
-      <div class="entry__body muted">длительность: <span class="mono">1 ч 13 мин</span> <span class="mono">(4409453 мс)</span> · токены: <span class="mono">—</span></div>
-      <div class="entry__body muted">команда: <span class="mono">spec-040-spec-chain</span> · начало: <span class="mono">01.10</span></div>
-      <div class="entry__body muted">задачи: completed 10 · failed 1</div>
+      <div class="entry__title">спека <span class="mono">052</span> · статус <span class="mono">ok</span> · вердикт <span class="muted">—</span></div>
+      <div class="entry__body muted">длительность: <span class="mono">—</span> · токены: <span class="mono">—</span></div>
+      <div class="entry__body muted">команда: <span class="mono">—</span> · начало: <span class="mono">03.10</span></div>
+      <div class="entry__body muted">задачи: —</div>
     </div>
   </details>
 

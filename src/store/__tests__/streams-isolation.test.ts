@@ -51,6 +51,7 @@ function resetStore() {
     questions: mockQuestions,
     answers: [],
     reviewAnswers: [],
+    reviewKind: null,
     examAnswers: [],
     wrongQuestionIds: [],
     reviewQuestionIds: null,
@@ -68,6 +69,10 @@ function resetStore() {
     streak: 0,
     lastActiveDate: null,
     totalXp: 0,
+    // Статистика и расписание тоже относятся к профилю: без сброса они текут
+    // между кейсами (attempts накапливаются в одном и том же qid).
+    questionStats: {},
+    scheduledReviews: {},
   });
 }
 
@@ -131,5 +136,71 @@ describe('answerReview updates wrongQuestionIds (unified rule)', () => {
     const before = useQuizStore.getState().wrongQuestionIds;
     useQuizStore.getState().answerReview('q1', 1);
     expect(useQuizStore.getState().wrongQuestionIds).toBe(before);
+  });
+});
+
+describe('FSRS-lite: расписание пишет только прогон «Повторить сегодня»', () => {
+  // Свежее состояние перед каждым кейсом: и реестр расписания, и review-стрим
+  // сбрасываются, чтобы кейсы не делили между собой профиль.
+  beforeEach(() => {
+    if (typeof localStorage !== 'undefined') localStorage.clear();
+    resetStore();
+    useQuizStore.setState({ scheduledReviews: {} });
+  });
+  afterEach(() => {
+    if (typeof localStorage !== 'undefined') localStorage.clear();
+  });
+
+  it('после ответа в прогоне сегодня N уменьшается на 1, next уходит в будущее', () => {
+    const before = Date.now();
+    useQuizStore.getState().startReviewQuiz(['q1', 'q2'], 'today');
+    // Записей нет ни у одного вопроса банка → «пора сейчас» все три.
+    expect(useQuizStore.getState().getTodayReviewIds()).toEqual(['q1', 'q2', 'q3']);
+
+    useQuizStore.getState().answerReview('q1', 0); // 0 = правильный вариант
+
+    const record = useQuizStore.getState().scheduledReviews.q1;
+    expect(record).toBeDefined();
+    expect(record.next).toBeGreaterThanOrEqual(before); // вопрос вышел из N
+    expect(record.stability).toBe(1.5); // Good → stability × 1.5
+    expect(useQuizStore.getState().getTodayReviewIds()).toEqual(['q2', 'q3']);
+    // Ответ при этом остался в review-стриме и ушёл в статистику.
+    expect(useQuizStore.getState().reviewAnswers).toHaveLength(1);
+    expect(useQuizStore.getState().questionStats.q1.attempts).toBe(1);
+  });
+
+  it('неверный ответ опускает stability и тоже выводит вопрос из N', () => {
+    const before = Date.now();
+    useQuizStore.setState({ scheduledReviews: {} });
+    useQuizStore.setState({ questions: [mockQuestions[0]] });
+    useQuizStore.getState().startReviewQuiz(['q1'], 'today');
+    expect(useQuizStore.getState().getTodayReviewIds()).toEqual(['q1']);
+
+    useQuizStore.getState().answerReview('q1', 1); // 1 = неверный вариант
+
+    const record = useQuizStore.getState().scheduledReviews.q1;
+    expect(record.stability).toBe(0.5); // Again → stability × 0.5
+    expect(record.difficulty).toBeCloseTo(0.4, 10); // 0.3 + 0.10
+    expect(record.next).toBeGreaterThan(before);
+    expect(useQuizStore.getState().getTodayReviewIds()).toEqual([]);
+  });
+
+  it('обычный прогон ошибок и регулярный поток расписание не трогают', () => {
+    // kind не передан → это «Повторить ошибки», расписание не пишется.
+    useQuizStore.setState({ wrongQuestionIds: ['q1'] });
+    useQuizStore.getState().startReviewQuiz(['q1']);
+    useQuizStore.getState().answerReview('q1', 0);
+    expect(useQuizStore.getState().scheduledReviews).toEqual({});
+
+    // Регулярный поток и экзамен — тоже. currentIndex=1 → это q2, чтобы ответ
+    // прошёл гейт canAccessQuestion (FREE_QUESTION_LIMIT).
+    useQuizStore.getState().startRegularQuiz();
+    useQuizStore.setState({ currentIndex: 1 });
+    useQuizStore.getState().answerQuestion('q2', 0);
+    useQuizStore.getState().startExam(1, 60000);
+    useQuizStore.getState().answerExam('q2', 0);
+    expect(useQuizStore.getState().scheduledReviews).toEqual({});
+    // …и N по-прежнему равен размеру банка: записей нет = «пора сейчас».
+    expect(useQuizStore.getState().getTodayReviewIds()).toHaveLength(mockQuestions.length);
   });
 });

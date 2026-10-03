@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { Flame, MoonStar, Sun } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
@@ -34,6 +34,26 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const startTopicQuiz = useQuizStore((s) => s.startTopicQuiz);
   const wrongQuestionIds = useQuizStore((s) => s.wrongQuestionIds);
   const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
+
+  // FSRS-lite (spec 052): нагрузка для кнопки «Повторить сегодня (N)».
+  // Банк отдаёт store асинхронно (per-topic chunks), поэтому N пересчитывается
+  // на каждый его приход — до загрузки банка review-today просто не показывается.
+  const bankIds = useQuizStore(useShallow((s) => s.questions.map((question) => question.id)));
+  const scheduledReviews = useQuizStore((s) => s.scheduledReviews);
+  const ensureReviewsInitialized = useQuizStore((s) => s.ensureReviewsInitialized);
+  const getTodayReviewIds = useQuizStore((s) => s.getTodayReviewIds);
+
+  const reviewIds = useMemo(
+    () => getTodayReviewIds(),
+    [getTodayReviewIds, scheduledReviews, bankIds],
+  );
+  const N = reviewIds.length;
+
+  // Реестр расписания до-наполняется «пора сейчас» ровно один раз на банк:
+  // экшен идемпотентен и возвращает тот же объект, когда заполнять нечего.
+  useEffect(() => {
+    ensureReviewsInitialized(bankIds);
+  }, [ensureReviewsInitialized, bankIds]);
 
   // CRITICAL: useShallow with PRIMITIVES ONLY.
   // getProgress() returns a new object each call. useShallow on the full
@@ -208,6 +228,38 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           />
         </div>
       </div>
+
+      {/* «Повторить сегодня (N)» — FSRS-lite (spec 052). Скрыта при N = 0.
+          Прогон идёт review-стримом, поэтому бесплатный лимит не расходуется. */}
+      {N > 0 && (
+        <button
+          type="button"
+          data-testid="review-today"
+          onClick={() => startReviewQuiz(reviewIds, 'today')}
+          style={{
+            width: '100%',
+            padding: 'var(--space-3)',
+            marginTop: 'var(--space-4)',
+            background: 'var(--accent)',
+            border: 'none',
+            borderRadius: 'var(--radius-md)',
+            color: 'var(--text-primary)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            textAlign: 'left',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <span>{`Повторить сегодня (${N})`}</span>
+          <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>
+            {`${N} вопр.`}
+          </span>
+        </button>
+      )}
 
       {/* «Повторить ошибки» — resumed from the regular stream's wrong answers */}
       {wrongQuestionIds.length > 0 && (

@@ -250,3 +250,6 @@
 2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> (ce0f72c, 1fd5700 + trail) | commit pending
 2026-10-03 | debt | spec-050-batch7-essential-tools в корне .agent-teams (EPERM host PID 1500); MAS не блокирует (failed), архивация отложена до перезапуска Windows | commit pending
 2026-10-03 | lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | commit pending
+2026-10-03 | debt | spec-052-fsrs-lite не архивирован: archive-team.mjs exit 3 (EPERM, 34 попытки/60 с и 64/120 с, дескриптор на team.json); команда брошена nested-капитаном (session-c2ec0af1-…) в phase=staged, planReviewState=awaiting_review — approve некому выдать; архивация отложена до перезапуска Windows, MAS-прогон не блокирует | commit pending
+2026-10-03 | spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | commit pending
+2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending

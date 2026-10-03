@@ -5,6 +5,12 @@ import { AnswerRecord } from '@/data/models/AnswerRecord';
 import { QuestionRepository } from '@/data/repositories/QuestionRepository';
 import { filterByTopic, getCurrentQuestion } from '@/domain/selectors';
 import { calculateProgress, ProgressMetrics } from '@/domain/quizService';
+import {
+  ensureRecords,
+  pickToday,
+  scheduleReview,
+  type ReviewRecord,
+} from '@/domain/fsrs';
 
 /**
  * TODO(payments): Replace mock unlockPro with real Stripe / Telegram Stars provider.
@@ -16,6 +22,13 @@ import { calculateProgress, ProgressMetrics } from '@/domain/quizService';
 export const FREE_QUESTION_LIMIT = 5;
 
 export type Screen = 'dashboard' | 'question' | 'results';
+
+/**
+ * Вид review-прогона. `'today'` — FSRS-lite («Повторить сегодня (N)»): ответы
+ * пересчитывают расписание повторений. `null` — обычный прогон ошибок, темы и
+ * регулярный поток: расписание они не трогают.
+ */
+export type ReviewKind = 'today' | null;
 
 /** Local per-question statistics. Persisted with the rest of the progress. */
 export interface QuestionStat {
@@ -49,9 +62,17 @@ interface QuizState {
   // answerQuestion / answerReview / answerExam.
   questionStats: Record<string, QuestionStat>;
 
+  // FSRS-lite: реестр расписания повторений по qid (spec 052). Отсутствие записи
+  // трактуется как «пора сейчас», поэтому пустой реестр на свежем профиле даёт
+  // N = размер банка. Пишет реестр только review-прогон (answerAndReschedule).
+  scheduledReviews: Record<string, ReviewRecord>;
+
   // REVIEW stream — fully isolated from 'answers'
   reviewQuestionIds: string[] | null;
   reviewAnswers: AnswerRecord[];
+  // Только для review-прогонов; session-only (в partialize не попадает), потому
+  // что после reload прогон всегда начинается заново с Dashboard.
+  reviewKind: ReviewKind;
 
   // Resume support
   isQuizInProgress: boolean;
@@ -97,8 +118,26 @@ interface QuizState {
   getProgress: () => ProgressMetrics;
   getActiveQuestions: () => Question[];
   resumeQuiz: () => void;
-  startReviewQuiz: (ids: string[]) => void;
+  /**
+   * Стартует review-прогон. `kind = 'today'` помечает FSRS-lite-прогон, в
+   * котором каждый ответ пересчитывает расписание повторений (spec 052);
+   * без kind это обычный прогон ошибок или темы.
+   */
+  startReviewQuiz: (ids: string[], kind?: ReviewKind) => void;
   answerReview: (questionId: string, selectedIndex: number) => void;
+  /**
+   * «Повторить сегодня»: ответ в review-стриме + пересчёт расписания FSRS-lite.
+   * Записывает ответ через `answerReview` (поэтому бесплатный лимит обычного
+   * потока не расходуется) и сохраняет запись расписания для этого qid.
+   *
+   * `isCorrect` — ожидание вызывающего: если оно расходится с реально
+   * записанным ответом, расписание не трогается, чтобы не разойтись с историей.
+   */
+  answerAndReschedule: (questionId: string, isCorrect: boolean, selectedIndex: number) => void;
+  /** qid, которые пора повторить: нет записи или next <= now. */
+  getTodayReviewIds: () => string[];
+  /** Заполняет отсутствующие записи расписания «пора сейчас» (идемпотентно). */
+  ensureReviewsInitialized: (bankIds: readonly string[]) => void;
   startRegularQuiz: () => void;
   startTopicQuiz: (topic: string) => void;
   startExam: (count: number, durationMs: number) => void;
@@ -159,8 +198,10 @@ export const useQuizStore = create<QuizState>()(
       totalXp: 0,
       wrongQuestionIds: [],
       questionStats: {},
+      scheduledReviews: {},
       reviewQuestionIds: null,
       reviewAnswers: [],
+      reviewKind: null,
       isQuizInProgress: false,
       activeTopic: null,
       examActive: false,
@@ -212,6 +253,7 @@ export const useQuizStore = create<QuizState>()(
         set({
           reviewQuestionIds: null,
           reviewAnswers: [],
+          reviewKind: null,
           currentIndex: 0,
           activeTopic: null,
           // Drop any previous exam summary so Results cannot show a stale one.
@@ -233,6 +275,7 @@ export const useQuizStore = create<QuizState>()(
         set({
           reviewQuestionIds: shuffled.map((q) => q.id),
           reviewAnswers: [],
+          reviewKind: null,
           currentIndex: 0,
           isQuizInProgress: true,
           currentScreen: 'question',
@@ -361,6 +404,10 @@ export const useQuizStore = create<QuizState>()(
           wrongQuestionIds: [],
           reviewQuestionIds: null,
           reviewAnswers: [],
+          reviewKind: null,
+          // Расписание повторений — часть прогресса: после полного сброса
+          // отсутствие записей означает «пора сейчас», то есть N = размер банка.
+          scheduledReviews: {},
           activeTopic: null,
           // Exam mode is part of "progress" too: a stale examActive/examStartedAt
           // would resurface an exam gate (and finishExam would compute its
@@ -412,10 +459,11 @@ export const useQuizStore = create<QuizState>()(
 
       resumeQuiz: () => set({ currentScreen: 'question' }),
 
-      startReviewQuiz: (ids) =>
+      startReviewQuiz: (ids, kind = null) =>
         set({
           reviewQuestionIds: ids,
           reviewAnswers: [],
+          reviewKind: kind,
           currentIndex: 0,
           isQuizInProgress: true,
           currentScreen: 'question',
@@ -427,6 +475,12 @@ export const useQuizStore = create<QuizState>()(
       // REVIEW stream. Deliberately bypasses canAccessQuestion: review is a
       // post-hoc study mode, not new question consumption.
       answerReview: (questionId, selectedIndex) => {
+        // FSRS-lite: в прогоне «Повторить сегодня» ответ дополнительно
+        // пересчитывает расписание. Обе ветки пишут ответ одним и тем же кодом
+        // НИЖЕ — делегирование обратно в answerReview дало бы бесконечную
+        // рекурсию (answerReview → answerAndReschedule → answerReview).
+        const reschedule = get().reviewKind === 'today';
+
         const { questions, reviewAnswers, wrongQuestionIds } = get();
         const question = questions.find((q) => q.id === questionId);
         if (!question) return;
@@ -463,6 +517,52 @@ export const useQuizStore = create<QuizState>()(
 
         set(update);
         get().recordQuestionStat(questionId, isCorrect);
+
+        if (reschedule) {
+          get().answerAndReschedule(questionId, isCorrect, selectedIndex);
+        }
+      },
+
+      // REVIEW-ТОДЕЙ. Ответ записывается через общую с answerReview ветку
+      // (store сам решает, когда её вызывать), а здесь пересчитывается ТОЛЬКО
+      // расписание — поэтому вызов идёт напрямую, без повторной записи ответа:
+      // (1) прогон повторения не расходует бесплатный лимит обычного потока;
+      // (2) при отсутствии записи (вопроса нет в банке, вариант вне диапазона,
+      // вопрос уже отвечен) расписание не меняется;
+      // (3) `isCorrect` — ожидание вызывающего; истина берётся из записанного
+      // ответа, потому что Question.tsx передаёт индекс ВИЗУАЛЬНОГО порядка.
+      answerAndReschedule: (questionId, isCorrect, selectedIndex) => {
+        const answered = get().reviewAnswers.find((a) => a.questionId === questionId);
+        // Ответ не записан → расписание не трогаем.
+        if (!answered) return;
+        // Ожидание вызывающего расходится с записанным ответом → не угадываем.
+        if (answered.isCorrect !== isCorrect) return;
+        if (selectedIndex < 0) return;
+
+        const { scheduledReviews } = get();
+        const current = scheduledReviews[questionId] ?? null;
+        const record = scheduleReview(current, isCorrect ? 'Good' : 'Again', Date.now());
+        set({
+          scheduledReviews: { ...scheduledReviews, [questionId]: record },
+        });
+      },
+
+      // FSRS-lite: «пора сейчас» = записи нет ИЛИ next <= now (spec 052).
+      // Считается по загруженному банку, поэтому чужие и удалённые qid в N не
+      // попадают, а до загрузки банка N = 0.
+      getTodayReviewIds: () => pickToday(get().scheduledReviews, get().questions, Date.now()),
+
+      // Миграция v3→v4 создаёт ПУСТОЙ реестр: банк на момент migrate ещё не
+      // загружен, а отсутствие записи само по себе означает «пора сейчас».
+      // Поэтому наполнение идёт здесь, когда банк уже в состоянии.
+      ensureReviewsInitialized: (bankIds) => {
+        if (bankIds.length === 0) return;
+        const { scheduledReviews } = get();
+        const next = ensureRecords(scheduledReviews, bankIds, Date.now());
+        // Тот же объект = ничего не изменилось: без этого эффект в Dashboard
+        // зациклился бы на собственном set().
+        if (next === scheduledReviews) return;
+        set({ scheduledReviews: next });
       },
 
       // EXAM stream. Fully isolated from answers and reviewAnswers.
@@ -484,6 +584,7 @@ export const useQuizStore = create<QuizState>()(
           currentIndex: 0,
           currentScreen: 'question',
           activeTopic: null,
+          reviewKind: null,
         });
       },
 
@@ -554,6 +655,9 @@ export const useQuizStore = create<QuizState>()(
         // zustand shallow-merges persisted state over initialState, so states
         // written before this field existed simply receive questionStats: {}.
         questionStats: state.questionStats,
+        // FSRS-lite: расписание переживает reload — иначе N снова стал бы равен
+        // размеру банка после каждой перезагрузки (spec 052, Компонент 2).
+        scheduledReviews: state.scheduledReviews,
         reviewQuestionIds: state.reviewQuestionIds,
         reviewAnswers: state.reviewAnswers,
         isQuizInProgress: state.isQuizInProgress,
@@ -564,7 +668,7 @@ export const useQuizStore = create<QuizState>()(
         examAnswers: state.examAnswers,
         // examLastResult is deliberately NOT persisted - session state only.
       }),
-      version: 3,
+      version: 4,
       migrate: (persistedState, version) => {
         let s = persistedState as Partial<QuizState>;
         if (version < 2) {
@@ -578,6 +682,17 @@ export const useQuizStore = create<QuizState>()(
         }
         // v2 → v3: answers мигрируются отложенно, после загрузки банка
         // (см. normalizeAnswersAgainstBank). Здесь банк пуст — трогать нельзя.
+        if (version < 4) {
+          // v3 → v4: реестр расписания создаётся ПУСТЫМ. Наполнять его в migrate
+          // нельзя (банк ещё не загружен), и не нужно: отсутствие записи само по
+          // себе означает «пора сейчас», поэтому первый запуск даёт N = банк.
+          // Остальные поля сохраняются как есть. Функция чистая, поэтому
+          // повторный вызов на состоянии v4 — no-op без дублей.
+          s = {
+            ...s,
+            scheduledReviews: {},
+          } as Partial<QuizState>;
+        }
         return s;
       },
     }

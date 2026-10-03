@@ -16,6 +16,7 @@ import {
   blockAnalytics,
   TOPIC_QUESTIONS,
   TESTID,
+  PERSIST_VERSION,
 } from './fixtures';
 import type { BankQuestion } from './fixtures';
 
@@ -24,7 +25,7 @@ import type { BankQuestion } from './fixtures';
  * `.project/drafts/app-map.md` §6.
  *
  * Two contracts are checked side by side: what the store WROTE into
- * `rhcsa_progress` (version 3), and what a reload restores from it. `currentScreen`
+ * `rhcsa_progress` (version 4 since spec 052), and what a reload restores from it. `currentScreen`
  * is deliberately not persisted, so a reload always boots on the dashboard.
  */
 
@@ -54,7 +55,7 @@ test.describe('persist — обычный прогон', () => {
     await gotoApp(page);
 
     const stored = await readPersisted(page);
-    expect(stored?.version).toBe(3);
+    expect(stored?.version).toBe(PERSIST_VERSION);
     expect(stored?.state.answers).toHaveLength(4);
     expect(stored?.state.currentIndex).toBe(4);
     expect(stored?.state.isQuizInProgress).toBe(true);
@@ -130,6 +131,7 @@ test.describe('persist — частичная запись состояния', 
       'questionStats',
       'reviewAnswers',
       'reviewQuestionIds',
+      'scheduledReviews',
       'streak',
       'totalXp',
       'wrongQuestionIds',

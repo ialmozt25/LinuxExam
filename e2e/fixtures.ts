@@ -146,6 +146,8 @@ export interface PersistedQuizState {
   totalXp: number;
   wrongQuestionIds: string[];
   questionStats: Record<string, unknown>;
+  /** FSRS-lite: реестр расписания повторений, ключ — qid (spec 052). */
+  scheduledReviews: Record<string, { next: number; stability: number; difficulty: number }>;
   reviewQuestionIds: string[] | null;
   reviewAnswers: unknown[];
   isQuizInProgress: boolean;
@@ -167,6 +169,7 @@ export function emptyPersistedState(): PersistedQuizState {
     totalXp: 0,
     wrongQuestionIds: [],
     questionStats: {},
+    scheduledReviews: {},
     reviewQuestionIds: null,
     reviewAnswers: [],
     isQuizInProgress: false,
@@ -202,7 +205,8 @@ export async function seedState(
 }
 
 export const PERSIST_KEY = 'rhcsa_progress';
-export const PERSIST_VERSION = 3;
+/** Current persist version: 4 с spec 052 (FSRS-lite добавил scheduledReviews). */
+export const PERSIST_VERSION = 4;
 
 /** Reads the persisted envelope back out of the page. */
 export async function readPersisted(
@@ -275,6 +279,7 @@ export const TESTID = {
   dashboardProgress: 'dashboard-progress',
   dashboardSubtitle: 'dashboard-subtitle',
   reviewWrong: 'review-wrong',
+  reviewToday: 'review-today',
   resumeBanner: 'resume-banner',
   resumePosition: 'resume-position',
   resumeButton: 'resume-button',

@@ -117,7 +117,7 @@ test.describe('повторение ошибок', () => {
     await gotoApp(page);
 
     const stored = await readPersisted(page);
-    expect(stored?.version).toBe(3);
+    expect(stored?.version).toBe(4);
     const answers = stored?.state.answers as unknown[];
     expect(answers).toHaveLength(1);
     expect(answers[0]).toEqual(record);
