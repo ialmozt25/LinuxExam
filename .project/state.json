@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "88381836053c746fbe134b78de96a95ab5a6ced2",
+  "head": "2484748af7280543008ed14739fae4fb2b6ca275",
   "specs": [
     {
       "id": "022",
@@ -468,11 +468,11 @@
       "type": "infra",
       "created": "2026-10-03",
       "updated": "2026-10-03",
-      "commit": "pending",
+      "commit": "2484748",
       "file": "specs/051-autonomous-spec-chain.md",
-      "mtime": 1790989215049.7036,
-      "goal": "1. Снять STOP-точки A, B и D при выполнении технических pass-условий: риск задачи ниже порога, enrich прошёл с score ≥ 85 и нулём hard-fail, QC = pass с cosine < 0.80 и Haladyna 5/5.",
-      "acceptance": "1. `run-spec.mjs` содержит `ACTION_RISK`, `AUTO_THRESHOLD = 50`, `HUMAN_THRESHOLD = 80`; каждая задача `plan.tasks[]` имеет `risk_score`, а план — `maxRiskScore` и `riskDecision`.",
+      "mtime": 1790989541274.2417,
+      "goal": "1. Снять STOP-точки A, B и D при выполнении технических pass-условий: риск задачи ниже порога, enrich прошёл с score ≥ 85% и нулём hard-fail, QC = pass с cosine < 0.80 и Haladyna 5/5.",
+      "acceptance": "1. `.project/scripts/run-spec.mjs` содержит ACTION_RISK, AUTO_THRESHOLD = 50 и HUMAN_THRESHOLD = 80; каждая задача плана получает risk_score (максимум по actions), план — maxRiskScore и riskDecision; проверка: `node .project/scripts/run-spec.mjs 051 --dry-run` печатает блок «риск-скоринг» со списком задач и STOP B-вердиктом.",
       "noTouch": "`src/data/**`, банк вопросов, `tools/**` — вне области спеки.",
       "preview": ""
     },
@@ -1078,7 +1078,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-02 | breach | несанкционированный push spec-048: worker t6 выполнил git push origin main (d1a9f9c..f08f8f4, 7 коммитов) без авторизации — вопреки прямому указанию капитана «Push не делать» и правилам 10/11; дополнительно самовольно закрыл спеку (npm run spec:close -- 048) против правила «t6 failed → STOP» и правил docs/memory/alerts.md + docs/memory/procedural.md вне write-скоупов прогона. Откат не выполняется (правило 8, no history rewrite). Записи breach: .project/DECISIONS.md «2026-10-02 · spec 048 — breach», docs/archive/HANDOFF.md §13b | commit pending",
     "2026-10-02 | push | authorize push origin main — breach-запись spec 048; публикует f7b2987 + этот trail-коммит | commit pending",
     "2026-10-03 | spec-049 | done - 1. Фикстуры динамические (нет литеральных списков id и удалённого fp_002) | commit 0e3f1f4",
     "2026-10-03 | push | authorize push origin main — spec-049 close; публикует 853ec5e..98bc700 (0e3f1f4, c589a51, f93e055, 98bc700 + trail); авторизация — команда капитана «Push authorized (rule 10). git push origin main» | commit pending",
@@ -1087,10 +1086,17 @@
     "2026-10-03 | per_topic_target | overflow 25 > 22 (тема essential_tools, spec 050) принят — per_topic_target остаётся 22 (прецедент spec 043) | commit pending",
     "2026-10-03 | spec-050 | done - batch 7 - feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-050 close; публикует 610872c..1ed8515 (9 коммитов: 673827a, 2e54f96, 506f774, be992c1, e620cd2, 76cb148, 801f4df, 1ed8515 + trail); авторизация — команда капитана «Push authorized (rule 10). git push origin main» | commit pending",
-    "2026-10-03 | spec-051 | feat: autonomous spec chain (минимальный) — risk scoring задач плана (ACTION_RISK, пороги 50/80), auto-approve STOP A/B/D (score≥85 ∧ hard-fail 0; DAG valid ∧ max-risk<50; QC pass ∧ cosine<0.80 ∧ Haladyna 5/5), budget cap (--max-cost-usd/--soft-cap-usd/--cost-source, kill exit 3 + alerts.md), research-фаза (research-spec.mjs + Шаг 0.5); попутно исправлен латентный дефект run-spec.mjs: `\\b` после кириллицы глушил извлечение секций «## Цель» и «## Декомпозиция» (goals/tasks были пусты у всех спек); push не автоматизирован, spec остаётся approved до закрытия | commit pending"
+    "2026-10-03 | spec-051 | feat: autonomous spec chain (минимальный) — risk scoring задач плана (ACTION_RISK, пороги 50/80), auto-approve STOP A/B/D (score≥85 ∧ hard-fail 0; DAG valid ∧ max-risk<50; QC pass ∧ cosine<0.80 ∧ Haladyna 5/5), budget cap (--max-cost-usd/--soft-cap-usd/--cost-source, kill exit 3 + alerts.md), research-фаза (research-spec.mjs + Шаг 0.5); попутно исправлен латентный дефект run-spec.mjs: `\\b` после кириллицы глушил извлечение секций «## Цель» и «## Декомпозиция» (goals/tasks были пусты у всех спек); push не автоматизирован, spec остаётся approved до закрытия | commit pending",
+    "2026-10-03 | spec-051 | correction — spec переписана под собственный детерминированный гейт (validate-spec): добавлены секции «## Контекст» и «## Edge Cases», снята self-reference задачи t1 (спека больше не пишет сама в себя), убраны не-пути в бэктиках и placeholder-маркеры шаблонов, критерии снабжены verify-командами, commit заполнен реальным SHA; итог: 15P/0F/0W, score 85→90, hard-fail false, сирот traceability нет | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "2484748",
+      "date": "2026-10-03",
+      "subject": "feat(spec-051): autonomous spec chain (risk scoring + auto-approve A/B/D + budget + research)",
+      "type": "feat"
+    },
     {
       "sha": "8838183",
       "date": "2026-10-03",
@@ -1204,12 +1210,6 @@
       "date": "2026-10-02",
       "subject": "docs(spec-048): fixate - Playwright gate only for feature/ui; e2e fixture drift as spec 049 candidate",
       "type": "docs"
-    },
-    {
-      "sha": "21f0576",
-      "date": "2026-10-02",
-      "subject": "chore(state): converge after spec-048 done",
-      "type": "chore"
     }
   ],
   "roles": [
