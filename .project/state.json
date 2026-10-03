@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "4c0acdcf47b976b43b1bb41b778360c4a5261253",
+  "head": "74e435cef3871e870e40ccdb687e209f59fc89f6",
   "specs": [
     {
       "id": "022",
@@ -1115,11 +1115,11 @@
       "updated": "2026-10-03",
       "commit": "bdb21ba",
       "file": "specs/059-cleanup-blockers.md",
-      "mtime": 1791024900061.1968,
+      "mtime": 1791026378858.3806,
       "goal": "Устранить именно эти три проблемы из audit §1/§7: (а) `Paywall` получает",
       "acceptance": "1. `'paywall'` входит в `Screen` (`quizStore.ts`); `App.tsx` содержит",
       "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
-      "preview": "Дифф затрагивает: `src/store/quizStore.ts` (Screen union − 4 экшена),"
+      "preview": "Дифф затрагивает: `src/store/quizStore.ts` (Screen union +`'paywall'` − 4 экшена),"
     },
     {
       "id": "003",
@@ -1183,19 +1183,43 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending",
-    "2026-10-03 | push | выполнен c4cb9b3..dcd8150 | commit 0d51a19",
-    "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19",
-    "2026-10-03 | push | authorize push origin main — convergence after spec-054+056; публикует dcd8150..<trail-SHA> | commit pending",
     "2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832",
     "2026-10-03 | spec-057 | done - fix Topic union | commit 8896618",
     "2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15",
     "2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending",
     "2026-10-03 | push | выполнен f33b832..c2ffb1c | commit c2ffb1c",
-    "2026-10-03 | spec-059 | done - cleanup-blockers (paywall route, 4 dead actions, DUP4 сведён) | commit bdb21ba"
+    "2026-10-03 | spec-059 | done - cleanup-blockers (paywall route, 4 dead actions, DUP4 сведён) | commit bdb21ba",
+    "2026-10-03 | spec-059 | track: small при дифе Full (+197/−43), эскалация отклонена: write-скоупы Small не нарушены, раздутие от alerts.md | commit pending",
+    "2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending",
+    "2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
+    "2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "74e435c",
+      "date": "2026-10-03",
+      "subject": "chore(log): push done for spec-059",
+      "type": "chore"
+    },
+    {
+      "sha": "a92096a",
+      "date": "2026-10-03",
+      "subject": "chore(log): guard anchor refresh for spec-059 push",
+      "type": "chore"
+    },
+    {
+      "sha": "07dfe48",
+      "date": "2026-10-03",
+      "subject": "chore(log): trail for spec-059 push + deviations",
+      "type": "chore"
+    },
+    {
+      "sha": "f94f3cf",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-059 done",
+      "type": "chore"
+    },
     {
       "sha": "4c0acdc",
       "date": "2026-10-03",
@@ -1290,30 +1314,6 @@
       "sha": "dc6e38d",
       "date": "2026-10-03",
       "subject": "chore(log): push done for convergence push",
-      "type": "chore"
-    },
-    {
-      "sha": "f33b832",
-      "date": "2026-10-03",
-      "subject": "chore(log): trail for convergence push",
-      "type": "chore"
-    },
-    {
-      "sha": "e3e41f1",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-054+056 push",
-      "type": "chore"
-    },
-    {
-      "sha": "3f9f510",
-      "date": "2026-10-03",
-      "subject": "docs(memory): procedural lesson - trail then push then sync then converge",
-      "type": "docs"
-    },
-    {
-      "sha": "753c854",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-054+056 push",
       "type": "chore"
     }
   ],
