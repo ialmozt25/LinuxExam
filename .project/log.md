@@ -255,3 +255,4 @@
 2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending
 2026-10-03 | spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | commit pending
 2026-10-03 | push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..<trail-tip> | commit pending
+2026-10-03 | guard | якорь перезаписан на session-db45a482… | commit pending
