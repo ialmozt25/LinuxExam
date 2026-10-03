@@ -3,10 +3,10 @@ id: 063
 slug: paywall-content
 type: feature
 track: full
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: 5e3fe2a
 embedded_approve: rule 2 (F5.0a — 2026-10-04)
 execution: direct
 ---

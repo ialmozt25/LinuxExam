@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "063",
-      "slug": "paywall-content",
-      "status": "approved",
-      "type": "feature",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/063-paywall-content.md",
-      "mtime": 1791058004836.6184,
-      "goal": "Ввести контентный paywall: **3 темы Free / 11 тем Paid**, **7-дневный trial** и",
-      "acceptance": "",
-      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
-      "preview": ""
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1167,6 +1152,21 @@
       "preview": "Ordering-инвариант скриншота для приёмки: Dashboard, viewport 390×844, три"
     },
     {
+      "id": "063",
+      "slug": "paywall-content",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "5e3fe2a",
+      "file": "specs/063-paywall-content.md",
+      "mtime": 1791058988595.8867,
+      "goal": "Ввести контентный paywall: **3 темы Free / 11 тем Paid**, **7-дневный trial** и",
+      "acceptance": "",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1228,7 +1228,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-059 | done - cleanup-blockers (paywall route, 4 dead actions, DUP4 сведён) | commit bdb21ba",
     "2026-10-03 | spec-059 | track: small при дифе Full (+197/−43), эскалация отклонена: write-скоупы Small не нарушены, раздутие от alerts.md | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending",
     "2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
@@ -1237,10 +1236,17 @@
     "2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99",
     "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-060+061; публикует a92096a..HEAD | commit pending",
-    "2026-10-03 | push | выполнен a92096a..875cf33 | commit 875cf33"
+    "2026-10-03 | push | выполнен a92096a..875cf33 | commit 875cf33",
+    "2026-10-04 | spec-063 | done - paywall-content (3 Free / 11 Paid, 7-day trial, миграция v6→v7; оплата — spec 064) | commit 5e3fe2a"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e76e01b",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-063",
+      "type": "chore"
+    },
     {
       "sha": "5e3fe2a",
       "date": "2026-10-04",
@@ -1353,12 +1359,6 @@
       "sha": "275a908",
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-059",
-      "type": "chore"
-    },
-    {
-      "sha": "bdb21ba",
-      "date": "2026-10-03",
-      "subject": "chore(spec-059): cleanup blockers - paywall route, dead actions, duplicate logic",
       "type": "chore"
     }
   ],
