@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c93435def4059d0f4ea04e87cb979859c76ff354",
+  "head": "4f90239f4e3cfb7c7e881dc85786e415c7d4cab8",
   "specs": [
     {
       "id": "022",
@@ -1257,6 +1257,24 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "4f90239",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after ux-fixes",
+      "type": "chore"
+    },
+    {
+      "sha": "8f7581f",
+      "date": "2026-10-04",
+      "subject": "fix(ux): streak duplicate, exit screens, mobile next button",
+      "type": "fix"
+    },
+    {
+      "sha": "ee2785e",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "c93435d",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-064",
@@ -1356,24 +1374,6 @@
       "sha": "4bfe692",
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-061",
-      "type": "chore"
-    },
-    {
-      "sha": "94dcf99",
-      "date": "2026-10-03",
-      "subject": "feat(spec-061): retention UI - streak badge, XP bar, daily goal",
-      "type": "feat"
-    },
-    {
-      "sha": "141b84d",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-060 done",
-      "type": "chore"
-    },
-    {
-      "sha": "d48a3d9",
-      "date": "2026-10-03",
-      "subject": "chore(state): converge after spec-060 done",
       "type": "chore"
     }
   ],
