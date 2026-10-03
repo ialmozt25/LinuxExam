@@ -1,12 +1,12 @@
 ---
 id: 059
 slug: cleanup-blockers
-status: approved
+status: done
 type: infra
 track: small
 created: 2026-10-03
 updated: 2026-10-03
-commit: null
+commit: bdb21ba
 embedded_approve: rule 2 (F5.0a — 2026-10-03)
 ---
 

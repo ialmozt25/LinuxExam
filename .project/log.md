@@ -270,3 +270,4 @@
 2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15
 2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending
 2026-10-03 | push | выполнен f33b832..c2ffb1c | commit c2ffb1c
+2026-10-03 | spec-059 | done - cleanup-blockers (paywall route, 4 dead actions, DUP4 сведён) | commit bdb21ba
