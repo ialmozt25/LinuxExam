@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "dcd815014284ffd9e8de33e31d04cf86ddada4ec",
+  "head": "6a0c05eb0e3141b958bd1f92160d0a8cff09633b",
   "specs": [
     {
       "id": "022",
@@ -1138,8 +1138,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending",
-    "2026-10-03 | spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..<trail-tip> | commit pending",
     "2026-10-03 | guard | якорь перезаписан на session-db45a482… | commit pending",
     "2026-10-03 | spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | commit pending",
@@ -1147,10 +1145,24 @@
     "2026-10-03 | spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует, прецедент 050/052); feat-коммит 010a7ae fix(spec-056): mobile sticky footer on long explanations; гейты typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
     "2026-10-03 | spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264",
     "2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae",
-    "2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending"
+    "2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending",
+    "2026-10-03 | push | выполнен c4cb9b3..dcd8150 | commit 0d51a19",
+    "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "6a0c05e",
+      "date": "2026-10-03",
+      "subject": "chore(log): push done + guard anchor for spec-054 + mobile-sticky push",
+      "type": "chore"
+    },
+    {
+      "sha": "0d51a19",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-054+056 push",
+      "type": "chore"
+    },
     {
       "sha": "dcd8150",
       "date": "2026-10-03",
@@ -1258,18 +1270,6 @@
       "date": "2026-10-03",
       "subject": "chore(log): anchor refresh + trail for e2e push",
       "type": "chore"
-    },
-    {
-      "sha": "1fd5700",
-      "date": "2026-10-03",
-      "subject": "chore(log): trail for e2e app coverage push",
-      "type": "chore"
-    },
-    {
-      "sha": "ce0f72c",
-      "date": "2026-10-03",
-      "subject": "feat(test): e2e app coverage + data-testid (58 tests)",
-      "type": "feat"
     }
   ],
   "roles": [

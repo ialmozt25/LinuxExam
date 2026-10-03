@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на dcd8150</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 6a0c05e</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -432,6 +432,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">6a0c05e</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): push done + guard anchor for spec-054 + mobile-sticky push</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
+          <td class="mono">0d51a19</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-054+056 push</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
+        <tr>
           <td class="mono">dcd8150</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): trail for spec-054 + mobile-sticky push</td>
@@ -539,18 +551,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): anchor refresh + trail for e2e push</td>
           <td class="mono muted">2026-10-03</td>
         </tr>
-        <tr>
-          <td class="mono">1fd5700</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for e2e app coverage push</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
-        <tr>
-          <td class="mono">ce0f72c</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(test): e2e app coverage + data-testid (58 tests)</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -607,11 +607,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">03.10</span> · trail | spec-054 + spec-056: публикуется 8d58264 (feat(spec-054): exam mode) + 010a7ae (fix(spec-056): mobile sticky footer); верификация перед push — typecheck 0, test:run 255/255, test:e2e 66/66…</li>
-        <li><span class="mono muted">03.10</span> · spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует…</li>
         <li><span class="mono muted">03.10</span> · spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264</li>
         <li><span class="mono muted">03.10</span> · spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0…</li>
         <li><span class="mono muted">03.10</span> · push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | ещё не закоммичено</li>
+        <li><span class="mono muted">03.10</span> · push | выполнен c4cb9b3..dcd8150 | commit 0d51a19</li>
+        <li><span class="mono muted">03.10</span> · guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19</li>
     </ul>
   </details>
 
