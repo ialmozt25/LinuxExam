@@ -244,3 +244,9 @@ Evidence: `.agent-teams/spec-040-spec-chain` (после архивации — 
 Ручное закрытие (spec:close неприменим: MAS-команда staged, no reviewer-pass).
 Feat: 31b9940 (15 файлов, +963/−48). Гейты: typecheck 0, test:run 225/225
 (198+27), test:e2e 61/61. ОВ-1 (кривая 1,3,3,7,7,14) — долг в alerts.md → spec 055.
+
+## 2026-10-03 | spec-054-exam-mode (закрытие)
+Прямой путь (без MAS/enrich) по заданию капитана 2026-10-03. Feat: `8d58264` — "feat(spec-054): exam mode - setup, run, results" (3 экрана + domain + router + Dashboard + e2e). Гейты до закрытия: `npm run build` exit 0, `npm run typecheck` exit 0. Закрытие вручную (team.json отсутствует — прецедент 050/052): R5-trace `e358585`, frontmatter `.project/specs/054-exam-mode.md` → `status: done` (commit `8d58264`), запись в `.project/log.md`. Push авторизован капитаном (правило 10), но выполнение остановлено guard-ом spec 049: DSH_SESSION_ID сессии не совпал с якорем `.project/.captain-session-id`.
+
+## 2026-10-03 | spec-056-mobile-sticky-footer (закрытие)
+Трек Small. RECON: кнопка действия уезжала ниже фолда на мобильном — 4 из 6 вопросов на 390x844 (переполнение 25–55px), на 390x664 кнопка была на 158px ниже кромки, на самом длинном explanation банка (`et_018`, 897 символов) — переполнение 462px. Причина: `#root` — единственный scroll-контейнер, а кнопка была последним flow-ребёнком переросшего контента. Фикс: sticky-футер в `Question.tsx` (и превентивно в `ExamRun.tsx`). Feat: `010a7ae` — "fix(spec-056): mobile sticky footer on long explanations". Тест `e2e/mobile-sticky-footer.spec.ts` до фикса падал (`viewport ratio 0`, кнопка 1250 при вьюпорте 844), после фикса проходит (784→840 при scrollTop 0). Гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0. Закрытие вручную (прецедент 050/052): R5-trace `e358585`, frontmatter → `status: done` (commit `010a7ae`).

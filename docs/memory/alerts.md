@@ -278,3 +278,7 @@ INITIAL_DIFFICULTY=0.3 — из промпта.
 
 ## 2026-10-02 | [f4-watchdog] [повреждено: UTF-8 loss, U+FFFD; найдено 2026-10-03]
 [observed 2026-10-03]
+
+## 2026-10-03 | tech debt | Topic union: 3 темы при 14 в банке
+`src/data/models/Question.ts: Topic union` — 3 темы при 14 в банке; рантайм ок, типизация разбора сломается на 11.
+Кандидат в spec 057 (infra, Small). [observed 2026-10-03]

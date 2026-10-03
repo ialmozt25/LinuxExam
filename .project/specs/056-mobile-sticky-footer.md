@@ -1,12 +1,12 @@
 ---
 id: 056
 slug: mobile-sticky-footer
-status: approved
+status: done
 type: fix
 track: small
 created: 2026-10-03
 updated: 2026-10-03
-commit: null
+commit: 010a7ae
 embedded_approve: rule 2 (F5.0a — задание капитана 2026-10-03 «ФАЗА B — FIX (одобрено: оба экрана, sticky-футер)»)
 ---
 

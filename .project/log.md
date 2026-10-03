@@ -259,3 +259,5 @@
 2026-10-03 | spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | commit pending
 2026-10-03 | trail | spec-054 + spec-056: публикуется 8d58264 (feat(spec-054): exam mode) + 010a7ae (fix(spec-056): mobile sticky footer); верификация перед push — typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae
 2026-10-03 | spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует, прецедент 050/052); feat-коммит 010a7ae fix(spec-056): mobile sticky footer on long explanations; гейты typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae
+2026-10-03 | spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264
+2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae

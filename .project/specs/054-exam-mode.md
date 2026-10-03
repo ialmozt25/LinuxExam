@@ -1,12 +1,12 @@
 ---
 id: 054
 slug: exam-mode
-status: approved
+status: done
 type: feature
 track: fast
 created: 2026-10-03
 updated: 2026-10-03
-commit: null
+commit: 8d58264
 embedded_approve: rule 2 (F5.0a)
 ---
 
