@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "e620cd27a2237e1003555b63944fe5ce1ce418c0",
+  "head": "801f4df8ed0d3a958b91d8f0f54ed20ed90363ef",
   "specs": [
     {
       "id": "022",
@@ -1077,6 +1077,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "801f4df",
+      "date": "2026-10-03",
+      "subject": "chore(spec-050): R5 trace - task tokens t1 t2",
+      "type": "chore"
+    },
+    {
+      "sha": "76cb148",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-050 done",
+      "type": "chore"
+    },
+    {
       "sha": "e620cd2",
       "date": "2026-10-03",
       "subject": "docs(spec-050): done - 1. Кандидаты: 12 уникальных id et_014..et_025, подтопики не дублируют занятые",
@@ -1182,18 +1194,6 @@
       "sha": "221902c",
       "date": "2026-10-02",
       "subject": "chore(spec-048): R5 trace - task tokens t1 t2 t3 t4 t5",
-      "type": "chore"
-    },
-    {
-      "sha": "3aaa494",
-      "date": "2026-10-02",
-      "subject": "docs(spec-048): OBS-1 volatile agents pulse + Fast track + Playwright tester + vitest exclude",
-      "type": "docs"
-    },
-    {
-      "sha": "d1a9f9c",
-      "date": "2026-10-02",
-      "subject": "chore(log): trail for spec-043 push",
       "type": "chore"
     }
   ],
