@@ -424,6 +424,9 @@ export default function Question() {
         // вопросов на 390x844, переполнение 25-55px). Липнет к низу
         // scroll-контейнера `#root`, поэтому видна без прокрутки при любом
         // объяснении. marginTop:auto держит подпись внизу и на коротком контенте.
+        // UX-фикс (Ф3): запас снизу = safe-area + var(--space-2). Замер RECON на
+        // 390x844 давал bottom=840 при innerH=844 — всего 4px до кромки; на живом
+        // мобильном динамическая адресная строка/жест-бар съедают этот запас.
         <div
           style={{
             position: 'sticky',
@@ -431,7 +434,7 @@ export default function Question() {
             zIndex: 10,
             marginTop: 'auto',
             paddingTop: SPACING.sm,
-            paddingBottom: SPACING.xs,
+            paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
             background: 'var(--bg-primary)',
             borderTop: '1px solid var(--border-subtle)',
           }}

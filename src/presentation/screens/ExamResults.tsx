@@ -1,4 +1,5 @@
 import { useQuizStore } from '@/store/quizStore';
+import { AppHeader } from '@/presentation/components/AppHeader';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { SPACING, LAYOUT } from '@/presentation/theme';
 import { EXAM_PASS_THRESHOLD } from '@/domain/exam';
@@ -21,6 +22,40 @@ export default function ExamResults() {
 
   return (
     <ScreenContainer data-testid="exam-results">
+      {/* Выход (UX-фикс): общий AppHeader, как в Analytics/Question/Results/Paywall.
+          До фикса единственным выходом была кнопка `back-to-dashboard` ПОСЛЕ
+          разбора по темам: на 390x844 прогон из 30 вопросов даёт длинный
+          breakdown, и кнопка оказывалась видна лишь на 37.5% (замер E2E:
+          viewport ratio 0.375). Существующий testid кнопки внизу не тронут —
+          шапка добавлена сверху. */}
+      <AppHeader
+        onBack={cancelExamSession}
+        center="Экзамен завершён"
+        right={
+          <button
+            type="button"
+            data-testid="exam-results-back"
+            onClick={cancelExamSession}
+            aria-label="На главную"
+            style={{
+              minWidth: 44,
+              minHeight: 44,
+              background: 'transparent',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              color: 'var(--text-secondary)',
+              fontSize: 'var(--text-sm)',
+              fontFamily: 'inherit',
+            }}
+          >
+            На главную
+          </button>
+        }
+      />
       <h1
         style={{
           fontSize: '24px',

@@ -131,12 +131,11 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           color: 'var(--text-secondary)',
         }}
       >
+        {/* Серия (streak) НЕ дублируется здесь: она живёт в StreakBadge ниже,
+            где есть число, состояние и мотивирующее сообщение. В status-strip
+            остаются только уровень и полоса прогресса (UX-фикс). */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <Flame size={16} color="var(--warning)" aria-hidden="true" />
-          <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{streak}</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>Уровень {level}</span>
+          <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Уровень {level}</span>
           <span
             role="progressbar"
             aria-valuenow={xpPercent}
@@ -162,6 +161,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               }}
             />
           </span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <button
             type="button"
             data-testid="theme-toggle"

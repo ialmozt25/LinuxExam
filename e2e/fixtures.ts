@@ -443,6 +443,9 @@ export const TESTID = {
   paywallBadgePro: 'paywall-badge-pro',
   paywallBadgeFree: 'paywall-badge-free',
 
+  // UX-фикс 2026-10-04: выход из Analytics переехал в общий AppHeader.
+  analyticsBack: 'analytics-back',
+
   resultsScreen: 'results-screen',
   resultsScore: 'results-score',
   resultsAccuracy: 'results-accuracy',

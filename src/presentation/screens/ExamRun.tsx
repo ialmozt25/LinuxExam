@@ -191,7 +191,9 @@ export default function ExamRun() {
       </div>
 
       {/* Sticky footer (spec 056): тот же паттерн, что и в Question.tsx — кнопка
-          действия не должна уезжать ниже фолда, когда вопрос длинный. */}
+          действия не должна уезжать ниже фолда, когда вопрос длинный.
+          UX-фикс (Ф3): нижний запас = safe-area + var(--space-2), чтобы кнопки
+          не уходили под адресную строку/жест-бар на живом мобильном. */}
       <div
         style={{
           position: 'sticky',
@@ -199,7 +201,7 @@ export default function ExamRun() {
           zIndex: 10,
           marginTop: 'auto',
           paddingTop: SPACING.sm,
-          paddingBottom: SPACING.xs,
+          paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
           background: 'var(--bg-primary)',
           borderTop: '1px solid var(--border-subtle)',
         }}

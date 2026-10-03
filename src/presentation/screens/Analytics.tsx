@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { AppHeader } from '@/presentation/components/AppHeader';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { SPACING } from '@/presentation/theme';
 import { TOPICS } from '@/data/topics';
@@ -77,6 +78,38 @@ export default function Analytics() {
 
   return (
     <ScreenContainer data-testid="analytics">
+      {/* Выход (UX-фикс): тот же общий AppHeader, что у Question / Results /
+          Paywall. До фикса «← На главную» лежала ПОСЛЕДНИМ блоком контента —
+          на 390x844 она оказывалась под тремя карточками и радаром, то есть
+          вне вьюпорта. Шапка возвращает выход в первый экран. */}
+      <AppHeader
+        onBack={() => navigateTo('dashboard')}
+        center="Аналитика"
+        right={
+          <button
+            type="button"
+            data-testid="analytics-back"
+            onClick={() => navigateTo('dashboard')}
+            aria-label="На главную"
+            style={{
+              minWidth: 44,
+              minHeight: 44,
+              background: 'transparent',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              color: 'var(--text-secondary)',
+              fontSize: 'var(--text-sm)',
+              fontFamily: 'inherit',
+            }}
+          >
+            На главную
+          </button>
+        }
+      />
       <h1
         style={{
           fontSize: '24px',
@@ -244,25 +277,6 @@ export default function Analytics() {
         </div>
       </div>
 
-      <button
-        type="button"
-        data-testid="header-back"
-        onClick={() => navigateTo('dashboard')}
-        style={{
-          marginTop: SPACING.lg,
-          padding: 'var(--space-3)',
-          background: 'transparent',
-          color: 'var(--text-primary)',
-          border: '1px solid var(--accent)',
-          borderRadius: 'var(--radius-md)',
-          fontSize: 'var(--text-sm)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-        }}
-      >
-        ← На главную
-      </button>
     </ScreenContainer>
   );
 }
