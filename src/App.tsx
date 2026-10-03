@@ -18,6 +18,9 @@ const Results = lazy(() => import('@/presentation/screens/Results'));
 const ExamSetup = lazy(() => import('@/presentation/screens/ExamSetup'));
 const ExamRun = lazy(() => import('@/presentation/screens/ExamRun'));
 const ExamResults = lazy(() => import('@/presentation/screens/ExamResults'));
+// Analytics (spec 058): «персональный тренер» — radar по темам, готовность,
+// слабые зоны и тренд за 7 дней. Данные — из уже персистируемого questionStats.
+const Analytics = lazy(() => import('@/presentation/screens/Analytics'));
 
 function Loading() {
   return (
@@ -67,6 +70,8 @@ function App() {
       <ExamRun />
     ) : currentScreen === 'exam-results' ? (
       <ExamResults />
+    ) : currentScreen === 'analytics' ? (
+      <Analytics />
     ) : (
       <Dashboard theme={resolved} onToggleTheme={toggle} />
     );

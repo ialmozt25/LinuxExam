@@ -32,7 +32,7 @@ import {
 // TODO(content): raise to 20 after questions.json reaches 50+ items
 export const FREE_QUESTION_LIMIT = 5;
 
-export type Screen = 'dashboard' | 'question' | 'results' | 'exam-setup' | 'exam-run' | 'exam-results';
+export type Screen = 'dashboard' | 'question' | 'results' | 'exam-setup' | 'exam-run' | 'exam-results' | 'analytics';
 
 /**
  * Прогон Exam mode (spec 054): пресеты 30/60/90, порог 70 %, разбор по темам.

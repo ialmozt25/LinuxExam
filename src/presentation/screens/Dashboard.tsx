@@ -287,6 +287,31 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         📝 Exam mode — 30/60/90 вопросов с разбором
       </button>
 
+      {/* Analytics (spec 058): «персональный тренер» — radar по 14 темам,
+          готовность, слабые зоны и тренд за 7 дней. Данные уже в persist
+          (questionStats), поэтому экран ничего не дозагружает. */}
+      <button
+        type="button"
+        data-testid="analytics-mode"
+        onClick={() => navigateTo('analytics')}
+        style={{
+          width: '100%',
+          padding: 'var(--space-3)',
+          marginTop: 'var(--space-4)',
+          background: 'transparent',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--accent)',
+          borderRadius: 'var(--radius-md)',
+          fontSize: 'var(--text-sm)',
+          fontWeight: 600,
+          cursor: 'pointer',
+          textAlign: 'left',
+          fontFamily: 'inherit',
+        }}
+      >
+        📊 Аналитика — готовность, слабые темы, тренд
+      </button>
+
       {/* «Повторить ошибки» — resumed from the regular stream's wrong answers */}
       {wrongQuestionIds.length > 0 && (
         <button
