@@ -290,4 +290,4 @@
 2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee
 2026-10-04 | ux | fix - streak duplicate, exit screens, sticky safe-area | commit 8f7581f
 2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending
-2026-10-04 | push | authorize push origin main — ux-fixes; публикует b13d3ee..<trail-SHA> | commit pending
+2026-10-04 | push | authorize push origin main — ux-fixes; публикует b13d3ee..31847cb | commit pending
