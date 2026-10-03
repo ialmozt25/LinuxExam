@@ -30,6 +30,7 @@ export function AppHeader({ onBack, onHome, center, right }: Props) {
       {onBack ? (
         <button
           type="button"
+          data-testid="header-back"
           onClick={onBack}
           aria-label="Назад"
           style={{
@@ -52,6 +53,7 @@ export function AppHeader({ onBack, onHome, center, right }: Props) {
       )}
 
       <div
+        data-testid="app-header-center"
         style={{
           flex: 1,
           textAlign: 'center',
@@ -67,6 +69,7 @@ export function AppHeader({ onBack, onHome, center, right }: Props) {
       ) : onHome ? (
         <button
           type="button"
+          data-testid="header-home"
           onClick={onHome}
           aria-label="На главную"
           style={{

@@ -4,9 +4,11 @@ import { isTMA } from '@telegram-apps/sdk-react';
 interface Props {
   children: ReactNode;
   style?: CSSProperties;
+  /** Opaque test hook: forwarded to the root element so E2E can anchor a screen. */
+  'data-testid'?: string;
 }
 
-export function ScreenContainer({ children, style }: Props) {
+export function ScreenContainer({ children, style, 'data-testid': dataTestId }: Props) {
   const isTelegram = isTMA();
   const bottomPadding = isTelegram
     ? 'calc(var(--mainbutton-height) + var(--mainbutton-gap))'
@@ -14,6 +16,7 @@ export function ScreenContainer({ children, style }: Props) {
 
   return (
     <div
+      data-testid={dataTestId}
       style={{
         display: 'flex',
         flexDirection: 'column',

@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.route('**/gc.zgo.at/**', r => r.abort());
+});
+
 const palette = {
   light: { success: 'rgb(55, 126, 58)', danger: 'rgb(207, 57, 46)' },
   dark:  { success: 'rgb(76, 175, 80)', danger: 'rgb(255, 92, 74)' },

@@ -48,7 +48,7 @@ export default function Paywall() {
   };
 
   return (
-    <ScreenContainer style={{ justifyContent: 'center' }}>
+    <ScreenContainer data-testid="paywall" style={{ justifyContent: 'center' }}>
       <AppHeader onHome={handleClose} center="LinuxExam" />
       <h2
         style={{
@@ -106,6 +106,7 @@ export default function Paywall() {
 
       <button
         type="button"
+        data-testid="paywall-buy"
         disabled={isDisabled}
         onClick={handlePurchase}
         style={{
@@ -128,6 +129,7 @@ export default function Paywall() {
 
       <button
         type="button"
+        data-testid="paywall-later"
         onClick={handleClose}
         disabled={loading}
         style={{

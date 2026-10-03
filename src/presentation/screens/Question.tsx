@@ -180,7 +180,7 @@ export default function Question() {
   if (!currentQuestion) {
     return (
       <ScreenContainer>
-        <p>Вопросы не загружены</p>
+        <p data-testid="question-empty">Вопросы не загружены</p>
         <button
           type="button"
           onClick={() => navigateTo('dashboard')}
@@ -234,6 +234,7 @@ export default function Question() {
 
       {/* Progress line */}
       <div
+        data-testid="question-progress"
         style={{
           height: '3px',
           background: 'var(--bg-elevated)',
@@ -255,6 +256,7 @@ export default function Question() {
 
       {/* Question */}
       <h2
+        data-testid="question-text"
         style={{
           fontSize: '19px',
           fontWeight: 600,
@@ -321,6 +323,7 @@ export default function Question() {
             >
               <MotionButton
                 type="button"
+                data-testid={`option-${originalIndex}`}
                 disabled={hasAnswered}
                 aria-label={`Ответ ${String.fromCharCode(65 + visualIndex)}: ${option.text}`}
                 onClick={() => handleOption(originalIndex)}
@@ -386,6 +389,7 @@ export default function Question() {
             }}
           >
             <div
+              data-testid="explanation-verdict"
               style={{
                 fontSize: 12,
                 color: 'var(--text-secondary)',
@@ -399,6 +403,7 @@ export default function Question() {
             </div>
             <div
               ref={explanationRef}
+              data-testid="explanation"
               style={{
                 fontSize: 14,
                 color: 'var(--text-primary)',
@@ -416,6 +421,7 @@ export default function Question() {
       {!isTelegram && (
         <button
           type="button"
+          data-testid="next-button"
           disabled={!hasAnswered}
           onClick={() => {
             if (isLastExamQuestion) finishExam();
@@ -447,6 +453,7 @@ export default function Question() {
       )}
       {showConfirm && (
         <div
+          data-testid="exam-confirm"
           style={{
             position: 'fixed',
             inset: 0,
@@ -489,6 +496,7 @@ export default function Question() {
             <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
               <button
                 type="button"
+                data-testid="exam-stay"
                 onClick={() => setShowConfirm(false)}
                 style={{
                   flex: 1,
@@ -506,6 +514,7 @@ export default function Question() {
               </button>
               <button
                 type="button"
+                data-testid="exam-leave"
                 onClick={() => {
                   setShowConfirm(false);
                   cancelExam();

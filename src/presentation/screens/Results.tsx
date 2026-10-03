@@ -94,7 +94,7 @@ export default function Results() {
     const timeSs = Math.floor((timeSpentMs % 60000) / 1000);
 
     return (
-      <ScreenContainer>
+      <ScreenContainer data-testid="exam-summary">
         <AppHeader onHome={() => navigateTo('dashboard')} center="Экзамен" />
 
         <h1
@@ -118,13 +118,17 @@ export default function Results() {
             marginTop: SPACING.lg,
           }}
         >
-          <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}>
+          <div
+            data-testid="exam-score"
+            style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}
+          >
             {examCorrect + ' / ' + examAnswered}
           </div>
           <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
             Правильных ответов
           </div>
           <div
+            data-testid="exam-accuracy"
             style={{
               fontSize: 20,
               fontWeight: 600,
@@ -139,7 +143,10 @@ export default function Results() {
           >
             {examAccuracy + '%'}
           </div>
-          <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.md }}>
+          <div
+            data-testid="exam-time"
+            style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.md }}
+          >
             {`Время: ${timeMm}:${String(timeSs).padStart(2, '0')}`}
           </div>
         </div>
@@ -147,6 +154,7 @@ export default function Results() {
         <div style={{ marginTop: SPACING.xl }}>
           <button
             type="button"
+            data-testid="exam-restart"
             onClick={() => startExam(20, 30 * 60 * 1000)}
             style={{
               width: '100%',
@@ -166,6 +174,7 @@ export default function Results() {
           </button>
           <button
             type="button"
+            data-testid="exam-exit"
             onClick={() => cancelExam()}
             style={{
               width: '100%',
@@ -188,7 +197,7 @@ export default function Results() {
   }
 
   return (
-    <ScreenContainer>
+    <ScreenContainer data-testid="results-screen">
       <AppHeader onHome={handleBackToTopics} center={screenTitle} />
 
       {/* Header */}
@@ -215,12 +224,18 @@ export default function Results() {
         }}
       >
         {!hasAnyAnswers ? (
-          <div style={{ fontSize: 16, color: 'var(--text-secondary)', padding: SPACING.lg }}>
+          <div
+            data-testid="results-empty"
+            style={{ fontSize: 16, color: 'var(--text-secondary)', padding: SPACING.lg }}
+          >
             Вы ещё не ответили ни на один вопрос
           </div>
         ) : (
           <>
-            <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}>
+            <div
+              data-testid="results-score"
+              style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}
+            >
               {`${correct} / ${answered}`}
             </div>
             <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
@@ -239,6 +254,7 @@ export default function Results() {
               </div>
             )}
             <div
+              data-testid="results-accuracy"
               style={{
                 fontSize: 20,
                 fontWeight: 600,
@@ -259,6 +275,7 @@ export default function Results() {
       {!isReview && wrongQuestionIds.length > 0 && (
         <button
           type="button"
+          data-testid="results-review-wrong"
           onClick={() => startReviewQuiz(wrongQuestionIds)}
           style={{
             width: '100%',
@@ -280,7 +297,7 @@ export default function Results() {
       )}
 
       {/* Per-topic breakdown */}
-      <div style={{ marginTop: SPACING.xl }}>
+      <div data-testid="results-topics" style={{ marginTop: SPACING.xl }}>
         <h2
           style={{
             fontSize: 14,
@@ -297,6 +314,7 @@ export default function Results() {
         {topicStats.map((topicStat) => (
           <div
             key={topicStat.key}
+            data-testid={`results-topic-${topicStat.key}`}
             style={{
               background: 'var(--bg-surface)',
               padding: SPACING.md,
@@ -353,6 +371,7 @@ export default function Results() {
         {!isReview && (
         <button
           type="button"
+          data-testid="results-retry"
           onClick={handleRetry}
           style={{
             width: '100%',
@@ -373,6 +392,7 @@ export default function Results() {
         )}
         <button
           type="button"
+          data-testid="results-back"
           onClick={handleBackToTopics}
           style={{
             width: '100%',
@@ -393,6 +413,7 @@ export default function Results() {
         {isTelegram && correct > 0 && answered > 0 && (
           <button
             type="button"
+            data-testid="results-share"
             onClick={() => {
               const text = `Прошёл ${correct}/${answered} в LinuxExam (${accuracy}%)`;
               shareResult(shareUrl, text);

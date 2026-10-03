@@ -113,6 +113,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           </span>
           <button
             type="button"
+            data-testid="theme-toggle"
             onClick={onToggleTheme}
             aria-label={
               theme === 'light' ? 'Переключить на тёмную' : 'Переключить на светлую'
@@ -153,6 +154,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           LinuxExam
         </h1>
         <p
+          data-testid="dashboard-subtitle"
           style={{
             fontSize: '14px',
             color: 'var(--text-secondary)',
@@ -166,7 +168,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       </div>
 
       {/* Progress */}
-      <div style={{ marginTop: '24px' }}>
+      <div id="dashboard-progress" data-testid="dashboard-progress" style={{ marginTop: '24px' }}>
         <div
           style={{
             display: 'flex',
@@ -211,6 +213,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       {wrongQuestionIds.length > 0 && (
         <button
           type="button"
+          data-testid="review-wrong"
           onClick={() => startReviewQuiz(wrongQuestionIds)}
           style={{
             width: '100%',
@@ -362,6 +365,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               <button
                 key={topic.key}
                 type="button"
+                data-testid={`topic-${topic.key}`}
                 onClick={() => startTopicQuiz(topic.key)}
                 aria-label={`Начать тему: ${topic.title}`}
                 style={{ ...rowStyle, cursor: 'pointer' }}
@@ -381,6 +385,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       {/* Exam banner REPLACES the resume banner while an exam runs */}
       {examActive ? (
         <div
+          data-testid="exam-banner"
           style={{
             padding: 'var(--space-3)',
             background: 'rgba(33,150,243,0.1)',
@@ -396,6 +401,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           <div>
             <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>Экзамен идёт</div>
             <div
+              data-testid="exam-timer"
               style={{
                 fontSize: 'var(--text-xs)',
                 color: 'var(--text-secondary)',
@@ -407,6 +413,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           </div>
           <button
             type="button"
+            data-testid="exam-continue"
             onClick={() => navigateTo('question')}
             style={{
               padding: 'var(--space-2) var(--space-3)',
@@ -426,6 +433,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       ) : isQuizInProgress && !reviewQuestionIds ? (
         /* Resume banner - unfinished regular quiz only */
         <div
+          data-testid="resume-banner"
           style={{
             padding: 'var(--space-3)',
             background: 'var(--bg-surface)',
@@ -440,6 +448,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           <div>
             <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>Тест не завершён</div>
             <div
+              data-testid="resume-position"
               style={{
                 fontSize: 'var(--text-xs)',
                 color: 'var(--text-secondary)',
@@ -451,6 +460,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           </div>
           <button
             type="button"
+            data-testid="resume-button"
             onClick={resumeQuiz}
             style={{
               padding: 'var(--space-2) var(--space-3)',
@@ -473,6 +483,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       {!examActive && (
         <button
           type="button"
+          data-testid="start-exam"
           onClick={() => startExam(20, 30 * 60 * 1000)}
           style={{
             width: '100%',
@@ -495,6 +506,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       {!examActive && !isTelegram && (
         <button
           type="button"
+          data-testid="dashboard-continue"
           onClick={() => {
             if (reviewQuestionIds) {
               startRegularQuiz();
