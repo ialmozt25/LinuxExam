@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "b7eae1523e45456ffb9274900d923545f1870300",
+  "head": "ea321b74d28cf31b98d191a703c550564ed8bc9d",
   "specs": [
     {
       "id": "022",
@@ -489,36 +489,6 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
-      "preview": ""
-    },
-    {
-      "id": "057",
-      "slug": "fix-topic-union",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/057-fix-topic-union.md",
-      "mtime": 1791019567183.6611,
-      "goal": "`Topic` покрывает все 14 тем банка, и это покрытие проверяется регресс-тестом;",
-      "acceptance": "1. В `src/data/models/Question.ts` union `Topic` содержит все слаги",
-      "noTouch": "`src/data/questions/**` (банк 253 и загрузчики), `src/data/topics.ts`,",
-      "preview": ""
-    },
-    {
-      "id": "058",
-      "slug": "analytics",
-      "status": "approved",
-      "type": "feature",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/058-analytics.md",
-      "mtime": 1791019567238.4458,
-      "goal": "3 чистые функции (готовность темы, готовность по банку, слабые темы) + тренд за",
-      "acceptance": "1. `src/domain/analytics.ts` — только чистые функции, ноль импортов zustand/react,",
-      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
       "preview": ""
     },
     {
@@ -1107,6 +1077,36 @@
       "preview": ""
     },
     {
+      "id": "057",
+      "slug": "fix-topic-union",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "8896618",
+      "file": "specs/057-fix-topic-union.md",
+      "mtime": 1791020934947.4358,
+      "goal": "`Topic` покрывает все 14 тем банка, и это покрытие проверяется регресс-тестом;",
+      "acceptance": "1. В `src/data/models/Question.ts` union `Topic` содержит все слаги",
+      "noTouch": "`src/data/questions/**` (банк 253 и загрузчики), `src/data/topics.ts`,",
+      "preview": ""
+    },
+    {
+      "id": "058",
+      "slug": "analytics",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "b7eae15",
+      "file": "specs/058-analytics.md",
+      "mtime": 1791020943995.6042,
+      "goal": "3 чистые функции (готовность темы, готовность по банку, слабые темы) + тренд за",
+      "acceptance": "1. `src/domain/analytics.ts` — только чистые функции, ноль импортов zustand/react,",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1168,8 +1168,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | commit pending",
-    "2026-10-03 | trail | spec-054 + spec-056: публикуется 8d58264 (feat(spec-054): exam mode) + 010a7ae (fix(spec-056): mobile sticky footer); верификация перед push — typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
     "2026-10-03 | spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует, прецедент 050/052); feat-коммит 010a7ae fix(spec-056): mobile sticky footer on long explanations; гейты typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
     "2026-10-03 | spec-054 | done - exam-mode (feat 8d58264); закрытие вручную (team.json отсутствует, прецедент 050/052); гейты до закрытия: build 0, typecheck 0 | commit 8d58264",
     "2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae",
@@ -1177,10 +1175,36 @@
     "2026-10-03 | push | выполнен c4cb9b3..dcd8150 | commit 0d51a19",
     "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19",
     "2026-10-03 | push | authorize push origin main — convergence after spec-054+056; публикует dcd8150..<trail-SHA> | commit pending",
-    "2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832"
+    "2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832",
+    "2026-10-03 | spec-057 | done - fix Topic union | commit 8896618",
+    "2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "ea321b7",
+      "date": "2026-10-03",
+      "subject": "chore(log): spec-057 + spec-058 closed",
+      "type": "chore"
+    },
+    {
+      "sha": "39ac191",
+      "date": "2026-10-03",
+      "subject": "docs(spec-058): done - analytics",
+      "type": "docs"
+    },
+    {
+      "sha": "e723d27",
+      "date": "2026-10-03",
+      "subject": "docs(spec-057): done - fix topic union",
+      "type": "docs"
+    },
+    {
+      "sha": "c156af2",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-057 + spec-058",
+      "type": "chore"
+    },
     {
       "sha": "b7eae15",
       "date": "2026-10-03",
@@ -1275,30 +1299,6 @@
       "sha": "ed5b17e",
       "date": "2026-10-03",
       "subject": "chore(log): trail for spec-054+mobile push",
-      "type": "chore"
-    },
-    {
-      "sha": "010a7ae",
-      "date": "2026-10-03",
-      "subject": "fix(spec-056): mobile sticky footer on long explanations",
-      "type": "fix"
-    },
-    {
-      "sha": "8d58264",
-      "date": "2026-10-03",
-      "subject": "feat(spec-054): exam mode - setup, run, results",
-      "type": "feat"
-    },
-    {
-      "sha": "c4cb9b3",
-      "date": "2026-10-03",
-      "subject": "docs(alerts): triage and close stale debts",
-      "type": "docs"
-    },
-    {
-      "sha": "951c592",
-      "date": "2026-10-03",
-      "subject": "chore(log): anchor refresh before spec-052 push",
       "type": "chore"
     }
   ],

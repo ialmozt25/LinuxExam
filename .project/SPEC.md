@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `b7eae1523e45456ffb9274900d923545f1870300`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `ea321b74d28cf31b98d191a703c550564ed8bc9d`<!--volatile:end-->
 - Спек: 55
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -19,8 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 057 | `fix-topic-union` | infra | approved | — | 2026-10-03 |
-| 058 | `analytics` | feature | approved | — | 2026-10-03 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -60,6 +58,8 @@
 | 052 | `fsrs-lite` | feature | done | 31b9940 | 2026-10-03 |
 | 054 | `exam-mode` | feature | done | 8d58264 | 2026-10-03 |
 | 056 | `mobile-sticky-footer` | fix | done | 010a7ae | 2026-10-03 |
+| 057 | `fix-topic-union` | infra | done | 8896618 | 2026-10-03 |
+| 058 | `analytics` | feature | done | b7eae15 | 2026-10-03 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
