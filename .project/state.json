@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "3f9f510d0ce3cc9524923ca821d18776be8631a9",
+  "head": "dc6e38d16b8d9740eed77005d22840733ea969e9",
   "specs": [
     {
       "id": "022",
@@ -1138,8 +1138,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | push | authorize push origin main — spec-052 fsrs-lite; публикует 0451f05..<trail-tip> | commit pending",
-    "2026-10-03 | guard | якорь перезаписан на session-db45a482… | commit pending",
     "2026-10-03 | spec-054 | Exam mode реализован прямым путём (без MAS/enrich); 3 экрана + domain + e2e. | commit pending",
     "2026-10-03 | trail | spec-054 + spec-056: публикуется 8d58264 (feat(spec-054): exam mode) + 010a7ae (fix(spec-056): mobile sticky footer); верификация перед push — typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
     "2026-10-03 | spec-056 | R5 trace - task tokens: spec 056 закрыта вручную (team.json отсутствует, прецедент 050/052); feat-коммит 010a7ae fix(spec-056): mobile sticky footer on long explanations; гейты typecheck 0, test:run 255/255, test:e2e 66/66, build 0, sync:check 0 | commit 010a7ae",
@@ -1147,10 +1145,30 @@
     "2026-10-03 | spec-056 | done - mobile sticky footer (fix 010a7ae); закрытие вручную (прецедент 050/052); тест падал до фикса (ratio 0) и проходит после (784-840 при scrollTop 0); гейты: typecheck 0, test:run 255/255, test:e2e 66/66, build 0 | commit 010a7ae",
     "2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending",
     "2026-10-03 | push | выполнен c4cb9b3..dcd8150 | commit 0d51a19",
-    "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19"
+    "2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19",
+    "2026-10-03 | push | authorize push origin main — convergence after spec-054+056; публикует dcd8150..<trail-SHA> | commit pending",
+    "2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "dc6e38d",
+      "date": "2026-10-03",
+      "subject": "chore(log): push done for convergence push",
+      "type": "chore"
+    },
+    {
+      "sha": "f33b832",
+      "date": "2026-10-03",
+      "subject": "chore(log): trail for convergence push",
+      "type": "chore"
+    },
+    {
+      "sha": "e3e41f1",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-054+056 push",
+      "type": "chore"
+    },
     {
       "sha": "3f9f510",
       "date": "2026-10-03",
@@ -1251,24 +1269,6 @@
       "sha": "fd0a787",
       "date": "2026-10-03",
       "subject": "docs(spec-052): done - 1. fsrs-lite",
-      "type": "docs"
-    },
-    {
-      "sha": "31b9940",
-      "date": "2026-10-03",
-      "subject": "feat(spec-052): fsrs-lite - spaced repetition for review-today",
-      "type": "feat"
-    },
-    {
-      "sha": "0451f05",
-      "date": "2026-10-03",
-      "subject": "fix(spec-053): narrow migrate pattern in risk scoring",
-      "type": "fix"
-    },
-    {
-      "sha": "eac65e8",
-      "date": "2026-10-03",
-      "subject": "docs(spec-052): fsrs-lite (feature, approved, hard-fail resolved)",
       "type": "docs"
     }
   ],
