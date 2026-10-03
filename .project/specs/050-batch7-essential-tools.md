@@ -1,12 +1,12 @@
 ---
 id: 050
 slug: batch7-essential-tools
-status: approved
+status: done
 type: content
 track: fast
 created: 2026-10-03
 updated: 2026-10-03
-commit: pending
+commit: be992c1
 embedded_approve: rule 2 (исключение F5.0a — spec создана сразу в `approved` по прямому заданию капитана 2026-10-03 «Создать spec 050 (content, approved embedded)»); rule 17 — трек **Fast** назван капитаном явной формулировкой; rule 6 — превью и approve капитана (STOP D) обязательны и на треке Fast, банк в `src/data/**` без approve не пишется
 commit_format: "feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253)"
 ---

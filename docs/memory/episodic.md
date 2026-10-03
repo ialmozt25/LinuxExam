@@ -236,3 +236,6 @@ Evidence: `.agent-teams/spec-040-spec-chain` (после архивации — 
 
 ## 2026-10-03 | spec-049-fast-track-guards (закрытие)
 Прогон AgentTeams (team `spec-049-fast-track-guards`, 6 задач — t1, t2, t3, t4, t5, t6, verdict=**pass**). Артефакты реализации: коммит `0e3f1f4` — "feat(spec-049): session-id guards + e2e from live bank + SETUP". Закрытие: R5-trace `0e3f1f4`, frontmatter `.project/specs/049-fast-track-guards.md` → `status: done` (commit `0e3f1f4`), запись в `.project/log.md`, converge `4eecdc9`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
+
+## 2026-10-03 | spec-050-batch7-reqc (закрытие)
+Прогон AgentTeams (team `spec-050-batch7-reqc`, 2 задач — t3, verdict=**pass**). Закрытие: R5-trace `be992c1`, frontmatter `.project/specs/050-batch7-essential-tools.md` → `status: done` (commit `be992c1`), запись в `.project/log.md`, converge `<converge>`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
