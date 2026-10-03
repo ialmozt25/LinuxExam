@@ -253,3 +253,4 @@
 2026-10-03 | debt | spec-052-fsrs-lite не архивирован: archive-team.mjs exit 3 (EPERM, 34 попытки/60 с и 64/120 с, дескриптор на team.json); команда брошена nested-капитаном (session-c2ec0af1-…) в phase=staged, planReviewState=awaiting_review — approve некому выдать; архивация отложена до перезапуска Windows, MAS-прогон не блокирует | commit pending
 2026-10-03 | spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | commit pending
 2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending
+2026-10-03 | spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | commit pending

@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0451f05f9a28e8c9720a1706d249fecb4390082b",
+  "head": "31b994022a17aadfa76ff7a76b7bc693596f3b4c",
   "specs": [
     {
       "id": "022",
@@ -474,21 +474,6 @@
       "goal": "1. Снять STOP-точки A, B и D при выполнении технических pass-условий: риск задачи ниже порога, enrich прошёл с score ≥ 85% и нулём hard-fail, QC = pass с cosine < 0.80 и Haladyna 5/5.",
       "acceptance": "1. `.project/scripts/run-spec.mjs` содержит ACTION_RISK, AUTO_THRESHOLD = 50 и HUMAN_THRESHOLD = 80; каждая задача плана получает risk_score (максимум по actions), план — maxRiskScore и riskDecision; проверка: `node .project/scripts/run-spec.mjs 051 --dry-run` печатает блок «риск-скоринг» со списком задач и STOP B-вердиктом.",
       "noTouch": "`src/data/**`, банк вопросов, `tools/**` — вне области спеки.",
-      "preview": ""
-    },
-    {
-      "id": "052",
-      "slug": "fsrs-lite",
-      "status": "approved",
-      "type": "feature",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/052-fsrs-lite.md",
-      "mtime": 1791001166345.2822,
-      "goal": "Кнопка «Повторить сегодня (N)» → прогон ровно тех вопросов, которые пора повторить.",
-      "acceptance": "1. `src/domain/fsrs.ts` (t1) — только чистые функции (нет импортов store/react).",
-      "noTouch": "src/data/** (банк 253), shuffleOptions, существующие 198 тестов (28 файлов),",
       "preview": ""
     },
     {
@@ -1047,6 +1032,21 @@
       "preview": ""
     },
     {
+      "id": "052",
+      "slug": "fsrs-lite",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "31b9940",
+      "file": "specs/052-fsrs-lite.md",
+      "mtime": 1791004924408.0464,
+      "goal": "Кнопка «Повторить сегодня (N)» → прогон ровно тех вопросов, которые пора повторить.",
+      "acceptance": "1. `src/domain/fsrs.ts` (t1) — только чистые функции (нет импортов store/react).",
+      "noTouch": "src/data/** (банк 253), shuffleOptions, существующие 198 тестов (28 файлов),",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1108,7 +1108,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | guard | якорь .captain-session-id перезаписан на session-3c6654b1-… (смена капитанской сессии, SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — spec-051 close; публикует 8838183..<trail-tip> (2484748, 9459d17, b7c4104 + trail) | commit pending",
     "2026-10-03 | guard | якорь перезаписан на session-7c132b50-… (SETUP §4) | commit pending",
     "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> | commit pending",
@@ -1117,10 +1116,17 @@
     "2026-10-03 | lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | commit pending",
     "2026-10-03 | debt | spec-052-fsrs-lite не архивирован: archive-team.mjs exit 3 (EPERM, 34 попытки/60 с и 64/120 с, дескриптор на team.json); команда брошена nested-капитаном (session-c2ec0af1-…) в phase=staged, planReviewState=awaiting_review — approve некому выдать; архивация отложена до перезапуска Windows, MAS-прогон не блокирует | commit pending",
     "2026-10-03 | spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | commit pending",
-    "2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending"
+    "2026-10-03 | spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | commit pending",
+    "2026-10-03 | spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "31b9940",
+      "date": "2026-10-03",
+      "subject": "feat(spec-052): fsrs-lite - spaced repetition for review-today",
+      "type": "feat"
+    },
     {
       "sha": "0451f05",
       "date": "2026-10-03",
@@ -1234,12 +1240,6 @@
       "date": "2026-10-03",
       "subject": "docs(spec-chain): register spec 050 + clarify Fast/Playwright scope (rule 17)",
       "type": "docs"
-    },
-    {
-      "sha": "610872c",
-      "date": "2026-10-03",
-      "subject": "chore(spec-049): trail for push + alerts ghost 4eecdc9",
-      "type": "chore"
     }
   ],
   "roles": [

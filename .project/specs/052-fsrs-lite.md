@@ -1,12 +1,12 @@
 ---
 id: 052
 slug: fsrs-lite
-status: approved
+status: done
 type: feature
 track: full
 created: 2026-10-03
 updated: 2026-10-03
-commit: null
+commit: 31b9940
 embedded_approve: rule 2 (F5.0a — approved по заданию капитана 2026-10-03);
   rule 17 — type:feature всегда Full; rule 6 не применяется
 ---

@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 0451f05</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 31b9940</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">51</div>
+      <div class="pulse-tile__value">52</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -250,6 +250,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">content</span>
           </li>
           <li class="ddn__item">
+            <span class="ddn__title">#052 fsrs-lite</span>
+            <span class="ddn__meta">feature</span>
+          </li>
+          <li class="ddn__item">
             <span class="ddn__title">#043 batch6-deploy-systems</span>
             <span class="ddn__meta">content</span>
           </li>
@@ -277,14 +281,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#045 spec-chain-readme-fix</span>
             <span class="ddn__meta">infra</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#007 qc-ratio-semantics</span>
-            <span class="ddn__meta">feature</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">11</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">10</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -323,10 +323,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">infra · approved</span>
           </li>
           <li class="ddn__item">
-            <span class="ddn__title">#052 fsrs-lite</span>
-            <span class="ddn__meta">feature · approved</span>
-          </li>
-          <li class="ddn__item">
             <span class="ddn__title">#053 risk-scoring-migrate-fix</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
@@ -355,12 +351,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 51 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 52 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 51</summary>
-          <div class="spec-group">Утверждены · 11</div>
+          <div class="spec-group">Утверждены · 10</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -371,7 +367,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#030 rhcsa-objectives-diff</li>
             <li>#031 rhcsa-bank-fixes</li>
             <li>#051 autonomous-spec-chain</li>
-            <li>#052 fsrs-lite</li>
             <li>#053 risk-scoring-migrate-fix</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
@@ -380,7 +375,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 33</div>
+          <div class="spec-group">Завершены · 34</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -415,6 +410,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#048 fast-track-obs-tester</li>
             <li>#049 fast-track-guards</li>
             <li>#050 batch7-essential-tools</li>
+            <li>#052 fsrs-lite</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -433,6 +429,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">31b9940</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(spec-052): fsrs-lite - spaced repetition for review-today</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
         <tr>
           <td class="mono">0451f05</td>
           <td><span class="ctype ctype--fix">fix</span></td>
@@ -547,12 +549,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-chain): register spec 050 + clarify Fast/Playwright scope (rule 17)</td>
           <td class="mono muted">2026-10-03</td>
         </tr>
-        <tr>
-          <td class="mono">610872c</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(spec-049): trail for push + alerts ghost 4eecdc9</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -571,7 +567,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">67 ч (~2.8 дн)</td>
+          <td class="muted">68 ч (~2.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -592,13 +588,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">67 ч (~2.8 дн)</td>
+          <td class="muted">68 ч (~2.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
-          <td class="mono">64</td>
+          <td class="mono">65</td>
           <td class="muted">5 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
@@ -609,11 +605,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">03.10</span> · debt | spec-050-batch7-essential-tools в корне .agent-teams (EPERM host PID 1500); MAS не блокирует (failed), архивация отложена до перезапуска Windows | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · lesson | anchor:refresh --log не проверен в реальной смене сессии (restart host не произошёл); live-тест перенесён на следующий рестарт | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · debt | spec-052-fsrs-lite не архивирован: archive-team.mjs exit 3 (EPERM, 34 попытки/60 с и 64/120 с, дескриптор на team.json); команда брошена nested-капитаном (session-c2ec0af1-…) в phase=staged…</li>
         <li><span class="mono muted">03.10</span> · spec-052 | Часть 2 = НЕ выполнено: auto-approve B (гейт) ✓, но nested MAS требует GUI approve → 0 задач, phase=staged, collect ложно exit 0. Дефект 051 → spec 054. | ещё не закоммичено</li>
         <li><span class="mono muted">03.10</span> · spec-052 | FSRS реализован вручную (MAS+enrich не оправдали время/стоимость). | ещё не закоммичено</li>
+        <li><span class="mono muted">03.10</span> · spec-052 | done - fsrs-lite (feat 31b9940); MAS-прогон staged/0 задач, закрытие вручную (прецедент 050 R5-trace) | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -644,8 +640,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 65</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 65</div>
+    <summary>Тревоги · записей: 66</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 66</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -893,6 +889,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">03.10 | lesson | live-тест auto-approve A (spec 052) подтверждён</div>
           <div class="entry__body muted">3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B).</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">03.10 | defect | FSRS-lite: кривая повторений 1,3,3,7,7,14 ≠ 1,3,7,14,30,60</div>
+          <div class="entry__body muted">Формула stability*=1.5 + index=floor(log2(stability)) даёт дубли (3,3 и 7,7);</div>
         </div>
         <div class="entry">
           <div class="entry__title">03.10 | defect | ghost-commit от `--amend` при закрытии spec 049</div>

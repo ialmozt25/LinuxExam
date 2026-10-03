@@ -266,7 +266,12 @@ Fix: фикстуры по живым id + длина темы из банка. 
 
 3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B).
 
-<!-- meta updated: 2026-10-03T00:00:00Z entries_count: 64 -->
+## 2026-10-03 | defect | FSRS-lite: кривая повторений 1,3,3,7,7,14 ≠ 1,3,7,14,30,60
+Формула stability*=1.5 + index=floor(log2(stability)) даёт дубли (3,3 и 7,7);
+добор до 30/60 — ~16 повторений вместо 6. Не блокер MVP. Кандидат в spec 055.
+INITIAL_DIFFICULTY=0.3 — из промпта.
+
+<!-- meta updated: 2026-10-03T00:00:00Z entries_count: 65 -->
 ## 2026-10-03 | defect | ghost-commit от `--amend` при закрытии spec 049
 
 `episodic.md` (закрытие 049) ссылается на converge `4eecdc9`, tip `main` — `98bc700`. `git cat-file -t 4eecdc9` = commit, `git branch --contains 4eecdc9` = пусто → dangling от `git commit --amend` в `close-spec.mjs` (alert 2026-09-30). `episodic.md` не переписываем (правило 8). Ghost не в `main`, push не блокирует.

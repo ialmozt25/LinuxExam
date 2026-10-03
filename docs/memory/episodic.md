@@ -239,3 +239,8 @@ Evidence: `.agent-teams/spec-040-spec-chain` (после архивации — 
 
 ## 2026-10-03 | spec-050-batch7-reqc (закрытие)
 Прогон AgentTeams (team `spec-050-batch7-reqc`, 2 задач — t3, verdict=**pass**). Закрытие: R5-trace `be992c1`, frontmatter `.project/specs/050-batch7-essential-tools.md` → `status: done` (commit `be992c1`), запись в `.project/log.md`, converge `37cb4c2`. Гейты: `npm run sync:check` → exit 0 после converge-коммита; push не выполнялся (правила 10/11). Скрипт закрытия: `node .project/scripts/close-spec.mjs` (spec 038).
+
+## 2026-10-03 | spec-052-fsrs-lite (закрытие)
+Ручное закрытие (spec:close неприменим: MAS-команда staged, no reviewer-pass).
+Feat: 31b9940 (15 файлов, +963/−48). Гейты: typecheck 0, test:run 225/225
+(198+27), test:e2e 61/61. ОВ-1 (кривая 1,3,3,7,7,14) — долг в alerts.md → spec 055.

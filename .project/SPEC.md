@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `0451f05f9a28e8c9720a1706d249fecb4390082b`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `31b994022a17aadfa76ff7a76b7bc693596f3b4c`<!--volatile:end-->
 - Спек: 51
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -18,7 +18,6 @@
 | 030 | `rhcsa-objectives-diff` | content | approved | — | — |
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
-| 052 | `fsrs-lite` | feature | approved | — | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -56,6 +55,7 @@
 | 048 | `fast-track-obs-tester` | infra | done | 3aaa494 | 2026-10-02 |
 | 049 | `fast-track-guards` | infra | done | 0e3f1f4 | 2026-10-03 |
 | 050 | `batch7-essential-tools` | content | done | be992c1 | 2026-10-03 |
+| 052 | `fsrs-lite` | feature | done | 31b9940 | 2026-10-03 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
