@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "061",
-      "slug": "retention-ui",
-      "status": "approved",
-      "type": "feature",
-      "created": "2026-10-03",
-      "updated": "2026-10-03",
-      "commit": null,
-      "file": "specs/061-retention-ui.md",
-      "mtime": 1791032229638.25,
-      "goal": "Retention-зона на Dashboard: **streak badge + XP bar + daily goal picker**.",
-      "acceptance": "`src/domain/goal.ts` — чистые функции из К1, покрытые unit-тестами;",
-      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
-      "preview": "Ordering-инвариант скриншота для приёмки: Dashboard, viewport 390×844, три"
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1152,6 +1137,21 @@
       "preview": "Новые файлы: `src/domain/onboarding.ts`, 3 экрана, 3 тест-файла"
     },
     {
+      "id": "061",
+      "slug": "retention-ui",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "commit": "94dcf99",
+      "file": "specs/061-retention-ui.md",
+      "mtime": 1791032592003.3203,
+      "goal": "Retention-зона на Dashboard: **streak badge + XP bar + daily goal picker**.",
+      "acceptance": "`src/domain/goal.ts` — чистые функции из К1, покрытые unit-тестами;",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": "Ordering-инвариант скриншота для приёмки: Dashboard, viewport 390×844, три"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1213,7 +1213,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | spec-057 | done - fix Topic union | commit 8896618",
     "2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15",
     "2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending",
     "2026-10-03 | push | выполнен f33b832..c2ffb1c | commit c2ffb1c",
@@ -1222,10 +1221,17 @@
     "2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending",
     "2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a",
-    "2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392"
+    "2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392",
+    "2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "4bfe692",
+      "date": "2026-10-03",
+      "subject": "chore(state): converge after spec-061",
+      "type": "chore"
+    },
     {
       "sha": "94dcf99",
       "date": "2026-10-03",
@@ -1338,12 +1344,6 @@
       "sha": "39ac191",
       "date": "2026-10-03",
       "subject": "docs(spec-058): done - analytics",
-      "type": "docs"
-    },
-    {
-      "sha": "e723d27",
-      "date": "2026-10-03",
-      "subject": "docs(spec-057): done - fix topic union",
       "type": "docs"
     }
   ],

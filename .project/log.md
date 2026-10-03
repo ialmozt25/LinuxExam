@@ -276,3 +276,4 @@
 2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending
 2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a
 2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392
+2026-10-03 | spec-061 | done - retention-ui (streak badge, XP bar, daily goal) | commit 94dcf99

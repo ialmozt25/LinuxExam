@@ -19,7 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 061 | `retention-ui` | feature | approved | — | 2026-10-03 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -63,6 +62,7 @@
 | 058 | `analytics` | feature | done | b7eae15 | 2026-10-03 |
 | 059 | `cleanup-blockers` | infra | done | bdb21ba | 2026-10-03 |
 | 060 | `onboarding` | feature | done | 6a94392 | 2026-10-03 |
+| 061 | `retention-ui` | feature | done | 94dcf99 | 2026-10-03 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
