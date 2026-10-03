@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "31b994022a17aadfa76ff7a76b7bc693596f3b4c",
+  "head": "f568ac8dd9e166b575aff3254d0f1e4c96d29c19",
   "specs": [
     {
       "id": "022",
@@ -1122,6 +1122,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "f568ac8",
+      "date": "2026-10-03",
+      "subject": "chore(spec-052): R5 trace - task tokens t1 t2 t3 t4 t5",
+      "type": "chore"
+    },
+    {
+      "sha": "fd0a787",
+      "date": "2026-10-03",
+      "subject": "docs(spec-052): done - 1. fsrs-lite",
+      "type": "docs"
+    },
+    {
       "sha": "31b9940",
       "date": "2026-10-03",
       "subject": "feat(spec-052): fsrs-lite - spaced repetition for review-today",
@@ -1228,18 +1240,6 @@
       "date": "2026-10-03",
       "subject": "chore(state): converge after feat(bank) batch 7",
       "type": "chore"
-    },
-    {
-      "sha": "2e54f96",
-      "date": "2026-10-03",
-      "subject": "feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253)",
-      "type": "feat"
-    },
-    {
-      "sha": "673827a",
-      "date": "2026-10-03",
-      "subject": "docs(spec-chain): register spec 050 + clarify Fast/Playwright scope (rule 17)",
-      "type": "docs"
     }
   ],
   "roles": [
