@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "2960a05cc1eb15d0224585cc10f2360624e26d93",
+  "head": "ce0f72c3fca9f3b501fc32cea4af75bb6e18ce4f",
   "specs": [
     {
       "id": "022",
@@ -1078,7 +1078,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-03 | rule13-exception | авторизована правка ORCH-RULES §17 + блока «Проверка» spec 050 (уточнение Fast/Playwright) | commit pending",
     "2026-10-03 | spec | spec 050 (batch7-essential-tools, content, approved, track fast) зарегистрирована в git — файл был untracked | commit pending",
     "2026-10-03 | per_topic_target | overflow 25 > 22 (тема essential_tools, spec 050) принят — per_topic_target остаётся 22 (прецедент spec 043) | commit pending",
     "2026-10-03 | spec-050 | done - batch 7 - feat(bank): M2.9 batch 7 - 12 questions on essential_tools (241→253) | commit pending",
@@ -1087,10 +1086,17 @@
     "2026-10-03 | spec-051 | correction — spec переписана под собственный детерминированный гейт (validate-spec): добавлены секции «## Контекст» и «## Edge Cases», снята self-reference задачи t1 (спека больше не пишет сама в себя), убраны не-пути в бэктиках и placeholder-маркеры шаблонов, критерии снабжены verify-командами, commit заполнен реальным SHA; итог: 15P/0F/0W, score 85→90, hard-fail false, сирот traceability нет | commit pending",
     "2026-10-03 | spec-051 | fix — `resolveSpec` в run-spec.mjs не прокидывал задачи «## Декомпозиции» в объект спеки, из-за чего риск-скоринг видел пустой план (задач 0) и STOP B не мог стать auto; после фикса dry-run даёт задач 4, max-risk 30, DAG valid, `auto-approve STOP B \\| DAG valid \\| max-risk:30` | commit pending",
     "2026-10-03 | guard | якорь .captain-session-id перезаписан на session-3c6654b1-… (смена капитанской сессии, SETUP §4) | commit pending",
-    "2026-10-03 | push | authorize push origin main — spec-051 close; публикует 8838183..<trail-tip> (2484748, 9459d17, b7c4104 + trail) | commit pending"
+    "2026-10-03 | push | authorize push origin main — spec-051 close; публикует 8838183..<trail-tip> (2484748, 9459d17, b7c4104 + trail) | commit pending",
+    "2026-10-03 | push | authorize push origin main — e2e app coverage; публикует 2960a05..<trail-tip> | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "ce0f72c",
+      "date": "2026-10-03",
+      "subject": "feat(test): e2e app coverage + data-testid (58 tests)",
+      "type": "feat"
+    },
     {
       "sha": "2960a05",
       "date": "2026-10-03",
@@ -1204,12 +1210,6 @@
       "date": "2026-10-03",
       "subject": "chore(log): trail for breach-record push",
       "type": "chore"
-    },
-    {
-      "sha": "f7b2987",
-      "date": "2026-10-02",
-      "subject": "docs(breach): spec-048 - unauthorized close and push by worker t6 (rules 10/11)",
-      "type": "docs"
     }
   ],
   "roles": [
