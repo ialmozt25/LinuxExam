@@ -6,6 +6,8 @@ import { AVAILABLE_TOPICS } from '@/data/topics';
 import { FREE_TOPICS, TRIAL_DAYS } from '@/domain/paywall';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { AppHeader } from '@/presentation/components/AppHeader';
+import { DEFAULT_PLAN_ID, PAYMENT_PLANS, type PaymentPlanId } from '@/platform/config';
+import { createInvoiceLink, openInvoice } from '@/platform/payment_provider';
 
 /**
  * PAYWALL BEHAVIOR (INTENDED - do not change):
@@ -17,9 +19,14 @@ import { AppHeader } from '@/presentation/components/AppHeader';
  * теме на Dashboard (`Dashboard.tsx`) при `!isPro` и неактивном trial. Разметка
  * ниже — общая для обоих входов: гейт бесплатных вопросов (`isPaywallVisible`)
  * остался в `Question.tsx` и не переписывался.
+ *
+ * spec 064 заменила заглушку покупки реальным потоком Telegram Stars: выбор
+ * тарифа (`PAYMENT_PLANS` из `src/platform/config.ts`) → инвойс нашего backend'а
+ * → окно инвойса Telegram. Pro выдаёт КЛИЕНТ по статусу `paid` (MVP-граница
+ * spec 064); серверной верификации платежа здесь нет — это spec 066.
  */
 
-const PLANS = [
+const BENEFITS = [
   '✓ Все вопросы по всем темам',
   '✓ Подробные объяснения к каждому',
   '✓ Режим экзамена с таймером',
@@ -27,10 +34,16 @@ const PLANS = [
 
 export default function Paywall() {
   const [notice, setNotice] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<PaymentPlanId>(DEFAULT_PLAN_ID);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const hidePaywall = useQuizStore((s) => s.hidePaywall);
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const startTrial = useQuizStore((s) => s.startTrial);
+  // spec 064: существующий экшен store, НЕ дублируется здесь — он же ставит
+  // `isPaywallVisible: false`, и потому после успешной оплаты достаточно уйти
+  // на dashboard.
+  const unlockPro = useQuizStore((s) => s.unlockPro);
   const totalQuestions = useQuizStore((s) => s.questions.length);
 
   // Списки тем для секций. Заголовки берутся из реестра `src/data/topics.ts`,
@@ -42,10 +55,36 @@ export default function Paywall() {
     (t) => t.title
   );
 
-  // spec 064 подключит реальную оплату. Здесь — осознанная заглушка: платёжный
-  // flow не открывается, `provider.purchase()` не вызывается.
-  const handlePurchase = () => {
-    setNotice('Оплата появится в spec 064 — сейчас подписку оформить нельзя.');
+  // Цена на кнопке следует за выбранным тарифом; fallback нужен только на случай
+  // рассинхрона констант и не достижим при `selectedPlan: PaymentPlanId`.
+  const activePlan = PAYMENT_PLANS.find((plan) => plan.id === selectedPlan) ?? PAYMENT_PLANS[0];
+
+  /**
+   * spec 064: покупка. Два шага — инвойс у нашего backend'а, затем окно инвойса
+   * Telegram. `isProcessing` держит кнопку задизейбленной, пока окно открыто:
+   * повторный клик открыл бы второй инвойс.
+   */
+  const handlePurchase = async () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+    setNotice(null);
+    try {
+      const invoiceUrl = await createInvoiceLink(selectedPlan);
+      const status = await openInvoice(invoiceUrl);
+      if (status === 'paid') {
+        unlockPro();
+        navigateTo('dashboard');
+        return;
+      }
+      // cancelled / failed / pending — экран остаётся paywall, Pro не выдаётся.
+      setNotice('Оплата не завершена');
+    } catch {
+      // Ненастроенный backend (`Payment backend not configured`) и недоступное
+      // окно инвойса приходят сюда одинаково: наружу — одна понятная фраза.
+      setNotice('Не удалось начать оплату. Попробуйте позже.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleStartTrial = () => {
@@ -95,12 +134,12 @@ export default function Paywall() {
           marginBottom: SPACING.xl,
         }}
       >
-        {PLANS.map((line, index) => (
+        {BENEFITS.map((line, index) => (
           <div
             key={line}
             style={{
               fontSize: 14,
-              marginBottom: index === PLANS.length - 1 ? 0 : SPACING.sm,
+              marginBottom: index === BENEFITS.length - 1 ? 0 : SPACING.sm,
             }}
           >
             {line}
@@ -155,9 +194,62 @@ export default function Paywall() {
         </div>
       </div>
 
+      {/* spec 064: тарифы. Список и цены — из PAYMENT_PLANS (config.ts), не из
+          разметки: те же три пары «подпись + цена» уходят в Bot API. */}
+      <fieldset
+        data-testid="paywall-plans"
+        style={{
+          border: 'none',
+          padding: 0,
+          margin: 0,
+          marginBottom: SPACING.md,
+        }}
+      >
+        <legend
+          style={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: 'var(--text-secondary)',
+            padding: 0,
+            marginBottom: SPACING.sm,
+          }}
+        >
+          Тариф
+        </legend>
+        {PAYMENT_PLANS.map((plan) => (
+          <label
+            key={plan.id}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: SPACING.sm,
+              padding: SPACING.sm,
+              marginBottom: SPACING.xs,
+              borderRadius: LAYOUT.buttonRadius,
+              border: `1px solid ${plan.id === selectedPlan ? 'var(--accent)' : 'var(--border-subtle)'}`,
+              cursor: isProcessing ? 'default' : 'pointer',
+            }}
+          >
+            <input
+              type="radio"
+              name="payment-plan"
+              value={plan.id}
+              data-testid={`plan-${plan.id}`}
+              checked={plan.id === selectedPlan}
+              disabled={isProcessing}
+              onChange={() => setSelectedPlan(plan.id)}
+              style={{ accentColor: 'var(--accent)' }}
+            />
+            <span style={{ fontSize: 14 }}>{`${plan.label} — ${plan.stars} Stars`}</span>
+          </label>
+        ))}
+      </fieldset>
+
       {notice !== null && (
         <div
           data-testid="paywall-purchase-notice"
+          role="status"
+          aria-live="polite"
           style={{
             color: 'var(--text-secondary)',
             fontSize: 13,
@@ -195,6 +287,7 @@ export default function Paywall() {
         type="button"
         data-testid="paywall-buy"
         onClick={handlePurchase}
+        disabled={isProcessing}
         style={{
           width: '100%',
           padding: SPACING.md,
@@ -204,12 +297,13 @@ export default function Paywall() {
           borderRadius: LAYOUT.buttonRadius,
           fontSize: 16,
           fontWeight: 600,
-          cursor: 'pointer',
+          cursor: isProcessing ? 'default' : 'pointer',
+          opacity: isProcessing ? 0.6 : 1,
           fontFamily: 'inherit',
           marginBottom: SPACING.sm,
         }}
       >
-        Купить — 299 Stars/мес
+        {isProcessing ? 'Открываем оплату…' : `Купить за ${activePlan.stars} Stars`}
       </button>
 
       <button
@@ -230,8 +324,6 @@ export default function Paywall() {
       >
         Не сейчас
       </button>
-
-      {/* TODO(payments): заменить заглушку реальным потоком оплаты (spec 064). */}
     </ScreenContainer>
   );
 }

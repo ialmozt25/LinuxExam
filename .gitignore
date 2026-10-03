@@ -62,6 +62,11 @@ notify-state.json.lock
 .lock
 /.project/logs/
 
+# spec 064: платёжный backend (Yandex Cloud Function, backend/tg-stars).
+# Зависимостей у функции нет (zero-deps), но правила держат её изолированной
+# от корневого node_modules, если она когда-нибудь обрастёт локальными пакетами.
+backend/**/node_modules/
+backend/**/.env
 # spec 049: id капитанской сессии DSH для guard'а push/close (правило 11).
 # Машинозависимый файл — создаётся SETUP'ом капитана на каждой машине, в git не попадает.
 .project/.captain-session-id

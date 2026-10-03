@@ -91,20 +91,27 @@ test.describe('пейволл — гейт бесплатных вопросов
     await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
   });
 
-  test('«Купить» — заглушка spec 064: Pro НЕ открывается', async ({ page }) => {
+  test('«Купить» без настроенного backend: инвойс не создаётся, Pro не выдаётся', async ({
+    page,
+  }) => {
     await gotoApp(page);
     await reachFreeLimit(page);
     await page.getByTestId(TESTID.nextButton).click();
     await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
 
     const buy = page.getByTestId(TESTID.paywallBuy);
-    await expect(buy).toContainText('Купить — 299 Stars/мес');
+    await expect(buy).toContainText('Купить за 299 Stars');
     await buy.click();
 
-    // Платёжный flow не открывается: экран не меняется, сообщение-заглушка на месте.
-    await expect(page.getByTestId(TESTID.paywallPurchaseNotice)).toBeVisible();
+    // spec 064: `VITE_API_GATEWAY_URL` в E2E-сборке не задан, поэтому запрос
+    // инвойса не уходит вовсе. Экран не меняется, пользователь видит понятное
+    // сообщение, окно оплаты не открывается — и Pro не выдаётся.
+    const notice = page.getByTestId(TESTID.paywallPurchaseNotice);
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText('Не удалось начать оплату');
     await expect(page.getByTestId(TESTID.paywall)).toBeVisible();
     await expect(page.getByTestId(TESTID.questionText)).toHaveCount(0);
+    await expect(buy).toBeEnabled();
 
     const persisted = await page.evaluate(() => {
       const raw = window.localStorage.getItem('rhcsa_progress');
@@ -262,5 +269,48 @@ test.describe('пейволл — контентный (3 Free / 11 Paid)', () =
     await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(3);
     await expect(topicButton(page, TOPIC)).toContainText('Бесплатно');
     await expect(topicButton(page, PAID_TOPIC)).toContainText('PRO');
+  });
+});
+
+/**
+ * Тарифы Telegram Stars (spec 064). Окно инвойса Playwright воспроизвести не
+ * может — эмуляции Telegram WebApp в проекте нет, — поэтому снаружи
+ * проверяется то, что видно: контракт `plan-*`, дефолтный выбор и цена на
+ * кнопке. Сам платёжный путь закрыт unit-тестами
+ * (`Paywall.purchase.test.tsx`, `payment_provider.test.ts`).
+ */
+test.describe('пейволл — тарифы Telegram Stars (spec 064)', () => {
+  test('три тарифа с data-testid, по умолчанию выбран месячный', async ({ page }) => {
+    await gotoApp(page);
+    await reachFreeLimit(page);
+    await page.getByTestId(TESTID.nextButton).click();
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
+
+    const plans = page.getByTestId(TESTID.paywallPlans);
+    await expect(plans).toBeVisible();
+    await expect(plans).toContainText('Месяц — 299 Stars');
+    await expect(plans).toContainText('Год — 1499 Stars');
+    await expect(plans).toContainText('Навсегда — 3999 Stars');
+
+    await expect(page.getByTestId(TESTID.planMonthly)).toBeChecked();
+    await expect(page.getByTestId(TESTID.planYearly)).not.toBeChecked();
+    await expect(page.getByTestId(TESTID.planLifetime)).not.toBeChecked();
+
+    await expect(page.getByTestId(TESTID.paywallBuy)).toContainText('Купить за 299 Stars');
+  });
+
+  test('выбор тарифа меняет цену на кнопке', async ({ page }) => {
+    await gotoApp(page);
+    await reachFreeLimit(page);
+    await page.getByTestId(TESTID.nextButton).click();
+    await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
+
+    await page.getByTestId(TESTID.planYearly).check();
+    await expect(page.getByTestId(TESTID.paywallBuy)).toContainText('Купить за 1499 Stars');
+
+    await page.getByTestId(TESTID.planLifetime).check();
+    await expect(page.getByTestId(TESTID.planLifetime)).toBeChecked();
+    await expect(page.getByTestId(TESTID.planYearly)).not.toBeChecked();
+    await expect(page.getByTestId(TESTID.paywallBuy)).toContainText('Купить за 3999 Stars');
   });
 });

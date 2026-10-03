@@ -431,6 +431,11 @@ export const TESTID = {
   paywallFreeTopics: 'paywall-free-topics',
   paywallPaidTopics: 'paywall-paid-topics',
   paywallPurchaseNotice: 'paywall-purchase-notice',
+  // spec 064: выбор тарифа Telegram Stars (`data-testid` — на самом input).
+  paywallPlans: 'paywall-plans',
+  planMonthly: 'plan-monthly',
+  planYearly: 'plan-yearly',
+  planLifetime: 'plan-lifetime',
 
   // spec 063: бейджи доступа. Префикс НАМЕРЕННО не `topic-`: dashboard.spec
   // считает темы селектором `[data-testid^="topic-"]`, и бейдж внутри строки
