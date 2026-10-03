@@ -1,12 +1,12 @@
 ---
 id: 060
 slug: onboarding
-status: approved
+status: done
 type: feature
 track: full
 created: 2026-10-03
 updated: 2026-10-03
-commit: null
+commit: 6a94392
 embedded_approve: rule 2 (F5.0a — 2026-10-03)
 execution: direct
 ---

@@ -275,3 +275,4 @@
 2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending
 2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending
 2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a
+2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392
