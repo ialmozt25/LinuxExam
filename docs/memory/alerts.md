@@ -7,36 +7,36 @@
 ## 2026-09-28 | renderAgentTeamCard не обёрнут VOLATILE
 `.project/sync.mjs:884-918` (секция «Пульс агентов») рендерит
 `.agent-teams/*/team.json`. Любое изменение storage → `sync:check`
-exit 2. Кандидат: volatile-маркеры или игнор.
+exit 2. Кандидат: volatile-маркеры или игнор. [closed 2026-10-03: spec-048]
 
 ## 2026-09-28 | Quality-gates контракты не применяются
 Все задачи в D4 — `kind: work`. Harness не требует `objective`/
-`acceptance`/`verify`/`reviewedTaskId`. Кандидат: усилить SKILL.md.
+`acceptance`/`verify`/`reviewedTaskId`. Кандидат: усилить SKILL.md. [closed 2026-10-03: spec-034]
 
 ## 2026-09-28 | D5-порядок в шаблонах промптов
 `sync:check` до коммита всегда exit 2. Правильный порядок:
-A/B → F1 → D2/D3 → D4/D5/D6 → H. Кандидат: procedural.md.
+A/B → F1 → D2/D3 → D4/D5/D6 → H. Кандидат: procedural.md. [observed 2026-10-03]
 
 ## 2026-09-28 | rule2-exception cumulative
-F5.0b — второй случай `rule2-exception` (после spec 023 в F4.3). Если паттерн повторится — пересмотреть правило 2 (возможно, embedded approve — норма, а не исключение). Кандидат в F5.3 или в ORCH-RULES-правку.
+F5.0b — второй случай `rule2-exception` (после spec 023 в F4.3). Если паттерн повторится — пересмотреть правило 2 (возможно, embedded approve — норма, а не исключение). Кандидат в F5.3 или в ORCH-RULES-правку. [closed 2026-10-03: rule 2 / F5.0a]
 
 ## 2026-09-28 | headless: junction на web-профиль
-Хранители (`DSH-Checker`/`DSH-Cleaner`) работают через `dsh --profile headless`. Профиль headless требует junction `node_modules/dsh-tier-router → web/node_modules/dsh-tier-router` (создан в F4.2a-i). Сломается, если web-профиль обновится/удалится. Кандидат: `dsh plugin --profile headless add dsh-tier-router`.
+Хранители (`DSH-Checker`/`DSH-Cleaner`) работают через `dsh --profile headless`. Профиль headless требует junction `node_modules/dsh-tier-router → web/node_modules/dsh-tier-router` (создан в F4.2a-i). Сломается, если web-профиль обновится/удалится. Кандидат: `dsh plugin --profile headless add dsh-tier-router`. [blocked, needs-restart 2026-10-03]
 
 ## 2026-09-28 | headless: package.json вне версионного контроля
-`headless/package.json` (`dependencies` + `dsh.profile.bundles`) правился в F4.2a-i вне репо и вне git. Перезапишется при обновлении DSH. Кандидат: зафиксировать baseline в `docs/memory/semantic.md`.
+`headless/package.json` (`dependencies` + `dsh.profile.bundles`) правился в F4.2a-i вне репо и вне git. Перезапишется при обновлении DSH. Кандидат: зафиксировать baseline в `docs/memory/semantic.md`. [blocked, needs-restart 2026-10-03]
 
 ## 2026-09-28 | headless sandbox: spawnSync EPERM
-Песочница headless-профиля блокирует `spawnSync` с piped stdio (`git EPERM`). `npm run sync:check` внутри headless-агента не работает — гейт остаётся за оркестратором. Сверщик проверяет только отставание `state.head` > 1.
+Песочница headless-профиля блокирует `spawnSync` с piped stdio (`git EPERM`). `npm run sync:check` внутри headless-агента не работает — гейт остаётся за оркестратором. Сверщик проверяет только отставание `state.head` > 1. [accepted 2026-10-03]
 
 ## 2026-09-28 | правило 2 узаконено; правило 13 смягчено (F5.0a)
 F4.3 использовал embedded approve для перевода spec 023 в approved. В F5.0a правило 2 дополнено исключением (embedded approve для spec-перевода), правило 13 смягчено (правка ORCH-RULES через embedded approve, если файл и суть названы явно). Записи `rule2-exception` и `rule13-exception` — в `log.md`. [closed F5.0a]
 
 ## 2026-09-28 | Критерий 8 спеки 022 не проверен прогоном
-Критерий 8 спеки 022 (фаза известна, но не `staged|running` → в `class` попадает только базовый `chip` без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значением `phase` не удалось записать в edge-кейс-прогоне F3.0b — запись значения режется политикой оболочки. Не блокер F3. Кандидат: unit-тест `sync.mjs` (чистая функция рендера команды) в F4.
+Критерий 8 спеки 022 (фаза известна, но не `staged|running` → в `class` попадает только базовый `chip` без модификатора) подтверждён **только чтением кода**: фикстуру с неизвестным значением `phase` не удалось записать в edge-кейс-прогоне F3.0b — запись значения режется политикой оболочки. Не блокер F3. Кандидат: unit-тест `sync.mjs` (чистая функция рендера команды) в F4. [closed 2026-10-03: spec-048]
 
 ## 2026-09-28 | Dependabot — 52 уязвимости
-GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не следствие push. Кандидат в F4 или отдельную спеку. Действий пока нет.
+GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не следствие push. Кандидат в F4 или отдельную спеку. Действий пока нет. [external, tracked 2026-10-03]
 
 ## 2026-09-28 | F2.3 — стоп-условие 60 строк не сработало
 Агент применил 133 строки вместо 60 в sync.mjs (F2.3), обосновал целостностью. Принято капитаном. Прецедент: впредь при превышении стоп-условия — СТОП и отчёт, не дожимать. [closed — принято капитаном, F2.3.1]
@@ -58,14 +58,14 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 3. **OK.** Все файлы, упомянутые в ЧАСТИ 4 как созданные, на месте: `docs/FACTORY-PLAN.md`; `docs/memory/{episodic,semantic,procedural,working,alerts}.md`; `docs/memory/trends.jsonl`; `tools/check-episodic.mjs`; `.githooks/pre-commit`; `docs/dashboard/state.json`; `.agent-teams/linuxexam-f3-smoke/team.json`. Файлы незакрытой F5 (`templates/factory/`, `docs/FACTORY-USAGE.md`) отсутствуют — фаза `pending`, это ожидаемо.
 4. **НЕ ПРОВЕРЕНО.** `npm run sync:check` → exit 1, `sync: FAIL — spawnSync git EPERM` (sandbox блокирует piped stdio у `spawnSync git`). Эскалация `danger-full-access` для повторного прогона отклонена: канал approve недоступен. Результат гейта не подтверждён ни в плюс, ни в минус.
 
-**Итог:** 1 фактическое расхождение (п.1) + 1 непроверяемый пункт (п.4, sandbox). Правок не вносилось, кроме этой записи; `entries_count` в meta-комментарии ниже оставлен как был (правка вне задания).
+**Итог:** 1 фактическое расхождение (п.1) + 1 непроверяемый пункт (п.4, sandbox). Правок не вносилось, кроме этой записи; `entries_count` в meta-комментарии ниже оставлен как был (правка вне задания). [observed 2026-10-03]
 
 ## 2026-09-28 | [f4-checker] результат
 Сверка 4 пунктов. **все проверки OK.**
 1. **OK.** `state.head` = `70263107e8019b8d2c557d64188ddeea3f864a5a`; `git log -1` = `05895a96f620d5068a3a64ea466ab72d5e32326e` («feat(keepers): F4.2a-ii — keepers scripts + plan v2.13»). Отставание ровно 1 коммит — допустимо (самоссылка spec 009, следствие amend).
 2. **OK.** Все фазы `status: done` из YAML-шапки (`F0`, `F1`, `F2`, `F3`) имеют запись в `docs/memory/episodic.md`; `npm run check:episodic` → `OK F0 / OK F1 / OK F2 / OK F3`, exit 0.
 3. **OK.** Файлы ЧАСТИ 4, упомянутые как созданные, на месте: `docs/FACTORY-PLAN.md`; `docs/memory/{episodic,semantic,procedural,working,alerts}.md`; `docs/memory/trends.jsonl`; `.project/sync.mjs`; `.githooks/pre-commit`; `docs/index.html`; `docs/dashboard/state.json`; `.agent-teams/linuxexam-f3-smoke/team.json`; `.project/scripts/keepers/{checker.ps1,cleaner.ps1,watchdog.ps1,run-headless.mjs}`. Отсутствуют только `templates/factory/` и `docs/FACTORY-USAGE.md` — фаза F5 `pending`, это ожидаемо.
-4. **OK.** Отставание `state.head` от HEAD ровно 1 коммит — в допуске. `sync:check` не вызывался (sandbox блокирует `spawnSync git`).
+4. **OK.** Отставание `state.head` от HEAD ровно 1 коммит — в допуске. `sync:check` не вызывался (sandbox блокирует `spawnSync git`). [observed 2026-10-03]
 
 ## 2026-09-28 | [f4-checker] результат
 Сверка 4 пунктов. **все проверки OK.**
@@ -74,7 +74,7 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 3. **OK.** Файлы ЧАСТИ 4, упомянутые как созданные, на месте: `docs/FACTORY-PLAN.md`; `docs/memory/{episodic,semantic,procedural,working,alerts}.md`; `docs/memory/trends.jsonl`; `tools/check-episodic.mjs`; `.project/sync.mjs`; `.githooks/pre-commit`; `docs/index.html`; `docs/dashboard/state.json`; `.agent-teams/linuxexam-f3-smoke/team.json`; `.project/scripts/keepers/{checker.ps1,cleaner.ps1,watchdog.ps1,run-headless.mjs}`. Отсутствуют только `templates/factory/` и `docs/FACTORY-USAGE.md` — фаза F5 `pending`, ожидаемо.
 4. **OK.** Отставание `state.head` от HEAD ровно 1 коммит — в допуске. `sync:check` не вызывался (sandbox блокирует `spawnSync git`).
 
-**Итог:** расхождений нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания).
+**Итог:** расхождений нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания). [observed 2026-10-03]
 
 ## 2026-09-28 | [f4-checker] результат
 Сверка 4 пунктов. **все проверки OK.**
@@ -85,34 +85,34 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 
 **Итог:** расхождений по 4 пунктам нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания).
 
-*Вне 4 пунктов (наблюдение, не расхождение задания):* шапка плана и `state.plan` держат `F5` как `pending` `0/4`, тогда как CHANGELOG v2.20 и git (`923b427`) фиксируют F5.1a/F5.1b сделанными, а `current_step` = F5.2 — прогресс фазы в машиночитаемых полях отстаёт от факта.
+*Вне 4 пунктов (наблюдение, не расхождение задания):* шапка плана и `state.plan` держат `F5` как `pending` `0/4`, тогда как CHANGELOG v2.20 и git (`923b427`) фиксируют F5.1a/F5.1b сделанными, а `current_step` = F5.2 — прогресс фазы в машиночитаемых полях отстаёт от факта. [observed 2026-10-03]
 
 ## 2026-09-28 | C2a-3 (inSync) отложен
-`inSync: true` в `renderCenter` (строка `const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true })` в `main()`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом.
+`inSync: true` в `renderCenter` (строка `const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true })` в `main()`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом. [closed 2026-10-03: spec-029]
 
 ## 2026-09-29 | process lesson | working.md — manual-файл (sync не пишет)
-Любой коммит manual-файла после converge передвигает HEAD → следующий `sync` тянет drift → `sync:check` красный. Лечение: писать manual-файл ДО converge, либо принять отставание `state.head` на 1 коммит (f4-checker). Приём Pass 5c C1-fix: `git checkout --` на производные, если drift — артефакт одного не-sync коммита (коммит `3a2e931`).
+Любой коммит manual-файла после converge передвигает HEAD → следующий `sync` тянет drift → `sync:check` красный. Лечение: писать manual-файл ДО converge, либо принять отставание `state.head` на 1 коммит (f4-checker). Приём Pass 5c C1-fix: `git checkout --` на производные, если drift — артефакт одного не-sync коммита (коммит `3a2e931`). [observed 2026-10-03]
 
 ## 2026-09-29 | process gap | handoff не отражал провал Swarm-pilot B
-Handoff показывал «статус неизвестен» против факта: FAILED spawn 28.09, 12/12 task-агентов `child stopped: error` (детали — отчёт `C:\Users\Alexey Udotov\swarm-pilot\SWARM-PILOT-B-REPORT.md`, вне репо). Исправляется отдельным коммитом (handoff-update). Закрыто 2026-09-29 (handoff-create): заведён живой `docs/HANDOFF.md`; архивный `docs/archive/HANDOFF.md` оставлен как исторический артефакт. commit pending.
+Handoff показывал «статус неизвестен» против факта: FAILED spawn 28.09, 12/12 task-агентов `child stopped: error` (детали — отчёт `C:\Users\Alexey Udotov\swarm-pilot\SWARM-PILOT-B-REPORT.md`, вне репо). Исправляется отдельным коммитом (handoff-update). Закрыто 2026-09-29 (handoff-create): заведён живой `docs/HANDOFF.md`; архивный `docs/archive/HANDOFF.md` оставлен как исторический артефакт. commit pending. [closed 2026-10-03: handoff-create]
 
 ## 2026-09-29 | process gap | rule2-exception #3 — ПРОДОЛЖЕНИЕ записи `2026-09-28 | rule2-exception cumulative`
-Третий случай (spec 029, C1-close `log.md:88`, embedded approve без метки). Предыдущая запись от 2026-09-28 остаётся открытой; эта — её продолжение. Кандидат на пересмотр правила 2 (`.project/ORCH-RULES.md`).
+Третий случай (spec 029, C1-close `log.md:88`, embedded approve без метки). Предыдущая запись от 2026-09-28 остаётся открытой; эта — её продолжение. Кандидат на пересмотр правила 2 (`.project/ORCH-RULES.md`). [closed 2026-10-03: rule 2 / F5.0a]
 
 ## 2026-09-29 | process gap | V2-кандидат: плитка «Состояние»
-Решение C2d: принят **V1** (только `isCenterInSync()`, вариант A из C2a-3). Наблюдение: 🔴 достижим, но в нормальном потоке «sync → add → converge» почти всегда 🟢. Смысл плитки по spec 029 — «Всё работает / есть расхождение»; inSync даёт только синхронность центра, не состояние проекта. Кандидат C2a-4: агрегация inSync + consistency:check + sync:check (~30 строк, требует approve).
+Решение C2d: принят **V1** (только `isCenterInSync()`, вариант A из C2a-3). Наблюдение: 🔴 достижим, но в нормальном потоке «sync → add → converge» почти всегда 🟢. Смысл плитки по spec 029 — «Всё работает / есть расхождение»; inSync даёт только синхронность центра, не состояние проекта. Кандидат C2a-4: агрегация inSync + consistency:check + sync:check (~30 строк, требует approve). [closed 2026-10-03: spec-029]
 
 ## 2026-09-29 | fragile | Метрика первого экрана = 30, порог 30
-Критерий 1 spec 029 («нет прокрутки на 1440×900») выполнен впритык: 30 видимых строк до первого `<details>`. Любое добавление в первый экран сломает критерий. Отслеживать при будущих правках head/progress/ddn.
+Критерий 1 spec 029 («нет прокрутки на 1440×900») выполнен впритык: 30 видимых строк до первого `<details>`. Любое добавление в первый экран сломает критерий. Отслеживать при будущих правках head/progress/ddn. [observed 2026-10-03]
 
 ## 2026-09-29 | observation | preview-спек нет (на 29.09.2026)
-Плитка «Требует решения» (spec 029, уровень 1) показывает число спек в статусе `preview`. На 29.09.2026: preview 0; approved 6, done 14, rejected 4, draft 3. Плитка всегда «—». Дизайн-сигнал на будущее, не баг.
+Плитка «Требует решения» (spec 029, уровень 1) показывает число спек в статусе `preview`. На 29.09.2026: preview 0; approved 6, done 14, rejected 4, draft 3. Плитка всегда «—». Дизайн-сигнал на будущее, не баг. [observed 2026-10-03]
 
 ## 2026-09-29 | process gap | Тревоги-счётчик: семантика
 openAlerts() считает «открытые = записи без `[closed`». На 29.09.2026 (до добавления этой записи): 17 «открытых», из них 3 — записи-продолжения агентских реплик ([f4-checker] результат и правило 13). Реальных ~14. Кандидат: уточнить правило в openAlerts() — игнорировать записи с `[f*-checker]` / чисто-агентские заголовки.
 
 ## 2026-09-29 | override | Плитка «Состояние»: три статуса
-Spec 029 описывает плитку «Состояние» с двумя статусами (🟢/🔴). Реализовано три: 🟢 Синхронизировано / 🟡 Данные устарели / 🔴 Есть расхождения. Основание: честность — показывать свежесть данных, не только факт синхронности (наблюдение: при статичном `last_sync` от 27.09 плитка показывала 🟢 «Всё работает», что противоречило двухдневной давности данных). Санкционировано капитаном 29.09.2026. Spec 029 не переоткрывается (approved, commit:null).
+Spec 029 описывает плитку «Состояние» с двумя статусами (🟢/🔴). Реализовано три: 🟢 Синхронизировано / 🟡 Данные устарели / 🔴 Есть расхождения. Основание: честность — показывать свежесть данных, не только факт синхронности (наблюдение: при статичном `last_sync` от 27.09 плитка показывала 🟢 «Всё работает», что противоречило двухдневной давности данных). Санкционировано капитаном 29.09.2026. Spec 029 не переоткрывается (approved, commit:null). [accepted 2026-10-03]
 
 ## 2026-09-29 | defect | `last_sync` статичен; индикатор 🔴 недостижим в этом контуре
 Два связанных наблюдения, найденных при реализации трёх статусов. (1) Writer `last_sync` (`sync.mjs`, `last_sync: state.last_sync ?? new Date().toISOString()`) выставляет поле только при его отсутствии, а переменная `stateChanged` рядом вычисляется, но не используется, — поэтому значение застыло на `2026-09-27T15:37:59.477Z`, и плитка штатно показывает 🟡. Введён fallback `getFreshnessTime()`: `last_sync` → `git log -1 --format=%ct -- .project/state.json`. (2) 🔴 при `sync` практически недостижим: `isCenterInSync()` считается ДО записи и сравнивает СГЕНЕРИРОВАННОЕ содержимое с HEAD, а `sync` перед этим пишет файл из того же состояния — расхождение лечится в том же прогоне. Дополнительно потребовалось вырезать саму плитку «Состояние» из сравнения (`contentSansIndicator`), иначе индикатор самоссылался и залипал на 🔴 навсегда. Probe `--in-sync-probe` возвращает `false` на расхождении — логика рабочая, недостижим именно показ 🔴 в центре. [closed 2026-09-29: last_sync удалён из state/sync/STATE.md/гейта; freshness — git ct + .heartbeat; плитка — 4 уровня в VOLATILE]
@@ -127,40 +127,40 @@ Spec 029 описывает плитку «Состояние» с двумя с
 Spec 029 (override от 29.09) описывала плитку с 4 уровнями на основе inSync + freshness. Самоссылочность inSync (вычисляется до коммита, коммит меняет HEAD) привела к залипшему 🔴 в converge 8a4afa3. Fix: плитка рендерит ТОЛЬКО freshness (Fresh/Aging/Stale/Critical + null). Сигнал «центр отстал» — в sync:check / CLI. Санкционировано капитаном 29.09.2026. [closed 2026-09-29: переименована в «Свежесть данных» — commit bc6124d]
 
 ## 2026-09-29 | override | Плитка «Свежесть данных» — переименование
-Плитка `pulseTiles()` переименована: label «Состояние» → «Свежесть данных», значения уровней `FRESHNESS_LEVELS` → Свежие / Подустарели / Устарели / Критически старые, null-ветка → «Нет данных». Причина: имя обещало здоровье проекта («Всё работает»), а сигнал показывал возраст источников (git-время `state.json` + mtime `.heartbeat`). Правка только внутри `pulseTiles()`; `contentSansIndicator`, `isCenterInSync`, `getFreshnessTime`, VOLATILE-маркеры и соседние плитки не тронуты. Остаток (осознанно, вне границ правки): `contentSansIndicator` хранит regex по старому label «Состояние» — после переименования он не матчит, вырезание плитки полностью обеспечено VOLATILE-обёрткой. Санкционировано капитаном 29.09.2026.
+Плитка `pulseTiles()` переименована: label «Состояние» → «Свежесть данных», значения уровней `FRESHNESS_LEVELS` → Свежие / Подустарели / Устарели / Критически старые, null-ветка → «Нет данных». Причина: имя обещало здоровье проекта («Всё работает»), а сигнал показывал возраст источников (git-время `state.json` + mtime `.heartbeat`). Правка только внутри `pulseTiles()`; `contentSansIndicator`, `isCenterInSync`, `getFreshnessTime`, VOLATILE-маркеры и соседние плитки не тронуты. Остаток (осознанно, вне границ правки): `contentSansIndicator` хранит regex по старому label «Состояние» — после переименования он не матчит, вырезание плитки полностью обеспечено VOLATILE-обёрткой. Санкционировано капитаном 29.09.2026. [accepted 2026-10-03]
 
 ## 2026-09-29 | MAS | Решения зафиксированы в DECISIONS.md
 Требование DEV-PLAN D0 (запись выбора оркестратора) выполнено с опозданием. Зафиксированы: (1) оркестратор = dsh-agent-teams; (2) C-фаза соло; (3) Swarm закрыт; (4) MAS для RHCSA-diff и C2a-4; (5) Marketing MAS — spec 031.
 
 ## 2026-09-29 | defect | AnswerRecord.selectedIndex позиционный — ломается при reorder
-Запись {questionId: 'pm_001', selectedIndex: 0, isCorrect: true} (сделана до коммита 3bc8470) при текущих данных указывает на неправильный вариант. Симптом: два зелёных в режиме «Продолжить». Fix: optionText + миграция v2→v3 + отложенная нормализация из loadQuestions (банк async — в migrate недоступен); несовместимые записи drop. Commit ca62109f45abc29bd7218f62ad78df5f6a487b25.
+Запись {questionId: 'pm_001', selectedIndex: 0, isCorrect: true} (сделана до коммита 3bc8470) при текущих данных указывает на неправильный вариант. Симптом: два зелёных в режиме «Продолжить». Fix: optionText + миграция v2→v3 + отложенная нормализация из loadQuestions (банк async — в migrate недоступен); несовместимые записи drop. Commit ca62109f45abc29bd7218f62ad78df5f6a487b25. [closed 2026-10-03: optionText v2-v3]
 
 ## 2026-09-29 | process gap | spec 027-memory-test отсутствует в репо
-Прогон `.agent-teams/spec-027-memory-test` был (reviewer PASS), но файл `.project/specs/027-memory-test.md` отсутствует в репо и во всех коммитах. Дыра в процессе: skill `spec-to-team` не проверяет существование spec-файла. Кандидат в spec 031 (MAS-autonomy).
+Прогон `.agent-teams/spec-027-memory-test` был (reviewer PASS), но файл `.project/specs/027-memory-test.md` отсутствует в репо и во всех коммитах. Дыра в процессе: skill `spec-to-team` не проверяет существование spec-файла. Кандидат в spec 031 (MAS-autonomy). [observed 2026-10-03]
 
 ## 2026-09-29 | process gap | Spec 030 обогащена практиками SDD
-Проведено интернет-исследование (GitHub Spec Kit, Spec-To-Ship, мультиагентная оркестрация). Спека 030 дополнена разделами «Контекст», «Edge Cases и стратегия проверки», переформулированы «Что делаем» (измеримые результаты) и «Критерии приёмки». Constraint «только чтение, правки банка не в этой спеке» сохранён дословно.
+Проведено интернет-исследование (GitHub Spec Kit, Spec-To-Ship, мультиагентная оркестрация). Спека 030 дополнена разделами «Контекст», «Edge Cases и стратегия проверки», переформулированы «Что делаем» (измеримые результаты) и «Критерии приёмки». Constraint «только чтение, правки банка не в этой спеке» сохранён дословно. [observed 2026-10-03]
 
 ## 2026-09-29 | tech debt | _order.json — временно ручной механизм
-CLI-инструмента для обновления `_order.json` в проекте нет: единственный писатель (`tools/split-questions.mjs`) требует удалённый монолит; `manifest` только валидирует. Исторически — ручная правка в батч-коммитах (`ad50dcd`, `0622321`). Решение капитана 29.09.2026: в spec 031 — временно Node-скрипт в %TEMP% (единая транзакция); постоянный инструмент (`tools/order-manifest.mjs`) — spec 032 (infra). Процессный пробел зафиксирован в `procedural.md:28`. [closed 2026-09-30: spec 032 — `tools/order-manifest.mjs` (`--add`/`--remove`/`--check`) + `npm run order:add`/`order:remove`/`order:check`; шаг 6 пайплайна ссылается на инструмент]
+CLI-инструмента для обновления `_order.json` в проекте нет: единственный писатель (`tools/split-questions.mjs`) требует удалённый монолит; `manifest` только валидирует. Исторически — ручная правка в батч-коммитах (`ad50dcd`, `0622321`). Решение капитана 29.09.2026: в spec 031 — временно Node-скрипт в %TEMP% (единая транзакция); постоянный инструмент (`tools/order-manifest.mjs`) — spec 032 (infra). Процессный пробел зафиксирован в `procedural.md:28`. [closed 2026-09-30: spec 032 — `tools/order-manifest.mjs` (`--add`/`--remove`/`--check`) + `npm run order:add`/`order:remove`/`order:check`; шаг 6 пайплайна ссылается на инструмент] [closed 2026-10-03: spec-032]
 
 ## 2026-09-29 | defect | e2e/quiz-flow.spec.ts использует удалённый fp_002
-QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411, 474–476, 513–515) использует удалённый `fp_002`; `Question.tsx` фильтрует банк по этим id. Тест «review stream 12/12» упадёт после push. Follow-up: заменить фикстуру `fp_002` → `fp_013`. `test:e2e` не гейт spec 031.
+QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411, 474–476, 513–515) использует удалённый `fp_002`; `Question.tsx` фильтрует банк по этим id. Тест «review stream 12/12» упадёт после push. Follow-up: заменить фикстуру `fp_002` → `fp_013`. `test:e2e` не гейт spec 031. [closed 2026-10-03: spec-049]
 
 ## 2026-09-29 | tech debt | agent_teams_delete EPERM (2 прогона подряд)
-`agent_teams_delete()` возвращает EPERM на rename в `.agent-teams/archive/` (spec-030, spec-031). Диагностика: плагин/харнесс держит открытые дескрипторы каталогов команд (свежесозданный каталог в том же родителе переименовывается успешно). Evidence остаётся в `.agent-teams/<teamId>` — на deliverable не влияет. Постоянный фикс — spec 032 (MAS-autonomy). [closed 2026-09-30: spec 032 — причина воспроизведена (открытый дескриптор ниже переименовываемого каталога без `FILE_SHARE_DELETE`; плагин ждёт 3×50 мс) и закрыта хелпером `.project/scripts/archive-team.mjs` (retry/backoff, idempotent, exit 3 = дескриптор держится) + процедура в `procedural.md`]
+`agent_teams_delete()` возвращает EPERM на rename в `.agent-teams/archive/` (spec-030, spec-031). Диагностика: плагин/харнесс держит открытые дескрипторы каталогов команд (свежесозданный каталог в том же родителе переименовывается успешно). Evidence остаётся в `.agent-teams/<teamId>` — на deliverable не влияет. Постоянный фикс — spec 032 (MAS-autonomy). [closed 2026-09-30: spec 032 — причина воспроизведена (открытый дескриптор ниже переименовываемого каталога без `FILE_SHARE_DELETE`; плагин ждёт 3×50 мс) и закрыта хелпером `.project/scripts/archive-team.mjs` (retry/backoff, idempotent, exit 3 = дескриптор держится) + процедура в `procedural.md`] [closed 2026-10-03: spec-032]
 
 ## 2026-09-29 | tech debt | state.json.goal — счётчик банка расходится с _topics.json
-После MAS-прогона spec 031 (банк 224 → 225) поля `state.json.goal.current_questions` и `progress_percent` остались на 224 / 74.7. Причина: `goal` принадлежит `tools/gen-state.mjs` (по merge-контракту), но `sync.mjs` (L1916, L1917, L1995) в `nextState` переносит поле как есть и из `_topics.json` его НЕ пересчитывает. Законный писатель `npm run state:update` в этом шаге не запускался (перезаписывает `docs/dashboard/state.json`, легаси, вне scope). Правка выполнена вручную Node-скриптом (2 поля: 225, 75). Постоянный фикс — spec 032. [closed 2026-09-30: spec 032 — `.project/sync.mjs` пересчитывает `goal.current_questions`/`progress_percent` из банка на каждом прогоне (`readBankTotal()`); устаревшее поле приоритета не имеет, ручная правка не нужна (negative test 224/74.7 → 225/75)]
+После MAS-прогона spec 031 (банк 224 → 225) поля `state.json.goal.current_questions` и `progress_percent` остались на 224 / 74.7. Причина: `goal` принадлежит `tools/gen-state.mjs` (по merge-контракту), но `sync.mjs` (L1916, L1917, L1995) в `nextState` переносит поле как есть и из `_topics.json` его НЕ пересчитывает. Законный писатель `npm run state:update` в этом шаге не запускался (перезаписывает `docs/dashboard/state.json`, легаси, вне scope). Правка выполнена вручную Node-скриптом (2 поля: 225, 75). Постоянный фикс — spec 032. [closed 2026-09-30: spec 032 — `.project/sync.mjs` пересчитывает `goal.current_questions`/`progress_percent` из банка на каждом прогоне (`readBankTotal()`); устаревшее поле приоритета не имеет, ручная правка не нужна (negative test 224/74.7 → 225/75)] [closed 2026-10-03: spec-032]
 
 ## 2026-09-30 | [f4-cleaner] предложение
 Кандидатов на свёртку нет: на 2026-09-30 порог «старше 14 дней» (cutoff 2026-09-16) не пересекла ни одна запись `episodic.md` — все записи датированы 2026-09-28 … 2026-09-30 (возраст ≤ 2 дней). Предложение: свёртку по батчу 2026-09-28 (закрытия F0–F5, D0–D4, C0/C1 одной датой — самая плотная группа) делать начиная с прогона 2026-10-13. Чистильщик `episodic.md` и `semantic.md` не изменял. [closed 2026-09-30: кандидатов нет — открытых последствий нет]
 
 ## 2026-09-30 | observation | [f4-cleaner] в коммите 2539526 без meta-инкремента
-Запись `[f4-cleaner] предложение` (alerts.md стр. 156–157, `[closed 2026-09-30: кандидатов нет]`) попала в коммит `2539526` (MAS-прогон spec 032) между чтением файла и `git add` — параллельный writer. Запись безвредна, само-закрыта, гейты не затронуты. `entries_count` в meta не инкрементирован. При spec 033b — учесть в whitelist spec-gate.
+Запись `[f4-cleaner] предложение` (alerts.md стр. 156–157, `[closed 2026-09-30: кандидатов нет]`) попала в коммит `2539526` (MAS-прогон spec 032) между чтением файла и `git add` — параллельный writer. Запись безвредна, само-закрыта, гейты не затронуты. `entries_count` в meta не инкрементирован. При spec 033b — учесть в whitelist spec-gate. [observed 2026-10-03]
 
 ## 2026-09-30 | MAS | t0 (Step 0) закрыт вручную — цикл автономии технически замкнут
-Живой smoke `run-spec.mjs 013 --workspace . --timeout-ms 600000` → exit 0, 105716 ms, `team.json` создан в `.agent-teams/spec-013-local-aliases/` (staged, 3 члена, 3 задачи). API key `DEEPSEEK_API_KEY` в env; профиль `mas` собран (dsh-tier-router, @nanmicoder/dsh-agent-teams). Отчёт — `.project/scripts/RUN-SPEC-LIVE.md`. Модель в headless остановилась на «present plan, end turn for review» — правильное поведение. Spec 034 → done (7/7). Остаток: `run-spec.mjs` не передаёт spec в изолированный workspace (fix — spec 035).
+Живой smoke `run-spec.mjs 013 --workspace . --timeout-ms 600000` → exit 0, 105716 ms, `team.json` создан в `.agent-teams/spec-013-local-aliases/` (staged, 3 члена, 3 задачи). API key `DEEPSEEK_API_KEY` в env; профиль `mas` собран (dsh-tier-router, @nanmicoder/dsh-agent-teams). Отчёт — `.project/scripts/RUN-SPEC-LIVE.md`. Модель в headless остановилась на «present plan, end turn for review» — правильное поведение. Spec 034 → done (7/7). Остаток: `run-spec.mjs` не передаёт spec в изолированный workspace (fix — spec 035). [observed 2026-10-03]
 
 ## 2026-09-30 | process gap | DEEPSEEK_API_KEY не наследуется harness-процессом
 Живой прогон `run-spec.mjs` требует явного re-export User-переменной в PowerShell-сессии: `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`. Иначе DSH headless-профиль `mas` получает пустой ключ и выдаёт ложный `ROUTE_FAILED … no API key`. Воспроизведено: spec-034 (t5, builder и reviewer) и spec-035 (t3, независимо). Кандидат: preflight-проверка в `run-spec.mjs` — при отсутствии `$env:DEEPSEEK_API_KEY` подтягивать из User-scope (Windows) или явно требовать. Spec 036 (fix) или follow-up.
@@ -168,25 +168,25 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 [closed 2026-09-30: fix — `resolveApiKey()` в `run-spec.mjs` подтягивает из User-scope (Windows); preflight +7-я проверка; проброс в child env; commit pending]
 
 ## 2026-09-30 | process gap | эксперимент с frontmatter живого файла spec 037
-При проверке гейта R5 в «изолированном» клоне был затронут живой `.project/specs/037-user-counter.md` — frontmatter получил `status: done` до готовности коммита (следствие: `npm run sync:check` → exit 2, R5-находки). Устранено в той же сессии: файл возвращён к `approved` / `commit: null`, коммита не было, потерь нет. Урок: R5 проверять только на копии в `%TEMP%` с явно скопированным `.agent-teams`; живой файл spec 037 — только чтение. Дополнительно: R5 считается по реальному `.agent-teams` (untracked), в клоне он отсутствует — гейт молчит, поэтому изоляцию клона нужно восстанавливать копированием `.agent-teams`.
+При проверке гейта R5 в «изолированном» клоне был затронут живой `.project/specs/037-user-counter.md` — frontmatter получил `status: done` до готовности коммита (следствие: `npm run sync:check` → exit 2, R5-находки). Устранено в той же сессии: файл возвращён к `approved` / `commit: null`, коммита не было, потерь нет. Урок: R5 проверять только на копии в `%TEMP%` с явно скопированным `.agent-teams`; живой файл spec 037 — только чтение. Дополнительно: R5 считается по реальному `.agent-teams` (untracked), в клоне он отсутствует — гейт молчит, поэтому изоляцию клона нужно восстанавливать копированием `.agent-teams`. [closed 2026-10-03: spec-037]
 
 ## 2026-09-30 | defect | close-spec.mjs использует git commit --amend внутри
-Лог apply (spec 038): «converge-коммит ec6f72e вписан в docs/memory/episodic.md (докоммичен amend'ом)». Правило 8 (история не переписывается) применяется к ручным операциям; здесь amend делается инструментом внутри commit-chain. Прецедент: следующий close может переписать видимую историю. Кандидат в spec-fix: заменить amend на отдельный commits-append или на sed-in-place до первого коммита. Финализированный ec6f72e в git log не виден. Строки в close-spec.mjs: 1310, 1313–1316 (`runGitWrite(root, ['commit', '--amend', '--no-edit', '--only', '--', ...touched])`). Публикация безопасна постфактум: amend не был запущен, пока предыдущий коммит оставался неопубликованным (`origin/main` = `cd1e82f` до push). Риск — для будущего close в состоянии «предыдущий коммит уже опубликован»: `--amend` перепишет видимую историю. Статус: ОТКРЫТ.
+Лог apply (spec 038): «converge-коммит ec6f72e вписан в docs/memory/episodic.md (докоммичен amend'ом)». Правило 8 (история не переписывается) применяется к ручным операциям; здесь amend делается инструментом внутри commit-chain. Прецедент: следующий close может переписать видимую историю. Кандидат в spec-fix: заменить amend на отдельный commits-append или на sed-in-place до первого коммита. Финализированный ec6f72e в git log не виден. Строки в close-spec.mjs: 1310, 1313–1316 (`runGitWrite(root, ['commit', '--amend', '--no-edit', '--only', '--', ...touched])`). Публикация безопасна постфактум: amend не был запущен, пока предыдущий коммит оставался неопубликованным (`origin/main` = `cd1e82f` до push). Риск — для будущего close в состоянии «предыдущий коммит уже опубликован»: `--amend` перепишет видимую историю. Статус: ОТКРЫТ. [observed 2026-10-03]
 
 ## 2026-09-30 | observation | commit: в spec 038 указывает на feat до body-fix
-frontmatter spec 038: commit: 78c0eaf. Финальный текст спеки (adopt флагов --json/--repo-root + критерий 7) живёт в 9e6f97d. Гейты sync:check/R5 не сравнивают содержимое — зазор не ловится. Сознательно принято капитаном 2026-09-30. Кандидат: close-spec.mjs при записи commit: должен брать последний коммит, содержащий файл спеки (git log -1 --format=%H -- <spec>).
+frontmatter spec 038: commit: 78c0eaf. Финальный текст спеки (adopt флагов --json/--repo-root + критерий 7) живёт в 9e6f97d. Гейты sync:check/R5 не сравнивают содержимое — зазор не ловится. Сознательно принято капитаном 2026-09-30. Кандидат: close-spec.mjs при записи commit: должен брать последний коммит, содержащий файл спеки (git log -1 --format=%H -- <spec>). [observed 2026-10-03]
 
 ## 2026-09-30 | tech debt | DEP0190 warning в close-spec.mjs
-При apply в stderr: «DeprecationWarning: [DEP0190] Passing args to a child process with shell option true…». Не блокирует. Кандидат: убрать shell: true в вызовах spawnSync, где аргументы уже массив.
+При apply в stderr: «DeprecationWarning: [DEP0190] Passing args to a child process with shell option true…». Не блокирует. Кандидат: убрать shell: true в вызовах spawnSync, где аргументы уже массив. [observed 2026-10-03]
 
 ## 2026-09-30 | tech debt | working.md содержит ahead: 0 при реальном ahead 11
-Артефакт прогона 038 (запись от MAS-капитана). Зафиксировано в log.md 2026-09-30. Статус: ОТКРЫТ. Кандидат: `npm run spec:close -- --refresh-working` при следующем close; либо шаг 8 протокола spec-to-team должен писать working.md через git status, а не статикой.
+Артефакт прогона 038 (запись от MAS-капитана). Зафиксировано в log.md 2026-09-30. Статус: ОТКРЫТ. Кандидат: `npm run spec:close -- --refresh-working` при следующем close; либо шаг 8 протокола spec-to-team должен писать working.md через git status, а не статикой. [observed 2026-10-03]
 
 ## 2026-09-30 | observation | retired-members.json в .agent-teams/
-Источник установлен: плагинный артефакт `@nanmicoder/dsh-agent-teams` — `lib/state.js:27` (`const RETIRED_MEMBERS_FILE = 'retired-members.json'`), запись через `recordRetiredMemberIds()` (`lib/state.js:288`, `withTeamLock(...)` + `atomicWriteText`); durable deny-list session-id удалённых членов. Размер: 969 Б. mtime: 2026-09-30 19:44:34 (локальное). Содержимое: JSON-массив из 23 UUID (в ASCII-сортированном порядке). Не удалять: может быть артефактом плагина (ретрай-логика dsh-agent-teams). Статус: подтверждён как плагинный; ОТКРЫТ (вне git-контроля).
+Источник установлен: плагинный артефакт `@nanmicoder/dsh-agent-teams` — `lib/state.js:27` (`const RETIRED_MEMBERS_FILE = 'retired-members.json'`), запись через `recordRetiredMemberIds()` (`lib/state.js:288`, `withTeamLock(...)` + `atomicWriteText`); durable deny-list session-id удалённых членов. Размер: 969 Б. mtime: 2026-09-30 19:44:34 (локальное). Содержимое: JSON-массив из 23 UUID (в ASCII-сортированном порядке). Не удалять: может быть артефактом плагина (ретрай-логика dsh-agent-teams). Статус: подтверждён как плагинный; ОТКРЫТ (вне git-контроля). [observed 2026-10-03]
 
 ## 2026-09-30 | tech debt | Dependabot: 54 vulnerabilities (обновление)
-Было 52 (2026-09-28). Стало 54 (2026-09-30). Из них: 1 critical, 23 high, 26 moderate, 4 low. Источник: отчёт push spec 038 (fallback — `gh api …/dependabot/alerts` → HTTP 403, нужен scope `admin:repo_hook`). Не блокирует. Внешний долг. Статус: ОТКРЫТ.
+Было 52 (2026-09-28). Стало 54 (2026-09-30). Из них: 1 critical, 23 high, 26 moderate, 4 low. Источник: отчёт push spec 038 (fallback — `gh api …/dependabot/alerts` → HTTP 403, нужен scope `admin:repo_hook`). Не блокирует. Внешний долг. Статус: ОТКРЫТ. [external, tracked 2026-10-03]
 
 ## 2026-10-01 | observation | spec 040 findings — метрика для spec-enrich
 Прогон spec 040: 8 findings от qc round 1. 6 закрыты ремонтами
@@ -199,16 +199,16 @@ mtime + relative time + untracked .agent-teams в docs/index.html).
 3) орфан-критерии 8, 9 (traceability);
 4) метрика delta ≥ +20 недостижима (baseline 85).
 Кандидат в spec-041 (пилот на batch 6): проверить, ловит ли
-spec-enrich эти дефекты до MAS.
+spec-enrich эти дефекты до MAS. [observed 2026-10-03]
 
 ## 2026-10-01 | accepted-risk | severity: medium | source: F1 | spec 042 критерий 6: escape `<`,`>`,`&` оставлен, HTML-разметка не поддерживается (безопасность — нет инъекции); решение капитана 2026-10-01, notify.mjs не правился
-
+[accepted 2026-10-03]
 ## 2026-10-01 | tech debt | spec 042: блок «Решения» в центре не обёрнут VOLATILE (`.project/sync.mjs:1833-1839`, `readRecentLog(5)`) — любая правка `log.md` после converge делает закоммиченный `docs/index.html` устаревшим → `sync:check` = 2 (соседний блок коммитов обёрнут, комментарий `:1830-1832`); лечение: писать manual-файл до converge либо обернуть блок по его образцу — код `sync.mjs` НЕ правился, кандидат в отдельную спеку
 
 ## 2026-10-01 | process gap | инлайн-спеки не закрываются `close-spec.mjs` без MAS-прогона: шаг 3 требует `.agent-teams/**/spec-<id>*/team.json`, шаг 4 — задачу роли reviewer/qc с `verdict=pass`; spec 044 исполнена правками напрямую (без `/spec-to-team`) → `npm run spec:close -- 044 --dry-run` = **exit 3 (precondition-missing)**; лечение: мини-прогон AgentTeams с задачей `kind=review` (применено) либо режим `--no-team` отдельной спекой
-
+[observed 2026-10-03]
 ## 2026-10-01 | defect | f4-watchdog пишет в docs/memory/alerts.md нечитаемый мусор: строка `[f4-watchdog]` пришла как последовательность U+FFFD (исходный текст утерян ДО записи, восстановлению не подлежит) плюс CRLF в lf-файле (нарушение правила 16); строка удалена как информационно пустая, сигнал хранителя утерян; кандидат — фикс кодировки и EOL в скрипте хранителя (отдельная спека)
-
+[closed 2026-10-03: spec-049]
 ## 2026-10-02 | observation | per_topic_target 22 × 14 тем = 308 > глобальная цель 300
 `state.json.goal`: `per_topic_target: 22` при 14 темах (`src/data/questions/_topics.json`)
 даёт **308** вопросов в сумме, тогда как `target_questions` = **300**. Цели несовместимы:
@@ -217,7 +217,7 @@ spec-enrich эти дефекты до MAS.
 при текущих 229 и батчах по 12 расхождение проявляется на втором-третьем батче.
 Решение отложено (за капитаном): либо `per_topic_target: 21` (294), либо принять
 перебор по 4 темам, либо пересчитать цель. Правок `state.json` / `tools/gen-state.mjs`
-не вносилось — запись фиксирует наблюдение (найдено на recon перед spec 043).
+не вносилось — запись фиксирует наблюдение (найдено на recon перед spec 043). [closed 2026-10-03: per_topic_target 22 accepted]
 
 ## 2026-10-02 | process gap | `type: ui` из ORCH-RULES п.2 не покрыт цепочкой run-spec-chain
 `ORCH-RULES.md:31-32` (редакция правила 2) требует preview как часть приёмки для типов
@@ -234,7 +234,7 @@ spec-enrich эти дефекты до MAS.
 (решение капитана 2026-10-02; отклонён вариант `per_topic_target: 21` → 294). Банк при выполнении
 per-topic плана финиширует на **308**; запись закрывает finding «Решение отложено (за капитаном)»
 от 2026-10-02. `state.json` / `tools/gen-state.mjs` правок не требуют: 22 — уже текущее значение,
-расчёт `Math.ceil(300 / 14)` = 22 остаётся каноничным.
+расчёт `Math.ceil(300 / 14)` = 22 остаётся каноничным. [accepted 2026-10-03]
 
 ## 2026-10-02 | process gap | regex-debug: 56M токенов на инлайн-прогон
 Отладка regex в сессии съела ~56M токенов: паттерн собирался и
@@ -260,20 +260,21 @@ Fix: фикстуры по живым id + длина темы из банка. 
 
 ## 2026-10-03 | defect | spec-enrich Фаза 9 (repair loop): spawn ETIMEDOUT
 
-Три прогона enrich spec 052: Фаза 9 упала с `spawnSync cmd.exe ETIMEDOUT` (раннер не запустился). Score всё равно 96, но auto-approve A не срабатывает при hard-fail > 0, а findings Фаз 6–8 закрывает именно Фаза 9. Долг: инфра-дефект enrich. Кандидат в spec 053 (retry Фазы 9, timeout-настройка).
+Три прогона enrich spec 052: Фаза 9 упала с `spawnSync cmd.exe ETIMEDOUT` (раннер не запустился). Score всё равно 96, но auto-approve A не срабатывает при hard-fail > 0, а findings Фаз 6–8 закрывает именно Фаза 9. Долг: инфра-дефект enrich. Кандидат в spec 053 (retry Фазы 9, timeout-настройка). [observed 2026-10-03]
 
 ## 2026-10-03 | lesson | live-тест auto-approve A (spec 052) подтверждён
 
-3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B).
+3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B). [observed 2026-10-03]
 
 ## 2026-10-03 | defect | FSRS-lite: кривая повторений 1,3,3,7,7,14 ≠ 1,3,7,14,30,60
 Формула stability*=1.5 + index=floor(log2(stability)) даёт дубли (3,3 и 7,7);
 добор до 30/60 — ~16 повторений вместо 6. Не блокер MVP. Кандидат в spec 055.
 INITIAL_DIFFICULTY=0.3 — из промпта.
 
-<!-- meta updated: 2026-10-03T00:00:00Z entries_count: 65 -->
+<!-- meta updated: 2026-10-03T00:00:00Z entries_count: 65 --> [closed 2026-10-03: spec-052 / долг - spec 055]
 ## 2026-10-03 | defect | ghost-commit от `--amend` при закрытии spec 049
 
-`episodic.md` (закрытие 049) ссылается на converge `4eecdc9`, tip `main` — `98bc700`. `git cat-file -t 4eecdc9` = commit, `git branch --contains 4eecdc9` = пусто → dangling от `git commit --amend` в `close-spec.mjs` (alert 2026-09-30). `episodic.md` не переписываем (правило 8). Ghost не в `main`, push не блокирует.
+`episodic.md` (закрытие 049) ссылается на converge `4eecdc9`, tip `main` — `98bc700`. `git cat-file -t 4eecdc9` = commit, `git branch --contains 4eecdc9` = пусто → dangling от `git commit --amend` в `close-spec.mjs` (alert 2026-09-30). `episodic.md` не переписываем (правило 8). Ghost не в `main`, push не блокирует. [closed 2026-10-03: spec-049]
 
 ## 2026-10-02 | [f4-watchdog] [повреждено: UTF-8 loss, U+FFFD; найдено 2026-10-03]
+[observed 2026-10-03]

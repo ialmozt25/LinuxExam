@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f87a54e4537714d62430e7180a4b7cca15da5f57",
+  "head": "951c5920d6df23d9a4afe5b0fa11084c055ba5fb",
   "specs": [
     {
       "id": "022",
@@ -1122,6 +1122,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "951c592",
+      "date": "2026-10-03",
+      "subject": "chore(log): anchor refresh before spec-052 push",
+      "type": "chore"
+    },
+    {
       "sha": "f87a54e",
       "date": "2026-10-03",
       "subject": "chore(log): trail for spec-052 push",
@@ -1234,12 +1240,6 @@
       "date": "2026-10-03",
       "subject": "chore(state): converge after spec-050 done",
       "type": "chore"
-    },
-    {
-      "sha": "e620cd2",
-      "date": "2026-10-03",
-      "subject": "docs(spec-050): done - 1. Кандидаты: 12 уникальных id et_014..et_025, подтопики не дублируют занятые",
-      "type": "docs"
     }
   ],
   "roles": [

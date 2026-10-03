@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на f87a54e</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 951c592</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">52</div>
+      <div class="pulse-tile__value">41</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -351,7 +351,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 52 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 41 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -429,6 +429,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">951c592</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): anchor refresh before spec-052 push</td>
+          <td class="mono muted">2026-10-03</td>
+        </tr>
         <tr>
           <td class="mono">f87a54e</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -543,12 +549,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-050 done</td>
           <td class="mono muted">2026-10-03</td>
         </tr>
-        <tr>
-          <td class="mono">e620cd2</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-050): done - 1. Кандидаты: 12 уникальных id et_014..et_025, подтопики не дублируют занятые</td>
-          <td class="mono muted">2026-10-03</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -567,35 +567,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">68 ч (~2.8 дн)</td>
+          <td class="muted">70 ч (~2.9 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">115 ч (~4.8 дн)</td>
+          <td class="muted">117 ч (~4.9 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-02T08:00:50Z</td>
           <td class="mono">8</td>
-          <td class="muted">21 ч</td>
+          <td class="muted">23 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">68 ч (~2.8 дн)</td>
+          <td class="muted">70 ч (~2.9 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">5 ч</td>
+          <td class="muted">7 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -680,7 +680,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">28.09 | Dependabot — 52 уязвимости</div>
-          <div class="entry__body muted">GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не следствие push. Кандидат в F4 или отдельную спеку. Действий пока нет.</div>
+          <div class="entry__body muted">GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не следствие push. Кандидат в F4 или отдельную спеку. Действий пока нет. [external, tracked 2026-10-03]</div>
         </div>
         <div class="entry">
           <div class="entry__title">28.09 | F2.3 — стоп-условие 60 строк не сработало</div>
@@ -852,15 +852,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">01.10 | accepted-risk | severity: medium | source: F1 | spec 042 критерий 6: escape `&lt;`,`&gt;`,`&amp;` оставлен, HTML-разметка не поддерживается (безопасность — нет инъекции); решение капитана 2026-10-01, notify.mjs не правился</div>
+          <div class="entry__body muted">[accepted 2026-10-03]</div>
         </div>
         <div class="entry">
           <div class="entry__title">01.10 | tech debt | spec 042: блок «Решения» в центре не обёрнут VOLATILE (`генератор центра:1833-1839`, `readRecentLog(5)`) — любая правка `журнал событий` после converge делает закоммиченный `docs/index.html` устаревшим → `проверка синхронизации` = 2 (соседний блок коммитов обёрнут, комментарий `:1830-1832`); лечение: писать manual-файл до converge либо обернуть блок по его образцу — код `генератор центра` НЕ правился, кандидат в отдельную спеку</div>
         </div>
         <div class="entry">
           <div class="entry__title">01.10 | process gap | инлайн-спеки не закрываются `close-spec.mjs` без MAS-прогона: шаг 3 требует `.agent-teams/**/spec-&lt;id&gt;*/team.json`, шаг 4 — задачу роли reviewer/qc с `verdict=pass`; spec 044 исполнена правками напрямую (без `/spec-to-team`) → `npm run spec:close -- 044 --dry-run` = **exit 3 (precondition-missing)**; лечение: мини-прогон AgentTeams с задачей `kind=review` (применено) либо режим `--no-team` отдельной спекой</div>
+          <div class="entry__body muted">[observed 2026-10-03]</div>
         </div>
         <div class="entry">
           <div class="entry__title">01.10 | defect | f4-watchdog пишет в docs/memory/журнал тревог нечитаемый мусор: строка `[f4-watchdog]` пришла как последовательность U+FFFD (исходный текст утерян ДО записи, восстановлению не подлежит) плюс CRLF в lf-файле (нарушение правила 16); строка удалена как информационно пустая, сигнал хранителя утерян; кандидат — фикс кодировки и EOL в скрипте хранителя (отдельная спека)</div>
+          <div class="entry__body muted">[closed 2026-10-03: spec-049]</div>
         </div>
         <div class="entry">
           <div class="entry__title">02.10 | observation | per_topic_target 22 × 14 тем = 308 &gt; глобальная цель 300</div>
@@ -888,7 +891,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">03.10 | lesson | live-тест auto-approve A (spec 052) подтверждён</div>
-          <div class="entry__body muted">3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B).</div>
+          <div class="entry__body muted">3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B). [observed 2026-10-03]</div>
         </div>
         <div class="entry">
           <div class="entry__title">03.10 | defect | FSRS-lite: кривая повторений 1,3,3,7,7,14 ≠ 1,3,7,14,30,60</div>
@@ -900,6 +903,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">02.10 | [f4-watchdog] [повреждено: UTF-8 loss, U+FFFD; найдено 2026-10-03]</div>
+          <div class="entry__body muted">[observed 2026-10-03]</div>
         </div>
   </details>
 
