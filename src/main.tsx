@@ -11,6 +11,63 @@ import { applyThemeChoice, getThemeChoice, migrateThemeStorage } from './utils/t
 // migrateThemeStorage is idempotent, so it is safe to call on every boot.
 migrateThemeStorage();
 
+/**
+ * Высота приложения = VISUAL viewport (spec 067).
+ *
+ * `#root` — скролл-контейнер, а sticky-футер липнет к его низу. Пока высота
+ * бралась из layout viewport (`100v` + `100%`), на живом мобильном низ
+ * контейнера уходил ниже видимой области: динамическая адресная строка и
+ * жест-бар уменьшают VISUAL viewport, а layout остаётся прежним. Поэтому кнопка
+ * «Следующий вопрос» была не видна без прокрутки.
+ *
+ * `visualViewport.height` — единственный источник фактически видимой высоты.
+ * Значение кладётся в `--app-height` (tokens.css), откуда его берёт `#root`;
+ * пока переменная не выставлена, работает CSS-фолбэк `100dvh`.
+ *
+ * Применяется ВСЕГДА, а не только при отсутствии `dvh`: Telegram WebView на
+ * iOS/Android по-разному сообщает высоту и по-разному себя ведёт при показе
+ * клавиатуры, поэтому единый JS-путь надёжнее, чем доверие к `dvh`.
+ *
+ * Возвращает cleanup: подписки снимаются, значение не остаётся «протухшим».
+ */
+function bindAppHeight(): () => void {
+  const root = document.documentElement;
+  const vv = window.visualViewport;
+
+  const apply = (height: number | undefined): void => {
+    // Ноль/NaN/отрицательное — не валидная высота: оставляем CSS-фолбэк.
+    if (typeof height !== 'number' || !Number.isFinite(height) || height <= 0) return;
+    root.style.setProperty('--app-height', `${Math.round(height)}px`);
+  };
+
+  if (!vv) {
+    // Браузер без visualViewport: высота окна — лучшее приближение.
+    const onResize = (): void => apply(window.innerHeight);
+    onResize();
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
+    };
+  }
+
+  const onVisualResize = (): void => apply(vv.height);
+  onVisualResize();
+  vv.addEventListener('resize', onVisualResize);
+  // `scroll` события visualViewport ловят показ/скрытие адресной строки на
+  // Android, где `resize` приходит не всегда.
+  vv.addEventListener('scroll', onVisualResize);
+  window.addEventListener('orientationchange', onVisualResize);
+  return () => {
+    vv.removeEventListener('resize', onVisualResize);
+    vv.removeEventListener('scroll', onVisualResize);
+    window.removeEventListener('orientationchange', onVisualResize);
+  };
+}
+
+bindAppHeight();
+
 // Resolve the stored theme before anything renders. The inline <head> script in
 // index.html has already prevented the flash; this re-applies the same choice
 // for the in-app path (and covers a storage change since that script ran).

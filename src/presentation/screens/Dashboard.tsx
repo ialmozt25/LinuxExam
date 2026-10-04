@@ -79,16 +79,42 @@ const FIRST_FREE_TOPIC = TOPICS.find(
   (topic) => topic.status === 'available' && isFreeTopic(topic.key),
 )?.key;
 
-/** Стиль бейджа-подсказки: тот же каркас, что у бейджей доступа (spec 063). */
-const FIRST_TOPIC_BADGE: React.CSSProperties = {
+/**
+ * Бейдж темы (spec 063 «Бесплатно»/«PRO»/«Скоро» и spec 065 «начните с этой»).
+ *
+ * Один каркас на все четыре: до spec 067 каждый нёс свою копию стилей, поэтому
+ * `letterSpacing` уезжал то на `0.5px`, то на `0.3px`, а подсказка «начните с
+ * этой» не имела ни `max-width`, ни обрезки и распирала строку темы на 390px.
+ *
+ * `minHeight: 32px` + центрирование — требование К3 spec 067: тап-зона бейджа
+ * не меньше 32px. Без него бейдж выходил 24px (12px строки + 2×2px padding +
+ * 2×1px border), то есть по высоте был меньше минимальной удобной цели.
+ *
+ * `maxWidth: 100%` + `textOverflow: ellipsis` — страховка: даже если бейдж
+ * окажется в узкой колонке, он обрежется сам, а не выдавит соседей.
+ */
+const TOPIC_BADGE: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: 32,
   fontSize: 'var(--text-xs)',
   fontWeight: 600,
-  color: 'var(--success)',
   background: 'var(--bg-elevated)',
   border: '1px solid var(--border-subtle)',
   padding: '2px 6px',
   borderRadius: 'var(--radius-sm)',
+  letterSpacing: '0.3px',
   flexShrink: 0,
+  maxWidth: '100%',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+};
+
+/** Подсказка-точка входа (spec 065): тот же каркас, цвет — акцент успеха. */
+const FIRST_TOPIC_BADGE: React.CSSProperties = {
+  ...TOPIC_BADGE,
+  color: 'var(--success)',
 };
 
 export default function Dashboard({ theme, onToggleTheme }: Props) {
@@ -597,14 +623,38 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                 aria-hidden="true"
               />
               <div style={{ flex: 1, minWidth: 0 }}>
+                {/* Название и подсказка (spec 067): подсказка идёт СРАЗУ за
+                    названием в отдельной колонке, а не в общем ряду с чипом
+                    вопросов. `flexWrap: wrap` роняет её на свою строку, когда
+                    места не хватает (390px + длинное название темы), вместо
+                    того чтобы распирать карточку по горизонтали. */}
                 <div
                   style={{
-                    fontSize: 'var(--text-sm)',
-                    fontWeight: 600,
-                    color: 'var(--text-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px 6px',
+                    flexWrap: 'wrap',
+                    minWidth: 0,
                   }}
                 >
-                  {topic.title}
+                  <div
+                    style={{
+                      fontSize: 'var(--text-sm)',
+                      fontWeight: 600,
+                      color: 'var(--text-primary)',
+                      minWidth: 0,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {topic.title}
+                  </div>
+                  {topic.key === FIRST_FREE_TOPIC && (
+                    <span data-testid="topic-first-cta" style={FIRST_TOPIC_BADGE}>
+                      начните с этой
+                    </span>
+                  )}
                 </div>
                 <div
                   style={{
@@ -619,62 +669,55 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   {topic.description}
                 </div>
               </div>
-              {badge !== null && (
-                <span
-                  data-testid={badge.testid}
-                  style={{
-                    fontSize: 'var(--text-xs)',
-                    fontWeight: 600,
-                    color: isFree ? 'var(--text-secondary)' : 'var(--accent)',
-                    background: 'var(--bg-elevated)',
-                    border: '1px solid var(--border-subtle)',
-                    padding: '2px 6px',
-                    borderRadius: 'var(--radius-sm)',
-                    flexShrink: 0,
-                    textTransform: 'uppercase',
-                    letterSpacing: 'var(--letter-wide, 0.5px)',
-                  }}
-                >
-                  {badge.label}
-                </span>
-              )}
-              {isAvailable ? (
-                <span
-                  style={{
-                    fontSize: 'var(--text-xs)',
-                    fontWeight: 600,
-                    color: 'var(--accent)',
-                    flexShrink: 0,
-                  }}
-                >
-                  {count} вопр.
-                </span>
-              ) : (
-                <span
-                  style={{
-                    fontSize: 'var(--text-xs)',
-                    fontWeight: 600,
-                    color: 'var(--text-secondary)',
-                    background: 'var(--bg-elevated)',
-                    border: '1px solid var(--border-subtle)',
-                    padding: '2px 6px',
-                    borderRadius: 'var(--radius-sm)',
-                    flexShrink: 0,
-                    textTransform: 'uppercase',
-                    letterSpacing: 'var(--letter-wide, 0.5px)',
-                  }}
-                >
-                  Скоро
-                </span>
-              )}
-              {/* Подсказка новичку (spec 065, К5.2): ровно одна тема из списка
-                  отмечена как точка входа. Отдельный testid, а не переиспользование
-                  paywall-badge-free: это подсказка о ПОРЯДКЕ, а не про доступ. */}
-              {topic.key === FIRST_FREE_TOPIC && (
-                <span data-testid="topic-first-cta" style={FIRST_TOPIC_BADGE}>
-                  начните с этой
-                </span>
-              )}
+              {/* Правая колонка: чип доступа и счётчик. `flexWrap` — чтобы на узком
+                  экране они переносились вниз, а не выдавливали название. */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                  gap: '2px',
+                  flexShrink: 0,
+                  maxWidth: '45%',
+                }}
+              >
+                {badge !== null && (
+                  <span
+                    data-testid={badge.testid}
+                    style={{
+                      ...TOPIC_BADGE,
+                      color: isFree ? 'var(--text-secondary)' : 'var(--accent)',
+                      textTransform: 'uppercase',
+                      letterSpacing: 'var(--letter-wide, 0.5px)',
+                    }}
+                  >
+                    {badge.label}
+                  </span>
+                )}
+                {isAvailable ? (
+                  <span
+                    style={{
+                      fontSize: 'var(--text-xs)',
+                      fontWeight: 600,
+                      color: 'var(--accent)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {count} вопр.
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      ...TOPIC_BADGE,
+                      color: 'var(--text-secondary)',
+                      textTransform: 'uppercase',
+                      letterSpacing: 'var(--letter-wide, 0.5px)',
+                    }}
+                  >
+                    Скоро
+                  </span>
+                )}
+              </div>
             </>
           );
 

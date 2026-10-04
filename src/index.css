@@ -4,7 +4,7 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 *, *::before, *::after { box-sizing: inherit; }
-html, body, #root {
+html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -17,9 +17,23 @@ body {
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
 }
+/*
+ * spec 067: скролл-контейнер приложения привязан к ВИЗУАЛЬНОМУ вьюпорту, а не к
+ * layout-вьюпорту. `--app-height` выставляет `bindAppHeight()` (main.tsx) из
+ * `visualViewport.height`; фолбэк-каскад `100dvh` → `100%` работает, пока
+ * переменная не задана и в браузерах без `dvh`.
+ *
+ * Почему это чинит кнопку: sticky-футер липнет к низу `#root`, а сам `#root` был
+ * высотой 100% от html, то есть от layout viewport. На живом мобильном visual
+ * viewport меньше (адресная строка/жест-бар), поэтому низ контейнера оказывался
+ * НИЖЕ видимой области и «Следующий вопрос» было не видно.
+ */
 #root {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  height: var(--app-height, 100dvh);
   overflow-y: auto;
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;

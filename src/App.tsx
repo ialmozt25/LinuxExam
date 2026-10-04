@@ -36,7 +36,9 @@ function Loading() {
   return (
     <div
       style={{
-        minHeight: '100vh',
+        // spec 067: та же высота, что у скролл-контейнера, — иначе экран загрузки
+        // считался бы по layout viewport и «дёргал» раскладку на живом мобильном.
+        minHeight: 'var(--app-height, 100dvh)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
