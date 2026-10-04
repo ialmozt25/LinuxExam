@@ -1,0 +1,368 @@
+# .project/checklists/ui-ux.yaml — единая точка проверки UI/UX (spec 077)
+#
+# 30 критериев: LAYOUT (8), COLOR (6), TYPO (5), SPACE (4), STATE (4), COPY (3).
+# Читается и обновляется `npm run check` (.project/scripts/check.mjs).
+#
+# Формат записи:
+#   id        — <CAT>-<NNN>, уникален
+#   title     — краткая формулировка
+#   check     — playwright | axe | grep | manual | vision
+#   threshold — число | regex | условие (текст, для аудита)
+#   status    — pass | fail | unknown | manual
+#   source    — WCAG 2.2 | Apple HIG | Nielsen | TMA docs | internal
+#
+# Что читает check.mjs для каждого check:
+#   playwright → .project/drafts/layout-probe-075.json
+#                (violations[].check + fallback-поле пробы)
+#   axe        → .project/drafts/a11y-baseline.json
+#                (violations[].nodes[].failureSummary)
+#   grep       → src/presentation/**
+#   grep       → src/presentation/** (поля в блоке grep:)
+#                pattern       — регексп; значение для mode: distinct|modulo
+#                                обязано быть в ИМЕНОВАННОЙ группе (?<value>…)
+#                include       — расширения файлов (по умолчанию .ts/.tsx)
+#                exclude       — регекспы путей, которые НЕ сканируются
+#                expect: match — pass при >0 совпадений (иначе pass при 0)
+#                mode          — plain (по умолчанию) | distinct | modulo | near
+#                max-distinct  — порог для mode: distinct
+#                modulo        — делитель для mode: modulo
+#                near/radius   — для mode: near — регексп «рядом» и окно в строках
+#                                (критерий вида «uppercase только с letterSpacing»)
+#   manual     → пропуск, status остаётся manual
+#   vision     → пропуск, status остаётся manual (аудит агентом: audit:screens)
+#
+# Порядок правки: критерии НИКОГДА не удаляются — неактуальный переводится
+# в status: obsolete (см. README.md). Добавление — новой записью в конце
+# своей категории.
+#
+# Запуск: npm run check (обновляет status + пишет drafts/checklist-report-<дата>.md)
+
+version: 1
+updated: 2026-10-04
+
+criteria:
+
+  # ─────────────────────────── LAYOUT (8) ───────────────────────────
+
+  - id: LAYOUT-001
+    title: Нет горизонтального скролла
+    check: playwright
+    threshold: scrollWidth <= clientWidth + 1
+    status: pass
+    source: WCAG 2.2
+    probe:
+      check-kind: overflow
+
+  - id: LAYOUT-002
+    title: Тач-цели не меньше 44px
+    check: playwright
+    threshold: width >= 44 и height >= 44 px
+    status: pass
+    source: Apple HIG
+    probe:
+      check-kind: touch-target
+
+  - id: LAYOUT-003
+    title: CTA целиком во вьюпорте
+    check: playwright
+    threshold: -1 <= top и bottom <= viewportHeight + 1
+    status: pass
+    source: internal
+    severity: high
+    probe:
+      check-kind: cta-out-of-viewport
+
+  - id: LAYOUT-004
+    title: Нет элементов за границами экрана
+    check: playwright
+    threshold: escaped-element == 0
+    status: pass
+    source: internal
+    probe:
+      check-kind: escaped-element
+
+  - id: LAYOUT-005
+    title: Нет обрезанного текста
+    check: playwright
+    threshold: clipped-text == 0
+    status: pass
+    source: WCAG 2.2
+    probe:
+      check-kind: clipped-text
+
+  - id: LAYOUT-006
+    title: Нет 100vh (только dvh / --app-height)
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: TMA docs
+    grep:
+      pattern: '\b100vh\b'
+      include: ['.ts', '.tsx']
+      note: tokens.css держит слово 100vh в объясняющем комментарии — CSS не сканируется
+
+  - id: LAYOUT-007
+    title: Учёт safe-area (env(safe-area-inset-*))
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Apple HIG
+    grep:
+      pattern: 'env\(safe-area'
+      expect: match
+      include: ['.ts', '.tsx', '.css']
+
+  - id: LAYOUT-008
+    title: Нет переполнения по overflow-x
+    check: playwright
+    threshold: rootOverflowX <= 1
+    status: pass
+    source: WCAG 2.2
+    probe:
+      check-kind: overflow
+
+  # ──────────────────────────── COLOR (6) ────────────────────────────
+
+  - id: COLOR-001
+    title: Контраст обычного текста не ниже 4.5:1
+    check: axe
+    threshold: 4.5:1 (WCAG 2.2 AA 1.4.3)
+    status: fail
+    source: WCAG 2.2
+    severity: high
+    axe:
+      rule: color-contrast
+      screen-match: '-(mobile|desktop)$'
+      large-text: false
+
+  - id: COLOR-002
+    title: Контраст крупного текста не ниже 3:1
+    check: axe
+    threshold: 3:1 (WCAG 2.2 AA 1.4.3, large text)
+    status: pass
+    source: WCAG 2.2
+    axe:
+      rule: color-contrast
+      screen-match: '-(mobile|desktop)$'
+      large-text: true
+
+  - id: COLOR-003
+    title: Контраст текста кнопок не ниже 4.5:1
+    check: axe
+    threshold: 4.5:1 (WCAG 2.2 AA 1.4.3)
+    status: fail
+    source: WCAG 2.2
+    axe:
+      rule: color-contrast
+      screen-match: '^(dashboard|paywall|exam-run|question|results)-(mobile|desktop)$'
+      large-text: false
+
+  - id: COLOR-004
+    title: Нет hardcoded hex-цветов
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: internal
+    grep:
+      pattern: '#[0-9a-fA-F]{6}\b'
+      include: ['.ts', '.tsx', '.css']
+      exclude: ['theme/tokens\.css$']
+      exclude-note: tokens.css — ЕДИНСТВЕННЫЙ владелец значений палитры (spec 065); hex там законен
+
+  - id: COLOR-005
+    title: Не больше 3 радиусов на роль
+    check: grep
+    threshold: <= 3 уникальных значений borderRadius
+    status: pass
+    source: Apple HIG
+    grep:
+      pattern: 'borderRadius:\s*[^0-9\n]{0,3}(?<value>[0-9]+)px'
+      include: ['.ts', '.tsx']
+      mode: distinct
+      max-distinct: 3
+
+  - id: COLOR-006
+    title: Цвета берутся из токенов (var(--*))
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: internal
+    grep:
+      pattern: '(color|background)\w*:\s*.var\(--'
+      include: ['.ts', '.tsx']
+      expect: match
+
+  # ──────────────────────────── TYPO (5) ────────────────────────────
+
+  - id: TYPO-001
+    title: Основной текст не меньше 16px
+    check: grep
+    threshold: совпадений 0
+    status: fail
+    source: Apple HIG
+    grep:
+      pattern: 'fontSize:\s*[^0-9\n]{0,3}1[234]px'
+      include: ['.ts', '.tsx']
+
+  - id: TYPO-002
+    title: Межстрочный интервал не меньше 1.4
+    check: grep
+    threshold: совпадений 0
+    status: fail
+    source: WCAG 2.2
+    grep:
+      pattern: 'lineHeight:\s*[^0-9\n]{0,3}1\.[0-3]\b'
+      include: ['.ts', '.tsx']
+
+  - id: TYPO-003
+    title: Не больше 8 размеров шрифта
+    check: grep
+    threshold: <= 8 уникальных значений fontSize
+    status: pass
+    source: Apple HIG
+    grep:
+      pattern: 'fontSize:\s*[^0-9\n]{0,3}(?<value>[0-9]+)px'
+      include: ['.ts', '.tsx', '.css']
+      mode: distinct
+      max-distinct: 8
+
+  - id: TYPO-004
+    title: Нет текста меньше 12px
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: Apple HIG
+    grep:
+      pattern: 'fontSize:\s*[^0-9\n]{0,3}(?:10|11)px'
+      include: ['.ts', '.tsx']
+
+  - id: TYPO-005
+    title: Для uppercase есть letter-spacing
+    check: grep
+    threshold: text-transform uppercase без letterSpacing == 0
+    status: pass
+    source: internal
+    grep:
+      pattern: 'textTransform:\s*[^;\n]{0,3}upper'
+      include: ['.ts', '.tsx']
+      mode: near
+      near: 'letterSpacing'
+      radius: 5
+
+  # ──────────────────────────── SPACE (4) ────────────────────────────
+
+  - id: SPACE-001
+    title: Отступы кратны 4px
+    check: grep
+    threshold: (padding|margin|gap) % 4 == 0
+    status: fail
+    source: Apple HIG
+    grep:
+      pattern: '(?:padding|margin|gap)[A-Za-z]*:\s*[^0-9\n]{0,3}(?<value>[0-9]+)px'
+      include: ['.ts', '.tsx']
+      mode: modulo
+      modulo: 4
+
+  - id: SPACE-002
+    title: Отступы лэйаута кратны 8px
+    check: grep
+    threshold: (padding|margin|gap) % 8 == 0
+    status: fail
+    source: Apple HIG
+    grep:
+      pattern: '(?:padding|margin|gap)[A-Za-z]*:\s*[^0-9\n]{0,3}(?<value>[0-9]+)px'
+      include: ['.ts', '.tsx']
+      mode: modulo
+      modulo: 8
+
+  - id: SPACE-003
+    title: Нет отступов 13/17/22px
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: internal
+    grep:
+      pattern: '(?:padding|margin|gap)[A-Za-z]*:\s*[^0-9\n]{0,3}(?:13|17|22)px'
+      include: ['.ts', '.tsx']
+
+  - id: SPACE-004
+    title: Отступы берутся из токенов var(--space-*)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: internal
+    grep:
+      pattern: 'var\(--space-'
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+
+  # ──────────────────────────── STATE (4) ────────────────────────────
+
+  - id: STATE-001
+    title: Кнопки имеют disabled-состояние
+    check: playwright
+    threshold: у каждой кнопки есть disabled или aria-disabled
+    status: pass
+    source: WCAG 2.2
+    probe:
+      check-kind: touch-target
+      note: проба отдаёт геометрию целей; disabled-состояние читается CTA-записями
+
+  - id: STATE-002
+    title: Кнопки имеют видимый focus
+    check: axe
+    threshold: 0 нарушений правила
+    status: pass
+    source: WCAG 2.2
+    axe:
+      rule: focus-visible
+      screen-match: '-(mobile|desktop)$'
+
+  - id: STATE-003
+    title: Focus не отключён (outline: none)
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: WCAG 2.2
+    grep:
+      pattern: 'outline:\s*[^;\n]{0,3}none'
+      include: ['.ts', '.tsx', '.css']
+
+  - id: STATE-004
+    title: Пустые состояния имеют CTA
+    check: vision
+    threshold: у каждого empty state есть действие (аудит PNG)
+    status: manual
+    source: Nielsen
+
+  # ───────────────────────────── COPY (3) ────────────────────────────
+
+  - id: COPY-001
+    title: Нет generic CTA (Далее / Submit / OK / Go)
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: '>\s*(Далее|Submit|OK|Go)\s*<'
+      include: ['.ts', '.tsx']
+
+  - id: COPY-002
+    title: Нет blame language (Вы ввели / You entered)
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'Вы ввели|You entered'
+      include: ['.ts', '.tsx']
+
+  - id: COPY-003
+    title: Tap вместо Click
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: TMA docs
+    grep:
+      pattern: '>\s*Click'
+      include: ['.ts', '.tsx']
