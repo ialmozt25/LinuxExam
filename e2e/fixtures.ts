@@ -446,6 +446,111 @@ export async function seedExhaustedProfile(page: Page, overrides: Partial<Persis
   await seedState(page, { ...state, ...overrides });
 }
 
+/**
+ * Сеет профиль С ИСТОРИЕЙ с ровно `dueCount` просроченными вопросами.
+ *
+ * Нужен там, где сценарий проверяет ПОВТОРЕНИЕ, а не приглашение новичка:
+ * spec 066 сделала ветки CTA взаимоисключающими, поэтому свежий профиль
+ * (`questionStats` пуст) кнопки «Повторить» больше не показывает — сценариям
+ * повторения нужен профиль с непустой статистикой.
+ *
+ * `dueCount` при этом — размер ПУЛА, а не сессии: кнопка показывает
+ * `min(пул, SESSION_LIMIT)`, а строка остатка `review-today-remainder`
+ * появляется только когда пул больше одной сессии. Передавайте >30, если
+ * сценарию нужен остаток.
+ *
+ * Срез банка — первые `dueCount` id манифеста; остальной банк планируется в
+ * будущее. Это важно: `ensureReviewsInitialized` до-заполняет ПРОПУЩЕННЫЕ записи
+ * значением `next = now`, и «полупустой» реестр превратился бы в полностью
+ * просроченный. Профиль при этом остаётся реалистичным: `answers` и
+ * `questionStats` закрывают ровно те же вопросы.
+ *
+ * `once: true` — сид ставится ОДИН раз за тест (маркер в `sessionStorage`).
+ * Нужен сценариям с `page.reload()`: `seedState` — это `addInitScript`, он
+ * выполняется на КАЖДОЙ навигации и без маркера затирал бы состояние,
+ * накопленное прогоном (наблюдалось 2026-10-04: остаток повторения после
+ * reload откатывался к исходному значению сида).
+ */
+export async function seedHistoryProfile(
+  page: Page,
+  dueCount = 30,
+  options: { once?: boolean; overrides?: Partial<PersistedQuizState> } = {},
+) {
+  const state = emptyPersistedState();
+  const now = Date.now();
+  const dueIds = BANK_ORDER.slice(0, Math.min(dueCount, BANK_ORDER.length));
+  const dueSet = new Set(dueIds);
+
+  state.scheduledReviews = Object.fromEntries(
+    BANK_ORDER.map((id) => [
+      id,
+      {
+        next: dueSet.has(id) ? now - 86400000 : now + 86400000,
+        stability: 1,
+        difficulty: 0.3,
+      },
+    ]),
+  );
+
+  const answeredIds = dueIds
+    .map((id) => findQuestionById(id))
+    .filter((question) => question.options.some((option) => !option.correct));
+  state.answers = answeredIds.map((question) => liveRecord(question, false));
+  state.wrongQuestionIds = answeredIds.map((question) => question.id);
+  state.questionStats = Object.fromEntries(
+    answeredIds.map((question) => [
+      question.id,
+      { attempts: 1, correct: 0, lastAt: isoDaysAgo(0) },
+    ]),
+  );
+
+  const merged = { ...state, ...options.overrides };
+  if (options.once) {
+    await seedStateOnce(page, merged);
+  } else {
+    await seedState(page, merged);
+  }
+  return { dueCount: dueIds.length, firstId: dueIds[0] };
+}
+
+/**
+ * Как `seedState`, но запись происходит ТОЛЬКО до первого успешного сида:
+ * повторная навигация (reload) не перетирает состояние, накопленное прогоном.
+ * Маркер живёт в `sessionStorage`, то есть сбрасывается вместе с контекстом
+ * страницы.
+ *
+ * Все значения передаются аргументом: Playwright перепарсит исходник функции
+ * внутри страницы, и замыкание на модульную константу дало бы там ReferenceError.
+ */
+export async function seedStateOnce(
+  page: Page,
+  state: Partial<PersistedQuizState>,
+  marker = 'e2e-seeded-once',
+): Promise<void> {
+  const payload = { version: PERSIST_VERSION, state: { ...emptyPersistedState(), ...state } };
+  await page.addInitScript(
+    ({ key, seeded, flag }: { key: string; seeded: unknown; flag: string }) => {
+      try {
+        if (window.sessionStorage.getItem(flag)) return;
+        window.localStorage.setItem(key, JSON.stringify(seeded));
+        window.sessionStorage.setItem(flag, '1');
+      } catch {
+        // Приватный режим/запрет хранилища — сид просто не ставится.
+      }
+    },
+    { key: PERSIST_KEY, seeded: payload, flag: marker },
+  );
+}
+
+/** Живой вопрос по id (поиск идёт по всем темам манифеста). */
+function findQuestionById(id: string): BankQuestion {
+  for (const slug of Object.keys(TOPIC_QUESTIONS)) {
+    const hit = TOPIC_QUESTIONS[slug].find((q) => q.id === id);
+    if (hit) return hit;
+  }
+  throw new Error(`live bank drift: _order.json lists "${id}" but no topic chunk holds it`);
+}
+
 // ---------------------------------------------------------------------------
 // Raw test ids (data-testid contract from app-map §4)
 // ---------------------------------------------------------------------------

@@ -371,10 +371,17 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </div>
       </div>
 
-      {/* Вход в занятие (spec 065). Порядок ветвлений: нет ни одного ответа —
-          приглашение к обучению; есть просроченные — повторение; остались
-          только новые — продолжение изучения. Прогон идёт review-стримом,
-          поэтому бесплатный лимит не расходуется. */}
+      {/* Вход в занятие (spec 065; взаимоисключение ветвей — spec 066).
+          У профиля без единого ответа (`hasNoHistory`) повторять нечего, поэтому
+          показывается РОВНО приглашение к обучению — без «Повторить сегодня (30)»
+          и без строки остатка. До spec 066 эти блоки жили отдельными условиями и
+          рендерились рядом с приглашением. Запас всё равно существует:
+          `ensureReviewsInitialized` при монтировании проставляет всему банку
+          `next = now`, `pickToday` считает весь банк просроченным, а
+          `getSessionIds()` обрезает его до SESSION_LIMIT = 30. Для профиля
+          С историей поведение прежнее: просроченные — повторение; остались только
+          новые — продолжение. Прогон идёт review-стримом, поэтому бесплатный
+          лимит не расходуется. */}
       {hasNoHistory ? (
         <button
           type="button"
@@ -385,45 +392,47 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           <span>Начать обучение</span>
           <span style={CTA_COUNTER}>{`${TOPICS.length} тем`}</span>
         </button>
-      ) : null}
+      ) : (
+        <>
+          {dueCount > 0 ? (
+            <button
+              type="button"
+              data-testid="review-today"
+              onClick={() => startReviewQuiz(sessionDueIds, 'today')}
+              style={PRIMARY_CTA}
+            >
+              <span>{`Повторить сегодня (${dueCount})`}</span>
+              <span style={CTA_COUNTER}>{`${dueCount} вопр.`}</span>
+            </button>
+          ) : null}
 
-      {dueCount > 0 ? (
-        <button
-          type="button"
-          data-testid="review-today"
-          onClick={() => startReviewQuiz(sessionDueIds, 'today')}
-          style={PRIMARY_CTA}
-        >
-          <span>{`Повторить сегодня (${dueCount})`}</span>
-          <span style={CTA_COUNTER}>{`${dueCount} вопр.`}</span>
-        </button>
-      ) : null}
+          {newCount > 0 && dueCount === 0 ? (
+            <button
+              type="button"
+              data-testid="continue-learning"
+              onClick={() => startReviewQuiz(sessionNewIds, 'today')}
+              style={PRIMARY_CTA}
+            >
+              <span>{`Продолжить изучение (${newCount})`}</span>
+              <span style={CTA_COUNTER}>{`${newCount} вопр.`}</span>
+            </button>
+          ) : null}
 
-      {newCount > 0 && dueCount === 0 ? (
-        <button
-          type="button"
-          data-testid="continue-learning"
-          onClick={() => startReviewQuiz(sessionNewIds, 'today')}
-          style={PRIMARY_CTA}
-        >
-          <span>{`Продолжить изучение (${newCount})`}</span>
-          <span style={CTA_COUNTER}>{`${newCount} вопр.`}</span>
-        </button>
-      ) : null}
-
-      {/* Остаток за пределами одной сессии: N в подписи — размер следующей. */}
-      {hasPending && dueCount > 0 ? (
-        <p
-          data-testid="review-today-remainder"
-          style={{
-            margin: `${SPACING.sm} 0 0 0`,
-            fontSize: 'var(--text-xs)',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          {`Осталось повторить: ${counts.dueCount - dueCount}`}
-        </p>
-      ) : null}
+          {/* Остаток за пределами одной сессии: N в подписи — размер следующей. */}
+          {hasPending && dueCount > 0 ? (
+            <p
+              data-testid="review-today-remainder"
+              style={{
+                margin: `${SPACING.sm} 0 0 0`,
+                fontSize: 'var(--text-xs)',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              {`Осталось повторить: ${counts.dueCount - dueCount}`}
+            </p>
+          ) : null}
+        </>
+      )}
 
       {/* Exam mode (spec 054): отдельный поток из трёх экранов (настройка →
           прогон → итоги) с пресетами 30/60/90 и разбором по темам. Историческая

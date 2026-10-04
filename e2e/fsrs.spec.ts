@@ -8,6 +8,7 @@ import {
   openSeededRun,
   seedDueProfile,
   seedExhaustedProfile,
+  seedHistoryProfile,
   seedTopicRun,
   topicSize,
   waitForDashboard,
@@ -74,20 +75,45 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     });
   });
 
-  test('свежий профиль → «Начать обучение», а не «Повторить (253)»', async ({ page }) => {
+  test('свежий профиль → только «Начать обучение», без «Повторить» (spec 066)', async ({ page }) => {
     await gotoApp(page);
 
-    // Главный дефект до spec 065: свежий профиль видел «Повторить сегодня (253)».
+    // Дефект до spec 065: свежий профиль видел «Повторить сегодня (253)».
+    // Дефект до spec 066: профиль видел приглашение И повторение одновременно —
+    // «Повторить сегодня (30)» плюс «Осталось повторить: 223».
     await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
     await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать обучение/);
 
-    // Повторение существует (реестр до-наполнен), но его N — одна сессия.
-    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
-    // И это НЕ размер банка.
-    expect(await reviewTodayCount(page)).not.toBe(BANK_TOTAL);
-    // «Продолжить изучение» на свежем профиле не показывается: просроченные есть.
+    // Ветки CTA взаимоисключающие: повторять новичку нечего.
+    await expect(page.getByTestId(TESTID.reviewToday)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.continueLearning)).toHaveCount(0);
+    // Ни «Повторить сегодня (30)», ни «Повторить сегодня (253)» не возвращаются.
+    // Подпись «Продолжить»/«Повторить» проверяется по кнопкам, а не по тексту
+    // страницы: «253» законно встречается в прогрессе («0 из 253») и в счётчике
+    // темы, поэтому широкий поиск по числу дал бы ложное срабатывание.
+    await expect(page.getByRole('button', { name: /Повторить/ })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /Продолжить обучение|Продолжить изучение/ })).toHaveCount(0);
+  });
+
+  test('после первого ответа → «Повторить (N)», приглашение снято (spec 066)', async ({ page }) => {
+    await gotoApp(page);
+
+    // Профиль ещё свежий: только приглашение.
+    await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
+    await expect(page.getByTestId(TESTID.reviewToday)).toHaveCount(0);
+
+    // Один ответ в обычном потоке: `recordQuestionStat` делает статистику
+    // непустой, поэтому признак «свежести» снимается сам.
+    await page.getByTestId(TESTID.dashboardContinue).click();
+    await waitForQuestion(page);
+    await answerQuestion(page, 'correct');
+    await page.getByTestId(TESTID.headerHome).click();
+    await waitForDashboard(page);
+
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
+    expect(await reviewTodayCount(page)).toBeGreaterThanOrEqual(1);
+    await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
   });
 
   test('«Начать обучение» ведёт к списку тем, а не в прогон', async ({ page }) => {
@@ -106,17 +132,24 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
   });
 
   test('ответы в прогоне уменьшают остаток и переживают reload', async ({ page }) => {
+    // История нужна: spec 066 не показывает повторение на свежем профиле.
+    // Пул БОЛЬШЕ одной сессии — иначе остатка за её пределами не существует и
+    // строка `review-today-remainder` не рендерится вовсе.
+    const pool = 2 * SESSION_LIMIT;
+    // `once`: сценарий перезагружает страницу и проверяет, что уменьшенный
+    // остаток ПЕРЕЖИЛ reload — сид на каждой навигации затёр бы его.
+    await seedHistoryProfile(page, pool, { once: true });
     await gotoApp(page);
 
-    // Свежий профиль: 253 просроченных, сессия 30, за её пределами 223.
+    // Пул 60, сессия 30, за её пределами 30.
     expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
-    expect(await reviewRemainder(page)).toBe(BANK_TOTAL - SESSION_LIMIT);
+    expect(await reviewRemainder(page)).toBe(pool - SESSION_LIMIT);
 
     const button = page.getByTestId(TESTID.reviewToday);
     await button.click();
     await waitForQuestion(page);
 
-    // Прогон — ровно одна сессия, а не весь банк.
+    // Прогон — ровно одна сессия, а не весь пул.
     expect(await counterText(page)).toBe(`1 / ${SESSION_LIMIT}`);
 
     for (let answered = 0; answered < 2; answered++) {
@@ -136,13 +169,13 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     // а не «повторить всё».
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
     expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
-    expect(await reviewRemainder(page)).toBe(BANK_TOTAL - SESSION_LIMIT - 2);
+    expect(await reviewRemainder(page)).toBe(pool - SESSION_LIMIT - 2);
 
     // И реестр расписания переживает reload.
     await page.reload();
     await waitForDashboard(page);
     expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
-    expect(await reviewRemainder(page)).toBe(BANK_TOTAL - SESSION_LIMIT - 2);
+    expect(await reviewRemainder(page)).toBe(pool - SESSION_LIMIT - 2);
 
     const stored = await readPersisted(page);
     // Текущая версия persist: 6 с spec 061, 7 с spec 063 — spec 065 её не меняет.
@@ -150,25 +183,37 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     expect(Object.keys(stored?.state.scheduledReviews ?? {})).toHaveLength(BANK_TOTAL);
   });
 
-  test('реестр расписания пишется только review-прогоном', async ({ page }) => {
+  test('реестр расписания не меняется от ответа в обычном потоке', async ({ page }) => {
+    // Профиль с историей: без неё spec 066 не показывает ветки повторения.
+    // `seedDueProfile` закрывает ровно ОДИН вопрос (первый в банке), а не первые
+    // N: `answers`/`wrongQuestionIds` сида должны совпадать с реально
+    // отвеченным вопросом потока, иначе живой вопрос №1 окажется уже отвеченным
+    // и его варианты будут `disabled`.
+    await seedDueProfile(page);
     await gotoApp(page);
 
-    // Обычный поток: ответ не должен менять расписание повторений.
+    const before = Object.keys((await readPersisted(page))?.state.scheduledReviews ?? {}).length;
+
     await page.getByTestId(TESTID.dashboardContinue).click();
     await waitForQuestion(page);
-    const before = Object.keys((await readPersisted(page))?.state.scheduledReviews ?? {}).length;
     await answerQuestion(page, 'wrong');
     await page.getByTestId(TESTID.headerHome).click();
     await waitForDashboard(page);
 
-    expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
+    // Ответ обычного потока расписание повторений не трогает…
     const after = Object.keys((await readPersisted(page))?.state.scheduledReviews ?? {}).length;
     expect(after).toBe(before);
-    // Ошибка обычного потока по-прежнему кормит отдельную кнопку «Повторить ошибки».
+    expect(after).toBe(BANK_TOTAL);
+
+    // …и «Повторить ошибки» кормится отдельным списком.
     await expect(page.getByTestId(TESTID.reviewWrong)).toContainText('1 вопр.');
+    // Повторение по-прежнему доступно: профиль с историей, ветки не скрыты.
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
   });
 
   test('review-прогон не расходует бесплатный лимит и ведёт всю сессию', async ({ page }) => {
+    // История нужна: spec 066 не показывает повторение на свежем профиле.
+    await seedHistoryProfile(page, SESSION_LIMIT);
     await gotoApp(page);
     await page.getByTestId(TESTID.reviewToday).click();
     await waitForQuestion(page);

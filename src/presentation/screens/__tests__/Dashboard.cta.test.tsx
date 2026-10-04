@@ -69,18 +69,18 @@ describe('Dashboard — вход в занятие (spec 065)', () => {
     if (typeof localStorage !== 'undefined') localStorage.clear();
   });
 
-  it('профиль без единого ответа → «Начать обучение» и сессия повторения на 30', async () => {
+  it('профиль без единого ответа → только «Начать обучение», без веток повторения (spec 066)', async () => {
     renderDashboard();
     await flushInitialization();
 
     const start = screen.getByTestId('start-learning');
     expect(start.textContent).toContain('Начать обучение');
 
-    // Ни одного ответа — значит истории нет, но реестр уже наполнен: подпись
-    // повторения равна ОДНОЙ сессии, а не размеру банка (253 до spec 065).
-    const review = screen.getByTestId('review-today');
-    expect(review.textContent).toContain('Повторить сегодня (30)');
-    expect(review.textContent).not.toContain('253');
+    // spec 066: ветки взаимоисключающие. Реестр расписания к этому моменту уже
+    // наполнен всем банком (`ensureReviewsInitialized`), но повторять новичку
+    // нечего — приглашение показывается ОДНО, без «Повторить» и остатка пула.
+    expect(screen.queryByTestId('review-today')).toBeNull();
+    expect(screen.queryByTestId('review-today-remainder')).toBeNull();
     expect(screen.queryByTestId('continue-learning')).toBeNull();
   });
 
