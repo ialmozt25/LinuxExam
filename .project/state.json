@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "612c5649797b1a6dae0b8265b42cdca58ae08680",
+  "head": "1e1a4eaf5002795632e0c0d86d30d5fdbdc4fdf2",
   "specs": [
     {
       "id": "022",
@@ -1347,6 +1347,21 @@
       "preview": "1. Таблица 30 критериев: `id | title | check | threshold | source`."
     },
     {
+      "id": "078",
+      "slug": "baseline-cleanup",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "99962da",
+      "file": "specs/078-baseline-cleanup.md",
+      "mtime": 1791109958394.166,
+      "goal": "Чистый baseline: снимки не должны содержать ни мадженты, ни DEV-оверлея, а визуальный",
+      "acceptance": "[ ] `playwright.config.ts` содержит `maskColor: '#f5f5f5'` и `webServer.command`,",
+      "noTouch": "`src/**`, `e2e/*.spec.ts`, `backend/**`, `domain/**`, `store/**`, `tools/**`;",
+      "preview": "1. Diff `playwright.config.ts`: 2 правки (maskColor, webServer + схема/порт стенда)."
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1408,8 +1423,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
-    "2026-10-04 | push | authorize push origin main — spec-072-verify+074+075; публикует 3547d28..93aae10 | commit pending",
     "2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10",
     "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-076; публикует 2a0a786..546da1b | commit pending",
@@ -1417,10 +1430,30 @@
     "2026-10-04 | spec-076 | done - critical-ui-fixes | commit 848704e",
     "2026-10-04 | spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34->44px; KNOWN_ISSUES=[], layout-smoke 55 passed/0 skipped; 8 baseline spec 074 перегенерированы по решению капитана | commit 848704e",
     "2026-10-04 | spec-077 | done - ui-ux-checklist | commit b461b14",
-    "2026-10-04 | spec-077 | единая точка проверки UI/UX: 30 критериев (LAYOUT/COLOR/TYPO/SPACE/STATE/COPY) + check.mjs (0 deps) + audit:screens; check 23 pass / 6 fail / 0 unknown / 1 manual, exit 1 (COLOR-001 контраст 33 nodes); визуальный аудит 19 PNG = 72 наблюдения (4 critical: #ff00ff-плейсхолдеры на dashboard и exam-run); vision недоступен (codex-local без адаптера) — аудит программный; гейты 442 / 208 / 0 / 0 = baseline; 8 новых файлов, src/e2e не тронуты | commit b461b14"
+    "2026-10-04 | spec-077 | единая точка проверки UI/UX: 30 критериев (LAYOUT/COLOR/TYPO/SPACE/STATE/COPY) + check.mjs (0 deps) + audit:screens; check 23 pass / 6 fail / 0 unknown / 1 manual, exit 1 (COLOR-001 контраст 33 nodes); визуальный аудит 19 PNG = 72 наблюдения (4 critical: #ff00ff-плейсхолдеры на dashboard и exam-run); vision недоступен (codex-local без адаптера) — аудит программный; гейты 442 / 208 / 0 / 0 = baseline; 8 новых файлов, src/e2e не тронуты | commit b461b14",
+    "2026-10-04 | spec-078 | done - baseline-cleanup | commit 99962da",
+    "2026-10-04 | spec-078 | чистый baseline: 19 снимков с production-стенда (DEV-бейдж ушёл) + нейтральная заливка масок (#ff00ff 99 572 px -> 0 px в 19/19); 4 ложных critical аудита помечены [corrected]; два отклонения от буквы спеки — maskColor инертен в конфиге (рабочая точка в shoot()), стенд разделён на два проекта Playwright (stand-prod :4173 / stand-dev :5173), иначе 3 теста DEV-бейджа давали 205/208; гейты 442 / 208 / 0 / 0 = baseline | commit 99962da"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "1e1a4ea",
+      "date": "2026-10-04",
+      "subject": "docs(spec-078): done - baseline-cleanup",
+      "type": "docs"
+    },
+    {
+      "sha": "99962da",
+      "date": "2026-10-04",
+      "subject": "fix(spec-078): clean visual baseline - production stand and neutral mask fill",
+      "type": "fix"
+    },
+    {
+      "sha": "d6bc42d",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge",
+      "type": "chore"
+    },
     {
       "sha": "612c564",
       "date": "2026-10-04",
@@ -1521,24 +1554,6 @@
       "sha": "e387ecb",
       "date": "2026-10-04",
       "subject": "docs(spec-075): viewport audit report",
-      "type": "docs"
-    },
-    {
-      "sha": "7219ceb",
-      "date": "2026-10-04",
-      "subject": "test(spec-075): viewport coverage - 5 viewports + TMA mock",
-      "type": "test"
-    },
-    {
-      "sha": "e99c87e",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge",
-      "type": "chore"
-    },
-    {
-      "sha": "ca179fd",
-      "date": "2026-10-04",
-      "subject": "docs(spec-074): correct baseline size in result section",
       "type": "docs"
     }
   ],
