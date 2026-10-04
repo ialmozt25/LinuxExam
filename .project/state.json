@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "6eb3bddd14528f13cf9731079da76a9169169e67",
+  "head": "01b7527f4826545ef878b9e4726963e09b691bd5",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "070",
+      "slug": "mobile-fixed-footer",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/070-mobile-fixed-footer.md",
+      "mtime": 1791080080055.2095,
+      "goal": "Кнопки действия (`next-button`, `exam-submit`, `exam-cancel`) **всегда видны** —",
+      "acceptance": "[ ] Футер `Question.tsx` — `position: fixed`, `bottom/left/right: 0`,",
+      "noTouch": "`src/domain/**`, `src/store/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншоты 390×844 и 1440×900 после фикса —"
     },
     {
       "id": "016",
@@ -1317,6 +1332,24 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "01b7527",
+      "date": "2026-10-04",
+      "subject": "fix(spec-070): mobile fixed footer for next-button",
+      "type": "fix"
+    },
+    {
+      "sha": "c2fedee",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
+      "sha": "1fa365c",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for 066+067+068",
+      "type": "chore"
+    },
+    {
       "sha": "6eb3bdd",
       "date": "2026-10-04",
       "subject": "chore(log): fix trail SHA",
@@ -1416,24 +1449,6 @@
       "sha": "84fca0c",
       "date": "2026-10-04",
       "subject": "feat(spec-065): empty states",
-      "type": "feat"
-    },
-    {
-      "sha": "1023b39",
-      "date": "2026-10-04",
-      "subject": "feat(spec-065): unified AppHeader",
-      "type": "feat"
-    },
-    {
-      "sha": "914b9e1",
-      "date": "2026-10-04",
-      "subject": "feat(spec-065): design tokens",
-      "type": "feat"
-    },
-    {
-      "sha": "2f89eef",
-      "date": "2026-10-04",
-      "subject": "feat(spec-065): fsrs semantic split - new vs due",
       "type": "feat"
     }
   ],
