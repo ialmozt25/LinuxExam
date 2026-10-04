@@ -304,3 +304,4 @@
 2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527
 2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..8576d31 | commit pending
 2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31
+2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b

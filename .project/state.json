@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "071",
-      "slug": "regression-fix",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/071-regression-fix.md",
-      "mtime": 1791082175156.3909,
-      "goal": "Восстановить P1, P2, P3 **по подтверждённым причинам**.",
-      "acceptance": "[ ] По каждой из P1/P2/P3 зафиксирован симптом, воспроизводимость и причина",
-      "noTouch": "`src/domain/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
-      "preview": "Скриншот-артефакты прогонов Playwright (при падении) —"
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1272,6 +1257,21 @@
       "preview": "Скриншоты 390×844 и 1440×900 после фикса —"
     },
     {
+      "id": "071",
+      "slug": "regression-fix",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "9ad3a3b",
+      "file": "specs/071-regression-fix.md",
+      "mtime": 1791082472882.004,
+      "goal": "Восстановить P1, P2, P3 **по подтверждённым причинам**.",
+      "acceptance": "[ ] По каждой из P1/P2/P3 зафиксирован симптом, воспроизводимость и причина",
+      "noTouch": "`src/domain/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншот-артефакты прогонов Playwright (при падении) —"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1333,7 +1333,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b",
     "2026-10-04 | spec-066 | done - fresh-user-semantics | commit 1dbd74a",
     "2026-10-04 | spec-067 | done - mobile-fix | commit 3109445",
     "2026-10-04 | spec-068 | done - remove-legacy-exam | commit db168f2",
@@ -1342,10 +1341,17 @@
     "2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6",
     "2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527",
     "2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..8576d31 | commit pending",
-    "2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31"
+    "2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31",
+    "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "7ce5dcf",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-071",
+      "type": "chore"
+    },
     {
       "sha": "9ad3a3b",
       "date": "2026-10-04",
@@ -1458,12 +1464,6 @@
       "sha": "c94bacd",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-066 done",
-      "type": "chore"
-    },
-    {
-      "sha": "88bd6df",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-066",
       "type": "chore"
     }
   ],
