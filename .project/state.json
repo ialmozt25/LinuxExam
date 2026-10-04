@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "068",
-      "slug": "remove-legacy-exam",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/068-remove-legacy-exam.md",
-      "mtime": 1791077192898.1545,
-      "goal": "На Dashboard и в приложении остаётся **один** экзаменационный режим — spec 054",
-      "acceptance": "[ ] `grep` по `src/` и `e2e/` не находит ни одного идентификатора legacy:",
-      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
-      "preview": "Демонстрация результата: Dashboard содержит **одну** кнопку"
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1242,6 +1227,21 @@
       "preview": "Скриншоты mobile после фикса — `.project/drafts/ux-audit-2026-10-04/mobile-fix/`"
     },
     {
+      "id": "068",
+      "slug": "remove-legacy-exam",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "db168f2",
+      "file": "specs/068-remove-legacy-exam.md",
+      "mtime": 1791078707193.103,
+      "goal": "На Dashboard и в приложении остаётся **один** экзаменационный режим — spec 054",
+      "acceptance": "[ ] `grep` по `src/` и `e2e/` не находит ни одного идентификатора legacy:",
+      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": "Демонстрация результата: Dashboard содержит **одну** кнопку"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1303,7 +1303,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee",
     "2026-10-04 | ux | fix - streak duplicate, exit screens, sticky safe-area | commit 8f7581f",
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — ux-fixes; публикует b13d3ee..31847cb | commit pending",
@@ -1312,10 +1311,17 @@
     "2026-10-04 | push | authorize push origin main — spec-065; публикует 08e267a..3523f9b | commit pending",
     "2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b",
     "2026-10-04 | spec-066 | done - fresh-user-semantics | commit 1dbd74a",
-    "2026-10-04 | spec-067 | done - mobile-fix | commit 3109445"
+    "2026-10-04 | spec-067 | done - mobile-fix | commit 3109445",
+    "2026-10-04 | spec-068 | done - remove-legacy-exam | commit db168f2"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "2e965dc",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-068",
+      "type": "chore"
+    },
     {
       "sha": "db168f2",
       "date": "2026-10-04",
@@ -1428,12 +1434,6 @@
       "sha": "08e267a",
       "date": "2026-10-04",
       "subject": "chore(log): pin trail-SHA for ux-fixes",
-      "type": "chore"
-    },
-    {
-      "sha": "31847cb",
-      "date": "2026-10-04",
-      "subject": "chore(log): ux-fixes log + trail",
       "type": "chore"
     }
   ],

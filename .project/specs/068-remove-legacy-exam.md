@@ -3,10 +3,10 @@ id: 068
 slug: remove-legacy-exam
 type: fix
 track: full
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: db168f2
 embedded_approve: rule 2 (F5.0a — 2026-10-04)
 execution: direct
 ---
