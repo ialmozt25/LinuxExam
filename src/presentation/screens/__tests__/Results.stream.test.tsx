@@ -203,6 +203,52 @@ describe('Results reads the active stream', () => {
     expect(screen.queryByTestId('review-next-batch')).toBeNull();
   });
 
+  /**
+   * Нулевой счёт (spec 065, К5.3) проверяется ЗДЕСЬ, а не в e2e: до экрана
+   * `results-screen` доводит только review-прогон, а его пул непустой —
+   * вопросов без неверного варианта в банке нет. Регулярный поток в конце пула
+   * возвращает `nextQuestion` без навигации, экзамен рисует свою сводку
+   * (`exam-summary`). Поэтому состояние задаётся прямо в store.
+   */
+  it('нулевой счёт показывает «Первый шаг сделан», а не голый ноль (spec 065)', () => {
+    const bank = useQuizStore.getState().questions;
+    const answered = bank.slice(0, 3);
+    useQuizStore.setState({
+      answers: answered.map((q) => wrong(q.id)),
+      reviewQuestionIds: null,
+      reviewAnswers: [],
+      activeTopic: null,
+    });
+
+    render(<Results />);
+
+    const zero = screen.getByTestId('results-zero');
+    expect(zero.textContent).toContain('Первый шаг сделан');
+    expect(zero.textContent).toContain(`Отвечено ${answered.length}`);
+    expect(screen.getByTestId('results-zero-retry').textContent).toBe('Попробовать снова');
+
+    // Голого «0 / N» и «0 %» нет: ноль заменён поддержкой и следующим шагом.
+    expect(screen.queryByTestId('results-score')).toBeNull();
+    expect(screen.queryByTestId('results-accuracy')).toBeNull();
+    expect(screen.queryByTestId('results-empty')).toBeNull();
+  });
+
+  it('нулевой счёт не показывается, когда есть хотя бы один верный ответ', () => {
+    const bank = useQuizStore.getState().questions;
+    useQuizStore.setState({
+      answers: [right(bank[0].id), wrong(bank[1].id)],
+      reviewQuestionIds: null,
+      reviewAnswers: [],
+      activeTopic: null,
+    });
+
+    render(<Results />);
+
+    expect(screen.queryByTestId('results-zero')).toBeNull();
+    expect(screen.getByTestId('results-score').textContent).toBe('1 / 2');
+    expect(screen.getByTestId('results-accuracy').textContent).toBe('50%');
+  });
+
   it('exam summary still wins over a stale review stream', () => {
     const [q1, q2] = useQuizStore.getState().questions;
     const startedAt = 1_700_000_000_000;

@@ -123,96 +123,147 @@ export default function Analytics() {
       </h1>
 
       {isEmpty && (
-        <p
+        <div
           data-testid="analytics-empty"
           style={{
-            fontSize: 'var(--text-sm)',
-            color: 'var(--text-secondary)',
-            marginTop: SPACING.sm,
+            marginTop: SPACING.lg,
+            padding: SPACING.lg,
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--card-radius)',
+            textAlign: 'center',
           }}
         >
-          Пройдите хотя бы одну сессию
-        </p>
+          <div aria-hidden="true" style={{ fontSize: '40px', lineHeight: 1 }}>
+            📊
+          </div>
+          <h2
+            style={{
+              fontSize: 'var(--heading-2)',
+              fontWeight: 700,
+              margin: `${SPACING.md} 0 0 0`,
+              color: 'var(--text-primary)',
+            }}
+          >
+            Начните свой путь к RHCSA
+          </h2>
+          <p
+            style={{
+              fontSize: 'var(--body)',
+              lineHeight: 'var(--body-line-height)',
+              color: 'var(--text-secondary)',
+              margin: `${SPACING.sm} 0 0 0`,
+            }}
+          >
+            Пройдите первый тест, чтобы увидеть прогресс
+          </p>
+          <button
+            type="button"
+            data-testid="analytics-start"
+            onClick={() => navigateTo('dashboard')}
+            style={{
+              width: '100%',
+              marginTop: SPACING.lg,
+              padding: SPACING.md,
+              background: 'var(--btn-primary-bg)',
+              color: 'var(--btn-primary-text)',
+              border: 'none',
+              borderRadius: 'var(--btn-primary-radius)',
+              fontSize: 'var(--body)',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            Начать тренировку
+          </button>
+        </div>
       )}
 
-      <div data-testid="analytics-readiness" style={{ marginTop: SPACING.lg }}>
-        <div
-          style={{
-            fontSize: '40px',
-            fontWeight: 700,
-            color: 'var(--text-primary)',
-            fontVariantNumeric: 'tabular-nums',
-          }}
-        >
-          {`Готовность: ${percent}%`}
-        </div>
-        <p
-          style={{
-            fontSize: 'var(--text-xs)',
-            color: 'var(--text-secondary)',
-            marginTop: SPACING.xs,
-          }}
-        >
-          Взвешено по размеру тем: точность ответов × охват банка
-        </p>
-      </div>
+      {/* Метрики и радар скрыты, пока нет ни одного ответа: «Готовность 0 %» и
+          радар из нулей — не данные, а шум на пустом профиле (spec 065, К5.1). */}
+      {!isEmpty && (
+        <>
+          <div data-testid="analytics-readiness" style={{ marginTop: SPACING.lg }}>
+            <div
+              style={{
+                fontSize: '40px',
+                fontWeight: 700,
+                color: 'var(--text-primary)',
+                fontVariantNumeric: 'tabular-nums',
+              }}
+            >
+              {`Готовность: ${percent}%`}
+            </div>
+            <p
+              style={{
+                fontSize: 'var(--text-xs)',
+                color: 'var(--text-secondary)',
+                marginTop: SPACING.xs,
+              }}
+            >
+              Взвешено по размеру тем: точность ответов × охват банка
+            </p>
+          </div>
 
-      {/* Radar. Оси — темы реестра; нулевая тема остаётся видимой точкой в
-          центре, поэтому «13 из 14 тем без ответов» не ломает картинку. */}
-      <div style={{ marginTop: SPACING.lg, display: 'flex', justifyContent: 'center' }}>
-        <svg
-          data-testid="analytics-radar"
-          role="img"
-          aria-label={`Готовность по ${axes.length} темам`}
-          viewBox={`0 0 ${RADAR_SIZE} ${RADAR_SIZE}`}
-          width={RADAR_SIZE}
-          height={RADAR_SIZE}
-        >
-          {rings.map((ring) => (
-            <polygon
-              key={ring}
-              points={toPoints(
-                axes.map((_, i) => axisPoint(i, axes.length, RADAR_RADIUS * ring))
-              )}
-              fill="none"
-              stroke="var(--border-subtle)"
-              strokeWidth={1}
-            />
-          ))}
-          {axes.map((_, i) => {
-            const outer = axisPoint(i, axes.length, RADAR_RADIUS);
-            return (
-              <line
-                key={i}
-                x1={RADAR_SIZE / 2}
-                y1={RADAR_SIZE / 2}
-                x2={outer.x}
-                y2={outer.y}
-                stroke="var(--border-subtle)"
-                strokeWidth={1}
+          {/* Radar. Оси — темы реестра; нулевая тема остаётся видимой точкой в
+              центре, поэтому «13 из 14 тем без ответов» не ломает картинку. */}
+          <div style={{ marginTop: SPACING.lg, display: 'flex', justifyContent: 'center' }}>
+            <svg
+              data-testid="analytics-radar"
+              role="img"
+              aria-label={`Готовность по ${axes.length} темам`}
+              viewBox={`0 0 ${RADAR_SIZE} ${RADAR_SIZE}`}
+              width={RADAR_SIZE}
+              height={RADAR_SIZE}
+            >
+              {rings.map((ring) => (
+                <polygon
+                  key={ring}
+                  points={toPoints(
+                    axes.map((_, i) => axisPoint(i, axes.length, RADAR_RADIUS * ring))
+                  )}
+                  fill="none"
+                  stroke="var(--border-subtle)"
+                  strokeWidth={1}
+                />
+              ))}
+              {axes.map((_, i) => {
+                const outer = axisPoint(i, axes.length, RADAR_RADIUS);
+                return (
+                  <line
+                    key={i}
+                    x1={RADAR_SIZE / 2}
+                    y1={RADAR_SIZE / 2}
+                    x2={outer.x}
+                    y2={outer.y}
+                    stroke="var(--border-subtle)"
+                    strokeWidth={1}
+                  />
+                );
+              })}
+              <polygon
+                data-testid="analytics-radar-shape"
+                points={toPoints(radarPoints)}
+                fill="var(--accent)"
+                fillOpacity={0.25}
+                stroke="var(--accent)"
+                strokeWidth={2}
               />
-            );
-          })}
-          <polygon
-            data-testid="analytics-radar-shape"
-            points={toPoints(radarPoints)}
-            fill="var(--accent)"
-            fillOpacity={0.25}
-            stroke="var(--accent)"
-            strokeWidth={2}
-          />
-          {radarPoints.map((point, i) => (
-            <circle
-              key={i}
-              cx={point.x}
-              cy={point.y}
-              r={2.5}
-              fill="var(--accent)"
-              data-testid={`analytics-point-${axes[i]}`}
-            />
-          ))}
-        </svg>
-      </div>
+              {radarPoints.map((point, i) => (
+                <circle
+                  key={i}
+                  cx={point.x}
+                  cy={point.y}
+                  r={2.5}
+                  fill="var(--accent)"
+                  data-testid={`analytics-point-${axes[i]}`}
+                />
+              ))}
+            </svg>
+          </div>
+        </>
+      )}
 
       <div data-testid="analytics-weak" style={CARD}>
         <div style={SECTION_TITLE}>Слабые темы</div>

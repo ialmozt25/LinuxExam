@@ -8,6 +8,7 @@ import {
   readPersisted,
   answerQuestion,
   topicSize,
+  waitForQuestion,
   TOPICS,
   TOPIC_INDEX,
   TOPIC_QUESTIONS,
@@ -108,6 +109,12 @@ test.describe('результаты прогона темы', () => {
     );
     await expect(page.getByTestId(TESTID.resultsEmpty)).toHaveCount(0);
   });
+  // Пустое состояние НУЛЕВОГО счёта (spec 065, К5.3) в e2e не проверяется:
+  // до экрана `results-screen` доводит только review-прогон (тема или «Повторить
+  // ошибки»), а его пул непустой — вопросов без неверного варианта в банке нет.
+  // Регулярный поток в конце пула возвращает `nextQuestion` БЕЗ навигации, а
+  // экзамен рисует собственную сводку (`exam-summary`), не `results-screen`.
+  // Поэтому нулевой счёт покрыт компонентным тестом Results.stream.test.tsx.
 });
 
 test.describe('повторение ошибок', () => {

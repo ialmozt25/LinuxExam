@@ -36,7 +36,11 @@ test.describe('дашборд', () => {
 
     await expect(page.getByText(`${TOPICS.length} из ${TOPICS.length} тем`)).toBeVisible();
 
-    const buttons = page.locator('[data-testid^="topic-"]');
+    // Кнопок тем ровно столько же, сколько тем в реестре. Считаются ИМЕННО
+    // кнопки: `[data-testid^="topic-"]` сюда не годится — под префикс попадает и
+    // бейдж-подсказка spec 065 (`topic-first-cta`, span), и переключатель темы
+    // (`theme-toggle` не задет, а вот префикс `topic-` — общий контракт).
+    const buttons = page.getByRole('button', { name: /^Начать тему: / });
     await expect(buttons).toHaveCount(TOPICS.length);
 
     for (const topic of TOPICS) {
@@ -49,6 +53,12 @@ test.describe('дашборд', () => {
 
     const sum = Object.values(TOPIC_INDEX.byTopic).reduce((acc, n) => acc + n, 0);
     expect(sum).toBe(TOPIC_INDEX.total);
+
+    // spec 065 (К5.2): ровно одна тема отмечена как точка входа. Бейдж — span,
+    // а не кнопка, поэтому счётчик `[data-testid^="topic-"]` выше его не видит.
+    await expect(page.getByTestId('topic-first-cta')).toHaveCount(1);
+    await expect(page.getByTestId('topic-first-cta')).toHaveText('начните с этой');
+    await expect(topicButton(page, TOPICS[0].key).getByTestId('topic-first-cta')).toBeVisible();
   });
 
   test('opens on a clean profile: no progress, exam entry point, legal disclaimer', async ({
@@ -67,6 +77,11 @@ test.describe('дашборд', () => {
     // A clean profile offers no resume banner and nothing to repeat.
     await expect(page.getByTestId(TESTID.resumeBanner)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.reviewWrong)).toHaveCount(0);
+
+    // spec 065 (К2.3/К5.4): свежий профиль приглашает учиться, а не повторять.
+    // «Повторить сегодня (253)» — дефект до spec 065, поэтому N проверяется
+    // отдельно в fsrs.spec.ts.
+    await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать обучение/);
   });
 });
 

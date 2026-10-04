@@ -56,7 +56,7 @@ test.describe.serial('Analytics — экран «персональный тре
     await blockAnalytics(page);
   });
 
-  test('пустой профиль: приглашение пройти сессию и готовность 0 %', async ({ page }) => {
+  test('пустой профиль: приглашение начать, без готовности и радара', async ({ page }) => {
     await seedState(page, {
       answers: [],
       currentIndex: 0,
@@ -67,12 +67,25 @@ test.describe.serial('Analytics — экран «персональный тре
     await page.getByTestId('analytics-mode').click();
 
     await expect(page.getByTestId('analytics')).toBeVisible({ timeout: 15000 });
-    await expect(page.getByTestId('analytics-empty')).toHaveText('Пройдите хотя бы одну сессию');
-    await expect(page.getByTestId('analytics-readiness')).toContainText('Готовность: 0%');
-    // NaN не просачивается в UI даже на пустом профиле.
-    await expect(page.getByTestId('analytics-readiness')).not.toContainText('NaN');
-    await expect(page.getByTestId('analytics-trend-delta')).not.toContainText('NaN');
-    await expect(page.getByTestId('analytics-radar')).toBeVisible();
+
+    // spec 065 (К5.1): пустой профиль показывает приглашение, а не «Готовность
+    // 0 %» и радар из нулей.
+    const empty = page.getByTestId('analytics-empty');
+    await expect(empty).toBeVisible();
+    await expect(empty).toContainText('Начните свой путь к RHCSA');
+    await expect(empty).toContainText('Пройдите первый тест, чтобы увидеть прогресс');
+    await expect(page.getByTestId('analytics-start')).toHaveText('Начать тренировку');
+
+    // Метрики и радар скрыты, пока ответов нет.
+    await expect(page.getByTestId('analytics-readiness')).toHaveCount(0);
+    await expect(page.getByTestId('analytics-radar')).toHaveCount(0);
+    await expect(page.getByText('Готовность 0%')).toHaveCount(0);
+
+    // Кнопка ведёт на Dashboard — оттуда начинается первый тест.
+    await page.getByTestId('analytics-start').click();
+    await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
+      timeout: 15000,
+    });
   });
 
   test('частично заполненный профиль: готовность из банка, слабые темы, тренд без NaN', async ({

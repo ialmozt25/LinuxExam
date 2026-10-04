@@ -260,6 +260,50 @@ export default function Results() {
           >
             Вы ещё не ответили ни на один вопрос
           </div>
+        ) : correct === 0 ? (
+          /* Ноль правильных — не «провал», а первый шаг (spec 065, К5.3).
+             Вместо «0 / N, 0 %» показывается поддержка и следующий шаг: голый
+             ноль без действия не подсказывает, что делать дальше. */
+          <div data-testid="results-zero" style={{ padding: SPACING.lg }}>
+            <div
+              style={{
+                fontSize: 'var(--heading-2)',
+                fontWeight: 700,
+                color: 'var(--text-primary)',
+              }}
+            >
+              Первый шаг сделан
+            </div>
+            <div
+              style={{
+                fontSize: 'var(--body)',
+                lineHeight: 'var(--body-line-height)',
+                color: 'var(--text-secondary)',
+                marginTop: SPACING.sm,
+              }}
+            >
+              {`Отвечено ${answered} ${pluralizeQuestions(answered)}, верных пока нет. Разбор — в объяснении каждого вопроса.`}
+            </div>
+            <button
+              type="button"
+              data-testid="results-zero-retry"
+              onClick={handleRetry}
+              style={{
+                marginTop: SPACING.md,
+                padding: `${SPACING.sm} ${SPACING.md}`,
+                background: 'var(--btn-primary-bg)',
+                color: 'var(--btn-primary-text)',
+                border: 'none',
+                borderRadius: 'var(--btn-primary-radius)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              Попробовать снова
+            </button>
+          </div>
         ) : (
           <>
             <div

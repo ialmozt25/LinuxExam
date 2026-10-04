@@ -68,6 +68,29 @@ const PRIMARY_CTA: React.CSSProperties = {
 /** Правая подпись CTA: счётчик вопросов/тем. */
 const CTA_COUNTER: React.CSSProperties = { fontSize: 'var(--text-xs)', fontWeight: 600 };
 
+/**
+ * Ключ ПЕРВОЙ доступной бесплатной темы (spec 065, К5.2).
+ *
+ * Считается из реестра, а не хардкодится: порядок тем — часть реестра, и при
+ * перестановке/добавлении темы подсказка обязана переехать сама. Порядок
+ * `isFreeTopic` (domain) — единственный источник правды о том, что бесплатно.
+ */
+const FIRST_FREE_TOPIC = TOPICS.find(
+  (topic) => topic.status === 'available' && isFreeTopic(topic.key),
+)?.key;
+
+/** Стиль бейджа-подсказки: тот же каркас, что у бейджей доступа (spec 063). */
+const FIRST_TOPIC_BADGE: React.CSSProperties = {
+  fontSize: 'var(--text-xs)',
+  fontWeight: 600,
+  color: 'var(--success)',
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-subtle)',
+  padding: '2px 6px',
+  borderRadius: 'var(--radius-sm)',
+  flexShrink: 0,
+};
+
 export default function Dashboard({ theme, onToggleTheme }: Props) {
   // Counts come from the bank manifest (≈260 B) rather than from the loaded bank:
   // the Dashboard must show real numbers before the topic chunks arrive.
@@ -633,6 +656,14 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   }}
                 >
                   Скоро
+                </span>
+              )}
+              {/* Подсказка новичку (spec 065, К5.2): ровно одна тема из списка
+                  отмечена как точка входа. Отдельный testid, а не переиспользование
+                  paywall-badge-free: это подсказка о ПОРЯДКЕ, а не про доступ. */}
+              {topic.key === FIRST_FREE_TOPIC && (
+                <span data-testid="topic-first-cta" style={FIRST_TOPIC_BADGE}>
+                  начните с этой
                 </span>
               )}
             </>
