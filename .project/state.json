@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "196693781813cae01eeec7e5edf84fdadd5d13b3",
+  "head": "c411efac00ec4ce3108ea21a582be9879513da43",
   "specs": [
     {
       "id": "022",
@@ -487,6 +487,21 @@
       "file": "specs/053-risk-scoring-migrate-fix.md",
       "mtime": 1791002205179.24,
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
+      "acceptance": "",
+      "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "079",
+      "slug": "contrast-fix",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "pending",
+      "file": "specs/079-contrast-fix.md",
+      "mtime": 1791112462942.8018,
+      "goal": "",
       "acceptance": "",
       "noTouch": "",
       "preview": ""
@@ -1437,6 +1452,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "c411efa",
+      "date": "2026-10-04",
+      "subject": "fix(spec-079): WCAG contrast - 4 elements >= 4.5",
+      "type": "fix"
+    },
+    {
+      "sha": "a999c44",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "1966937",
       "date": "2026-10-04",
       "subject": "chore(log): push done for 076+077+078",
@@ -1542,18 +1569,6 @@
       "sha": "5304d95",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-076",
-      "type": "chore"
-    },
-    {
-      "sha": "848704e",
-      "date": "2026-10-04",
-      "subject": "fix(spec-076): critical UI - Paywall CTA, CTAs, touch",
-      "type": "fix"
-    },
-    {
-      "sha": "011ec08",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
       "type": "chore"
     }
   ],
