@@ -343,3 +343,4 @@
 2026-10-04 | push | НЕ выполнен: pre-push guard spec 049/правило 11 заблокировал (DSH_SESSION_ID этой сессии != .project/.captain-session-id); авторизация есть, идентичность сессии - нет. Две попытки, обе exit 1. Публикация b15103c..0e5cb92 (14 коммитов) не состоялась, origin/main = b15103c | commit pending
 2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана «Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецеденты 066-072»); guard spec 049 пускает эту сессию | commit pending
 2026-10-04 | push | authorize push origin main — spec-079b+080+081; публикует b15103c..5b32a0b | commit pending
+2026-10-04 | push | выполнен b15103c..dfbb312 | commit dfbb312
