@@ -8,6 +8,18 @@ import { defineConfig } from '@playwright/test';
 //    HTTPS only — baseURL and webServer.url must therefore be https.
 export default defineConfig({
   testDir: './e2e',
+  // spec 074: visual-regression contract. The app animates through `motion`, and a
+  // frame painted mid-transition is not a stable artefact — hence
+  // `animations: 'disabled'`. 1 % of differing pixels plus a per-pixel colour
+  // threshold of 0.2 absorb sub-pixel antialiasing drift between runs without
+  // hiding a real layout or colour change.
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.01,
+      threshold: 0.2,
+      animations: 'disabled',
+    },
+  },
   use: {
     baseURL: 'https://localhost:5173',
     ignoreHTTPSErrors: true,

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { test as base, expect, type Page } from '@playwright/test';
+import { test as base, expect, type Locator, type Page } from '@playwright/test';
 import { TOPICS as topicRegistry } from '../src/data/topics';
 /**
  * Shared E2E fixtures (Фаза 2.2).
@@ -129,6 +129,56 @@ export function topicTestId(slug: string): string {
  */
 export async function blockAnalytics(page: Page): Promise<void> {
   await page.route(/gc\.zgo\.at/, (route) => route.abort());
+}
+
+// ---------------------------------------------------------------------------
+// Visual + a11y testing (spec 074)
+// ---------------------------------------------------------------------------
+
+/**
+ * «Сегодня» для визуальных baseline'ов: от даты зависят streak, дневная цель и
+ * любые подписи с датой. Один и тот же момент в каждом прогоне — иначе снапшот
+ * отличался бы сам от себя уже на следующий день.
+ */
+export const VISUAL_FIXED_TIME = new Date('2026-10-04T12:00:00.000Z');
+
+/**
+ * Замораживает часы страницы (`Date.now` / `new Date`), НЕ останавливая таймеры
+ * (`page.clock.setFixedTime`, Playwright >= 1.45).
+ *
+ * Хелпер, а не глобальная авто-фикстура: замороженный `Date.now` во ВСЕХ
+ * сценариях сломал бы проверки таймера экзамена (`elapsed = Date.now() -
+ * startedAt` стало бы навсегда нулём). Спеки spec 074 вызывают его явно и до
+ * первой навигации; 111 существующих сценариев не затронуты.
+ */
+export async function freezeClock(page: Page, at: Date = VISUAL_FIXED_TIME): Promise<void> {
+  await page.clock.setFixedTime(at);
+}
+
+/**
+ * Ждёт готовности веб-шрифтов. До `fonts.ready` текст рисуется подменным шрифтом
+ * и меряется иначе — baseline, снятый в этот момент, нестабилен.
+ */
+export async function waitForFonts(page: Page): Promise<void> {
+  await page.evaluate(() => document.fonts.ready.then(() => undefined));
+}
+
+/**
+ * Селекторы динамики, которая не должна попадать в visual baseline: таймеры,
+ * streak, XP и дневная цель. Это `data-testid` контракт приложения, а не
+ * CSS-классы, поэтому переименование стилей маску не ломает.
+ */
+export const DYNAMIC_MASK_SELECTORS: readonly string[] = [
+  '[data-testid="exam-timer"]',
+  '[data-testid="streak-badge"]',
+  '[data-testid="xp-bar"]',
+  '[data-testid="retention-goal-line"]',
+  '[data-testid*="timer"]',
+];
+
+/** Те же узлы, но как локаторы для опции `mask` у `toHaveScreenshot`. */
+export function dynamicMasks(page: Page): Locator[] {
+  return DYNAMIC_MASK_SELECTORS.map((selector) => page.locator(selector));
 }
 /**
  * Persisted quiz state, in the shape zustand writes it: `{ version, state }`.
