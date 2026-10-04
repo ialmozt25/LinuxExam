@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "075",
-      "slug": "viewport-coverage",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/075-viewport-coverage.md",
-      "mtime": 1791088152192.7422,
-      "goal": "1. **Layout smoke на 5 viewport'ах**: overflow, CTA во вьюпорте, тач-цели,",
-      "acceptance": "[ ] `.project/specs/075-viewport-coverage.md` существует, frontmatter",
-      "noTouch": "`src/**` (ни одной правки — спека только детектирует),",
-      "preview": ""
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1317,6 +1302,21 @@
       "preview": ""
     },
     {
+      "id": "075",
+      "slug": "viewport-coverage",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "7219ceb",
+      "file": "specs/075-viewport-coverage.md",
+      "mtime": 1791088484660.5664,
+      "goal": "1. **Layout smoke на 5 viewport'ах**: overflow, CTA во вьюпорте, тач-цели,",
+      "acceptance": "[ ] `.project/specs/075-viewport-coverage.md` существует, frontmatter",
+      "noTouch": "`src/**` (ни одной правки — спека только детектирует),",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1378,7 +1378,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b",
     "2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending",
     "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541",
     "2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4",
@@ -1387,10 +1386,17 @@
     "2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d",
     "2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d",
     "2026-10-04 | rule2-exception | авторизован перевод spec 075 в approved через embedded approve | commit 7219ceb",
-    "2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb"
+    "2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb",
+    "2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "c114dff",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-075",
+      "type": "chore"
+    },
     {
       "sha": "e387ecb",
       "date": "2026-10-04",
@@ -1504,12 +1510,6 @@
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-071",
       "type": "chore"
-    },
-    {
-      "sha": "9ad3a3b",
-      "date": "2026-10-04",
-      "subject": "fix(spec-071): regression - next-button, exam, analytics",
-      "type": "fix"
     }
   ],
   "roles": [

@@ -3,10 +3,10 @@ id: 075
 slug: viewport-coverage
 type: infra
 track: full
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: 7219ceb
 embedded_approve: rule 2 (F5.0a — 2026-10-04)
 execution: direct
 ---

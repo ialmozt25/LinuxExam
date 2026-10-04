@@ -314,3 +314,4 @@
 2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d
 2026-10-04 | rule2-exception | авторизован перевод spec 075 в approved через embedded approve | commit 7219ceb
 2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb
+2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb
