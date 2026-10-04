@@ -12,6 +12,11 @@ import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/useTelegramBackButton';
 import { impact, notify } from '@/hooks/useTelegramHaptics';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import {
+  FIXED_FOOTER_SPACER,
+  FIXED_FOOTER_Z_INDEX,
+  useFixedFooterPadding,
+} from '@/presentation/components/fixedFooter';
 
 type OptionLike = { text: string; correct: boolean };
 
@@ -38,6 +43,8 @@ export default function Question() {
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const reduceMotion = useReducedMotion();
   const explanationRef = useRef<HTMLDivElement>(null);
+  // Reserved height of the fixed footer below (spec 070).
+  const footerRef = useFixedFooterPadding();
 
   const isReview = reviewQuestionIds !== null;
 
@@ -394,20 +401,20 @@ export default function Question() {
 
       {/* Next button (in-app fallback: hidden in Telegram, where MainButton takes over) */}
       {!isTelegram && (
-        // Sticky footer (spec 056): объяснение ответа может перерастать высоту
-        // вьюпорта, и кнопка в обычном потоке уезжала ниже фолда (RECON: 4 из 6
-        // вопросов на 390x844, переполнение 25-55px). Липнет к низу
-        // scroll-контейнера `#root`, поэтому видна без прокрутки при любом
-        // объяснении. marginTop:auto держит подпись внизу и на коротком контенте.
-        // UX-фикс (Ф3): запас снизу = safe-area + var(--space-2). Замер RECON на
-        // 390x844 давал bottom=840 при innerH=844 — всего 4px до кромки; на живом
-        // мобильном динамическая адресная строка/жест-бар съедают этот запас.
+        // Fixed footer (spec 070). Было `sticky` (spec 056/065): sticky липнет к
+        // низу scroll-контейнера `#root` и НЕ выходит за его пределы, а на живом
+        // мобильном низ контейнера оказывается вне экрана (visual viewport меньше
+        // layout). `fixed` считается от вьюпорта и держит кнопку видимой всегда.
+        // z-index 50: выше контента (10), ниже DEV-бейджа (9999); DailyGoalPicker
+        // (40) — под футером, но во время прогона вопросов он не монтируется.
         <div
+          ref={footerRef}
           style={{
-            position: 'sticky',
+            position: 'fixed',
             bottom: 0,
-            zIndex: 10,
-            marginTop: 'auto',
+            left: 0,
+            right: 0,
+            zIndex: FIXED_FOOTER_Z_INDEX,
             paddingTop: SPACING.sm,
             paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
             background: 'var(--bg-primary)',
@@ -446,6 +453,11 @@ export default function Question() {
           </button>
         </div>
       )}
+
+      {/* Распорка под высоту fixed-футера (spec 070): футер выведен из потока, и
+          без неё последний абзац объяснения нельзя доскроллить из-под футера —
+          padding скролл-контейнера в scrollHeight не попадает (замерено). */}
+      {!isTelegram && <div data-testid="fixed-footer-spacer" style={FIXED_FOOTER_SPACER} />}
     </ScreenContainer>
   );
 }

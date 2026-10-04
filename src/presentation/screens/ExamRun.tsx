@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useQuizStore } from '@/store/quizStore';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import {
+  FIXED_FOOTER_SPACER,
+  FIXED_FOOTER_Z_INDEX,
+  useFixedFooterPadding,
+} from '@/presentation/components/fixedFooter';
 import { SPACING } from '@/presentation/theme';
 import { formatRemaining } from '@/domain/exam';
 
@@ -30,6 +35,8 @@ export default function ExamRun() {
   // поэтому прогон остаётся «без обратной связи» до самого нажатия.
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [remaining, setRemaining] = useState(() => getExamRemainingMs(Date.now()));
+  // Reserved height of the fixed footer below (spec 070).
+  const footerRef = useFixedFooterPadding();
 
   const currentId = getExamCurrentQuestionId();
   const question = currentId ? questions.find((q) => q.id === currentId) ?? null : null;
@@ -193,16 +200,19 @@ export default function ExamRun() {
         })}
       </div>
 
-      {/* Sticky footer (spec 056): тот же паттерн, что и в Question.tsx — кнопка
-          действия не должна уезжать ниже фолда, когда вопрос длинный.
-          UX-фикс (Ф3): нижний запас = safe-area + var(--space-2), чтобы кнопки
-          не уходили под адресную строку/жест-бар на живом мобильном. */}
+      {/* Fixed footer (spec 070): было `sticky` (spec 056/065) — sticky липнет к
+          низу scroll-контейнера и не выходит за его пределы, поэтому на живом
+          мобильном (visual viewport меньше layout) кнопки оказывались вне экрана.
+          `fixed` считается от вьюпорта; z-index 50 — выше контента, ниже
+          DEV-бейджа (9999). */}
       <div
+        ref={footerRef}
         style={{
-          position: 'sticky',
+          position: 'fixed',
           bottom: 0,
-          zIndex: 10,
-          marginTop: 'auto',
+          left: 0,
+          right: 0,
+          zIndex: FIXED_FOOTER_Z_INDEX,
           paddingTop: SPACING.sm,
           paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
           background: 'var(--bg-primary)',
@@ -252,6 +262,11 @@ export default function ExamRun() {
           Прервать и выйти
         </button>
       </div>
+
+      {/* Распорка под высоту fixed-футера (spec 070): без неё последний вариант
+          ответа нельзя доскроллить из-под футера — padding скролл-контейнера в
+          scrollHeight не попадает (замерено в Chromium). */}
+      <div data-testid="fixed-footer-spacer" style={FIXED_FOOTER_SPACER} />
     </ScreenContainer>
   );
 }
