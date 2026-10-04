@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `c411efac00ec4ce3108ea21a582be9879513da43`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `be65a34a1887525817099159303e4109afa87d6f`<!--volatile:end-->
 - Спек: 73
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -19,7 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 079 | `contrast-fix` | fix | approved | pending | 2026-10-04 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -78,6 +77,7 @@
 | 076 | `critical-ui-fixes` | fix | done | 848704e | 2026-10-04 |
 | 077 | `ui-ux-checklist` | infra | done | b461b14 | 2026-10-04 |
 | 078 | `baseline-cleanup` | infra | done | 99962da | 2026-10-04 |
+| 079 | `contrast-fix` | fix | done | c411efa | 2026-10-04 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
