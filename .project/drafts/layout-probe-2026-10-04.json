@@ -1,0 +1,4899 @@
+{
+  "generatedAt": "2026-10-04T03:46:47.808Z",
+  "screens": [
+    {
+      "screen": "dashboard-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 1276,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": {
+            "top": 1929,
+            "bottom": 1985,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "Продолжить"
+          },
+          "review-wrong": {
+            "top": 557,
+            "bottom": 604,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 47,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Повторить ошибки30 вопр."
+          },
+          "review-today": {
+            "top": 370,
+            "bottom": 415,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 45,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Повторить сегодня (30)30 вопр."
+          },
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [
+          {
+            "tag": "div",
+            "testid": null,
+            "className": "",
+            "overflowX": 8,
+            "right": 260.6,
+            "text": "chmod, chown, ACL, umask, special bits"
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "className": "",
+            "overflowX": 10,
+            "right": 260.6,
+            "text": "sed, awk, cut, sort, uniq, tr, wc, head/tail"
+          }
+        ],
+        "buttons": [
+          {
+            "testid": "theme-toggle",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "streak-badge",
+            "text": "🔥0Начните серию!",
+            "disabled": false,
+            "width": 80,
+            "height": 80,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "review-today",
+            "text": "Повторить сегодня (30)30 вопр.",
+            "disabled": false,
+            "width": 358,
+            "height": 45,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-mode",
+            "text": "📝 Exam mode — 30/60/90 вопросов с разбо",
+            "disabled": false,
+            "width": 358,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "analytics-mode",
+            "text": "📊 Аналитика — готовность, слабые темы, ",
+            "disabled": false,
+            "width": 358,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "review-wrong",
+            "text": "Повторить ошибки30 вопр.",
+            "disabled": false,
+            "width": 358,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "topic-file_permissions",
+            "text": "Права доступаначните с этойchmod, chown,",
+            "disabled": false,
+            "width": 358,
+            "height": 105,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "topic-file_management",
+            "text": "Управление файламиcp, mv, find, tar, lin",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-process_management",
+            "text": "Управление процессамиps, top, kill, syst",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-essential_tools",
+            "text": "Базовые инструментыshell, grep, ssh, tar",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-text_files",
+            "text": "Работа с текстомsed, awk, cut, sort, uni",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-shell_scripts",
+            "text": "Shell-скриптыif, loops, args, command su",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-running_systems",
+            "text": "Управление системамиboot targets, servic",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-manage_software",
+            "text": "Управление ПОdnf, rpm, repositories, Fla",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-local_storage",
+            "text": "Локальное хранилищеpartitions, LVM, moun",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-file_systems",
+            "text": "Файловые системыext4, xfs, NFS, autofs, ",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-deploy_systems",
+            "text": "Развёртывание системat, cron, systemd se",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-networking",
+            "text": "Сетьnmcli, hostname, /etc/hosts, firewal",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-users_groups",
+            "text": "Пользователи и группыuseradd, usermod, s",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-security",
+            "text": "БезопасностьSELinux, firewalld, SSH keys",
+            "disabled": false,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "dashboard-continue",
+            "text": "Продолжить",
+            "disabled": false,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": false
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "13px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Уровень 1"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "LinuxExam"
+          },
+          {
+            "tag": "p",
+            "testid": "dashboard-subtitle",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Подготовка к RHCSA за 15 минут в день"
+          },
+          {
+            "tag": "button",
+            "testid": "streak-badge",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "🔥0Начните серию!"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "🔥"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "24px",
+            "fontWeight": "700",
+            "color": "rgb(207, 57, 46)",
+            "opacity": "1",
+            "text": "0"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "10px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Начните серию!"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Прогресс"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "30 из 253"
+          },
+          {
+            "tag": "button",
+            "testid": "review-today",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить сегодня (30)30 вопр."
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить сегодня (30)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "30 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "exam-mode",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "📝 Exam mode — 30/60/90 вопросов с разбо"
+          },
+          {
+            "tag": "button",
+            "testid": "analytics-mode",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "📊 Аналитика — готовность, слабые темы, "
+          },
+          {
+            "tag": "button",
+            "testid": "review-wrong",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить ошибки30 вопр."
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить ошибки"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(207, 57, 46)",
+            "opacity": "1",
+            "text": "30 вопр."
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Программа RHCSA"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "14 из 14 тем"
+          },
+          {
+            "tag": "button",
+            "testid": "topic-file_permissions",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Права доступаначните с этойchmod, chown,"
+          },
+          {
+            "tag": "span",
+            "testid": "topic-first-cta",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(55, 126, 58)",
+            "opacity": "1",
+            "text": "начните с этой"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "19 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-file_management",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление файламиcp, mv, find, tar, lin"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "18 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-process_management",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление процессамиps, top, kill, syst"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "17 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-essential_tools",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Базовые инструментыshell, grep, ssh, tar"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "25 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-text_files",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Работа с текстомsed, awk, cut, sort, uni"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-shell_scripts",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Shell-скриптыif, loops, args, command su"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-running_systems",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление системамиboot targets, servic"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-manage_software",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление ПОdnf, rpm, repositories, Fla"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-local_storage",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Локальное хранилищеpartitions, LVM, moun"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "13 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-file_systems",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Файловые системыext4, xfs, NFS, autofs, "
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "14 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-deploy_systems",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Развёртывание системat, cron, systemd se"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "25 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-networking",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Сетьnmcli, hostname, /etc/hosts, firewal"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "18 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-users_groups",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Пользователи и группыuseradd, usermod, s"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "20 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-security",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "БезопасностьSELinux, firewalld, SSH keys"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "20 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "dashboard-continue",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Продолжить"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "question-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 94,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": {
+            "top": 780,
+            "bottom": 836,
+            "left": 0,
+            "right": 390,
+            "width": 390,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Следующий вопрос"
+          },
+          "explanation": {
+            "top": 686,
+            "bottom": 817.2,
+            "left": 36,
+            "right": 358,
+            "width": 322,
+            "height": 131.2,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Цифра 7 = rwx (владелец), 5 = r-x (группа), 4 = r-- (остальн"
+          },
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [
+          {
+            "tag": "div",
+            "testid": null,
+            "className": "",
+            "overflowX": 4,
+            "right": 374,
+            "text": "AВладелец: только выполнение, группа: чтение/запис"
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "className": "",
+            "overflowX": 4,
+            "right": 374,
+            "text": "AВладелец: только выполнение, группа: чтение/запис"
+          }
+        ],
+        "buttons": [
+          {
+            "testid": "header-home",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-3",
+            "text": "AВладелец: только выполнение, группа: чт",
+            "disabled": true,
+            "width": 365.2,
+            "height": 79.6,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-0",
+            "text": "BВладелец: чтение/запись/исполнение, гру",
+            "disabled": true,
+            "width": 358,
+            "height": 99,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-2",
+            "text": "CВладелец: чтение/запись/исполнение, гру",
+            "disabled": true,
+            "width": 358,
+            "height": 99,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-1",
+            "text": "DВладелец: чтение/запись, группа: чтение",
+            "disabled": true,
+            "width": 358,
+            "height": 78,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "next-button",
+            "text": "Следующий вопрос",
+            "disabled": false,
+            "width": 390,
+            "height": 56,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h2",
+            "testid": "question-text",
+            "fontSize": "20px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Что означает разрешение 754 в восьмеричн"
+          },
+          {
+            "tag": "button",
+            "testid": "option-3",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "AВладелец: только выполнение, группа: чт"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "A"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: только выполнение, группа: чте"
+          },
+          {
+            "tag": "button",
+            "testid": "option-0",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "BВладелец: чтение/запись/исполнение, гру"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "B"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: чтение/запись/исполнение, груп"
+          },
+          {
+            "tag": "button",
+            "testid": "option-2",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "0.55",
+            "text": "CВладелец: чтение/запись/исполнение, гру"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "C"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: чтение/запись/исполнение, груп"
+          },
+          {
+            "tag": "button",
+            "testid": "option-1",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "0.55",
+            "text": "DВладелец: чтение/запись, группа: чтение"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "D"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: чтение/запись, группа: чтение/"
+          },
+          {
+            "tag": "button",
+            "testid": "next-button",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Следующий вопрос"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "results-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 1017,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": {
+            "top": 1741,
+            "bottom": 1797,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "Пройти заново"
+          },
+          "results-back": {
+            "top": 1805,
+            "bottom": 1861,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "К темам"
+          },
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-home",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "results-review-wrong",
+            "text": "Повторить ошибки (1)",
+            "disabled": false,
+            "width": 358,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "results-retry",
+            "text": "Пройти заново",
+            "disabled": false,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "results-back",
+            "text": "К темам",
+            "disabled": false,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": false
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Результаты"
+          },
+          {
+            "tag": "button",
+            "testid": "results-review-wrong",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить ошибки (1)"
+          },
+          {
+            "tag": "h2",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "По темам"
+          },
+          {
+            "tag": "button",
+            "testid": "results-retry",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Пройти заново"
+          },
+          {
+            "tag": "button",
+            "testid": "results-back",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "К темам"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "exam-setup-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": {
+            "top": 429,
+            "bottom": 485,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Начать экзамен"
+          },
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-back",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-setup-back",
+            "text": "Назад",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "preset-30",
+            "text": "30 вопросов30 минут",
+            "disabled": false,
+            "width": 358,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "preset-60",
+            "text": "60 вопросов60 минут",
+            "disabled": false,
+            "width": 358,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "preset-90",
+            "text": "90 вопросов120 минут",
+            "disabled": false,
+            "width": 358,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-start",
+            "text": "Начать экзамен",
+            "disabled": false,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "button",
+            "testid": "exam-setup-back",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Назад"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Exam mode"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Пробный экзамен без подсказок и объяснен"
+          },
+          {
+            "tag": "button",
+            "testid": "preset-30",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "30 вопросов30 минут"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "30 вопросов"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "30 минут"
+          },
+          {
+            "tag": "button",
+            "testid": "preset-60",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "60 вопросов60 минут"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "60 вопросов"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "60 минут"
+          },
+          {
+            "tag": "button",
+            "testid": "preset-90",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "90 вопросов120 минут"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "90 вопросов"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "120 минут"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-start",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Начать экзамен"
+          },
+          {
+            "tag": "p",
+            "testid": "exam-setup-summary",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Вопросов в прогоне: 30 из банка 253"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "exam-run-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": {
+            "top": 738,
+            "bottom": 794,
+            "left": 0,
+            "right": 390,
+            "width": 390,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Ответить"
+          },
+          "exam-cancel": {
+            "top": 802,
+            "bottom": 836,
+            "left": 0,
+            "right": 390,
+            "width": 390,
+            "height": 34,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Прервать и выйти"
+          },
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "exam-option-0",
+            "text": "Asystemctl isolate graphical.target",
+            "disabled": false,
+            "width": 358,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-option-1",
+            "text": "Bsystemctl set-default graphical.target",
+            "disabled": false,
+            "width": 358,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-option-2",
+            "text": "Csystemctl get-default graphical.target",
+            "disabled": false,
+            "width": 358,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-option-3",
+            "text": "Dsystemctl enable graphical.target",
+            "disabled": false,
+            "width": 358,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-submit",
+            "text": "Ответить",
+            "disabled": false,
+            "width": 390,
+            "height": 56,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-cancel",
+            "text": "Прервать и выйти",
+            "disabled": false,
+            "width": 390,
+            "height": 34,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "span",
+            "testid": "exam-progress",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Вопрос 1 / 30"
+          },
+          {
+            "tag": "span",
+            "testid": "exam-timer",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "00:30:00"
+          },
+          {
+            "tag": "h2",
+            "testid": "exam-question-text",
+            "fontSize": "20px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "После установки сервер загружается в мно"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-0",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Asystemctl isolate graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "A"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl isolate graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-1",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Bsystemctl set-default graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "B"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl set-default graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-2",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Csystemctl get-default graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "C"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl get-default graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-3",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Dsystemctl enable graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "D"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl enable graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-submit",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Ответить"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-cancel",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Прервать и выйти"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "exam-results-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 7,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-back",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-results-back",
+            "text": "На главную",
+            "disabled": false,
+            "width": 74.4,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "back-to-dashboard",
+            "text": "На главную",
+            "disabled": false,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": false
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "button",
+            "testid": "exam-results-back",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "На главную"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Экзамен завершён"
+          },
+          {
+            "tag": "p",
+            "testid": "exam-finish-reason",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Завершено вручную"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Порог сдачи — 70%"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "deploy_systems"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 3 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "essential_tools"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 4 (25%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "file_management"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 3 (33.3%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "file_permissions"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "local_storage"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 2 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "process_management"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "running_systems"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 4 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "security"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "shell_scripts"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 2 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "text_files"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "users_groups"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 4 (25%)"
+          },
+          {
+            "tag": "button",
+            "testid": "back-to-dashboard",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "На главную"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "analytics-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-back",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "analytics-back",
+            "text": "На главную",
+            "disabled": false,
+            "width": 74.4,
+            "height": 44,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "button",
+            "testid": "analytics-back",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "На главную"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Аналитика"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Взвешено по размеру тем: точность ответо"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Развёртывание систем"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0%"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Базовые инструменты"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0%"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление файлами"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0%"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "paywall-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 83,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": {
+            "top": 807.8,
+            "bottom": 865.8,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 58,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "Купить за 299 Stars"
+          },
+          "paywall-later": {
+            "top": 873.8,
+            "bottom": 926.8,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 53,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "Не сейчас"
+          },
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-home",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "paywall-start-trial",
+            "text": "Попробовать 7 дней бесплатно",
+            "disabled": false,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "paywall-buy",
+            "text": "Купить за 299 Stars",
+            "disabled": false,
+            "width": 358,
+            "height": 58,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "paywall-later",
+            "text": "Не сейчас",
+            "disabled": false,
+            "width": 358,
+            "height": 53,
+            "fullyInViewport": false
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h2",
+            "testid": null,
+            "fontSize": "20px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Бесплатные вопросы закончились"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Вы ответили на 5 вопросов. Откройте все "
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Месяц — 299 Stars"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Год — 1499 Stars"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Навсегда — 3999 Stars"
+          },
+          {
+            "tag": "button",
+            "testid": "paywall-start-trial",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Попробовать 7 дней бесплатно"
+          },
+          {
+            "tag": "button",
+            "testid": "paywall-buy",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Купить за 299 Stars"
+          },
+          {
+            "tag": "button",
+            "testid": "paywall-later",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Не сейчас"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "onboarding-goal-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "onboarding-goal-rhcsa",
+            "text": "Сдать RHCSAГотовлюсь к экзамену RHCSA с ",
+            "disabled": false,
+            "width": 358,
+            "height": 80,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "onboarding-goal-refresh",
+            "text": "Освежить знанияПрактикую Linux, чтобы не",
+            "disabled": false,
+            "width": 358,
+            "height": 80,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "onboarding-goal-interview",
+            "text": "Пройти собеседованиеРазбираю темы, котор",
+            "disabled": false,
+            "width": 358,
+            "height": 80,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Зачем вам LinuxExam?"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Выберите цель — подберём три вопроса для"
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-goal-rhcsa",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Сдать RHCSAГотовлюсь к экзамену RHCSA с "
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Сдать RHCSA"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Готовлюсь к экзамену RHCSA с нуля или по"
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-goal-refresh",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Освежить знанияПрактикую Linux, чтобы не"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Освежить знания"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Практикую Linux, чтобы не терять форму"
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-goal-interview",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Пройти собеседованиеРазбираю темы, котор"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Пройти собеседование"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Разбираю темы, которые спрашивают на инт"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "onboarding-demo-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": {
+            "top": 493.1,
+            "bottom": 549.1,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Дальше"
+          }
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "onboarding-option-0",
+            "text": "sed 's/old/new/g' config.txt > result.tx",
+            "disabled": false,
+            "width": 358,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "onboarding-option-1",
+            "text": "sed -i 's/old/new/' config.txt > result.",
+            "disabled": false,
+            "width": 358,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "onboarding-option-2",
+            "text": "sed -n 's/old/new/' config.txt > result.",
+            "disabled": false,
+            "width": 358,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "onboarding-option-3",
+            "text": "sed 's/old/new/' config.txt > result.txt",
+            "disabled": false,
+            "width": 358,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "onboarding-demo-next",
+            "text": "Дальше",
+            "disabled": true,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "p",
+            "testid": "onboarding-demo-progress",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Вопрос 1 из 3"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "18px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "В файле config.txt нужно заменить первое"
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-option-0",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "sed 's/old/new/g' config.txt > result.tx"
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-option-1",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "sed -i 's/old/new/' config.txt > result."
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-option-2",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "sed -n 's/old/new/' config.txt > result."
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-option-3",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "sed 's/old/new/' config.txt > result.txt"
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-demo-next",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "0.5",
+            "text": "Дальше"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "onboarding-result-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": {
+            "top": 266.6,
+            "bottom": 322.6,
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Начать"
+          },
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "onboarding-start",
+            "text": "Начать",
+            "disabled": false,
+            "width": 358,
+            "height": 56,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Готово"
+          },
+          {
+            "tag": "p",
+            "testid": "onboarding-result-goal",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Цель: Сдать RHCSA"
+          },
+          {
+            "tag": "p",
+            "testid": "onboarding-result-score",
+            "fontSize": "20px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "0 из 3"
+          },
+          {
+            "tag": "p",
+            "testid": "onboarding-result-message",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Это нормально: объяснения к каждому вопр"
+          },
+          {
+            "tag": "button",
+            "testid": "onboarding-start",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Начать"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "dashboard-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 1123,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": {
+            "top": 1904,
+            "bottom": 1960,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "Продолжить"
+          },
+          "review-wrong": {
+            "top": 557,
+            "bottom": 604,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 47,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Повторить ошибки30 вопр."
+          },
+          "review-today": {
+            "top": 370,
+            "bottom": 415,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 45,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Повторить сегодня (30)30 вопр."
+          },
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "theme-toggle",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "streak-badge",
+            "text": "🔥0Начните серию!",
+            "disabled": false,
+            "width": 80,
+            "height": 80,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "review-today",
+            "text": "Повторить сегодня (30)30 вопр.",
+            "disabled": false,
+            "width": 1408,
+            "height": 45,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-mode",
+            "text": "📝 Exam mode — 30/60/90 вопросов с разбо",
+            "disabled": false,
+            "width": 1408,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "analytics-mode",
+            "text": "📊 Аналитика — готовность, слабые темы, ",
+            "disabled": false,
+            "width": 1408,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "review-wrong",
+            "text": "Повторить ошибки30 вопр.",
+            "disabled": false,
+            "width": 1408,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "topic-file_permissions",
+            "text": "Права доступаначните с этойchmod, chown,",
+            "disabled": false,
+            "width": 1408,
+            "height": 80,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "topic-file_management",
+            "text": "Управление файламиcp, mv, find, tar, lin",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "topic-process_management",
+            "text": "Управление процессамиps, top, kill, syst",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-essential_tools",
+            "text": "Базовые инструментыshell, grep, ssh, tar",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-text_files",
+            "text": "Работа с текстомsed, awk, cut, sort, uni",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-shell_scripts",
+            "text": "Shell-скриптыif, loops, args, command su",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-running_systems",
+            "text": "Управление системамиboot targets, servic",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-manage_software",
+            "text": "Управление ПОdnf, rpm, repositories, Fla",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-local_storage",
+            "text": "Локальное хранилищеpartitions, LVM, moun",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-file_systems",
+            "text": "Файловые системыext4, xfs, NFS, autofs, ",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-deploy_systems",
+            "text": "Развёртывание системat, cron, systemd se",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-networking",
+            "text": "Сетьnmcli, hostname, /etc/hosts, firewal",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-users_groups",
+            "text": "Пользователи и группыuseradd, usermod, s",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "topic-security",
+            "text": "БезопасностьSELinux, firewalld, SSH keys",
+            "disabled": false,
+            "width": 1408,
+            "height": 78,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "dashboard-continue",
+            "text": "Продолжить",
+            "disabled": false,
+            "width": 1408,
+            "height": 56,
+            "fullyInViewport": false
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "13px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Уровень 1"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "LinuxExam"
+          },
+          {
+            "tag": "p",
+            "testid": "dashboard-subtitle",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Подготовка к RHCSA за 15 минут в день"
+          },
+          {
+            "tag": "button",
+            "testid": "streak-badge",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "🔥0Начните серию!"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "🔥"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "24px",
+            "fontWeight": "700",
+            "color": "rgb(207, 57, 46)",
+            "opacity": "1",
+            "text": "0"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "10px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Начните серию!"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Прогресс"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "30 из 253"
+          },
+          {
+            "tag": "button",
+            "testid": "review-today",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить сегодня (30)30 вопр."
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить сегодня (30)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "30 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "exam-mode",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "📝 Exam mode — 30/60/90 вопросов с разбо"
+          },
+          {
+            "tag": "button",
+            "testid": "analytics-mode",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "📊 Аналитика — готовность, слабые темы, "
+          },
+          {
+            "tag": "button",
+            "testid": "review-wrong",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить ошибки30 вопр."
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить ошибки"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(207, 57, 46)",
+            "opacity": "1",
+            "text": "30 вопр."
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Программа RHCSA"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "14 из 14 тем"
+          },
+          {
+            "tag": "button",
+            "testid": "topic-file_permissions",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Права доступаначните с этойchmod, chown,"
+          },
+          {
+            "tag": "span",
+            "testid": "topic-first-cta",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(55, 126, 58)",
+            "opacity": "1",
+            "text": "начните с этой"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "19 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-file_management",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление файламиcp, mv, find, tar, lin"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "18 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-process_management",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление процессамиps, top, kill, syst"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "17 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-essential_tools",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Базовые инструментыshell, grep, ssh, tar"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "25 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-text_files",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Работа с текстомsed, awk, cut, sort, uni"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-shell_scripts",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Shell-скриптыif, loops, args, command su"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-running_systems",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление системамиboot targets, servic"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-manage_software",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление ПОdnf, rpm, repositories, Fla"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "16 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-local_storage",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Локальное хранилищеpartitions, LVM, moun"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "13 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-file_systems",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Файловые системыext4, xfs, NFS, autofs, "
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "14 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-deploy_systems",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Развёртывание системat, cron, systemd se"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "25 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-networking",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Сетьnmcli, hostname, /etc/hosts, firewal"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "18 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-users_groups",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Пользователи и группыuseradd, usermod, s"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "20 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "topic-security",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "БезопасностьSELinux, firewalld, SSH keys"
+          },
+          {
+            "tag": "span",
+            "testid": "paywall-badge-free",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "Бесплатно"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(33, 150, 243)",
+            "opacity": "1",
+            "text": "20 вопр."
+          },
+          {
+            "tag": "button",
+            "testid": "dashboard-continue",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Продолжить"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "question-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": {
+            "top": 836,
+            "bottom": 892,
+            "left": 0,
+            "right": 1440,
+            "width": 1440,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Следующий вопрос"
+          },
+          "explanation": {
+            "top": 544,
+            "bottom": 600.8,
+            "left": 36,
+            "right": 1408,
+            "width": 1372,
+            "height": 56.8,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Цифра 7 = rwx (владелец), 5 = r-x (группа), 4 = r-- (остальн"
+          },
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [
+          {
+            "tag": "div",
+            "testid": null,
+            "className": "",
+            "overflowX": 14,
+            "right": 1424,
+            "text": "AВладелец: только выполнение, группа: чтение/запис"
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "className": "",
+            "overflowX": 14,
+            "right": 1424,
+            "text": "AВладелец: только выполнение, группа: чтение/запис"
+          }
+        ],
+        "buttons": [
+          {
+            "testid": "header-home",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-3",
+            "text": "AВладелец: только выполнение, группа: чт",
+            "disabled": true,
+            "width": 1436.2,
+            "height": 61.2,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-0",
+            "text": "BВладелец: чтение/запись/исполнение, гру",
+            "disabled": true,
+            "width": 1408,
+            "height": 60,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-2",
+            "text": "CВладелец: чтение/запись/исполнение, гру",
+            "disabled": true,
+            "width": 1408,
+            "height": 60,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "option-1",
+            "text": "DВладелец: чтение/запись, группа: чтение",
+            "disabled": true,
+            "width": 1408,
+            "height": 60,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "next-button",
+            "text": "Следующий вопрос",
+            "disabled": false,
+            "width": 1440,
+            "height": 56,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h2",
+            "testid": "question-text",
+            "fontSize": "20px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Что означает разрешение 754 в восьмеричн"
+          },
+          {
+            "tag": "button",
+            "testid": "option-3",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "AВладелец: только выполнение, группа: чт"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "A"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: только выполнение, группа: чте"
+          },
+          {
+            "tag": "button",
+            "testid": "option-0",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "BВладелец: чтение/запись/исполнение, гру"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "B"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: чтение/запись/исполнение, груп"
+          },
+          {
+            "tag": "button",
+            "testid": "option-2",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "0.55",
+            "text": "CВладелец: чтение/запись/исполнение, гру"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "C"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: чтение/запись/исполнение, груп"
+          },
+          {
+            "tag": "button",
+            "testid": "option-1",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "0.55",
+            "text": "DВладелец: чтение/запись, группа: чтение"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "D"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Владелец: чтение/запись, группа: чтение/"
+          },
+          {
+            "tag": "button",
+            "testid": "next-button",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Следующий вопрос"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "results-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 961,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": {
+            "top": 1741,
+            "bottom": 1797,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "Пройти заново"
+          },
+          "results-back": {
+            "top": 1805,
+            "bottom": 1861,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": false,
+            "text": "К темам"
+          },
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-home",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "results-review-wrong",
+            "text": "Повторить ошибки (1)",
+            "disabled": false,
+            "width": 1408,
+            "height": 47,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "results-retry",
+            "text": "Пройти заново",
+            "disabled": false,
+            "width": 1408,
+            "height": 56,
+            "fullyInViewport": false
+          },
+          {
+            "testid": "results-back",
+            "text": "К темам",
+            "disabled": false,
+            "width": 1408,
+            "height": 56,
+            "fullyInViewport": false
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Результаты"
+          },
+          {
+            "tag": "button",
+            "testid": "results-review-wrong",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Повторить ошибки (1)"
+          },
+          {
+            "tag": "h2",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "По темам"
+          },
+          {
+            "tag": "button",
+            "testid": "results-retry",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Пройти заново"
+          },
+          {
+            "tag": "button",
+            "testid": "results-back",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "К темам"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "exam-setup-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": {
+            "top": 408,
+            "bottom": 464,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Начать экзамен"
+          },
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-back",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-setup-back",
+            "text": "Назад",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "preset-30",
+            "text": "30 вопросов30 минут",
+            "disabled": false,
+            "width": 1408,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "preset-60",
+            "text": "60 вопросов60 минут",
+            "disabled": false,
+            "width": 1408,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "preset-90",
+            "text": "90 вопросов120 минут",
+            "disabled": false,
+            "width": 1408,
+            "height": 55,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-start",
+            "text": "Начать экзамен",
+            "disabled": false,
+            "width": 1408,
+            "height": 56,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "button",
+            "testid": "exam-setup-back",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Назад"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Exam mode"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Пробный экзамен без подсказок и объяснен"
+          },
+          {
+            "tag": "button",
+            "testid": "preset-30",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "30 вопросов30 минут"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "30 вопросов"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "30 минут"
+          },
+          {
+            "tag": "button",
+            "testid": "preset-60",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "60 вопросов60 минут"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "60 вопросов"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "60 минут"
+          },
+          {
+            "tag": "button",
+            "testid": "preset-90",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "90 вопросов120 минут"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "90 вопросов"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "120 минут"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-start",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Начать экзамен"
+          },
+          {
+            "tag": "p",
+            "testid": "exam-setup-summary",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Вопросов в прогоне: 30 из банка 253"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "exam-run-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": {
+            "top": 794,
+            "bottom": 850,
+            "left": 0,
+            "right": 1440,
+            "width": 1440,
+            "height": 56,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Ответить"
+          },
+          "exam-cancel": {
+            "top": 858,
+            "bottom": 892,
+            "left": 0,
+            "right": 1440,
+            "width": 1440,
+            "height": 34,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Прервать и выйти"
+          },
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "exam-option-0",
+            "text": "Asystemctl isolate graphical.target",
+            "disabled": false,
+            "width": 1408,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-option-1",
+            "text": "Bsystemctl set-default graphical.target",
+            "disabled": false,
+            "width": 1408,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-option-2",
+            "text": "Csystemctl get-default graphical.target",
+            "disabled": false,
+            "width": 1408,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-option-3",
+            "text": "Dsystemctl enable graphical.target",
+            "disabled": false,
+            "width": 1408,
+            "height": 60.8,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-submit",
+            "text": "Ответить",
+            "disabled": false,
+            "width": 1440,
+            "height": 56,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-cancel",
+            "text": "Прервать и выйти",
+            "disabled": false,
+            "width": 1440,
+            "height": 34,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "span",
+            "testid": "exam-progress",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Вопрос 1 / 30"
+          },
+          {
+            "tag": "span",
+            "testid": "exam-timer",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "00:30:00"
+          },
+          {
+            "tag": "h2",
+            "testid": "exam-question-text",
+            "fontSize": "20px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "После установки сервер загружается в мно"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-0",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Asystemctl isolate graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "A"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl isolate graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-1",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Bsystemctl set-default graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "B"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl set-default graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-2",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Csystemctl get-default graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "C"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl get-default graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-option-3",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Dsystemctl enable graphical.target"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "D"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "systemctl enable graphical.target"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-submit",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Ответить"
+          },
+          {
+            "tag": "button",
+            "testid": "exam-cancel",
+            "fontSize": "12px",
+            "fontWeight": "600",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Прервать и выйти"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "exam-results-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-back",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "exam-results-back",
+            "text": "На главную",
+            "disabled": false,
+            "width": 74.4,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "back-to-dashboard",
+            "text": "На главную",
+            "disabled": false,
+            "width": 1408,
+            "height": 56,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "button",
+            "testid": "exam-results-back",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "На главную"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Экзамен завершён"
+          },
+          {
+            "tag": "p",
+            "testid": "exam-finish-reason",
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Завершено вручную"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Порог сдачи — 70%"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "deploy_systems"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 3 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "essential_tools"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 4 (25%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "file_management"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 3 (33.3%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "file_permissions"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "local_storage"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 2 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "process_management"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "running_systems"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 4 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "security"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "shell_scripts"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0 / 2 (0%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "text_files"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 2 (50%)"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "users_groups"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "1 / 4 (25%)"
+          },
+          {
+            "tag": "button",
+            "testid": "back-to-dashboard",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "На главную"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "analytics-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": null,
+          "paywall-later": null,
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-back",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "analytics-back",
+            "text": "На главную",
+            "disabled": false,
+            "width": 74.4,
+            "height": 44,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "button",
+            "testid": "analytics-back",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "На главную"
+          },
+          {
+            "tag": "h1",
+            "testid": null,
+            "fontSize": "28px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Аналитика"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "12px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Взвешено по размеру тем: точность ответо"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Развёртывание систем"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0%"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Базовые инструменты"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0%"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Управление файлами"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "0%"
+          }
+        ]
+      }
+    },
+    {
+      "screen": "paywall-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rootOverflowY": 0,
+      "bodyOverflowX": 0,
+      "rows": {
+        "nodes": {
+          "dashboard-continue": null,
+          "review-wrong": null,
+          "review-today": null,
+          "start-learning": null,
+          "continue-learning": null,
+          "next-button": null,
+          "explanation": null,
+          "exam-start": null,
+          "exam-submit": null,
+          "exam-cancel": null,
+          "results-retry": null,
+          "results-back": null,
+          "paywall-buy": {
+            "top": 774.7,
+            "bottom": 832.7,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 58,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Купить за 299 Stars"
+          },
+          "paywall-later": {
+            "top": 840.7,
+            "bottom": 893.7,
+            "left": 16,
+            "right": 1424,
+            "width": 1408,
+            "height": 53,
+            "visible": true,
+            "fullyInViewport": true,
+            "text": "Не сейчас"
+          },
+          "onboarding-start": null,
+          "onboarding-demo-next": null
+        },
+        "overflowing": [],
+        "buttons": [
+          {
+            "testid": "header-home",
+            "text": "",
+            "disabled": false,
+            "width": 44,
+            "height": 44,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "paywall-start-trial",
+            "text": "Попробовать 7 дней бесплатно",
+            "disabled": false,
+            "width": 1408,
+            "height": 56,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "paywall-buy",
+            "text": "Купить за 299 Stars",
+            "disabled": false,
+            "width": 1408,
+            "height": 58,
+            "fullyInViewport": true
+          },
+          {
+            "testid": "paywall-later",
+            "text": "Не сейчас",
+            "disabled": false,
+            "width": 1408,
+            "height": 53,
+            "fullyInViewport": true
+          }
+        ],
+        "textStyles": [
+          {
+            "tag": "h2",
+            "testid": null,
+            "fontSize": "20px",
+            "fontWeight": "700",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Бесплатные вопросы закончились"
+          },
+          {
+            "tag": "p",
+            "testid": null,
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Вы ответили на 5 вопросов. Откройте все "
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Месяц — 299 Stars"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Год — 1499 Stars"
+          },
+          {
+            "tag": "span",
+            "testid": null,
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Навсегда — 3999 Stars"
+          },
+          {
+            "tag": "button",
+            "testid": "paywall-start-trial",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "text": "Попробовать 7 дней бесплатно"
+          },
+          {
+            "tag": "button",
+            "testid": "paywall-buy",
+            "fontSize": "16px",
+            "fontWeight": "600",
+            "color": "rgb(27, 31, 35)",
+            "opacity": "1",
+            "text": "Купить за 299 Stars"
+          },
+          {
+            "tag": "button",
+            "testid": "paywall-later",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "color": "rgb(74, 74, 74)",
+            "opacity": "1",
+            "text": "Не сейчас"
+          }
+        ]
+      }
+    }
+  ]
+}

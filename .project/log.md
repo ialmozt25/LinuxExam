@@ -309,3 +309,5 @@
 2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541
 2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4
 2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4
+2026-10-04 | rule2-exception | авторизован перевод spec 074 в approved через embedded approve | commit 703e14d
+2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d
