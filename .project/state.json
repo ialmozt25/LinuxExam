@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "acb74ee6ff2687e1661c329387f1aa119ac9b5df",
+  "head": "e92c2486d0994f83ee44cc5929461745e901d0c5",
   "specs": [
     {
       "id": "022",
@@ -1483,7 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | authorize push origin main — spec-076+077+078; публикует 6ba8f61..5a284d4 | commit pending",
     "2026-10-04 | push | выполнен 6ba8f61..b15103c | commit 5a284d4",
     "2026-10-04 | spec-079 | done - contrast-fix | commit c411efa",
     "2026-10-04 | spec-079 | WCAG 1.4.3: акцент --accent #2196F3 -> --color-accent-strong #1565C0 (белый на заливке 3.12->5.75); paywall-badge-free 2.59->4.78; review-wrong 3.96->5.28 (+14px/600); topic-first-cta 4.14->5.35; побочно F5 — тёмный --text-primary на акцентной заливке (PRIMARY_CTA/dashboard-continue/next-button/onboarding-demo-next) 2.88->5.75, disabled-ветки получили --text-secondary; COLOR-003 0 продуктовых узлов, COLOR-001 13 (было 33) — все 13 DEV-оверлей (dev-only, spec 078); COLOR-004 закрыт переносом hex в tokens.css; regression-079 5/5; baseline 19 PNG регенерирован (2 прогона 19 passed); гейты 442 / 213 / 0 / 0 = baseline+5; push — STOP | commit c411efa",
@@ -1492,10 +1491,23 @@
     "2026-10-04 | spec-080 | done - full-checklist | commit 42af68d",
     "2026-10-04 | spec-080 | ui-ux.yaml 30 -> 61 критериев: раскладка A-F (12/8/12/8/6/5 = 51 позиция состава) накрыта 30 существующими + 31 новой записью - COLOR-007 (роли радиусов), TYPO-006 (lh <= 1.6), SPACE-005 (горизонтальная 4px-ось), USABILITY-* (12, Нильсен), COPY-004..008, MARKETING-001..006, TMA-001..005; 11 из них manual/vision (смысловые, закрывает аудит снимков). Исправлены 3 дефектных паттерна чек-листа: TYPO-001 матчил ПРЕФИКС значения (fontSize: '14px' проходил как \"4px\"), SPACE-002 требовал кратности 8 от компактных 4px/12px-уровней SPACING (spec 065), TYPO-006/SPACE-005 первой итерации ловили не то. check.mjs --self-test: обновлены только ЧИСЛА СОСТАВА категорий (логика проверок не тронута). Визуальный аудит 19 PNG: vision недоступен (codex-local без адаптера) - аудит программный (sharp + обмер DOM 19 состояний), отчёт drafts/visual-audit-full.md: 0 critical / 0 high / 3 medium / 6 low, маджента 0px на 19/19, overflow 0, тач-цели < 44px = 0 (проба), контраст AA выполнен; ложные наблюдения помечены (вложенный radio 13x13, эмодзи lh 1) | commit 42af68d",
     "2026-10-04 | spec-081 | done - top-fixes | commit c6ea01e",
-    "2026-10-04 | spec-081 | TOP-15: 9 правок в 3 файлах. TYPO (medium): Dashboard.tsx:259 13px и :381 14px хардкод -> var(--text-sm) (значение есть в шкале токенов, файл рядом уже использует токен), StreakBadge.tsx:79 lineHeight 1.1 -> 1.4. SPACE (low, 5 правок в Dashboard): padding '2px 6px' -> '4px 8px', paddingBottom 12 -> 8, margin '4px 0 0 0' -> '8px 0 0 0', gap '4px 6px' -> '4px 8px', gap '2px' -> '4px'. A11Y (low): Paywall plan-radio получил aria-label (нативная цель 13x13 сохраняет hit-area <label>, скринридер больше не читает «radio, 13 на 13»). НЕ чинилось осознанно: ложные наблюдения аудита (вложенный radio, эмодзи lh 1) и 416 узлов текста < 16px (норма токенов --text-xs/--text-sm). npm run check 4 fail -> 0 fail (50 pass / 0 fail / 0 unknown / 11 manual, exit 0); COLOR-001/003 pass; 19 baseline PNG регенерированы (--update-snapshots=all + чистый прогон = 19 passed); гейты 442 / 213 / 0 / 0 = baseline | commit c6ea01e"
+    "2026-10-04 | spec-081 | TOP-15: 9 правок в 3 файлах. TYPO (medium): Dashboard.tsx:259 13px и :381 14px хардкод -> var(--text-sm) (значение есть в шкале токенов, файл рядом уже использует токен), StreakBadge.tsx:79 lineHeight 1.1 -> 1.4. SPACE (low, 5 правок в Dashboard): padding '2px 6px' -> '4px 8px', paddingBottom 12 -> 8, margin '4px 0 0 0' -> '8px 0 0 0', gap '4px 6px' -> '4px 8px', gap '2px' -> '4px'. A11Y (low): Paywall plan-radio получил aria-label (нативная цель 13x13 сохраняет hit-area <label>, скринридер больше не читает «radio, 13 на 13»). НЕ чинилось осознанно: ложные наблюдения аудита (вложенный radio, эмодзи lh 1) и 416 узлов текста < 16px (норма токенов --text-xs/--text-sm). npm run check 4 fail -> 0 fail (50 pass / 0 fail / 0 unknown / 11 manual, exit 0); COLOR-001/003 pass; 19 baseline PNG регенерированы (--update-snapshots=all + чистый прогон = 19 passed); гейты 442 / 213 / 0 / 0 = baseline | commit c6ea01e",
+    "2026-10-04 | push | authorize push origin main - spec-079b+080+081; публикует b15103c..<trail-SHA> | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e92c248",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for 079b+080+081 push",
+      "type": "chore"
+    },
+    {
+      "sha": "914bea6",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-080+081",
+      "type": "chore"
+    },
     {
       "sha": "acb74ee",
       "date": "2026-10-04",
@@ -1602,18 +1614,6 @@
       "sha": "99962da",
       "date": "2026-10-04",
       "subject": "fix(spec-078): clean visual baseline - production stand and neutral mask fill",
-      "type": "fix"
-    },
-    {
-      "sha": "d6bc42d",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge",
-      "type": "chore"
-    },
-    {
-      "sha": "612c564",
-      "date": "2026-10-04",
-      "subject": "fix(spec-077): clarify axe/distinct report lines (README-ready output)",
       "type": "fix"
     }
   ],
