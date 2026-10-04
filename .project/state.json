@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "3f8a2c0fc22149984718f523582154b56cb6eed7",
+  "head": "99c8c50037cc2ebdc33a9256edc10bc5a0e51972",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,21 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "074",
+      "slug": "visual-a11y-testing",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/074-visual-a11y-testing.md",
+      "mtime": 1791085157362.0886,
+      "goal": "1. **Visual regression:** baseline PNG для экранов × 2 viewport'а, прогон без",
+      "acceptance": "[ ] `.project/specs/074-visual-a11y-testing.md` существует, frontmatter",
+      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
       "preview": ""
     },
     {
@@ -1348,8 +1363,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | authorize push origin main — spec-066+067+068; публикует 848911f..062ada6 | commit pending",
-    "2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6",
     "2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527",
     "2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..8576d31 | commit pending",
     "2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31",
@@ -1357,10 +1370,30 @@
     "2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending",
     "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541",
     "2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4",
-    "2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4"
+    "2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4",
+    "2026-10-04 | rule2-exception | авторизован перевод spec 074 в approved через embedded approve | commit 703e14d",
+    "2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "99c8c50",
+      "date": "2026-10-04",
+      "subject": "docs(spec-074): design + a11y audit",
+      "type": "docs"
+    },
+    {
+      "sha": "703e14d",
+      "date": "2026-10-04",
+      "subject": "test(spec-074): visual regression + a11y infrastructure",
+      "type": "test"
+    },
+    {
+      "sha": "de20587",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-072 verify",
+      "type": "chore"
+    },
     {
       "sha": "3f8a2c0",
       "date": "2026-10-04",
@@ -1461,24 +1494,6 @@
       "sha": "7a5d206",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-070",
-      "type": "chore"
-    },
-    {
-      "sha": "01b7527",
-      "date": "2026-10-04",
-      "subject": "fix(spec-070): mobile fixed footer for next-button",
-      "type": "fix"
-    },
-    {
-      "sha": "c2fedee",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
-      "type": "chore"
-    },
-    {
-      "sha": "1fa365c",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done for 066+067+068",
       "type": "chore"
     }
   ],
