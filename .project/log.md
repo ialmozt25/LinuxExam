@@ -264,15 +264,15 @@
 2026-10-03 | push | authorize push origin main — spec-054 + mobile-sticky-footer; публикует c4cb9b3..HEAD | commit pending
 2026-10-03 | push | выполнен c4cb9b3..dcd8150 | commit 0d51a19
 2026-10-03 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit 0d51a19
-2026-10-03 | push | authorize push origin main — convergence after spec-054+056; публикует dcd8150..<trail-SHA> | commit pending
+2026-10-03 | push | authorize push origin main — convergence after spec-054+056; публикует dcd8150..5b32a0b | commit pending
 2026-10-03 | push | выполнен dcd8150..f33b832 | commit f33b832
 2026-10-03 | spec-057 | done - fix Topic union | commit 8896618
 2026-10-03 | spec-058 | done - analytics (radar, readiness) | commit b7eae15
-2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..<trail-SHA> | commit pending
+2026-10-03 | push | authorize push origin main — spec-057+058; публикует f33b832..5b32a0b | commit pending
 2026-10-03 | push | выполнен f33b832..c2ffb1c | commit c2ffb1c
 2026-10-03 | spec-059 | done - cleanup-blockers (paywall route, 4 dead actions, DUP4 сведён) | commit bdb21ba
 2026-10-03 | spec-059 | track: small при дифе Full (+197/−43), эскалация отклонена: write-скоупы Small не нарушены, раздутие от alerts.md | commit pending
-2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..<trail-SHA> | commit pending
+2026-10-03 | push | authorize push origin main — spec-059; публикует c2ffb1c..5b32a0b | commit pending
 2026-10-03 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending
 2026-10-03 | push | выполнен c2ffb1c..a92096a | commit a92096a
 2026-10-03 | spec-060 | done - onboarding (goal → demo quiz → result) | commit 6a94392
@@ -339,7 +339,7 @@
 2026-10-04 | spec-080 | ui-ux.yaml 30 -> 61 критериев: раскладка A-F (12/8/12/8/6/5 = 51 позиция состава) накрыта 30 существующими + 31 новой записью - COLOR-007 (роли радиусов), TYPO-006 (lh <= 1.6), SPACE-005 (горизонтальная 4px-ось), USABILITY-* (12, Нильсен), COPY-004..008, MARKETING-001..006, TMA-001..005; 11 из них manual/vision (смысловые, закрывает аудит снимков). Исправлены 3 дефектных паттерна чек-листа: TYPO-001 матчил ПРЕФИКС значения (fontSize: '14px' проходил как "4px"), SPACE-002 требовал кратности 8 от компактных 4px/12px-уровней SPACING (spec 065), TYPO-006/SPACE-005 первой итерации ловили не то. check.mjs --self-test: обновлены только ЧИСЛА СОСТАВА категорий (логика проверок не тронута). Визуальный аудит 19 PNG: vision недоступен (codex-local без адаптера) - аудит программный (sharp + обмер DOM 19 состояний), отчёт drafts/visual-audit-full.md: 0 critical / 0 high / 3 medium / 6 low, маджента 0px на 19/19, overflow 0, тач-цели < 44px = 0 (проба), контраст AA выполнен; ложные наблюдения помечены (вложенный radio 13x13, эмодзи lh 1) | commit 42af68d
 2026-10-04 | spec-081 | done - top-fixes | commit c6ea01e
 2026-10-04 | spec-081 | TOP-15: 9 правок в 3 файлах. TYPO (medium): Dashboard.tsx:259 13px и :381 14px хардкод -> var(--text-sm) (значение есть в шкале токенов, файл рядом уже использует токен), StreakBadge.tsx:79 lineHeight 1.1 -> 1.4. SPACE (low, 5 правок в Dashboard): padding '2px 6px' -> '4px 8px', paddingBottom 12 -> 8, margin '4px 0 0 0' -> '8px 0 0 0', gap '4px 6px' -> '4px 8px', gap '2px' -> '4px'. A11Y (low): Paywall plan-radio получил aria-label (нативная цель 13x13 сохраняет hit-area <label>, скринридер больше не читает «radio, 13 на 13»). НЕ чинилось осознанно: ложные наблюдения аудита (вложенный radio, эмодзи lh 1) и 416 узлов текста < 16px (норма токенов --text-xs/--text-sm). npm run check 4 fail -> 0 fail (50 pass / 0 fail / 0 unknown / 11 manual, exit 0); COLOR-001/003 pass; 19 baseline PNG регенерированы (--update-snapshots=all + чистый прогон = 19 passed); гейты 442 / 213 / 0 / 0 = baseline | commit c6ea01e
-2026-10-04 | push | authorize push origin main - spec-079b+080+081; публикует b15103c..<trail-SHA> | commit pending
+2026-10-04 | push | authorize push origin main - spec-079b+080+081; публикует b15103c..5b32a0b | commit pending
 2026-10-04 | push | НЕ выполнен: pre-push guard spec 049/правило 11 заблокировал (DSH_SESSION_ID этой сессии != .project/.captain-session-id); авторизация есть, идентичность сессии - нет. Две попытки, обе exit 1. Публикация b15103c..0e5cb92 (14 коммитов) не состоялась, origin/main = b15103c | commit pending
 2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана «Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецеденты 066-072»); guard spec 049 пускает эту сессию | commit pending
-2026-10-04 | push | authorize push origin main — spec-079b+080+081; публикует b15103c..<trail-SHA> | commit pending
+2026-10-04 | push | authorize push origin main — spec-079b+080+081; публикует b15103c..5b32a0b | commit pending
