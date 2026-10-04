@@ -317,3 +317,4 @@
 2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb
 2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending
 2026-10-04 | push | authorize push origin main — spec-072-verify+074+075; публикует 3547d28..93aae10 | commit pending
+2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10
