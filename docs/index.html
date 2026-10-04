@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на ba9e556</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 3f8a2c0</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">43</div>
+      <div class="pulse-tile__value">44</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -351,7 +351,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 43 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 44 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -445,6 +445,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">3f8a2c0</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-072): verified on device + lesson</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">f6de58f</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-072 done</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
         <tr>
           <td class="mono">78b2dd6</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -553,18 +565,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): push done for 066+067+068</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">6eb3bdd</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): fix trail SHA</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">062ada6</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for 066+067+068 push</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -597,7 +597,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">18 ч</td>
+          <td class="muted">19 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -611,7 +611,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">27 ч (~1.1 дн)</td>
+          <td class="muted">28 ч (~1.2 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -621,11 +621,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">04.10</span> · push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31</li>
         <li><span class="mono muted">04.10</span> · spec-071 | done - regression-fix | commit 9ad3a3b</li>
         <li><span class="mono muted">04.10</span> · push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | ещё не закоммичено</li>
         <li><span class="mono muted">04.10</span> · push | выполнен bbd25c0..3547d28 | commit cdc9541</li>
         <li><span class="mono muted">04.10</span> · spec-072 | done - tma-mainbutton | commit c569de4</li>
+        <li><span class="mono muted">04.10</span> · spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4</li>
     </ul>
   </details>
 
@@ -656,8 +656,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 69</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 69</div>
+    <summary>Тревоги · записей: 70</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 70</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -932,6 +932,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">04.10 | [f4-cleaner] предложение</div>
           <div class="entry__body muted">Кандидатов на свёртку нет: на 2026-10-04 порог «старше 14 дней» (cutoff 2026-09-20) не пересекла ни одна из 51 записи episodic.md — весь диапазон датирован 2026-09-28 ……</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">04.10 | lesson | P1 (next-button) закрыт после 5 попыток (056 → 067 → 070 → 071 → 072)</div>
+          <div class="entry__body muted">Причина (подтверждена на устройстве): try/catch в src/hooks/useTelegramMainButton.ts:28-35</div>
         </div>
   </details>
 

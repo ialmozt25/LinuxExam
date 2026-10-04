@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "ba9e556a929657a583c0784b2d7e83a36fb138be",
+  "head": "3f8a2c0fc22149984718f523582154b56cb6eed7",
   "specs": [
     {
       "id": "022",
@@ -1348,7 +1348,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-066+067+068; публикует 848911f..062ada6 | commit pending",
     "2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6",
     "2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527",
@@ -1357,10 +1356,23 @@
     "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b",
     "2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending",
     "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541",
-    "2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4"
+    "2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4",
+    "2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3f8a2c0",
+      "date": "2026-10-04",
+      "subject": "docs(spec-072): verified on device + lesson",
+      "type": "docs"
+    },
+    {
+      "sha": "f6de58f",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-072 done",
+      "type": "chore"
+    },
     {
       "sha": "78b2dd6",
       "date": "2026-10-04",
@@ -1467,18 +1479,6 @@
       "sha": "1fa365c",
       "date": "2026-10-04",
       "subject": "chore(log): push done for 066+067+068",
-      "type": "chore"
-    },
-    {
-      "sha": "6eb3bdd",
-      "date": "2026-10-04",
-      "subject": "chore(log): fix trail SHA",
-      "type": "chore"
-    },
-    {
-      "sha": "062ada6",
-      "date": "2026-10-04",
-      "subject": "chore(log): trail for 066+067+068 push",
       "type": "chore"
     }
   ],
