@@ -7,8 +7,7 @@ import { EXAM_PRESETS, findPreset } from '@/domain/exam';
  * Exam mode (spec 054) — store-контракт прогона.
  *
  * Проверяется именно то, что не видно в domain-тестах: переходы экранов,
- * session-only природа `examSession` и то, что исторический инлайн-экзамен
- * (`examActive` / `answerExam` / `finishExam`) продолжает работать как раньше.
+ * session-only природа `examSession` и её изоляция от остальных потоков.
  */
 
 // Тип Topic в модели объявляет три темы (исторический union), поэтому банк-фикстура
@@ -38,12 +37,6 @@ function resetStore() {
     answers: [],
     reviewAnswers: [],
     reviewKind: null,
-    examAnswers: [],
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examLastResult: null,
     examSession: {
       status: 'idle',
       questionIds: [],
@@ -98,8 +91,6 @@ describe('examSession — прогон Exam mode', () => {
     expect(examSession.durationMs).toBe(EXAM_PRESETS[0].durationMs);
     expect(examSession.config).toEqual(preset);
     expect(examSession.startedAt).not.toBeNull();
-    // Исторический инлайн-экзамен не запускается этим действием.
-    expect(useQuizStore.getState().examActive).toBe(false);
   });
 
   it('preset 60/90 дают прогон нужной длины; пустой банк прогон не стартует', () => {
@@ -285,24 +276,5 @@ describe('examSession — прогон Exam mode', () => {
     expect(parsed.version).toBe(7);
     // При этом текущее (in-memory) состояние прогон содержит.
     expect(useQuizStore.getState().examSession.answers).toHaveLength(1);
-  });
-
-  it('исторический инлайн-экзамен не сломан: answerExam/finishExam ведут к results', () => {
-    useQuizStore.setState({ isQuizInProgress: true, currentIndex: 0 });
-    useQuizStore.getState().startExam(20, 30 * 60 * 1000);
-    expect(useQuizStore.getState().examQuestionIds).toHaveLength(20);
-    expect(useQuizStore.getState().currentScreen).toBe('question');
-
-    const id = useQuizStore.getState().examQuestionIds[0];
-    useQuizStore.getState().answerExam(id, 0);
-    expect(useQuizStore.getState().examAnswers).toHaveLength(1);
-
-    useQuizStore.getState().finishExam();
-    const s = useQuizStore.getState();
-    expect(s.examActive).toBe(false);
-    expect(s.currentScreen).toBe('results');
-    expect(s.examLastResult?.answers).toHaveLength(1);
-    // Новый прогон этим не затронут.
-    expect(s.examSession.status).toBe('idle');
   });
 });

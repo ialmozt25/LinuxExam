@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useQuizStore } from '../quizStore';
 import type { Question } from '@/data/models/Question';
+import { findPreset } from '@/domain/exam';
 
 // Fixture mirrors the real bank's shape: exactly one correct option, and here
 // it sits at index 0 (index 1 is the wrong-answer probe).
@@ -52,18 +53,12 @@ function resetStore() {
     answers: [],
     reviewAnswers: [],
     reviewKind: null,
-    examAnswers: [],
     wrongQuestionIds: [],
     reviewQuestionIds: null,
     isQuizInProgress: false,
     currentIndex: 0,
     currentScreen: 'dashboard',
     activeTopic: null,
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examLastResult: null,
     isPaywallVisible: false,
     isPro: false,
     streak: 0,
@@ -118,15 +113,18 @@ describe('answerReview updates wrongQuestionIds (unified rule)', () => {
     expect(useQuizStore.getState().wrongQuestionIds).toContain('q1');
   });
 
-  it('answerExam does NOT touch wrongQuestionIds', () => {
+  it('exam stream does NOT touch wrongQuestionIds', () => {
     const wrongBefore = ['q1'];
     useQuizStore.setState({ wrongQuestionIds: wrongBefore });
-    useQuizStore.getState().startExam(1, 60000);
-    // startExam leaves wrongQuestionIds alone; re-seed only if that ever changes.
-    if (useQuizStore.getState().wrongQuestionIds.length === 0) {
-      useQuizStore.setState({ wrongQuestionIds: wrongBefore });
-    }
-    useQuizStore.getState().answerExam('q1', 0);
+    // Exam mode (spec 054) — отдельный поток: ответ уходит в examSession, а не в
+    // regular/review. С spec 068 это единственный экзамен в приложении.
+    const preset = findPreset(30)!;
+    useQuizStore.getState().startExamSession(preset, mockQuestions.map((q) => q.id));
+    const examId = useQuizStore.getState().getExamCurrentQuestionId()!;
+    useQuizStore.getState().submitExamAnswer(examId, 1); // 1 = неверный вариант
+
+    expect(useQuizStore.getState().examSession.answers).toHaveLength(1);
+    expect(useQuizStore.getState().examSession.answers[0].isCorrect).toBe(false);
     expect(useQuizStore.getState().wrongQuestionIds).toEqual(wrongBefore);
   });
 
@@ -217,13 +215,11 @@ describe('FSRS-lite: расписание пишет только прогон �
     useQuizStore.getState().answerReview('q1', 0);
     expect(useQuizStore.getState().scheduledReviews).toEqual({});
 
-    // Регулярный поток и экзамен — тоже. currentIndex=1 → это q2, чтобы ответ
-    // прошёл гейт canAccessQuestion (FREE_QUESTION_LIMIT).
+    // Регулярный поток — тоже. currentIndex=1 → это q2, чтобы ответ прошёл гейт
+    // canAccessQuestion (FREE_QUESTION_LIMIT).
     useQuizStore.getState().startRegularQuiz();
     useQuizStore.setState({ currentIndex: 1 });
     useQuizStore.getState().answerQuestion('q2', 0);
-    useQuizStore.getState().startExam(1, 60000);
-    useQuizStore.getState().answerExam('q2', 0);
     expect(useQuizStore.getState().scheduledReviews).toEqual({});
     // …и сессия по-прежнему состоит из всего банка: записей нет = все новые.
     expect(useQuizStore.getState().getSessionIds()).toHaveLength(mockQuestions.length);
@@ -231,5 +227,56 @@ describe('FSRS-lite: расписание пишет только прогон �
       newCount: mockQuestions.length,
       dueCount: 0,
     });
+  });
+
+  it('экзамен (spec 054) расписание не трогает и считается своим потоком', () => {
+    useQuizStore.setState({ scheduledReviews: {} });
+    useQuizStore.getState().startExamSession(findPreset(30)!, mockQuestions.map((q) => q.id));
+    const examId = useQuizStore.getState().getExamCurrentQuestionId()!;
+    useQuizStore.getState().submitExamAnswer(examId, 0);
+
+    expect(useQuizStore.getState().scheduledReviews).toEqual({});
+    expect(useQuizStore.getState().reviewAnswers).toEqual([]);
+    expect(useQuizStore.getState().answers).toEqual([]);
+    expect(useQuizStore.getState().examSession.answers).toHaveLength(1);
+  });
+
+  it('resetProgress чистит regular/review, хранит streak/XP и не трогает прогон экзамена', () => {
+    useQuizStore.setState({
+      answers: [{ questionId: 'q1', selectedIndex: 0, isCorrect: true, optionText: 'A' }],
+      reviewAnswers: [{ questionId: 'q2', selectedIndex: 1, isCorrect: false, optionText: 'B' }],
+      reviewQuestionIds: ['q2'],
+      wrongQuestionIds: ['q2'],
+      activeTopic: 'file_permissions',
+      isPaywallVisible: true,
+      streak: 4,
+      totalXp: 120,
+      lastActiveDate: '2026-09-20',
+    });
+    // Прогон экзамена — session-only: resetProgress его НЕ трогает (сброс прогона
+    // делает `cancelExamSession`), поэтому и проверяем именно это.
+    useQuizStore.getState().startExamSession(findPreset(30)!, mockQuestions.map((q) => q.id));
+
+    useQuizStore.getState().resetProgress();
+    const s = useQuizStore.getState();
+
+    expect(s.answers).toEqual([]);
+    expect(s.reviewAnswers).toEqual([]);
+    expect(s.reviewQuestionIds).toBeNull();
+    expect(s.wrongQuestionIds).toEqual([]);
+    expect(s.activeTopic).toBeNull();
+    expect(s.isPaywallVisible).toBe(false);
+    expect(s.isQuizInProgress).toBe(false);
+    expect(s.currentIndex).toBe(0);
+
+    // Накопленный рекорд не тронут.
+    expect(s.streak).toBe(4);
+    expect(s.totalXp).toBe(120);
+    expect(s.lastActiveDate).toBe('2026-09-20');
+
+    // Прогон экзамена остался активным (session-only, сбрасывается только явно).
+    expect(s.examSession.status).toBe('run');
+    useQuizStore.getState().cancelExamSession();
+    expect(useQuizStore.getState().examSession.status).toBe('idle');
   });
 });

@@ -69,9 +69,12 @@ test.describe('дашборд', () => {
     await expect(page.getByTestId(TESTID.dashboardProgress)).toContainText(
       `0 из ${TOPIC_INDEX.total}`
     );
-    await expect(page.getByTestId(TESTID.startExam)).toContainText(
-      'Режим экзамена (20 вопросов, 30 минут)'
+    // spec 068: единственный вход в экзамен — `exam-mode` (spec 054, Pro-only).
+    // Legacy-кнопка «Режим экзамена (20 вопросов, 30 минут)» удалена.
+    await expect(page.getByTestId('exam-mode')).toContainText(
+      'Exam mode — 30/60/90 вопросов с разбором'
     );
+    await expect(page.getByTestId('start-exam')).toHaveCount(0);
     await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
     await expect(page.locator('[data-disclaimer="legal"]')).toContainText('независимый тренажёр');
     // A clean profile offers no resume banner and nothing to repeat.
@@ -116,7 +119,7 @@ test.describe('G2 — темы', () => {
 
     // Back to the topics and into a DIFFERENT topic: the counter must restart.
     await page.getByTestId(TESTID.headerHome).click();
-    await expect(page.getByTestId(TESTID.startExam)).toBeVisible({ timeout: 10000 });
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible({ timeout: 10000 });
 
     await topicButton(page, secondSlug).click();
     await waitForQuestion(page);

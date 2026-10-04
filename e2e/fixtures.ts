@@ -30,8 +30,7 @@ export interface BankQuestion {
 /**
  * The real stream order is used by the entry points that do NOT re-shuffle:
  * `startRegularQuiz` keeps `questions` as loaded (the manifest order), so the
- * regular stream and a seeded exam run share it. Only `startTopicQuiz` /
- * `startExam` shuffle.
+ * regular stream and a seeded run share it. Only `startTopicQuiz` shuffles.
  */
 
 /** Question the regular stream serves at `index`. */
@@ -149,11 +148,6 @@ export interface PersistedQuizState {
   reviewQuestionIds: string[] | null;
   reviewAnswers: unknown[];
   isQuizInProgress: boolean;
-  examActive: boolean;
-  examStartedAt: number | null;
-  examDurationMs: number;
-  examQuestionIds: string[];
-  examAnswers: unknown[];
   /** Онбординг (spec 060): выбранная цель, `null` — не выбрана. */
   onboardingGoal: string | null;
   /** Онбординг (spec 060): прохождение завершено. */
@@ -192,11 +186,6 @@ export function emptyPersistedState(): PersistedQuizState {
     reviewQuestionIds: null,
     reviewAnswers: [],
     isQuizInProgress: false,
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examAnswers: [],
     onboardingGoal: null,
     hasCompletedOnboarding: true,
     // Retention (spec 061): у «обычного» профиля цель уже подтверждена (20 XP),
@@ -244,7 +233,11 @@ export const PERSIST_KEY = 'rhcsa_progress';
  */
 export const PERSIST_VERSION = 7;
 
-/** Order of the persisted keys — the `partialize` contract (spec 063 adds the last one). */
+/**
+ * Order of the persisted keys — the `partialize` contract. spec 068 removed the
+ * five legacy inline-exam fields (examActive, examStartedAt, examDurationMs,
+ * examQuestionIds, examAnswers); `trialStartedAt` (spec 063) is still last.
+ */
 export const PERSIST_KEYS: readonly string[] = [
   'answers',
   'currentIndex',
@@ -258,11 +251,6 @@ export const PERSIST_KEYS: readonly string[] = [
   'reviewQuestionIds',
   'reviewAnswers',
   'isQuizInProgress',
-  'examActive',
-  'examStartedAt',
-  'examDurationMs',
-  'examQuestionIds',
-  'examAnswers',
   'onboardingGoal',
   'hasCompletedOnboarding',
   'dailyGoalXp',
@@ -574,10 +562,6 @@ export const TESTID = {
   resumeBanner: 'resume-banner',
   resumePosition: 'resume-position',
   resumeButton: 'resume-button',
-  examBanner: 'exam-banner',
-  examTimer: 'exam-timer',
-  examContinue: 'exam-continue',
-  startExam: 'start-exam',
   topicToggle: 'theme-toggle',
 
   headerBack: 'header-back',
@@ -622,15 +606,10 @@ export const TESTID = {
   resultsShare: 'results-share',
   resultsTopics: 'results-topics',
 
-  examSummary: 'exam-summary',
-  examScore: 'exam-score',
-  examAccuracy: 'exam-accuracy',
-  examTime: 'exam-time',
-  examRestart: 'exam-restart',
-  examExit: 'exam-exit',
-  examConfirm: 'exam-confirm',
-  examStay: 'exam-stay',
-  examLeave: 'exam-leave',
+  // spec 068: legacy-сводка инлайн-экзамена (exam-summary/exam-score/
+  // exam-accuracy/exam-time/exam-restart/exam-exit/exam-confirm/exam-stay/
+  // exam-leave) удалена вместе с экраном. Новый экзамен (spec 054) использует
+  // собственные testid в ExamSetup/ExamRun/ExamResults.
 
   onboardingGoal: 'onboarding-goal',
   onboardingDemo: 'onboarding-demo',
@@ -675,7 +654,7 @@ export async function waitForQuestion(page: Page): Promise<string> {
   return currentQuestionText(page);
 }
 
-/** Normalised header counter, e.g. "3 / 19" (the exam adds the timer after a dot). */
+/** Normalised header counter, e.g. "3 / 19". */
 export async function counterText(page: Page): Promise<string> {
   const raw = await page.getByTestId(TESTID.headerCenter).innerText();
   return raw.split('·')[0].replace(/\s+/g, ' ').trim();

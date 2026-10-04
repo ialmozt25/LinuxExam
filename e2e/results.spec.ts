@@ -8,7 +8,6 @@ import {
   readPersisted,
   answerQuestion,
   topicSize,
-  waitForQuestion,
   TOPICS,
   TOPIC_INDEX,
   TOPIC_QUESTIONS,
@@ -92,7 +91,7 @@ test.describe('результаты прогона темы', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
       timeout: 10000,
     });
-    await expect(page.getByTestId(TESTID.startExam)).toBeVisible();
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
   });
 
   test('a wrong last answer lowers the accuracy instead of reporting an empty run', async ({
@@ -113,7 +112,7 @@ test.describe('результаты прогона темы', () => {
   // до экрана `results-screen` доводит только review-прогон (тема или «Повторить
   // ошибки»), а его пул непустой — вопросов без неверного варианта в банке нет.
   // Регулярный поток в конце пула возвращает `nextQuestion` БЕЗ навигации, а
-  // экзамен рисует собственную сводку (`exam-summary`), не `results-screen`.
+  // экзамен рисует собственный экран (`exam-results`, spec 054), не `results-screen`.
   // Поэтому нулевой счёт покрыт компонентным тестом Results.stream.test.tsx.
 });
 

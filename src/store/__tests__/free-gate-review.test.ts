@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useQuizStore, FREE_QUESTION_LIMIT } from '../quizStore';
 import type { Question } from '@/data/models/Question';
+import { findPreset } from '@/domain/exam';
 
 // B1: nextQuestion applied FREE_QUESTION_LIMIT to EVERY non-exam stream, but
 // Question.tsx hides the paywall for review - so a free user froze at the limit
-// with no paywall to act on. Review must bypass the gate, exactly like exam.
+// with no paywall to act on. Review must bypass the gate, exactly like exam
+// (whose own run never goes through nextQuestion at all).
 
 function makeQuestion(id: string, topic: Question['topic']): Question {
   return {
@@ -34,18 +36,12 @@ function resetStore() {
     questions: mockQuestions,
     answers: [],
     reviewAnswers: [],
-    examAnswers: [],
     wrongQuestionIds: [],
     reviewQuestionIds: null,
     isQuizInProgress: false,
     currentIndex: 0,
     currentScreen: 'dashboard',
     activeTopic: null,
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examLastResult: null,
     isPaywallVisible: false,
     isPro: false,
     streak: 0,
@@ -120,14 +116,25 @@ describe('nextQuestion free-question gate', () => {
   });
 
   it('exam stream stays ungated', () => {
-    useQuizStore.getState().startExam(20, 60_000);
-    useQuizStore.setState({ currentIndex: FREE_QUESTION_LIMIT - 1, isPro: false });
+    // Новый прогон (spec 054) не расходует бесплатный лимит обычного потока:
+    // вопросами прогона управляет `nextExamQuestion`, а не `nextQuestion`.
+    const ids = FP_IDS.slice(0, 6);
+    useQuizStore.setState({ isPro: false });
+    useQuizStore.getState().startExamSession(findPreset(30)!, ids);
+    expect(useQuizStore.getState().examSession.questionIds).toHaveLength(ids.length);
+    expect(useQuizStore.getState().currentScreen).toBe('exam-run');
 
-    useQuizStore.getState().nextQuestion();
+    for (const id of ids) {
+      useQuizStore.getState().submitExamAnswer(id, 0);
+      useQuizStore.getState().nextExamQuestion();
+    }
+
     const s = useQuizStore.getState();
-
-    expect(s.currentIndex).toBe(FREE_QUESTION_LIMIT);
+    expect(s.examSession.answers).toHaveLength(ids.length);
     expect(s.isPaywallVisible).toBe(false);
+    // Прогон закончился сам ('manual'), paywall не появился на 6-м вопросе.
+    expect(s.examSession.status).toBe('done');
+    expect(s.currentScreen).toBe('exam-results');
   });
 
   it('review does not skip its own pool boundary in favour of the gate', () => {

@@ -6,7 +6,6 @@ import {
   topicButton,
   topicSize,
   answerQuestion,
-  optionButtons,
   waitForQuestion,
   waitForDashboard,
   readPersisted,
@@ -150,39 +149,36 @@ test.describe('пейволл — гейт бесплатных вопросов
   });
 
   test('an exam runs past the free limit without a paywall', async ({ page }) => {
+    // spec 068: единственный экзамен — прогон spec 054 (30/60/90). Он не идёт
+    // через `nextQuestion`, поэтому гейт бесплатных вопросов его не касается:
+    // шесть ответов подряд не поднимают paywall.
     await gotoApp(page);
-    await page.getByTestId(TESTID.startExam).click();
-    await waitForQuestion(page);
-    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(
-      /^1\s*\/\s*20\s*·\s*\d{2}:\d{2}$/
-    );
 
-    // The exam itself is an easier start for the loop below (its questions are
-    // answered without any feedback), so the option is clicked directly here.
-    const size = 20;
-    for (let i = 1; i <= FREE_LIMIT; i++) {
-      const labels = await optionButtons(page).evaluateAll((nodes) =>
-        nodes.map((n) => n.getAttribute('aria-label') ?? '')
-      );
-      expect(labels).toHaveLength(4);
-      await page.getByRole('button', { name: labels[0], exact: true }).click();
-      await page.getByTestId(TESTID.nextButton).click();
+    await page.getByTestId('exam-mode').click();
+    await expect(page.getByTestId('exam-setup')).toBeVisible({ timeout: 10000 });
+    await page.getByTestId('exam-start').click();
+    await expect(page.getByTestId('exam-run')).toBeVisible({ timeout: 10000 });
+    // Пресет по умолчанию — 30 вопросов.
+    await expect(page.getByTestId('exam-progress')).toHaveText('Вопрос 1 / 30');
+    // Таймер идёт от wall-clock старта (формат HH:MM:SS — пресет 90 идёт 120 мин).
+    await expect(page.getByTestId('exam-timer')).toHaveText(/^\d{2}:\d{2}:\d{2}$/);
 
-      if (i < FREE_LIMIT) {
-        await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(
-          new RegExp(`^${i + 1}\\s*/\\s*${size}\\s*·\\s*\\d{2}:\\d{2}$`)
-        );
+    // Six answers = one past the free limit of the regular stream.
+    for (let i = 1; i <= FREE_LIMIT + 1; i++) {
+      await page.getByTestId('exam-option-0').click();
+      await expect(page.getByTestId('exam-submit')).toBeEnabled();
+      await page.getByTestId('exam-submit').click();
+      await expect(page.getByTestId(TESTID.paywall)).toHaveCount(0);
+      if (i < FREE_LIMIT + 1) {
+        await expect(page.getByTestId('exam-progress')).toHaveText(`Вопрос ${i + 1} / 30`);
       }
     }
 
-    // The exam is never paywalled: question 6 of 20 is on screen, not the paywall.
+    // Paywall не появился, обратной связи по ответу нет (разбор — только в итогах).
     await expect(page.getByTestId(TESTID.paywall)).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(
-      new RegExp(`^${FREE_LIMIT + 1}\\s*/\\s*${size}\\s*·\\s*\\d{2}:\\d{2}$`)
-    );
-    // Exam mode gives no feedback at all.
     await expect(page.getByTestId(TESTID.explanation)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.explanationVerdict)).toHaveCount(0);
+    await expect(page.getByTestId('exam-run')).toBeVisible();
   });
 });
 

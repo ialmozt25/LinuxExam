@@ -4,26 +4,22 @@ import Results from '@/presentation/screens/Results';
 import { useQuizStore } from '@/store/quizStore';
 
 // Results must report the ACTIVE answer stream, resolved with the same
-// precedence as Question.tsx: exam > review > regular. The original defect was
+// precedence as Question.tsx: review > regular. The original defect was
 // Results always reading the regular stream, so a finished topic/review run
 // reported "Вы ещё не ответили ни на один вопрос".
+// spec 068: экзамен больше не «перехватывает» этот экран — у него свой
+// ExamResults, а legacy-ветка сводки (exam-summary) удалена.
 
 function resetStore() {
   useQuizStore.setState({
     answers: [],
     reviewAnswers: [],
-    examAnswers: [],
     wrongQuestionIds: [],
     reviewQuestionIds: null,
     isQuizInProgress: false,
     currentIndex: 0,
     currentScreen: 'results',
     activeTopic: null,
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examLastResult: null,
     isPaywallVisible: false,
     isPro: true,
     streak: 0,
@@ -207,8 +203,8 @@ describe('Results reads the active stream', () => {
    * Нулевой счёт (spec 065, К5.3) проверяется ЗДЕСЬ, а не в e2e: до экрана
    * `results-screen` доводит только review-прогон, а его пул непустой —
    * вопросов без неверного варианта в банке нет. Регулярный поток в конце пула
-   * возвращает `nextQuestion` без навигации, экзамен рисует свою сводку
-   * (`exam-summary`). Поэтому состояние задаётся прямо в store.
+   * возвращает `nextQuestion` без навигации, а экзамен рисует свой собственный
+   * экран (`exam-results`, spec 054). Поэтому состояние задаётся прямо в store.
    */
   it('нулевой счёт показывает «Первый шаг сделан», а не голый ноль (spec 065)', () => {
     const bank = useQuizStore.getState().questions;
@@ -247,31 +243,5 @@ describe('Results reads the active stream', () => {
     expect(screen.queryByTestId('results-zero')).toBeNull();
     expect(screen.getByTestId('results-score').textContent).toBe('1 / 2');
     expect(screen.getByTestId('results-accuracy').textContent).toBe('50%');
-  });
-
-  it('exam summary still wins over a stale review stream', () => {
-    const [q1, q2] = useQuizStore.getState().questions;
-    const startedAt = 1_700_000_000_000;
-    useQuizStore.setState({
-      // Both a stale review stream and a finished exam are present: the exam
-      // branch must take over and read examLastResult.answers.
-      reviewQuestionIds: [q1.id, q2.id],
-      reviewAnswers: [right(q1.id), right(q2.id)],
-      activeTopic: 'file_permissions',
-      examLastResult: {
-        answers: [right(q1.id), wrong(q2.id), right(q1.id)],
-        startedAt,
-        finishedAt: startedAt + 90_000,
-        durationMs: 60000,
-      },
-    });
-
-    render(<Results />);
-
-    expect(screen.getByText('Экзамен завершён')).toBeTruthy();
-    expect(screen.getByText('2 / 3')).toBeTruthy();
-    expect(screen.getByText('67%')).toBeTruthy();
-    expect(screen.getByText('Время: 1:30')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Пройти заново' })).toBeTruthy();
   });
 });

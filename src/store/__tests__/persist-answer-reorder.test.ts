@@ -148,7 +148,7 @@ describe('normalizeAnswersAgainstBank', () => {
     ]);
   });
 
-  it('8. reviewAnswers and examAnswers are normalized too', async () => {
+  it('8. reviewAnswers are normalized against the bank', async () => {
     const useQuizStore = await freshStore([{ questionId: 'q1', selectedIndex: 1, isCorrect: true }]);
     useQuizStore.setState({
       questions: FAKE_QUESTIONS,
@@ -156,9 +156,6 @@ describe('normalizeAnswersAgainstBank', () => {
         { questionId: 'q2', selectedIndex: 0, isCorrect: true, optionText: 'right' },
         { questionId: 'q1', selectedIndex: 0, isCorrect: true, optionText: 'wrong old' },
         { questionId: 'q1', selectedIndex: 0, isCorrect: true },
-      ] as AnswerRecord[],
-      examAnswers: [
-        { questionId: 'q1', selectedIndex: 0, isCorrect: true, optionText: 'wrong old' },
       ] as AnswerRecord[],
     });
 
@@ -170,9 +167,6 @@ describe('normalizeAnswersAgainstBank', () => {
     // the bank, so it is dropped instead of being guessed at.
     expect(s.reviewAnswers).toEqual([
       { questionId: 'q2', selectedIndex: 0, isCorrect: true, optionText: 'right' },
-      { questionId: 'q1', selectedIndex: 0, isCorrect: false, optionText: 'wrong old' },
-    ]);
-    expect(s.examAnswers).toEqual([
       { questionId: 'q1', selectedIndex: 0, isCorrect: false, optionText: 'wrong old' },
     ]);
   });

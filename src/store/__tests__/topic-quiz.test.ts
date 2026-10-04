@@ -23,12 +23,10 @@ const mockQuestions: Question[] = [
 function resetStore() {
   useQuizStore.setState({
     questions: mockQuestions,
-    answers: [], reviewAnswers: [], examAnswers: [],
+    answers: [], reviewAnswers: [],
     wrongQuestionIds: [], reviewQuestionIds: null,
     isQuizInProgress: false, currentIndex: 0,
     currentScreen: 'dashboard', activeTopic: null,
-    examActive: false, examStartedAt: null, examDurationMs: 0,
-    examQuestionIds: [], examLastResult: null,
     isPaywallVisible: false, isPro: false,
     streak: 0, lastActiveDate: null, totalXp: 0,
   });

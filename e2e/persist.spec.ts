@@ -13,17 +13,13 @@ import {
   seedState,
   emptyPersistedState,
   liveRecord,
-  blockAnalytics,
-  TOPIC_QUESTIONS,
   TESTID,
   PERSIST_VERSION,
   PERSIST_KEYS,
 } from './fixtures';
-import type { BankQuestion } from './fixtures';
 
 /**
- * G8 (persist / restart) and the persisted half of G8.4 (exam session state) from
- * `.project/drafts/app-map.md` §6.
+ * G8 (persist / restart) from `.project/drafts/app-map.md` §6.
  *
  * Two contracts are checked side by side: what the store WROTE into
  * `rhcsa_progress` (version 7 since spec 063), and what a reload restores from it. `currentScreen`
@@ -32,12 +28,7 @@ import type { BankQuestion } from './fixtures';
 
 test.use({ reducedMotion: 'reduce' });
 
-const TOPIC = 'file_permissions';
 const TOTAL = 253;
-
-function liveAnswers(questions: BankQuestion[], correct = true) {
-  return questions.map((question) => liveRecord(question, correct));
-}
 
 test.describe('persist — обычный прогон', () => {
   test('reloading mid-run restores the position and the recorded answers', async ({ page }) => {
@@ -118,15 +109,12 @@ test.describe('persist — частичная запись состояния', 
     const keys = Object.keys(stored!.state).sort();
 
     // Written by partialize and restored on boot.
+    // spec 068: из контракта убраны 5 legacy-полей инлайн-экзамена
+    // (examActive/examStartedAt/examDurationMs/examQuestionIds/examAnswers).
     for (const key of [
       'answers',
       'currentIndex',
       'dailyGoalXp',
-      'examActive',
-      'examAnswers',
-      'examDurationMs',
-      'examQuestionIds',
-      'examStartedAt',
       'isPro',
       'isQuizInProgress',
       'lastActiveDate',
@@ -146,7 +134,6 @@ test.describe('persist — частичная запись состояния', 
     for (const key of [
       'activeTopic',
       'currentScreen',
-      'examLastResult',
       'isLoading',
       'isPaywallVisible',
       'questions',
@@ -192,89 +179,42 @@ test.describe('persist — частичная запись состояния', 
 });
 
 test.describe('persist — экзамен', () => {
-  test('a reload during an exam keeps the exam running', async ({ page }) => {
-    const ids = TOPIC_QUESTIONS[TOPIC].slice(0, 5).map((q) => q.id);
-    const seeded = emptyPersistedState();
-    seeded.examActive = true;
-    // Well inside the deadline, so useExamTimer does not finish the exam.
-    seeded.examStartedAt = Date.now();
-    seeded.examDurationMs = 30 * 60 * 1000;
-    seeded.examQuestionIds = ids;
-    seeded.isQuizInProgress = true;
-    await seedState(page, seeded);
-
+  test('an exam run is session-only: a reload does not resume it', async ({ page }) => {
+    // spec 068: экзамен — единственный прогон spec 054. Он session-only
+    // (`examSession` нет в partialize), и это НАМЕРЕННО: reload не должен
+    // поднимать пользователя обратно на прогон, начатый до перезагрузки.
+    // Прежние кейсы проверяли обратное для legacy-инлайн-экзамена
+    // (persisted examActive + самозавершение по таймеру) — механик больше нет.
     await gotoApp(page);
+    await page.getByTestId('exam-mode').click();
+    await expect(page.getByTestId('exam-setup')).toBeVisible({ timeout: 10000 });
+    await page.getByTestId('exam-start').click();
+    await expect(page.getByTestId('exam-run')).toBeVisible({ timeout: 10000 });
+    await page.getByTestId('exam-option-0').click();
+    await page.getByTestId('exam-submit').click();
+    await expect(page.getByTestId('exam-progress')).toHaveText(/^Вопрос 2 \/ \d+$/);
 
-    // The dashboard presents the running exam and offers the way back into it.
-    await expect(page.getByTestId(TESTID.examBanner)).toBeVisible();
-    await expect(page.getByTestId(TESTID.examTimer)).toContainText('осталось');
-    await expect(page.getByTestId(TESTID.resumeBanner)).toHaveCount(0);
+    // Прогон идёт, но в localStorage его нет вовсе.
+    const stored = await readPersisted(page);
+    expect(stored?.version).toBe(PERSIST_VERSION);
+    expect(stored?.state).not.toHaveProperty('examSession');
+    // И ни одного legacy-поля экзамена в снапшоте не осталось (spec 068).
+    for (const legacy of [
+      'examActive',
+      'examStartedAt',
+      'examDurationMs',
+      'examQuestionIds',
+      'examAnswers',
+      'examLastResult',
+    ]) {
+      expect(stored?.state).not.toHaveProperty(legacy);
+    }
 
-    await page.getByTestId(TESTID.examContinue).click();
-    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(
-      /^1\s*\/\s*5\s*·\s*\d{2}:\d{2}$/,
-      { timeout: 15000 }
-    );
-
-    // Exam state survives a reload of the question screen as well.
     await page.reload();
     await waitForDashboard(page);
-    await expect(page.getByTestId(TESTID.examBanner)).toBeVisible();
-  });
 
-  test('a finished exam leaves no resumable exam in storage', async ({ page }) => {
-    // An exam run uses the bank manifest order, so the seed follows it too.
-    const questions = regularQuestions(3);
-    const seeded = emptyPersistedState();
-    seeded.examActive = true;
-    // Already past the deadline: useExamTimer finishes the exam through its REAL
-    // path on mount, which is what populates the (session-only) examLastResult.
-    seeded.examStartedAt = Date.now() - 120000;
-    seeded.examDurationMs = 60000;
-    seeded.examQuestionIds = questions.map((q) => q.id);
-    seeded.examAnswers = liveAnswers(questions);
-    seeded.isQuizInProgress = true;
-    await seedState(page, seeded);
-
-    // This test cannot use gotoApp() (it must NOT wait for the dashboard: the boot
-    // lands on the exam summary), so the analytics-route block is applied by hand —
-    // without it `page.goto` waits for a third-party `load` and times out.
-    await blockAnalytics(page);
-    await page.goto('/');
-
-    // The elapsed exam finalises itself through useExamTimer — examLastResult is
-    // built from the EXAM answers (3 / 3), not from any other stream.
-    await expect(page.getByTestId(TESTID.examSummary)).toBeVisible({ timeout: 15000 });
-    await expect(page.getByTestId(TESTID.examScore)).toHaveText('3 / 3');
-    await expect(page.getByTestId(TESTID.examAccuracy)).toHaveText('100%');
-    await expect(page.getByTestId(TESTID.examTime)).toContainText('Время:');
-    await expect(page.getByTestId(TESTID.examRestart)).toBeVisible();
-    await expect(page.getByTestId(TESTID.examExit)).toBeVisible();
-
-    // The read is polled: the summary is painted from the same commit that clears
-    // the exam gate, and zustand's persist write follows that commit.
-    await expect
-      .poll(async () => (await readPersisted(page))?.state.examActive, { timeout: 10000 })
-      .toBe(false);
-    const stored = await readPersisted(page);
-
-    // finishExam closes the gate and drops the wall-clock start, and marks the quiz
-    // as finished. It deliberately KEEPS examQuestionIds/examAnswers (cancelExam is
-    // what clears those) — replaying the same set is what «Пройти заново» uses.
-    expect(stored?.state.examActive).toBe(false);
-    expect(stored?.state.examStartedAt).toBeNull();
-    expect(stored?.state.isQuizInProgress).toBe(false);
-    // The summary itself is session-only: the storage envelope has no such key, so
-    // nothing about it can be restored by any later boot.
-    expect(stored?.state).not.toHaveProperty('examLastResult');
-    expect(stored?.state.answers).toEqual([]);
-
-    // Leaving through the app's own «Выйти» lands on the dashboard with no exam
-    // affordance left: no summary, no running-exam banner, nothing to resume.
-    await page.getByTestId(TESTID.examExit).click();
-    await waitForDashboard(page);
-    await expect(page.getByTestId(TESTID.examSummary)).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.examBanner)).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.resumeBanner)).toHaveCount(0);
+    // Reload вернул на Dashboard: возобновляемого прогона нет.
+    await expect(page.getByTestId('exam-run')).toHaveCount(0);
+    await expect(page.getByTestId('exam-mode')).toBeVisible();
   });
 });

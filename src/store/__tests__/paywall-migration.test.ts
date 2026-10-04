@@ -21,11 +21,6 @@ const V6_PAYLOAD = {
     reviewQuestionIds: ['fp_001'],
     reviewAnswers: [],
     isQuizInProgress: true,
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examAnswers: [],
     onboardingGoal: 'rhcsa',
     hasCompletedOnboarding: true,
     dailyGoalXp: 20,
@@ -90,7 +85,8 @@ describe('persist migration v6 → v7 (paywall, spec 063)', () => {
     // `isPro` миграция не трогает.
     expect(s.isPro).toBe(false);
 
-    // 21 старое поле на месте и не перезаписано дефолтами.
+    // Legacy-поля инлайн-экзамена удалены spec 068, остальные поля на месте и не
+    // перезаписаны дефолтами.
     expect(s.answers).toHaveLength(1);
     expect(s.answers[0].questionId).toBe('fp_001');
     expect(s.currentIndex).toBe(3);
@@ -149,11 +145,12 @@ describe('persist migration v6 → v7 (paywall, spec 063)', () => {
     expect(raw.version).toBe(7);
     expect(raw.state.trialStartedAt).toBe(1_800_000_000_000);
     // Контракт partialize (spec 063): поле добавлено в КОНЕЦ, порядок
-    // предыдущих 21 поля не изменён.
+    // предыдущих полей не изменён. spec 068 убрал из partialize 5 legacy-полей
+    // инлайн-экзамена, поэтому ключей теперь 17 (было 22).
     const stateKeys = Object.keys(raw.state);
     expect(stateKeys[stateKeys.length - 1]).toBe('trialStartedAt');
     expect(stateKeys[stateKeys.length - 2]).toBe('todayXp');
-    expect(stateKeys).toHaveLength(22);
+    expect(stateKeys).toHaveLength(17);
   });
 
   it('состояние уже v7 проходит migrate как no-op (trial не переставляется)', async () => {

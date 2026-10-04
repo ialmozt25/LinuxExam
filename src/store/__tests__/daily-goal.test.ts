@@ -23,11 +23,6 @@ const V5_PAYLOAD = {
     reviewQuestionIds: ['fp_001'],
     reviewAnswers: [],
     isQuizInProgress: true,
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examAnswers: [],
     onboardingGoal: 'rhcsa',
     hasCompletedOnboarding: true,
   },
@@ -51,7 +46,7 @@ describe('persist migration v5 → v6 (retention, spec 061)', () => {
     localStorage.clear();
   });
 
-  it('добавляет retention-поля с дефолтами и сохраняет 19 старых полей', async () => {
+  it('добавляет retention-поля с дефолтами и сохраняет старые поля', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V5_PAYLOAD));
 
     const { useQuizStore: store } = await import('@/store/quizStore');
@@ -61,7 +56,8 @@ describe('persist migration v5 → v6 (retention, spec 061)', () => {
     expect(s.dailyGoalXp).toBe(20);
     expect(s.todayXp).toBe(0);
 
-    // 19 старых полей на месте и не перезаписаны дефолтами.
+    // Прежние поля на месте и не перезаписаны дефолтами. Legacy-поля
+    // инлайн-экзамена удалены из состояния spec 068.
     expect(s.answers).toHaveLength(1);
     expect(s.currentIndex).toBe(3);
     expect(s.isPro).toBe(true);
@@ -74,11 +70,6 @@ describe('persist migration v5 → v6 (retention, spec 061)', () => {
     expect(s.reviewQuestionIds).toEqual(['fp_001']);
     expect(s.reviewAnswers).toEqual([]);
     expect(s.isQuizInProgress).toBe(true);
-    expect(s.examActive).toBe(false);
-    expect(s.examStartedAt).toBeNull();
-    expect(s.examDurationMs).toBe(0);
-    expect(s.examQuestionIds).toEqual([]);
-    expect(s.examAnswers).toEqual([]);
     expect(s.onboardingGoal).toBe('rhcsa');
     expect(s.hasCompletedOnboarding).toBe(true);
   });

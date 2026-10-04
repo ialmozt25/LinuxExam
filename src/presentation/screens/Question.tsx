@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
@@ -7,7 +7,6 @@ import { isTMA } from '@telegram-apps/sdk-react';
 import Paywall from '@/presentation/screens/Paywall';
 import { MotionButton } from '@/presentation/components/MotionButton';
 import { AppHeader } from '@/presentation/components/AppHeader';
-import { useExamTimer } from '@/hooks/useExamTimer';
 import { shuffleOptions, seedFromId } from '@/domain/quizService';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/useTelegramBackButton';
@@ -30,12 +29,6 @@ export default function Question() {
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
   const reviewAnswers = useQuizStore((s) => s.reviewAnswers);
   const answerReview = useQuizStore((s) => s.answerReview);
-  const examActive = useQuizStore((s) => s.examActive);
-  const examQuestionIds = useQuizStore((s) => s.examQuestionIds);
-  const examAnswers = useQuizStore((s) => s.examAnswers);
-  const answerExam = useQuizStore((s) => s.answerExam);
-  const finishExam = useQuizStore((s) => s.finishExam);
-  const cancelExam = useQuizStore((s) => s.cancelExam);
   const currentIndex = useQuizStore((s) => s.currentIndex);
   const answers = useQuizStore((s) => s.answers);
   const answerQuestion = useQuizStore((s) => s.answerQuestion);
@@ -45,18 +38,16 @@ export default function Question() {
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const reduceMotion = useReducedMotion();
   const explanationRef = useRef<HTMLDivElement>(null);
-  const { display: timerDisplay } = useExamTimer();
-  const [showConfirm, setShowConfirm] = useState(false);
 
   const isReview = reviewQuestionIds !== null;
 
-  // Active question set. Exam takes precedence, then review, then regular.
-  // useMemo keeps the reference stable so derived values do not recompute.
+  // Active question set: the review pool (topic quiz or «Повторить ошибки») or,
+  // for the regular stream, the whole bank. useMemo keeps the reference stable so
+  // derived values do not recompute.
   const activeQuestions = useMemo(() => {
-    if (examActive) return allQuestions.filter((q) => examQuestionIds.includes(q.id));
     if (reviewQuestionIds) return allQuestions.filter((q) => reviewQuestionIds.includes(q.id));
     return allQuestions;
-  }, [examActive, examQuestionIds, reviewQuestionIds, allQuestions]);
+  }, [reviewQuestionIds, allQuestions]);
 
   const currentQuestion = activeQuestions[currentIndex] ?? null;
   const totalQuestions = activeQuestions.length;
@@ -72,8 +63,8 @@ export default function Question() {
   );
 
   // Exactly one answer stream is active. They never mix.
-  const activeAnswers = examActive ? examAnswers : isReview ? reviewAnswers : answers;
-  const answerFn = examActive ? answerExam : isReview ? answerReview : answerQuestion;
+  const activeAnswers = isReview ? reviewAnswers : answers;
+  const answerFn = isReview ? answerReview : answerQuestion;
 
   // Derived values are computed BEFORE the early returns below so the Telegram
   // hooks can be called unconditionally (rules of hooks require it).
@@ -83,20 +74,16 @@ export default function Question() {
   const hasAnswered = existingAnswer !== undefined;
   const isCorrectAnswer = existingAnswer?.isCorrect ?? false;
   const isLastQuestion = currentIndex === totalQuestions - 1;
-  const isLastExamQuestion = examActive && isLastQuestion;
   // Review starts at index 0 like every other stream, so the back control has
-  // history exactly when a previous question exists. The old 'isReview ? true'
-  // branch advertised a back button on the first review question, where
-  // previousQuestion() is a no-op and the Telegram BackButton is already hidden.
-  const hasHistory = examActive ? false : currentIndex > 0;
+  // history exactly when a previous question exists.
+  const hasHistory = currentIndex > 0;
   const isTelegram = isTMA();
 
   useTelegramMainButton(
-    isLastExamQuestion ? 'Завершить экзамен' : isLastQuestion ? 'Завершить' : 'Следующий вопрос',
+    isLastQuestion ? 'Завершить' : 'Следующий вопрос',
     () => {
       impact('light');
-      if (isLastExamQuestion) finishExam();
-      else if (isLastQuestion) navigateTo('results');
+      if (isLastQuestion) navigateTo('results');
       else nextQuestion();
     },
     hasAnswered
@@ -208,16 +195,13 @@ export default function Question() {
   const handleOption = (index: number) => {
     impact('light');
     answerFn(currentQuestion.id, index);
-    // Exam mode gives NO immediate feedback - no notify() at all.
-    if (examActive) return;
     // Let the answer render first, then confirm it with the matching haptic pattern.
     const correct = currentQuestion.options[index].correct;
     setTimeout(() => (correct ? notify('success') : notify('error')), 100);
   };
 
   const handleHomeClick = () => {
-    if (examActive) setShowConfirm(true);
-    else navigateTo('dashboard');
+    navigateTo('dashboard');
   };
 
   return (
@@ -225,11 +209,7 @@ export default function Question() {
       <AppHeader
         onBack={hasHistory ? () => previousQuestion() : undefined}
         onHome={handleHomeClick}
-        center={
-          examActive
-            ? `${currentIndex + 1} / ${totalQuestions}  ·  ${timerDisplay}`
-            : `${currentIndex + 1} / ${totalQuestions}`
-        }
+        center={`${currentIndex + 1} / ${totalQuestions}`}
       />
 
       {/* Progress line */}
@@ -292,12 +272,7 @@ export default function Question() {
           let boxShadow = 'none';
           let opacity = 1;
 
-          if (examActive && isSelected) {
-            // Exam: mark the pick with the accent colour only. Never reveal
-            // whether it was right or wrong.
-            backgroundColor = 'rgba(33,150,243,0.08)';
-            borderColor = 'var(--accent)';
-          } else if (!examActive && hasAnswered && existingAnswer) {
+          if (hasAnswered && existingAnswer) {
             if (isSelected && existingAnswer.isCorrect) {
               backgroundColor = 'rgba(76, 175, 80, 0.15)';
               borderColor = 'var(--success)';
@@ -374,7 +349,7 @@ export default function Question() {
 
       {/* Explanation - only if answered */}
       <AnimatePresence>
-        {hasAnswered && !examActive && (
+        {hasAnswered && (
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -444,8 +419,7 @@ export default function Question() {
             data-testid="next-button"
             disabled={!hasAnswered}
             onClick={() => {
-              if (isLastExamQuestion) finishExam();
-              else if (isLastQuestion) navigateTo('results');
+              if (isLastQuestion) navigateTo('results');
               else nextQuestion();
             }}
             style={{
@@ -467,94 +441,9 @@ export default function Question() {
               marginTop: SPACING.md,
             }}
           >
-            {isLastExamQuestion ? 'Завершить экзамен' : isLastQuestion ? 'Завершить' : 'Следующий вопрос'}{' '}
+            {isLastQuestion ? 'Завершить' : 'Следующий вопрос'}{' '}
             <ChevronRight size={20} />
           </button>
-        </div>
-      )}
-      {showConfirm && (
-        <div
-          data-testid="exam-confirm"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0,0,0,0.6)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
-            padding: 'var(--space-4)',
-          }}
-        >
-          <div
-            style={{
-              background: 'var(--bg-surface)',
-              borderRadius: 'var(--radius-md)',
-              padding: 'var(--space-4)',
-              maxWidth: 320,
-              width: '100%',
-              fontFamily: 'inherit',
-            }}
-          >
-            <div
-              style={{
-                fontSize: 'var(--text-sm)',
-                fontWeight: 600,
-                marginBottom: 'var(--space-2)',
-              }}
-            >
-              Выйти из экзамена?
-            </div>
-            <div
-              style={{
-                fontSize: 'var(--text-xs)',
-                color: 'var(--text-secondary)',
-                marginBottom: 'var(--space-4)',
-              }}
-            >
-              Прогресс будет потерян.
-            </div>
-            <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-              <button
-                type="button"
-                data-testid="exam-stay"
-                onClick={() => setShowConfirm(false)}
-                style={{
-                  flex: 1,
-                  padding: 'var(--space-3)',
-                  background: 'var(--accent)',
-                  color: 'var(--btn-primary-text)',
-                  border: 'none',
-                  borderRadius: 'var(--btn-primary-radius)',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                }}
-              >
-                Остаться
-              </button>
-              <button
-                type="button"
-                data-testid="exam-leave"
-                onClick={() => {
-                  setShowConfirm(false);
-                  cancelExam();
-                }}
-                style={{
-                  flex: 1,
-                  padding: 'var(--space-3)',
-                  background: 'transparent',
-                  color: 'var(--text-primary)',
-                  border: '1px solid var(--border-strong)',
-                  borderRadius: 'var(--radius-sm)',
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                }}
-              >
-                Выйти
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </ScreenContainer>

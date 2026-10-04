@@ -113,9 +113,9 @@ interface QuizState {
 
   // Per-question local statistics (no backend). Keyed by question id; a question
   // simply has no entry until it is first answered, so the 42 existing questions
-  // are deliberately NOT backfilled. Accumulates across all three streams
-  // (regular, review, topic), because every answer goes through exactly one of
-  // answerQuestion / answerReview / answerExam.
+  // are deliberately NOT backfilled. Accumulates across every stream (regular,
+  // review, topic, exam), because every answer goes through exactly one of
+  // answerQuestion / answerReview / submitExamAnswer.
   questionStats: Record<string, QuestionStat>;
 
   // FSRS-lite: реестр расписания повторений по qid (spec 052). Отсутствие записи
@@ -143,23 +143,9 @@ interface QuizState {
   onboardingGoal: string | null;
   hasCompletedOnboarding: boolean;
 
-  // Exam mode. Only the gate + last-result slot are introduced here; COMMIT B
-  // adds the rest of the exam state (timing, question ids, answers, actions).
-  examActive: boolean;
-  examLastResult: {
-    answers: AnswerRecord[];
-    startedAt: number;
-    finishedAt: number;
-    durationMs: number;
-  } | null;
-  examStartedAt: number | null;
-  examDurationMs: number;
-  examQuestionIds: string[];
-  examAnswers: AnswerRecord[];
-
-  // Exam mode (spec 054) — отдельный прогон с пресетами и разбором по темам.
-  // Сосуществует с историческим инлайн-экзаменом выше (он остаётся нетронутым:
-  // на него опираются существующие e2e), поэтому имена экшенов другие.
+  // Exam mode (spec 054) — прогон с пресетами 30/60/90, порогом 70 % и разбором
+  // по темам. Единственный экзамен в приложении с spec 068: исторический
+  // инлайн-экзамен (examActive/examAnswers и экран-сводка в Results) удалён.
   examSession: ExamSession;
 
   loadQuestions: () => Promise<void>;
@@ -231,10 +217,6 @@ interface QuizState {
   ensureReviewsInitialized: (bankIds: readonly string[]) => void;
   startRegularQuiz: () => void;
   startTopicQuiz: (topic: string) => void;
-  startExam: (count: number, durationMs: number) => void;
-  answerExam: (questionId: string, selectedIndex: number) => void;
-  finishExam: () => void;
-  cancelExam: () => void;
 
   // --- Exam mode (spec 054) -------------------------------------------------
   /** Готовит прогон по пресету и открывает экран прогона. */
@@ -294,10 +276,11 @@ const normalizeRecordsAgainstBank = (
 
 /**
  * Fisher–Yates over a copy of the input (`Math.random`). Extracted from the two
- * identical inline loops that `startTopicQuiz` and `startExam` each carried
- * (audit §1 DUP4): the topic pool and the exam pool were shuffled by the same
- * code copy-pasted, so the two could drift apart silently. The input array is
- * never mutated.
+ * identical inline loops that `startTopicQuiz` and the legacy inline exam each
+ * carried (audit §1 DUP4): the topic pool and the exam pool were shuffled by the
+ * same copy-pasted code, so the two could drift apart silently. spec 068 removed
+ * the exam pool; `startTopicQuiz` is the only remaining caller. The input array
+ * is never mutated.
  */
 const shuffleCopy = <T>(items: readonly T[]): T[] => {
   const shuffled = [...items];
@@ -334,12 +317,6 @@ export const useQuizStore = create<QuizState>()(
       activeTopic: null,
       onboardingGoal: null,
       hasCompletedOnboarding: false,
-      examActive: false,
-      examLastResult: null,
-      examStartedAt: null,
-      examDurationMs: 0,
-      examQuestionIds: [],
-      examAnswers: [],
       examSession: {
         status: 'idle',
         questionIds: [],
@@ -374,20 +351,18 @@ export const useQuizStore = create<QuizState>()(
       // v2 → v3 debt: `migrate` runs while the bank is still empty, so the records
       // are re-aligned here, once `questions` actually exist.
       normalizeAnswersAgainstBank: () => {
-        const { questions, answers, reviewAnswers, examAnswers } = get();
+        const { questions, answers, reviewAnswers } = get();
         if (questions.length === 0) return; // банк ещё не загружен — no-op
         set({
           answers: normalizeRecordsAgainstBank(answers, questions),
           reviewAnswers: normalizeRecordsAgainstBank(reviewAnswers, questions),
-          examAnswers: normalizeRecordsAgainstBank(examAnswers, questions),
         });
       },
 
       navigateTo: (screen) => set({ currentScreen: screen }),
 
       // Explicitly leaves review mode and returns to the regular stream.
-      // Does NOT touch answers or wrongQuestionIds. It clears examLastResult only
-      // so a finished exam summary cannot resurface; a running exam is untouched.
+      // Does NOT touch answers or wrongQuestionIds.
       startRegularQuiz: () =>
         set({
           reviewQuestionIds: null,
@@ -395,8 +370,6 @@ export const useQuizStore = create<QuizState>()(
           reviewKind: null,
           currentIndex: 0,
           activeTopic: null,
-          // Drop any previous exam summary so Results cannot show a stale one.
-          examLastResult: null,
         }),
 
       // Starts a topic quiz. Reuses the REVIEW stream (reviewQuestionIds /
@@ -415,8 +388,6 @@ export const useQuizStore = create<QuizState>()(
           isQuizInProgress: true,
           currentScreen: 'question',
           activeTopic: topic,
-          examActive: false,
-          examLastResult: null,
         });
       },
 
@@ -489,7 +460,7 @@ export const useQuizStore = create<QuizState>()(
         get().recordQuestionStat(questionId, isCorrect);
 
         // Wrong-answer bookkeeping for review mode. This MUST NOT touch
-        // reviewAnswers or examAnswers - the three streams stay isolated.
+        // reviewAnswers - the streams stay isolated.
         const { wrongQuestionIds } = get();
         if (!isCorrect && !wrongQuestionIds.includes(questionId)) {
           set({ wrongQuestionIds: [...wrongQuestionIds, questionId] });
@@ -502,30 +473,17 @@ export const useQuizStore = create<QuizState>()(
       },
 
       nextQuestion: () => {
-        const {
-          currentIndex,
-          questions,
-          examActive,
-          examQuestionIds,
-          isPro,
-          activeTopic,
-          reviewQuestionIds,
-        } = get();
+        const { currentIndex, questions, isPro, activeTopic, reviewQuestionIds } = get();
         // Same review predicate as Question.tsx. Review is a study mode, not new
         // question consumption: answerReview deliberately skips canAccessQuestion,
         // and the payload screen hides the paywall for review - so gating here
         // deadlocked a free user at the limit (currentIndex froze, no paywall to
-        // act on). Review therefore bypasses the free-question gate, exactly like
-        // the exam branch already does.
+        // act on). Review therefore bypasses the free-question gate.
         const isReview = reviewQuestionIds !== null;
         // JOB 0: the pool must follow the ACTIVE stream. Without the review
         // branch a topic/review quiz would run past its own pool into questions
         // the Question screen does not even render.
-        const poolSize = examActive
-          ? examQuestionIds.length
-          : reviewQuestionIds
-            ? reviewQuestionIds.length
-            : questions.length;
+        const poolSize = reviewQuestionIds ? reviewQuestionIds.length : questions.length;
         const nextIndex = currentIndex + 1;
         if (nextIndex >= poolSize) {
           // 1.4: end of a topic quiz - drop the flag so the Dashboard stops
@@ -533,9 +491,8 @@ export const useQuizStore = create<QuizState>()(
           if (activeTopic !== null) set({ activeTopic: null });
           return;
         }
-        // Exam is never paywalled - the whole point is a full timed run. Review is
-        // exempt for the same reason.
-        if (!examActive && !isReview && nextIndex >= FREE_QUESTION_LIMIT && !isPro) {
+        // Review is exempt from the free-question gate (see the predicate above).
+        if (!isReview && nextIndex >= FREE_QUESTION_LIMIT && !isPro) {
           set({ isPaywallVisible: true });
           return;
         }
@@ -543,9 +500,7 @@ export const useQuizStore = create<QuizState>()(
       },
 
       previousQuestion: () => {
-        const { currentIndex, examActive } = get();
-        // No back-navigation in exam mode.
-        if (examActive) return;
+        const { currentIndex } = get();
         if (currentIndex > 0) {
           set({ currentIndex: currentIndex - 1 });
         }
@@ -565,17 +520,8 @@ export const useQuizStore = create<QuizState>()(
           // отсутствие записей означает «пора сейчас», то есть N = размер банка.
           scheduledReviews: {},
           activeTopic: null,
-          // Exam mode is part of "progress" too: a stale examActive/examStartedAt
-          // would resurface an exam gate (and finishExam would compute its
-          // duration from an outdated timestamp). streak/lastActiveDate/totalXp
-          // are deliberately kept - they are the user's accumulated record, not
-          // per-run progress.
-          examActive: false,
-          examStartedAt: null,
-          examDurationMs: 0,
-          examQuestionIds: [],
-          examAnswers: [],
-          examLastResult: null,
+          // streak/lastActiveDate/totalXp are deliberately kept - they are the
+          // user's accumulated record, not per-run progress.
         });
       },
 
@@ -623,8 +569,6 @@ export const useQuizStore = create<QuizState>()(
           isQuizInProgress: true,
           currentScreen: 'question',
           activeTopic: null,
-          // A finished exam summary must not resurface in review mode.
-          examLastResult: null,
         }),
 
       // REVIEW stream. Deliberately bypasses canAccessQuestion: review is a
@@ -740,80 +684,9 @@ export const useQuizStore = create<QuizState>()(
         set({ scheduledReviews: next });
       },
 
-      // EXAM stream. Fully isolated from answers and reviewAnswers.
-      startExam: (count, durationMs) => {
-        const { questions } = get();
-        const shuffled = shuffleCopy(questions);
-        const selected = shuffled.slice(0, Math.min(count, questions.length));
-        set({
-          examActive: true,
-          examStartedAt: Date.now(),
-          examDurationMs: durationMs,
-          examQuestionIds: selected.map((q) => q.id),
-          examAnswers: [],
-          examLastResult: null,
-          currentIndex: 0,
-          currentScreen: 'question',
-          activeTopic: null,
-          reviewKind: null,
-        });
-      },
-
-      // Exam answers give no immediate feedback and bypass the paywall gate.
-      answerExam: (questionId, selectedIndex) => {
-        const { questions, examAnswers } = get();
-        const question = questions.find((q) => q.id === questionId);
-        if (!question) return;
-        const option = question.options[selectedIndex];
-        if (!option) return;
-        const record: AnswerRecord = {
-          questionId,
-          selectedIndex,
-          isCorrect: option.correct,
-          optionText: option.text,
-        };
-        const existingIndex = examAnswers.findIndex((a) => a.questionId === questionId);
-        const next =
-          existingIndex >= 0
-            ? examAnswers.map((a, i) => (i === existingIndex ? record : a))
-            : [...examAnswers, record];
-        set({ examAnswers: next });
-        get().recordQuestionStat(questionId, option.correct);
-      },
-
-      finishExam: () => {
-        const { examAnswers, examStartedAt, examDurationMs } = get();
-        if (!examStartedAt) return;
-        set({
-          examActive: false,
-          examLastResult: {
-            answers: examAnswers,
-            startedAt: examStartedAt,
-            finishedAt: Date.now(),
-            durationMs: examDurationMs,
-          },
-          examStartedAt: null,
-          isQuizInProgress: false,
-          currentScreen: 'results',
-        });
-      },
-
-      cancelExam: () =>
-        set({
-          examActive: false,
-          examStartedAt: null,
-          examDurationMs: 0,
-          examQuestionIds: [],
-          examAnswers: [],
-          examLastResult: null,
-          currentIndex: 0,
-          currentScreen: 'dashboard',
-          activeTopic: null,
-        }),
-
       // --- Exam mode (spec 054) ----------------------------------------------
-      // Отдельный прогон: пресеты 30/60/90, порог 70 %, разбор по темам.
-      // Исторический инлайн-экзамен (examActive/answerExam/finishExam) не задет.
+      // Единственный экзамен в приложении (spec 068): пресеты 30/60/90,
+      // порог 70 %, разбор по темам.
       startExamSession: (config, allIds) => {
         const questionIds = pickExamQuestions(allIds, config.count, Date.now());
         // Пустой банк — запускать нечего: остаёмся на экране настройки.
@@ -941,11 +814,6 @@ export const useQuizStore = create<QuizState>()(
         reviewQuestionIds: state.reviewQuestionIds,
         reviewAnswers: state.reviewAnswers,
         isQuizInProgress: state.isQuizInProgress,
-        examActive: state.examActive,
-        examStartedAt: state.examStartedAt,
-        examDurationMs: state.examDurationMs,
-        examQuestionIds: state.examQuestionIds,
-        examAnswers: state.examAnswers,
         // Онбординг (spec 060) — в КОНЕЦ списка: порядок первых 17 полей
         // остаётся прежним (контракт partialize не переписывается).
         onboardingGoal: state.onboardingGoal,
@@ -955,10 +823,14 @@ export const useQuizStore = create<QuizState>()(
         todayXp: state.todayXp,
         // Paywall (spec 063) — в самый КОНЕЦ: порядок первых 21 поля не меняется.
         trialStartedAt: state.trialStartedAt,
-        // examLastResult is deliberately NOT persisted - session state only.
-        // examSession (spec 054) — тоже НЕ персистится (session-only): иначе
-        // после reload пользователь залипал бы на экране незавершённого экзамена.
-        // Здесь его нет намеренно, поэтому добавлять сюда НЕ нужно.
+        // spec 068: legacy-поля инлайн-экзамена (examActive/examStartedAt/
+        // examDurationMs/examQuestionIds/examAnswers) удалены из состояния и
+        // отсюда. persist.version НЕ менялся: старый persisted-снапшот может
+        // содержать эти ключи, но zustand их игнорирует (shallow-merge по
+        // известным полям), а `partialize` их больше не пишет.
+        // examLastResult (session-only) удалён вместе с экраном-сводкой.
+        // examSession (spec 054) — НЕ персистится (session-only): иначе после
+        // reload пользователь залипал бы на экране незавершённого экзамена.
       }),
       version: 7,
       // spec 061: на гидратации дневной счётчик сверяется с календарём.

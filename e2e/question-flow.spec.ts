@@ -203,7 +203,7 @@ test.describe('навигация с экрана вопроса', () => {
 
     await page.getByTestId(TESTID.headerHome).click();
     await waitForDashboard(page);
-    await expect(page.getByTestId(TESTID.startExam)).toBeVisible();
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
   });
 
   test('the resume banner is not offered while a topic run is unfinished', async ({ page }) => {

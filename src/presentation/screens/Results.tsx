@@ -20,9 +20,6 @@ export default function Results() {
   const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
   const isReview = reviewQuestionIds !== null;
-  const examLastResult = useQuizStore((s) => s.examLastResult);
-  const startExam = useQuizStore((s) => s.startExam);
-  const cancelExam = useQuizStore((s) => s.cancelExam);
   const scheduledReviews = useQuizStore((s) => s.scheduledReviews);
   const getSessionIds = useQuizStore((s) => s.getSessionIds);
 
@@ -40,11 +37,12 @@ export default function Results() {
       ? window.location.origin + window.location.pathname
       : 'https://ialmozt25.github.io/LinuxExam/';
 
-  // Exactly one answer stream is active, resolved with the same precedence as
-  // Question.tsx: exam > review (a review or topic quiz) > regular. Review is
-  // keyed off reviewQuestionIds, NOT off reviewAnswers.length - the latter is
-  // merely a stale leftover after a review run and would misreport a regular
-  // run as a review one.
+  // Exactly one answer stream is active: review (a review or topic quiz) or the
+  // regular one. Review is keyed off reviewQuestionIds, NOT off
+  // reviewAnswers.length - the latter is merely a stale leftover after a review
+  // run and would misreport a regular run as a review one.
+  // spec 068: the legacy inline-exam summary branch used to sit in front of this
+  // and win over both; the exam now has its own screen (ExamResults.tsx).
   const answers = isReview ? reviewAnswers : regularAnswers;
 
   const totalQuestions = questions.length;
@@ -112,119 +110,6 @@ export default function Results() {
     startReviewQuiz(ids, 'today');
     navigateTo('question');
   };
-
-  // ---- Exam summary takes over the whole screen when a finished exam exists ----
-  if (examLastResult !== null) {
-    const { answers: examAns, startedAt, finishedAt } = examLastResult;
-    const examCorrect = examAns.filter((a) => a.isCorrect).length;
-    const examAnswered = examAns.length;
-    const examAccuracy = examAnswered > 0 ? Math.round((examCorrect / examAnswered) * 100) : 0;
-    const timeSpentMs = finishedAt - startedAt;
-    const timeMm = Math.floor(timeSpentMs / 60000);
-    const timeSs = Math.floor((timeSpentMs % 60000) / 1000);
-
-    return (
-      <ScreenContainer data-testid="exam-summary">
-        <AppHeader onHome={() => navigateTo('dashboard')} center="Экзамен" />
-
-        <h1
-          style={{
-            fontSize: 'var(--heading-1)',
-            fontWeight: 700,
-            margin: 0,
-            marginBottom: SPACING.sm,
-            textAlign: 'center',
-          }}
-        >
-          Экзамен завершён
-        </h1>
-
-        <div
-          style={{
-            background: 'var(--bg-surface)',
-            padding: SPACING.lg,
-            borderRadius: LAYOUT.cardRadius,
-            textAlign: 'center',
-            marginTop: SPACING.lg,
-          }}
-        >
-          <div
-            data-testid="exam-score"
-            style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}
-          >
-            {examCorrect + ' / ' + examAnswered}
-          </div>
-          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
-            Правильных ответов
-          </div>
-          <div
-            data-testid="exam-accuracy"
-            style={{
-              fontSize: 'var(--heading-2)',
-              fontWeight: 600,
-              marginTop: SPACING.md,
-              color:
-                examAccuracy >= 70
-                  ? 'var(--success)'
-                  : examAccuracy >= 40
-                    ? 'var(--accent)'
-                    : 'var(--danger)',
-            }}
-          >
-            {examAccuracy + '%'}
-          </div>
-          <div
-            data-testid="exam-time"
-            style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: SPACING.md }}
-          >
-            {`Время: ${timeMm}:${String(timeSs).padStart(2, '0')}`}
-          </div>
-        </div>
-
-        <div style={{ marginTop: SPACING.xl }}>
-          <button
-            type="button"
-            data-testid="exam-restart"
-            onClick={() => startExam(20, 30 * 60 * 1000)}
-            style={{
-              width: '100%',
-              padding: SPACING.md,
-              background: 'var(--accent)',
-              color: 'var(--btn-primary-text)',
-              border: 'none',
-              borderRadius: 'var(--btn-primary-radius)',
-              fontSize: 'var(--body)',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-              marginBottom: SPACING.sm,
-            }}
-          >
-            Пройти заново
-          </button>
-          <button
-            type="button"
-            data-testid="exam-exit"
-            onClick={() => cancelExam()}
-            style={{
-              width: '100%',
-              padding: SPACING.md,
-              background: 'var(--bg-surface)',
-              color: 'var(--text-primary)',
-              border: 'none',
-              borderRadius: LAYOUT.buttonRadius,
-              fontSize: 'var(--body)',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
-            Выйти
-          </button>
-        </div>
-      </ScreenContainer>
-    );
-  }
 
   return (
     <ScreenContainer data-testid="results-screen">

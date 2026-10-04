@@ -50,8 +50,6 @@ async function resetStore() {
     scheduledReviews: {},
     streak: 0,
     totalXp: 0,
-    examActive: false,
-    examLastResult: null,
     isPro: true,
   });
 }
@@ -168,9 +166,12 @@ describe('Dashboard — вход в занятие (spec 065)', () => {
   it('сохранённые testid дашборда на месте', () => {
     renderDashboard();
 
-    for (const id of ['start-exam', 'exam-mode', 'analytics-mode', 'dashboard-continue']) {
+    // spec 068: legacy `start-exam` («Режим экзамена (20 вопросов, 30 минут)»)
+    // удалён; вход в единственный экзамен — `exam-mode`.
+    for (const id of ['exam-mode', 'analytics-mode', 'dashboard-continue']) {
       expect(screen.getByTestId(id), `пропал data-testid=${id}`).toBeTruthy();
     }
+    expect(screen.queryByTestId('start-exam')).toBeNull();
     expect(screen.getByTestId('streak-badge')).toBeTruthy();
   });
 });

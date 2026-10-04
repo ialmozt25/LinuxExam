@@ -21,11 +21,6 @@ const V4_PAYLOAD = {
     reviewQuestionIds: ['fp_001'],
     reviewAnswers: [],
     isQuizInProgress: true,
-    examActive: false,
-    examStartedAt: null,
-    examDurationMs: 0,
-    examQuestionIds: [],
-    examAnswers: [],
   },
   version: 4,
 };
@@ -47,7 +42,7 @@ describe('persist migration v4 → v5 (онбординг, spec 060)', () => {
     localStorage.clear();
   });
 
-  it('добавляет онбординг-поля с дефолтами и сохраняет 17 старых полей', async () => {
+  it('добавляет онбординг-поля с дефолтами и сохраняет старые поля', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V4_PAYLOAD));
 
     const { useQuizStore } = await import('@/store/quizStore');
@@ -57,7 +52,8 @@ describe('persist migration v4 → v5 (онбординг, spec 060)', () => {
     expect(s.onboardingGoal).toBeNull();
     expect(s.hasCompletedOnboarding).toBe(false);
 
-    // 17 старых полей на месте и не перезаписаны дефолтами.
+    // Прежние поля на месте и не перезаписаны дефолтами. Legacy-поля
+    // инлайн-экзамена удалены из состояния spec 068.
     expect(s.answers).toHaveLength(1);
     expect(s.answers[0].questionId).toBe('fp_001');
     expect(s.answers[0].optionText).toBe('A');
@@ -72,11 +68,6 @@ describe('persist migration v4 → v5 (онбординг, spec 060)', () => {
     expect(s.reviewQuestionIds).toEqual(['fp_001']);
     expect(s.reviewAnswers).toEqual([]);
     expect(s.isQuizInProgress).toBe(true);
-    expect(s.examActive).toBe(false);
-    expect(s.examStartedAt).toBeNull();
-    expect(s.examDurationMs).toBe(0);
-    expect(s.examQuestionIds).toEqual([]);
-    expect(s.examAnswers).toEqual([]);
   });
 
   it('пишет состояние под текущей версией, включая оба онбординг-поля', async () => {

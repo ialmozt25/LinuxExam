@@ -61,8 +61,8 @@ test.describe('режим браузера', () => {
   test('the dashboard never renders a Telegram-only share entry point', async ({ page }) => {
     await gotoApp(page);
 
-    // `isTelegram` is false, so the resume/exam banners are the only conditional
-    // blocks — there is no share control on the dashboard at all.
+    // `isTelegram` is false, so the resume banner is the only conditional block —
+    // there is no share control on the dashboard at all.
     await expect(page.getByText('Поделиться результатом')).toHaveCount(0);
     await expect(page.getByTestId(TESTID.resultsShare)).toHaveCount(0);
   });
@@ -76,7 +76,7 @@ test.describe('режим браузера', () => {
     await answerQuestion(page, 'correct');
 
     await page.getByTestId(TESTID.headerHome).click();
-    await expect(page.getByTestId(TESTID.startExam)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible({ timeout: 15000 });
     // A topic answer lives on the review stream, so the regular counter stays at 0
     // while the topic row keeps its live counter.
     await expect(page.getByTestId(TESTID.dashboardProgress)).toContainText('0 из 253');

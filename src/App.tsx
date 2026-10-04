@@ -14,8 +14,8 @@ import { useNeedsOnboarding } from '@/store/onboarding';
 const Dashboard = lazy(() => import('@/presentation/screens/Dashboard'));
 const Question = lazy(() => import('@/presentation/screens/Question'));
 const Results = lazy(() => import('@/presentation/screens/Results'));
-// Exam mode (spec 054): настройка → прогон → итоги. Отдельный поток от
-// исторического инлайн-экзамена в Question.tsx (examActive).
+// Exam mode (spec 054): настройка → прогон → итоги. Единственный экзамен в
+// приложении с spec 068 (исторический инлайн-экзамен в Question.tsx удалён).
 const ExamSetup = lazy(() => import('@/presentation/screens/ExamSetup'));
 const ExamRun = lazy(() => import('@/presentation/screens/ExamRun'));
 const ExamResults = lazy(() => import('@/presentation/screens/ExamResults'));

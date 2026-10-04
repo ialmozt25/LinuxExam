@@ -10,7 +10,6 @@ import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { useDailyGoalProgress } from '@/store/dailyGoal';
-import { useExamTimer } from '@/hooks/useExamTimer';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
@@ -127,9 +126,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const currentIndex = useQuizStore((s) => s.currentIndex);
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
   const resumeQuiz = useQuizStore((s) => s.resumeQuiz);
-  const examActive = useQuizStore((s) => s.examActive);
   const startRegularQuiz = useQuizStore((s) => s.startRegularQuiz);
-  const startExam = useQuizStore((s) => s.startExam);
   const wrongQuestionIds = useQuizStore((s) => s.wrongQuestionIds);
   const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
 
@@ -207,7 +204,6 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   );
 
   const isTelegram = isTMA();
-  const { display: timerDisplay } = useExamTimer();
 
   // Retention (spec 061): дневная цель уже посчитана селектором вне стора.
   const daily = useDailyGoalProgress();
@@ -460,10 +456,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </>
       )}
 
-      {/* Exam mode (spec 054): отдельный поток из трёх экранов (настройка →
-          прогон → итоги) с пресетами 30/60/90 и разбором по темам. Историческая
-          кнопка «Режим экзамена (20 вопросов, 30 минут)» ниже оставлена как есть:
-          на неё опираются существующие e2e-спеки. */}
+      {/* Exam mode (spec 054) — единственный экзамен в приложении (spec 068):
+          отдельный поток из трёх экранов (настройка → прогон → итоги) с пресетами
+          30/60/90 и разбором по темам. Историческая кнопка «Режим экзамена
+          (20 вопросов, 30 минут)» удалена вместе с инлайн-режимом. */}
       <button
         type="button"
         data-testid="exam-mode"
@@ -743,56 +739,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           );
         })}
       </div>
-      {/* Exam banner REPLACES the resume banner while an exam runs */}
-      {examActive ? (
-        <div
-          data-testid="exam-banner"
-          style={{
-            padding: 'var(--space-3)',
-            background: 'rgba(33,150,243,0.1)',
-            border: '1px solid var(--accent)',
-            borderRadius: 'var(--radius-md)',
-            marginTop: 'var(--space-4)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 'var(--space-3)',
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>Экзамен идёт</div>
-            <div
-              data-testid="exam-timer"
-              style={{
-                fontSize: 'var(--text-xs)',
-                color: 'var(--text-secondary)',
-                marginTop: 2,
-              }}
-            >
-              {`${timerDisplay} осталось`}
-            </div>
-          </div>
-          <button
-            type="button"
-            data-testid="exam-continue"
-            onClick={() => navigateTo('question')}
-            style={{
-              padding: 'var(--space-2) var(--space-3)',
-              background: 'var(--accent)',
-              color: 'var(--btn-primary-text)',
-              border: 'none',
-              borderRadius: 'var(--btn-primary-radius)',
-              fontSize: 'var(--text-xs)',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
-            Продолжить
-          </button>
-        </div>
-      ) : isQuizInProgress && !reviewQuestionIds ? (
-        /* Resume banner - unfinished regular quiz only */
+      {/* Resume banner - unfinished regular quiz only */}
+      {isQuizInProgress && !reviewQuestionIds ? (
         <div
           data-testid="resume-banner"
           style={{
@@ -840,35 +788,11 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </div>
       ) : null}
 
-      {/* Exam entry point - only when no exam is running */}
-      {!examActive && (
-        <button
-          type="button"
-          data-testid="start-exam"
-          onClick={() => startExam(20, 30 * 60 * 1000)}
-          style={{
-            width: '100%',
-            padding: 'var(--space-3)',
-            background: 'transparent',
-            color: 'var(--text-primary)',
-            border: '1px solid var(--border-strong)',
-            borderRadius: 'var(--radius-md)',
-            fontSize: 'var(--text-sm)',
-            fontWeight: 600,
-            cursor: 'pointer',
-            marginTop: 'var(--space-2)',
-            fontFamily: 'inherit',
-          }}
-        >
-          Режим экзамена (20 вопросов, 30 минут)
-        </button>
-      )}
-
       {/* Вход в регулярный поток вне Telegram (in-app замена MainButton).
           НЕ переименовывается в start-learning и НЕ удаляется: это отдельный
           контракт (browser-mode.spec проверяет его текст «Продолжить»), а
           start-learning — приглашение для профиля без единого ответа (выше). */}
-      {!examActive && !isTelegram && (
+      {!isTelegram && (
         <button
           type="button"
           data-testid="dashboard-continue"

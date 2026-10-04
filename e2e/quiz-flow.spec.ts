@@ -537,52 +537,32 @@ test('a completed topic run reports the review stream, not an empty screen', asy
 
 
 test('a finished exam still shows the exam summary', async ({ page }) => {
-  // Guard for the other branch of the stream formula. The exam is driven through
-  // its REAL auto-finish path: a persisted running exam whose time has already
-  // elapsed triggers finishExam from useExamTimer, which populates
-  // examLastResult (session-only, so it cannot be seeded directly).
-  // The exam questions/answers are seeded from the live topic: the two answers are
-  // the live correct options, so the summary really is 2 correct out of 2 answered.
-  await page.addInitScript(
-    ({ ids, answers }: { ids: string[]; answers: AnswerSeed[] }) => {
-      window.localStorage.setItem(
-        'rhcsa_progress',
-        JSON.stringify({
-          version: 2,
-          state: {
-            answers: [],
-            currentIndex: 0,
-            isPro: true,
-            streak: 0,
-            lastActiveDate: null,
-            totalXp: 0,
-            wrongQuestionIds: [],
-            reviewQuestionIds: null,
-            reviewAnswers: [],
-            isQuizInProgress: true,
-            currentScreen: 'question',
-            activeTopic: null,
-            examActive: true,
-            examStartedAt: Date.now() - 120000,
-            examDurationMs: 60000,
-            examQuestionIds: [ids[0], ids[1]],
-            examAnswers: answers,
-            examLastResult: null,
-          },
-        })
-      );
-    },
-    { ids: TOPIC_IDS, answers: [correctAnswer(TOPIC_IDS[1]), correctAnswer(TOPIC_IDS[2])] }
-  );
-
+  // spec 068: единственный экзамен — прогон spec 054. Кейс сохраняет исходный
+  // смысл: итог экзамена считается по ОТВЕТАМ ЭКЗАМЕНА, а не по regular-потоку.
+  // Прогон доводится до конца своим реальным путём (30 ответов через «Ответить»),
+  // поэтому на экране итогов реальный счёт `N / 30 (X%)`, а не пустой прогон.
   await page.goto('/');
 
-  // The elapsed exam finalises itself: examLastResult is built from the EXAM
-  // answers (2/2), not from the empty regular stream.
-  await expect(page.getByText('Экзамен завершён')).toBeVisible({ timeout: 10000 });
-  await expect(page.getByText('2 / 2')).toBeVisible();
-  await expect(page.getByText('100%')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Пройти заново' })).toBeVisible();
+  await page.getByTestId('exam-mode').click();
+  await expect(page.getByTestId('exam-setup')).toBeVisible({ timeout: 10000 });
+  await page.getByTestId('exam-start').click();
+  await expect(page.getByTestId('exam-run')).toBeVisible({ timeout: 10000 });
+
+  // 30 = пресет по умолчанию; последний ответ завершает прогон ('manual') и
+  // открывает итоги сам — отдельной кнопки «завершить» нет.
+  for (let i = 1; i <= 30; i++) {
+    await page.getByTestId('exam-option-0').click();
+    await page.getByTestId('exam-submit').click();
+    if (i < 30) {
+      await expect(page.getByTestId('exam-progress')).toHaveText(`Вопрос ${i + 1} / 30`);
+    }
+  }
+
+  await expect(page.getByTestId('exam-results')).toBeVisible({ timeout: 15000 });
+  await expect(page.getByTestId('exam-score')).toHaveText(/^\d+ \/ 30 \(\d+(\.\d)?%\)$/);
+  await expect(page.getByTestId('exam-finish-reason')).toContainText('Завершено вручную');
+  // Итог — отдельный экран; регулярный Results со своим потоком не показывается.
+  await expect(page.getByTestId('results-screen')).toHaveCount(0);
 });
 
 test('a free user can advance past the limit inside a topic run (B1)', async ({ page }) => {
