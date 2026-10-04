@@ -114,7 +114,7 @@ const TOPIC_BADGE: React.CSSProperties = {
   fontWeight: 600,
   background: 'var(--bg-elevated)',
   border: '1px solid var(--border-subtle)',
-  padding: '2px 6px',
+  padding: '4px 8px',
   borderRadius: 'var(--radius-sm)',
   letterSpacing: '0.3px',
   flexShrink: 0,
@@ -254,9 +254,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          paddingBottom: '12px',
+          paddingBottom: '8px',
           borderBottom: '1px solid var(--border-subtle)',
-          fontSize: '13px',
+          fontSize: 'var(--text-sm)',
           color: 'var(--text-secondary)',
         }}
       >
@@ -339,7 +339,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           style={{
             fontSize: 'var(--body)',
             color: 'var(--text-secondary)',
-            margin: '4px 0 0 0',
+            margin: '8px 0 0 0',
           }}
         >
           Подготовка к RHCSA за 15 минут в день
@@ -378,7 +378,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            fontSize: '12px',
+            fontSize: 'var(--text-sm)',
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
             color: 'var(--text-secondary)',
@@ -649,7 +649,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px 6px',
+                    gap: '4px 8px',
                     flexWrap: 'wrap',
                     minWidth: 0,
                   }}
@@ -693,7 +693,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'flex-end',
-                  gap: '2px',
+                  gap: '4px',
                   flexShrink: 0,
                   maxWidth: '45%',
                 }}

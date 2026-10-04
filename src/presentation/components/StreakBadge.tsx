@@ -76,7 +76,10 @@ export function StreakBadge() {
         <span
           style={{
             fontSize: 10,
-            lineHeight: 1.1,
+            // spec 081: 1.1 ужимало подпись ниже порога TYPO-002 (lh >= 1.4).
+            // Бейдж 80px, содержимое центрируется: 14px высоты подписи
+            // (10 * 1.4) вместо 11px укладывается в ту же геометрию.
+            lineHeight: 1.4,
             textAlign: 'center',
             color: 'var(--text-secondary)',
           }}

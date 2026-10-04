@@ -250,6 +250,11 @@ export default function Paywall() {
               checked={plan.id === selectedPlan}
               disabled={isProcessing}
               onChange={() => setSelectedPlan(plan.id)}
+              // spec 081: нативный radio надёжно меньше 44px (замер DOM-обмера:
+              // 13x13 на mobile и desktop). Кликабельная область — вся строка
+              // `<label>`, поэтому доступное имя дублирует текст строки:
+              // без него цель читается скринридером как «radio, 13 на 13».
+              aria-label={`${plan.label} — ${plan.stars} Stars`}
               style={{ accentColor: 'var(--accent)' }}
             />
             <span style={{ fontSize: 14 }}>{`${plan.label} — ${plan.stars} Stars`}</span>
