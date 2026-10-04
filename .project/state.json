@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "e387ecbaa4786a9344bc9625e359c40b28afc775",
+  "head": "0620db184c4d7221f0c59dd5609eb5d64ac087c7",
   "specs": [
     {
       "id": "022",
@@ -1378,19 +1378,43 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending",
-    "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541",
-    "2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4",
     "2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4",
     "2026-10-04 | rule2-exception | авторизован перевод spec 074 в approved через embedded approve | commit 703e14d",
     "2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d",
     "2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d",
     "2026-10-04 | rule2-exception | авторизован перевод spec 075 в approved через embedded approve | commit 7219ceb",
     "2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb",
-    "2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb"
+    "2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb",
+    "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
+    "2026-10-04 | push | authorize push origin main — spec-072-verify+074+075; публикует 3547d28..93aae10 | commit pending",
+    "2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0620db1",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for 072+074+075",
+      "type": "chore"
+    },
+    {
+      "sha": "2a0a786",
+      "date": "2026-10-04",
+      "subject": "chore(log): fix trail SHA",
+      "type": "chore"
+    },
+    {
+      "sha": "93aae10",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for 072+074+075 push",
+      "type": "chore"
+    },
+    {
+      "sha": "8c8b6ac",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge",
+      "type": "chore"
+    },
     {
       "sha": "c114dff",
       "date": "2026-10-04",
@@ -1485,30 +1509,6 @@
       "sha": "cdc9541",
       "date": "2026-10-04",
       "subject": "chore(log): trail for spec-072 push",
-      "type": "chore"
-    },
-    {
-      "sha": "c68ace6",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-072",
-      "type": "chore"
-    },
-    {
-      "sha": "c569de4",
-      "date": "2026-10-04",
-      "subject": "fix(spec-072): TMA MainButton + reactive fallback",
-      "type": "fix"
-    },
-    {
-      "sha": "1460d7a",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-071 done",
-      "type": "chore"
-    },
-    {
-      "sha": "7ce5dcf",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-071",
       "type": "chore"
     }
   ],
