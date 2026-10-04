@@ -19,7 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 070 | `mobile-fixed-footer` | fix | approved | — | 2026-10-04 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -70,6 +69,7 @@
 | 066 | `fresh-user-semantics` | fix | done | 1dbd74a | 2026-10-04 |
 | 067 | `mobile-fix` | fix | done | 3109445 | 2026-10-04 |
 | 068 | `remove-legacy-exam` | fix | done | db168f2 | 2026-10-04 |
+| 070 | `mobile-fixed-footer` | fix | done | 01b7527 | 2026-10-04 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

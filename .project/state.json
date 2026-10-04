@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "070",
-      "slug": "mobile-fixed-footer",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/070-mobile-fixed-footer.md",
-      "mtime": 1791080080055.2095,
-      "goal": "Кнопки действия (`next-button`, `exam-submit`, `exam-cancel`) **всегда видны** —",
-      "acceptance": "[ ] Футер `Question.tsx` — `position: fixed`, `bottom/left/right: 0`,",
-      "noTouch": "`src/domain/**`, `src/store/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
-      "preview": "Скриншоты 390×844 и 1440×900 после фикса —"
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1257,6 +1242,21 @@
       "preview": "Демонстрация результата: Dashboard содержит **одну** кнопку"
     },
     {
+      "id": "070",
+      "slug": "mobile-fixed-footer",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "01b7527",
+      "file": "specs/070-mobile-fixed-footer.md",
+      "mtime": 1791081187469.7559,
+      "goal": "Кнопки действия (`next-button`, `exam-submit`, `exam-cancel`) **всегда видны** —",
+      "acceptance": "[ ] Футер `Question.tsx` — `position: fixed`, `bottom/left/right: 0`,",
+      "noTouch": "`src/domain/**`, `src/store/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншоты 390×844 и 1440×900 после фикса —"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1318,7 +1318,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | выполнен b13d3ee..08e267a | commit 31847cb",
     "2026-10-04 | spec-065 | done - ux-overhaul | commit 2f89eef",
     "2026-10-04 | push | authorize push origin main — spec-065; публикует 08e267a..3523f9b | commit pending",
     "2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b",
@@ -1327,10 +1326,17 @@
     "2026-10-04 | spec-068 | done - remove-legacy-exam | commit db168f2",
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-066+067+068; публикует 848911f..062ada6 | commit pending",
-    "2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6"
+    "2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6",
+    "2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "7a5d206",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-070",
+      "type": "chore"
+    },
     {
       "sha": "01b7527",
       "date": "2026-10-04",
@@ -1444,12 +1450,6 @@
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-065 done",
       "type": "chore"
-    },
-    {
-      "sha": "84fca0c",
-      "date": "2026-10-04",
-      "subject": "feat(spec-065): empty states",
-      "type": "feat"
     }
   ],
   "roles": [
