@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "28c1678e724188b0a2a3c2910176ad42ad0b9cd2",
+  "head": "ca179fd31ddeb193f134c71a5d83f8cdf4a50bd9",
   "specs": [
     {
       "id": "022",
@@ -1377,6 +1377,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "ca179fd",
+      "date": "2026-10-04",
+      "subject": "docs(spec-074): correct baseline size in result section",
+      "type": "docs"
+    },
+    {
       "sha": "28c1678",
       "date": "2026-10-04",
       "subject": "chore(state): converge",
@@ -1488,12 +1494,6 @@
       "sha": "bbd25c0",
       "date": "2026-10-04",
       "subject": "chore(log): fix trail SHA for spec-070",
-      "type": "chore"
-    },
-    {
-      "sha": "8576d31",
-      "date": "2026-10-04",
-      "subject": "chore(log): trail for spec-070 push",
       "type": "chore"
     }
   ],
