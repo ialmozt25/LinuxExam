@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "072",
-      "slug": "tma-mainbutton",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/072-tma-mainbutton.md",
-      "mtime": 1791083572319.4375,
-      "goal": "MainButton показывается и обновляется после ответа, а если он недоступен —",
-      "acceptance": "[ ] `onClick` регистрируется независимо от успеха `setParams` (unit-тест).",
-      "noTouch": "`src/domain/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
-      "preview": ""
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1287,6 +1272,21 @@
       "preview": "Скриншот-артефакты прогонов Playwright (при падении) —"
     },
     {
+      "id": "072",
+      "slug": "tma-mainbutton",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "c569de4",
+      "file": "specs/072-tma-mainbutton.md",
+      "mtime": 1791083970248.796,
+      "goal": "MainButton показывается и обновляется после ответа, а если он недоступен —",
+      "acceptance": "[ ] `onClick` регистрируется независимо от успеха `setParams` (unit-тест).",
+      "noTouch": "`src/domain/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1348,7 +1348,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-068 | done - remove-legacy-exam | commit db168f2",
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-066+067+068; публикует 848911f..062ada6 | commit pending",
     "2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6",
@@ -1357,10 +1356,17 @@
     "2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31",
     "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b",
     "2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending",
-    "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541"
+    "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541",
+    "2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "78b2dd6",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
     {
       "sha": "ba9e556",
       "date": "2026-10-04",
@@ -1473,12 +1479,6 @@
       "sha": "062ada6",
       "date": "2026-10-04",
       "subject": "chore(log): trail for 066+067+068 push",
-      "type": "chore"
-    },
-    {
-      "sha": "dcb6847",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-068 done",
       "type": "chore"
     }
   ],

@@ -307,3 +307,4 @@
 2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b
 2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending
 2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541
+2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4
