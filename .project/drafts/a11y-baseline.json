@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-04T11:08:31.088Z",
+  "generatedAt": "2026-10-04T11:32:36.663Z",
   "tool": "@axe-core/playwright",
   "tags": [
     "wcag2a",
@@ -8,79 +8,27 @@
   ],
   "screens": {
     "analytics-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "analytics-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "dashboard-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
         "serious": 0,
@@ -90,7 +38,7 @@
       "violations": []
     },
     "dashboard-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
         "serious": 0,
@@ -100,7 +48,7 @@
       "violations": []
     },
     "exam-results-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
         "serious": 0,
@@ -110,7 +58,7 @@
       "violations": []
     },
     "exam-results-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
         "serious": 0,
@@ -120,403 +68,117 @@
       "violations": []
     },
     "exam-run-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "exam-run-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "exam-setup-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "exam-setup-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "onboarding-demo-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "onboarding-goal-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "onboarding-result-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "paywall-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "paywall-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 2.52 (foreground color: #666666, background color: #acacac, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "question-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 1.61 (foreground color: #666666, background color: #0f4786, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "question-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
-        "serious": 1,
+        "serious": 0,
         "moderate": 0,
         "minor": 0
       },
-      "violations": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "help": "Elements must meet minimum color contrast ratio thresholds",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
-          "tags": [
-            "cat.color",
-            "wcag2aa",
-            "wcag143",
-            "TTv5",
-            "TT13.c",
-            "EN-301-549",
-            "EN-9.1.4.3",
-            "ACT",
-            "RGAAv4",
-            "RGAA-3.2.1"
-          ],
-          "nodes": [
-            {
-              "target": "#root > div:nth-child(2)",
-              "html": "<div style=\"position: fixed; bottom: 4px; left: 4px; font-size: 10px; color: rgb(102, 102, 102); padding: 4px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; z-index: 9999; pointer-events: none;\"…",
-              "summary": "Fix any of the following: Element has insufficient color contrast of 1.61 (foreground color: #666666, background color: #0f4786, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio …"
-            }
-          ]
-        }
-      ]
+      "violations": []
     },
     "results-desktop": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
         "serious": 0,
@@ -526,7 +188,7 @@
       "violations": []
     },
     "results-mobile": {
-      "url": "https://127.0.0.1:5173/",
+      "url": "https://127.0.0.1:4173/",
       "counts": {
         "critical": 0,
         "serious": 0,
