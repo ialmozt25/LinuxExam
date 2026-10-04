@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "84fca0c466297a06771ee3f73f6af10fd5d1e53b",
+  "head": "a02656f0eadbc6f472737957dcbcd0c941cddb44",
   "specs": [
     {
       "id": "022",
@@ -1258,8 +1258,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68",
-    "2026-10-04 | spec-064 | done - telegram-stars | commit d8144dd",
     "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-064; публикует 49cee68..HEAD | commit pending",
     "2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee",
@@ -1267,10 +1265,36 @@
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — ux-fixes; публикует b13d3ee..31847cb | commit pending",
     "2026-10-04 | push | выполнен b13d3ee..08e267a | commit 31847cb",
-    "2026-10-04 | spec-065 | done - ux-overhaul | commit 2f89eef"
+    "2026-10-04 | spec-065 | done - ux-overhaul | commit 2f89eef",
+    "2026-10-04 | push | authorize push origin main — spec-065; публикует 08e267a..3523f9b | commit pending",
+    "2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "a02656f",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for spec-065",
+      "type": "chore"
+    },
+    {
+      "sha": "848911f",
+      "date": "2026-10-04",
+      "subject": "chore(log): fix trail SHA for spec-065",
+      "type": "chore"
+    },
+    {
+      "sha": "3523f9b",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for spec-065 push",
+      "type": "chore"
+    },
+    {
+      "sha": "517f79b",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-065 done",
+      "type": "chore"
+    },
     {
       "sha": "84fca0c",
       "date": "2026-10-04",
@@ -1365,30 +1389,6 @@
       "sha": "c16dc6a",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-064",
-      "type": "chore"
-    },
-    {
-      "sha": "d8144dd",
-      "date": "2026-10-04",
-      "subject": "feat(spec-064): telegram stars payment - backend + frontend",
-      "type": "feat"
-    },
-    {
-      "sha": "6d5eebe",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
-      "type": "chore"
-    },
-    {
-      "sha": "059b118",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done for spec-063",
-      "type": "chore"
-    },
-    {
-      "sha": "49cee68",
-      "date": "2026-10-04",
-      "subject": "chore(log): trail for spec-063 push",
       "type": "chore"
     }
   ],
