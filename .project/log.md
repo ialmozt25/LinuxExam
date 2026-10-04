@@ -300,3 +300,4 @@
 2026-10-04 | spec-068 | done - remove-legacy-exam | commit db168f2
 2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending
 2026-10-04 | push | authorize push origin main — spec-066+067+068; публикует 848911f..062ada6 | commit pending
+2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6
