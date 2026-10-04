@@ -3,10 +3,10 @@ id: 065
 slug: ux-overhaul
 type: feature
 track: full
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: 2f89eef
 embedded_approve: rule 2 (F5.0a — 2026-10-04)
 execution: direct
 ---

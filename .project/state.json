@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c81e4e34167a52c161e8a109e708848d6a4c2697",
+  "head": "84fca0c466297a06771ee3f73f6af10fd5d1e53b",
   "specs": [
     {
       "id": "022",
@@ -1182,6 +1182,21 @@
       "preview": ""
     },
     {
+      "id": "065",
+      "slug": "ux-overhaul",
+      "status": "done",
+      "type": "feature",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "2f89eef",
+      "file": "specs/065-ux-overhaul.md",
+      "mtime": 1791073147099.666,
+      "goal": "Закрыть четыре пункта цели капитана: **разделить FSRS-пулы new/due**, ввести",
+      "acceptance": "[ ] `pickToday` возвращает `{ newQuestions, dueQuestions }`; new = нет записи,",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншоты всех 9 экранов (390×844 и 1440×900) в состоянии ПОСЛЕ правок —"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1243,7 +1258,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | authorize push origin main — spec-063; публикует 875cf33..HEAD | commit pending",
     "2026-10-04 | push | выполнен 875cf33..49cee68 | commit 49cee68",
     "2026-10-04 | spec-064 | done - telegram-stars | commit d8144dd",
     "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
@@ -1252,10 +1266,41 @@
     "2026-10-04 | ux | fix - streak duplicate, exit screens, sticky safe-area | commit 8f7581f",
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — ux-fixes; публикует b13d3ee..31847cb | commit pending",
-    "2026-10-04 | push | выполнен b13d3ee..08e267a | commit 31847cb"
+    "2026-10-04 | push | выполнен b13d3ee..08e267a | commit 31847cb",
+    "2026-10-04 | spec-065 | done - ux-overhaul | commit 2f89eef"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "84fca0c",
+      "date": "2026-10-04",
+      "subject": "feat(spec-065): empty states",
+      "type": "feat"
+    },
+    {
+      "sha": "1023b39",
+      "date": "2026-10-04",
+      "subject": "feat(spec-065): unified AppHeader",
+      "type": "feat"
+    },
+    {
+      "sha": "914b9e1",
+      "date": "2026-10-04",
+      "subject": "feat(spec-065): design tokens",
+      "type": "feat"
+    },
+    {
+      "sha": "2f89eef",
+      "date": "2026-10-04",
+      "subject": "feat(spec-065): fsrs semantic split - new vs due",
+      "type": "feat"
+    },
+    {
+      "sha": "80395d0",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
     {
       "sha": "c81e4e3",
       "date": "2026-10-04",
@@ -1344,36 +1389,6 @@
       "sha": "49cee68",
       "date": "2026-10-04",
       "subject": "chore(log): trail for spec-063 push",
-      "type": "chore"
-    },
-    {
-      "sha": "68684f6",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-063 done",
-      "type": "chore"
-    },
-    {
-      "sha": "e76e01b",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-063",
-      "type": "chore"
-    },
-    {
-      "sha": "5e3fe2a",
-      "date": "2026-10-04",
-      "subject": "feat(spec-063): paywall content - 3 free themes, 11 paid, 7-day trial",
-      "type": "feat"
-    },
-    {
-      "sha": "ad01599",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
-      "type": "chore"
-    },
-    {
-      "sha": "77fa116",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done for spec-060+061",
       "type": "chore"
     }
   ],

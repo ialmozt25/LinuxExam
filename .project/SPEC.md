@@ -3,8 +3,8 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `c81e4e34167a52c161e8a109e708848d6a4c2697`<!--volatile:end-->
-- Спек: 60
+<!--volatile:start-->- HEAD: `84fca0c466297a06771ee3f73f6af10fd5d1e53b`<!--volatile:end-->
+- Спек: 61
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
@@ -65,6 +65,7 @@
 | 061 | `retention-ui` | feature | done | 94dcf99 | 2026-10-03 |
 | 063 | `paywall-content` | feature | done | 5e3fe2a | 2026-10-04 |
 | 064 | `telegram-stars` | feature | done | d8144dd | 2026-10-04 |
+| 065 | `ux-overhaul` | feature | done | 2f89eef | 2026-10-04 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
