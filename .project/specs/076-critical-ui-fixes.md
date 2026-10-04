@@ -3,10 +3,10 @@ id: 076
 slug: critical-ui-fixes
 type: fix
 track: small
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: 848704e
 embedded_approve: rule 2 (F5.0a — 2026-10-04)
 execution: direct
 ---

@@ -321,3 +321,5 @@
 2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending
 2026-10-04 | push | authorize push origin main — spec-076; публикует 2a0a786..546da1b | commit pending
 2026-10-04 | push | выполнен 2a0a786..6ba8f61 | commit 546da1b
+2026-10-04 | spec-076 | done - critical-ui-fixes | commit 848704e
+2026-10-04 | spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34->44px; KNOWN_ISSUES=[], layout-smoke 55 passed/0 skipped; 8 baseline spec 074 перегенерированы по решению капитана | commit 848704e

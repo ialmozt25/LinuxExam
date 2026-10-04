@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "6ba8f615934ac008abda83e38e46cfd7b6add47b",
+  "head": "cce9ce650220b0dec1a8cfad71067847871c254d",
   "specs": [
     {
       "id": "022",
@@ -489,21 +489,6 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
-      "preview": ""
-    },
-    {
-      "id": "076",
-      "slug": "critical-ui-fixes",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/076-critical-ui-fixes.md",
-      "mtime": 1791090862212.3647,
-      "goal": "Все **6 корневых причин** закрыты, реестр `KNOWN_ISSUES` обнулён, `layout-smoke`",
-      "acceptance": "[ ] `.project/specs/076-critical-ui-fixes.md` существует, frontmatter",
-      "noTouch": "axe-core контраст (spec 078), чек-лист, маркетинг;",
       "preview": ""
     },
     {
@@ -1332,6 +1317,21 @@
       "preview": ""
     },
     {
+      "id": "076",
+      "slug": "critical-ui-fixes",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "848704e",
+      "file": "specs/076-critical-ui-fixes.md",
+      "mtime": 1791093169103.736,
+      "goal": "Все **6 корневых причин** закрыты, реестр `KNOWN_ISSUES` обнулён, `layout-smoke`",
+      "acceptance": "[ ] `.project/specs/076-critical-ui-fixes.md` существует, frontmatter",
+      "noTouch": "axe-core контраст (spec 078), чек-лист, маркетинг;",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1393,8 +1393,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d",
-    "2026-10-04 | rule2-exception | авторизован перевод spec 075 в approved через embedded approve | commit 7219ceb",
     "2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb",
     "2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb",
     "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
@@ -1402,10 +1400,18 @@
     "2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10",
     "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-076; публикует 2a0a786..546da1b | commit pending",
-    "2026-10-04 | push | выполнен 2a0a786..6ba8f61 | commit 546da1b"
+    "2026-10-04 | push | выполнен 2a0a786..6ba8f61 | commit 546da1b",
+    "2026-10-04 | spec-076 | done - critical-ui-fixes | commit 848704e",
+    "2026-10-04 | spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34->44px; KNOWN_ISSUES=[], layout-smoke 55 passed/0 skipped; 8 baseline spec 074 перегенерированы по решению капитана | commit 848704e"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "cce9ce6",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for spec-076",
+      "type": "chore"
+    },
     {
       "sha": "6ba8f61",
       "date": "2026-10-04",
@@ -1519,12 +1525,6 @@
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-072 verify",
       "type": "chore"
-    },
-    {
-      "sha": "3f8a2c0",
-      "date": "2026-10-04",
-      "subject": "docs(spec-072): verified on device + lesson",
-      "type": "docs"
     }
   ],
   "roles": [
