@@ -3,10 +3,10 @@ id: 074
 slug: visual-a11y-testing
 type: infra
 track: full
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: 703e14d
 embedded_approve: rule 2 (F5.0a — 2026-10-04)
 new_dependency: @axe-core/playwright (authorized)
 execution: direct
@@ -126,6 +126,50 @@ Linux (фиксируется в отчёте как ограничение).
 aria-label, top-10, `file:line`, severity), консистентность (одна роль — разные
 цвета/размеры), layout (overflow/обрезанный текст/элементы вне viewport),
 приоритеты Critical/High/Medium/Low, top-5 капитану.
+
+## Результат (2026-10-04)
+
+**Инфраструктура (коммит `703e14d`):**
+
+- 19 baseline PNG (`e2e/visual-regression.spec.ts-snapshots/`, 386 КБ суммарно,
+  от 11 КБ до 49 КБ на файл; платформенный суффикс `-win32`) — 8 рабочих экранов ×
+  2 viewport'а + 3 онбординг-экрана × mobile;
+- **прогон 1** `--update-snapshots`: 19 passed (45.3 с) → baseline создан;
+- **прогон 2** без `--update`: **19 passed, exit 0** (39.2 с) → baseline стабилен,
+  правка масок/задержек не потребовалась;
+- `e2e/accessibility.spec.ts`: 19 состояний, axe-core 4.13.0, теги
+  `wcag2a`,`wcag2aa`,`wcag21aa`; **15 нарушений, все `color-contrast` уровня
+  `serious`** (critical 0), распределены по 15 состояниям из 19; `question-*` и
+  `results-*` — чисто;
+- первый прогон создал `.project/drafts/a11y-baseline.json` (не падая),
+  повторный в режиме `compare` — **19 passed, exit 0** (`newBlocking = 0`);
+- e2e-набор: **111 → 149** (`+19` visual, `+19` a11y); unit — **442 passed**;
+  `typecheck` / `build` / `test:e2e` — exit 0;
+- design-audit: `.project/drafts/design-audit-2026-10-04.md`, top-5 — в отчёте
+  капитану.
+
+**Отклонения от буквы задания (все обоснованы, ничего не скрыто):**
+
+1. `freezeClock` — **хелпер в `e2e/fixtures.ts`**, а не глобальная авто-фикстура:
+   замороженный `Date.now` во всех 111 существующих сценариях обнулил бы
+   `elapsed` таймера экзамена и сделал бы ложными проверки его истечения.
+2. Добавлен третий файл — `e2e/screens.ts` (рецепты состояний экранов): visual и
+   a11y обязаны снимать ОДНО состояние, дублирование 200 строк в двух спеках
+   разошлось бы при первой же правке.
+3. `playwright.config.ts`: к прежнему содержимому добавлен только блок
+   `expect.toHaveScreenshot`; заодно нормализован финальный перевод строки
+   (правило 16 — файл заканчивался байтом `;`, а не `0x0A`).
+4. Linux-снапшоты для CI не сняты (MVP): коммитится разработческий baseline
+   (`-win32`). На Linux-раннере `toHaveScreenshot` потребует своего набора —
+   отдельная задача; ограничение зафиксировано, а не замаскировано.
+5. Пиксельный анализ PNG в сессии недоступен (нет vision-адаптера), поэтому
+   layout-часть аудита построена на замерах DOM (`.project/drafts/layout-probe-2026-10-04.json`),
+   а не на разглядывании картинок. Для «элемент вне вьюпорта» / «текст шире
+   контейнера» это более строгое измерение, чем глаз.
+6. Динамика маскируется реальными `data-testid` (`exam-timer`, `streak-badge`,
+   `xp-bar`, `retention-goal-line`, `[data-testid*="timer"]`): в задании перечислены
+   концептуальные имена (`streak-count`, `daily-goal`, `todayXp`), в коде им
+   соответствуют именно эти узлы.
 
 ## Критерии приёмки
 

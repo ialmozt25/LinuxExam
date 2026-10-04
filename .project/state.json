@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "074",
-      "slug": "visual-a11y-testing",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/074-visual-a11y-testing.md",
-      "mtime": 1791085157362.0886,
-      "goal": "1. **Visual regression:** baseline PNG для экранов × 2 viewport'а, прогон без",
-      "acceptance": "[ ] `.project/specs/074-visual-a11y-testing.md` существует, frontmatter",
-      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
-      "preview": ""
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1302,6 +1287,21 @@
       "preview": ""
     },
     {
+      "id": "074",
+      "slug": "visual-a11y-testing",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "703e14d",
+      "file": "specs/074-visual-a11y-testing.md",
+      "mtime": 1791086185202.953,
+      "goal": "1. **Visual regression:** baseline PNG для экранов × 2 viewport'а, прогон без",
+      "acceptance": "[ ] `.project/specs/074-visual-a11y-testing.md` существует, frontmatter",
+      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": ""
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1363,7 +1363,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527",
     "2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..8576d31 | commit pending",
     "2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31",
     "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b",
@@ -1372,10 +1371,17 @@
     "2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4",
     "2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4",
     "2026-10-04 | rule2-exception | авторизован перевод spec 074 в approved через embedded approve | commit 703e14d",
-    "2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d"
+    "2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d",
+    "2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "dde5ae3",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-074",
+      "type": "chore"
+    },
     {
       "sha": "99c8c50",
       "date": "2026-10-04",
@@ -1488,12 +1494,6 @@
       "sha": "2731e30",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-070 done",
-      "type": "chore"
-    },
-    {
-      "sha": "7a5d206",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-070",
       "type": "chore"
     }
   ],

@@ -278,13 +278,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__meta">fix</span>
           </li>
           <li class="ddn__item">
-            <span class="ddn__title">#049 fast-track-guards</span>
+            <span class="ddn__title">#074 visual-a11y-testing</span>
             <span class="ddn__meta">infra</span>
           </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">11</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">10</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -326,10 +326,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#053 risk-scoring-migrate-fix</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#074 visual-a11y-testing</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -360,7 +356,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 68</summary>
-          <div class="spec-group">Утверждены · 11</div>
+          <div class="spec-group">Утверждены · 10</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -372,7 +368,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#031 rhcsa-bank-fixes</li>
             <li>#051 autonomous-spec-chain</li>
             <li>#053 risk-scoring-migrate-fix</li>
-            <li>#074 visual-a11y-testing</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -380,7 +375,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 50</div>
+          <div class="spec-group">Завершены · 51</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -432,6 +427,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#070 mobile-fixed-footer</li>
             <li>#071 regression-fix</li>
             <li>#072 tma-mainbutton</li>
+            <li>#074 visual-a11y-testing</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -450,6 +446,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">dde5ae3</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-074</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
         <tr>
           <td class="mono">99c8c50</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -564,12 +566,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-070 done</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">7a5d206</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-070</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -595,7 +591,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">137 ч (~5.7 дн)</td>
+          <td class="muted">138 ч (~5.8 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -626,11 +622,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">04.10</span> · push | выполнен bbd25c0..3547d28 | commit cdc9541</li>
         <li><span class="mono muted">04.10</span> · spec-072 | done - tma-mainbutton | commit c569de4</li>
         <li><span class="mono muted">04.10</span> · spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4</li>
         <li><span class="mono muted">04.10</span> · исключение из правила 2 | авторизован перевод spec 074 в approved через embedded approve | commit 703e14d</li>
         <li><span class="mono muted">04.10</span> · spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d</li>
+        <li><span class="mono muted">04.10</span> · spec-074 | done - visual-a11y-testing | commit 703e14d</li>
     </ul>
   </details>
 
