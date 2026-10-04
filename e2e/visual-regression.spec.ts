@@ -23,10 +23,19 @@ import { DESKTOP, MOBILE, SCREENS, rootToTop } from './screens';
  * Linux-снимки для CI — отдельная задача, здесь ограничение только фиксируется.
  */
 
+// spec 078: `maskColor` must be passed HERE, at the call site. Playwright lists
+// `mask` and `maskColor` in `NonConfigProperties` and strips them from the
+// config options, so `expect.toHaveScreenshot.maskColor` in
+// `playwright.config.ts` has no effect. Masks and their selectors are unchanged;
+// only the fill colour (default #F0F, read by the visual audit as a UI defect)
+// is replaced with the neutral page background.
 async function shoot(page: Page, file: string): Promise<void> {
   await waitForFonts(page);
   await rootToTop(page);
-  await expect(page).toHaveScreenshot(file, { mask: dynamicMasks(page) });
+  await expect(page).toHaveScreenshot(file, {
+    mask: dynamicMasks(page),
+    maskColor: '#f5f5f5',
+  });
 }
 
 test.setTimeout(120_000);
