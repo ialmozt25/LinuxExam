@@ -315,3 +315,5 @@
 2026-10-04 | rule2-exception | авторизован перевод spec 075 в approved через embedded approve | commit 7219ceb
 2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb
 2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb
+2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending
+2026-10-04 | push | authorize push origin main — spec-072-verify+074+075; публикует 3547d28..<trail-SHA> | commit pending
