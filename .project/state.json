@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c6ea01e5a633805b9dd827ca8461ba2d991dbf9c",
+  "head": "acb74ee6ff2687e1661c329387f1aa119ac9b5df",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "acb74ee",
+      "date": "2026-10-04",
+      "subject": "docs(spec-080+081): done - full-checklist + top-fixes",
+      "type": "docs"
+    },
+    {
       "sha": "c6ea01e",
       "date": "2026-10-04",
       "subject": "fix(spec-081): top-15 fixes",
@@ -1609,12 +1615,6 @@
       "date": "2026-10-04",
       "subject": "fix(spec-077): clarify axe/distinct report lines (README-ready output)",
       "type": "fix"
-    },
-    {
-      "sha": "587498e",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge",
-      "type": "chore"
     }
   ],
   "roles": [
