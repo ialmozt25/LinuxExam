@@ -19,7 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 077 | `ui-ux-checklist` | infra | approved | — | 2026-10-04 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -76,6 +75,7 @@
 | 074 | `visual-a11y-testing` | infra | done | 703e14d | 2026-10-04 |
 | 075 | `viewport-coverage` | infra | done | 7219ceb | 2026-10-04 |
 | 076 | `critical-ui-fixes` | fix | done | 848704e | 2026-10-04 |
+| 077 | `ui-ux-checklist` | infra | done | b461b14 | 2026-10-04 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

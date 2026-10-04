@@ -492,21 +492,6 @@
       "preview": ""
     },
     {
-      "id": "077",
-      "slug": "ui-ux-checklist",
-      "status": "approved",
-      "type": "infra",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/077-ui-ux-checklist.md",
-      "mtime": 1791097532066.8381,
-      "goal": "Одна точка проверки UI/UX: чек-лист **30 критериев** в",
-      "acceptance": "[ ] `.project/specs/077-ui-ux-checklist.md` существует, frontmatter",
-      "noTouch": "`src/**`, `e2e/**` — ни одной правки: спека только детектирует, фиксы —",
-      "preview": "1. Таблица 30 критериев: `id | title | check | threshold | source`."
-    },
-    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1347,6 +1332,21 @@
       "preview": ""
     },
     {
+      "id": "077",
+      "slug": "ui-ux-checklist",
+      "status": "done",
+      "type": "infra",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "b461b14",
+      "file": "specs/077-ui-ux-checklist.md",
+      "mtime": 1791098765252.6724,
+      "goal": "Одна точка проверки UI/UX: чек-лист **30 критериев** в",
+      "acceptance": "[ ] `.project/specs/077-ui-ux-checklist.md` существует, frontmatter",
+      "noTouch": "`src/**`, `e2e/**` — ни одной правки: спека только детектирует, фиксы —",
+      "preview": "1. Таблица 30 критериев: `id | title | check | threshold | source`."
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1408,8 +1408,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb",
-    "2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb",
     "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-072-verify+074+075; публикует 3547d28..93aae10 | commit pending",
     "2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10",
@@ -1417,10 +1415,18 @@
     "2026-10-04 | push | authorize push origin main — spec-076; публикует 2a0a786..546da1b | commit pending",
     "2026-10-04 | push | выполнен 2a0a786..6ba8f61 | commit 546da1b",
     "2026-10-04 | spec-076 | done - critical-ui-fixes | commit 848704e",
-    "2026-10-04 | spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34->44px; KNOWN_ISSUES=[], layout-smoke 55 passed/0 skipped; 8 baseline spec 074 перегенерированы по решению капитана | commit 848704e"
+    "2026-10-04 | spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34->44px; KNOWN_ISSUES=[], layout-smoke 55 passed/0 skipped; 8 baseline spec 074 перегенерированы по решению капитана | commit 848704e",
+    "2026-10-04 | spec-077 | done - ui-ux-checklist | commit b461b14",
+    "2026-10-04 | spec-077 | единая точка проверки UI/UX: 30 критериев (LAYOUT/COLOR/TYPO/SPACE/STATE/COPY) + check.mjs (0 deps) + audit:screens; check 23 pass / 6 fail / 0 unknown / 1 manual, exit 1 (COLOR-001 контраст 33 nodes); визуальный аудит 19 PNG = 72 наблюдения (4 critical: #ff00ff-плейсхолдеры на dashboard и exam-run); vision недоступен (codex-local без адаптера) — аудит программный; гейты 442 / 208 / 0 / 0 = baseline; 8 новых файлов, src/e2e не тронуты | commit b461b14"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "8990668",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-077",
+      "type": "chore"
+    },
     {
       "sha": "b461b14",
       "date": "2026-10-04",
@@ -1534,12 +1540,6 @@
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-074",
       "type": "chore"
-    },
-    {
-      "sha": "99c8c50",
-      "date": "2026-10-04",
-      "subject": "docs(spec-074): design + a11y audit",
-      "type": "docs"
     }
   ],
   "roles": [

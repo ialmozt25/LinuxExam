@@ -284,7 +284,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           </ul>
         </div>
         <div class="ddn__col ddn__col--doing">
-          <h3 class="ddn__h">Doing <span class="ddn__count">11</span></h3>
+          <h3 class="ddn__h">Doing <span class="ddn__count">10</span></h3>
           <ul class="ddn__list">
           <li class="ddn__item">
             <span class="ddn__title">#022 center-block6-agents-pulse</span>
@@ -326,10 +326,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <span class="ddn__title">#053 risk-scoring-migrate-fix</span>
             <span class="ddn__meta">infra · approved</span>
           </li>
-          <li class="ddn__item">
-            <span class="ddn__title">#077 ui-ux-checklist</span>
-            <span class="ddn__meta">infra · approved</span>
-          </li>
           </ul>
         </div>
         <div class="ddn__col ddn__col--next">
@@ -360,7 +356,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
 
   <details class="collapsible specs" id="specs">
     <summary>Спеки · всего: 71</summary>
-          <div class="spec-group">Утверждены · 11</div>
+          <div class="spec-group">Утверждены · 10</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
             <li>#023 f4-keepers</li>
@@ -372,7 +368,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#031 rhcsa-bank-fixes</li>
             <li>#051 autonomous-spec-chain</li>
             <li>#053 risk-scoring-migrate-fix</li>
-            <li>#077 ui-ux-checklist</li>
           </ul>
           <div class="spec-group">Черновики · 3</div>
           <ul class="spec-list">
@@ -380,7 +375,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 53</div>
+          <div class="spec-group">Завершены · 54</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -435,6 +430,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#074 visual-a11y-testing</li>
             <li>#075 viewport-coverage</li>
             <li>#076 critical-ui-fixes</li>
+            <li>#077 ui-ux-checklist</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -453,6 +449,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">8990668</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-077</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
         <tr>
           <td class="mono">b461b14</td>
           <td><span class="ctype ctype--feat">feat</span></td>
@@ -567,12 +569,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after spec-074</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">99c8c50</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-074): design + a11y audit</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -629,11 +625,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">04.10</span> · guard | якорь перезаписан (SETUP §4) | ещё не закоммичено</li>
-        <li><span class="mono muted">04.10</span> · push | authorize push origin main — spec-076; публикует 2a0a786..546da1b | ещё не закоммичено</li>
         <li><span class="mono muted">04.10</span> · push | выполнен 2a0a786..6ba8f61 | commit 546da1b</li>
         <li><span class="mono muted">04.10</span> · spec-076 | done - critical-ui-fixes | commit 848704e</li>
         <li><span class="mono muted">04.10</span> · spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34-&gt;44px; KNOWN_ISSUES=[]…</li>
+        <li><span class="mono muted">04.10</span> · spec-077 | done - ui-ux-checklist | commit b461b14</li>
+        <li><span class="mono muted">04.10</span> · spec-077 | единая точка проверки UI/UX: 30 критериев (LAYOUT/COLOR/TYPO/SPACE/STATE/COPY) + check.mjs (0 deps) + audit:screens; check 23 pass / 6 fail / 0 unknown / 1 manual…</li>
     </ul>
   </details>
 

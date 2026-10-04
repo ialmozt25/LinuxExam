@@ -323,3 +323,5 @@
 2026-10-04 | push | выполнен 2a0a786..6ba8f61 | commit 546da1b
 2026-10-04 | spec-076 | done - critical-ui-fixes | commit 848704e
 2026-10-04 | spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34->44px; KNOWN_ISSUES=[], layout-smoke 55 passed/0 skipped; 8 baseline spec 074 перегенерированы по решению капитана | commit 848704e
+2026-10-04 | spec-077 | done - ui-ux-checklist | commit b461b14
+2026-10-04 | spec-077 | единая точка проверки UI/UX: 30 критериев (LAYOUT/COLOR/TYPO/SPACE/STATE/COPY) + check.mjs (0 deps) + audit:screens; check 23 pass / 6 fail / 0 unknown / 1 manual, exit 1 (COLOR-001 контраст 33 nodes); визуальный аудит 19 PNG = 72 наблюдения (4 critical: #ff00ff-плейсхолдеры на dashboard и exam-run); vision недоступен (codex-local без адаптера) — аудит программный; гейты 442 / 208 / 0 / 0 = baseline; 8 новых файлов, src/e2e не тронуты | commit b461b14
