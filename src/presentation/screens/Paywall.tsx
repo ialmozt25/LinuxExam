@@ -305,7 +305,8 @@ export default function Paywall() {
           style={{
             width: '100%',
             padding: SPACING.md,
-            background: 'var(--accent)',
+            // spec 079: белый текст на акценте — 3.12:1 при пороге 4.5:1.
+            background: 'var(--color-accent-strong)',
             color: 'var(--btn-primary-text)',
             border: 'none',
             borderRadius: 'var(--btn-primary-radius)',

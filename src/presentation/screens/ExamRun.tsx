@@ -228,7 +228,9 @@ export default function ExamRun() {
             width: '100%',
             marginTop: SPACING.md,
             padding: SPACING.md,
-            background: selectedIndex === null ? 'var(--bg-surface)' : 'var(--accent)',
+            // spec 079: белый текст на акценте — 3.12:1 при пороге 4.5:1,
+            // поэтому заливка = `--color-accent-strong` (5.75:1).
+            background: selectedIndex === null ? 'var(--bg-surface)' : 'var(--color-accent-strong)',
             color: selectedIndex === null ? 'var(--text-secondary)' : 'var(--btn-primary-text)',
             border: 'none',
             borderRadius: 'var(--btn-primary-radius)',

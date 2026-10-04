@@ -53,7 +53,11 @@ const PRIMARY_CTA: React.CSSProperties = {
   background: 'var(--accent)',
   border: 'none',
   borderRadius: 'var(--radius-md)',
-  color: 'var(--text-primary)',
+  // spec 079: было `--text-primary` — в светлой теме это тёмный цвет, а
+  // тёмный текст на акцентной заливке давал 4.42:1 на прежней синей и 2.88:1
+  // на тёмной роли. Роль «текст на акцентной кнопке» уже есть в tokens.css и в
+  // светлой теме именно БЕЛАЯ (spec 065): 5.75:1 на акцентной заливке.
+  color: 'var(--btn-primary-text)',
   fontSize: 'var(--text-sm)',
   fontWeight: 600,
   cursor: 'pointer',
@@ -66,6 +70,16 @@ const PRIMARY_CTA: React.CSSProperties = {
 
 /** Правая подпись CTA: счётчик вопросов/тем. */
 const CTA_COUNTER: React.CSSProperties = { fontSize: 'var(--text-xs)', fontWeight: 600 };
+
+/**
+ * Мета-подпись кнопки «Повторить ошибки» (spec 079).
+ *
+ * `--danger` на подложке `rgba(244,67,54,0.1)` даёт 3.97:1 при пороге 4.5:1 —
+ * токен менять нельзя (его значения жёстко проверяют e2e `color-regression` и
+ * `quiz-flow`), поэтому берётся роль `--color-danger-strong` (5.28:1 на этой
+ * подложке, 5.43:1 на светлой плашке бейджа). Значение живёт в tokens.css.
+ */
+const REVIEW_WRONG_META = 'var(--color-danger-strong)';
 
 /**
  * Ключ ПЕРВОЙ доступной бесплатной темы (spec 065, К5.2).
@@ -113,7 +127,10 @@ const TOPIC_BADGE: React.CSSProperties = {
 /** Подсказка-точка входа (spec 065): тот же каркас, цвет — акцент успеха. */
 const FIRST_TOPIC_BADGE: React.CSSProperties = {
   ...TOPIC_BADGE,
-  color: 'var(--success)',
+  // spec 079: `--success` на светлой плашке бейджа даёт 4.15:1 при пороге
+  // 4.5:1, а значение токена под e2e-проверкой (`color-regression`), поэтому
+  // используется тёмная роль успеха (5.35:1). Значение — в tokens.css.
+  color: 'var(--color-success-strong)',
 };
 
 export default function Dashboard({ theme, onToggleTheme }: Props) {
@@ -538,8 +555,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           <span>Повторить ошибки</span>
           <span
             style={{
-              fontSize: 'var(--text-xs)',
-              color: 'var(--danger)',
+              fontSize: 'var(--text-sm)',
+              color: REVIEW_WRONG_META,
               fontWeight: 600,
             }}
           >
@@ -686,7 +703,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                     data-testid={badge.testid}
                     style={{
                       ...TOPIC_BADGE,
-                      color: isFree ? 'var(--text-secondary)' : 'var(--accent)',
+                      // spec 079: явная тёмная роль акцента вместо `--accent`
+                      // (бейдж стоит на светлой плашке: 2.59:1 → 4.78:1).
+                      color: isFree ? 'var(--text-secondary)' : 'var(--color-accent-strong)',
                       textTransform: 'uppercase',
                       letterSpacing: 'var(--letter-wide, 0.5px)',
                     }}
@@ -699,7 +718,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                     style={{
                       fontSize: 'var(--text-xs)',
                       fontWeight: 600,
-                      color: 'var(--accent)',
+                      // spec 079: 12px на белом — 3.12:1 при пороге 4.5:1 →
+                      // тёмный оттенок акцента (5.75:1).
+                      color: 'var(--color-accent-strong)',
                       flexShrink: 0,
                     }}
                   >
@@ -834,8 +855,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               navigateTo('question');
             }}
             style={{
+              // spec 079: тёмный `--text-primary` на акцентной заливке — 2.88:1.
+              // Роль «текст на акцентной кнопке» = белый (tokens.css).
               background: 'var(--accent)',
-              color: 'var(--text-primary)',
+              color: 'var(--btn-primary-text)',
               padding: SPACING.md,
               borderRadius: LAYOUT.buttonRadius,
               width: '100%',

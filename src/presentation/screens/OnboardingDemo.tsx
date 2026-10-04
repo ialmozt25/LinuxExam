@@ -134,7 +134,9 @@ export default function OnboardingDemo() {
           marginTop: SPACING.lg,
           padding: SPACING.md,
           background: picked === null ? 'var(--bg-surface)' : 'var(--accent)',
-          color: 'var(--text-primary)',
+          // spec 079: белый на акцентной заливке (5.75:1); у disabled фон
+          // `--bg-surface` — там тёмный `--text-secondary`.
+          color: picked === null ? 'var(--text-secondary)' : 'var(--btn-primary-text)',
           border: 'none',
           borderRadius: LAYOUT.buttonRadius,
           fontSize: 'var(--body)',

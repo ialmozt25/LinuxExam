@@ -3,7 +3,10 @@
   color-scheme: light dark;
 
   /* Primitive */
-  --color-blue-500: #2196F3;
+  /* spec 079 (WCAG 1.4.3): #2196F3 давал 3.12:1 с белым текстом (порог 4.5:1),
+     поэтому акцентная синяя — #1565C0: 5.75:1 с белым текстом и 4.78:1 как
+     синий ТЕКСТ на --bg-elevated (#EAEAEA, бейдж темы), 5.75:1 на белом. */
+  --color-accent-strong: #1565C0;
   --color-green-500: #4CAF50;
   --color-red-500: #F44336;
   --color-orange-500: #FF9800;
@@ -19,7 +22,7 @@
   --bg-elevated: #252525;
   --text-primary: var(--tg-theme-text-color, #FFFFFF);
   --text-secondary: var(--tg-theme-hint-color, #B0B0B0);
-  --accent: var(--tg-theme-button-color, #2196F3);
+  --accent: var(--tg-theme-button-color, var(--color-accent-strong));
   /* --success/--danger are theme-scoped now: see the [data-theme] blocks. */
   --warning: #FF9800;
   --border-subtle: rgba(255,255,255,0.06);
@@ -93,6 +96,18 @@
   --btn-secondary-radius: var(--radius-md);
   --btn-ghost-text: var(--text-secondary);
 
+  /* ══════════════════════════════════════════════════════════════
+     spec 079: тёмные оттенки для пар, которые НЕ проходят 4.5:1 на
+     --bg-elevated (#EAEAEA) и на подложке rgba(244,67,54,0.1).
+
+     Почему не меняются --theme-success/--theme-danger: их значения жёстко
+     проверяются в e2e (color-regression.spec.ts, quiz-flow.spec.ts), а сами
+     пары — это 12px-подписи на СВЕТЛОЙ плашке бейджа, а не на белом, где
+     4.5:1 у этих токенов уже есть (4.99 и 4.91).
+     ══════════════════════════════════════════════════════════════ */
+  --color-success-strong: #2E6B32;
+  --color-danger-strong: #B3261E;
+
   --card-radius: var(--radius-md);
   --card-padding: var(--space-3);
   --page-gutter: var(--space-4);
@@ -129,7 +144,9 @@
   --theme-text-primary: #1B1F23;
   --theme-text-secondary: #4A4A4A;
 
-  /* Status — darkened so 4.5:1 holds on BOTH #FFFFFF and #F5F5F5 */
+  /* Status — darkened so 4.5:1 holds on BOTH #FFFFFF and #F5F5F5.
+     Значения НЕ трогать: их проверяют e2e-спеки тем; остаточные пары на
+     светлой плашке бейджа чинятся ролями `--color-*-strong` (spec 079). */
   --theme-success: #377E3A;
   --theme-danger: #CF392E;
 

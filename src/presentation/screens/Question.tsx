@@ -437,7 +437,9 @@ export default function Question() {
               width: '100%',
               padding: SPACING.md,
               background: hasAnswered ? 'var(--accent)' : 'var(--bg-surface)',
-              color: 'var(--text-primary)',
+              // spec 079: акцентная заливка — БЕЛЫЙ текст (5.75:1); у disabled
+              // фон `--bg-surface`, там белый дал бы 1.03:1, поэтому тёмный.
+              color: hasAnswered ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
               border: 'none',
               borderRadius: LAYOUT.buttonRadius,
               fontSize: 'var(--body)',

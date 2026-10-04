@@ -124,7 +124,8 @@ export default function ExamSetup() {
           width: '100%',
           marginTop: SPACING.lg,
           padding: SPACING.md,
-          background: canStart ? 'var(--accent)' : 'var(--bg-surface)',
+          // spec 079: белый текст на акценте — 3.12:1 при пороге 4.5:1.
+          background: canStart ? 'var(--color-accent-strong)' : 'var(--bg-surface)',
           color: canStart ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
           border: 'none',
           borderRadius: 'var(--btn-primary-radius)',
