@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "3ccec2300fb7a549af8f552a085cf93ffe0a7a6c",
+  "head": "9ad3a3b77c9d0dfddf5dfba99dc02c85445fd870",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "071",
+      "slug": "regression-fix",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/071-regression-fix.md",
+      "mtime": 1791082175156.3909,
+      "goal": "Восстановить P1, P2, P3 **по подтверждённым причинам**.",
+      "acceptance": "[ ] По каждой из P1/P2/P3 зафиксирован симптом, воспроизводимость и причина",
+      "noTouch": "`src/domain/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншот-артефакты прогонов Playwright (при падении) —"
     },
     {
       "id": "016",
@@ -1332,6 +1347,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "9ad3a3b",
+      "date": "2026-10-04",
+      "subject": "fix(spec-071): regression - next-button, exam, analytics",
+      "type": "fix"
+    },
+    {
+      "sha": "a5788d7",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "3ccec23",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-070",
@@ -1437,18 +1464,6 @@
       "sha": "88bd6df",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-066",
-      "type": "chore"
-    },
-    {
-      "sha": "1dbd74a",
-      "date": "2026-10-04",
-      "subject": "fix(spec-066): fresh-user sees 'Start learning' not 'Review'",
-      "type": "fix"
-    },
-    {
-      "sha": "3cc22b6",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
       "type": "chore"
     }
   ],
