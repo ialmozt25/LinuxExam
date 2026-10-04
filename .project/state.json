@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "99c8c50037cc2ebdc33a9256edc10bc5a0e51972",
+  "head": "28c1678e724188b0a2a3c2910176ad42ad0b9cd2",
   "specs": [
     {
       "id": "022",
@@ -1295,7 +1295,7 @@
       "updated": "2026-10-04",
       "commit": "703e14d",
       "file": "specs/074-visual-a11y-testing.md",
-      "mtime": 1791086185202.953,
+      "mtime": 1791086250820.602,
       "goal": "1. **Visual regression:** baseline PNG для экранов × 2 viewport'а, прогон без",
       "acceptance": "[ ] `.project/specs/074-visual-a11y-testing.md` существует, frontmatter",
       "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
@@ -1376,6 +1376,12 @@
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "28c1678",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge",
+      "type": "chore"
+    },
     {
       "sha": "dde5ae3",
       "date": "2026-10-04",
@@ -1488,12 +1494,6 @@
       "sha": "8576d31",
       "date": "2026-10-04",
       "subject": "chore(log): trail for spec-070 push",
-      "type": "chore"
-    },
-    {
-      "sha": "2731e30",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-070 done",
       "type": "chore"
     }
   ],

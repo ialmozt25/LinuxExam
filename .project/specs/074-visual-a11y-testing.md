@@ -131,8 +131,8 @@ aria-label, top-10, `file:line`, severity), консистентность (од
 
 **Инфраструктура (коммит `703e14d`):**
 
-- 19 baseline PNG (`e2e/visual-regression.spec.ts-snapshots/`, 386 КБ суммарно,
-  от 11 КБ до 49 КБ на файл; платформенный суффикс `-win32`) — 8 рабочих экранов ×
+- 19 baseline PNG (`e2e/visual-regression.spec.ts-snapshots/`, **643.6 КБ** суммарно,
+  от 10.4 КБ до 47.8 КБ на файл; платформенный суффикс `-win32`) — 8 рабочих экранов ×
   2 viewport'а + 3 онбординг-экрана × mobile;
 - **прогон 1** `--update-snapshots`: 19 passed (45.3 с) → baseline создан;
 - **прогон 2** без `--update`: **19 passed, exit 0** (39.2 с) → baseline стабилен,
