@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c569de4e9df4e6e0ea91927635421662442e58e7",
+  "head": "ba9e556a929657a583c0784b2d7e83a36fb138be",
   "specs": [
     {
       "id": "022",
@@ -1348,8 +1348,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-066 | done - fresh-user-semantics | commit 1dbd74a",
-    "2026-10-04 | spec-067 | done - mobile-fix | commit 3109445",
     "2026-10-04 | spec-068 | done - remove-legacy-exam | commit db168f2",
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-066+067+068; публикует 848911f..062ada6 | commit pending",
@@ -1357,10 +1355,36 @@
     "2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527",
     "2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..8576d31 | commit pending",
     "2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31",
-    "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b"
+    "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b",
+    "2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending",
+    "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "ba9e556",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for spec-072",
+      "type": "chore"
+    },
+    {
+      "sha": "3547d28",
+      "date": "2026-10-04",
+      "subject": "chore(log): fix trail SHA for spec-072",
+      "type": "chore"
+    },
+    {
+      "sha": "cdc9541",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for spec-072 push",
+      "type": "chore"
+    },
+    {
+      "sha": "c68ace6",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-072",
+      "type": "chore"
+    },
     {
       "sha": "c569de4",
       "date": "2026-10-04",
@@ -1455,30 +1479,6 @@
       "sha": "dcb6847",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-068 done",
-      "type": "chore"
-    },
-    {
-      "sha": "2e965dc",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-068",
-      "type": "chore"
-    },
-    {
-      "sha": "db168f2",
-      "date": "2026-10-04",
-      "subject": "fix(spec-068): remove legacy inline exam, keep spec-054 mode",
-      "type": "fix"
-    },
-    {
-      "sha": "68d2308",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-067 done",
-      "type": "chore"
-    },
-    {
-      "sha": "59b5e4b",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-067",
       "type": "chore"
     }
   ],
