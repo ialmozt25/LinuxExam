@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0620db184c4d7221f0c59dd5609eb5d64ac087c7",
+  "head": "848704eb2193e6da85bff8225fda9f7e7044c087",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,21 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "076",
+      "slug": "critical-ui-fixes",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/076-critical-ui-fixes.md",
+      "mtime": 1791090862212.3647,
+      "goal": "Все **6 корневых причин** закрыты, реестр `KNOWN_ISSUES` обнулён, `layout-smoke`",
+      "acceptance": "[ ] `.project/specs/076-critical-ui-fixes.md` существует, frontmatter",
+      "noTouch": "axe-core контраст (spec 078), чек-лист, маркетинг;",
       "preview": ""
     },
     {
@@ -1392,6 +1407,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "848704e",
+      "date": "2026-10-04",
+      "subject": "fix(spec-076): critical UI - Paywall CTA, CTAs, touch",
+      "type": "fix"
+    },
+    {
+      "sha": "011ec08",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "0620db1",
       "date": "2026-10-04",
       "subject": "chore(log): push done for 072+074+075",
@@ -1497,18 +1524,6 @@
       "sha": "ba9e556",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-072",
-      "type": "chore"
-    },
-    {
-      "sha": "3547d28",
-      "date": "2026-10-04",
-      "subject": "chore(log): fix trail SHA for spec-072",
-      "type": "chore"
-    },
-    {
-      "sha": "cdc9541",
-      "date": "2026-10-04",
-      "subject": "chore(log): trail for spec-072 push",
       "type": "chore"
     }
   ],
