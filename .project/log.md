@@ -302,4 +302,4 @@
 2026-10-04 | push | authorize push origin main — spec-066+067+068; публикует 848911f..062ada6 | commit pending
 2026-10-04 | push | выполнен 848911f..6eb3bdd | commit 062ada6
 2026-10-04 | spec-070 | done - mobile-fixed-footer | commit 01b7527
-2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..<trail-SHA> | commit pending
+2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..8576d31 | commit pending
