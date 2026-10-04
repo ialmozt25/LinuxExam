@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "cce9ce650220b0dec1a8cfad71067847871c254d",
+  "head": "b461b1475595969cee4735d6ba7e084f010cbfb3",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "077",
+      "slug": "ui-ux-checklist",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/077-ui-ux-checklist.md",
+      "mtime": 1791097532066.8381,
+      "goal": "Одна точка проверки UI/UX: чек-лист **30 критериев** в",
+      "acceptance": "[ ] `.project/specs/077-ui-ux-checklist.md` существует, frontmatter",
+      "noTouch": "`src/**`, `e2e/**` — ни одной правки: спека только детектирует, фиксы —",
+      "preview": "1. Таблица 30 критериев: `id | title | check | threshold | source`."
     },
     {
       "id": "016",
@@ -1407,6 +1422,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "b461b14",
+      "date": "2026-10-04",
+      "subject": "feat(spec-077): UI/UX checklist + checker + visual audit (additive)",
+      "type": "feat"
+    },
+    {
+      "sha": "d387d8d",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge",
+      "type": "chore"
+    },
+    {
       "sha": "cce9ce6",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-076",
@@ -1513,18 +1540,6 @@
       "date": "2026-10-04",
       "subject": "docs(spec-074): design + a11y audit",
       "type": "docs"
-    },
-    {
-      "sha": "703e14d",
-      "date": "2026-10-04",
-      "subject": "test(spec-074): visual regression + a11y infrastructure",
-      "type": "test"
-    },
-    {
-      "sha": "de20587",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-072 verify",
-      "type": "chore"
     }
   ],
   "roles": [
