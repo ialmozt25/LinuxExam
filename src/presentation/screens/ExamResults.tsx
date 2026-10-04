@@ -47,7 +47,7 @@ export default function ExamResults() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
-              color: 'var(--text-secondary)',
+              color: 'var(--btn-ghost-text)',
               fontSize: 'var(--text-sm)',
               fontFamily: 'inherit',
             }}

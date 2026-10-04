@@ -35,6 +35,13 @@ test.describe.serial('Exam mode — настройка, прогон, итоги
     await expect(page.getByTestId('exam-setup')).toBeVisible();
     await expect(page.getByTestId('preset-30')).toHaveAttribute('aria-checked', 'true');
 
+    // spec 065 (К4.2): экран настройки перешёл на общий AppHeader — выход
+    // снова первый элемент экрана, а не самописная кнопка «← Назад».
+    // Контракт testid сохранён, поэтому e2e его и проверяет.
+    await expect(page.getByTestId('exam-setup-back')).toBeVisible();
+    await expect(page.getByTestId(TESTID.headerBack)).toBeVisible();
+    await expect(page.getByTestId(TESTID.headerCenter)).toHaveText('Exam mode');
+
     // Переключение пресета обратимо и не запускает прогон.
     await page.getByTestId('preset-90').click();
     await expect(page.getByTestId('preset-90')).toHaveAttribute('aria-checked', 'true');
