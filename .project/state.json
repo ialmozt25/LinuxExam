@@ -492,6 +492,21 @@
       "preview": ""
     },
     {
+      "id": "066",
+      "slug": "fresh-user-semantics",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/066-fresh-user-semantics.md",
+      "mtime": 1791073955579.433,
+      "goal": "Свежий профиль видит **только** «Начать обучение» — без «Повторить» и без",
+      "acceptance": "[ ] На свежем профиле (`questionStats` пуст) Dashboard показывает",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншот Dashboard на свежем профиле (390×844 и 1440×900) ПОСЛЕ правки: одна"
+    },
+    {
       "id": "016",
       "slug": "tf-cosine-debt",
       "status": "draft",
@@ -1272,6 +1287,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "3cc22b6",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after push",
+      "type": "chore"
+    },
+    {
       "sha": "a02656f",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-065",
@@ -1383,12 +1404,6 @@
       "sha": "293ad57",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-064 done",
-      "type": "chore"
-    },
-    {
-      "sha": "c16dc6a",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-064",
       "type": "chore"
     }
   ],
