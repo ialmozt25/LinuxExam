@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `c94bacd36faea4719d04b285483224ef0136add3`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `59b5e4bb4c86cc2a017a24a823ed8cb57f081c79`<!--volatile:end-->
 - Спек: 63
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -19,7 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 067 | `mobile-fix` | fix | approved | — | 2026-10-04 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -68,6 +67,7 @@
 | 064 | `telegram-stars` | feature | done | d8144dd | 2026-10-04 |
 | 065 | `ux-overhaul` | feature | done | 2f89eef | 2026-10-04 |
 | 066 | `fresh-user-semantics` | fix | done | 1dbd74a | 2026-10-04 |
+| 067 | `mobile-fix` | fix | done | 3109445 | 2026-10-04 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

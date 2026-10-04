@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "c94bacd36faea4719d04b285483224ef0136add3",
+  "head": "59b5e4bb4c86cc2a017a24a823ed8cb57f081c79",
   "specs": [
     {
       "id": "022",
@@ -490,21 +490,6 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
-    },
-    {
-      "id": "067",
-      "slug": "mobile-fix",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/067-mobile-fix.md",
-      "mtime": 1791075546602.9243,
-      "goal": "Кнопка «Следующий вопрос» видна всегда, независимо от динамической адресной",
-      "acceptance": "[ ] `#root` имеет каскад `100vh` → `100dvh` → `var(--app-height, 100dvh)`.",
-      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
-      "preview": "Скриншоты mobile после фикса — `.project/drafts/ux-audit-2026-10-04/mobile-fix/`"
     },
     {
       "id": "016",
@@ -1227,6 +1212,21 @@
       "preview": "Скриншот Dashboard на свежем профиле (390×844 и 1440×900) ПОСЛЕ правки: одна"
     },
     {
+      "id": "067",
+      "slug": "mobile-fix",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "3109445",
+      "file": "specs/067-mobile-fix.md",
+      "mtime": 1791076061769.633,
+      "goal": "Кнопка «Следующий вопрос» видна всегда, независимо от динамической адресной",
+      "acceptance": "[ ] `#root` имеет каскад `100vh` → `100dvh` → `var(--app-height, 100dvh)`.",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншоты mobile после фикса — `.project/drafts/ux-audit-2026-10-04/mobile-fix/`"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1288,7 +1288,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | authorize push origin main — spec-064; публикует 49cee68..HEAD | commit pending",
     "2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee",
     "2026-10-04 | ux | fix - streak duplicate, exit screens, sticky safe-area | commit 8f7581f",
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4) | commit pending",
@@ -1297,10 +1296,23 @@
     "2026-10-04 | spec-065 | done - ux-overhaul | commit 2f89eef",
     "2026-10-04 | push | authorize push origin main — spec-065; публикует 08e267a..3523f9b | commit pending",
     "2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b",
-    "2026-10-04 | spec-066 | done - fresh-user-semantics | commit 1dbd74a"
+    "2026-10-04 | spec-066 | done - fresh-user-semantics | commit 1dbd74a",
+    "2026-10-04 | spec-067 | done - mobile-fix | commit 3109445"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "59b5e4b",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-067",
+      "type": "chore"
+    },
+    {
+      "sha": "3109445",
+      "date": "2026-10-04",
+      "subject": "fix(spec-067): mobile next-button (dvh) + badge sizing",
+      "type": "fix"
+    },
     {
       "sha": "c94bacd",
       "date": "2026-10-04",
@@ -1407,18 +1419,6 @@
       "sha": "4f90239",
       "date": "2026-10-04",
       "subject": "chore(state): converge after ux-fixes",
-      "type": "chore"
-    },
-    {
-      "sha": "8f7581f",
-      "date": "2026-10-04",
-      "subject": "fix(ux): streak duplicate, exit screens, mobile next button",
-      "type": "fix"
-    },
-    {
-      "sha": "ee2785e",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
       "type": "chore"
     }
   ],
