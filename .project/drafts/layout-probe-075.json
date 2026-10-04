@@ -1,0 +1,5461 @@
+{
+  "generatedAt": "2026-10-04T04:31:17.855Z",
+  "spec": "075",
+  "viewports": [
+    {
+      "name": "mobile-min",
+      "width": 360,
+      "height": 640,
+      "note": "Telegram минимум"
+    },
+    {
+      "name": "mobile-se",
+      "width": 375,
+      "height": 667,
+      "note": "iPhone SE"
+    },
+    {
+      "name": "mobile-tma",
+      "width": 390,
+      "height": 720,
+      "note": "TMA bottom sheet (real)"
+    },
+    {
+      "name": "mobile-px",
+      "width": 412,
+      "height": 915,
+      "note": "Pixel"
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "note": "desktop"
+    }
+  ],
+  "ctaTestIds": [
+    "next-button",
+    "exam-submit",
+    "exam-cancel",
+    "exam-start",
+    "dashboard-continue",
+    "paywall-buy",
+    "paywall-start-trial",
+    "back-to-dashboard",
+    "analytics-back"
+  ],
+  "touchMinPx": 44,
+  "totals": {
+    "combos": 55,
+    "violations": 27,
+    "known": 27,
+    "fresh": 0
+  },
+  "knownIssues": [
+    {
+      "screen": "dashboard",
+      "check": "cta-out-of-viewport",
+      "testid": "dashboard-continue",
+      "reason": "known issue from spec 074: CTA «Продолжить» ниже сгиба (14 строк тем)",
+      "file": "src/presentation/screens/Dashboard.tsx:800",
+      "source": "spec-074"
+    },
+    {
+      "screen": "paywall",
+      "check": "cta-out-of-viewport",
+      "testid": "paywall-buy",
+      "reason": "known issue from spec 074: кнопка покупки обрезана сгибом на мобильном",
+      "file": "src/presentation/screens/Paywall.tsx:288",
+      "source": "spec-074"
+    },
+    {
+      "screen": "paywall",
+      "check": "cta-out-of-viewport",
+      "testid": "paywall-start-trial",
+      "reason": "known issue from spec 075: тот же класс, что paywall-buy (074), всплыл на 360-390 ширинах",
+      "file": "src/presentation/screens/Paywall.tsx:267",
+      "source": "spec-075"
+    },
+    {
+      "screen": "exam-run",
+      "check": "touch-target",
+      "testid": "exam-cancel",
+      "reason": "known issue from spec 074: тач-цель «Прервать и выйти» 44px → 34px",
+      "file": "src/presentation/screens/ExamRun.tsx:247",
+      "source": "spec-074"
+    },
+    {
+      "screen": "exam-results",
+      "check": "cta-out-of-viewport",
+      "testid": "back-to-dashboard",
+      "reason": "known issue from spec 075: тот же класс, что CTA Results (074), на 640-720 высотах",
+      "file": "src/presentation/screens/ExamResults.tsx:152",
+      "source": "spec-075"
+    },
+    {
+      "screen": "paywall",
+      "check": "escaped-element",
+      "testid": "header-home",
+      "reason": "known issue from spec 075: paywall центрирует контент (justifyContent: center) и уводит шапку выше вьюпорта",
+      "file": "src/presentation/screens/Paywall.tsx:102",
+      "source": "spec-075"
+    },
+    {
+      "screen": "paywall",
+      "check": "escaped-element",
+      "testid": "app-header-center",
+      "reason": "known issue from spec 075: тот же центрирующий контейнер Paywall уводит заголовок шапки выше вьюпорта",
+      "file": "src/presentation/screens/Paywall.tsx:102",
+      "source": "spec-075"
+    }
+  ],
+  "screens": [
+    {
+      "screen": "dashboard",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 32,
+      "belowFoldCtas": [
+        {
+          "testid": "dashboard-continue",
+          "top": 1971,
+          "bottom": 2027
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": true,
+          "visible": true,
+          "top": 1971,
+          "bottom": 2027,
+          "left": 16,
+          "right": 344
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "dashboard",
+          "viewport": "mobile-min",
+          "check": "cta-out-of-viewport",
+          "testid": "dashboard-continue",
+          "detail": "top=1971 bottom=2027 left=16 right=344 при 360x640"
+        }
+      ]
+    },
+    {
+      "screen": "dashboard",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 31,
+      "belowFoldCtas": [
+        {
+          "testid": "dashboard-continue",
+          "top": 1971,
+          "bottom": 2027
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": true,
+          "visible": true,
+          "top": 1971,
+          "bottom": 2027,
+          "left": 16,
+          "right": 359
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "dashboard",
+          "viewport": "mobile-se",
+          "check": "cta-out-of-viewport",
+          "testid": "dashboard-continue",
+          "detail": "top=1971 bottom=2027 left=16 right=359 при 375x667"
+        }
+      ]
+    },
+    {
+      "screen": "dashboard",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 31,
+      "belowFoldCtas": [
+        {
+          "testid": "dashboard-continue",
+          "top": 1929,
+          "bottom": 1985
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": true,
+          "visible": true,
+          "top": 1929,
+          "bottom": 1985,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "dashboard",
+          "viewport": "mobile-tma",
+          "check": "cta-out-of-viewport",
+          "testid": "dashboard-continue",
+          "detail": "top=1929 bottom=1985 left=16 right=374 при 390x720"
+        }
+      ]
+    },
+    {
+      "screen": "dashboard",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 25,
+      "belowFoldCtas": [
+        {
+          "testid": "dashboard-continue",
+          "top": 1904,
+          "bottom": 1960
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": true,
+          "visible": true,
+          "top": 1904,
+          "bottom": 1960,
+          "left": 16,
+          "right": 396
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "dashboard",
+          "viewport": "mobile-px",
+          "check": "cta-out-of-viewport",
+          "testid": "dashboard-continue",
+          "detail": "top=1904 bottom=1960 left=16 right=396 при 412x915"
+        }
+      ]
+    },
+    {
+      "screen": "dashboard",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 25,
+      "belowFoldCtas": [
+        {
+          "testid": "dashboard-continue",
+          "top": 1904,
+          "bottom": 1960
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": true,
+          "visible": true,
+          "top": 1904,
+          "bottom": 1960,
+          "left": 16,
+          "right": 1424
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "dashboard",
+          "viewport": "desktop",
+          "check": "cta-out-of-viewport",
+          "testid": "dashboard-continue",
+          "detail": "top=1904 bottom=1960 left=16 right=1424 при 1440x900"
+        }
+      ]
+    },
+    {
+      "screen": "question",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 4,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": true,
+          "visible": true,
+          "top": 576,
+          "bottom": 632,
+          "left": 0,
+          "right": 360
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "question",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 3,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": true,
+          "visible": true,
+          "top": 603,
+          "bottom": 659,
+          "left": 0,
+          "right": 375
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "question",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 2,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": true,
+          "visible": true,
+          "top": 656,
+          "bottom": 712,
+          "left": 0,
+          "right": 390
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "question",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": true,
+          "visible": true,
+          "top": 851,
+          "bottom": 907,
+          "left": 0,
+          "right": 412
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "question",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": true,
+          "visible": true,
+          "top": 836,
+          "bottom": 892,
+          "left": 0,
+          "right": 1440
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "results",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 16,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "results",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 16,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "results",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 15,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "results",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 13,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "results",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 13,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "exam-setup",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": true,
+          "visible": true,
+          "top": 429,
+          "bottom": 485,
+          "left": 16,
+          "right": 344
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "exam-setup",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": true,
+          "visible": true,
+          "top": 429,
+          "bottom": 485,
+          "left": 16,
+          "right": 359
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "exam-setup",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": true,
+          "visible": true,
+          "top": 429,
+          "bottom": 485,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "exam-setup",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": true,
+          "visible": true,
+          "top": 429,
+          "bottom": 485,
+          "left": 16,
+          "right": 396
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "exam-setup",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": true,
+          "visible": true,
+          "top": 408,
+          "bottom": 464,
+          "left": 16,
+          "right": 1424
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "exam-run",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 2,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": true,
+          "visible": true,
+          "top": 534,
+          "bottom": 590,
+          "left": 0,
+          "right": 360
+        },
+        {
+          "testid": "exam-cancel",
+          "present": true,
+          "visible": true,
+          "top": 598,
+          "bottom": 632,
+          "left": 0,
+          "right": 360
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-run",
+          "viewport": "mobile-min",
+          "check": "touch-target",
+          "testid": "exam-cancel",
+          "detail": "360x34 < 44 (button: \"Прервать и выйти\")"
+        }
+      ]
+    },
+    {
+      "screen": "exam-run",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 1,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": true,
+          "visible": true,
+          "top": 561,
+          "bottom": 617,
+          "left": 0,
+          "right": 375
+        },
+        {
+          "testid": "exam-cancel",
+          "present": true,
+          "visible": true,
+          "top": 625,
+          "bottom": 659,
+          "left": 0,
+          "right": 375
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-run",
+          "viewport": "mobile-se",
+          "check": "touch-target",
+          "testid": "exam-cancel",
+          "detail": "375x34 < 44 (button: \"Прервать и выйти\")"
+        }
+      ]
+    },
+    {
+      "screen": "exam-run",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 1,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": true,
+          "visible": true,
+          "top": 614,
+          "bottom": 670,
+          "left": 0,
+          "right": 390
+        },
+        {
+          "testid": "exam-cancel",
+          "present": true,
+          "visible": true,
+          "top": 678,
+          "bottom": 712,
+          "left": 0,
+          "right": 390
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-run",
+          "viewport": "mobile-tma",
+          "check": "touch-target",
+          "testid": "exam-cancel",
+          "detail": "390x34 < 44 (button: \"Прервать и выйти\")"
+        }
+      ]
+    },
+    {
+      "screen": "exam-run",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": true,
+          "visible": true,
+          "top": 809,
+          "bottom": 865,
+          "left": 0,
+          "right": 412
+        },
+        {
+          "testid": "exam-cancel",
+          "present": true,
+          "visible": true,
+          "top": 873,
+          "bottom": 907,
+          "left": 0,
+          "right": 412
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-run",
+          "viewport": "mobile-px",
+          "check": "touch-target",
+          "testid": "exam-cancel",
+          "detail": "412x34 < 44 (button: \"Прервать и выйти\")"
+        }
+      ]
+    },
+    {
+      "screen": "exam-run",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": true,
+          "visible": true,
+          "top": 794,
+          "bottom": 850,
+          "left": 0,
+          "right": 1440
+        },
+        {
+          "testid": "exam-cancel",
+          "present": true,
+          "visible": true,
+          "top": 858,
+          "bottom": 892,
+          "left": 0,
+          "right": 1440
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-run",
+          "viewport": "desktop",
+          "check": "touch-target",
+          "testid": "exam-cancel",
+          "detail": "1440x34 < 44 (button: \"Прервать и выйти\")"
+        }
+      ]
+    },
+    {
+      "screen": "exam-results",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 6,
+      "belowFoldCtas": [
+        {
+          "testid": "back-to-dashboard",
+          "top": 795,
+          "bottom": 851
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": true,
+          "visible": true,
+          "top": 795,
+          "bottom": 851,
+          "left": 16,
+          "right": 344
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-results",
+          "viewport": "mobile-min",
+          "check": "cta-out-of-viewport",
+          "testid": "back-to-dashboard",
+          "detail": "top=795 bottom=851 left=16 right=344 при 360x640"
+        }
+      ]
+    },
+    {
+      "screen": "exam-results",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 5,
+      "belowFoldCtas": [
+        {
+          "testid": "back-to-dashboard",
+          "top": 795,
+          "bottom": 851
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": true,
+          "visible": true,
+          "top": 795,
+          "bottom": 851,
+          "left": 16,
+          "right": 359
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-results",
+          "viewport": "mobile-se",
+          "check": "cta-out-of-viewport",
+          "testid": "back-to-dashboard",
+          "detail": "top=795 bottom=851 left=16 right=359 при 375x667"
+        }
+      ]
+    },
+    {
+      "screen": "exam-results",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 4,
+      "belowFoldCtas": [
+        {
+          "testid": "back-to-dashboard",
+          "top": 795,
+          "bottom": 851
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": true,
+          "visible": true,
+          "top": 795,
+          "bottom": 851,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "exam-results",
+          "viewport": "mobile-tma",
+          "check": "cta-out-of-viewport",
+          "testid": "back-to-dashboard",
+          "detail": "top=795 bottom=851 left=16 right=374 при 390x720"
+        }
+      ]
+    },
+    {
+      "screen": "exam-results",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": true,
+          "visible": true,
+          "top": 795,
+          "bottom": 851,
+          "left": 16,
+          "right": 396
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "exam-results",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": true,
+          "visible": true,
+          "top": 795,
+          "bottom": 851,
+          "left": 16,
+          "right": 1424
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "analytics",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 5,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": true,
+          "visible": true,
+          "top": 28,
+          "bottom": 72,
+          "left": 269.6,
+          "right": 344
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "analytics",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 4,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": true,
+          "visible": true,
+          "top": 28,
+          "bottom": 72,
+          "left": 284.6,
+          "right": 359
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "analytics",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 2,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": true,
+          "visible": true,
+          "top": 28,
+          "bottom": 72,
+          "left": 299.6,
+          "right": 374
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "analytics",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": true,
+          "visible": true,
+          "top": 28,
+          "bottom": 72,
+          "left": 321.6,
+          "right": 396
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "analytics",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": true,
+          "visible": true,
+          "top": 28,
+          "bottom": 72,
+          "left": 1349.6,
+          "right": 1424
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "paywall",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 5,
+      "belowFoldCtas": [
+        {
+          "testid": "paywall-start-trial",
+          "top": 656.8,
+          "bottom": 712.8
+        },
+        {
+          "testid": "paywall-buy",
+          "top": 720.8,
+          "bottom": 778.8
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": true,
+          "visible": true,
+          "top": 720.8,
+          "bottom": 778.8,
+          "left": 16,
+          "right": 344
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": true,
+          "visible": true,
+          "top": 656.8,
+          "bottom": 712.8,
+          "left": 16,
+          "right": 344
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "paywall",
+          "viewport": "mobile-min",
+          "check": "cta-out-of-viewport",
+          "testid": "paywall-buy",
+          "detail": "top=720.8 bottom=778.8 left=16 right=344 при 360x640"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-min",
+          "check": "cta-out-of-viewport",
+          "testid": "paywall-start-trial",
+          "detail": "top=656.8 bottom=712.8 left=16 right=344 при 360x640"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-min",
+          "check": "escaped-element",
+          "testid": "app-header-center",
+          "detail": "div ушёл за above (top=-174.8 left=60 right=300) (\"LinuxExam\")"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-min",
+          "check": "escaped-element",
+          "testid": "header-home",
+          "detail": "button ушёл за above (top=-187.8 left=300 right=344) (\"На главную\")"
+        }
+      ]
+    },
+    {
+      "screen": "paywall",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 5,
+      "belowFoldCtas": [
+        {
+          "testid": "paywall-start-trial",
+          "top": 655.3,
+          "bottom": 711.3
+        },
+        {
+          "testid": "paywall-buy",
+          "top": 719.3,
+          "bottom": 777.3
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": true,
+          "visible": true,
+          "top": 719.3,
+          "bottom": 777.3,
+          "left": 16,
+          "right": 359
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": true,
+          "visible": true,
+          "top": 655.3,
+          "bottom": 711.3,
+          "left": 16,
+          "right": 359
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "paywall",
+          "viewport": "mobile-se",
+          "check": "cta-out-of-viewport",
+          "testid": "paywall-buy",
+          "detail": "top=719.3 bottom=777.3 left=16 right=359 при 375x667"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-se",
+          "check": "cta-out-of-viewport",
+          "testid": "paywall-start-trial",
+          "detail": "top=655.3 bottom=711.3 left=16 right=359 при 375x667"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-se",
+          "check": "escaped-element",
+          "testid": "app-header-center",
+          "detail": "div ушёл за above (top=-146.3 left=60 right=315) (\"LinuxExam\")"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-se",
+          "check": "escaped-element",
+          "testid": "header-home",
+          "detail": "button ушёл за above (top=-159.3 left=315 right=359) (\"На главную\")"
+        }
+      ]
+    },
+    {
+      "screen": "paywall",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 5,
+      "belowFoldCtas": [
+        {
+          "testid": "paywall-start-trial",
+          "top": 681.8,
+          "bottom": 737.8
+        },
+        {
+          "testid": "paywall-buy",
+          "top": 745.8,
+          "bottom": 803.8
+        }
+      ],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": true,
+          "visible": true,
+          "top": 745.8,
+          "bottom": 803.8,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": true,
+          "visible": true,
+          "top": 681.8,
+          "bottom": 737.8,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "paywall",
+          "viewport": "mobile-tma",
+          "check": "cta-out-of-viewport",
+          "testid": "paywall-buy",
+          "detail": "top=745.8 bottom=803.8 left=16 right=374 при 390x720"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-tma",
+          "check": "cta-out-of-viewport",
+          "testid": "paywall-start-trial",
+          "detail": "top=681.8 bottom=737.8 left=16 right=374 при 390x720"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-tma",
+          "check": "escaped-element",
+          "testid": "app-header-center",
+          "detail": "div ушёл за above (top=-119.8 left=60 right=330) (\"LinuxExam\")"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-tma",
+          "check": "escaped-element",
+          "testid": "header-home",
+          "detail": "button ушёл за above (top=-132.8 left=330 right=374) (\"На главную\")"
+        }
+      ]
+    },
+    {
+      "screen": "paywall",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 3,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": true,
+          "visible": true,
+          "top": 833.5,
+          "bottom": 891.5,
+          "left": 16,
+          "right": 396
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": true,
+          "visible": true,
+          "top": 769.5,
+          "bottom": 825.5,
+          "left": 16,
+          "right": 396
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": [
+        {
+          "screen": "paywall",
+          "viewport": "mobile-px",
+          "check": "escaped-element",
+          "testid": "app-header-center",
+          "detail": "div ушёл за above (top=-12.5 left=60 right=352) (\"LinuxExam\")"
+        },
+        {
+          "screen": "paywall",
+          "viewport": "mobile-px",
+          "check": "escaped-element",
+          "testid": "header-home",
+          "detail": "button ушёл за above (top=-25.5 left=352 right=396) (\"На главную\")"
+        }
+      ]
+    },
+    {
+      "screen": "paywall",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": true,
+          "visible": true,
+          "top": 774.7,
+          "bottom": 832.7,
+          "left": 16,
+          "right": 1424
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": true,
+          "visible": true,
+          "top": 710.7,
+          "bottom": 766.7,
+          "left": 16,
+          "right": 1424
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-goal",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-goal",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-goal",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-goal",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-goal",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-demo",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-demo",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-demo",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-demo",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-demo",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-result",
+      "viewport": "mobile-min",
+      "size": "360x640",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-result",
+      "viewport": "mobile-se",
+      "size": "375x667",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-result",
+      "viewport": "mobile-tma",
+      "size": "390x720",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-result",
+      "viewport": "mobile-px",
+      "size": "412x915",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    },
+    {
+      "screen": "onboarding-result",
+      "viewport": "desktop",
+      "size": "1440x900",
+      "rootOverflowX": 0,
+      "belowFoldTotal": 0,
+      "belowFoldCtas": [],
+      "ctas": [
+        {
+          "testid": "next-button",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-submit",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-cancel",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "exam-start",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "dashboard-continue",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-buy",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "paywall-start-trial",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "back-to-dashboard",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        {
+          "testid": "analytics-back",
+          "present": false,
+          "visible": false,
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        }
+      ],
+      "violations": []
+    }
+  ]
+}
