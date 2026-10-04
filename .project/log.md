@@ -308,3 +308,4 @@
 2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending
 2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541
 2026-10-04 | spec-072 | done - tma-mainbutton | commit c569de4
+2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4
