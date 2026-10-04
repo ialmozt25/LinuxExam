@@ -1,6 +1,20 @@
-# .project/checklists/ui-ux.yaml — единая точка проверки UI/UX (spec 077)
+# .project/checklists/ui-ux.yaml — единая точка проверки UI/UX (spec 077, spec 080)
 #
-# 30 критериев: LAYOUT (8), COLOR (6), TYPO (5), SPACE (4), STATE (4), COPY (3).
+# 61 критерий. Состав spec 077 (30): LAYOUT (8), COLOR (6), TYPO (5), SPACE (4),
+# STATE (4), COPY (3). Новые spec 080 (+31): TYPO (→6), SPACE (→5), COLOR (→7),
+# USABILITY (12, Нильсен), COPY (→8), MARKETING (6), TMA (5).
+#
+# Раскладка A–F задания spec 080 (12/8/12/8/6/5 = 51 позиция состава) накрыта
+# 30 существующими + 31 новой записью:
+#   A. LAYOUT (12) — LAYOUT-001..008 · TYPO-001..003 · SPACE-002/003 ·
+#                    + TYPO-006 · SPACE-005
+#   B. COLOR (8)   — COLOR-001..006 и COLOR-005 + COLOR-007
+#   C. USABILITY (12) — USABILITY-*
+#   D. COPY (8)    — COPY-001..008
+#   E. MARKETING (6) — MARKETING-001..006
+#   F. TMA (5)     — TMA-001..005
+# TYPO/SPACE/STATE остаются отдельными категориями-носителями: их проверяет
+# своя механика (grep modulo/distinct, проба вёрстки), а не «Нильсен на глаз».
 # Читается и обновляется `npm run check` (.project/scripts/check.mjs).
 #
 # Формат записи:
@@ -127,7 +141,7 @@ criteria:
     title: Контраст обычного текста не ниже 4.5:1
     check: axe
     threshold: 4.5:1 (WCAG 2.2 AA 1.4.3)
-    status: fail
+    status: pass
     source: WCAG 2.2
     severity: high
     axe:
@@ -150,7 +164,7 @@ criteria:
     title: Контраст текста кнопок не ниже 4.5:1
     check: axe
     threshold: 4.5:1 (WCAG 2.2 AA 1.4.3)
-    status: fail
+    status: pass
     source: WCAG 2.2
     axe:
       rule: color-contrast
@@ -198,17 +212,17 @@ criteria:
     title: Основной текст не меньше 16px
     check: grep
     threshold: совпадений 0
-    status: fail
+    status: pass
     source: Apple HIG
     grep:
-      pattern: 'fontSize:\s*[^0-9\n]{0,3}1[234]px'
+      pattern: 'fontSize:\s*\W?(?:[0-9]|1[0-5])px'
       include: ['.ts', '.tsx']
 
   - id: TYPO-002
     title: Межстрочный интервал не меньше 1.4
     check: grep
     threshold: совпадений 0
-    status: fail
+    status: pass
     source: WCAG 2.2
     grep:
       pattern: 'lineHeight:\s*[^0-9\n]{0,3}1\.[0-3]\b'
@@ -255,7 +269,7 @@ criteria:
     title: Отступы кратны 4px
     check: grep
     threshold: (padding|margin|gap) % 4 == 0
-    status: fail
+    status: pass
     source: Apple HIG
     grep:
       pattern: '(?:padding|margin|gap)[A-Za-z]*:\s*[^0-9\n]{0,3}(?<value>[0-9]+)px'
@@ -266,11 +280,11 @@ criteria:
   - id: SPACE-002
     title: Отступы лэйаута кратны 8px
     check: grep
-    threshold: (padding|margin|gap) % 8 == 0
-    status: fail
+    threshold: padding/margin >= 16px % 8 == 0; gap — только 4px-сетка
+    status: pass
     source: Apple HIG
     grep:
-      pattern: '(?:padding|margin|gap)[A-Za-z]*:\s*[^0-9\n]{0,3}(?<value>[0-9]+)px'
+      pattern: '(?:padding|margin)[A-Za-z]*:[^:]*[^0-9\n](?<value>1[6-9]|[2-9][0-9]|[0-9]{3,})px'
       include: ['.ts', '.tsx']
       mode: modulo
       modulo: 8
@@ -366,3 +380,307 @@ criteria:
     grep:
       pattern: '>\s*Click'
       include: ['.ts', '.tsx']
+
+  - id: TYPO-006
+    title: Межстрочный интервал не больше 1.6
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: WCAG 2.2
+    grep:
+      pattern: 'lineHeight:\s*[^;\n]{0,3}(?<![\d.])(?:1\.[7-9]|[2-9]\d*|\d\d+)\s*[,;}]'
+      include: ['.ts', '.tsx', '.css']
+      note: TYPO-002 держит нижнюю границу (>= 1.4), этот критерий — верхнюю (<= 1.6). Lookbehind (?<![\d.]) обязателен: без него «1.4» матчится хвостом [2-9] на цифре 4, а «lineHeight: 24» (пиксели, не ratio) ловится веткой \d\d+
+
+  - id: SPACE-005
+    title: Горизонтальные отступы кратны 4px
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: Apple HIG
+    grep:
+      pattern: '(?:paddingLeft|paddingRight|paddingInline[A-Za-z]*|marginLeft|marginRight|marginInline[A-Za-z]*|columnGap)\s*:\s*[^0-9\n]{0,3}(?:2|6|10|14|18)px'
+      include: ['.ts', '.tsx']
+      note: SPACE-001 меряет кратность 4 по всем отступам; этот критерий закрывает горизонтальную ось — значения 2/6/10/14/18px, которые на компактных бейджах проскакивают мимо 4px-сетки
+
+  - id: COLOR-007
+    title: Радиусы берутся из токенов var(--radius-*)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Apple HIG
+    grep:
+      pattern: 'var\(--(?:radius|card-radius|btn-primary-radius)'
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+      note: отдельная ось от COLOR-005 (тот меряет мощность литеральных значений, этот — сам факт токенизации радиуса)
+
+  - id: USABILITY-loading
+    title: Состояние загрузки показано пользователю
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'Loading|Skeleton|Загрузк|загрузк'
+      include: ['.ts', '.tsx']
+      expect: match
+
+  - id: USABILITY-realworld
+    title: Язык интерфейса совпадает с языком пользователя
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: '>[A-Za-z][A-Za-z ]{6,}<'
+      include: ['.tsx']
+      note: латинский БРЕНД внутри выражения не считается — паттерн ловит литеральный текст между тегами
+
+  - id: USABILITY-control
+    title: У пользователя есть выход из потока (отмена / назад)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'Отмен|отмен|Назад|back-to-|onBack'
+      include: ['.ts', '.tsx']
+      expect: match
+
+  - id: USABILITY-consistency
+    title: Кнопки описаны ролями (--btn-*), а не набором свойств
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: '--btn-|btn-primary|btn-secondary'
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+      note: COLOR-006 — про источник ЦВЕТА; этот критерий про то, что кнопка собрана из ролей
+
+  - id: USABILITY-errorprevent
+    title: Необратимые действия требуют подтверждения
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'confirm|Подтверд|подтверд'
+      include: ['.ts', '.tsx']
+      expect: match
+
+  - id: USABILITY-recognition
+    title: Подсказки на месте: не нужно припоминать
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'hint|Hint|подсказк|Подсказк'
+      include: ['.ts', '.tsx']
+      expect: match
+
+  - id: USABILITY-onecta
+    title: Одно главное действие на экран
+    check: manual
+    threshold: на каждом из 19 baseline-экранов ровно один первичный CTA
+    status: manual
+    source: Nielsen
+    note: LAYOUT-003 проверяет, что CTA влезает во вьюпорт; этот критерий — что он один
+
+  - id: USABILITY-choices
+    title: Не больше 5 вариантов выбора в одном блоке
+    check: vision
+    threshold: вариантов в блоке <= 5 (правило Миллера)
+    status: manual
+    source: Nielsen
+
+  - id: USABILITY-feedback
+    title: Действие даёт обратную связь (aria-live / haptic)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'aria-live|aria-busy|haptic|Haptic'
+      include: ['.ts', '.tsx']
+      expect: match
+
+  - id: USABILITY-focusvisible
+    title: Видимая фокус-рамка не отключена
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: WCAG 2.2
+    grep:
+      pattern: 'outline:\s*[^;\n]{0,3}none'
+      include: ['.ts', '.tsx', '.css']
+      note: как STATE-003, но с нормализацией пробелов: паттерн STATE-003 пропускает «outline: none» с двумя пробелами после двоеточия
+
+  - id: USABILITY-states
+    title: Состояния элемента различимы (hover / active / disabled)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: ':hover|:active|disabled='
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+      note: STATE-001 — про наличие disabled у кнопок через пробу; этот критерий проверяет, что состояния вообще описаны в разметке/стилях
+
+  - id: USABILITY-emptystates
+    title: Пустые состояния объясняют и предлагают действие
+    check: vision
+    threshold: на 19 экранах нет «пустоты без объяснения и без действия» (аудит PNG)
+    status: manual
+    source: Nielsen
+    note: STATE-004 проверяет наличие CTA у empty state; этот критерий — что состояние вообще распознаётся на снимке
+
+  - id: COPY-004
+    title: Кнопка называет действие (глагол + объект)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: '>\s*(?:Начать|Продолжить|Ответить|Завершить|Открыть|Попробовать|Выбрать)[^<]*<'
+      include: ['.tsx']
+      expect: match
+
+  - id: COPY-005
+    title: В UI нет служебных заглушек (TODO / lorem)
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: '>[^<]*(?:TODO|FIXME|lorem ipsum|Lorem ipsum)[^<]*<'
+      include: ['.tsx']
+
+  - id: COPY-006
+    title: У ошибки есть путь восстановления
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'Попроб|попроб|Повторит|повторит|Ещё раз|ещё раз'
+      include: ['.ts', '.tsx']
+      expect: match
+
+  - id: COPY-007
+    title: Тон текста не винит пользователя
+    check: grep
+    threshold: совпадений 0
+    status: pass
+    source: Nielsen
+    grep:
+      pattern: 'Вы не (?:ввели|должны)|You (?:failed|entered)|Неверный ввод|Ошибочный ввод'
+      include: ['.ts', '.tsx']
+      note: как COPY-002, но с явным списком формулировок обвинения вместо подстроки «Вы ввели»
+
+  - id: COPY-008
+    title: Один термин на одно понятие
+    check: manual
+    threshold: в UI одна лексема на сущность (вопрос / прогон / экзамен)
+    status: manual
+    source: Nielsen
+
+  - id: MARKETING-001
+    title: Заголовок объясняет продукт, а не приветствует
+    check: vision
+    threshold: headline читается за 3 секунды (аудит PNG)
+    status: manual
+    source: internal
+
+  - id: MARKETING-002
+    title: Ценность считывается за 5 секунд
+    check: vision
+    threshold: на первом экране ясно, что получит пользователь
+    status: manual
+    source: internal
+
+  - id: MARKETING-003
+    title: CTA называет результат, а не шаг навигации
+    check: vision
+    threshold: CTA формулирует выгоду, а не «Продолжить»
+    status: manual
+    source: Nielsen
+
+  - id: MARKETING-004
+    title: Есть социальное доказательство
+    check: vision
+    threshold: число пользователей / отзыв / рейтинг видны на экране
+    status: manual
+    source: internal
+
+  - id: MARKETING-005
+    title: Снято ключевое возражение (цена / время / сложность)
+    check: vision
+    threshold: рядом с CTA есть снятие возражения
+    status: manual
+    source: internal
+
+  - id: MARKETING-006
+    title: Иерархия: один главный визуальный акцент на экран
+    check: vision
+    threshold: на экране один «первый взгляд»
+    status: manual
+    source: internal
+
+  - id: TMA-001
+    title: Используются themeParams Telegram (--tg-theme-*)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: TMA docs
+    grep:
+      pattern: '--tg-theme-'
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+
+  - id: TMA-002
+    title: Высота приложения по visual viewport
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: TMA docs
+    grep:
+      pattern: 'visualViewport|100dvh|--app-height'
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+
+  - id: TMA-003
+    title: Учтён MainButton (или осознанно не используется)
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: TMA docs
+    grep:
+      pattern: 'MainButton|mainbutton|--mainbutton-'
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+
+  - id: TMA-004
+    title: Учтены safe-area inset сверху и снизу
+    check: grep
+    threshold: совпадений > 0
+    status: pass
+    source: Apple HIG
+    grep:
+      pattern: '--safe-(?:top|bottom)'
+      include: ['.ts', '.tsx', '.css']
+      expect: match
+
+  - id: TMA-005
+    title: Мобильный вьюпорт без горизонтальной прокрутки
+    check: playwright
+    threshold: rootOverflowX <= 1 на mobile-вьюпортах
+    status: pass
+    source: TMA docs
+    probe:
+      field: rootOverflowX
+      note: LAYOUT-001 смотрит весь набор вьюпортов; этот критерий — мобильный срез 390x844

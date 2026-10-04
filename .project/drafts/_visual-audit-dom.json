@@ -1,0 +1,5421 @@
+{
+  "screens": [
+    {
+      "screen": "dashboard",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 21,
+        "text": 77
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "theme-toggle",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "streak-badge",
+          "text": "🔥0Начните серию!",
+          "w": 80,
+          "h": 80,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "review-today",
+          "text": "Повторить сегодня (30)30 вопр.",
+          "w": 358,
+          "h": 45,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-mode",
+          "text": "📝 Exam mode — 30/60/90 вопросов с разбо",
+          "w": 358,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "analytics-mode",
+          "text": "📊 Аналитика — готовность, слабые темы, ",
+          "w": 358,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "review-wrong",
+          "text": "Повторить ошибки30 вопр.",
+          "w": 358,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-file_permissions",
+          "text": "Права доступаначните с этойchmod, chown,",
+          "w": 358,
+          "h": 105,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-file_management",
+          "text": "Управление файламиcp, mv, find, tar, lin",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-process_management",
+          "text": "Управление процессамиps, top, kill, syst",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-essential_tools",
+          "text": "Базовые инструментыshell, grep, ssh, tar",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-text_files",
+          "text": "Работа с текстомsed, awk, cut, sort, uni",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-shell_scripts",
+          "text": "Shell-скриптыif, loops, args, command su",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-running_systems",
+          "text": "Управление системамиboot targets, servic",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-manage_software",
+          "text": "Управление ПОdnf, rpm, repositories, Fla",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-local_storage",
+          "text": "Локальное хранилищеpartitions, LVM, moun",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-file_systems",
+          "text": "Файловые системыext4, xfs, NFS, autofs, ",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-deploy_systems",
+          "text": "Развёртывание системat, cron, systemd se",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-networking",
+          "text": "Сетьnmcli, hostname, /etc/hosts, firewal",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-users_groups",
+          "text": "Пользователи и группыuseradd, usermod, s",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-security",
+          "text": "БезопасностьSELinux, firewalld, SSH keys",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "dashboard-continue",
+          "text": "Продолжить",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "",
+          "text": "Уровень 1",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "LinuxExam",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "dashboard-subtitle",
+          "text": "Подготовка к RHCSA за 15 минут в день",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "🔥",
+          "fontSize": 16,
+          "lineHeight": 16,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Начните серию!",
+          "fontSize": 10,
+          "lineHeight": 11,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "xp-bar-daily-label",
+          "text": "0 / 20 XP",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "retention-goal-line",
+          "text": "Цель: 0 / 20 XP",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Прогресс",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 из 253",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Повторить сегодня (30)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "exam-mode",
+          "text": "📝 Exam mode — 30/60/90 вопросов с разбо",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "analytics-mode",
+          "text": "📊 Аналитика — готовность, слабые темы, ",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Повторить ошибки",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 вопр.",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(179, 38, 30)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Программа RHCSA",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14 из 14 тем",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Права доступа",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "topic-first-cta",
+          "text": "начните с этой",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(46, 107, 50)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "chmod, chown, ACL, umask, special bits",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "19 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "cp, mv, find, tar, links, redirection",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление процессами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ps, top, kill, systemctl, journalctl",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "17 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Базовые инструменты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "shell, grep, ssh, tar, man pages",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Работа с текстом",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "sed, awk, cut, sort, uniq, tr, wc, head/",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Shell-скрипты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "if, loops, args, command substitution",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление системами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "boot targets, services, journals",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление ПО",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "dnf, rpm, repositories, Flatpak",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Локальное хранилище",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "partitions, LVM, mount by UUID, swap",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "13 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Файловые системы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ext4, xfs, NFS, autofs, fstab",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Развёртывание систем",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "at, cron, systemd services, tuning",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Сеть",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "nmcli, hostname, /etc/hosts, firewalld",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Пользователи и группы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "useradd, usermod, sudo, /etc/passwd",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Безопасность",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "SELinux, firewalld, SSH keys, sudo",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "dashboard-continue",
+          "text": "Продолжить",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "LinuxExam — независимый тренажёр. Не афф",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "question",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 6,
+        "text": 10
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-home",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-3",
+          "text": "AВладелец: только выполнение, группа: чт",
+          "w": 365,
+          "h": 80,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-0",
+          "text": "BВладелец: чтение/запись/исполнение, гру",
+          "w": 358,
+          "h": 99,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-2",
+          "text": "CВладелец: чтение/запись/исполнение, гру",
+          "w": 358,
+          "h": 99,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-1",
+          "text": "DВладелец: чтение/запись, группа: чтение",
+          "w": 358,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "next-button",
+          "text": "Следующий вопрос",
+          "w": 390,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "1 / 253",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "question-text",
+          "text": "Что означает разрешение 754 в восьмеричн",
+          "fontSize": 20,
+          "lineHeight": 31,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: только выполнение, группа: чте",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: чтение/запись/исполнение, груп",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: чтение/запись/исполнение, груп",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: чтение/запись, группа: чтение/",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "explanation-verdict",
+          "text": "Неверно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "explanation",
+          "text": "Цифра 7 = rwx (владелец), 5 = r-x (групп",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "next-button",
+          "text": "Следующий вопрос",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "results",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 4,
+        "text": 66
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-home",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "results-review-wrong",
+          "text": "Повторить ошибки (1)",
+          "w": 358,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "results-retry",
+          "text": "Пройти заново",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "results-back",
+          "text": "К темам",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Результаты",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Результаты",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "results-score",
+          "text": "252 / 253",
+          "fontSize": 48,
+          "lineHeight": 72,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Правильных из 253 вопроса",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "results-accuracy",
+          "text": "100%",
+          "fontSize": 20,
+          "lineHeight": 30,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "results-review-wrong",
+          "text": "Повторить ошибки (1)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "По темам",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Права доступа",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "19 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "19/19",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18/18",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление процессами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "17 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "17/17",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Базовые инструменты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "24/25",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "96%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Работа с текстом",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Shell-скрипты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление системами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление ПО",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Локальное хранилище",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "13 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "13/13",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Файловые системы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14/14",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Развёртывание систем",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25/25",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Сеть",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18/18",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Пользователи и группы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20/20",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Безопасность",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20/20",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "results-retry",
+          "text": "Пройти заново",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "results-back",
+          "text": "К темам",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "exam-setup",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 6,
+        "text": 13
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-back",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-setup-back",
+          "text": "Назад",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "preset-30",
+          "text": "30 вопросов30 минут",
+          "w": 358,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "preset-60",
+          "text": "60 вопросов60 минут",
+          "w": 358,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "preset-90",
+          "text": "90 вопросов120 минут",
+          "w": 358,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-start",
+          "text": "Начать экзамен",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Exam mode",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-setup-back",
+          "text": "Назад",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Exam mode",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Пробный экзамен без подсказок и объяснен",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 вопросов",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 минут",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "60 вопросов",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "60 минут",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "90 вопросов",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "120 минут",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-start",
+          "text": "Начать экзамен",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "exam-setup-summary",
+          "text": "Вопросов в прогоне: 30 из банка 253",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "exam-run",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 6,
+        "text": 10
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "exam-option-0",
+          "text": "Asudo visudo",
+          "w": 358,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-option-1",
+          "text": "Bnano sudoers",
+          "w": 358,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-option-2",
+          "text": "Cvisudo --check",
+          "w": 358,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-option-3",
+          "text": "Dsed -i sudoers",
+          "w": 358,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-submit",
+          "text": "Ответить",
+          "w": 390,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-cancel",
+          "text": "Прервать и выйти",
+          "w": 390,
+          "h": 44,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "exam-progress",
+          "text": "Вопрос 1 / 30",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-timer",
+          "text": "00:29:59",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-question-text",
+          "text": "Какая команда открывает /etc/sudoers на ",
+          "fontSize": 20,
+          "lineHeight": 31,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "sudo visudo",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "nano sudoers",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "visudo --check",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "sed -i sudoers",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-submit",
+          "text": "Ответить",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "exam-cancel",
+          "text": "Прервать и выйти",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "exam-results",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 3,
+        "text": 36
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-back",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-results-back",
+          "text": "На главную",
+          "w": 74,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "back-to-dashboard",
+          "text": "На главную",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Экзамен завершён",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-results-back",
+          "text": "На главную",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Экзамен завершён",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-finish-reason",
+          "text": "Завершено вручную",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-score",
+          "text": "11 / 30 (36.7%)",
+          "fontSize": 40,
+          "lineHeight": 60,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-verdict",
+          "text": "❌ Не сдано",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(207, 57, 46)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Порог сдачи — 70%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "По темам",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "deploy_systems",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "2 / 3 (66.7%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "essential_tools",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 2 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "file_management",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 2 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "file_permissions",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 3 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "file_systems",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 2 (50%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "local_storage",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 2 (50%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "networking",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 2 (50%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "process_management",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 1 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "running_systems",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 1 (100%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "security",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "3 / 6 (50%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "shell_scripts",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 3 (33.3%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "text_files",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 1 (100%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "users_groups",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 2 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "back-to-dashboard",
+          "text": "На главную",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "analytics",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 2,
+        "text": 16
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-back",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "analytics-back",
+          "text": "На главную",
+          "w": 74,
+          "h": 44,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Аналитика",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "analytics-back",
+          "text": "На главную",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Аналитика",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Готовность: 0%",
+          "fontSize": 40,
+          "lineHeight": 60,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Взвешено по размеру тем: точность ответо",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Слабые темы",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Развёртывание систем",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0%",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Базовые инструменты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0%",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0%",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Тренд за 7 дней",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Отвечено: 30, верно: 0",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "analytics-trend-delta",
+          "text": "Точность: нет базы для сравнения",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "paywall",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 7,
+        "text": 18
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-home",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "input",
+          "testid": "plan-monthly",
+          "text": "",
+          "w": 13,
+          "h": 13,
+          "visible": true
+        },
+        {
+          "tag": "input",
+          "testid": "plan-yearly",
+          "text": "",
+          "w": 13,
+          "h": 13,
+          "visible": true
+        },
+        {
+          "tag": "input",
+          "testid": "plan-lifetime",
+          "text": "",
+          "w": 13,
+          "h": 13,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "paywall-start-trial",
+          "text": "Попробовать 7 дней бесплатно",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "paywall-buy",
+          "text": "Купить за 299 Stars",
+          "w": 358,
+          "h": 58,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "paywall-later",
+          "text": "Не сейчас",
+          "w": 358,
+          "h": 53,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "LinuxExam",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Бесплатные вопросы закончились",
+          "fontSize": 20,
+          "lineHeight": 30,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Вы ответили на 5 вопросов. Откройте все ",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "✓ Все вопросы по всем темам",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "✓ Подробные объяснения к каждому",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "✓ Режим экзамена с таймером",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Бесплатно: 3 темы",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Права доступа · Базовые инструменты · По",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Pro: 11 тем + Exam + Analytics",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами · Управление процесса",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Тариф",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Месяц — 299 Stars",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Год — 1499 Stars",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Навсегда — 3999 Stars",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-start-trial",
+          "text": "Попробовать 7 дней бесплатно",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-buy",
+          "text": "Купить за 299 Stars",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-later",
+          "text": "Не сейчас",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "onboarding-goal",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 3,
+        "text": 9
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "onboarding-goal-rhcsa",
+          "text": "Сдать RHCSAГотовлюсь к экзамену RHCSA с ",
+          "w": 358,
+          "h": 80,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "onboarding-goal-refresh",
+          "text": "Освежить знанияПрактикую Linux, чтобы не",
+          "w": 358,
+          "h": 80,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "onboarding-goal-interview",
+          "text": "Пройти собеседованиеРазбираю темы, котор",
+          "w": 358,
+          "h": 80,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "",
+          "text": "Зачем вам LinuxExam?",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Выберите цель — подберём три вопроса для",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Сдать RHCSA",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Готовлюсь к экзамену RHCSA с нуля или по",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Освежить знания",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Практикую Linux, чтобы не терять форму",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Пройти собеседование",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Разбираю темы, которые спрашивают на инт",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "onboarding-demo",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 5,
+        "text": 8
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "onboarding-option-0",
+          "text": "sed 's/old/new/g' config.txt > result.tx",
+          "w": 358,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "onboarding-option-1",
+          "text": "sed -i 's/old/new/' config.txt > result.",
+          "w": 358,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "onboarding-option-2",
+          "text": "sed -n 's/old/new/' config.txt > result.",
+          "w": 358,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "onboarding-option-3",
+          "text": "sed 's/old/new/' config.txt > result.txt",
+          "w": 358,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "onboarding-demo-next",
+          "text": "Дальше",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "onboarding-demo-progress",
+          "text": "Вопрос 1 из 3",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "В файле config.txt нужно заменить первое",
+          "fontSize": 18,
+          "lineHeight": 25.2,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-option-0",
+          "text": "sed 's/old/new/g' config.txt > result.tx",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-option-1",
+          "text": "sed -i 's/old/new/' config.txt > result.",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-option-2",
+          "text": "sed -n 's/old/new/' config.txt > result.",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-option-3",
+          "text": "sed 's/old/new/' config.txt > result.txt",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-demo-next",
+          "text": "Дальше",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "onboarding-result",
+      "viewport": "mobile",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 390,
+      "innerWidth": 390,
+      "innerHeight": 844,
+      "count": {
+        "interactive": 1,
+        "text": 6
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "onboarding-start",
+          "text": "Начать",
+          "w": 358,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "",
+          "text": "Готово",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-result-goal",
+          "text": "Цель: Сдать RHCSA",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-result-score",
+          "text": "0 из 3",
+          "fontSize": 20,
+          "lineHeight": 30,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-result-message",
+          "text": "Это нормально: объяснения к каждому вопр",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "onboarding-start",
+          "text": "Начать",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "dashboard",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 21,
+        "text": 77
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "theme-toggle",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "streak-badge",
+          "text": "🔥0Начните серию!",
+          "w": 80,
+          "h": 80,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "review-today",
+          "text": "Повторить сегодня (30)30 вопр.",
+          "w": 1408,
+          "h": 45,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-mode",
+          "text": "📝 Exam mode — 30/60/90 вопросов с разбо",
+          "w": 1408,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "analytics-mode",
+          "text": "📊 Аналитика — готовность, слабые темы, ",
+          "w": 1408,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "review-wrong",
+          "text": "Повторить ошибки30 вопр.",
+          "w": 1408,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-file_permissions",
+          "text": "Права доступаначните с этойchmod, chown,",
+          "w": 1408,
+          "h": 80,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-file_management",
+          "text": "Управление файламиcp, mv, find, tar, lin",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-process_management",
+          "text": "Управление процессамиps, top, kill, syst",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-essential_tools",
+          "text": "Базовые инструментыshell, grep, ssh, tar",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-text_files",
+          "text": "Работа с текстомsed, awk, cut, sort, uni",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-shell_scripts",
+          "text": "Shell-скриптыif, loops, args, command su",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-running_systems",
+          "text": "Управление системамиboot targets, servic",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-manage_software",
+          "text": "Управление ПОdnf, rpm, repositories, Fla",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-local_storage",
+          "text": "Локальное хранилищеpartitions, LVM, moun",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-file_systems",
+          "text": "Файловые системыext4, xfs, NFS, autofs, ",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-deploy_systems",
+          "text": "Развёртывание системat, cron, systemd se",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-networking",
+          "text": "Сетьnmcli, hostname, /etc/hosts, firewal",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-users_groups",
+          "text": "Пользователи и группыuseradd, usermod, s",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "topic-security",
+          "text": "БезопасностьSELinux, firewalld, SSH keys",
+          "w": 1408,
+          "h": 78,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "dashboard-continue",
+          "text": "Продолжить",
+          "w": 1408,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "",
+          "text": "Уровень 1",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "LinuxExam",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "dashboard-subtitle",
+          "text": "Подготовка к RHCSA за 15 минут в день",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "🔥",
+          "fontSize": 16,
+          "lineHeight": 16,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Начните серию!",
+          "fontSize": 10,
+          "lineHeight": 11,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "xp-bar-daily-label",
+          "text": "0 / 20 XP",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "retention-goal-line",
+          "text": "Цель: 0 / 20 XP",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Прогресс",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 из 253",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Повторить сегодня (30)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "exam-mode",
+          "text": "📝 Exam mode — 30/60/90 вопросов с разбо",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "analytics-mode",
+          "text": "📊 Аналитика — готовность, слабые темы, ",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Повторить ошибки",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 вопр.",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(179, 38, 30)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Программа RHCSA",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14 из 14 тем",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Права доступа",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "topic-first-cta",
+          "text": "начните с этой",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(46, 107, 50)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "chmod, chown, ACL, umask, special bits",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "19 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "cp, mv, find, tar, links, redirection",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление процессами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ps, top, kill, systemctl, journalctl",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "17 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Базовые инструменты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "shell, grep, ssh, tar, man pages",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Работа с текстом",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "sed, awk, cut, sort, uniq, tr, wc, head/",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Shell-скрипты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "if, loops, args, command substitution",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление системами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "boot targets, services, journals",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление ПО",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "dnf, rpm, repositories, Flatpak",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Локальное хранилище",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "partitions, LVM, mount by UUID, swap",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "13 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Файловые системы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ext4, xfs, NFS, autofs, fstab",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Развёртывание систем",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "at, cron, systemd services, tuning",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Сеть",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "nmcli, hostname, /etc/hosts, firewalld",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Пользователи и группы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "useradd, usermod, sudo, /etc/passwd",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Безопасность",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "SELinux, firewalld, SSH keys, sudo",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-badge-free",
+          "text": "Бесплатно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопр.",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "dashboard-continue",
+          "text": "Продолжить",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "LinuxExam — независимый тренажёр. Не афф",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "question",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 6,
+        "text": 10
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-home",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-3",
+          "text": "AВладелец: только выполнение, группа: чт",
+          "w": 1436,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-0",
+          "text": "BВладелец: чтение/запись/исполнение, гру",
+          "w": 1408,
+          "h": 60,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-2",
+          "text": "CВладелец: чтение/запись/исполнение, гру",
+          "w": 1408,
+          "h": 60,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "option-1",
+          "text": "DВладелец: чтение/запись, группа: чтение",
+          "w": 1408,
+          "h": 60,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "next-button",
+          "text": "Следующий вопрос",
+          "w": 1440,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "1 / 253",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "question-text",
+          "text": "Что означает разрешение 754 в восьмеричн",
+          "fontSize": 20,
+          "lineHeight": 31,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: только выполнение, группа: чте",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: чтение/запись/исполнение, груп",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: чтение/запись/исполнение, груп",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Владелец: чтение/запись, группа: чтение/",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "explanation-verdict",
+          "text": "Неверно",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "explanation",
+          "text": "Цифра 7 = rwx (владелец), 5 = r-x (групп",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "next-button",
+          "text": "Следующий вопрос",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "results",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 4,
+        "text": 66
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-home",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "results-review-wrong",
+          "text": "Повторить ошибки (1)",
+          "w": 1408,
+          "h": 47,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "results-retry",
+          "text": "Пройти заново",
+          "w": 1408,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "results-back",
+          "text": "К темам",
+          "w": 1408,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Результаты",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Результаты",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "results-score",
+          "text": "252 / 253",
+          "fontSize": 48,
+          "lineHeight": 72,
+          "color": "rgb(21, 101, 192)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Правильных из 253 вопроса",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "results-accuracy",
+          "text": "100%",
+          "fontSize": 20,
+          "lineHeight": 30,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "results-review-wrong",
+          "text": "Повторить ошибки (1)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "По темам",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Права доступа",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "19 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "19/19",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18/18",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление процессами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "17 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "17/17",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Базовые инструменты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "24/25",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "96%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Работа с текстом",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Shell-скрипты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление системами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление ПО",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "16/16",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Локальное хранилище",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "13 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "13/13",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Файловые системы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "14/14",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Развёртывание систем",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "25/25",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Сеть",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "18/18",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Пользователи и группы",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20/20",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Безопасность",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20 вопросов",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "20/20",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "100%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(55, 126, 58)",
+          "visible": true
+        },
+        {
+          "testid": "results-retry",
+          "text": "Пройти заново",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "results-back",
+          "text": "К темам",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "exam-setup",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 6,
+        "text": 13
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-back",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-setup-back",
+          "text": "Назад",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "preset-30",
+          "text": "30 вопросов30 минут",
+          "w": 1408,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "preset-60",
+          "text": "60 вопросов60 минут",
+          "w": 1408,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "preset-90",
+          "text": "90 вопросов120 минут",
+          "w": 1408,
+          "h": 55,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-start",
+          "text": "Начать экзамен",
+          "w": 1408,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Exam mode",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-setup-back",
+          "text": "Назад",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Exam mode",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Пробный экзамен без подсказок и объяснен",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 вопросов",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "30 минут",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "60 вопросов",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "60 минут",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "90 вопросов",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "120 минут",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-start",
+          "text": "Начать экзамен",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "exam-setup-summary",
+          "text": "Вопросов в прогоне: 30 из банка 253",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "exam-run",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 6,
+        "text": 10
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "exam-option-0",
+          "text": "Aln /opt/editor/bin/editor /usr/local/bi",
+          "w": 1408,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-option-1",
+          "text": "Bln -h /opt/editor/bin/editor /usr/local",
+          "w": 1408,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-option-2",
+          "text": "Cln -s /opt/editor/bin/editor /usr/local",
+          "w": 1408,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-option-3",
+          "text": "Dln -f /opt/editor/bin/editor /usr/local",
+          "w": 1408,
+          "h": 61,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-submit",
+          "text": "Ответить",
+          "w": 1440,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-cancel",
+          "text": "Прервать и выйти",
+          "w": 1440,
+          "h": 44,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "exam-progress",
+          "text": "Вопрос 1 / 30",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-timer",
+          "text": "00:29:59",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-question-text",
+          "text": "Нужно создать символическую ссылку /usr/",
+          "fontSize": 20,
+          "lineHeight": 31,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ln /opt/editor/bin/editor /usr/local/bin",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ln -h /opt/editor/bin/editor /usr/local/",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ln -s /opt/editor/bin/editor /usr/local/",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "ln -f /opt/editor/bin/editor /usr/local/",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-submit",
+          "text": "Ответить",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "exam-cancel",
+          "text": "Прервать и выйти",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "exam-results",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 3,
+        "text": 34
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-back",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "exam-results-back",
+          "text": "На главную",
+          "w": 74,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "back-to-dashboard",
+          "text": "На главную",
+          "w": 1408,
+          "h": 56,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Экзамен завершён",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-results-back",
+          "text": "На главную",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Экзамен завершён",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-finish-reason",
+          "text": "Завершено вручную",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "exam-score",
+          "text": "10 / 30 (33.3%)",
+          "fontSize": 40,
+          "lineHeight": 60,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "exam-verdict",
+          "text": "❌ Не сдано",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(207, 57, 46)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Порог сдачи — 70%",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "По темам",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "deploy_systems",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "3 / 5 (60%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "essential_tools",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 2 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "file_management",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 2 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "file_permissions",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 3 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "file_systems",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 1 (100%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "local_storage",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 1 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "manage_software",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "2 / 4 (50%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "networking",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 2 (50%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "running_systems",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 1 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "security",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0 / 2 (0%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "shell_scripts",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "1 / 3 (33.3%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "text_files",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "2 / 4 (50%)",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "back-to-dashboard",
+          "text": "На главную",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "analytics",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 2,
+        "text": 16
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-back",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "analytics-back",
+          "text": "На главную",
+          "w": 74,
+          "h": 44,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "Аналитика",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "analytics-back",
+          "text": "На главную",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Аналитика",
+          "fontSize": 28,
+          "lineHeight": 42,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Готовность: 0%",
+          "fontSize": 40,
+          "lineHeight": 60,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Взвешено по размеру тем: точность ответо",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Слабые темы",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Развёртывание систем",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0%",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Базовые инструменты",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0%",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "0%",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Тренд за 7 дней",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Отвечено: 30, верно: 0",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "analytics-trend-delta",
+          "text": "Точность: нет базы для сравнения",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "screen": "paywall",
+      "viewport": "desktop",
+      "url": "https://127.0.0.1:5173/",
+      "htmlTheme": "light",
+      "themeSource": "inherit",
+      "rootOverflowX": 0,
+      "bodyScrollWidth": 1440,
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "count": {
+        "interactive": 7,
+        "text": 18
+      },
+      "interactive": [
+        {
+          "tag": "button",
+          "testid": "header-home",
+          "text": "",
+          "w": 44,
+          "h": 44,
+          "visible": true
+        },
+        {
+          "tag": "input",
+          "testid": "plan-monthly",
+          "text": "",
+          "w": 13,
+          "h": 13,
+          "visible": true
+        },
+        {
+          "tag": "input",
+          "testid": "plan-yearly",
+          "text": "",
+          "w": 13,
+          "h": 13,
+          "visible": true
+        },
+        {
+          "tag": "input",
+          "testid": "plan-lifetime",
+          "text": "",
+          "w": 13,
+          "h": 13,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "paywall-start-trial",
+          "text": "Попробовать 7 дней бесплатно",
+          "w": 1408,
+          "h": 56,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "paywall-buy",
+          "text": "Купить за 299 Stars",
+          "w": 1408,
+          "h": 58,
+          "visible": true
+        },
+        {
+          "tag": "button",
+          "testid": "paywall-later",
+          "text": "Не сейчас",
+          "w": 1408,
+          "h": 53,
+          "visible": true
+        }
+      ],
+      "text": [
+        {
+          "testid": "app-header-center",
+          "text": "LinuxExam",
+          "fontSize": 12,
+          "lineHeight": 18,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Бесплатные вопросы закончились",
+          "fontSize": 20,
+          "lineHeight": 30,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Вы ответили на 5 вопросов. Откройте все ",
+          "fontSize": 16,
+          "lineHeight": 24.8,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "✓ Все вопросы по всем темам",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "✓ Подробные объяснения к каждому",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "✓ Режим экзамена с таймером",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Бесплатно: 3 темы",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Права доступа · Базовые инструменты · По",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Pro: 11 тем + Exam + Analytics",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Управление файлами · Управление процесса",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Тариф",
+          "fontSize": 13,
+          "lineHeight": 19.5,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Месяц — 299 Stars",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Год — 1499 Stars",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Навсегда — 3999 Stars",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-start-trial",
+          "text": "Попробовать 7 дней бесплатно",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(255, 255, 255)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-buy",
+          "text": "Купить за 299 Stars",
+          "fontSize": 16,
+          "lineHeight": 24,
+          "color": "rgb(27, 31, 35)",
+          "visible": true
+        },
+        {
+          "testid": "paywall-later",
+          "text": "Не сейчас",
+          "fontSize": 14,
+          "lineHeight": 21,
+          "color": "rgb(74, 74, 74)",
+          "visible": true
+        },
+        {
+          "testid": "",
+          "text": "Web mode",
+          "fontSize": 10,
+          "lineHeight": 15,
+          "color": "rgb(102, 102, 102)",
+          "visible": true
+        }
+      ]
+    }
+  ]
+}

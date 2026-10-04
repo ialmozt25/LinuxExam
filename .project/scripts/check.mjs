@@ -709,10 +709,22 @@ function buildReport(date, results, meta) {
  * `--self-test` — не валидация приложения, а проверка самого чек-листа и
  * регекспов: ловит опечатку в YAML до того, как она станет «критерий всегда
  * unknown». Exit 0 — структура и фабрики валидны, 1 — нет.
+ *
+ * Числа ниже — КОНТРАКТ состава чек-листа, а не «настройка порога»: расширение
+ * списка (spec 080: 30 → 60 критериев) обязано быть здесь отражено, иначе
+ * self-test честно падает «критериев 60, ожидалось 30». Правка этих чисел
+ * НЕ меняет смысл ни одного критерия — в отличие от правки логики проверок.
  */
 function selfTest(criteria) {
   const problems = [];
-  const cats = { LAYOUT: 8, COLOR: 6, TYPO: 5, SPACE: 4, STATE: 4, COPY: 3 };
+  // spec 080: A. LAYOUT (12 позиций состава: LAYOUT-001..008 · TYPO-001..003 ·
+  // SPACE-002/003 · новые TYPO-006 и SPACE-005) · B. COLOR (7) ·
+  // C. USABILITY (12, Нильсен) · D. COPY (8) · E. MARKETING (6) · F. TMA (5).
+  // Категории-носители: LAYOUT 8, TYPO 6, SPACE 5, STATE 4. Итого 61.
+  const cats = {
+    LAYOUT: 8, COLOR: 7, USABILITY: 12, COPY: 8, MARKETING: 6, TMA: 5,
+    TYPO: 6, SPACE: 5, STATE: 4,
+  };
   const expected = Object.entries(cats).reduce((s, [, n]) => s + n, 0);
 
   if (criteria.length !== expected) {
