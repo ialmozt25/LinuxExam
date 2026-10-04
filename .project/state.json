@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "9ad3a3b77c9d0dfddf5dfba99dc02c85445fd870",
+  "head": "c569de4e9df4e6e0ea91927635421662442e58e7",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,21 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "072",
+      "slug": "tma-mainbutton",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/072-tma-mainbutton.md",
+      "mtime": 1791083572319.4375,
+      "goal": "MainButton показывается и обновляется после ответа, а если он недоступен —",
+      "acceptance": "[ ] `onClick` регистрируется независимо от успеха `setParams` (unit-тест).",
+      "noTouch": "`src/domain/**`, `src/data/**`, `tools/**`, `.project/sync.mjs`,",
       "preview": ""
     },
     {
@@ -1347,6 +1362,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "c569de4",
+      "date": "2026-10-04",
+      "subject": "fix(spec-072): TMA MainButton + reactive fallback",
+      "type": "fix"
+    },
+    {
+      "sha": "1460d7a",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-071 done",
+      "type": "chore"
+    },
+    {
       "sha": "7ce5dcf",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-071",
@@ -1452,18 +1479,6 @@
       "sha": "59b5e4b",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-067",
-      "type": "chore"
-    },
-    {
-      "sha": "3109445",
-      "date": "2026-10-04",
-      "subject": "fix(spec-067): mobile next-button (dvh) + badge sizing",
-      "type": "fix"
-    },
-    {
-      "sha": "c94bacd",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-066 done",
       "type": "chore"
     }
   ],
