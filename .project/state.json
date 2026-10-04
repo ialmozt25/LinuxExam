@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "848704eb2193e6da85bff8225fda9f7e7044c087",
+  "head": "6ba8f615934ac008abda83e38e46cfd7b6add47b",
   "specs": [
     {
       "id": "022",
@@ -1393,19 +1393,37 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4",
-    "2026-10-04 | rule2-exception | авторизован перевод spec 074 в approved через embedded approve | commit 703e14d",
-    "2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d",
     "2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d",
     "2026-10-04 | rule2-exception | авторизован перевод spec 075 в approved через embedded approve | commit 7219ceb",
     "2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb",
     "2026-10-04 | spec-075 | done - viewport-coverage | commit 7219ceb",
     "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-072-verify+074+075; публикует 3547d28..93aae10 | commit pending",
-    "2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10"
+    "2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10",
+    "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
+    "2026-10-04 | push | authorize push origin main — spec-076; публикует 2a0a786..546da1b | commit pending",
+    "2026-10-04 | push | выполнен 2a0a786..6ba8f61 | commit 546da1b"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "6ba8f61",
+      "date": "2026-10-04",
+      "subject": "chore(log): fix trail SHA",
+      "type": "chore"
+    },
+    {
+      "sha": "546da1b",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for spec-076 push",
+      "type": "chore"
+    },
+    {
+      "sha": "5304d95",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-076",
+      "type": "chore"
+    },
     {
       "sha": "848704e",
       "date": "2026-10-04",
@@ -1507,24 +1525,6 @@
       "date": "2026-10-04",
       "subject": "docs(spec-072): verified on device + lesson",
       "type": "docs"
-    },
-    {
-      "sha": "f6de58f",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-072 done",
-      "type": "chore"
-    },
-    {
-      "sha": "78b2dd6",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
-      "type": "chore"
-    },
-    {
-      "sha": "ba9e556",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done for spec-072",
-      "type": "chore"
     }
   ],
   "roles": [
