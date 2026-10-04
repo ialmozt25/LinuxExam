@@ -70,3 +70,7 @@ backend/**/.env
 # spec 049: id капитанской сессии DSH для guard'а push/close (правило 11).
 # Машинозависимый файл — создаётся SETUP'ом капитана на каждой машине, в git не попадает.
 .project/.captain-session-id
+
+# spec 081: a11y-report.json - артефакт прогона axe (перегенерируется npm run test:e2e),
+# не источник. Был закоммичен по ошибке в 47bb571, убран из индекса этой правкой.
+.project/drafts/a11y-report.json
