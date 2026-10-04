@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "88bd6dfb612d69e7b985e983bc2e9a0ff5ebe846",
+  "head": "c94bacd36faea4719d04b285483224ef0136add3",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "067",
+      "slug": "mobile-fix",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/067-mobile-fix.md",
+      "mtime": 1791075546602.9243,
+      "goal": "Кнопка «Следующий вопрос» видна всегда, независимо от динамической адресной",
+      "acceptance": "[ ] `#root` имеет каскад `100vh` → `100dvh` → `var(--app-height, 100dvh)`.",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншоты mobile после фикса — `.project/drafts/ux-audit-2026-10-04/mobile-fix/`"
     },
     {
       "id": "016",
@@ -1287,6 +1302,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "c94bacd",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-066 done",
+      "type": "chore"
+    },
+    {
       "sha": "88bd6df",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-066",
@@ -1398,12 +1419,6 @@
       "sha": "ee2785e",
       "date": "2026-10-04",
       "subject": "chore(state): converge after push",
-      "type": "chore"
-    },
-    {
-      "sha": "c93435d",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done for spec-064",
       "type": "chore"
     }
   ],
