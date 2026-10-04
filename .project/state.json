@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "59b5e4bb4c86cc2a017a24a823ed8cb57f081c79",
+  "head": "db168f22b3deb604d65b7ccc260330983f9387ec",
   "specs": [
     {
       "id": "022",
@@ -490,6 +490,21 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
+    },
+    {
+      "id": "068",
+      "slug": "remove-legacy-exam",
+      "status": "approved",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/068-remove-legacy-exam.md",
+      "mtime": 1791077192898.1545,
+      "goal": "На Dashboard и в приложении остаётся **один** экзаменационный режим — spec 054",
+      "acceptance": "[ ] `grep` по `src/` и `e2e/` не находит ни одного идентификатора legacy:",
+      "noTouch": "`src/data/**`, `tools/**`, `.project/sync.mjs`, `.project/ORCH-RULES.md`,",
+      "preview": "Демонстрация результата: Dashboard содержит **одну** кнопку"
     },
     {
       "id": "016",
@@ -1302,6 +1317,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "db168f2",
+      "date": "2026-10-04",
+      "subject": "fix(spec-068): remove legacy inline exam, keep spec-054 mode",
+      "type": "fix"
+    },
+    {
+      "sha": "68d2308",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-067 done",
+      "type": "chore"
+    },
+    {
       "sha": "59b5e4b",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-067",
@@ -1407,18 +1434,6 @@
       "sha": "31847cb",
       "date": "2026-10-04",
       "subject": "chore(log): ux-fixes log + trail",
-      "type": "chore"
-    },
-    {
-      "sha": "fcaa119",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after ux-fixes",
-      "type": "chore"
-    },
-    {
-      "sha": "4f90239",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after ux-fixes",
       "type": "chore"
     }
   ],
