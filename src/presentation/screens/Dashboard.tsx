@@ -5,6 +5,7 @@ import { useQuizStore } from '@/store/quizStore';
 import { SPACING, LAYOUT } from '@/presentation/theme';
 import { useTelegramMainButton, useMainButtonAvailable } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import { FIXED_FOOTER_Z_INDEX } from '@/presentation/components/fixedFooter';
 import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
@@ -204,6 +205,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
   // spec 072: CTA не должен исчезать, если нативный MainButton недоступен —
   // тогда роль кнопки берёт in-app фолбэк (тот же контракт, что в Question.tsx).
+  // spec 076 F3: футер CTA — sticky (в потоке), поэтому высота не измеряется и
+  // `useFixedFooterPadding`/`--fixed-footer-h` здесь не нужны.
   const mainButtonReady = useMainButtonAvailable();
 
   // Retention (spec 061): дневная цель уже посчитана селектором вне стора.
@@ -793,34 +796,65 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           недоступен (spec 072). НЕ переименовывается в start-learning и НЕ
           удаляется: это отдельный контракт (browser-mode.spec проверяет его текст
           «Продолжить»), а start-learning — приглашение для профиля без единого
-          ответа (выше). */}
+          ответа (выше).
+
+          spec 076 F3: CTA переведён в **sticky**-футер (`position: sticky`,
+          `bottom: 0`). Кнопка стоит после всего контента дашборда, поэтому в
+          потоке она оказывалась на y=1904…2027 — вне вьюпорта на всех 5 размерах
+          сетки 075 (`dashboard-continue` ниже сгиба, 5 случаев). `sticky`
+          считается от вьюпорта (при `#root` высотой 640–915 px и контенте ~2030 px
+          элемент удерживается у нижней кромки уже на `scrollTop = 0`) и при этом
+          остаётся В ПОТОКЕ. Именно поэтому здесь sticky, а не `fixed`, как в
+          Question/ExamRun/Paywall: `fixed` выведен из потока и требует распорку
+          `fixed-footer-spacer`, а её отсутствие в Telegram-ветке — контракт spec
+          071 (`regression-071.spec.ts:353`: `spacer → 0`; в этой ветке
+          `mainButtonReady === false` и in-app футер рендерится). Sticky-элемент
+          в потоке и распорки не требует.
+        */}
       {!mainButtonReady && (
-        <button
-          type="button"
-          data-testid="dashboard-continue"
-          onClick={() => {
-            if (reviewQuestionIds) {
-              startRegularQuiz();
-            }
-            navigateTo('question');
-          }}
+        <div
           style={{
-            background: 'var(--accent)',
-            color: 'var(--text-primary)',
-            padding: SPACING.md,
-            borderRadius: LAYOUT.buttonRadius,
-            width: '100%',
-            cursor: 'pointer',
-            fontSize: 'var(--body)',
-            fontWeight: 600,
-            border: 'none',
+            position: 'sticky',
+            bottom: 0,
+            zIndex: FIXED_FOOTER_Z_INDEX,
             marginTop: SPACING.xl,
-            fontFamily: 'inherit',
+            paddingTop: SPACING.sm,
+            paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
+            background: 'var(--bg-primary)',
+            borderTop: '1px solid var(--border-subtle)',
           }}
         >
-          Продолжить
-        </button>
+          <button
+            type="button"
+            data-testid="dashboard-continue"
+            onClick={() => {
+              if (reviewQuestionIds) {
+                startRegularQuiz();
+              }
+              navigateTo('question');
+            }}
+            style={{
+              background: 'var(--accent)',
+              color: 'var(--text-primary)',
+              padding: SPACING.md,
+              borderRadius: LAYOUT.buttonRadius,
+              width: '100%',
+              cursor: 'pointer',
+              fontSize: 'var(--body)',
+              fontWeight: 600,
+              border: 'none',
+              fontFamily: 'inherit',
+            }}
+          >
+            Продолжить
+          </button>
+        </div>
       )}
+
+      {/* Распорки под футер здесь НЕТ намеренно (spec 076 F3): sticky-футер
+          остаётся в потоке, поэтому ничего не перекрывает и распорка не нужна —
+          в отличие от `fixed` в Question/ExamRun/Paywall. Наличие
+          `fixed-footer-spacer` в Telegram-ветке запрещено контрактом spec 071. */}
 
 {/* Legal disclaimer — trademark safety (independent trainer notice) */}
       <div

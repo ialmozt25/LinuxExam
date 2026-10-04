@@ -250,6 +250,15 @@ export default function ExamRun() {
             width: '100%',
             marginTop: SPACING.sm,
             padding: SPACING.sm,
+            // spec 076 F5: 360×34 < 44 px — тач-цель «Прервать и выйти» не
+            // добирала минимум WCAG 2.5.5/2.5.8 (44 px) на всех 5 размерах сетки
+            // 075: `padding: var(--space-2)` + `font-size: var(--text-xs)` давали
+            // 34 px. `minHeight` (а не padding) фиксирует цель, не раздувая
+            // футер: текст остаётся по центру flex-центрированием.
+            minHeight: 44,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             background: 'transparent',
             color: 'var(--text-secondary)',
             border: 'none',

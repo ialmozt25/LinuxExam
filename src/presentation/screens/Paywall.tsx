@@ -5,6 +5,11 @@ import { pluralizeQuestions } from '@/utils/pluralize';
 import { AVAILABLE_TOPICS } from '@/data/topics';
 import { FREE_TOPICS, TRIAL_DAYS } from '@/domain/paywall';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import {
+  FIXED_FOOTER_SPACER,
+  FIXED_FOOTER_Z_INDEX,
+  useFixedFooterPadding,
+} from '@/presentation/components/fixedFooter';
 import { AppHeader } from '@/presentation/components/AppHeader';
 import { DEFAULT_PLAN_ID, PAYMENT_PLANS, type PaymentPlanId } from '@/platform/config';
 import { createInvoiceLink, openInvoice } from '@/platform/payment_provider';
@@ -33,6 +38,7 @@ const BENEFITS = [
 ] as const;
 
 export default function Paywall() {
+  const footerRef = useFixedFooterPadding();
   const [notice, setNotice] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PaymentPlanId>(DEFAULT_PLAN_ID);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -99,7 +105,13 @@ export default function Paywall() {
   };
 
   return (
-    <ScreenContainer data-testid="paywall" style={{ justifyContent: 'center' }}>
+    // spec 076 F1: было `justifyContent: 'center'` (spec 063). На высотах TMA
+    // bottom sheet контент выше вьюпорта, и центрирование выдавливало его в ОБЕ
+    // стороны: шапка уходила выше кромки (top −12…−188 px, 8 случаев в
+    // layout-probe-075), а CTA `paywall-start-trial`/`paywall-buy` — за нижнюю
+    // (по 3 случая). Колонка по умолчанию — `flex-start`: верхний отступ даёт
+    // `ScreenContainer` (`--space-4 + --safe-top`), отдельный paddingTop не нужен.
+    <ScreenContainer data-testid="paywall">
       <AppHeader onHome={handleClose} center="LinuxExam" />
       <h2
         style={{
@@ -262,68 +274,101 @@ export default function Paywall() {
         </div>
       )}
 
-      <button
-        type="button"
-        data-testid="paywall-start-trial"
-        onClick={handleStartTrial}
+      {/* spec 076 F2: действия вынесены в fixed-футер (образец spec 070).
+          После F1 (`flex-start`) экран больше не выдавливает шапку за верхнюю
+          кромку, но контент Paywall всё равно выше вьюпорта bottom sheet
+          (~994 px против 640–720 px), поэтому «Попробовать 7 дней» и «Купить за
+          N Stars» оставались за сгибом: в layout-probe-075 после F1 CTA на
+          y=872/936 (360×640) и y=906/964 (390×720) при кнопке «Купить» вне
+          вьюпорта даже на 412×915. `fixed` считается от вьюпорта и держит
+          денежный CTA видимым на любой высоте. */}
+      <div
+        ref={footerRef}
         style={{
-          width: '100%',
-          padding: SPACING.md,
-          background: 'var(--accent)',
-          color: 'var(--btn-primary-text)',
-          border: 'none',
-          borderRadius: 'var(--btn-primary-radius)',
-          fontSize: 'var(--body)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-          marginBottom: SPACING.sm,
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: FIXED_FOOTER_Z_INDEX,
+          paddingTop: SPACING.sm,
+          paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
+          paddingLeft: 'calc(var(--space-4) + var(--safe-left))',
+          paddingRight: 'calc(var(--space-4) + var(--safe-right))',
+          background: 'var(--bg-primary)',
+          borderTop: '1px solid var(--border-subtle)',
         }}
       >
-        {`Попробовать ${TRIAL_DAYS} дней бесплатно`}
-      </button>
+        <button
+          type="button"
+          data-testid="paywall-start-trial"
+          onClick={handleStartTrial}
+          style={{
+            width: '100%',
+            padding: SPACING.md,
+            background: 'var(--accent)',
+            color: 'var(--btn-primary-text)',
+            border: 'none',
+            borderRadius: 'var(--btn-primary-radius)',
+            fontSize: 'var(--body)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            marginBottom: SPACING.sm,
+          }}
+        >
+          {`Попробовать ${TRIAL_DAYS} дней бесплатно`}
+        </button>
 
-      <button
-        type="button"
-        data-testid="paywall-buy"
-        onClick={handlePurchase}
-        disabled={isProcessing}
-        style={{
-          width: '100%',
-          padding: SPACING.md,
-          background: 'transparent',
-          color: 'var(--text-primary)',
-          border: '1px solid var(--accent)',
-          borderRadius: 'var(--btn-secondary-radius)',
-          fontSize: 'var(--body)',
-          fontWeight: 600,
-          cursor: isProcessing ? 'default' : 'pointer',
-          opacity: isProcessing ? 0.6 : 1,
-          fontFamily: 'inherit',
-          marginBottom: SPACING.sm,
-        }}
-      >
-        {isProcessing ? 'Открываем оплату…' : `Купить за ${activePlan.stars} Stars`}
-      </button>
+        <button
+          type="button"
+          data-testid="paywall-buy"
+          onClick={handlePurchase}
+          disabled={isProcessing}
+          style={{
+            width: '100%',
+            padding: SPACING.md,
+            background: 'transparent',
+            color: 'var(--text-primary)',
+            border: '1px solid var(--accent)',
+            borderRadius: 'var(--btn-secondary-radius)',
+            fontSize: 'var(--body)',
+            fontWeight: 600,
+            cursor: isProcessing ? 'default' : 'pointer',
+            opacity: isProcessing ? 0.6 : 1,
+            fontFamily: 'inherit',
+            marginBottom: SPACING.xs,
+          }}
+        >
+          {isProcessing ? 'Открываем оплату…' : `Купить за ${activePlan.stars} Stars`}
+        </button>
 
-      <button
-        type="button"
-        data-testid="paywall-later"
-        onClick={handleClose}
-        style={{
-          width: '100%',
-          padding: SPACING.md,
-          background: 'transparent',
-          color: 'var(--text-secondary)',
-          border: 'none',
-          borderRadius: 'var(--btn-secondary-radius)',
-          fontSize: 'var(--text-sm)',
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-        }}
-      >
-        Не сейчас
-      </button>
+        <button
+          type="button"
+          data-testid="paywall-later"
+          onClick={handleClose}
+          style={{
+            width: '100%',
+            // spec 076: padding оставлен прежним (`SPACING.md`) — при `SPACING.sm`
+            // высота «Не сейчас» падала до 37 px (< 44 px, WCAG 2.5.5) и создавала
+            // НОВОЕ нарушение `touch-target`, которого не было ни в 074, ни в 075.
+            padding: SPACING.md,
+            background: 'transparent',
+            color: 'var(--text-secondary)',
+            border: 'none',
+            borderRadius: 'var(--btn-secondary-radius)',
+            fontSize: 'var(--text-sm)',
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}
+        >
+          Не сейчас
+        </button>
+      </div>
+
+      {/* Распорка под высоту fixed-футера (spec 070): без неё секцию тарифов
+          нельзя доскроллить из-под футера — padding скролл-контейнера в
+          scrollHeight не попадает (замерено). */}
+      <div data-testid="fixed-footer-spacer" style={FIXED_FOOTER_SPACER} />
     </ScreenContainer>
   );
 }

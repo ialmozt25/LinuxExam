@@ -1,6 +1,11 @@
 import { useQuizStore } from '@/store/quizStore';
 import { AppHeader } from '@/presentation/components/AppHeader';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
+import {
+  FIXED_FOOTER_SPACER,
+  FIXED_FOOTER_Z_INDEX,
+  useFixedFooterPadding,
+} from '@/presentation/components/fixedFooter';
 import { SPACING, LAYOUT } from '@/presentation/theme';
 import { EXAM_PASS_THRESHOLD } from '@/domain/exam';
 
@@ -12,6 +17,7 @@ import { EXAM_PASS_THRESHOLD } from '@/domain/exam';
  * Разбор по темам приходит из `breakdownByTopic` (тоже домен).
  */
 export default function ExamResults() {
+  const footerRef = useFixedFooterPadding();
   const getExamResult = useQuizStore((s) => s.getExamResult);
   const getExamBreakdown = useQuizStore((s) => s.getExamBreakdown);
   const finishReason = useQuizStore((s) => s.examSession.finishReason);
@@ -147,26 +153,48 @@ export default function ExamResults() {
         </p>
       )}
 
-      <button
-        type="button"
-        data-testid="back-to-dashboard"
-        onClick={cancelExamSession}
+      {/* spec 076 F4: CTA переведён в fixed-футер (образец spec 070). В потоке
+          кнопка стоит после разбора по темам и на 640–720 px высотах уходила за
+          сгиб (y=795…851, 3 случая сетки 075). */}
+      <div
+        ref={footerRef}
         style={{
-          width: '100%',
-          marginTop: SPACING.xl,
-          padding: SPACING.md,
-          background: 'var(--accent)',
-          color: 'var(--btn-primary-text)',
-          border: 'none',
-          borderRadius: 'var(--btn-primary-radius)',
-          fontSize: 'var(--body)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          fontFamily: 'inherit',
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: FIXED_FOOTER_Z_INDEX,
+          paddingTop: SPACING.sm,
+          paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
+          paddingLeft: 'calc(var(--space-4) + var(--safe-left))',
+          paddingRight: 'calc(var(--space-4) + var(--safe-right))',
+          background: 'var(--bg-primary)',
+          borderTop: '1px solid var(--border-subtle)',
         }}
       >
-        На главную
-      </button>
+        <button
+          type="button"
+          data-testid="back-to-dashboard"
+          onClick={cancelExamSession}
+          style={{
+            width: '100%',
+            padding: SPACING.md,
+            background: 'var(--accent)',
+            color: 'var(--btn-primary-text)',
+            border: 'none',
+            borderRadius: 'var(--btn-primary-radius)',
+            fontSize: 'var(--body)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}
+        >
+          На главную
+        </button>
+      </div>
+
+      {/* Распорка под высоту fixed-футера (spec 070/076). */}
+      <div data-testid="fixed-footer-spacer" style={FIXED_FOOTER_SPACER} />
     </ScreenContainer>
   );
 }

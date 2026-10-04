@@ -92,10 +92,9 @@ interface Violation {
 }
 
 /**
- * Реестр известного. Заполняется по фактическим замерам этого прогона;
- * `source` различает унаследованное из spec 074 и впервые найденное в 075
- * (новое в 075 тоже попадает сюда — иначе гейт красный, а фикс запрещён
- * заданием; находка при этом остаётся в JSON и в аудит-отчёте, а не молчит).
+ * Запись реестра известного: `source` различает унаследованное из spec 074 и
+ * впервые найденное в 075. Тип сохранён, хотя список ниже пуст — следующая
+ * спека, нашедшая дефект, снова заполнит реестр теми же полями.
  */
 interface KnownIssue {
   screen: string;
@@ -106,66 +105,13 @@ interface KnownIssue {
   source: 'spec-074' | 'spec-075';
 }
 
-const KNOWN_ISSUES: readonly KnownIssue[] = [
-  {
-    screen: 'dashboard',
-    check: 'cta-out-of-viewport',
-    testid: 'dashboard-continue',
-    reason: 'known issue from spec 074: CTA «Продолжить» ниже сгиба (14 строк тем)',
-    file: 'src/presentation/screens/Dashboard.tsx:800',
-    source: 'spec-074',
-  },
-  {
-    screen: 'paywall',
-    check: 'cta-out-of-viewport',
-    testid: 'paywall-buy',
-    reason: 'known issue from spec 074: кнопка покупки обрезана сгибом на мобильном',
-    file: 'src/presentation/screens/Paywall.tsx:288',
-    source: 'spec-074',
-  },
-  {
-    screen: 'paywall',
-    check: 'cta-out-of-viewport',
-    testid: 'paywall-start-trial',
-    reason: 'known issue from spec 075: тот же класс, что paywall-buy (074), всплыл на 360-390 ширинах',
-    file: 'src/presentation/screens/Paywall.tsx:267',
-    source: 'spec-075',
-  },
-  {
-    screen: 'exam-run',
-    check: 'touch-target',
-    testid: 'exam-cancel',
-    reason: 'known issue from spec 074: тач-цель «Прервать и выйти» 44px → 34px',
-    file: 'src/presentation/screens/ExamRun.tsx:247',
-    source: 'spec-074',
-  },
-  {
-    screen: 'exam-results',
-    check: 'cta-out-of-viewport',
-    testid: 'back-to-dashboard',
-    reason: 'known issue from spec 075: тот же класс, что CTA Results (074), на 640-720 высотах',
-    file: 'src/presentation/screens/ExamResults.tsx:152',
-    source: 'spec-075',
-  },
-  {
-    screen: 'paywall',
-    check: 'escaped-element',
-    testid: 'header-home',
-    reason:
-      'known issue from spec 075: paywall центрирует контент (justifyContent: center) и уводит шапку выше вьюпорта',
-    file: 'src/presentation/screens/Paywall.tsx:102',
-    source: 'spec-075',
-  },
-  {
-    screen: 'paywall',
-    check: 'escaped-element',
-    testid: 'app-header-center',
-    reason:
-      'known issue from spec 075: тот же центрирующий контейнер Paywall уводит заголовок шапки выше вьюпорта',
-    file: 'src/presentation/screens/Paywall.tsx:102',
-    source: 'spec-075',
-  },
-];
+/**
+ * Реестр известного. spec 076 закрыла все 6 корневых причин (27 нарушений,
+ * найденных в 075), поэтому реестр **пуст**: любое нарушение вёрстки теперь
+ * красит гейт. Механика `test.fixme` сохранена — она понадобится следующей
+ * спеке, а не удалена вместе с записями.
+ */
+const KNOWN_ISSUES: readonly KnownIssue[] = [];
 
 function isKnown(violation: Violation): boolean {
   return KNOWN_ISSUES.some(
