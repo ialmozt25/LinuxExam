@@ -32,7 +32,7 @@ export default function OnboardingResult() {
     <ScreenContainer data-testid="onboarding-result">
       <h1
         style={{
-          fontSize: 24,
+          fontSize: 'var(--heading-1)',
           fontWeight: 700,
           letterSpacing: '-0.5px',
           margin: 0,
@@ -62,7 +62,7 @@ export default function OnboardingResult() {
           padding: SPACING.md,
           background: 'var(--bg-surface)',
           borderRadius: LAYOUT.cardRadius,
-          fontSize: 20,
+          fontSize: 'var(--heading-2)',
           fontWeight: 700,
           textAlign: 'center',
           color: 'var(--text-primary)',
@@ -75,8 +75,8 @@ export default function OnboardingResult() {
         data-testid="onboarding-result-message"
         style={{
           margin: `${SPACING.md} 0 0 0`,
-          fontSize: 'var(--text-sm)',
-          lineHeight: 1.5,
+          fontSize: 'var(--body)',
+          lineHeight: 'var(--body-line-height)',
           color: 'var(--text-secondary)',
         }}
       >
@@ -92,10 +92,10 @@ export default function OnboardingResult() {
           marginTop: SPACING.xl,
           padding: SPACING.md,
           background: 'var(--accent)',
-          color: 'var(--text-primary)',
+          color: 'var(--btn-primary-text)',
           border: 'none',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
+          borderRadius: 'var(--btn-primary-radius)',
+          fontSize: 'var(--body)',
           fontWeight: 600,
           fontFamily: 'inherit',
           cursor: 'pointer',

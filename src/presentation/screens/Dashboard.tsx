@@ -259,7 +259,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       <div style={{ marginTop: '24px' }}>
         <h1
           style={{
-            fontSize: '28px',
+            fontSize: 'var(--heading-1)',
             fontWeight: 700,
             letterSpacing: '-0.5px',
             margin: 0,
@@ -271,10 +271,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         <p
           data-testid="dashboard-subtitle"
           style={{
-            fontSize: '14px',
+            fontSize: 'var(--body)',
             color: 'var(--text-secondary)',
-            letterSpacing: '0.3px',
-            textTransform: 'uppercase',
             margin: '4px 0 0 0',
           }}
         >
@@ -698,9 +696,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             style={{
               padding: 'var(--space-2) var(--space-3)',
               background: 'var(--accent)',
-              color: 'white',
+              color: 'var(--btn-primary-text)',
               border: 'none',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--btn-primary-radius)',
               fontSize: 'var(--text-xs)',
               fontWeight: 600,
               cursor: 'pointer',
@@ -745,9 +743,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             style={{
               padding: 'var(--space-2) var(--space-3)',
               background: 'var(--accent)',
-              color: 'white',
+              color: 'var(--btn-primary-text)',
               border: 'none',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--btn-primary-radius)',
               fontSize: 'var(--text-xs)',
               fontWeight: 600,
               cursor: 'pointer',
@@ -804,7 +802,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             borderRadius: LAYOUT.buttonRadius,
             width: '100%',
             cursor: 'pointer',
-            fontSize: 16,
+            fontSize: 'var(--body)',
             fontWeight: 600,
             border: 'none',
             marginTop: SPACING.xl,

@@ -23,7 +23,7 @@ export default function OnboardingGoal() {
     <ScreenContainer data-testid="onboarding-goal">
       <h1
         style={{
-          fontSize: 24,
+          fontSize: 'var(--heading-1)',
           fontWeight: 700,
           letterSpacing: '-0.5px',
           margin: 0,
@@ -34,11 +34,11 @@ export default function OnboardingGoal() {
       </h1>
       <p
         style={{
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--body)',
           color: 'var(--text-secondary)',
           marginTop: SPACING.xs,
           marginBottom: 0,
-          lineHeight: 1.5,
+          lineHeight: 'var(--body-line-height)',
         }}
       >
         Выберите цель — подберём три вопроса для разминки.
@@ -78,7 +78,7 @@ export default function OnboardingGoal() {
               cursor: 'pointer',
             }}
           >
-            <span style={{ fontSize: 16, fontWeight: 600 }}>{goal.label}</span>
+            <span style={{ fontSize: 'var(--body)', fontWeight: 600 }}>{goal.label}</span>
             <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>
               {goal.description}
             </span>

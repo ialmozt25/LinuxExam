@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { ArrowLeft } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
-import { SPACING, LAYOUT } from '@/presentation/theme';
+import { AppHeader } from '@/presentation/components/AppHeader';
+import { SPACING } from '@/presentation/theme';
 import { EXAM_PASS_THRESHOLD, EXAM_PRESETS } from '@/domain/exam';
 
 /**
@@ -25,32 +25,41 @@ export default function ExamSetup() {
 
   return (
     <ScreenContainer data-testid="exam-setup">
-      <button
-        type="button"
-        data-testid="exam-setup-back"
-        onClick={() => navigateTo('dashboard')}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: SPACING.sm,
-          minHeight: 44,
-          padding: `${SPACING.sm} 0`,
-          background: 'transparent',
-          border: 'none',
-          color: 'var(--text-secondary)',
-          fontSize: 'var(--text-sm)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-          alignSelf: 'flex-start',
-        }}
-      >
-        <ArrowLeft size={18} aria-hidden="true" /> Назад
-      </button>
+      {/* Единая шапка (spec 065, К4.2). До неё здесь была самописная кнопка
+          «← Назад» с ArrowLeft size=18 — третий вариант возврата в приложении.
+          Контракт testid сохранён: exam-setup-back остаётся на выходе. */}
+      <AppHeader
+        onBack={() => navigateTo('dashboard')}
+        center="Exam mode"
+        right={
+          <button
+            type="button"
+            data-testid="exam-setup-back"
+            onClick={() => navigateTo('dashboard')}
+            aria-label="Назад"
+            style={{
+              minWidth: 44,
+              minHeight: 44,
+              background: 'transparent',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              color: 'var(--btn-ghost-text)',
+              fontSize: 'var(--text-sm)',
+              fontFamily: 'inherit',
+            }}
+          >
+            Назад
+          </button>
+        }
+      />
 
       <h1
         style={{
-          fontSize: '24px',
+          fontSize: 'var(--heading-1)',
           fontWeight: 700,
           letterSpacing: '-0.5px',
           margin: `${SPACING.md} 0 0 0`,
@@ -89,7 +98,7 @@ export default function ExamSetup() {
                 padding: SPACING.md,
                 background: selected ? 'rgba(33,150,243,0.10)' : 'var(--bg-surface)',
                 border: `1px solid ${selected ? 'var(--accent)' : 'var(--border-subtle)'}`,
-                borderRadius: 'var(--radius-md)',
+                borderRadius: 'var(--btn-secondary-radius)',
                 color: 'var(--text-primary)',
                 fontFamily: 'inherit',
                 fontSize: 'var(--text-sm)',
@@ -116,10 +125,10 @@ export default function ExamSetup() {
           marginTop: SPACING.lg,
           padding: SPACING.md,
           background: canStart ? 'var(--accent)' : 'var(--bg-surface)',
-          color: 'var(--text-primary)',
+          color: canStart ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
           border: 'none',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
+          borderRadius: 'var(--btn-primary-radius)',
+          fontSize: 'var(--body)',
           fontWeight: 600,
           cursor: canStart ? 'pointer' : 'not-allowed',
           opacity: canStart ? 1 : 0.5,

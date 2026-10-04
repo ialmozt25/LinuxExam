@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuizStore } from '@/store/quizStore';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
-import { SPACING, LAYOUT } from '@/presentation/theme';
+import { SPACING } from '@/presentation/theme';
 import { formatRemaining } from '@/domain/exam';
 
 /**
@@ -68,7 +68,10 @@ export default function ExamRun() {
     // завершён): показываем выход, а не пустой экран.
     return (
       <ScreenContainer data-testid="exam-run-empty">
-        <h2 data-testid="exam-question-text" style={{ fontSize: 19, fontWeight: 600, margin: 0 }}>
+        <h2
+          data-testid="exam-question-text"
+          style={{ fontSize: 'var(--heading-2)', fontWeight: 600, margin: 0 }}
+        >
           Экзамен не запущен
         </h2>
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
@@ -83,10 +86,10 @@ export default function ExamRun() {
             marginTop: SPACING.lg,
             padding: SPACING.md,
             background: 'var(--accent)',
-            color: 'var(--text-primary)',
+            color: 'var(--btn-primary-text)',
             border: 'none',
-            borderRadius: LAYOUT.buttonRadius,
-            fontSize: 16,
+            borderRadius: 'var(--btn-primary-radius)',
+            fontSize: 'var(--body)',
             fontWeight: 600,
             cursor: 'pointer',
             fontFamily: 'inherit',
@@ -131,9 +134,9 @@ export default function ExamRun() {
       <h2
         data-testid="exam-question-text"
         style={{
-          fontSize: 19,
+          fontSize: 'var(--heading-2)',
           fontWeight: 600,
-          lineHeight: 1.45,
+          lineHeight: 'var(--body-line-height)',
           margin: 0,
           marginTop: SPACING.lg,
         }}
@@ -159,10 +162,10 @@ export default function ExamRun() {
                 padding: SPACING.md,
                 background: selected ? 'rgba(33,150,243,0.08)' : 'var(--bg-elevated)',
                 border: `2px solid ${selected ? 'var(--accent)' : 'var(--border-subtle)'}`,
-                borderRadius: '12px',
+                borderRadius: 'var(--card-radius)',
                 color: 'var(--text-primary)',
-                fontSize: 14,
-                lineHeight: 1.5,
+                fontSize: 'var(--body)',
+                lineHeight: 'var(--body-line-height)',
                 textAlign: 'left',
                 cursor: 'pointer',
                 fontFamily: 'inherit',
@@ -216,10 +219,10 @@ export default function ExamRun() {
             marginTop: SPACING.md,
             padding: SPACING.md,
             background: selectedIndex === null ? 'var(--bg-surface)' : 'var(--accent)',
-            color: 'var(--text-primary)',
+            color: selectedIndex === null ? 'var(--text-secondary)' : 'var(--btn-primary-text)',
             border: 'none',
-            borderRadius: LAYOUT.buttonRadius,
-            fontSize: 16,
+            borderRadius: 'var(--btn-primary-radius)',
+            fontSize: 'var(--body)',
             fontWeight: 600,
             cursor: selectedIndex === null ? 'not-allowed' : 'pointer',
             opacity: selectedIndex === null ? 0.5 : 1,

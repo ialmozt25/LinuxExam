@@ -103,7 +103,7 @@ export default function Paywall() {
       <AppHeader onHome={handleClose} center="LinuxExam" />
       <h2
         style={{
-          fontSize: 22,
+          fontSize: 'var(--heading-2)',
           fontWeight: 700,
           textAlign: 'center',
           margin: 0,
@@ -119,8 +119,8 @@ export default function Paywall() {
           textAlign: 'center',
           margin: 0,
           marginBottom: SPACING.xl,
-          fontSize: 14,
-          lineHeight: 1.5,
+          fontSize: 'var(--body)',
+          lineHeight: 'var(--body-line-height)',
         }}
       >
         {`Вы ответили на ${FREE_QUESTION_LIMIT} ${pluralizeQuestions(FREE_QUESTION_LIMIT)}. Откройте все ${totalQuestions} ${pluralizeQuestions(totalQuestions)} с объяснениями.`}
@@ -138,7 +138,7 @@ export default function Paywall() {
           <div
             key={line}
             style={{
-              fontSize: 14,
+              fontSize: 'var(--text-sm)',
               marginBottom: index === BENEFITS.length - 1 ? 0 : SPACING.sm,
             }}
           >
@@ -225,7 +225,7 @@ export default function Paywall() {
               gap: SPACING.sm,
               padding: SPACING.sm,
               marginBottom: SPACING.xs,
-              borderRadius: LAYOUT.buttonRadius,
+              borderRadius: 'var(--btn-secondary-radius)',
               border: `1px solid ${plan.id === selectedPlan ? 'var(--accent)' : 'var(--border-subtle)'}`,
               cursor: isProcessing ? 'default' : 'pointer',
             }}
@@ -270,10 +270,10 @@ export default function Paywall() {
           width: '100%',
           padding: SPACING.md,
           background: 'var(--accent)',
-          color: 'var(--text-primary)',
+          color: 'var(--btn-primary-text)',
           border: 'none',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
+          borderRadius: 'var(--btn-primary-radius)',
+          fontSize: 'var(--body)',
           fontWeight: 600,
           cursor: 'pointer',
           fontFamily: 'inherit',
@@ -294,8 +294,8 @@ export default function Paywall() {
           background: 'transparent',
           color: 'var(--text-primary)',
           border: '1px solid var(--accent)',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
+          borderRadius: 'var(--btn-secondary-radius)',
+          fontSize: 'var(--body)',
           fontWeight: 600,
           cursor: isProcessing ? 'default' : 'pointer',
           opacity: isProcessing ? 0.6 : 1,
@@ -316,8 +316,8 @@ export default function Paywall() {
           background: 'transparent',
           color: 'var(--text-secondary)',
           border: 'none',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 14,
+          borderRadius: 'var(--btn-secondary-radius)',
+          fontSize: 'var(--text-sm)',
           cursor: 'pointer',
           fontFamily: 'inherit',
         }}

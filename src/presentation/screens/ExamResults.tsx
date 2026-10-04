@@ -58,7 +58,7 @@ export default function ExamResults() {
       />
       <h1
         style={{
-          fontSize: '24px',
+          fontSize: 'var(--heading-1)',
           fontWeight: 700,
           letterSpacing: '-0.5px',
           margin: 0,
@@ -156,10 +156,10 @@ export default function ExamResults() {
           marginTop: SPACING.xl,
           padding: SPACING.md,
           background: 'var(--accent)',
-          color: 'var(--text-primary)',
+          color: 'var(--btn-primary-text)',
           border: 'none',
-          borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
+          borderRadius: 'var(--btn-primary-radius)',
+          fontSize: 'var(--body)',
           fontWeight: 600,
           cursor: 'pointer',
           fontFamily: 'inherit',

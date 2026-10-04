@@ -186,11 +186,11 @@ export default function Question() {
           onClick={() => navigateTo('dashboard')}
           style={{
             background: 'var(--accent)',
-            color: 'var(--text-primary)',
+            color: 'var(--btn-primary-text)',
             padding: SPACING.md,
-            borderRadius: LAYOUT.buttonRadius,
+            borderRadius: 'var(--btn-primary-radius)',
             border: 'none',
-            fontSize: 14,
+            fontSize: 'var(--text-sm)',
             cursor: 'pointer',
             fontFamily: 'inherit',
             marginTop: SPACING.md,
@@ -258,9 +258,9 @@ export default function Question() {
       <h2
         data-testid="question-text"
         style={{
-          fontSize: '19px',
+          fontSize: 'var(--heading-2)',
           fontWeight: 600,
-          lineHeight: '1.45',
+          lineHeight: 'var(--body-line-height)',
           margin: 0,
           marginBottom: SPACING.md,
         }}
@@ -331,14 +331,14 @@ export default function Question() {
                   backgroundColor,
                   color: 'var(--text-primary)',
                   padding: SPACING.md,
-                  borderRadius: '12px',
+                  borderRadius: 'var(--card-radius)',
                   borderWidth: 2,
                   borderStyle: 'solid',
                   borderColor,
                   boxShadow,
                   textAlign: 'left',
                   cursor: hasAnswered ? 'default' : 'pointer',
-                  fontSize: 14,
+                  fontSize: 'var(--text-sm)',
                   lineHeight: 1.5,
                   fontFamily: 'inherit',
                   transition: 'background 0.15s ease, border-color 0.15s ease',
@@ -405,9 +405,9 @@ export default function Question() {
               ref={explanationRef}
               data-testid="explanation"
               style={{
-                fontSize: 14,
+                fontSize: 'var(--body)',
                 color: 'var(--text-primary)',
-                lineHeight: 1.5,
+                lineHeight: 'var(--body-line-height)',
                 paddingBottom: '32px',
               }}
             >
@@ -455,7 +455,7 @@ export default function Question() {
               color: 'var(--text-primary)',
               border: 'none',
               borderRadius: LAYOUT.buttonRadius,
-              fontSize: 16,
+              fontSize: 'var(--body)',
               fontWeight: 600,
               cursor: hasAnswered ? 'pointer' : 'not-allowed',
               fontFamily: 'inherit',
@@ -523,9 +523,9 @@ export default function Question() {
                   flex: 1,
                   padding: 'var(--space-3)',
                   background: 'var(--accent)',
-                  color: 'white',
+                  color: 'var(--btn-primary-text)',
                   border: 'none',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--btn-primary-radius)',
                   fontWeight: 600,
                   cursor: 'pointer',
                   fontFamily: 'inherit',

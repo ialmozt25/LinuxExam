@@ -58,6 +58,36 @@
   --mainbutton-height: 56px;
   --mainbutton-gap: 16px;
 
+  /* ══════════════════════════════════════════════════════════════
+     Semantic — компонентные роли (spec 065)
+
+     Токены выше — примитивы (значения). Эти — РОЛИ: «текст на акцентной
+     кнопке», «радиус карточки». Экран ссылается на роль, а не на значение,
+     поэтому смена палитры не требует правки 11 файлов, а один и тот же
+     accent с разным цветом текста больше не воспроизводится.
+
+     ВАЖНО: --btn-primary-text именно БЕЛЫЙ, а не --text-primary. В светлой
+     теме --text-primary тёмный, и синяя кнопка получала тёмный текст при
+     контрасте ниже AA; до spec 065 так было в 6 файлах, а рядом на том же
+     экране стояла кнопка с белым текстом.
+     ══════════════════════════════════════════════════════════════ */
+  --btn-primary-bg: var(--accent);
+  --btn-primary-text: var(--color-white);
+  --btn-primary-radius: var(--radius-md);
+  --btn-secondary-bg: transparent;
+  --btn-secondary-text: var(--accent);
+  --btn-secondary-radius: var(--radius-md);
+  --btn-ghost-text: var(--text-secondary);
+
+  --card-radius: var(--radius-md);
+  --card-padding: var(--space-3);
+  --page-gutter: var(--space-4);
+
+  --heading-1: 28px;
+  --heading-2: 20px;
+  --body: 16px;
+  --body-line-height: 1.55;
+
   /* Safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);

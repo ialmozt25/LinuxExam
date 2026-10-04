@@ -112,7 +112,7 @@ export default function Analytics() {
       />
       <h1
         style={{
-          fontSize: '24px',
+          fontSize: 'var(--heading-1)',
           fontWeight: 700,
           letterSpacing: '-0.5px',
           margin: 0,

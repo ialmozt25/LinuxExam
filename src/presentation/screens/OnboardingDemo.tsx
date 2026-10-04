@@ -137,7 +137,7 @@ export default function OnboardingDemo() {
           color: 'var(--text-primary)',
           border: 'none',
           borderRadius: LAYOUT.buttonRadius,
-          fontSize: 16,
+          fontSize: 'var(--body)',
           fontWeight: 600,
           fontFamily: 'inherit',
           cursor: picked === null ? 'not-allowed' : 'pointer',

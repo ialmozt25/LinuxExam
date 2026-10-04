@@ -129,7 +129,7 @@ export default function Results() {
 
         <h1
           style={{
-            fontSize: 24,
+            fontSize: 'var(--heading-1)',
             fontWeight: 700,
             margin: 0,
             marginBottom: SPACING.sm,
@@ -154,13 +154,13 @@ export default function Results() {
           >
             {examCorrect + ' / ' + examAnswered}
           </div>
-          <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
             Правильных ответов
           </div>
           <div
             data-testid="exam-accuracy"
             style={{
-              fontSize: 20,
+              fontSize: 'var(--heading-2)',
               fontWeight: 600,
               marginTop: SPACING.md,
               color:
@@ -175,7 +175,7 @@ export default function Results() {
           </div>
           <div
             data-testid="exam-time"
-            style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.md }}
+            style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: SPACING.md }}
           >
             {`Время: ${timeMm}:${String(timeSs).padStart(2, '0')}`}
           </div>
@@ -190,10 +190,10 @@ export default function Results() {
               width: '100%',
               padding: SPACING.md,
               background: 'var(--accent)',
-              color: 'var(--text-primary)',
+              color: 'var(--btn-primary-text)',
               border: 'none',
-              borderRadius: LAYOUT.buttonRadius,
-              fontSize: 16,
+              borderRadius: 'var(--btn-primary-radius)',
+              fontSize: 'var(--body)',
               fontWeight: 600,
               cursor: 'pointer',
               fontFamily: 'inherit',
@@ -213,7 +213,7 @@ export default function Results() {
               color: 'var(--text-primary)',
               border: 'none',
               borderRadius: LAYOUT.buttonRadius,
-              fontSize: 16,
+              fontSize: 'var(--body)',
               fontWeight: 600,
               cursor: 'pointer',
               fontFamily: 'inherit',
@@ -233,7 +233,7 @@ export default function Results() {
       {/* Header */}
       <h1
         style={{
-          fontSize: 24,
+          fontSize: 'var(--heading-1)',
           fontWeight: 700,
           margin: 0,
           marginBottom: SPACING.sm,
@@ -256,7 +256,7 @@ export default function Results() {
         {!hasAnyAnswers ? (
           <div
             data-testid="results-empty"
-            style={{ fontSize: 16, color: 'var(--text-secondary)', padding: SPACING.lg }}
+            style={{ fontSize: 'var(--body)', color: 'var(--text-secondary)', padding: SPACING.lg }}
           >
             Вы ещё не ответили ни на один вопрос
           </div>
@@ -268,7 +268,7 @@ export default function Results() {
             >
               {`${correct} / ${answered}`}
             </div>
-            <div style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
+            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: SPACING.sm }}>
               {`Правильных из ${answered} ${pluralizeQuestions(answered)}`}
             </div>
             {answered < totalQuestions && (
@@ -286,7 +286,7 @@ export default function Results() {
             <div
               data-testid="results-accuracy"
               style={{
-                fontSize: 20,
+                fontSize: 'var(--heading-2)',
                 fontWeight: 600,
                 marginTop: SPACING.md,
                 color:
@@ -311,10 +311,10 @@ export default function Results() {
             width: '100%',
             padding: SPACING.md,
             background: 'var(--accent)',
-            color: 'var(--text-primary)',
+            color: 'var(--btn-primary-text)',
             border: 'none',
-            borderRadius: LAYOUT.buttonRadius,
-            fontSize: 16,
+            borderRadius: 'var(--btn-primary-radius)',
+            fontSize: 'var(--body)',
             fontWeight: 600,
             cursor: 'pointer',
             fontFamily: 'inherit',
@@ -343,7 +343,7 @@ export default function Results() {
             background: 'var(--bg-surface)',
             color: 'var(--text-primary)',
             border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-md)',
+            borderRadius: 'var(--btn-secondary-radius)',
             fontSize: 'var(--text-sm)',
             fontWeight: 600,
             cursor: 'pointer',
@@ -360,7 +360,7 @@ export default function Results() {
       <div data-testid="results-topics" style={{ marginTop: SPACING.xl }}>
         <h2
           style={{
-            fontSize: 14,
+            fontSize: 'var(--text-sm)',
             color: 'var(--text-secondary)',
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
@@ -386,7 +386,7 @@ export default function Results() {
             }}
           >
             <div>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{topicStat.title}</div>
+              <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>{topicStat.title}</div>
               <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: SPACING.xs }}>
                 {`${topicStat.total} ${pluralizeQuestions(topicStat.total)}`}
               </div>
@@ -394,7 +394,7 @@ export default function Results() {
             <div style={{ textAlign: 'right' }}>
               <div
                 style={{
-                  fontSize: 16,
+                  fontSize: 'var(--body)',
                   fontWeight: 600,
                   color:
                     topicStat.correct === topicStat.total
@@ -437,10 +437,10 @@ export default function Results() {
             width: '100%',
             padding: SPACING.md,
             background: 'var(--accent)',
-            color: 'var(--text-primary)',
+            color: 'var(--btn-primary-text)',
             border: 'none',
-            borderRadius: LAYOUT.buttonRadius,
-            fontSize: 16,
+            borderRadius: 'var(--btn-primary-radius)',
+            fontSize: 'var(--body)',
             fontWeight: 600,
             cursor: 'pointer',
             fontFamily: 'inherit',
@@ -461,7 +461,7 @@ export default function Results() {
             color: 'var(--text-primary)',
             border: 'none',
             borderRadius: LAYOUT.buttonRadius,
-            fontSize: 16,
+            fontSize: 'var(--body)',
             fontWeight: 600,
             cursor: 'pointer',
             fontFamily: 'inherit',
@@ -485,7 +485,7 @@ export default function Results() {
               color: 'var(--text-primary)',
               border: 'none',
               borderRadius: LAYOUT.buttonRadius,
-              fontSize: 16,
+              fontSize: 'var(--body)',
               fontWeight: 600,
               cursor: 'pointer',
               fontFamily: 'inherit',
