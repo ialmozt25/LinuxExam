@@ -476,7 +476,7 @@ function runAxe(criterion, axe) {
         hits.push({
           file: rel(A11Y_JSON),
           line: 0,
-          text: `${name} · ${node.target || '?'} — ${clip(summary)}`,
+          text: `${rel(A11Y_JSON)} · ${name} · ${node.target || '?'} — ${clip(summary)}`,
         });
       }
     }
@@ -538,7 +538,11 @@ function runGrep(criterion) {
     return {
       status: bad ? 'fail' : 'pass',
       reason: `grep distinct: ${values.length} уникальных значений (лимит ${max}) в ${where}`,
-      lines: values.slice(0, 20).map((v) => ({ file: rel(CHECKLIST), line: 0, text: `значение ${v}` })),
+      lines: values.slice(0, 20).map((v) => ({
+        file: '',
+        line: 0,
+        text: `${rel(CHECKLIST)}: значение ${v}`,
+      })),
       count: values.length,
     };
   }
