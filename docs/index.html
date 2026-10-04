@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 1e1a4ea</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 1966937</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -451,6 +451,42 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">1966937</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): push done for 076+077+078</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">b15103c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): fix trail SHA</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">164e29c</td>
+          <td><span class="ctype ctype--revert">revert</span></td>
+          <td>Revert &quot;chore(log): fix trail SHA&quot;</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">bdd1d58</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): fix trail SHA</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">5a284d4</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for 076+077+078 push</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">b41b5ea</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-078 done</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
           <td class="mono">1e1a4ea</td>
           <td><span class="ctype ctype--docs">docs</span></td>
           <td>docs(spec-078): done - baseline-cleanup</td>
@@ -534,42 +570,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after push</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">0620db1</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): push done for 072+074+075</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">2a0a786</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): fix trail SHA</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">93aae10</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for 072+074+075 push</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">8c8b6ac</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">c114dff</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-075</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">e387ecb</td>
-          <td><span class="ctype ctype--docs">docs</span></td>
-          <td>docs(spec-075): viewport audit report</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -626,11 +626,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">04.10</span> · spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34-&gt;44px; KNOWN_ISSUES=[]…</li>
-        <li><span class="mono muted">04.10</span> · spec-077 | done - ui-ux-checklist | commit b461b14</li>
-        <li><span class="mono muted">04.10</span> · spec-077 | единая точка проверки UI/UX: 30 критериев (LAYOUT/COLOR/TYPO/SPACE/STATE/COPY) + check.mjs (0 deps) + audit:screens; check 23 pass / 6 fail / 0 unknown / 1 manual…</li>
-        <li><span class="mono muted">04.10</span> · spec-078 | done - baseline-cleanup | commit 99962da</li>
         <li><span class="mono muted">04.10</span> · spec-078 | чистый baseline: 19 снимков с production-стенда (DEV-бейдж ушёл) + нейтральная заливка масок (#ff00ff 99 572 px -&gt; 0 px в 19/19); 4 ложных critical аудита помечены [corrected]; два отклонен…</li>
+        <li><span class="mono muted">04.10</span> · guard | якорь перезаписан (SETUP §4) | commit 5a284d4</li>
+        <li><span class="mono muted">04.10</span> · guard | дефект восстановлен: fix trail SHA (bdd1d58) из-за Replace(&#39;| ещё не закоммичено&#39;) без якоря переписал 193 исторические строки; revert 164e29c вернул журнал…</li>
+        <li><span class="mono muted">04.10</span> · push | authorize push origin main — spec-076+077+078; публикует 6ba8f61..5a284d4 | ещё не закоммичено</li>
+        <li><span class="mono muted">04.10</span> · push | выполнен 6ba8f61..b15103c | commit 5a284d4</li>
     </ul>
   </details>
 

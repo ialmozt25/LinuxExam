@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "1e1a4eaf5002795632e0c0d86d30d5fdbdc4fdf2",
+  "head": "196693781813cae01eeec7e5edf84fdadd5d13b3",
   "specs": [
     {
       "id": "022",
@@ -1423,19 +1423,55 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | выполнен 3547d28..2a0a786 | commit 93aae10",
-    "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit pending",
-    "2026-10-04 | push | authorize push origin main — spec-076; публикует 2a0a786..546da1b | commit pending",
-    "2026-10-04 | push | выполнен 2a0a786..6ba8f61 | commit 546da1b",
     "2026-10-04 | spec-076 | done - critical-ui-fixes | commit 848704e",
     "2026-10-04 | spec-076 | 6 root causes закрыты: Paywall flex-start + fixed-футер (деньги), Dashboard sticky-футер, ExamResults fixed-футер, exam-cancel 34->44px; KNOWN_ISSUES=[], layout-smoke 55 passed/0 skipped; 8 baseline spec 074 перегенерированы по решению капитана | commit 848704e",
     "2026-10-04 | spec-077 | done - ui-ux-checklist | commit b461b14",
     "2026-10-04 | spec-077 | единая точка проверки UI/UX: 30 критериев (LAYOUT/COLOR/TYPO/SPACE/STATE/COPY) + check.mjs (0 deps) + audit:screens; check 23 pass / 6 fail / 0 unknown / 1 manual, exit 1 (COLOR-001 контраст 33 nodes); визуальный аудит 19 PNG = 72 наблюдения (4 critical: #ff00ff-плейсхолдеры на dashboard и exam-run); vision недоступен (codex-local без адаптера) — аудит программный; гейты 442 / 208 / 0 / 0 = baseline; 8 новых файлов, src/e2e не тронуты | commit b461b14",
     "2026-10-04 | spec-078 | done - baseline-cleanup | commit 99962da",
-    "2026-10-04 | spec-078 | чистый baseline: 19 снимков с production-стенда (DEV-бейдж ушёл) + нейтральная заливка масок (#ff00ff 99 572 px -> 0 px в 19/19); 4 ложных critical аудита помечены [corrected]; два отклонения от буквы спеки — maskColor инертен в конфиге (рабочая точка в shoot()), стенд разделён на два проекта Playwright (stand-prod :4173 / stand-dev :5173), иначе 3 теста DEV-бейджа давали 205/208; гейты 442 / 208 / 0 / 0 = baseline | commit 99962da"
+    "2026-10-04 | spec-078 | чистый baseline: 19 снимков с production-стенда (DEV-бейдж ушёл) + нейтральная заливка масок (#ff00ff 99 572 px -> 0 px в 19/19); 4 ложных critical аудита помечены [corrected]; два отклонения от буквы спеки — maskColor инертен в конфиге (рабочая точка в shoot()), стенд разделён на два проекта Playwright (stand-prod :4173 / stand-dev :5173), иначе 3 теста DEV-бейджа давали 205/208; гейты 442 / 208 / 0 / 0 = baseline | commit 99962da",
+    "2026-10-04 | guard | якорь перезаписан (SETUP §4) | commit 5a284d4",
+    "2026-10-04 | guard | дефект восстановлен: fix trail SHA (bdd1d58) из-за Replace('| commit pending') без якоря переписал 193 исторические строки; revert 164e29c вернул журнал, правка повторена двумя точными строками; содержание журнала восстановлено 1:1, изменён только признак отсутствия финального перевода строки; push ещё не выполнялся | commit 164e29c",
+    "2026-10-04 | push | authorize push origin main — spec-076+077+078; публикует 6ba8f61..5a284d4 | commit pending",
+    "2026-10-04 | push | выполнен 6ba8f61..b15103c | commit 5a284d4"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "1966937",
+      "date": "2026-10-04",
+      "subject": "chore(log): push done for 076+077+078",
+      "type": "chore"
+    },
+    {
+      "sha": "b15103c",
+      "date": "2026-10-04",
+      "subject": "chore(log): fix trail SHA",
+      "type": "chore"
+    },
+    {
+      "sha": "164e29c",
+      "date": "2026-10-04",
+      "subject": "Revert \"chore(log): fix trail SHA\"",
+      "type": "revert"
+    },
+    {
+      "sha": "bdd1d58",
+      "date": "2026-10-04",
+      "subject": "chore(log): fix trail SHA",
+      "type": "chore"
+    },
+    {
+      "sha": "5a284d4",
+      "date": "2026-10-04",
+      "subject": "chore(log): trail for 076+077+078 push",
+      "type": "chore"
+    },
+    {
+      "sha": "b41b5ea",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-078 done",
+      "type": "chore"
+    },
     {
       "sha": "1e1a4ea",
       "date": "2026-10-04",
@@ -1519,42 +1555,6 @@
       "date": "2026-10-04",
       "subject": "chore(state): converge after push",
       "type": "chore"
-    },
-    {
-      "sha": "0620db1",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done for 072+074+075",
-      "type": "chore"
-    },
-    {
-      "sha": "2a0a786",
-      "date": "2026-10-04",
-      "subject": "chore(log): fix trail SHA",
-      "type": "chore"
-    },
-    {
-      "sha": "93aae10",
-      "date": "2026-10-04",
-      "subject": "chore(log): trail for 072+074+075 push",
-      "type": "chore"
-    },
-    {
-      "sha": "8c8b6ac",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge",
-      "type": "chore"
-    },
-    {
-      "sha": "c114dff",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-075",
-      "type": "chore"
-    },
-    {
-      "sha": "e387ecb",
-      "date": "2026-10-04",
-      "subject": "docs(spec-075): viewport audit report",
-      "type": "docs"
     }
   ],
   "roles": [
