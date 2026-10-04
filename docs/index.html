@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на be65a34</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на c6ea01e</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">44</div>
+      <div class="pulse-tile__value">45</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -351,11 +351,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 44 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 45 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
-    <summary>Спеки · всего: 73</summary>
+    <summary>Спеки · всего: 76</summary>
           <div class="spec-group">Утверждены · 10</div>
           <ul class="spec-list">
             <li>#022 center-block6-agents-pulse</li>
@@ -375,7 +375,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#019 sh-cosine-debt</li>
             <li>#021 rs-cosine-debt</li>
           </ul>
-          <div class="spec-group">Завершены · 56</div>
+          <div class="spec-group">Завершены · 59</div>
           <ul class="spec-list">
             <li>#001 file-management-batch-4</li>
             <li>#002 dehardcode-positional-test</li>
@@ -433,6 +433,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
             <li>#077 ui-ux-checklist</li>
             <li>#078 baseline-cleanup</li>
             <li>#079 contrast-fix</li>
+            <li>#079b dev-overlay-axe</li>
+            <li>#080 full-checklist</li>
+            <li>#081 top-fixes</li>
           </ul>
           <div class="spec-group">Отклонены · 4</div>
           <ul class="spec-list">
@@ -451,6 +454,36 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">c6ea01e</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(spec-081): top-15 fixes</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">42af68d</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(spec-080): ui-ux checklist 30 -&gt; 61 criteria (A-F)</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">47bb571</td>
+          <td><span class="ctype ctype--docs">docs</span></td>
+          <td>docs(spec-079b): done - dev-overlay-axe</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">3f89f2b</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(spec-079b): axe on prod stand</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
+        <tr>
+          <td class="mono">218f229</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after spec-079 done</td>
+          <td class="mono muted">2026-10-04</td>
+        </tr>
         <tr>
           <td class="mono">be65a34</td>
           <td><span class="ctype ctype--docs">docs</span></td>
@@ -541,36 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">8990668</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-077</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">b461b14</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(spec-077): UI/UX checklist + checker + visual audit (additive)</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">d387d8d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">cce9ce6</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): push done for spec-076</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">6ba8f61</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): fix trail SHA</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -596,14 +599,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">145 ч (~6.0 дн)</td>
+          <td class="muted">146 ч (~6.1 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">26 ч (~1.1 дн)</td>
+          <td class="muted">27 ч (~1.1 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -617,7 +620,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">35 ч (~1.5 дн)</td>
+          <td class="muted">36 ч (~1.5 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -627,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">04.10</span> · guard | дефект восстановлен: fix trail SHA (bdd1d58) из-за Replace(&#39;| ещё не закоммичено&#39;) без якоря переписал 193 исторические строки; revert 164e29c вернул журнал…</li>
-        <li><span class="mono muted">04.10</span> · push | authorize push origin main — spec-076+077+078; публикует 6ba8f61..5a284d4 | ещё не закоммичено</li>
-        <li><span class="mono muted">04.10</span> · push | выполнен 6ba8f61..b15103c | commit 5a284d4</li>
-        <li><span class="mono muted">04.10</span> · spec-079 | done - contrast-fix | commit c411efa</li>
-        <li><span class="mono muted">04.10</span> · spec-079 | WCAG 1.4.3: акцент --accent #2196F3 -&gt; --color-accent-strong #1565C0 (белый на заливке 3.12-&gt;5.75); paywall-badge-free 2.59-&gt;4.78; review-wrong 3.96-&gt;5.28 (+14px/600); topic-first-cta 4.14-…</li>
+        <li><span class="mono muted">04.10</span> · spec-079b | axe переведён на production-стенд (stand-prod :4173): accessibility.spec.ts стал частью проекта stand-prod, stand-dev его исключает.…</li>
+        <li><span class="mono muted">04.10</span> · spec-080 | done - full-checklist | commit 42af68d</li>
+        <li><span class="mono muted">04.10</span> · spec-080 | ui-ux.yaml 30 -&gt; 61 критериев: раскладка A-F (12/8/12/8/6/5 = 51 позиция состава) накрыта 30 существующими + 31 новой записью - COLOR-007 (роли радиусов), TYPO-006 (lh &lt;= 1.6)…</li>
+        <li><span class="mono muted">04.10</span> · spec-081 | done - top-fixes | commit c6ea01e</li>
+        <li><span class="mono muted">04.10</span> · spec-081 | TOP-15: 9 правок в 3 файлах. TYPO (medium): Dashboard.tsx:259 13px и :381 14px хардкод -&gt; var(--text-sm) (значение есть в шкале токенов, файл рядом уже использует токен)…</li>
     </ul>
   </details>
 
@@ -662,8 +665,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 70</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 70</div>
+    <summary>Тревоги · записей: 71</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 71</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -942,6 +945,9 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">04.10 | lesson | P1 (next-button) закрыт после 5 попыток (056 → 067 → 070 → 071 → 072)</div>
           <div class="entry__body muted">Причина (подтверждена на устройстве): try/catch в src/hooks/useTelegramMainButton.ts:28-35</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">04.10 | [f4-watchdog] ������� �� ���������� 6 ����</div>
         </div>
   </details>
 

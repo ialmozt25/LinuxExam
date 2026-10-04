@@ -3,10 +3,10 @@ id: '080'
 slug: full-checklist
 type: infra
 track: small
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: 42af68d
 ---
 
 ## Контекст

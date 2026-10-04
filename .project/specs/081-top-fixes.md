@@ -3,10 +3,10 @@ id: '081'
 slug: top-fixes
 type: fix
 track: full
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: c6ea01e
 ---
 
 ## Контекст

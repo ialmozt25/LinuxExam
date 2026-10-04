@@ -3,8 +3,8 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `be65a34a1887525817099159303e4109afa87d6f`<!--volatile:end-->
-- Спек: 73
+<!--volatile:start-->- HEAD: `c6ea01e5a633805b9dd827ca8461ba2d991dbf9c`<!--volatile:end-->
+- Спек: 76
 - Порядок: preview → running → approved → draft → done → rejected
 
 | id | slug | type | status | commit | updated |
@@ -78,6 +78,9 @@
 | 077 | `ui-ux-checklist` | infra | done | b461b14 | 2026-10-04 |
 | 078 | `baseline-cleanup` | infra | done | 99962da | 2026-10-04 |
 | 079 | `contrast-fix` | fix | done | c411efa | 2026-10-04 |
+| 079b | `dev-overlay-axe` | infra | done | 3f89f2b | 2026-10-04 |
+| 080 | `full-checklist` | infra | done | 42af68d | 2026-10-04 |
+| 081 | `top-fixes` | fix | done | c6ea01e | 2026-10-04 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |
