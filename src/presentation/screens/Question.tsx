@@ -3,12 +3,11 @@ import { ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useQuizStore } from '@/store/quizStore';
 import { SPACING, LAYOUT } from '@/presentation/theme';
-import { isTMA } from '@telegram-apps/sdk-react';
 import Paywall from '@/presentation/screens/Paywall';
 import { MotionButton } from '@/presentation/components/MotionButton';
 import { AppHeader } from '@/presentation/components/AppHeader';
 import { shuffleOptions, seedFromId } from '@/domain/quizService';
-import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
+import { useTelegramMainButton, useMainButtonAvailable } from '@/hooks/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/useTelegramBackButton';
 import { impact, notify } from '@/hooks/useTelegramHaptics';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
@@ -84,7 +83,10 @@ export default function Question() {
   // Review starts at index 0 like every other stream, so the back control has
   // history exactly when a previous question exists.
   const hasHistory = currentIndex > 0;
-  const isTelegram = isTMA();
+  // spec 072: в TMA CTA есть только у нативного MainButton. Если он недоступен
+  // (среда не распознана, SDK не инициализирован, кнопка не смонтирована), роль
+  // CTA обязана вернуться in-app футеру — иначе на устройстве CTA нет вообще.
+  const mainButtonReady = useMainButtonAvailable();
 
   useTelegramMainButton(
     isLastQuestion ? 'Завершить' : 'Следующий вопрос',
@@ -399,8 +401,10 @@ export default function Question() {
         )}
       </AnimatePresence>
 
-      {/* Next button (in-app fallback: hidden in Telegram, where MainButton takes over) */}
-      {!isTelegram && (
+      {/* Next button. Вне Telegram — основная кнопка; в TMA — фолбэк на случай,
+          когда нативный MainButton недоступен (spec 072). В обычной TMA-сессии
+          нативный MainButton доступен, и этот блок не рендерится. */}
+      {!mainButtonReady && (
         // Fixed footer (spec 070). Было `sticky` (spec 056/065): sticky липнет к
         // низу scroll-контейнера `#root` и НЕ выходит за его пределы, а на живом
         // мобильном низ контейнера оказывается вне экрана (visual viewport меньше
@@ -456,8 +460,9 @@ export default function Question() {
 
       {/* Распорка под высоту fixed-футера (spec 070): футер выведен из потока, и
           без неё последний абзац объяснения нельзя доскроллить из-под футера —
-          padding скролл-контейнера в scrollHeight не попадает (замерено). */}
-      {!isTelegram && <div data-testid="fixed-footer-spacer" style={FIXED_FOOTER_SPACER} />}
+          padding скролл-контейнера в scrollHeight не попадает (замерено).
+          spec 072: рендерится ровно вместе с футером (тот же гейт). */}
+      {!mainButtonReady && <div data-testid="fixed-footer-spacer" style={FIXED_FOOTER_SPACER} />}
     </ScreenContainer>
   );
 }

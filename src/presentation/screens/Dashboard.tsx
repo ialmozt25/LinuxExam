@@ -3,8 +3,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { Flame, MoonStar, Sun } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { SPACING, LAYOUT } from '@/presentation/theme';
-import { isTMA } from '@telegram-apps/sdk-react';
-import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
+import { useTelegramMainButton, useMainButtonAvailable } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { XpBar } from '@/presentation/components/XpBar';
@@ -203,7 +202,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
     })
   );
 
-  const isTelegram = isTMA();
+  // spec 072: CTA не должен исчезать, если нативный MainButton недоступен —
+  // тогда роль кнопки берёт in-app фолбэк (тот же контракт, что в Question.tsx).
+  const mainButtonReady = useMainButtonAvailable();
 
   // Retention (spec 061): дневная цель уже посчитана селектором вне стора.
   const daily = useDailyGoalProgress();
@@ -788,11 +789,12 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </div>
       ) : null}
 
-      {/* Вход в регулярный поток вне Telegram (in-app замена MainButton).
-          НЕ переименовывается в start-learning и НЕ удаляется: это отдельный
-          контракт (browser-mode.spec проверяет его текст «Продолжить»), а
-          start-learning — приглашение для профиля без единого ответа (выше). */}
-      {!isTelegram && (
+      {/* Вход в регулярный поток вне Telegram и когда нативный MainButton
+          недоступен (spec 072). НЕ переименовывается в start-learning и НЕ
+          удаляется: это отдельный контракт (browser-mode.spec проверяет его текст
+          «Продолжить»), а start-learning — приглашение для профиля без единого
+          ответа (выше). */}
+      {!mainButtonReady && (
         <button
           type="button"
           data-testid="dashboard-continue"
