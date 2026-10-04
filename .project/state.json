@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "b461b1475595969cee4735d6ba7e084f010cbfb3",
+  "head": "612c5649797b1a6dae0b8265b42cdca58ae08680",
   "specs": [
     {
       "id": "022",
@@ -1422,6 +1422,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "612c564",
+      "date": "2026-10-04",
+      "subject": "fix(spec-077): clarify axe/distinct report lines (README-ready output)",
+      "type": "fix"
+    },
+    {
+      "sha": "587498e",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge",
+      "type": "chore"
+    },
+    {
       "sha": "8990668",
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-077",
@@ -1528,18 +1540,6 @@
       "date": "2026-10-04",
       "subject": "docs(spec-074): correct baseline size in result section",
       "type": "docs"
-    },
-    {
-      "sha": "28c1678",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge",
-      "type": "chore"
-    },
-    {
-      "sha": "dde5ae3",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-074",
-      "type": "chore"
     }
   ],
   "roles": [
