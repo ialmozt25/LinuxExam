@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "a02656f0eadbc6f472737957dcbcd0c941cddb44",
+  "head": "88bd6dfb612d69e7b985e983bc2e9a0ff5ebe846",
   "specs": [
     {
       "id": "022",
@@ -490,21 +490,6 @@
       "acceptance": "",
       "noTouch": "",
       "preview": ""
-    },
-    {
-      "id": "066",
-      "slug": "fresh-user-semantics",
-      "status": "approved",
-      "type": "fix",
-      "created": "2026-10-04",
-      "updated": "2026-10-04",
-      "commit": null,
-      "file": "specs/066-fresh-user-semantics.md",
-      "mtime": 1791073955579.433,
-      "goal": "Свежий профиль видит **только** «Начать обучение» — без «Повторить» и без",
-      "acceptance": "[ ] На свежем профиле (`questionStats` пуст) Dashboard показывает",
-      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
-      "preview": "Скриншот Dashboard на свежем профиле (390×844 и 1440×900) ПОСЛЕ правки: одна"
     },
     {
       "id": "016",
@@ -1212,6 +1197,21 @@
       "preview": "Скриншоты всех 9 экранов (390×844 и 1440×900) в состоянии ПОСЛЕ правок —"
     },
     {
+      "id": "066",
+      "slug": "fresh-user-semantics",
+      "status": "done",
+      "type": "fix",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": "1dbd74a",
+      "file": "specs/066-fresh-user-semantics.md",
+      "mtime": 1791074797680.1433,
+      "goal": "Свежий профиль видит **только** «Начать обучение» — без «Повторить» и без",
+      "acceptance": "[ ] На свежем профиле (`questionStats` пуст) Dashboard показывает",
+      "noTouch": "`src/data/**` (банк 253), `tools/**`, `.project/sync.mjs`,",
+      "preview": "Скриншот Dashboard на свежем профиле (390×844 и 1440×900) ПОСЛЕ правки: одна"
+    },
+    {
       "id": "003",
       "slug": "global-option-canonization",
       "status": "rejected",
@@ -1273,7 +1273,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | guard | якорь .captain-session-id перезаписан (SETUP §4) | commit pending",
     "2026-10-04 | push | authorize push origin main — spec-064; публикует 49cee68..HEAD | commit pending",
     "2026-10-04 | push | выполнен 49cee68..b13d3ee | commit b13d3ee",
     "2026-10-04 | ux | fix - streak duplicate, exit screens, sticky safe-area | commit 8f7581f",
@@ -1282,10 +1281,23 @@
     "2026-10-04 | push | выполнен b13d3ee..08e267a | commit 31847cb",
     "2026-10-04 | spec-065 | done - ux-overhaul | commit 2f89eef",
     "2026-10-04 | push | authorize push origin main — spec-065; публикует 08e267a..3523f9b | commit pending",
-    "2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b"
+    "2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b",
+    "2026-10-04 | spec-066 | done - fresh-user-semantics | commit 1dbd74a"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "88bd6df",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge after spec-066",
+      "type": "chore"
+    },
+    {
+      "sha": "1dbd74a",
+      "date": "2026-10-04",
+      "subject": "fix(spec-066): fresh-user sees 'Start learning' not 'Review'",
+      "type": "fix"
+    },
     {
       "sha": "3cc22b6",
       "date": "2026-10-04",
@@ -1392,18 +1404,6 @@
       "sha": "c93435d",
       "date": "2026-10-04",
       "subject": "chore(log): push done for spec-064",
-      "type": "chore"
-    },
-    {
-      "sha": "b13d3ee",
-      "date": "2026-10-04",
-      "subject": "chore(log): trail for spec-064 push",
-      "type": "chore"
-    },
-    {
-      "sha": "293ad57",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-064 done",
       "type": "chore"
     }
   ],

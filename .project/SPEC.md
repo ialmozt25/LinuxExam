@@ -3,7 +3,7 @@
 > ФАЙЛ СГЕНЕРИРОВАН: `.project/sync.mjs` из `.project/specs/*.md`.
 > Индекс руками не правится — добавляй спеку в `.project/specs/`.
 
-<!--volatile:start-->- HEAD: `a02656f0eadbc6f472737957dcbcd0c941cddb44`<!--volatile:end-->
+<!--volatile:start-->- HEAD: `88bd6dfb612d69e7b985e983bc2e9a0ff5ebe846`<!--volatile:end-->
 - Спек: 62
 - Порядок: preview → running → approved → draft → done → rejected
 
@@ -19,7 +19,6 @@
 | 031 | `rhcsa-bank-fixes` | content | approved | — | — |
 | 051 | `autonomous-spec-chain` | infra | approved | 2484748 | 2026-10-03 |
 | 053 | `risk-scoring-migrate-fix` | infra | approved | — | 2026-10-03 |
-| 066 | `fresh-user-semantics` | fix | approved | — | 2026-10-04 |
 | 016 | `tf-cosine-debt` | content | draft | — | 2026-09-28 |
 | 019 | `sh-cosine-debt` | content | draft | — | 2026-09-28 |
 | 021 | `rs-cosine-debt` | content | draft | — | 2026-09-28 |
@@ -67,6 +66,7 @@
 | 063 | `paywall-content` | feature | done | 5e3fe2a | 2026-10-04 |
 | 064 | `telegram-stars` | feature | done | d8144dd | 2026-10-04 |
 | 065 | `ux-overhaul` | feature | done | 2f89eef | 2026-10-04 |
+| 066 | `fresh-user-semantics` | fix | done | 1dbd74a | 2026-10-04 |
 | 003 | `global-option-canonization` | content | rejected | — | 2026-09-27 |
 | 010 | `jsdom-smoke-center` | feature | rejected | — | 2026-09-28 |
 | 011 | `text-files-duplicate-repair` | content | rejected | — | 2026-09-27 |

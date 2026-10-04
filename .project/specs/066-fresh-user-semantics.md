@@ -3,10 +3,10 @@ id: 066
 slug: fresh-user-semantics
 type: fix
 track: full
-status: approved
+status: done
 created: 2026-10-04
 updated: 2026-10-04
-commit: null
+commit: 1dbd74a
 embedded_approve: rule 2 (F5.0a — 2026-10-04)
 execution: direct
 ---

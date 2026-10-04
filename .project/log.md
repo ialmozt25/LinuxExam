@@ -295,3 +295,4 @@
 2026-10-04 | spec-065 | done - ux-overhaul | commit 2f89eef
 2026-10-04 | push | authorize push origin main — spec-065; публикует 08e267a..3523f9b | commit pending
 2026-10-04 | push | выполнен 08e267a..848911f | commit 3523f9b
+2026-10-04 | spec-066 | done - fresh-user-semantics | commit 1dbd74a
