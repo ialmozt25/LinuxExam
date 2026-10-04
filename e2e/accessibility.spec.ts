@@ -9,6 +9,16 @@ import { DESKTOP, MOBILE, SCREENS, rootToTop } from './screens';
  * Accessibility (spec 074): axe-core, WCAG 2.1 A/AA, те же 19 состояний
  * экранов, что и visual baseline (см. `e2e/screens.ts`).
  *
+ * **Стенд (spec 079b): axe-прогон идёт с PRODUCTION-сборки** (проект
+ * `stand-prod`, `npm run build && npm run preview`, :4173) — там же, где
+ * снимаются visual-снимки. До 079b этот файл был на dev-стенде, и в
+ * `.project/drafts/a11y-baseline.json` попадал DEV-оверлей из `src/App.tsx`
+ * (`#666` на `rgba(0,0,0,0.3)`, 10px): 13 из 19 экранов давали `COLOR-001` на
+ * виджете, которого в production-сборке не существует (найдено и
+ * классифицировано ложным critical в spec 078). Стенд задаётся проектами в
+ * `playwright.config.ts`, а не `test.use({ baseURL })` здесь: `webServer` должен
+ * поднимать именно preview-сборку.
+ *
  * Контур приёмки — «baseline + сравнение», а не «ноль violations»: на момент
  * внедрения экраны уже содержат нарушения, и тест, падающий на них, был бы
  * выключен в первый же день (задание запрещает удалять/отключать a11y-тесты).

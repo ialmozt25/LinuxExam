@@ -13,6 +13,16 @@ import { defineConfig } from '@playwright/test';
 //    production build (`import.meta.env.DEV === false`). Both `vite dev` and
 //    `vite preview` inherit `server.https` from vite.config.ts (mkcert), so both
 //    stands speak HTTPS and every URL is pinned to the loopback address.
+//
+// 3. spec 079b (DEV-overlay axe): `accessibility.spec.ts` moved to the PRODUCTION
+//    stand too. axe was auditing the same DOM the visual baseline shoots, but on
+//    the dev stand — so the DEV-only debug badge (`src/App.tsx`, `#666` on
+//    `rgba(0,0,0,0.3)`, 10px) was the only remaining `color-contrast` node in
+//    `.project/drafts/a11y-baseline.json`: 13 of 19 screens failed `COLOR-001`
+//    on a widget that does not exist in a production build (established by spec
+//    078 and named as a false critical there). Auditing the preview build makes
+//    the axe contour and the visual contour observe the SAME production DOM, and
+//    `COLOR-001` drops to 0 nodes without excluding anything by selector.
 const DEV_URL = 'https://127.0.0.1:5173';
 const PREVIEW_URL = 'https://127.0.0.1:4173';
 
@@ -49,15 +59,20 @@ export default defineConfig({
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}{-snapshotSuffix}{ext}',
   projects: [
     {
-      // spec 078: production stand — only the visual-regression baselines.
+      // spec 078: production stand — the visual-regression baselines.
+      // spec 079b: + the axe contour (`accessibility.spec.ts`), same reason:
+      // both specs describe the SAME screen in the SAME state (`e2e/screens.ts`),
+      // so they must observe the same build. Auditing the dev stand used to fold
+      // the DEV-only debug badge into the axe baseline as a false `critical`.
       name: 'stand-prod',
-      testMatch: /visual-regression\.spec\.ts/,
+      testMatch: /(visual-regression|accessibility)\.spec\.ts/,
       use: { baseURL: PREVIEW_URL },
     },
     {
-      // Everything else stays on the dev stand (unchanged from spec 074/075).
+      // Everything else stays on the dev stand (unchanged from spec 074/075) —
+      // exactly the specs that assert the DEV-only debug badge.
       name: 'stand-dev',
-      testIgnore: /visual-regression\.spec\.ts/,
+      testIgnore: /(visual-regression|accessibility)\.spec\.ts/,
       use: { baseURL: DEV_URL },
     },
   ],
