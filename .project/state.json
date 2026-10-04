@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "ca179fd31ddeb193f134c71a5d83f8cdf4a50bd9",
+  "head": "e387ecbaa4786a9344bc9625e359c40b28afc775",
   "specs": [
     {
       "id": "022",
@@ -489,6 +489,21 @@
       "goal": "Убрать `миграц` из regex `inferActions()`. Командные формы (`npm run migrate`,",
       "acceptance": "",
       "noTouch": "",
+      "preview": ""
+    },
+    {
+      "id": "075",
+      "slug": "viewport-coverage",
+      "status": "approved",
+      "type": "infra",
+      "created": "2026-10-04",
+      "updated": "2026-10-04",
+      "commit": null,
+      "file": "specs/075-viewport-coverage.md",
+      "mtime": 1791088152192.7422,
+      "goal": "1. **Layout smoke на 5 viewport'ах**: overflow, CTA во вьюпорте, тач-цели,",
+      "acceptance": "[ ] `.project/specs/075-viewport-coverage.md` существует, frontmatter",
+      "noTouch": "`src/**` (ни одной правки — спека только детектирует),",
       "preview": ""
     },
     {
@@ -1363,8 +1378,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | push | authorize push origin main — spec-070; публикует 6eb3bdd..8576d31 | commit pending",
-    "2026-10-04 | push | выполнен 6eb3bdd..bbd25c0 | commit 8576d31",
     "2026-10-04 | spec-071 | done - regression-fix | commit 9ad3a3b",
     "2026-10-04 | push | authorize push origin main — spec-072; публикует bbd25c0..cdc9541 | commit pending",
     "2026-10-04 | push | выполнен bbd25c0..3547d28 | commit cdc9541",
@@ -1372,10 +1385,30 @@
     "2026-10-04 | spec-072 | VERIFIED на устройстве (Telegram, TMA): next-button видна и работает после ответа. P1 закрыт | commit c569de4",
     "2026-10-04 | rule2-exception | авторизован перевод spec 074 в approved через embedded approve | commit 703e14d",
     "2026-10-04 | spec-074 | visual regression + a11y infra: 19 baseline PNG (8 экранов x 2 viewport + 3 онбординг x mobile), axe-контур baseline/compare | commit 703e14d",
-    "2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d"
+    "2026-10-04 | spec-074 | done - visual-a11y-testing | commit 703e14d",
+    "2026-10-04 | rule2-exception | авторизован перевод spec 075 в approved через embedded approve | commit 7219ceb",
+    "2026-10-04 | spec-075 | viewport coverage: layout smoke 55 комбинаций (5 viewport x 11 экранов) + рабочий TMA-мок | commit 7219ceb"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e387ecb",
+      "date": "2026-10-04",
+      "subject": "docs(spec-075): viewport audit report",
+      "type": "docs"
+    },
+    {
+      "sha": "7219ceb",
+      "date": "2026-10-04",
+      "subject": "test(spec-075): viewport coverage - 5 viewports + TMA mock",
+      "type": "test"
+    },
+    {
+      "sha": "e99c87e",
+      "date": "2026-10-04",
+      "subject": "chore(state): converge",
+      "type": "chore"
+    },
     {
       "sha": "ca179fd",
       "date": "2026-10-04",
@@ -1477,24 +1510,6 @@
       "date": "2026-10-04",
       "subject": "fix(spec-071): regression - next-button, exam, analytics",
       "type": "fix"
-    },
-    {
-      "sha": "a5788d7",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push",
-      "type": "chore"
-    },
-    {
-      "sha": "3ccec23",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done for spec-070",
-      "type": "chore"
-    },
-    {
-      "sha": "bbd25c0",
-      "date": "2026-10-04",
-      "subject": "chore(log): fix trail SHA for spec-070",
-      "type": "chore"
     }
   ],
   "roles": [
