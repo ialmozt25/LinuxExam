@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "61c2affec2593af55cea321dee682e2b81b95e21",
+  "head": "48294fd5e2b3522a7210d3282caf5a3fdfbe6b76",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "48294fd",
+      "date": "2026-10-05",
+      "subject": "chore(log): anchor override + trail for push factory-rebuild+pilot-dashboard",
+      "type": "chore"
+    },
+    {
       "sha": "61c2aff",
       "date": "2026-10-05",
       "subject": "chore(state): converge after pilot-dashboard",
@@ -1609,12 +1615,6 @@
       "date": "2026-10-04",
       "subject": "fix(spec-081): top-15 fixes",
       "type": "fix"
-    },
-    {
-      "sha": "42af68d",
-      "date": "2026-10-04",
-      "subject": "feat(spec-080): ui-ux checklist 30 -> 61 criteria (A-F)",
-      "type": "feat"
     }
   ],
   "roles": [
