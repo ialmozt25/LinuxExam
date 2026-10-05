@@ -349,3 +349,5 @@
 2026-10-05 | factory-rebuild | allowlist.json (Telegram payload hex, expires 2026-11-05); fitness_policy в contract; allowlist только уменьшается | commit pending
 2026-10-05 | pilot-dashboard | src/ui/{Badge,Button,Card}.tsx + tests + index.ts; Dashboard мигрирован (10 inline button → 9 Button + 3 Card + 3 Badge); hex=0; skills загружены по триггеру; fitness OK (dead 32→30); typecheck/test:run 452/test:e2e 213/build = exit 0 | commit pending
 2026-10-05 | pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | commit pending
+2026-10-05 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана "Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецедент log.md:344"); guard spec 049 пускает эту сессию | commit pending
+2026-10-05 | push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..<push-tip> | commit pending
