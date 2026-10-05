@@ -289,3 +289,12 @@ Enforcement: check-styling в pre-commit (blocking, рядом с boundaries+col
 Contract: fitness=5, forbidden_patterns=11, skills=4. AGENTS.md 49/50.
 Долг: F2 (3 паттерна без детекторов — фикс-height, will-change, анимации не на transform); F3 (AGENTS на границе).
 Коммит: pending. Push не выполнялся (правила 10/11).
+
+## 2026-10-06 | dashboard-fix
+Retention-зона Dashboard: 5 mobile-регрессий пилота 28da265 предсуществующие (spec 061/065), миграция не касалась. Закрыто 2 однозначных + 1 e2e.
+1) StreakBadge: height 80 → minHeight 80 + boxSizing border-box; badge 80×80 → 80×100, scrollHeight/clientHeight 84/78 → 98/98, overflow 6 → 0. A/B на 390/768/1200.
+2) Dashboard spacing: 10 литералов → var(--space-*) + новый --space-0-5.
+3) e2e/mobile-layout.spec.ts: verticalClipping() + 3 теста (streak при streak=1, xp-bar 0% fill, dashboard-cards). Mutation доказал ловлю (streak=30 «Месяц!» не триггерит — правильный seed streak=1).
+Побочно dead tokens 30→27. Отложены: симптом 2 (empty card), 3 (top-progress metric), 4 (XP-дублирование) — ждут решения капитана.
+Baseline 2/19 PNG обновлены (y=330 сдвиг из-за роста badge).
+Статус: UNVERIFIED на телефоне (FASB-001). Push не выполнялся.

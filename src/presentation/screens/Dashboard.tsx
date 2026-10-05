@@ -221,7 +221,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          paddingBottom: '8px',
+          paddingBottom: 'var(--space-2)',
           borderBottom: '1px solid var(--border-subtle)',
           fontSize: 'var(--text-sm)',
           color: 'var(--text-secondary)',
@@ -258,7 +258,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             />
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <Button
             variant="ghost"
             testId="theme-toggle"
@@ -278,7 +278,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       </div>
 
       {/* Title block */}
-      <div style={{ marginTop: '24px' }}>
+      <div style={{ marginTop: 'var(--space-5)' }}>
         <h1
           style={{
             fontSize: 'var(--heading-1)',
@@ -295,7 +295,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           style={{
             fontSize: 'var(--body)',
             color: 'var(--text-secondary)',
-            margin: '8px 0 0 0',
+            margin: 'var(--space-2) 0 0 0',
           }}
         >
           Подготовка к RHCSA за 15 минут в день
@@ -311,7 +311,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           display: 'flex',
           alignItems: 'center',
           gap: 'var(--space-3)',
-          marginTop: '24px',
+          marginTop: 'var(--space-5)',
         }}
       >
         <StreakBadge />
@@ -329,7 +329,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       </div>
 
       {/* Progress */}
-      <div id="dashboard-progress" data-testid="dashboard-progress" style={{ marginTop: '24px' }}>
+      <div id="dashboard-progress" data-testid="dashboard-progress" style={{ marginTop: 'var(--space-5)' }}>
         <div
           style={{
             display: 'flex',
@@ -352,7 +352,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           aria-valuemax={100}
           aria-label="Прогресс теста"
           style={{
-            marginTop: '8px',
+            marginTop: 'var(--space-2)',
             height: '4px',
             background: 'var(--bg-surface)',
             borderRadius: '2px',
@@ -563,7 +563,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px 8px',
+                    gap: 'var(--space-1) var(--space-2)',
                     flexWrap: 'wrap',
                     minWidth: 0,
                   }}
@@ -607,7 +607,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'flex-end',
-                  gap: '4px',
+                  gap: 'var(--space-1)',
                   flexShrink: 0,
                   maxWidth: '45%',
                 }}
@@ -687,7 +687,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               style={{
                 fontSize: 'var(--text-xs)',
                 color: 'var(--text-secondary)',
-                marginTop: 2,
+                marginTop: 'var(--space-0-5)',
               }}
             >
               {`Вопрос ${currentIndex + 1} из ${totalQuestions}`}

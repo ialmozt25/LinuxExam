@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">c938856</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
+        <tr>
           <td class="mono">098eb36</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): trail for push ui-styling-rules</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): push blocked by session guard</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">0e5cb92</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after push trail</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,35 +592,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">130 ч (~5.4 дн)</td>
+          <td class="muted">133 ч (~5.5 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">177 ч (~7.4 дн)</td>
+          <td class="muted">180 ч (~7.5 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">59 ч (~2.5 дн)</td>
+          <td class="muted">62 ч (~2.6 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">130 ч (~5.4 дн)</td>
+          <td class="muted">133 ч (~5.5 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">68 ч (~2.8 дн)</td>
+          <td class="muted">71 ч (~3.0 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">05.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана &quot;Push authorized (rule 10). Один push.…</li>
-        <li><span class="mono muted">05.10</span> · push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..&lt;push-tip&gt; | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · ui-styling-rules | skill 12 разделов (best practices 2026) + check-styling.mjs (5-я fitness, blocking в pre-commit); contract SSOT синхронизирован (fitness=5, forbidden_patterns=11…</li>
         <li><span class="mono muted">06.10</span> · findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · push | authorize push origin main - ui-styling-rules; публикует 4e121f8..&lt;push-tip&gt; | ещё не закоммичено</li>
+        <li><span class="mono muted">06.10</span> · dashboard-fix | streak minHeight 80 (badge 80→100, overflow 6→0) + spacing литералы→var(--space-*) (dead tokens 30→27 побочно) + e2e verticalClipping (mutation ловит регресс) | ещё не закоммичено</li>
+        <li><span class="mono muted">06.10</span> · dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | ещё не закоммичено</li>
     </ul>
   </details>
 

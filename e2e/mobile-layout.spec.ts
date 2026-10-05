@@ -1,4 +1,4 @@
-import { test, expect, blockAnalytics, gotoApp, readPersisted, TESTID, TOPICS } from './fixtures';
+import { test, expect, blockAnalytics, gotoApp, readPersisted, seedRetention, TESTID, TOPICS } from './fixtures';
 
 /**
  * Mobile layout (spec 067).
@@ -61,9 +61,46 @@ async function horizontalOverflows(page: import('@playwright/test').Page): Promi
   });
 }
 
+/**
+ * Вертикальный клиппинг: `scrollHeight > clientHeight` означает, что контент
+ * вылезает за бокс элемента. Горизонтальную версию (`horizontalOverflows`) это
+ * НЕ ловит: у streak-бейджа `overflow: visible`, поэтому переполнение вниз не
+ * даёт ни horizontal overflow, ни нарушения тап-зоны — регрессия пилота
+ * Dashboard (обрезанная подпись серии) прошла весь набор зелёной. Допуск 2px —
+ * субпиксельное округление глифов и `line-height`.
+ */
+const CLIP_TOLERANCE = 2;
+
+async function verticalClipping(
+  page: import('@playwright/test').Page,
+  selectors: string[],
+): Promise<{ sel: string; scrollHeight: number; clientHeight: number; overflow: number; text: string }[]> {
+  return page.evaluate(
+    ({ sels, tol }: { sels: string[]; tol: number }) => {
+      const out: { sel: string; scrollHeight: number; clientHeight: number; overflow: number; text: string }[] = [];
+      for (const sel of sels) {
+        for (const node of Array.from(document.querySelectorAll(sel))) {
+          const el = node as HTMLElement;
+          const overflow = el.scrollHeight - el.clientHeight;
+          if (overflow > tol) {
+            out.push({
+              sel,
+              scrollHeight: el.scrollHeight,
+              clientHeight: el.clientHeight,
+              overflow,
+              text: (el.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 60),
+            });
+          }
+        }
+      }
+      return out;
+    },
+    { sels: selectors, tol: CLIP_TOLERANCE },
+  );
+}
+
 /** Строки тем: контент не выходит за карточку, название и бейдж внутри строки. */
-async function topicRowGeometry(page: import('@playwright/test').Page) {
-  return page.evaluate(() => {
+async function topicRowGeometry(page: import('@playwright/test').Page) {  return page.evaluate(() => {
     // Только КНОПКИ тем: под префикс `topic-` попадает и бейдж-подсказка
     // `topic-first-cta` (span), который строкой не является.
     const nodes = Array.from(document.querySelectorAll('button[data-testid^="topic-"]'));
@@ -155,6 +192,85 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
         MIN_BADGE_TAP,
       );
     }
+  });
+
+  test('Dashboard: контент не обрезан по вертикали (streak, xp-bar, карточки, строки тем)', async ({
+    page,
+  }) => {
+    await gotoApp(page);
+
+    // Быстрый профиль: streak 0 → подпись серии короткая. Длинную подпись
+    // («День N — хорошее начало» в 3 строки) сеет отдельный тест ниже.
+    const clipped = await verticalClipping(page, [
+      '[data-testid="streak-badge"]',
+      '[data-testid="xp-bar-daily"]',
+      '[data-testid="xp-bar"]',
+      '[data-testid="xp-bar-daily-label"]',
+      '[data-testid="topic-essential_tools"]',
+      '[data-testid="topic-first-cta"]',
+      '[data-testid="daily-goal-picker"]',
+    ]);
+
+    expect(
+      clipped,
+      `вертикальный клиппинг: ${JSON.stringify(clipped)}`,
+    ).toEqual([]);
+  });
+
+  test('Dashboard: длинная подпись серии не обрезается (регрессия пилота)', async ({ page }) => {
+    // streak 1 → самая ДЛИННАЯ подпись контракта: `streakMessage(1)` =
+    // «День 1 — хорошее начало» (domain/goal.ts). При внутренней ширине 70px
+    // (80 − 2×4 padding − 2×1 border) она ломается на 3 строки, и до фикса
+    // бейдж был ровно 80px по `height` при контенте ~90px — нижняя строка
+    // подписи обрезалась. `streak 30` («Месяц!») этой регрессии не ловит:
+    // подпись в одну строку, замерено 78 = 78.
+    await seedRetention(page, { streak: 1, todayXp: 0 });
+    await gotoApp(page);
+
+    const clipped = await verticalClipping(page, ['[data-testid="streak-badge"]']);
+    expect(clipped, `подпись серии обрезана: ${JSON.stringify(clipped)}`).toEqual([]);
+
+    // Геометрия: 80px остаётся минимумом тап-зоны, а не потолком.
+    const badge = await page.evaluate(() => {
+      const el = document.querySelector('[data-testid="streak-badge"]') as HTMLElement;
+      const box = el.getBoundingClientRect();
+      return {
+        height: Math.round(box.height),
+        width: Math.round(box.width),
+        scrollHeight: el.scrollHeight,
+        clientHeight: el.clientHeight,
+      };
+    });
+    expect(badge.scrollHeight).toBeLessThanOrEqual(badge.clientHeight + CLIP_TOLERANCE);
+    expect(badge.width).toBeGreaterThanOrEqual(MIN_BADGE_TAP);
+    expect(badge.height).toBeGreaterThanOrEqual(MIN_BADGE_TAP);
+  });
+
+  test('Dashboard: xp-bar с нулевой заливкой не обрезан и имеет тап-зону трека', async ({ page }) => {
+    // 0 % fill: заливка имеет нулевую ширину, проверяем, что трек не «схлопывается»
+    // и ничего не обрезано по вертикали.
+    await seedRetention(page, { streak: 1, todayXp: 0 });
+    await gotoApp(page);
+
+    const clipped = await verticalClipping(page, [
+      '[data-testid="xp-bar-daily"]',
+      '[data-testid="xp-bar"]',
+      '[data-testid="xp-bar-daily-label"]',
+    ]);
+    expect(clipped, `xp-bar обрезан: ${JSON.stringify(clipped)}`).toEqual([]);
+
+    const bar = await page.evaluate(() => {
+      const track = document.querySelector('[data-testid="xp-bar-daily"]') as HTMLElement;
+      const fill = document.querySelector('[data-testid="xp-bar-fill"]') as HTMLElement;
+      return {
+        trackHeight: Math.round(track.getBoundingClientRect().height),
+        trackWidth: Math.round(track.getBoundingClientRect().width),
+        fillWidth: Math.round(fill.getBoundingClientRect().width),
+      };
+    });
+    expect(bar.trackWidth).toBeGreaterThan(0);
+    expect(bar.trackHeight).toBeGreaterThan(0);
+    expect(bar.fillWidth).toBe(0);
   });
 
   test('Dashboard: подсказка «начните с этой» под названием темы, не в ряду чипа', async ({ page }) => {

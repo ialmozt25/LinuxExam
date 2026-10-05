@@ -54,25 +54,40 @@ export function StreakBadge() {
         onClick={() => navigateTo('analytics')}
         style={{
           width: BADGE_SIZE,
-          height: BADGE_SIZE,
+          // min-height, а не height: содержимое (🔥 16px + число 24px + подпись
+          // в 3 строки) даёт ~90px, и фиксированная высота 80px обрезала нижнюю
+          // строку подписи (scrollHeight 84 vs clientHeight 78 — замерено).
+          // 80px остаётся МИНИМУМОМ тап-зоны (spec 067, К3), а не потолком:
+          // при коротком сообщении блок выглядит как раньше, при длинном —
+          // растёт вместо обрезки. Вариант с обрезкой текста (ellipsis /
+          // line-clamp) отклонён: подпись — мотивационное сообщение, а не метка.
+          minHeight: BADGE_SIZE,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: SPACING.xs,
+          gap: 'var(--space-1)',
+          padding: 'var(--space-1)',
+          // Высота считается от рамки: 80px включают padding и border, поэтому
+          // контент получает 80 − 2×4 − 2×1 = 70px и не выходит наружу.
+          boxSizing: 'border-box',
+          flexShrink: 0,
           background: 'var(--bg-surface)',
           color: 'var(--text-primary)',
           border: `1px solid ${color}`,
           borderRadius: LAYOUT.cardRadius,
           cursor: 'pointer',
           fontFamily: 'inherit',
-          padding: SPACING.xs,
         }}
       >
-        <span style={{ fontSize: 16, lineHeight: 1 }} aria-hidden="true">
+        <span style={{ fontSize: 'var(--text-base)', lineHeight: 1 }} aria-hidden="true">
           🔥
         </span>
-        <span style={{ fontSize: 24, fontWeight: 700, lineHeight: 1, color }}>{streak}</span>
+        <span
+          style={{ fontSize: 'var(--text-xl)', fontWeight: 700, lineHeight: 1, color }}
+        >
+          {streak}
+        </span>
         <span
           style={{
             fontSize: 10,

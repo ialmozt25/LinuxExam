@@ -354,3 +354,5 @@
 2026-10-06 | ui-styling-rules | skill 12 разделов (best practices 2026) + check-styling.mjs (5-я fitness, blocking в pre-commit); contract SSOT синхронизирован (fitness=5, forbidden_patterns=11, skills=4); AGENTS.md 49/50 | commit pending
 2026-10-06 | findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | commit pending
 2026-10-06 | push | authorize push origin main - ui-styling-rules; публикует 4e121f8..<push-tip> | commit pending
+2026-10-06 | dashboard-fix | streak minHeight 80 (badge 80→100, overflow 6→0) + spacing литералы→var(--space-*) (dead tokens 30→27 побочно) + e2e verticalClipping (mutation ловит регресс) | commit pending
+2026-10-06 | dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | commit pending
