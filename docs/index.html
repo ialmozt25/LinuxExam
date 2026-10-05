@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">48</div>
+      <div class="pulse-tile__value">51</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -351,7 +351,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 48 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 51 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -454,6 +454,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">4e121f8</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-05</td>
+        </tr>
         <tr>
           <td class="mono">48294fd</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-080+081): done - full-checklist + top-fixes</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">c6ea01e</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(spec-081): top-15 fixes</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,35 +592,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">122 ч (~5.1 дн)</td>
+          <td class="muted">126 ч (~5.3 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">169 ч (~7.0 дн)</td>
+          <td class="muted">173 ч (~7.2 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">51 ч (~2.1 дн)</td>
+          <td class="muted">55 ч (~2.3 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">122 ч (~5.1 дн)</td>
+          <td class="muted">126 ч (~5.3 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">60 ч (~2.5 дн)</td>
+          <td class="muted">64 ч (~2.7 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">05.10</span> · factory-rebuild | allowlist.json (Telegram payload hex, expires 2026-11-05); fitness_policy в contract; allowlist только уменьшается | ещё не закоммичено</li>
-        <li><span class="mono muted">05.10</span> · pilot-dashboard | src/ui/{Badge,Button,Card}.tsx + tests + index.ts; Dashboard мигрирован (10 inline button → 9 Button + 3 Card + 3 Badge); hex=0; skills загружены по триггеру; fitness OK (dead 32→30)…</li>
         <li><span class="mono muted">05.10</span> · pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | ещё не закоммичено</li>
         <li><span class="mono muted">05.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана &quot;Push authorized (rule 10). Один push.…</li>
         <li><span class="mono muted">05.10</span> · push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..&lt;push-tip&gt; | ещё не закоммичено</li>
+        <li><span class="mono muted">06.10</span> · ui-styling-rules | skill 12 разделов (best practices 2026) + check-styling.mjs (5-я fitness, blocking в pre-commit); contract SSOT синхронизирован (fitness=5, forbidden_patterns=11…</li>
+        <li><span class="mono muted">06.10</span> · findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -665,8 +665,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 74</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 74</div>
+    <summary>Тревоги · записей: 77</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 77</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -960,6 +960,17 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">05.10 | hypothesis | .dsh/hooks.json формат DSH не подтверждён</div>
           <div class="entry__body muted">Enforcement фактически через .githooks/pre-commit (fallback). hooks.json оставлен как гипотеза. [observed 2026-10-05]</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">05.10 | [f4-watchdog] ������� �� ���������� 7 ����</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">06.10 | tech debt | 3 паттерна styling-rules без детекторов</div>
+          <div class="entry__body muted">Правила декларированы, но fitness не ловит: &quot;фиксированные height&quot;, &quot;will-change превентивно&quot;, &quot;анимации не на transform/opacity&quot;.…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">06.10 | risk | AGENTS.md 49/50 строк</div>
+          <div class="entry__body muted">Лимит достигнут: следующая правка потребует сжатия существующих пунктов. План: при расширении контура — ревизия 5 пунктов на слияние. [observed 2026-10-06]</div>
         </div>
   </details>
 

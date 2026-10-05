@@ -281,3 +281,11 @@ RECON подтверждён независимым PNG-сканером (`.proj
 Первая end-to-end проверка контура фабрики. Созданы src/ui/{Badge,Button,Card}.tsx + 3 теста (10 кейсов) + index.ts (barrel). Dashboard мигрирован: 903→793 строк, 10 inline <button> → 9 Button + 3 Card + 3 Badge; hex=0; DOM-контракты сохранены под spec 065/079 и e2e (Badge=span, Card=button с прямыми потомками, theme-toggle 44×44). tokens.css не правился (значения нашлись в существующих токенах).
 Доказательства контура: (1) skills загрузились по триггеру — ui-component-create через skill tool, ui-screen-migrate как процедура; (2) fitness: no-hex OK, no-dup OK, boundaries OK, no-dead-tokens 32→30 (advisory); (3) гейты: typecheck/test:run 452/test:e2e 213/build — exit 0; (4) pre-commit exit 0 при staged пилота; (5) 3 PNG 390/768/1200 (vision-адаптер недоступен — FASB-003, layout защищён e2e mobile-layout.spec.ts).
 Коммиты: pending. Push не выполнялся (правила 10/11). VERIFIED на телефоне — за капитаном.
+
+## 2026-10-06 | ui-styling-rules
+Скилл .dsh/skills/ui-styling-rules/SKILL.md (12 разделов, 83 строки body): токены (трёхуровневые, var-only), mobile-first (min-width), container queries, TMA safe area / dvh, WCAG 2.2 AA, clamp typography, transform/opacity анимации, dark mode, logical properties, src/ui/ компоненты, современный CSS 2026 (:has, oklch, text-wrap), чек-лист.
+Fitness: check-styling.mjs (zero-deps ESM) детектит 4 паттерна (100vh без dvh, inline-hover/focus, max-width media, className-интерполяция); негативный тест в temp-репо подтвердил 4/4.
+Enforcement: check-styling в pre-commit (blocking, рядом с boundaries+colors); итого 3 blocking + 2 advisory.
+Contract: fitness=5, forbidden_patterns=11, skills=4. AGENTS.md 49/50.
+Долг: F2 (3 паттерна без детекторов — фикс-height, will-change, анимации не на transform); F3 (AGENTS на границе).
+Коммит: pending. Push не выполнялся (правила 10/11).

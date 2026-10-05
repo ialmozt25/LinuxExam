@@ -17,7 +17,9 @@
 # advisory-проверки (check-tokens.mjs и агрегатор fitness) в гейт НЕ входят:
 # они показывают состояние репозитория, но коммит не блокируют.
 #   check-boundaries.mjs — critical: staged forbidden-пути (worktree не читается);
-#   check-colors.mjs     — critical: hex-цвета в src/**/*.tsx.
+#   check-colors.mjs     — critical: hex-цвета в src/**/*.tsx;
+#   check-styling.mjs    — critical: правила вёрстки (100vh без dvh, inline
+#                          hover/focus, max-width media, className-интерполяция).
 if [ -f "scripts/fitness/check-boundaries.mjs" ]; then
   node scripts/fitness/check-boundaries.mjs
   boundaries_status=$?
@@ -33,6 +35,16 @@ if [ -f "scripts/fitness/check-colors.mjs" ]; then
   colors_status=$?
   if [ "$colors_status" -ne 0 ]; then
     echo "pre-commit: no-hex-in-tsx завершился с кодом $colors_status — коммит заблокирован"
+    echo "pre-commit: исправь нарушения или закоммить с --no-verify (только с approve капитана)"
+    exit 1
+  fi
+fi
+
+if [ -f "scripts/fitness/check-styling.mjs" ]; then
+  node scripts/fitness/check-styling.mjs
+  styling_status=$?
+  if [ "$styling_status" -ne 0 ]; then
+    echo "pre-commit: styling-rules завершился с кодом $styling_status — коммит заблокирован"
     echo "pre-commit: исправь нарушения или закоммить с --no-verify (только с approve капитана)"
     exit 1
   fi

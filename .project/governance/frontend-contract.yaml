@@ -56,6 +56,36 @@ boundaries:
       pattern: "(?:function|const)\\s+(Badge|Button|Card)\\b"
       scope: "src/** (кроме src/ui/**)"
       fix: "перенести в src/ui/ и импортировать"
+    # Жёсткие правила вёрстки (skill ui-styling-rules). Формулировки — как в
+    # skill; машинный детектор для трёх из них — scripts/fitness/check-styling.mjs.
+    - id: "viewport-unit-100vh"
+      pattern: "100vh без fallback (100dvh)"
+      scope: "src/**/*.css, src/**/*.tsx"
+      fix: "100dvh с fallback 100vh"
+    - id: "inline-hover-focus-styles"
+      pattern: "inline styles для :hover/:focus"
+      scope: "src/**/*.tsx"
+      fix: "вынести состояние в CSS-класс или design token"
+    - id: "classname-string-interpolation"
+      pattern: "string interpolation для className"
+      scope: "src/**/*.tsx"
+      fix: "clsx/шаблон с явными вариантами, без интерполяции тернарников"
+    - id: "max-width-media-query"
+      pattern: "max-width медиа-запросы"
+      scope: "src/**/*.css"
+      fix: "mobile-first: @media (min-width: ...)"
+    - id: "fixed-height-for-content"
+      pattern: "фиксированные height для контента"
+      scope: "src/**/*.tsx, src/**/*.css"
+      fix: "min-height/auto + fluid spacing"
+    - id: "will-change-preemptive"
+      pattern: "will-change превентивно"
+      scope: "src/**/*.css, src/**/*.tsx"
+      fix: "добавлять will-change только в момент анимации"
+    - id: "non-gpu-animation"
+      pattern: "анимации не на transform/opacity"
+      scope: "src/**/*.css"
+      fix: "анимировать только transform/opacity"
 
 # Проверки, которые реально исполняются: npm run fitness.
 fitness:
@@ -75,6 +105,10 @@ fitness:
     cmd: "node scripts/fitness/check-boundaries.mjs"
     severity: "high"
     script: "scripts/fitness/check-boundaries.mjs"
+  - id: "styling-rules"
+    cmd: "node scripts/fitness/check-styling.mjs"
+    severity: "high"
+    script: "scripts/fitness/check-styling.mjs"
 
 # Политика исключений: единственный разрешённый способ ослабить проверку —
 # запись в allowlist со сроком. Inline-подавления (комментарии-исключения в коде)
@@ -94,6 +128,9 @@ skills:
   - name: "recon-audit"
     file: ".dsh/skills/recon-audit/SKILL.md"
     trigger: "аудит"
+  - name: "ui-styling-rules"
+    file: ".dsh/skills/ui-styling-rules/SKILL.md"
+    trigger: "любая правка UI/стилей"
 
 governance:
   hierarchy: ["Contract", "AGENTS.md", "Skills", "Fitness", "Hooks"]

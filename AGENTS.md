@@ -25,6 +25,11 @@ Vite 5, React 18, TypeScript 5.5 (strict), Tailwind 3 + CSS-токены, Zustan
 - `console.log` в `src/`
 - `any` без обоснования
 - правки `src/data/`, `tools/`, `.project/sync.mjs`, `backend/`
+- `100vh` без fallback `100dvh`
+- inline styles для `:hover`/`:focus`
+- string interpolation в `className`
+- `max-width` медиа-запросы (только mobile-first `min-width`)
+- `will-change` превентивно
 
 Всегда:
 - общие компоненты — в `src/ui/`
@@ -40,4 +45,5 @@ Vite 5, React 18, TypeScript 5.5 (strict), Tailwind 3 + CSS-токены, Zustan
 ## Ссылки
 - `.project/governance/frontend-contract.yaml` — правила (источник истины, конфликт → Contract)
 - `.dsh/skills/` — процедуры
+- Правила вёрстки: `.dsh/skills/ui-styling-rules/SKILL.md`
 - `.project/ORCH-RULES.md` — правила оркестрации

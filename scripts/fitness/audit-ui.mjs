@@ -2,7 +2,7 @@
 /**
  * audit-ui.mjs — агрегатор fitness-проверок (npm run fitness).
  *
- * Запускает 4 проверки через spawnSync (shell:false), печатает сводную таблицу
+ * Запускает 5 проверок через spawnSync (shell:false), печатает сводную таблицу
  * check | status | violations и пробрасывает exit-код: 1, если любая проверка
  * вернула 1; 1 также, если проверка не запустилась (это fail, не skip).
  *
@@ -20,6 +20,7 @@ const CHECKS = [
   { id: 'no-hex-in-tsx', severity: 'high', script: 'check-colors.mjs' },
   { id: 'no-duplicate-components', severity: 'high', script: 'check-components.mjs' },
   { id: 'no-dead-tokens', severity: 'medium', script: 'check-tokens.mjs' },
+  { id: 'styling-rules', severity: 'high', script: 'check-styling.mjs' },
   { id: 'boundaries-guard', severity: 'high', script: 'check-boundaries.mjs' },
 ];
 

@@ -347,3 +347,10 @@ no-dead-tokens 32/74 (severity medium, вне pre-commit gate). Объявлен
 
 ## 2026-10-05 | hypothesis | .dsh/hooks.json формат DSH не подтверждён
 Enforcement фактически через .githooks/pre-commit (fallback). hooks.json оставлен как гипотеза. [observed 2026-10-05]
+## 2026-10-05 | [f4-watchdog] ������� �� ���������� 7 ����
+
+## 2026-10-06 | tech debt | 3 паттерна styling-rules без детекторов
+Правила декларированы, но fitness не ловит: "фиксированные height", "will-change превентивно", "анимации не на transform/opacity". Причина: regex даёт ложные срабатывания (иконки, декоративные элементы, motion@13). Кандидат: AST-парсер или allowlist. Вне pre-commit gate. [observed 2026-10-06]
+
+## 2026-10-06 | risk | AGENTS.md 49/50 строк
+Лимит достигнут: следующая правка потребует сжатия существующих пунктов. План: при расширении контура — ревизия 5 пунктов на слияние. [observed 2026-10-06]

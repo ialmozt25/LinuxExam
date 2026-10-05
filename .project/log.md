@@ -351,3 +351,5 @@
 2026-10-05 | pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | commit pending
 2026-10-05 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана "Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецедент log.md:344"); guard spec 049 пускает эту сессию | commit pending
 2026-10-05 | push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..<push-tip> | commit pending
+2026-10-06 | ui-styling-rules | skill 12 разделов (best practices 2026) + check-styling.mjs (5-я fitness, blocking в pre-commit); contract SSOT синхронизирован (fitness=5, forbidden_patterns=11, skills=4); AGENTS.md 49/50 | commit pending
+2026-10-06 | findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | commit pending
