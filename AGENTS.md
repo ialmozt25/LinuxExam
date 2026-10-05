@@ -1,32 +1,43 @@
-# Правила работы над проектом LinuxExam
+# AGENTS.md — LinuxExam
+
+## Команды
+- `npm run typecheck`
+- `npm run test:run`
+- `npm run test:e2e`
+- `npm run build`
+- `npm run sync:check`
+- `npm run qc`
+- `npm run fitness`
+
 ## Стек
-- Vite 5, React 18, TypeScript 5.5 (strict), Tailwind 3, Zustand 5 (persist)
-- Архитектура: 4 слоя — data, domain, presentation, platform
-- Domain-слой: чистые функции, ноль импортов из zustand/react
-- Store: src/store/quizStore.ts, делегирует в domain-сервисы
+Vite 5, React 18, TypeScript 5.5 (strict), Tailwind 3 + CSS-токены, Zustand 5 (persist), Vitest, Playwright 1.63.
 
-## Правила кода
-- TypeScript strict, zero `any`, zero `@ts-ignore`
-- После каждого изменения: `npm run typecheck`
-- Перед коммитом: `npm run build`
-- Conventional commits: feat:, fix:, refactor:
-- Весь UI-текст на русском языке
-- Все цвета/отступы — именованные константы
-- Все новые domain-функции покрывать unit-тестами (Vitest)
-- При изменении сигнатур функций обновлять все места вызова
+## Структура
+- `src/domain/` — чистые функции, без React/Zustand
+- `src/presentation/screens/` — экраны
+- `src/presentation/components/` — компоненты экранов
+- `src/ui/` — переиспользуемые Badge/Button/Card
+- `src/presentation/theme/tokens.css` — единственный источник цветов
 
-## Запрещено
-- Устанавливать новые зависимости без явного запроса
-- Изменять persist config без запроса
-- Коммитить node_modules, dist, .env
-- Использовать `as`-касты для валидации JSON (нужна runtime-проверка)
-- Коммитить без предварительного `npm run typecheck`
-- Оставлять `console.warn` в production-коде
+## Границы
+Никогда:
+- hex-цвета в `.tsx` (только `var(--token)` из `tokens.css`)
+- `console.log` в `src/`
+- `any` без обоснования
+- правки `src/data/`, `tools/`, `.project/sync.mjs`, `backend/`
 
-## Test Infrastructure (added in UI/UX modernization)
-- Vitest 3.x (pinned for Vite 5 compatibility)
-- @testing-library/react + @testing-library/jest-dom
-- @types/jest-axe for a11y matchers
-- Playwright 1.x for E2E (chromium only)
-- motion@13 (imports from 'motion/react', NOT 'framer-motion')
-- Commands: npm run test:run, npm run test:e2e
+Всегда:
+- общие компоненты — в `src/ui/`
+- цвета и отступы — из `tokens.css`
+- `aria-label` для иконочных кнопок
+
+## Workflow
+1. Прочитай contract `.project/governance/frontend-contract.yaml`.
+2. Возьми skill по триггеру из `.dsh/skills/`.
+3. Сделай работу и прогони `npm run fitness`.
+4. Не коммить без approve капитана.
+
+## Ссылки
+- `.project/governance/frontend-contract.yaml` — правила (источник истины, конфликт → Contract)
+- `.dsh/skills/` — процедуры
+- `.project/ORCH-RULES.md` — правила оркестрации

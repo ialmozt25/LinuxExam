@@ -270,3 +270,9 @@ RECON подтверждён независимым PNG-сканером (`.proj
 **Гейты.** ДО = ПОСЛЕ: `typecheck` 0, `test:run` **442**, `test:e2e` **208**, `build` 0, `sync:check` 0 (после converge). Промежуточный красный гейт (205/208) зафиксирован в спеке, а не скрыт.
 **Закрытие.** Impl-коммит `99962da` (22 файла: `playwright.config.ts`, `e2e/visual-regression.spec.ts`, 19 PNG, `visual-audit-2026-10-04.md`), frontmatter `.project/specs/078-baseline-cleanup.md` → `status: done` (commit `99962da`), запись в `.project/log.md`, converge. Push НЕ выполнялся: per-command авторизация капитана (правила 10/11).
 **Открытый вопрос капитану.** Отклонение 3 (два проекта Playwright) расширяет буквальный текст спеки («webServer переведён с dev на preview»); альтернатива — вернуться к одному production-стенду (гейт `test:e2e` = 205/208) и править три ассерта DEV-бейджа отдельной спекой.
+
+## 2026-10-05 | factory-rebuild
+Пересборка фабрики на трёх опорах: Governance Contract (.project/governance/frontend-contract.yaml, js-yaml 4.1.0), AGENTS.md (43 строки, первые 10 — команды), 3 Skills (.dsh/skills/{ui-component-create,ui-screen-migrate,recon-audit}/SKILL.md, progressive disclosure), 4 Fitness (scripts/fitness/check-{colors,components,tokens,boundaries}.mjs + audit-ui.mjs, zero-deps ESM), Enforcement (pre-commit: check-boundaries + check-colors blocking; hooks.json — гипотеза DSH, fallback на pre-commit), allowlist.json (Telegram SDK payload, expires 2026-11-05), ORCH-RULES §18 Governance Contract (append-only).
+Воспроизводимость: .gitignore раскрыт через negation parents (/scripts/* + !/scripts/fitness/; /.dsh/* + !/.dsh/skills/ + !/.dsh/hooks.json + !/.dsh/README.md).
+Гейты: check-colors OK (allowlisted=3), check-components OK, check-boundaries OK (staged-only), no-dead-tokens FAIL 32/74 (advisory debt).
+Коммиты: pending (см. git log). Push не выполнялся (правила 10/11).

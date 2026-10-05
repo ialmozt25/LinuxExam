@@ -320,3 +320,28 @@ APPROVAL, если он явно называет `.project/ORCH-RULES.md` и с
 `type:feature`/`type:content` и эскалация `Small → Fast/Full`, `Fast → Full`;
 заголовок раздела оставлен историческим (на него ссылается
 `.project/specs/README.md`).
+
+## 18. Governance Contract
+
+**Правила фронтенда** — `.project/governance/frontend-contract.yaml` (Contract):
+stack, commands, boundaries, fitness, skills. Contract — источник для чтения
+агентом; автоматически он не парсится, enforcement идёт через fitness и hooks.
+
+**Иерархия:** Contract → AGENTS.md → Skills → Fitness → Hooks.
+Конфликт правил → **Contract**.
+
+- `AGENTS.md` (≤50 строк, первые 10 — критичное) — карта проекта.
+- Skills (`.dsh/skills/`) — процедуры; `description` во frontmatter —
+  единственный триггер выбора.
+- Fitness (`scripts/fitness/`) — автопроверки: `npm run fitness`
+  (`check-colors`, `check-components`, `check-tokens`, `check-boundaries`).
+- Hooks (`.dsh/hooks.json`) + pre-commit fallback (`.githooks/pre-commit`) —
+  enforcement. Формат hooks.json — гипотеза; старт advisory, после пилота — fail.
+
+**Лимиты:** AGENTS.md ≤50 строк; skills ≤10 активных; тело скилла ≤500 строк;
+скиллы только руками (ИИ-созданные skills +0.0%).
+
+**Правило перед новым spec:** проверить покрытие Contract. Покрыто → spec не
+нужна. Не покрыто → обновить Contract, затем писать spec.
+
+*Добавлено:* 2026-10-05, раздел 18 (append-only-логика файла сохранена).

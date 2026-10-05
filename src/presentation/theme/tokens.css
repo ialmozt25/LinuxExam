@@ -117,6 +117,16 @@
   --body: 16px;
   --body-line-height: 1.55;
 
+  /* ══════════════════════════════════════════════════════════════
+     DEV-оверлей (governance Contract, fitness no-hex-in-tsx)
+
+     Цвет текста DEV-бейджа в App.tsx; раньше был коротким hex-литералом
+     прямо в .tsx. Значение — ровно то же, что было в литерале, чтобы правка
+     не меняла вид оверлея. Токен DEV-only: в продакшене оверлей не
+     рендерится (import.meta.env.DEV).
+     ══════════════════════════════════════════════════════════════ */
+  --dev-overlay-text: #666666;
+
   /* Safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);

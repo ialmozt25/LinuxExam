@@ -337,4 +337,13 @@ spec-072 — VERIFIED на устройстве (Telegram, TMA): «Следую�
 работает после ответа; фикс `c569de4`, push `bbd25c0..3547d28`]
 
 <!-- meta updated: 2026-10-04T00:00:00Z entries_count: 66 -->
-## 2026-10-04 | [f4-watchdog] ������� �� ���������� 6 ����
+## 2026-10-04 | [f4-watchdog] ������� �� ���������� 6 ����
+
+## 2026-10-05 | tech debt | 32 dead tokens (advisory)
+no-dead-tokens 32/74 (severity medium, вне pre-commit gate). Объявлены в tokens.css, не используются в src/**. Чистка — отдельной задачей. [observed 2026-10-05]
+
+## 2026-10-05 | expiry | allowlist expires 2026-11-05
+Записи для src/main.tsx:90 (#1E1E1E/#FFFFFF/#2196F3) истекают 2026-11-05 → check-colors вернётся в FAIL. До даты: легализовать payload в contract либо перенести hex в SDK-фикстуру вне src/**/*.tsx. [observed 2026-10-05]
+
+## 2026-10-05 | hypothesis | .dsh/hooks.json формат DSH не подтверждён
+Enforcement фактически через .githooks/pre-commit (fallback). hooks.json оставлен как гипотеза. [observed 2026-10-05]

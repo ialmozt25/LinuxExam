@@ -344,3 +344,6 @@
 2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана «Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецеденты 066-072»); guard spec 049 пускает эту сессию | commit pending
 2026-10-04 | push | authorize push origin main — spec-079b+080+081; публикует b15103c..5b32a0b | commit pending
 2026-10-04 | push | выполнен b15103c..dfbb312 | commit dfbb312
+2026-10-05 | factory-rebuild | три опоры (Contract + Skills + Fitness/Hooks); .gitignore раскрыт для scripts/fitness/ и .dsh/skills/; pre-commit = check-boundaries + check-colors | commit pending
+2026-10-05 | factory-rebuild | check-boundaries → staged-only (git diff --cached --diff-filter=ACMRT); advisory/blocking разделены | commit pending
+2026-10-05 | factory-rebuild | allowlist.json (Telegram payload hex, expires 2026-11-05); fitness_policy в contract; allowlist только уменьшается | commit pending

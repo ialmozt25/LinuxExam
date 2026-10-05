@@ -1,0 +1,107 @@
+# Frontend Contract — LinuxExam
+# Источник истины для фронтенд-правил. Читается агентом вручную (Contract →
+# AGENTS.md → Skills → Fitness → Hooks). Автоматически НЕ парсится: enforcement
+# идёт через scripts/fitness/*.mjs и .dsh/hooks.json, а не через рантайм-чтение
+# этого файла. Правила ниже — не декларация, а исполняемые команды.
+
+version: "1.0"
+kind: "FrontendContract"
+updated: "2026-10-05"
+owner: "captain"
+
+stack:
+  react: "React 18"
+  typescript: "TypeScript 5.5 (strict)"
+  bundler: "Vite 5"
+  state: "Zustand 5 (persist)"
+  styling: "Tailwind 3 + CSS-токены"
+  unit_tests: "Vitest"
+  e2e_tests: "Playwright 1.63"
+  a11y: "axe-core"
+
+# Каждая команда должна существовать в package.json scripts.
+commands:
+  typecheck: "npm run typecheck"
+  test_unit: "npm run test:run"
+  test_e2e: "npm run test:e2e"
+  build: "npm run build"
+  sync_check: "npm run sync:check"
+  qc: "npm run qc"
+  fitness: "npm run fitness"
+
+boundaries:
+  # Префиксы путей (workspace-relative). check-boundaries.mjs сверяет с ними
+  # `git diff --name-only HEAD`.
+  forbidden_paths:
+    - "src/data/**"
+    - "tools/**"
+    - ".project/sync.mjs"
+    - "backend/**"
+    - ".project/specs/**"
+  # Нарушения, которые ищут check-colors.mjs / check-components.mjs.
+  forbidden_patterns:
+    - id: "hex-in-tsx"
+      pattern: "#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\\b"
+      scope: "src/**/*.tsx"
+      fix: "взять токен из src/presentation/theme/tokens.css"
+    - id: "console-log-in-src"
+      pattern: "console\\.log"
+      scope: "src/**"
+      fix: "удалить или заменить на обработку ошибки"
+    - id: "any-without-justification"
+      pattern: ":\\s*any\\b"
+      scope: "src/**/*.{ts,tsx}"
+      fix: "типизировать или обосновать комментарием"
+    - id: "duplicate-ui-component"
+      pattern: "(?:function|const)\\s+(Badge|Button|Card)\\b"
+      scope: "src/** (кроме src/ui/**)"
+      fix: "перенести в src/ui/ и импортировать"
+
+# Проверки, которые реально исполняются: npm run fitness.
+fitness:
+  - id: "no-hex-in-tsx"
+    cmd: "node scripts/fitness/check-colors.mjs"
+    severity: "high"
+    script: "scripts/fitness/check-colors.mjs"
+  - id: "no-duplicate-components"
+    cmd: "node scripts/fitness/check-components.mjs"
+    severity: "high"
+    script: "scripts/fitness/check-components.mjs"
+  - id: "no-dead-tokens"
+    cmd: "node scripts/fitness/check-tokens.mjs"
+    severity: "medium"
+    script: "scripts/fitness/check-tokens.mjs"
+  - id: "boundaries-guard"
+    cmd: "node scripts/fitness/check-boundaries.mjs"
+    severity: "high"
+    script: "scripts/fitness/check-boundaries.mjs"
+
+# Политика исключений: единственный разрешённый способ ослабить проверку —
+# запись в allowlist со сроком. Inline-подавления (комментарии-исключения в коде)
+# не применяются.
+fitness_policy:
+  exceptions_file: scripts/fitness/allowlist.json
+  allowlist_rule: "Allowlist только уменьшается. Новая запись — обязательны reason и expires. Expired → FAIL. Stale → удалить."
+
+# Процедуры. Description во frontmatter — единственный триггер выбора скилла.
+skills:
+  - name: "ui-component-create"
+    file: ".dsh/skills/ui-component-create/SKILL.md"
+    trigger: "создание UI-компонента"
+  - name: "ui-screen-migrate"
+    file: ".dsh/skills/ui-screen-migrate/SKILL.md"
+    trigger: "миграция экрана"
+  - name: "recon-audit"
+    file: ".dsh/skills/recon-audit/SKILL.md"
+    trigger: "аудит"
+
+governance:
+  hierarchy: ["Contract", "AGENTS.md", "Skills", "Fitness", "Hooks"]
+  conflict_resolution: "Contract"
+  limits:
+    agents_md_max_lines: 50
+    agents_md_critical_lines: 10
+    skill_body_max_lines: 500
+    active_skills_max: 10
+  skills_authoring: "только ручное создание (ИИ-созданные skills +0.0%)"
+  new_spec_rule: "перед новым spec — проверить покрытие Contract; покрыто → spec не нужна"

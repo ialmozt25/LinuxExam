@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "hooks": [
+    {
+      "event": "pre-edit",
+      "command": "node scripts/fitness/check-boundaries.mjs",
+      "severity": "blocking",
+      "on_fail": "block"
+    },
+    {
+      "event": "post-edit",
+      "command": "node scripts/fitness/audit-ui.mjs",
+      "severity": "advisory",
+      "on_fail": "warn"
+    }
+  ]
+}

@@ -26,7 +26,8 @@ src/data/questions.json.bak
 .tmp-verify/
 # Только корневой scripts/ (черновики); паттерн без анкера блокировал
 # .project/scripts/ (хранители F4) — сужено в F5.0a.
-/scripts/
+/scripts/*
+!/scripts/fitness/
 *.pre-step6-final
 test-results/
 playwright-report/
@@ -52,7 +53,10 @@ coverage/
 .project/scripts/keepers/*.log
 .project/scripts/keepers/.last-checked
 # GoatCounter token (вне репо: ~/.dsh/goatcounter-token.json) — на случай копирования внутрь
-/.dsh/
+/.dsh/*
+!/.dsh/skills/
+!/.dsh/hooks.json
+!/.dsh/README.md
 *goatcounter-token*.json
 
 # spec 042: Telegram-уведомления — runtime-артефакты, в git не попадают

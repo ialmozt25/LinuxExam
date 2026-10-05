@@ -1,0 +1,22 @@
+{
+  "no-hex-in-tsx": [
+    {
+      "file": "src/main.tsx",
+      "hex": "#1E1E1E",
+      "reason": "Telegram SDK payload (bg_color), не стилизация. Approved captain 2026-10-05.",
+      "expires": "2026-11-05"
+    },
+    {
+      "file": "src/main.tsx",
+      "hex": "#FFFFFF",
+      "reason": "Telegram SDK payload (text_color). Approved captain 2026-10-05.",
+      "expires": "2026-11-05"
+    },
+    {
+      "file": "src/main.tsx",
+      "hex": "#2196F3",
+      "reason": "Telegram SDK payload (button_color); без токена — spec 079 заменил на #1565C0. Approved captain 2026-10-05.",
+      "expires": "2026-11-05"
+    }
+  ]
+}

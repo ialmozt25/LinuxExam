@@ -120,7 +120,7 @@ function App() {
             bottom: 4,
             left: 4,
             fontSize: 10,
-            color: '#666',
+            color: 'var(--dev-overlay-text)',
             padding: 4,
             background: 'rgba(0,0,0,0.3)',
             borderRadius: 4,

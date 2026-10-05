@@ -7,6 +7,36 @@
 # Задача: НЕ блокировать коммит, а показать, что производные разошлись
 # с источником. Гейт (`npm run sync:check`) остаётся явным шагом; hook —
 # напоминание, поэтому любой исход, кроме ошибки запуска, даёт exit 0.
+#
+# Исключение — блок critical-проверок выше: он БЛОКИРУЮЩИЙ (раздел 18
+# ORCH-RULES, enforcement governance Contract). Он стоит до sync-проверки
+# намеренно: sync-ветки завершаются `exit 0`, поэтому блок, помещённый
+# после них, был бы недостижим и не блокировал бы ничего.
+
+# --- gate: governance Contract, только blocking-проверки ---
+# advisory-проверки (check-tokens.mjs и агрегатор fitness) в гейт НЕ входят:
+# они показывают состояние репозитория, но коммит не блокируют.
+#   check-boundaries.mjs — critical: staged forbidden-пути (worktree не читается);
+#   check-colors.mjs     — critical: hex-цвета в src/**/*.tsx.
+if [ -f "scripts/fitness/check-boundaries.mjs" ]; then
+  node scripts/fitness/check-boundaries.mjs
+  boundaries_status=$?
+  if [ "$boundaries_status" -ne 0 ]; then
+    echo "pre-commit: boundaries-guard завершился с кодом $boundaries_status — коммит заблокирован"
+    echo "pre-commit: исправь нарушения или закоммить с --no-verify (только с approve капитана)"
+    exit 1
+  fi
+fi
+
+if [ -f "scripts/fitness/check-colors.mjs" ]; then
+  node scripts/fitness/check-colors.mjs
+  colors_status=$?
+  if [ "$colors_status" -ne 0 ]; then
+    echo "pre-commit: no-hex-in-tsx завершился с кодом $colors_status — коммит заблокирован"
+    echo "pre-commit: исправь нарушения или закоммить с --no-verify (только с approve капитана)"
+    exit 1
+  fi
+fi
 
 if [ ! -f ".project/sync.mjs" ]; then
   exit 0
@@ -30,4 +60,5 @@ if [ "$status" -eq 2 ]; then
 fi
 
 echo "pre-commit: sync:check завершился с кодом $status — коммит не блокируем"
+
 exit 0
