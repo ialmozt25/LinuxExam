@@ -31,6 +31,7 @@ src/data/questions.json.bak
 *.pre-step6-final
 test-results/
 playwright-report/
+e2e/*.tmp.spec.ts
 blob-report/
 *.bak
 .tmp-*

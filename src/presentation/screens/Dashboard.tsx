@@ -14,6 +14,7 @@ import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
+import { Badge, Button, Card } from '@/ui';
 import type { ResolvedTheme } from '@/utils/theme';
 
 interface Props {
@@ -45,24 +46,12 @@ function openTopic(key: string, hasAccess: boolean) {
  * Основной CTA дашборда («Начать обучение» / «Повторить сегодня» /
  * «Продолжить изучение»). Вынесен в константу: три состояния должны выглядеть
  * одинаково, иначе одно и то же действие снова разъедется по стилям (spec 065).
+ *
+ * spec-фабрика (pilot): роль кнопки теперь в `src/ui/Button` (variant="primary"),
+ * поэтому здесь остались только геометрия и раскладка содержимого. Цвета ушли в
+ * контракт компонента: `--accent` + `--btn-primary-text` (spec 079).
  */
 const PRIMARY_CTA: React.CSSProperties = {
-  width: '100%',
-  padding: 'var(--space-3)',
-  marginTop: 'var(--space-4)',
-  background: 'var(--accent)',
-  border: 'none',
-  borderRadius: 'var(--radius-md)',
-  // spec 079: было `--text-primary` — в светлой теме это тёмный цвет, а
-  // тёмный текст на акцентной заливке давал 4.42:1 на прежней синей и 2.88:1
-  // на тёмной роли. Роль «текст на акцентной кнопке» уже есть в tokens.css и в
-  // светлой теме именно БЕЛАЯ (spec 065): 5.75:1 на акцентной заливке.
-  color: 'var(--btn-primary-text)',
-  fontSize: 'var(--text-sm)',
-  fontWeight: 600,
-  cursor: 'pointer',
-  fontFamily: 'inherit',
-  textAlign: 'left',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -71,15 +60,23 @@ const PRIMARY_CTA: React.CSSProperties = {
 /** Правая подпись CTA: счётчик вопросов/тем. */
 const CTA_COUNTER: React.CSSProperties = { fontSize: 'var(--text-xs)', fontWeight: 600 };
 
+/** Вторичный CTA: обводка акцентом, одинаковый для «Exam mode» и «Аналитика». */
+const SECONDARY_CTA: React.CSSProperties = { marginTop: 'var(--space-4)' };
+
 /**
- * Мета-подпись кнопки «Повторить ошибки» (spec 079).
- *
- * `--danger` на подложке `rgba(244,67,54,0.1)` даёт 3.97:1 при пороге 4.5:1 —
- * токен менять нельзя (его значения жёстко проверяют e2e `color-regression` и
- * `quiz-flow`), поэтому берётся роль `--color-danger-strong` (5.28:1 на этой
- * подложке, 5.43:1 на светлой плашке бейджа). Значение живёт в tokens.css.
+ * «Повторить ошибки»: красная подложка и рамка. Подложка — 10% от роли
+ * `--danger` через color-mix (литерал `rgba(244,67,54,0.1)` дублировал RGB
+ * токена и разъехался бы при его смене); мета-подпись берёт тёмную роль
+ * `--color-danger-strong` (spec 079).
  */
-const REVIEW_WRONG_META = 'var(--color-danger-strong)';
+const REVIEW_WRONG_BUTTON: React.CSSProperties = {
+  background: 'color-mix(in srgb, var(--danger) 10%, transparent)',
+  border: '1px solid var(--danger)',
+  color: 'var(--text-primary)',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+};
 
 /**
  * Ключ ПЕРВОЙ доступной бесплатной темы (spec 065, К5.2).
@@ -93,44 +90,14 @@ const FIRST_FREE_TOPIC = TOPICS.find(
 )?.key;
 
 /**
- * Бейдж темы (spec 063 «Бесплатно»/«PRO»/«Скоро» и spec 065 «начните с этой»).
- *
- * Один каркас на все четыре: до spec 067 каждый нёс свою копию стилей, поэтому
- * `letterSpacing` уезжал то на `0.5px`, то на `0.3px`, а подсказка «начните с
- * этой» не имела ни `max-width`, ни обрезки и распирала строку темы на 390px.
- *
- * `minHeight: 32px` + центрирование — требование К3 spec 067: тап-зона бейджа
- * не меньше 32px. Без него бейдж выходил 24px (12px строки + 2×2px padding +
- * 2×1px border), то есть по высоте был меньше минимальной удобной цели.
- *
- * `maxWidth: 100%` + `textOverflow: ellipsis` — страховка: даже если бейдж
- * окажется в узкой колонке, он обрежется сам, а не выдавит соседей.
+ * «Скоро» — четвёртый случай того же каркаса (spec 067/079). Сам каркас,
+ * minHeight 32px, обрезка и цвет тёмной роли акцента теперь в
+ * `src/ui/Badge` (variant="locked"); здесь остались только различия
+ * надписи: верхний регистр и разрядка.
  */
-const TOPIC_BADGE: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: 32,
-  fontSize: 'var(--text-xs)',
-  fontWeight: 600,
-  background: 'var(--bg-elevated)',
-  border: '1px solid var(--border-subtle)',
-  padding: '4px 8px',
-  borderRadius: 'var(--radius-sm)',
-  letterSpacing: '0.3px',
-  flexShrink: 0,
-  maxWidth: '100%',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-};
-
-/** Подсказка-точка входа (spec 065): тот же каркас, цвет — акцент успеха. */
-const FIRST_TOPIC_BADGE: React.CSSProperties = {
-  ...TOPIC_BADGE,
-  // spec 079: `--success` на светлой плашке бейджа даёт 4.15:1 при пороге
-  // 4.5:1, а значение токена под e2e-проверкой (`color-regression`), поэтому
-  // используется тёмная роль успеха (5.35:1). Значение — в tokens.css.
-  color: 'var(--color-success-strong)',
+const LOCKED_BADGE: React.CSSProperties = {
+  textTransform: 'uppercase',
+  letterSpacing: 'var(--letter-wide, 0.5px)',
 };
 
 export default function Dashboard({ theme, onToggleTheme }: Props) {
@@ -292,32 +259,21 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button
-            type="button"
-            data-testid="theme-toggle"
+          <Button
+            variant="ghost"
+            testId="theme-toggle"
             onClick={onToggleTheme}
-            aria-label={
+            ariaLabel={
               theme === 'light' ? 'Переключить на тёмную' : 'Переключить на светлую'
             }
-            style={{
-              minWidth: 44,
-              minHeight: 44,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'transparent',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
-              color: 'var(--text-secondary)',
-            }}
+            style={{ cursor: 'pointer' }}
           >
             {theme === 'light' ? (
               <Sun size={20} color="var(--text-secondary)" aria-hidden="true" />
             ) : (
               <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
             )}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -426,39 +382,39 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           новые — продолжение. Прогон идёт review-стримом, поэтому бесплатный
           лимит не расходуется. */}
       {hasNoHistory ? (
-        <button
-          type="button"
-          data-testid="start-learning"
+        <Button
+          variant="primary"
+          testId="start-learning"
           onClick={scrollToTopics}
           style={PRIMARY_CTA}
         >
           <span>Начать обучение</span>
           <span style={CTA_COUNTER}>{`${TOPICS.length} тем`}</span>
-        </button>
+        </Button>
       ) : (
         <>
           {dueCount > 0 ? (
-            <button
-              type="button"
-              data-testid="review-today"
+            <Button
+              variant="primary"
+              testId="review-today"
               onClick={() => startReviewQuiz(sessionDueIds, 'today')}
               style={PRIMARY_CTA}
             >
               <span>{`Повторить сегодня (${dueCount})`}</span>
               <span style={CTA_COUNTER}>{`${dueCount} вопр.`}</span>
-            </button>
+            </Button>
           ) : null}
 
           {newCount > 0 && dueCount === 0 ? (
-            <button
-              type="button"
-              data-testid="continue-learning"
+            <Button
+              variant="primary"
+              testId="continue-learning"
               onClick={() => startReviewQuiz(sessionNewIds, 'today')}
               style={PRIMARY_CTA}
             >
               <span>{`Продолжить изучение (${newCount})`}</span>
               <span style={CTA_COUNTER}>{`${newCount} вопр.`}</span>
-            </button>
+            </Button>
           ) : null}
 
           {/* Остаток за пределами одной сессии: N в подписи — размер следующей. */}
@@ -481,88 +437,46 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           отдельный поток из трёх экранов (настройка → прогон → итоги) с пресетами
           30/60/90 и разбором по темам. Историческая кнопка «Режим экзамена
           (20 вопросов, 30 минут)» удалена вместе с инлайн-режимом. */}
-      <button
-        type="button"
-        data-testid="exam-mode"
+      <Button
+        variant="secondary"
+        testId="exam-mode"
         onClick={() => navigateTo('exam-setup')}
-        style={{
-          width: '100%',
-          padding: 'var(--space-3)',
-          marginTop: 'var(--space-4)',
-          background: 'transparent',
-          color: 'var(--text-primary)',
-          border: '1px solid var(--accent)',
-          borderRadius: 'var(--radius-md)',
-          fontSize: 'var(--text-sm)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          textAlign: 'left',
-          fontFamily: 'inherit',
-        }}
+        style={SECONDARY_CTA}
       >
         📝 Exam mode — 30/60/90 вопросов с разбором
-      </button>
+      </Button>
 
       {/* Analytics (spec 058): «персональный тренер» — radar по 14 темам,
           готовность, слабые зоны и тренд за 7 дней. Данные уже в persist
           (questionStats), поэтому экран ничего не дозагружает. */}
-      <button
-        type="button"
-        data-testid="analytics-mode"
+      <Button
+        variant="secondary"
+        testId="analytics-mode"
         onClick={() => navigateTo('analytics')}
-        style={{
-          width: '100%',
-          padding: 'var(--space-3)',
-          marginTop: 'var(--space-4)',
-          background: 'transparent',
-          color: 'var(--text-primary)',
-          border: '1px solid var(--accent)',
-          borderRadius: 'var(--radius-md)',
-          fontSize: 'var(--text-sm)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          textAlign: 'left',
-          fontFamily: 'inherit',
-        }}
+        style={SECONDARY_CTA}
       >
         📊 Аналитика — готовность, слабые темы, тренд
-      </button>
+      </Button>
 
       {/* «Повторить ошибки» — resumed from the regular stream's wrong answers */}
       {wrongQuestionIds.length > 0 && (
-        <button
-          type="button"
-          data-testid="review-wrong"
+        <Button
+          variant="primary"
+          testId="review-wrong"
           onClick={() => startReviewQuiz(wrongQuestionIds)}
-          style={{
-            width: '100%',
-            padding: 'var(--space-3)',
-            marginTop: 'var(--space-4)',
-            background: 'rgba(244, 67, 54, 0.1)',
-            border: '1px solid var(--danger)',
-            borderRadius: 'var(--radius-md)',
-            color: 'var(--text-primary)',
-            fontSize: 'var(--text-sm)',
-            fontWeight: 600,
-            cursor: 'pointer',
-            fontFamily: 'inherit',
-            textAlign: 'left',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
+          style={REVIEW_WRONG_BUTTON}
         >
           <span>Повторить ошибки</span>
           <span
             style={{
               fontSize: 'var(--text-sm)',
-              color: REVIEW_WRONG_META,
+              color: 'var(--color-danger-strong)',
               fontWeight: 600,
             }}
           >
             {wrongQuestionIds.length} вопр.
           </span>
-        </button>
+        </Button>
       )}
 
       {/* RHCSA Roadmap - informational only, topics are NOT interactive */}
@@ -668,9 +582,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                     {topic.title}
                   </div>
                   {topic.key === FIRST_FREE_TOPIC && (
-                    <span data-testid="topic-first-cta" style={FIRST_TOPIC_BADGE}>
+                    <Badge variant="hint" testId="topic-first-cta">
                       начните с этой
-                    </span>
+                    </Badge>
                   )}
                 </div>
                 <div
@@ -699,19 +613,13 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                 }}
               >
                 {badge !== null && (
-                  <span
-                    data-testid={badge.testid}
-                    style={{
-                      ...TOPIC_BADGE,
-                      // spec 079: явная тёмная роль акцента вместо `--accent`
-                      // (бейдж стоит на светлой плашке: 2.59:1 → 4.78:1).
-                      color: isFree ? 'var(--text-secondary)' : 'var(--color-accent-strong)',
-                      textTransform: 'uppercase',
-                      letterSpacing: 'var(--letter-wide, 0.5px)',
-                    }}
+                  <Badge
+                    variant={isFree ? 'free' : 'pro'}
+                    testId={badge.testid}
+                    style={LOCKED_BADGE}
                   >
                     {badge.label}
-                  </span>
+                  </Badge>
                 )}
                 {isAvailable ? (
                   <span
@@ -727,16 +635,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                     {count} вопр.
                   </span>
                 ) : (
-                  <span
-                    style={{
-                      ...TOPIC_BADGE,
-                      color: 'var(--text-secondary)',
-                      textTransform: 'uppercase',
-                      letterSpacing: 'var(--letter-wide, 0.5px)',
-                    }}
-                  >
+                  <Badge variant="locked" style={LOCKED_BADGE}>
                     Скоро
-                  </span>
+                  </Badge>
                 )}
               </div>
             </>
@@ -744,34 +645,34 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
           if (isAvailable) {
             return (
-              <button
+              <Card
                 key={topic.key}
-                type="button"
-                data-testid={`topic-${topic.key}`}
+                variant="plain"
+                as="button"
+                testId={`topic-${topic.key}`}
                 onClick={() => openTopic(topic.key, allowed)}
-                aria-label={`Начать тему: ${topic.title}`}
-                style={{ ...rowStyle, cursor: 'pointer' }}
+                ariaLabel={`Начать тему: ${topic.title}`}
+                style={rowStyle}
               >
                 {inner}
-              </button>
+              </Card>
             );
           }
 
           return (
-            <div key={topic.key} style={rowStyle}>
+            <Card key={topic.key} variant="plain" style={rowStyle}>
               {inner}
-            </div>
+            </Card>
           );
         })}
       </div>
       {/* Resume banner - unfinished regular quiz only */}
       {isQuizInProgress && !reviewQuestionIds ? (
-        <div
-          data-testid="resume-banner"
+        <Card
+          variant="plain"
+          testId="resume-banner"
           style={{
-            padding: 'var(--space-3)',
-            background: 'var(--bg-surface)',
-            borderRadius: 'var(--radius-md)',
+            border: 'none',
             marginTop: 'var(--space-4)',
             display: 'flex',
             justifyContent: 'space-between',
@@ -792,25 +693,21 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               {`Вопрос ${currentIndex + 1} из ${totalQuestions}`}
             </div>
           </div>
-          <button
-            type="button"
-            data-testid="resume-button"
+          <Button
+            variant="primary"
+            testId="resume-button"
             onClick={resumeQuiz}
             style={{
+              width: 'auto',
               padding: 'var(--space-2) var(--space-3)',
-              background: 'var(--accent)',
-              color: 'var(--btn-primary-text)',
-              border: 'none',
+              marginTop: 0,
               borderRadius: 'var(--btn-primary-radius)',
               fontSize: 'var(--text-xs)',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
             }}
           >
             Продолжить
-          </button>
-        </div>
+          </Button>
+        </Card>
       ) : null}
 
       {/* Вход в регулярный поток вне Telegram и когда нативный MainButton
@@ -845,9 +742,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             borderTop: '1px solid var(--border-subtle)',
           }}
         >
-          <button
-            type="button"
-            data-testid="dashboard-continue"
+          <Button
+            variant="primary"
+            testId="dashboard-continue"
             onClick={() => {
               if (reviewQuestionIds) {
                 startRegularQuiz();
@@ -856,21 +753,15 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             }}
             style={{
               // spec 079: тёмный `--text-primary` на акцентной заливке — 2.88:1.
-              // Роль «текст на акцентной кнопке» = белый (tokens.css).
-              background: 'var(--accent)',
-              color: 'var(--btn-primary-text)',
+              // Роль «текст на акцентной кнопке» = белый (tokens.css, в Button).
               padding: SPACING.md,
               borderRadius: LAYOUT.buttonRadius,
-              width: '100%',
-              cursor: 'pointer',
+              marginTop: 0,
               fontSize: 'var(--body)',
-              fontWeight: 600,
-              border: 'none',
-              fontFamily: 'inherit',
             }}
           >
             Продолжить
-          </button>
+          </Button>
         </div>
       )}
 
