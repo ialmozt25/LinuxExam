@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "48294fd5e2b3522a7210d3282caf5a3fdfbe6b76",
+  "head": "e1754f17a40f468a9b1bfc99571ce5448115fd6b",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана «Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецеденты 066-072»); guard spec 049 пускает эту сессию | commit pending",
-    "2026-10-04 | push | authorize push origin main — spec-079b+080+081; публикует b15103c..5b32a0b | commit pending",
     "2026-10-04 | push | выполнен b15103c..dfbb312 | commit dfbb312",
     "2026-10-05 | factory-rebuild | три опоры (Contract + Skills + Fitness/Hooks); .gitignore раскрыт для scripts/fitness/ и .dsh/skills/; pre-commit = check-boundaries + check-colors | commit pending",
     "2026-10-05 | factory-rebuild | check-boundaries → staged-only (git diff --cached --diff-filter=ACMRT); advisory/blocking разделены | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-05 | pilot-dashboard | src/ui/{Badge,Button,Card}.tsx + tests + index.ts; Dashboard мигрирован (10 inline button → 9 Button + 3 Card + 3 Badge); hex=0; skills загружены по триггеру; fitness OK (dead 32→30); typecheck/test:run 452/test:e2e 213/build = exit 0 | commit pending",
     "2026-10-05 | pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | commit pending",
     "2026-10-05 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана \"Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецедент log.md:344\"); guard spec 049 пускает эту сессию | commit pending",
-    "2026-10-05 | push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..<push-tip> | commit pending"
+    "2026-10-05 | push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..<push-tip> | commit pending",
+    "2026-10-06 | ui-styling-rules | skill 12 разделов (best practices 2026) + check-styling.mjs (5-я fitness, blocking в pre-commit); contract SSOT синхронизирован (fitness=5, forbidden_patterns=11, skills=4); AGENTS.md 49/50 | commit pending",
+    "2026-10-06 | findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "e1754f1",
+      "date": "2026-10-06",
+      "subject": "feat(factory): ui-styling-rules skill + check-styling fitness",
+      "type": "feat"
+    },
+    {
+      "sha": "4e121f8",
+      "date": "2026-10-05",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "48294fd",
       "date": "2026-10-05",
@@ -1603,18 +1615,6 @@
       "date": "2026-10-04",
       "subject": "chore(state): converge after spec-080+081",
       "type": "chore"
-    },
-    {
-      "sha": "acb74ee",
-      "date": "2026-10-04",
-      "subject": "docs(spec-080+081): done - full-checklist + top-fixes",
-      "type": "docs"
-    },
-    {
-      "sha": "c6ea01e",
-      "date": "2026-10-04",
-      "subject": "fix(spec-081): top-15 fixes",
-      "type": "fix"
     }
   ],
   "roles": [
