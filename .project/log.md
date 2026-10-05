@@ -356,3 +356,5 @@
 2026-10-06 | push | authorize push origin main - ui-styling-rules; публикует 4e121f8..<push-tip> | commit pending
 2026-10-06 | dashboard-fix | streak minHeight 80 (badge 80→100, overflow 6→0) + spacing литералы→var(--space-*) (dead tokens 30→27 побочно) + e2e verticalClipping (mutation ловит регресс) | commit pending
 2026-10-06 | dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | commit pending
+2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | commit pending
+2026-10-06 | push | authorize push origin main - dashboard-fix (retention minHeight + spacing tokens + vertical-clipping e2e); публикует c938856..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push (вариант A 2026-10-06); при регрессе — git revert | commit pending
