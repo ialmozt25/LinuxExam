@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "098eb364c0314b77c44c3770c7dc52a415320a16",
+  "head": "bab69be0dca8cac4ca9d99fe72738e77ca76bc91",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-05 | factory-rebuild | три опоры (Contract + Skills + Fitness/Hooks); .gitignore раскрыт для scripts/fitness/ и .dsh/skills/; pre-commit = check-boundaries + check-colors | commit pending",
-    "2026-10-05 | factory-rebuild | check-boundaries → staged-only (git diff --cached --diff-filter=ACMRT); advisory/blocking разделены | commit pending",
     "2026-10-05 | factory-rebuild | allowlist.json (Telegram payload hex, expires 2026-11-05); fitness_policy в contract; allowlist только уменьшается | commit pending",
     "2026-10-05 | pilot-dashboard | src/ui/{Badge,Button,Card}.tsx + tests + index.ts; Dashboard мигрирован (10 inline button → 9 Button + 3 Card + 3 Badge); hex=0; skills загружены по триггеру; fitness OK (dead 32→30); typecheck/test:run 452/test:e2e 213/build = exit 0 | commit pending",
     "2026-10-05 | pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-05 | push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..<push-tip> | commit pending",
     "2026-10-06 | ui-styling-rules | skill 12 разделов (best practices 2026) + check-styling.mjs (5-я fitness, blocking в pre-commit); contract SSOT синхронизирован (fitness=5, forbidden_patterns=11, skills=4); AGENTS.md 49/50 | commit pending",
     "2026-10-06 | findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | commit pending",
-    "2026-10-06 | push | authorize push origin main - ui-styling-rules; публикует 4e121f8..<push-tip> | commit pending"
+    "2026-10-06 | push | authorize push origin main - ui-styling-rules; публикует 4e121f8..<push-tip> | commit pending",
+    "2026-10-06 | dashboard-fix | streak minHeight 80 (badge 80→100, overflow 6→0) + spacing литералы→var(--space-*) (dead tokens 30→27 побочно) + e2e verticalClipping (mutation ловит регресс) | commit pending",
+    "2026-10-06 | dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "bab69be",
+      "date": "2026-10-06",
+      "subject": "fix(dashboard): retention streak minHeight + spacing tokens + vertical-clipping e2e",
+      "type": "fix"
+    },
+    {
+      "sha": "c938856",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "098eb36",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "e83c11f",
       "date": "2026-10-04",
       "subject": "chore(state): converge after push-block log",
-      "type": "chore"
-    },
-    {
-      "sha": "d8b0057",
-      "date": "2026-10-04",
-      "subject": "chore(log): push blocked by session guard",
-      "type": "chore"
-    },
-    {
-      "sha": "0e5cb92",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push trail",
       "type": "chore"
     }
   ],
