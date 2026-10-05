@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0d5ea4a04fc3e56df1f19361763c1b0eda35ffc5",
+  "head": "28da2650f2cea3e9980d601ae6450a17ad537297",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-04 | spec-081 | done - top-fixes | commit c6ea01e",
-    "2026-10-04 | spec-081 | TOP-15: 9 правок в 3 файлах. TYPO (medium): Dashboard.tsx:259 13px и :381 14px хардкод -> var(--text-sm) (значение есть в шкале токенов, файл рядом уже использует токен), StreakBadge.tsx:79 lineHeight 1.1 -> 1.4. SPACE (low, 5 правок в Dashboard): padding '2px 6px' -> '4px 8px', paddingBottom 12 -> 8, margin '4px 0 0 0' -> '8px 0 0 0', gap '4px 6px' -> '4px 8px', gap '2px' -> '4px'. A11Y (low): Paywall plan-radio получил aria-label (нативная цель 13x13 сохраняет hit-area <label>, скринридер больше не читает «radio, 13 на 13»). НЕ чинилось осознанно: ложные наблюдения аудита (вложенный radio, эмодзи lh 1) и 416 узлов текста < 16px (норма токенов --text-xs/--text-sm). npm run check 4 fail -> 0 fail (50 pass / 0 fail / 0 unknown / 11 manual, exit 0); COLOR-001/003 pass; 19 baseline PNG регенерированы (--update-snapshots=all + чистый прогон = 19 passed); гейты 442 / 213 / 0 / 0 = baseline | commit c6ea01e",
     "2026-10-04 | push | authorize push origin main - spec-079b+080+081; публикует b15103c..5b32a0b | commit pending",
     "2026-10-04 | push | НЕ выполнен: pre-push guard spec 049/правило 11 заблокировал (DSH_SESSION_ID этой сессии != .project/.captain-session-id); авторизация есть, идентичность сессии - нет. Две попытки, обе exit 1. Публикация b15103c..0e5cb92 (14 коммитов) не состоялась, origin/main = b15103c | commit pending",
     "2026-10-04 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана «Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецеденты 066-072»); guard spec 049 пускает эту сессию | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-04 | push | выполнен b15103c..dfbb312 | commit dfbb312",
     "2026-10-05 | factory-rebuild | три опоры (Contract + Skills + Fitness/Hooks); .gitignore раскрыт для scripts/fitness/ и .dsh/skills/; pre-commit = check-boundaries + check-colors | commit pending",
     "2026-10-05 | factory-rebuild | check-boundaries → staged-only (git diff --cached --diff-filter=ACMRT); advisory/blocking разделены | commit pending",
-    "2026-10-05 | factory-rebuild | allowlist.json (Telegram payload hex, expires 2026-11-05); fitness_policy в contract; allowlist только уменьшается | commit pending"
+    "2026-10-05 | factory-rebuild | allowlist.json (Telegram payload hex, expires 2026-11-05); fitness_policy в contract; allowlist только уменьшается | commit pending",
+    "2026-10-05 | pilot-dashboard | src/ui/{Badge,Button,Card}.tsx + tests + index.ts; Dashboard мигрирован (10 inline button → 9 Button + 3 Card + 3 Badge); hex=0; skills загружены по триггеру; fitness OK (dead 32→30); typecheck/test:run 452/test:e2e 213/build = exit 0 | commit pending",
+    "2026-10-05 | pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "28da265",
+      "date": "2026-10-05",
+      "subject": "feat(pilot): src/ui components + Dashboard migration (Badge/Button/Card)",
+      "type": "feat"
+    },
+    {
+      "sha": "2b9efda",
+      "date": "2026-10-05",
+      "subject": "chore(state): converge after factory-rebuild",
+      "type": "chore"
+    },
     {
       "sha": "0d5ea4a",
       "date": "2026-10-05",
@@ -1603,18 +1615,6 @@
       "date": "2026-10-04",
       "subject": "docs(spec-079b): done - dev-overlay-axe",
       "type": "docs"
-    },
-    {
-      "sha": "3f89f2b",
-      "date": "2026-10-04",
-      "subject": "fix(spec-079b): axe on prod stand",
-      "type": "fix"
-    },
-    {
-      "sha": "218f229",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after spec-079 done",
-      "type": "chore"
     }
   ],
   "roles": [

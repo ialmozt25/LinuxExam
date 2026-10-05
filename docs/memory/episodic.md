@@ -276,3 +276,8 @@ RECON подтверждён независимым PNG-сканером (`.proj
 Воспроизводимость: .gitignore раскрыт через negation parents (/scripts/* + !/scripts/fitness/; /.dsh/* + !/.dsh/skills/ + !/.dsh/hooks.json + !/.dsh/README.md).
 Гейты: check-colors OK (allowlisted=3), check-components OK, check-boundaries OK (staged-only), no-dead-tokens FAIL 32/74 (advisory debt).
 Коммиты: pending (см. git log). Push не выполнялся (правила 10/11).
+
+## 2026-10-05 | pilot-dashboard
+Первая end-to-end проверка контура фабрики. Созданы src/ui/{Badge,Button,Card}.tsx + 3 теста (10 кейсов) + index.ts (barrel). Dashboard мигрирован: 903→793 строк, 10 inline <button> → 9 Button + 3 Card + 3 Badge; hex=0; DOM-контракты сохранены под spec 065/079 и e2e (Badge=span, Card=button с прямыми потомками, theme-toggle 44×44). tokens.css не правился (значения нашлись в существующих токенах).
+Доказательства контура: (1) skills загрузились по триггеру — ui-component-create через skill tool, ui-screen-migrate как процедура; (2) fitness: no-hex OK, no-dup OK, boundaries OK, no-dead-tokens 32→30 (advisory); (3) гейты: typecheck/test:run 452/test:e2e 213/build — exit 0; (4) pre-commit exit 0 при staged пилота; (5) 3 PNG 390/768/1200 (vision-адаптер недоступен — FASB-003, layout защищён e2e mobile-layout.spec.ts).
+Коммиты: pending. Push не выполнялся (правила 10/11). VERIFIED на телефоне — за капитаном.

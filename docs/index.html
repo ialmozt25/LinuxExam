@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 0d5ea4a</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 28da265</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">28da265</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(pilot): src/ui components + Dashboard migration (Badge/Button/Card)</td>
+          <td class="mono muted">2026-10-05</td>
+        </tr>
+        <tr>
+          <td class="mono">2b9efda</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after factory-rebuild</td>
+          <td class="mono muted">2026-10-05</td>
+        </tr>
+        <tr>
           <td class="mono">0d5ea4a</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(factory): rebuild on three pillars — contract + skills + fitness enforcement</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>docs(spec-079b): done - dev-overlay-axe</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">3f89f2b</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(spec-079b): axe on prod stand</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
-        <tr>
-          <td class="mono">218f229</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after spec-079 done</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,7 +592,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">121 ч (~5.0 дн)</td>
+          <td class="muted">122 ч (~5.1 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -606,14 +606,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">50 ч (~2.1 дн)</td>
+          <td class="muted">51 ч (~2.1 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">121 ч (~5.0 дн)</td>
+          <td class="muted">122 ч (~5.1 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">04.10</span> · push | authorize push origin main — spec-079b+080+081; публикует b15103c..5b32a0b | ещё не закоммичено</li>
-        <li><span class="mono muted">04.10</span> · push | выполнен b15103c..dfbb312 | commit dfbb312</li>
         <li><span class="mono muted">05.10</span> · factory-rebuild | три опоры (Contract + Skills + Fitness/Hooks); .gitignore раскрыт для scripts/fitness/ и .dsh/skills/; pre-commit = check-boundaries + check-colors | ещё не закоммичено</li>
         <li><span class="mono muted">05.10</span> · factory-rebuild | check-boundaries → staged-only (git diff --cached --diff-filter=ACMRT); advisory/blocking разделены | ещё не закоммичено</li>
         <li><span class="mono muted">05.10</span> · factory-rebuild | allowlist.json (Telegram payload hex, expires 2026-11-05); fitness_policy в contract; allowlist только уменьшается | ещё не закоммичено</li>
+        <li><span class="mono muted">05.10</span> · pilot-dashboard | src/ui/{Badge,Button,Card}.tsx + tests + index.ts; Dashboard мигрирован (10 inline button → 9 Button + 3 Card + 3 Badge); hex=0; skills загружены по триггеру; fitness OK (dead 32→30)…</li>
+        <li><span class="mono muted">05.10</span> · pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | ещё не закоммичено</li>
     </ul>
   </details>
 
