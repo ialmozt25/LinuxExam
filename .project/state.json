@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0cae50e0f4dea0a32f15b853a0ee6c78a404ae6d",
+  "head": "5dd3be05ba3a39f9d830d5eb9b53e3421a883afb",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "5dd3be0",
+      "date": "2026-10-06",
+      "subject": "fix(ux): replace demotivating backlog string",
+      "type": "fix"
+    },
+    {
       "sha": "0cae50e",
       "date": "2026-10-06",
       "subject": "chore(state): converge before authorized push",
@@ -1608,12 +1614,6 @@
       "sha": "20cc84a",
       "date": "2026-10-06",
       "subject": "chore(state): converge before push",
-      "type": "chore"
-    },
-    {
-      "sha": "9365d3c",
-      "date": "2026-10-06",
-      "subject": "chore(log): trail for push design-review",
       "type": "chore"
     }
   ],
