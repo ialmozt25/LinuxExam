@@ -386,3 +386,5 @@
 2026-10-07 | tux-color | status UNVERIFIED на телефоне (FASB-001) | commit pending
 2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана "tux-color", C8): match=false, has_env=true; было session-84941ded-bda5-4fdd-a71e-7e4418863e2e → стало session-635d557c-011a-4654-912e-9c6e05b78306; guard spec 049 пускает эту сессию | commit pending
 2026-10-07 | push | authorize push origin main - tux-color (BW+invert → цветной Tux: public/tux.svg из garrett/Tux main/tux.svg + svgo --multipass + viewBox; invert-правило удалено из src/index.css; baseline dashboard ×2 обновлён); публикует 042352b..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending
+2026-10-07 | tux-outline | Tux на тёмной сливался; fix: filter drop-shadow (alpha, не bounding box) — светлый ореол по контуру; outline/box-shadow отклонены (прямоугольник) | commit pending
+2026-10-07 | tux-outline | status UNVERIFIED на телефоне (FASB-001) | commit pending

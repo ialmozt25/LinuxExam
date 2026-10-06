@@ -82,3 +82,22 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, input:focu
 .mono {
   font-family: var(--font-mono);
 }
+
+/*
+ * tux-outline (`make-interfaces-feel-better` §11, адаптация): Image outline для
+ * силуэтов с прозрачностью. Drop-shadow по alpha-каналу, не по bounding box.
+ * Ref: make-interfaces-feel-better §11 (адаптация).
+ *
+ * Контекст: BW-инверсия удалена вместе с переходом на цветной ассет
+ * (`tux-color`), и на тёмной теме цветной Tux сливался с `--bg-surface`.
+ * `outline`/`box-shadow` здесь не годятся — они рисуют прямоугольник по
+ * bounding box `<img>`, а не по силуэту; drop-shadow фильтрует альфу.
+ * Правило намеренно адресное (`[data-testid="tux"]`), размер ореола — 1px,
+ * чтобы не превратиться в diffuse shadow (tell 7).
+ */
+[data-testid="tux"] {
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+[data-theme="dark"] [data-testid="tux"] {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
+}

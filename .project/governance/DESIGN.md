@@ -50,6 +50,14 @@ px-литералов в `.tsx` нет. Mobile-first: 390 (base) → 768 → 120
 `--border-subtle`, а не тень. Blur > 24px и diffuse shadow — нарушение (tell 7).
 Elevation поднимает модалку/поповер, а не «делает красиво».
 
+**Image outline для силуэтов с прозрачностью.** Логотипы и иконки-картинки на
+контрастной подложке получают тонкий ореол по силуэту:
+`filter: drop-shadow(0 0 1px rgba(255,255,255,0.5))` в dark /
+`rgba(0,0,0,0.5)` в light. Не `outline` и не `box-shadow` — они дают
+прямоугольник по bounding box, а не по alpha-каналу. Ref:
+`make-interfaces-feel-better` §11 (адаптация). Применено:
+`[data-testid="tux"]` в `src/index.css`.
+
 ## Shapes
 4px — компактные элементы (badge, input, chip), 8px — карточки и панели.
 16px+ на большинстве поверхностей запрещено. Пилюля — только для статуса.
