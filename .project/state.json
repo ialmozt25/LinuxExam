@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "543fc8f158a12f1f20a68b51d14be2103a6484f7",
+  "head": "ad3e0d5e392798aa81f791266e83d91bb8c0a3e1",
   "specs": [
     {
       "id": "022",
@@ -1483,7 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | push | authorize push origin main - ux-copy (видимая строка «Осталось повторить: N» → «Следующее повторение: завтра», N вынесен в data-fsrs-remaining и читается e2e/fsrs.spec.ts из атрибута, а не из текста; baseline dashboard не менялись — строка остатка в снимок визуальной регрессии не попадает, пул сида равен SESSION_LIMIT); публикует 0cae50e..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | ux-copy-3 | CTA «Продолжить обучение · 15 минут · 30 вопросов», Tux в header, streak — цифра жирно + pluralDays мелко, «Следующее повторение» удалено; fsrs.spec.ts обновлён | commit pending",
     "2026-10-07 | ux-copy-3 | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-07 | ux-copy-3 | производные правки вне allowed-списка (вынуждены гейтами 2/3, не расширение скоупа): e2e/retention.spec.ts — ассерт старой подписи бейджа («День 1 — хорошее начало» → «день подряд»); e2e/ux-regression.spec.ts — tuxLeaves считается по документу (Tux уехал из бейджа в заголовок, инвариант «маскот ровно один» сохранён); src/presentation/components/__tests__/StreakBadge.test.tsx — подпись streakMessage → pluralDays | commit pending",
@@ -1492,10 +1491,23 @@
     "2026-10-07 | push | authorize push origin main - ux-copy-3 (CTA «Продолжить обучение · 15 минут · 30 вопросов» вместо «Повторить сегодня»; Tux из streak-бейджа в заголовок Dashboard, gap var(--space-2); streak — цифра 28px/700/--text-primary + pluralDays «день/дня/дней подряд» 14px/--text-secondary; строка «Следующее повторение: завтра» удалена вместе с узлом review-today-remainder и data-fsrs-remaining; fsrs.spec.ts переведён на persist/константы; производные: retention.spec.ts, ux-regression.spec.ts, StreakBadge.test.tsx); публикует e75637b..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | ux-copy-3-fix | CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds(): «Продолжить обучение · N вопросов», при N = 0 правая часть скрыта целиком; сессии идут одна за другой, N пересчитывается после каждой | commit pending",
     "2026-10-07 | ux-copy-3-fix | streak-рамка: цвет состояния (--success/--warning/--danger) → единый --color-accent-strong (#1565C0) в light/dark, mobile/desktop, dev/prod; токена --color-accent в tokens.css нет, --accent отклонён (Telegram-aware) | commit pending",
-    "2026-10-07 | ux-copy-3-fix | status UNVERIFIED на телефоне (FASB-001) | commit pending"
+    "2026-10-07 | ux-copy-3-fix | status UNVERIFIED на телефоне (FASB-001) | commit pending",
+    "2026-10-07 | push | authorize push origin main - ux-copy-3-fix (CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds(), «Продолжить обучение · N вопросов», при N = 0 правая часть скрыта целиком; streak-рамка: цвет состояния (--success/--warning/--danger, у success/danger разные значения в light и dark) → единый --color-accent-strong, проверено computed style в dev (light×dark × mobile×desktop × active/warning/broken = 6 замеров, одно значение) и в проде после деплоя; baseline dashboard-mobile + dashboard-desktop перегенерированы, visual-regression 19 passed); публикует aefd20f..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "ad3e0d5",
+      "date": "2026-10-06",
+      "subject": "chore(log): trail for push ux-copy-3-fix",
+      "type": "chore"
+    },
+    {
+      "sha": "1d6942d",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge after ux-copy-3-fix",
+      "type": "chore"
+    },
     {
       "sha": "543fc8f",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "1a73e73",
       "date": "2026-10-06",
       "subject": "chore(state): converge after tux-fix",
-      "type": "chore"
-    },
-    {
-      "sha": "0343486",
-      "date": "2026-10-06",
-      "subject": "fix(design): tux asset path respects vite base",
-      "type": "fix"
-    },
-    {
-      "sha": "070967c",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
