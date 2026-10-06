@@ -48,4 +48,6 @@ env-флаг не изолирует воркеров (общий процесс
 
 2026-10-03 | Trail-коммит перед push структурно открывает sync-drift — log.md входит в state.json.log_tail. Порядок «trail → push → sync → converge» штатный; требовать sync:check=0 ДО push после trail-коммита некорректно.
 
-<!-- meta updated: 2026-10-03T08:58:02Z entries_count: 9 -->
+2026-10-07 | Static assets и absolute URLs — всегда через `import.meta.env.BASE_URL`; абсолютный `/` ломается на GH Pages subpath. Проверка: compare dev-server URL с prod URL. Прецедент tux-streak (`2333ee4`): файл лежал на `/LinuxExam/tux.svg` (200), а `<img src="/tux.svg">` уходил на `https://ialmozt25.github.io/tux.svg` (404) — Vite переписывает абсолютные пути только в `index.html`, не в строковых литералах `.tsx`; все локальные гейты (base `/`) были зелёными. Правила 3, 16.
+
+<!-- meta updated: 2026-10-06T05:08:54Z entries_count: 10 -->

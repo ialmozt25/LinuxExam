@@ -379,3 +379,5 @@
 2026-10-07 | tux-streak | status UNVERIFIED на телефоне (FASB-001) | commit pending
 2026-10-06 | guard | якорь перезаписан на session-84941ded… | commit pending
 2026-10-07 | push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2, ux-regression regression guard); публикует 2333ee4..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending
+2026-10-07 | tux-fix | root cause: src="/tux.svg" давал 404 на /LinuxExam/ subpath (Vite base); fix через import.meta.env.BASE_URL | commit pending
+2026-10-07 | tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | commit pending

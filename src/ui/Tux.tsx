@@ -13,11 +13,19 @@
  *
  * Размер задаётся в CSS-пикселях через `width`/`height`; ассет несёт `viewBox`,
  * поэтому SVG масштабируется равномерно и не искажается.
+ *
+ * Путь собирается из `import.meta.env.BASE_URL`, а НЕ пишется как `/tux.svg`:
+ * Vite переписывает абсолютные пути только в `index.html`, но не строковые
+ * литералы в `.tsx`. Сборка прода идёт с `VITE_BASE=/LinuxExam/`
+ * (`.github/workflows/deploy.yml`), поэтому жёсткий `/tux.svg` уезжал на
+ * `https://ialmozt25.github.io/tux.svg` → 404 и бейдж показывал битую картинку.
+ * `BASE_URL` равен `/LinuxExam/` на проде и `/` на локальных стендах, то есть
+ * одна и та же строка кода верна в обоих окружениях.
  */
 export function Tux({ size = 24, className }: { size?: number; className?: string }) {
   return (
     <img
-      src="/tux.svg"
+      src={`${import.meta.env.BASE_URL}tux.svg`}
       alt=""
       aria-hidden="true"
       width={size}
