@@ -367,3 +367,5 @@
 2026-10-06 | push | authorize push origin main - dashboard-ux-2 (pluralization + dedupe + remove locks + xp min-fill); публикует b228d25..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; при регресс — git revert | commit pending
 2026-10-06 | design-guardian | скилл 3 режима (read/build/review) + DESIGN.md (12 anti-slop tells, ручки 4/2/6) + check-slop.mjs (12 проверок, уважает allowlist); fix 3 hardcoded font-size | commit pending
 2026-10-06 | design-guardian | status UNVERIFIED на телефоне (FASB-001) | commit pending
+2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД): match=false, has_env=true; было session-1791068b-9a33-4185-9df1-1714ecb4aba8 → стало session-528f8756-9330-4d27-a504-17580b916591 | commit pending
+2026-10-06 | push | authorize push origin main - design-guardian (DESIGN.md + skill 3 режима + check-slop × allowlist + font-size token fix); публикует 8c9d517..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending
