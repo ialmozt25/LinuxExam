@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на dee5278</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 0343486</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">0343486</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(design): tux asset path respects vite base</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
+        <tr>
+          <td class="mono">070967c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
+        <tr>
           <td class="mono">dee5278</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): trail for push tux-streak</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after dashboard-ux-2</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">847f188</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(dashboard): pluralization + dedupe + remove locks + xp min-fill</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
-        <tr>
-          <td class="mono">b228d25</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,28 +592,28 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">139 ч (~5.8 дн)</td>
+          <td class="muted">140 ч (~5.8 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">186 ч (~7.8 дн)</td>
+          <td class="muted">187 ч (~7.8 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
-          <td class="mono muted">2026-10-03T08:58:02Z</td>
-          <td class="mono">9</td>
-          <td class="muted">68 ч (~2.8 дн)</td>
+          <td class="mono muted">2026-10-06T05:08:54Z</td>
+          <td class="mono">10</td>
+          <td class="muted">&lt;1 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">139 ч (~5.8 дн)</td>
+          <td class="muted">140 ч (~5.8 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - design-review-2 (focus styles WCAG 2.4.7 + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен…</li>
-        <li><span class="mono muted">07.10</span> · tux-streak | 🔥 → Tux (garrett/Tux, CC0, BW); asset public/tux.svg; baseline dashboard обновлён | ещё не закоммичено</li>
         <li><span class="mono muted">07.10</span> · tux-streak | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · guard | якорь перезаписан на session-84941ded… | ещё не закоммичено</li>
         <li><span class="mono muted">07.10</span> · push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2…</li>
+        <li><span class="mono muted">07.10</span> · tux-fix | root cause: src=&quot;/tux.svg&quot; давал 404 на /LinuxExam/ subpath (Vite base); fix через import.meta.env.BASE_URL | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | ещё не закоммичено</li>
     </ul>
   </details>
 

@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "dee527887f703d7c5fff89e8005d0d3033e1c9a7",
+  "head": "0343486ed80dc38bd23ef967e7db681c88ae7afa",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-06 | design-review | design-guardian REVIEW по 6 экранам (Dashboard, Question, ExamRun, Results, ExamResults, Analytics; Quiz.tsx в репо НЕТ — слот закрыт read-only ревью ExamRun): применено 5 P1 + 5 P2 — неопределённый var(--bg-secondary) → var(--bg-surface) в Analytics; rgba-литералы вариантов → color-mix(--success/--danger); устаревший accent #2196F3 в свечении → color-mix(--accent); чип варианта белым 10% → var(--text-primary) 10%; width-анимация → transform/scaleX (3 трека); числовые fontSize 48/12 → токены; letterSpacing → токены; геометрия треков/чипа → 8 новых токенов; emoji → lucide SVG; границы вторичных CTA; dead tokens 27→25, check-slop 0 | commit pending",
-    "2026-10-06 | design-review | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-06 | push | authorize push origin main - design-review (design-guardian REVIEW 6 экранов: 5 P1 + 5 P2, tokens +8, dead tokens 27→25); публикует 5614122..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending",
     "2026-10-07 | design-review-2 | focus styles (WCAG 2.4.7) + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен; check-slop 0 | commit pending",
     "2026-10-07 | design-review-2 | status UNVERIFIED на телефоне (FASB-001) | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-07 | tux-streak | 🔥 → Tux (garrett/Tux, CC0, BW); asset public/tux.svg; baseline dashboard обновлён | commit pending",
     "2026-10-07 | tux-streak | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-06 | guard | якорь перезаписан на session-84941ded… | commit pending",
-    "2026-10-07 | push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2, ux-regression regression guard); публикует 2333ee4..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending"
+    "2026-10-07 | push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2, ux-regression regression guard); публикует 2333ee4..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending",
+    "2026-10-07 | tux-fix | root cause: src=\"/tux.svg\" давал 404 на /LinuxExam/ subpath (Vite base); fix через import.meta.env.BASE_URL | commit pending",
+    "2026-10-07 | tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0343486",
+      "date": "2026-10-06",
+      "subject": "fix(design): tux asset path respects vite base",
+      "type": "fix"
+    },
+    {
+      "sha": "070967c",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "dee5278",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "0aaa1f8",
       "date": "2026-10-06",
       "subject": "chore(state): converge after dashboard-ux-2",
-      "type": "chore"
-    },
-    {
-      "sha": "847f188",
-      "date": "2026-10-06",
-      "subject": "fix(dashboard): pluralization + dedupe + remove locks + xp min-fill",
-      "type": "fix"
-    },
-    {
-      "sha": "b228d25",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
