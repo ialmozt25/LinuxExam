@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">9dab920</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after dashboard-ux</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
+        <tr>
           <td class="mono">079c294</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(dashboard): retention UX - badge/CTA/empty-state + fitness rules + baseline</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): resolve trail SHA 5b32a0b</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">5b32a0b</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push b15103c</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,7 +592,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">135 ч (~5.6 дн)</td>
+          <td class="muted">136 ч (~5.7 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -613,7 +613,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">135 ч (~5.6 дн)</td>
+          <td class="muted">136 ч (~5.7 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">06.10</span> · dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | ещё не закоммичено</li>
-        <li><span class="mono muted">06.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · push | authorize push origin main - dashboard-fix (retention minHeight + spacing tokens + vertical-clipping e2e); публикует c938856..&lt;push-tip&gt;; VERIFIED на телефоне…</li>
         <li><span class="mono muted">06.10</span> · dashboard-ux | retention: badge variant unified (77 синих → 0), CTA dedupe (resume secondary), XpBar border (0% fill), top-progress label, XP-дубли v1 (удалён retention-goal-line)…</li>
         <li><span class="mono muted">06.10</span> · dashboard-ux | 2 baseline PNG обновлены (dashboard-mobile/desktop, сдвиг y≈307); status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
+        <li><span class="mono muted">06.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | ещё не закоммичено</li>
+        <li><span class="mono muted">06.10</span> · push | authorize push origin main - dashboard-ux (badge/CTA/empty-state + fitness + baseline); публикует 7c7b9ec..&lt;push-tip&gt;; VERIFIED на телефоне — ПОСЛЕ push (вариант A); при регресс…</li>
     </ul>
   </details>
 
