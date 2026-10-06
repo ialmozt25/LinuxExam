@@ -12,6 +12,7 @@ import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
+import { SESSION_LIMIT } from '@/domain/fsrs';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
 import { Badge, Button, Card } from '@/ui';
@@ -180,6 +181,15 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // SESSION_LIMIT сессия обещает ровно то, что откроет.
   const dueCount = sessionDueIds.length;
   const newCount = sessionNewIds.length;
+  // ux-copy-3-fix (2026-10-07): размер СЛЕДУЮЩЕЙ сессии — для правого счётчика
+  // CTA. Сессию собирает `getSessionIds()` (просроченные по убыванию просрочки,
+  // затем новые, обрезка до SESSION_LIMIT), поэтому N = dueCount + newCount,
+  // клампленный размером сессии. В рантайме `newCount` = 0:
+  // `ensureReviewsInitialized` при монтировании проставляет записи всему банку,
+  // и вопросов «без записи» не остаётся — тогда N равен просроченной части, то
+  // есть ровно тому, что откроет кнопка (проверяется в e2e/fsrs.spec.ts:
+  // «обещание равно факту» — N из подписи против счётчика прогона `1 / N`).
+  const sessionSize = Math.min(SESSION_LIMIT, dueCount + newCount);
 
   // Профиль без единого ответа: показываем приглашение, а не «повторить».
   // Условие — пустая статистика, а не пустой реестр расписания: реестр
@@ -437,14 +447,15 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               style={PRIMARY_CTA}
             >
               {/* ux-copy-3 (2026-10-07): подпись «Повторить сегодня» читалась как
-                  долг перед приложением. Главный текст — «Продолжить обучение»;
-                  правый счётчик сохранён тем же узлом и стилем (CTA_COUNTER),
-                  содержимое заменено на обещание сессии: «15 минут · 30 вопросов»
-                  (SESSION_LIMIT = 30; «15 минут» — тот же формат, что у подписи
-                  «Подготовка к RHCSA за 15 минут в день»). Числа сессии в подписи
-                  больше нет: она не пересчитывается. */}
+                  долг перед приложением — главный текст «Продолжить обучение».
+                  ux-copy-3-fix (2026-10-07): «15 минут · 30 вопросов» был хардкодом
+                  обещания; правая часть снова показывает реальное число вопросов
+                  следующей сессии (`sessionSize`) и скрывается целиком, если
+                  показывать нечего (N = 0) — тогда кнопка несёт только подпись. */}
               <span>Продолжить обучение</span>
-              <span style={CTA_COUNTER}>15 минут · 30 вопросов</span>
+              {sessionSize > 0 ? (
+                <span style={CTA_COUNTER}>{`${sessionSize} вопросов`}</span>
+              ) : null}
             </Button>
           ) : null}
 

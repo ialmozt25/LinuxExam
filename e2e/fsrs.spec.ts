@@ -37,28 +37,42 @@ const SESSION_LIMIT = 30;
 const TOPIC = 'file_permissions';
 
 /**
- * Контракт кнопки входа в занятие после ux-copy-3 (2026-10-07): подпись —
- * «Продолжить обучение», правый счётчик — фиксированное обещание сессии
- * «15 минут · 30 вопросов».
+ * Контракт кнопки входа в занятие: подпись — «Продолжить обучение», правая
+ * часть — «N вопросов», где N — размер СЛЕДУЮЩЕЙ сессии.
  *
- * Числа сессии в подписи больше нет: N не живёт в DOM, поэтому размер сессии
- * проверяется по счётчику самого прогона (`counterText` → `1 / 30`), а не по
- * подписи кнопки. Остатка пула (`data-fsrs-remaining`) в DOM тоже нет —
- * хвост наблюдается по persist (см. `dueInFuture`).
+ * ux-copy-3 (2026-10-07) сделал правую часть хардкодом обещания («15 минут ·
+ * 30 вопросов»); ux-copy-3-fix вернул в неё число: N = min(SESSION_LIMIT,
+ * dueCount + newCount) — ровно то, что откроет кнопка. Поэтому N снова читается
+ * из DOM, и размер сессии проверяется по подписи, а не только счётчиком прогона.
+ *
+ * Остатка пула (`data-fsrs-remaining`) в DOM нет — хвост наблюдается по persist
+ * (см. `dueInFuture`).
  */
 const TITLE = /^Продолжить обучение$/;
-const PROMISE = '15 минут · 30 вопросов';
+/** Правая часть кнопки: «N вопросов». */
+const COUNTER = /(\d+)\s*вопросов/;
 
-/** Подпись кнопки повторения и обещание сессии — оба узла контракта. */
-async function expectReviewCta(page: import('@playwright/test').Page): Promise<void> {
-  const button = page.getByTestId(TESTID.reviewToday);
-  // Подпись — тоже часть контракта: если она поедет, тест обязан упасть здесь,
-  // с понятным сообщением, а не в математике где-то дальше.
-  const text = (await button.innerText()).trim();
+/**
+ * Размер следующей сессии из подписи кнопки.
+ *
+ * Подпись — часть контракта: если она поедет, тест обязан упасть здесь, с
+ * понятным сообщением, а не «не разобрать N» где-то дальше.
+ */
+async function reviewTodayCount(page: import('@playwright/test').Page): Promise<number> {
+  const text = (await page.getByTestId(TESTID.reviewToday).innerText()).trim();
   if (!TITLE.test(text.split('\n')[0].trim())) {
     throw new Error(`подпись кнопки повторения изменилась: «${text}»`);
   }
-  await expect(button).toContainText(PROMISE);
+  const match = COUNTER.exec(text);
+  if (!match) throw new Error(`не удалось разобрать N из «${text}»`);
+  return Number(match[1]);
+}
+
+/** Кнопка обязана появиться с непустой сессией; возвращает N из подписи. */
+async function expectReviewCta(page: import('@playwright/test').Page): Promise<number> {
+  const size = await reviewTodayCount(page);
+  expect(size).toBeGreaterThanOrEqual(1);
+  return size;
 }
 
 /**
@@ -132,9 +146,9 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await waitForDashboard(page);
 
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    // Кнопка рендерится только при `dueCount > 0`, то есть «сессия непуста»
-    // доказано самим её появлением: числа сессии подпись больше не несёт.
-    await expectReviewCta(page);
+    // Кнопка рендерится только при `dueCount > 0`, а её N — размер сессии:
+    // после одного ответа просрочен весь банк, поэтому сессия полная.
+    expect(await expectReviewCta(page)).toBe(SESSION_LIMIT);
     await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
   });
 
@@ -162,9 +176,8 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await seedHistoryProfile(page, pool, { once: true });
     await gotoApp(page);
 
-    // Пул 60, сессия 30. Размер сессии проверяется по счётчику прогона (ниже),
-    // а не по подписи кнопки: числа в ней больше нет (ux-copy-3).
-    await expectReviewCta(page);
+    // Пул 60, сессия 30: N в подписи — размер сессии, а не размер пула.
+    expect(await expectReviewCta(page)).toBe(SESSION_LIMIT);
     // Строки остатка больше нет вовсе — узел и его data-атрибут удалены.
     await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveCount(0);
     // Хвост наблюдается по persist: сид планирует в будущее весь банк за
@@ -193,7 +206,7 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     // Сессия остаётся ПОЛНОЙ — она набирается из остатка пула, — а уменьшается
     // именно остаток: к «будущим» добавились ровно два отвеченных вопроса.
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    await expectReviewCta(page);
+    expect(await expectReviewCta(page)).toBe(SESSION_LIMIT);
     expect(await dueInFuture(page)).toBe(BANK_TOTAL - pool + 2);
 
     // И реестр расписания переживает reload.
@@ -261,7 +274,7 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await gotoApp(page);
 
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    await expectReviewCta(page);
+    expect(await expectReviewCta(page)).toBe(SESSION_LIMIT);
     // Новых вопросов нет: приглашение к обучению не показывается.
     await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
     // Весь банк просрочен, в будущем не запланировано ничего, а хвост за одной
@@ -322,14 +335,16 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await seedDueProfile(page);
     await gotoApp(page);
 
-    // 253 просроченных в пуле, но каждая сессия — не больше 30: длину сессии
-    // читаем из счётчика самого прогона (подпись кнопки числа не несёт).
-    await expectReviewCta(page);
+    // 253 просроченных в пуле, но каждая сессия — не больше 30. Обещание
+    // кнопки (N в подписи) обязано совпасть с фактом (счётчик прогона):
+    // ровно это и есть контракт ux-copy-3-fix.
+    const promised = await expectReviewCta(page);
+    expect(promised).toBe(SESSION_LIMIT);
     expect(BANK_TOTAL).toBeGreaterThan(SESSION_LIMIT);
 
     await page.getByTestId(TESTID.reviewToday).click();
     await waitForQuestion(page);
-    expect(await counterText(page)).toBe(`1 / ${SESSION_LIMIT}`);
+    expect(await counterText(page)).toBe(`1 / ${promised}`);
 
     const stored = await readPersisted(page);
     expect(Object.keys(stored?.state.scheduledReviews ?? {})).toHaveLength(BANK_TOTAL);

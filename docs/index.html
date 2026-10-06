@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">aefd20f</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
+        <tr>
           <td class="mono">ab42c30</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): trail for push ux-copy-3</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): trail for push tux-streak</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">1f6abd1</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after tux-streak</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,14 +592,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">145 ч (~6.0 дн)</td>
+          <td class="muted">146 ч (~6.1 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">192 ч (~8.0 дн)</td>
+          <td class="muted">193 ч (~8.0 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
@@ -613,14 +613,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">145 ч (~6.0 дн)</td>
+          <td class="muted">146 ч (~6.1 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">83 ч (~3.5 дн)</td>
+          <td class="muted">84 ч (~3.5 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · ux-copy-3 | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · ux-copy-3 | производные правки вне allowed-списка (вынуждены гейтами 2/3, не расширение скоупа): e2e/retention.spec.ts — ассерт старой подписи бейджа («День 1…</li>
-        <li><span class="mono muted">06.10</span> · guard | якорь перезаписан на session-39a0cb49… | ещё не закоммичено</li>
         <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;ux-copy-3&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
         <li><span class="mono muted">07.10</span> · push | authorize push origin main - ux-copy-3 (CTA «Продолжить обучение · 15 минут · 30 вопросов» вместо «Повторить сегодня»; Tux из streak-бейджа в заголовок Dashboard, gap var(--space-2); streak…</li>
+        <li><span class="mono muted">07.10</span> · ux-copy-3-fix | CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds(): «Продолжить обучение · N вопросов»…</li>
+        <li><span class="mono muted">07.10</span> · ux-copy-3-fix | streak-рамка: цвет состояния (--success/--warning/--danger) → единый --color-accent-strong (#1565C0) в light/dark, mobile/desktop, dev/prod; токена --color-accent в tokens.css нет…</li>
+        <li><span class="mono muted">07.10</span> · ux-copy-3-fix | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
     </ul>
   </details>
 

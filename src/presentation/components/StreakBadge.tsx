@@ -1,16 +1,10 @@
 import { useQuizStore } from '@/store/quizStore';
 import { useStreakState } from '@/store/dailyGoal';
 import { SPACING, LAYOUT } from '@/presentation/theme';
-import { messageColor, pluralDays, stateColor, type StreakColor } from '@/domain/goal';
+import { messageColor, pluralDays } from '@/domain/goal';
 
 /** Размер бейджа серии (spec 061, К3): квадрат ≈80×80. */
 const BADGE_SIZE = 80;
-
-const COLOR_VAR: Record<StreakColor, string> = {
-  green: 'var(--success)',
-  orange: 'var(--warning)',
-  red: 'var(--danger)',
-};
 
 /**
  * Streak badge (spec 061). Retention-вид: крупное число дней + слово серии.
@@ -22,6 +16,11 @@ const COLOR_VAR: Record<StreakColor, string> = {
  * Число больше не дублируется текстом: оно стоит крупно над подписью, подпись
  * несёт только форму слова. `streakMessage` остаётся в домене (её собственный
  * контракт и её тесты не тронуты) — бейдж её больше не рендерит.
+ *
+ * ux-copy-3-fix (2026-10-07): рамка бейджа больше не зависит ни от состояния
+ * серии, ни от темы — один цвет `var(--color-accent-strong)` в light и dark, на
+ * mobile и desktop. Числовое значение токена и замеры по контекстам — в
+ * docs/memory/episodic.md (hex в .tsx запрещён правилом no-hex-in-tsx).
  *
  * Состояние считается по сегодняшней активности, а не по одной длине серии:
  * active (сегодня занимались) → green, warning (последняя активность вчера) →
@@ -38,7 +37,16 @@ export function StreakBadge() {
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const state = useStreakState();
 
-  const color = COLOR_VAR[stateColor(state)];
+  // ux-copy-3-fix (2026-10-07): рамка бейджа — ОДИН цвет во всех контекстах.
+  // Раньше она шла от состояния серии (`--success`/`--warning`/`--danger`), а
+  // `--theme-success`/`--theme-danger` в tokens.css заданы РАЗНЫМИ значениями для
+  // light и dark — бейдж выглядел по-разному на телефоне и на десктопе. Взята
+  // фиксированная примитивная роль акцента `--color-accent-strong`: объявлена
+  // один раз в `:root` и темами не переопределяется. `--accent` не годится — он
+  // Telegram-aware (`var(--tg-theme-button-color, …)`), `--warning` запрещён
+  // заданием. Задание называло токен `var(--color-accent)`; такого в tokens.css
+  // нет, значение совпадает именно с `--color-accent-strong` (числа обеих тем и
+  // замеры — в docs/memory/episodic.md).
   // Слово серии под числом: 1 → «день подряд», 2–4 → «дня подряд»,
   // 5+ → «дней подряд». Согласование — домен, здесь правило не дублируется.
   const caption = `${pluralDays(streak)} подряд`;
@@ -86,7 +94,7 @@ export function StreakBadge() {
           flexShrink: 0,
           background: 'var(--bg-surface)',
           color: 'var(--text-primary)',
-          border: `1px solid ${color}`,
+          border: '1px solid var(--color-accent-strong)',
           borderRadius: LAYOUT.cardRadius,
           cursor: 'pointer',
           fontFamily: 'inherit',
