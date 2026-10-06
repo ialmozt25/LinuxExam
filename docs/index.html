@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">54</div>
+      <div class="pulse-tile__value">55</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -351,7 +351,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 54 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 55 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -454,6 +454,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">20cc84a</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before push</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
         <tr>
           <td class="mono">9365d3c</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>fix(dashboard): retention streak minHeight + spacing tokens + vertical-clipping e2e</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">c938856</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -606,7 +606,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">66 ч (~2.8 дн)</td>
+          <td class="muted">67 ч (~2.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -620,7 +620,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">75 ч (~3.1 дн)</td>
+          <td class="muted">76 ч (~3.2 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">06.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД): match=false…</li>
-        <li><span class="mono muted">06.10</span> · push | authorize push origin main - design-guardian (DESIGN.md + skill 3 режима + check-slop × allowlist + font-size token fix); публикует 8c9d517..&lt;push-tip&gt;; VERIFIED на телефоне…</li>
         <li><span class="mono muted">06.10</span> · design-review | design-guardian REVIEW по 6 экранам (Dashboard, Question, ExamRun, Results, ExamResults, Analytics; Quiz.tsx в репо НЕТ — слот закрыт read-only ревью ExamRun): применено 5 P1 + 5 P2…</li>
         <li><span class="mono muted">06.10</span> · design-review | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · push | authorize push origin main - design-review (design-guardian REVIEW 6 экранов: 5 P1 + 5 P2, tokens +8, dead tokens 27→25); публикует 5614122..&lt;push-tip&gt;; VERIFIED на телефоне…</li>
+        <li><span class="mono muted">07.10</span> · design-review-2 | focus styles (WCAG 2.4.7) + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен; check-slop 0 | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · design-review-2 | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -665,8 +665,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 80</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 80</div>
+    <summary>Тревоги · записей: 81</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 81</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -982,6 +982,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">06.10 | a11y | в src/ нет ни одного правила :focus-visible</div>
           <div class="entry__body muted">Design-review 6 экранов: grep по src/** (css+tsx) не нашёл ни :focus, ни :focus-visible, ни outline…</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">07.10 | correction | alert a11y/focus-visible закрыт (design-review-2)</div>
+          <div class="entry__body muted">Запись «в src/ нет ни одного правила :focus-visible» устарела: A1 добавил правила :focus-visible в src/index.css (outline: 2px solid var(--color-accent-strong)…</div>
         </div>
   </details>
 

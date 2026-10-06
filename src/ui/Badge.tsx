@@ -32,7 +32,7 @@ export interface BadgeProps {
 const FRAME: CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
-  minHeight: 32,
+  minHeight: 'var(--badge-min-height, 32px)',
   fontSize: 'var(--text-xs)',
   fontWeight: 600,
   background: 'var(--bg-elevated)',

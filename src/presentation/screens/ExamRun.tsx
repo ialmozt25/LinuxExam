@@ -167,7 +167,7 @@ export default function ExamRun() {
                 gap: SPACING.sm,
                 width: '100%',
                 padding: SPACING.md,
-                background: selected ? 'rgba(33,150,243,0.08)' : 'var(--bg-elevated)',
+                background: selected ? 'color-mix(in srgb, var(--color-accent-strong) 8%, transparent)' : 'var(--bg-elevated)',
                 border: `2px solid ${selected ? 'var(--accent)' : 'var(--border-subtle)'}`,
                 borderRadius: 'var(--card-radius)',
                 color: 'var(--text-primary)',
@@ -183,7 +183,7 @@ export default function ExamRun() {
                   width: 24,
                   height: 24,
                   borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.1)',
+                  background: 'color-mix(in srgb, var(--text-primary) 10%, transparent)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -228,9 +228,10 @@ export default function ExamRun() {
             width: '100%',
             marginTop: SPACING.md,
             padding: SPACING.md,
-            // spec 079: белый текст на акценте — 3.12:1 при пороге 4.5:1,
-            // поэтому заливка = `--color-accent-strong` (5.75:1).
-            background: selectedIndex === null ? 'var(--bg-surface)' : 'var(--color-accent-strong)',
+            // design-review-2: заливка — семантическая роль --btn-primary-bg
+            // (= var(--accent)), а не примитив --color-accent-strong: роль
+            // следует палитре Telegram, как у остальных primary-CTA.
+            background: selectedIndex === null ? 'var(--bg-surface)' : 'var(--btn-primary-bg)',
             color: selectedIndex === null ? 'var(--text-secondary)' : 'var(--btn-primary-text)',
             border: 'none',
             borderRadius: 'var(--btn-primary-radius)',

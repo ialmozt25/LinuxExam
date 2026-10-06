@@ -179,8 +179,10 @@ export default function ExamResults() {
           style={{
             width: '100%',
             padding: SPACING.md,
-            // spec 079: белый текст на акценте — 3.12:1 при пороге 4.5:1.
-            background: 'var(--color-accent-strong)',
+            // design-review-2: заливка — семантическая роль --btn-primary-bg
+            // (= var(--accent)), а не примитив: тот же цвет по умолчанию, но
+            // следует палитре Telegram, как у остальных primary-CTA.
+            background: 'var(--btn-primary-bg)',
             color: 'var(--btn-primary-text)',
             border: 'none',
             borderRadius: 'var(--btn-primary-radius)',

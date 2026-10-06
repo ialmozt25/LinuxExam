@@ -57,3 +57,28 @@ body {
  * light palette outside Telegram. Colour now flows through the --theme-* values
  * in tokens.css instead.
  */
+
+/*
+ * design-review-2 (A1): фокус-стили, WCAG 2.4.7. До этой правки в src/ не было
+ * НИ ОДНОГО правила фокуса — клавиатура держалась на UA-обводке браузера, а её
+ * контраст на --bg-elevated непредсказуем. Существующие правила не тронуты,
+ * :focus нигде не отключается.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+button:focus-visible, a:focus-visible, [role="button"]:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline-offset: 2px;
+}
+
+/*
+ * design-review-2 (B4): `.mono` — класс чисел-метрик (Analytics, «Слабые темы»).
+ * Класс уже стоял в разметке, но в CSS приложения его НЕ существовало: проценты
+ * рисовались системным шрифтом, а токен --font-mono был мёртвым. Теперь класс
+ * определён и токен живой.
+ */
+.mono {
+  font-family: var(--font-mono);
+}

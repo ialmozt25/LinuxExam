@@ -61,6 +61,11 @@
 
   /* Touch */
   --touch-min: 44px;
+  /* design-review-2: минимум бейджа-плашки — НЕ --touch-min (44px): бейдж не
+     тач-цель, его 32px проверяет e2e mobile-layout (MIN_BADGE_TAP = 32).
+     Значение 1:1 прежнему литералу; fallback в Badge.tsx страхует от
+     неопределённого токена (дефект var(--bg-secondary), design-review-1). */
+  --badge-min-height: 32px;
   --mainbutton-height: 56px;
   --mainbutton-gap: 16px;
 

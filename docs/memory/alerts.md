@@ -362,3 +362,6 @@ Badge-variant fix (77 синих → 0) не сдвинул baseline PNG (мас
 
 ## 2026-10-06 | a11y | в src/ нет ни одного правила :focus-visible
 Design-review 6 экранов: grep по src/** (css+tsx) не нашёл ни `:focus`, ни `:focus-visible`, ни `outline` — клавиатурный фокус держится только на UA-обводке браузера (WCAG 2.4.7 дефолтом формально выполняется, но в тёмной теме обводка браузера непредсказуема по контрасту на --bg-elevated). Фикс требует глобального правила, а `src/index.css` вне разрешённого списка правок — отдельное задание. [observed 2026-10-06]
+
+## 2026-10-07 | correction | alert a11y/focus-visible закрыт (design-review-2)
+Запись «в src/ нет ни одного правила :focus-visible» устарела: A1 добавил правила `:focus-visible` в `src/index.css` (`outline: 2px solid var(--color-accent-strong)`, offset 2px) плюс группу для button/a/[role=button]/input/[tabindex]; затронутых baseline PNG не оказалось, обновлений скриншотов не потребовалось. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-07]
