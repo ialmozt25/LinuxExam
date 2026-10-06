@@ -2,6 +2,7 @@ import { useQuizStore } from '@/store/quizStore';
 import { useStreakState } from '@/store/dailyGoal';
 import { SPACING, LAYOUT } from '@/presentation/theme';
 import { messageColor, pluralDays, stateColor, streakMessage, type StreakColor } from '@/domain/goal';
+import { Tux } from '@/ui/Tux';
 
 /** Размер бейджа серии (spec 061, К3): квадрат ≈80×80. */
 const BADGE_SIZE = 80;
@@ -14,7 +15,7 @@ const COLOR_VAR: Record<StreakColor, string> = {
 
 /**
  * Streak badge (spec 061). Существующий компонент (31 строка) расширен до
- * retention-вида: эмодзи 🔥 + крупное число дней + сообщение серии.
+ * retention-вида: маскот Tux + крупное число дней + сообщение серии.
  *
  * Состояние считается по сегодняшней активности, а не по одной длине серии:
  * active (сегодня занимались) → green, warning (последняя активность вчера) →
@@ -56,7 +57,7 @@ export function StreakBadge() {
         onClick={() => navigateTo('analytics')}
         style={{
           width: BADGE_SIZE,
-          // min-height, а не height: содержимое (🔥 16px + число 24px + подпись
+          // min-height, а не height: содержимое (Tux 24px + число 24px + подпись
           // в 3 строки) даёт ~90px, и фиксированная высота 80px обрезала нижнюю
           // строку подписи (scrollHeight 84 vs clientHeight 78 — замерено).
           // 80px остаётся МИНИМУМОМ тап-зоны (spec 067, К3), а не потолком:
@@ -82,9 +83,7 @@ export function StreakBadge() {
           fontFamily: 'inherit',
         }}
       >
-        <span style={{ fontSize: 'var(--text-base)', lineHeight: 1 }} aria-hidden="true">
-          🔥
-        </span>
+        <Tux size={24} />
         <span
           style={{ fontSize: 'var(--text-xl)', fontWeight: 700, lineHeight: 1, color }}
         >

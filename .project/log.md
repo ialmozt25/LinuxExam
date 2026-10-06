@@ -375,3 +375,6 @@
 2026-10-07 | design-review-2 | focus styles (WCAG 2.4.7) + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен; check-slop 0 | commit pending
 2026-10-07 | design-review-2 | status UNVERIFIED на телефоне (FASB-001) | commit pending
 2026-10-07 | push | authorize push origin main - design-review-2 (focus styles WCAG 2.4.7 + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен, dead tokens 25→24); публикует 20cc84a..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending
+2026-10-07 | tux-streak | 🔥 → Tux (garrett/Tux, CC0, BW); asset public/tux.svg; baseline dashboard обновлён | commit pending
+2026-10-07 | tux-streak | status UNVERIFIED на телефоне (FASB-001) | commit pending
+2026-10-06 | guard | якорь перезаписан на session-84941ded… | commit pending

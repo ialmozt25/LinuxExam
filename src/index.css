@@ -82,3 +82,13 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, input:focu
 .mono {
   font-family: var(--font-mono);
 }
+
+/*
+ * tux-streak: BW-контур Tux чёрный, а `--bg-surface` в тёмной теме тёмная —
+ * без инверсии пингвин растворяется в фоне. Инверсия корректна только для
+ * BW-версии ассета (`public/tux.svg` из garrett/Tux `tux-bw.svg`); цветной Tux
+ * инвертировать нельзя — правило намеренно адресное (`[data-testid="tux"]`).
+ */
+[data-theme="dark"] [data-testid="tux"] {
+  filter: invert(1);
+}

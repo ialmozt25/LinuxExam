@@ -59,6 +59,10 @@ Atoms живут в `src/ui/`. Варианты отделены от состо
 (primary/secondary/ghost), state — это hover/focus/disabled/loading. Composition через
 `children`, не через проп-флаги. Компонент читает токены, hex в `.tsx` запрещён.
 
+**Tux the Penguin — mascot.** Original Larry Ewing (GIMP 1996); vector Garrett LeSage
+(Inkscape); refinement IFo Hancroft. CC0 via github.com/garrett/Tux. Signature moment
+в streak badge.
+
 ## Do's and Don'ts
 Do's: один accent; SVG-иконки; тёмная тема — канон; типографика ведёт иерархию;
 5 состояний формы; tap-target ≥ 44px; focus-ring видим всегда.

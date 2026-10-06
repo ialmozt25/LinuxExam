@@ -85,6 +85,12 @@ async function streakVisuals(page: import('@playwright/test').Page, streak: numb
     const statusStrip = document.getElementById('status-strip');
     return {
       flameLeaves: leaves.filter((node) => own(node) === '🔥').length,
+      // tux-streak (2026-10-07): эмодзи заменён на <Tux> — маскот теперь
+      // картинка, поэтому «серия рендерится ровно один раз» считается по
+      // селектору внутри бейджа, а не по текстовому листу.
+      tuxLeaves: document.querySelectorAll(
+        '[data-testid="streak-badge"] [data-testid="tux"]'
+      ).length,
       streakNumberLeaves: leaves.filter((node) => own(node) === String(value)).length,
       statusStripFlame: (statusStrip?.textContent ?? '').includes('🔥'),
       statusStripText: (statusStrip?.textContent ?? '').replace(/\s+/g, ' ').trim(),
@@ -248,8 +254,10 @@ test.describe('UX-регрессии — выход и дубль серии', (
     const counts = await streakVisuals(page, 7);
     console.log('UX_REGRESSION_DASHBOARD_STREAK=' + JSON.stringify(counts));
 
-    // Ровно один 🔥 на Dashboard и ровно одно число серии.
-    expect(counts.flameLeaves).toBe(1);
+    // 🔥 удалён 2026-10-07, заменён на Tux; 0 = намерение, не баг.
+    expect(counts.flameLeaves).toBe(0);
+    // Маскот серии (Tux) на Dashboard ровно один; число серии — ровно одно.
+    expect(counts.tuxLeaves).toBe(1);
     expect(counts.streakNumberLeaves).toBe(1);
     // Главное утверждение по жалобе: в status-strip серии больше нет.
     expect(counts.statusStripFlame).toBe(false);
