@@ -66,7 +66,7 @@ export default function ExamResults() {
         style={{
           fontSize: 'var(--heading-1)',
           fontWeight: 700,
-          letterSpacing: '-0.5px',
+          letterSpacing: 'var(--letter-tight)',
           margin: 0,
           color: 'var(--text-primary)',
         }}
@@ -114,7 +114,7 @@ export default function ExamResults() {
             style={{
               fontSize: 'var(--text-xs)',
               textTransform: 'uppercase',
-              letterSpacing: '0.5px',
+              letterSpacing: 'var(--letter-wide)',
               color: 'var(--text-secondary)',
               fontWeight: 600,
               marginBottom: SPACING.sm,

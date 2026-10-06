@@ -193,7 +193,7 @@ export default function Results() {
           <>
             <div
               data-testid="results-score"
-              style={{ fontSize: 48, fontWeight: 700, color: 'var(--accent)' }}
+              style={{ fontSize: 'var(--heading-2xl)', fontWeight: 700, color: 'var(--accent)' }}
             >
               {`${correct} / ${answered}`}
             </div>
@@ -203,7 +203,7 @@ export default function Results() {
             {answered < totalQuestions && (
               <div
                 style={{
-                  fontSize: 12,
+                  fontSize: 'var(--text-xs)',
                   color: 'var(--text-secondary)',
                   marginTop: SPACING.xs,
                   opacity: 0.7,
@@ -292,7 +292,7 @@ export default function Results() {
             fontSize: 'var(--text-sm)',
             color: 'var(--text-secondary)',
             textTransform: 'uppercase',
-            letterSpacing: '0.5px',
+            letterSpacing: 'var(--letter-wide)',
             fontWeight: 600,
             margin: 0,
             marginBottom: SPACING.md,
@@ -316,7 +316,7 @@ export default function Results() {
           >
             <div>
               <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>{topicStat.title}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: SPACING.xs }}>
+              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', marginTop: SPACING.xs }}>
                 {`${topicStat.total} ${pluralizeQuestions(topicStat.total)}`}
               </div>
             </div>
@@ -337,7 +337,7 @@ export default function Results() {
               </div>
               <div
                 style={{
-                  fontSize: 12,
+                  fontSize: 'var(--text-xs)',
                   fontWeight: 600,
                   marginTop: SPACING.xs,
                   color:
@@ -388,7 +388,7 @@ export default function Results() {
             padding: SPACING.md,
             background: 'var(--bg-surface)',
             color: 'var(--text-primary)',
-            border: 'none',
+            border: '1px solid var(--border-subtle)',
             borderRadius: LAYOUT.buttonRadius,
             fontSize: 'var(--body)',
             fontWeight: 600,
@@ -412,7 +412,7 @@ export default function Results() {
               padding: SPACING.md,
               background: 'var(--bg-surface)',
               color: 'var(--text-primary)',
-              border: 'none',
+              border: '1px solid var(--border-subtle)',
               borderRadius: LAYOUT.buttonRadius,
               fontSize: 'var(--body)',
               fontWeight: 600,

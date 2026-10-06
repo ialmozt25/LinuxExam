@@ -121,6 +121,19 @@
      пустой экран аналитики). Раньше жил литералом 40px в трёх .tsx (check-slop
      tell 9); шкала 1.25 от 16px даёт 39px, поэтому шаг задан явно. */
   --heading-xl: 40px;
+  --heading-2xl: 48px;
+
+  /* Геометрия мелких индикаторов: была px-литералами в Dashboard/Question,
+     значения 1:1 прежние (треки — алиасы шагов сетки, как --card-padding). */
+  --track-height: var(--space-1);
+  --track-height-thin: 3px;
+  --track-radius: var(--space-0-5);
+  --track-width-sm: 40px;
+  --chip-size: 24px;
+
+  /* Разрядка капс-подписей: --letter-wide уже упоминался с fallback 0.5px. */
+  --letter-wide: 0.5px;
+  --letter-tight: -0.5px;
   --body: 16px;
   --body-line-height: 1.55;
 

@@ -37,7 +37,7 @@ const FRAME: CSSProperties = {
   fontWeight: 600,
   background: 'var(--bg-elevated)',
   border: '1px solid var(--border-subtle)',
-  padding: '4px 8px',
+  padding: 'var(--space-1) var(--space-2)',
   borderRadius: 'var(--radius-sm)',
   letterSpacing: '0.3px',
   flexShrink: 0,

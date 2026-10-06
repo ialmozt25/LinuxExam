@@ -225,20 +225,22 @@ export default function Question() {
       <div
         data-testid="question-progress"
         style={{
-          height: '3px',
+          height: 'var(--track-height-thin)',
           background: 'var(--bg-elevated)',
-          borderRadius: '2px',
+          borderRadius: 'var(--track-radius)',
           marginBottom: SPACING.lg,
           overflow: 'hidden',
         }}
       >
         <div
           style={{
-            width: `${progressPercent}%`,
+            width: '100%',
             height: '100%',
             background: 'var(--accent)',
-            boxShadow: '0 0 8px rgba(33,150,243,0.5)',
-            transition: 'width 0.3s ease',
+            boxShadow: '0 0 8px color-mix(in srgb, var(--accent) 50%, transparent)',
+            transform: `scaleX(${progressPercent / 100})`,
+            transformOrigin: 'left',
+            transition: 'transform var(--duration-normal) ease',
           }}
         />
       </div>
@@ -283,11 +285,11 @@ export default function Question() {
 
           if (hasAnswered && existingAnswer) {
             if (isSelected && existingAnswer.isCorrect) {
-              backgroundColor = 'rgba(76, 175, 80, 0.15)';
+              backgroundColor = 'color-mix(in srgb, var(--success) 15%, transparent)';
               borderColor = 'var(--success)';
               boxShadow = 'inset 3px 0 0 var(--success)';
             } else if (isSelected && !existingAnswer.isCorrect) {
-              backgroundColor = 'rgba(244, 67, 54, 0.15)';
+              backgroundColor = 'color-mix(in srgb, var(--danger) 15%, transparent)';
               borderColor = 'var(--danger)';
               boxShadow = 'inset 3px 0 0 var(--danger)';
             } else if (isRevealedCorrect) {
@@ -325,7 +327,7 @@ export default function Question() {
                   fontSize: 'var(--text-sm)',
                   lineHeight: 1.5,
                   fontFamily: 'inherit',
-                  transition: 'background 0.15s ease, border-color 0.15s ease',
+                  transition: 'background var(--duration-fast) ease, border-color var(--duration-fast) ease',
                   display: 'flex',
                   alignItems: 'center',
                   gap: SPACING.sm,
@@ -335,14 +337,14 @@ export default function Question() {
               >
                 <span
                   style={{
-                    width: 24,
-                    height: 24,
+                    width: 'var(--chip-size)',
+                    height: 'var(--chip-size)',
                     borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.1)',
+                    background: 'color-mix(in srgb, var(--text-primary) 10%, transparent)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 12,
+                    fontSize: 'var(--text-xs)',
                     fontWeight: 600,
                     flexShrink: 0,
                   }}
@@ -375,11 +377,11 @@ export default function Question() {
             <div
               data-testid="explanation-verdict"
               style={{
-                fontSize: 12,
+                fontSize: 'var(--text-xs)',
                 color: 'var(--text-secondary)',
                 marginBottom: SPACING.xs,
                 textTransform: 'uppercase',
-                letterSpacing: '0.5px',
+                letterSpacing: 'var(--letter-wide)',
                 fontWeight: 600,
               }}
             >
@@ -392,7 +394,7 @@ export default function Question() {
                 fontSize: 'var(--body)',
                 color: 'var(--text-primary)',
                 lineHeight: 'var(--body-line-height)',
-                paddingBottom: '32px',
+                paddingBottom: 'var(--space-6)',
               }}
             >
               {currentQuestion.explanation}

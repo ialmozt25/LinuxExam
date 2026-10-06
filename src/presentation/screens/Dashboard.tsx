@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { Flame, MoonStar, Sun } from 'lucide-react';
+import { BarChart3, ClipboardList, Flame, MoonStar, Sun } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { SPACING, LAYOUT } from '@/presentation/theme';
 import { useTelegramMainButton, useMainButtonAvailable } from '@/hooks/useTelegramMainButton';
@@ -61,7 +61,12 @@ const PRIMARY_CTA: React.CSSProperties = {
 const CTA_COUNTER: React.CSSProperties = { fontSize: 'var(--text-xs)', fontWeight: 600 };
 
 /** Вторичный CTA: обводка акцентом, одинаковый для «Exam mode» и «Аналитика». */
-const SECONDARY_CTA: React.CSSProperties = { marginTop: 'var(--space-4)' };
+const SECONDARY_CTA: React.CSSProperties = {
+  marginTop: 'var(--space-4)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 'var(--space-2)',
+};
 
 /**
  * «Повторить ошибки»: красная подложка и рамка. Подложка — 10% от роли
@@ -97,7 +102,7 @@ const FIRST_FREE_TOPIC = TOPICS.find(
  */
 const LOCKED_BADGE: React.CSSProperties = {
   textTransform: 'uppercase',
-  letterSpacing: 'var(--letter-wide, 0.5px)',
+  letterSpacing: 'var(--letter-wide)',
 };
 
 /**
@@ -268,20 +273,22 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             aria-label={`Уровень ${level} (XP внутри)`}
             style={{
               display: 'inline-block',
-              width: '40px',
-              height: '4px',
+              width: 'var(--track-width-sm)',
+              height: 'var(--track-height)',
               background: 'var(--bg-surface)',
-              borderRadius: '2px',
+              borderRadius: 'var(--track-radius)',
               overflow: 'hidden',
             }}
           >
             <span
               style={{
                 display: 'block',
-                width: `${xpPercent}%`,
+                width: '100%',
                 height: '100%',
                 background: 'var(--accent)',
-                transition: 'width 0.3s ease',
+                transform: `scaleX(${xpPercent / 100})`,
+                transformOrigin: 'left',
+                transition: 'transform var(--duration-normal) ease',
               }}
             />
           </span>
@@ -311,7 +318,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           style={{
             fontSize: 'var(--heading-1)',
             fontWeight: 700,
-            letterSpacing: '-0.5px',
+            letterSpacing: 'var(--letter-tight)',
             margin: 0,
             color: 'var(--text-primary)',
           }}
@@ -358,7 +365,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             justifyContent: 'space-between',
             fontSize: 'var(--text-sm)',
             textTransform: 'uppercase',
-            letterSpacing: '0.5px',
+            letterSpacing: 'var(--letter-wide)',
             color: 'var(--text-secondary)',
           }}
         >
@@ -375,18 +382,20 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           aria-label="Прогресс теста"
           style={{
             marginTop: 'var(--space-2)',
-            height: '4px',
+            height: 'var(--track-height)',
             background: 'var(--bg-surface)',
-            borderRadius: '2px',
+            borderRadius: 'var(--track-radius)',
             overflow: 'hidden',
           }}
         >
           <div
             style={{
-              width: `${progressPercent}%`,
+              width: '100%',
               height: '100%',
               background: 'var(--accent)',
-              transition: 'width 0.3s ease',
+              transform: `scaleX(${progressPercent / 100})`,
+              transformOrigin: 'left',
+              transition: 'transform var(--duration-normal) ease',
             }}
           />
         </div>
@@ -468,7 +477,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         onClick={() => navigateTo('exam-setup')}
         style={SECONDARY_CTA}
       >
-        📝 Exam mode — 30/60/90 вопросов с разбором
+        <ClipboardList size={18} aria-hidden="true" />
+        <span>Exam mode — 30/60/90 вопросов с разбором</span>
       </Button>
 
       {/* Analytics (spec 058): «персональный тренер» — radar по 14 темам,
@@ -480,7 +490,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         onClick={() => navigateTo('analytics')}
         style={SECONDARY_CTA}
       >
-        📊 Аналитика — готовность, слабые темы, тренд
+        <BarChart3 size={18} aria-hidden="true" />
+        <span>Аналитика — готовность, слабые темы, тренд</span>
       </Button>
 
       {/* «Повторить ошибки» — resumed from the regular stream's wrong answers */}
@@ -523,7 +534,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             style={{
               fontSize: 'var(--text-xs)',
               textTransform: 'uppercase',
-              letterSpacing: 'var(--letter-wide, 0.5px)',
+              letterSpacing: 'var(--letter-wide)',
               color: 'var(--text-secondary)',
               fontWeight: 600,
             }}

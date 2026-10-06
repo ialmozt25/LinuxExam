@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { BarChart3 } from 'lucide-react';
 import { AppHeader } from '@/presentation/components/AppHeader';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { SPACING } from '@/presentation/theme';
@@ -42,13 +43,13 @@ const CARD: React.CSSProperties = {
   padding: SPACING.md,
   border: '1px solid var(--border-subtle)',
   borderRadius: 'var(--radius-md)',
-  background: 'var(--bg-secondary)',
+  background: 'var(--bg-surface)',
 };
 
 const SECTION_TITLE: React.CSSProperties = {
   fontSize: 'var(--text-xs)',
   textTransform: 'uppercase',
-  letterSpacing: '0.5px',
+  letterSpacing: 'var(--letter-wide)',
   color: 'var(--text-secondary)',
   fontWeight: 600,
   marginBottom: SPACING.sm,
@@ -114,7 +115,7 @@ export default function Analytics() {
         style={{
           fontSize: 'var(--heading-1)',
           fontWeight: 700,
-          letterSpacing: '-0.5px',
+          letterSpacing: 'var(--letter-tight)',
           margin: 0,
           color: 'var(--text-primary)',
         }}
@@ -134,8 +135,11 @@ export default function Analytics() {
             textAlign: 'center',
           }}
         >
-          <div aria-hidden="true" style={{ fontSize: 'var(--heading-xl)', lineHeight: 1 }}>
-            📊
+          <div
+            aria-hidden="true"
+            style={{ display: 'flex', justifyContent: 'center', color: 'var(--text-secondary)' }}
+          >
+            <BarChart3 size={40} strokeWidth={1.5} />
           </div>
           <h2
             style={{
