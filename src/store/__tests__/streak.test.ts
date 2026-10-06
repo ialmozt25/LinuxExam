@@ -79,7 +79,49 @@ describe('recordActivity: streak + XP', () => {
 
     const s = useQuizStore.getState();
     expect(s.answers).toHaveLength(1);
-    expect(s.totalXp).toBe(10);
     expect(s.streak).toBe(1);
+    // Первый ответ дня (+10) плюс цена самого ответа: верный regular-ответ
+    // стоит +3, неверный +1 (таблица XP-механики). Ожидание считается по
+    // живому банку — индекс 0 не обязан быть верным вариантом.
+    const answerXp = first.options[0].correct ? 3 : 1;
+    expect(s.totalXp).toBe(10 + answerXp);
+  });
+
+  it('streak milestone 3 платит бонус один раз за достижение', () => {
+    vi.setSystemTime(new Date('2026-03-10T12:00:00.000Z'));
+    reset(2, '2026-03-09', 20);
+
+    useQuizStore.getState().recordActivity();
+
+    const s = useQuizStore.getState();
+    expect(s.streak).toBe(3);
+    // +10 за первый ответ дня и +15 за веху 3.
+    expect(s.totalXp).toBe(45);
+  });
+
+  it('милестоун 7/14/30 платят свои бонусы', () => {
+    const cases: Array<[number, number, number]> = [
+      // [серия до, ожидаемая серия, ожидаемый прирост XP]
+      [6, 7, 60],
+      [13, 14, 110],
+      [29, 30, 210],
+    ];
+    for (const [before, after, gain] of cases) {
+      vi.setSystemTime(new Date('2026-03-10T12:00:00.000Z'));
+      reset(before, '2026-03-09', 100);
+      useQuizStore.getState().recordActivity();
+      const s = useQuizStore.getState();
+      expect(s.streak).toBe(after);
+      expect(s.totalXp).toBe(100 + gain);
+    }
+  });
+
+  it('серия без вехи платит только +10', () => {
+    vi.setSystemTime(new Date('2026-03-10T12:00:00.000Z'));
+    reset(3, '2026-03-09', 100);
+
+    useQuizStore.getState().recordActivity();
+
+    expect(useQuizStore.getState().totalXp).toBe(110);
   });
 });

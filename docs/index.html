@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">4e9e5af</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">a807716</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): trail for push ux-counter</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">dd0bb57</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after tux-color</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,35 +592,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">157 ч (~6.5 дн)</td>
+          <td class="muted">158 ч (~6.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">204 ч (~8.5 дн)</td>
+          <td class="muted">205 ч (~8.5 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-06T05:08:54Z</td>
           <td class="mono">10</td>
-          <td class="muted">17 ч</td>
+          <td class="muted">19 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">157 ч (~6.5 дн)</td>
+          <td class="muted">158 ч (~6.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">94 ч (~3.9 дн)</td>
+          <td class="muted">96 ч (~4.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · ux-counter | Правая часть CTA Dashboard («Продолжить обучение») — дневной счётчик ОТВЕТОВ за сегодня вместо размера сессии: 0 → «30 вопросов», 1..30 → «N из 30 вопросов», &gt;30 → «✓ N»…</li>
-        <li><span class="mono muted">07.10</span> · ux-counter | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь перезаписан на session-e79a0dbc… | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;ux-counter&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - ux-counter (правая часть CTA Dashboard «Продолжить обучение» — дневной счётчик ОТВЕТОВ за сегодня: 0 → «30 вопросов», 1..30 → «N из 30 вопросов», &gt;30 → «✓ N»…</li>
+        <li><span class="mono muted">07.10</span> · xp-mechanics | XP за ответы вместо одного +10 в сутки: таблица regular верный +3 / неверный +1, review верный +2 / неверный +1, завершённый exam +10 (за факт, не за ответы), первый ответ дня +10…</li>
+        <li><span class="mono muted">07.10</span> · xp-mechanics | уровни: новый домен src/domain/xp.ts — xpForAnswer, streakMilestoneXp, levelFromXp(t), xpInLevel(t) → {current, needed, percent} (percent 0…100), пороги 100/250/500/800/1200…</li>
+        <li><span class="mono muted">07.10</span> · xp-mechanics | persist bump 7 → 8 + миграция v7→v8: partialize += todayXpDate, answeredToday (в КОНЕЦ…</li>
+        <li><span class="mono muted">07.10</span> · xp-mechanics | гейты: typecheck exit 0; test:run 49 файлов / 524 теста passed; e2e 219 passed (4 падения…</li>
+        <li><span class="mono muted">07.10</span> · xp-mechanics | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
     </ul>
   </details>
 

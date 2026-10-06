@@ -209,6 +209,28 @@ export interface PersistedQuizState {
   /** Retention (spec 061): накоплено XP за сегодня. */
   todayXp: number;
   /**
+   * Дневной счётчик ОТВЕТОВ (задание «счётчик ответов за сегодня»): число
+   * ответов всех трёх потоков (regular / review / exam) за календарный день.
+   */
+  todayAnswered: number;
+  /**
+   * День (`YYYY-MM-DD`), к которому относится `todayAnswered`; `null` — счётчика
+   * нет. Тот же маркер дня, что и у `answeredToday` (XP-механика): оба дневных
+   * набора обнуляются вместе.
+   */
+  todayAnsweredDate: string | null;
+  /**
+   * XP-механика: день (`YYYY-MM-DD`), к которому относится `todayXp`; `null` —
+   * накопленного XP за сегодня нет. Свой маркер, а не `lastActiveDate`: XP дают
+   * все три потока, а `lastActiveDate` двигает только первый ответ дня.
+   */
+  todayXpDate: string | null;
+  /**
+   * XP-механика: qid, на которые сегодня уже отвечали (anti-farming). XP за
+   * ответ платит только ПЕРВЫЙ ответ на вопрос за день.
+   */
+  answeredToday: string[];
+  /**
    * Paywall (spec 063): момент старта 7-дневного trial, мс; `null` — trial не
    * начинался. Обычный профиль сида — с активным trial-ом (см.
    * `emptyPersistedState`), иначе обновление отобрало бы доступ к 11 темам.
@@ -240,11 +262,24 @@ export function emptyPersistedState(): PersistedQuizState {
     isQuizInProgress: false,
     onboardingGoal: null,
     hasCompletedOnboarding: true,
-    // Retention (spec 061): у «обычного» профиля цель уже подтверждена (20 XP),
-    // поэтому picker не появляется и существующие сценарии не меняются.
-    // Сценарии самого picker-а переопределяют `dailyGoalXp: null` явно.
-    dailyGoalXp: 20,
+    // Retention (spec 061): у «обычного» профиля цель уже подтверждена (30 XP
+    // с XP-механики, было 20), поэтому picker не появляется и существующие
+    // сценарии не меняются. Сценарии самого picker-а переопределяют
+    // `dailyGoalXp: null` явно.
+    dailyGoalXp: 30,
     todayXp: 0,
+    // Счётчик ответов за сегодня и его маркер дня (задание «счётчик ответов»):
+    // оба обязаны присутствовать в сиде, иначе первое же поле, выведенное из
+    // `todayAnsweredDate`, читается как «новый день» и обнуляет дневные поля.
+    todayAnswered: 0,
+    todayAnsweredDate: null,
+    // XP-механика: дневного XP ещё не начислялось (маркер пуст), «первых за
+    // день» ответов нет. Сид, которому важен накопленный todayXp, должен
+    // выставить и `todayXpDate` — иначе значение читается как «за сегодня»,
+    // а сид с `answeredToday` обязан выставить ещё и `todayAnsweredDate`:
+    // оба дневных набора живут под ОДНИМ маркером дня.
+    todayXpDate: null,
+    answeredToday: [],
     // Paywall (spec 063): «обычный» профиль — это пользователь, который уже
     // пользовался продуктом, значит он получил 7-дневный trial миграцией
     // v6 → v7. Сид повторяет именно это, иначе обновление отобрало бы у него
@@ -279,16 +314,20 @@ export async function seedState(
 
 export const PERSIST_KEY = 'rhcsa_progress';
 /**
- * Current persist version: 7 с spec 063 (paywall добавил `trialStartedAt`).
+ * Current persist version: 8 с XP-механики (`todayXpDate` + `answeredToday`;
+ * до неё 7 с spec 063, где paywall добавил `trialStartedAt`).
  * Сид пишет ИМЕННО текущую версию, поэтому `migrate` на нём не выполняется и
  * засеянные значения полей доходят до приложения как есть.
  */
-export const PERSIST_VERSION = 7;
+export const PERSIST_VERSION = 8;
 
 /**
  * Order of the persisted keys — the `partialize` contract. spec 068 removed the
  * five legacy inline-exam fields (examActive, examStartedAt, examDurationMs,
- * examQuestionIds, examAnswers); `trialStartedAt` (spec 063) is still last.
+ * examQuestionIds, examAnswers); `trialStartedAt` (spec 063) идут далее
+ * `todayAnswered`/`todayAnsweredDate` (счётчик ответов), а XP-механика
+ * дописала в КОНЕЦ `todayXpDate` и `answeredToday` — порядок предыдущих
+ * 19 ключей не изменён.
  */
 export const PERSIST_KEYS: readonly string[] = [
   'answers',
@@ -308,6 +347,10 @@ export const PERSIST_KEYS: readonly string[] = [
   'dailyGoalXp',
   'todayXp',
   'trialStartedAt',
+  'todayAnswered',
+  'todayAnsweredDate',
+  'todayXpDate',
+  'answeredToday',
 ];
 
 /**
@@ -378,7 +421,9 @@ export async function seedWrongRegularAnswer(page: Page, question: BankQuestion)
   state.answers = [record];
   state.wrongQuestionIds = [question.id];
   state.streak = 1;
-  state.totalXp = 10;
+  // Первый ответ дня (+10) и неверный regular-ответ (+1) — ровно то, что даёт
+  // этот сид по таблице XP-механики.
+  state.totalXp = 11;
   state.isQuizInProgress = false;
 
   await seedState(page, state);
@@ -411,10 +456,15 @@ export async function waitForOnboardingGoal(page: Page): Promise<void> {
  * Сеет retention-условие (spec 061): streak / XP серии и дневную цель.
  *
  * `hasCompletedOnboarding: true` берётся из `emptyPersistedState()` — иначе гейт
- * онбординга увёл бы с Dashboard на экран цели. `dailyGoalXp` по умолчанию `20`
- * (как у обычного профиля); `null` сеется только сценариями самого picker-а.
- * `lastActiveDate` не задаётся: сценарии, которым он важен, пишут его явно
- * (иначе `onRehydrateStorage` обнулил бы `todayXp` при вчерашней дате).
+ * онбординга увёл бы с Dashboard на экран цели. `dailyGoalXp` по умолчанию `30`
+ * (текущий дефолт, как у обычного профиля); `null` сеется только сценариями
+ * самого picker-а. `lastActiveDate` не задаётся: сценарии, которым он важен,
+ * пишут его явно (иначе `onRehydrateStorage` обнулил бы `todayXp` при вчерашней
+ * дате).
+ *
+ * Маркер дня `todayXpDate` выводится из `todayXp`: накопленный дневной счётчик
+ * без дня — противоречивое состояние, а `resetTodayXpIfNewDay` сбрасывает XP
+ * только по СВОЕМУ маркеру (XP-механика).
  */
 export async function seedRetention(
   page: Page,
@@ -424,8 +474,9 @@ export async function seedRetention(
   state.streak = options.streak;
   state.todayXp = options.todayXp;
   state.totalXp = options.streak * 10;
-  state.dailyGoalXp = options.dailyGoalXp === undefined ? 20 : options.dailyGoalXp;
+  state.dailyGoalXp = options.dailyGoalXp === undefined ? 30 : options.dailyGoalXp;
   state.lastActiveDate = options.lastActiveDate ?? null;
+  state.todayXpDate = options.todayXp > 0 ? state.lastActiveDate : null;
   await seedState(page, state);
 }
 
@@ -819,14 +870,15 @@ export async function waitForFeedback(page: Page): Promise<void> {
  * состояние стора по умолчанию, где `isPro: false`. Сохраняем именно это: пейволл
  * на 6-м вопросе — часть их сценария, и `isPro: true` его молча отключал.
  *
- * `dailyGoalXp: 20` (spec 061) — то же соображение: этот профиль играет роль
+ * `dailyGoalXp: 30` — то же соображение: этот профиль играет роль
  * пользователя, который открывает приложение ПОСЛЕ обновления, а апдейт всегда
- * даёт подтверждённую цель (миграция v5→v6). Без этого поля профиль совпал бы с
- * «онбординг пройден, цель не выбрана» и на Dashboard всплывал бы picker, ломая
- * каждый сценарий, который просто открывает `/`.
+ * даёт подтверждённую цель (миграция переводит прежний дефолт в текущий). Без
+ * этого поля профиль совпал бы с «онбординг пройден, цель не выбрана» и на
+ * Dashboard всплывал бы picker, ломая каждый сценарий, который просто открывает
+ * `/`.
  */
 function freshProfile(): PersistedQuizState {
-  return { ...emptyPersistedState(), isPro: false, dailyGoalXp: 20 };
+  return { ...emptyPersistedState(), isPro: false, dailyGoalXp: 30 };
 }
 
 /**

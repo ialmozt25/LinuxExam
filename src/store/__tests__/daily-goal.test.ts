@@ -36,6 +36,136 @@ function readPersisted(): { state: Record<string, unknown>; version: number } {
   };
 }
 
+/**
+ * v7-состояние: ровно те 19 полей, которые персистил `partialize` на версии 7.
+ * Полей XP-механики (`todayXpDate`, `answeredToday`) ещё нет — их добавляет
+ * миграция v7 → v8.
+ */
+const V7_PAYLOAD = {
+  state: {
+    answers: [{ questionId: 'fp_001', selectedIndex: 0, isCorrect: true, optionText: 'A' }],
+    currentIndex: 3,
+    isPro: true,
+    streak: 5,
+    lastActiveDate: '2026-10-01',
+    totalXp: 50,
+    wrongQuestionIds: ['fp_002'],
+    questionStats: { fp_001: { attempts: 2, correct: 1, lastAt: '2026-10-01' } },
+    scheduledReviews: { fp_001: { next: 1893456000000, stability: 1.5, difficulty: 0.25 } },
+    reviewQuestionIds: ['fp_001'],
+    reviewAnswers: [],
+    isQuizInProgress: true,
+    onboardingGoal: 'rhcsa',
+    hasCompletedOnboarding: true,
+    dailyGoalXp: 20,
+    todayXp: 10,
+    trialStartedAt: null,
+    todayAnswered: 3,
+    todayAnsweredDate: '2026-10-01',
+  },
+  version: 7,
+};
+
+describe('persist migration v7 → v8 (XP-механика)', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it('добавляет поля XP-механики и не теряет накопленное', async () => {
+    const today = new Date().toISOString().slice(0, 10);
+    // lastActiveDate — СЕГОДНЯШНИЙ: миграция переносит день в `todayXpDate`, и
+    // гидратация видит сегодняшний маркер, поэтому накопленный todayXp остаётся.
+    const payload = {
+      ...V7_PAYLOAD,
+      state: { ...V7_PAYLOAD.state, lastActiveDate: today, todayAnsweredDate: today },
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+
+    const { useQuizStore: store } = await import('@/store/quizStore');
+    const s = store.getState();
+
+    // Маркер дня берётся из прежнего признака: до XP-механики день дневного
+    // счётчика определялся именно по `lastActiveDate`.
+    expect(s.todayXpDate).toBe(today);
+    expect(s.todayXp).toBe(10);
+    // anti-farming начинается с чистого листа: «первых за день» ответов у
+    // обновившегося профиля нет.
+    expect(s.answeredToday).toEqual([]);
+
+    // Прежние поля не перезаписаны дефолтами.
+    expect(s.streak).toBe(5);
+    expect(s.totalXp).toBe(50);
+    expect(s.lastActiveDate).toBe(today);
+    expect(s.todayAnswered).toBe(3);
+    expect(s.todayAnsweredDate).toBe(today);
+  });
+
+  it('вчерашний день из миграции гидратация обнуляет (todayXp не «переезжает»)', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(V7_PAYLOAD));
+
+    const { useQuizStore: store } = await import('@/store/quizStore');
+    const s = store.getState();
+
+    // lastActiveDate профиля — 2026-10-01, то есть не сегодня: миграция честно
+    // ставит этот день маркером, а `resetTodayXpIfNewDay` на гидратации его
+    // сбрасывает. Иначе вчерашний todayXp читался бы как сегодняшний.
+    expect(s.todayXp).toBe(0);
+    expect(s.todayXpDate).toBeNull();
+  });
+
+  it('прежний дефолт цели (20) переводится в новый (30)', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(V7_PAYLOAD));
+
+    const { useQuizStore: store } = await import('@/store/quizStore');
+
+    expect(store.getState().dailyGoalXp).toBe(30);
+  });
+
+  it('явный выбор пресета миграция не перезаписывает', async () => {
+    const explicit = {
+      ...V7_PAYLOAD,
+      state: { ...V7_PAYLOAD.state, dailyGoalXp: 10 },
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(explicit));
+
+    const { useQuizStore: store } = await import('@/store/quizStore');
+
+    expect(store.getState().dailyGoalXp).toBe(10);
+  });
+
+  it('null (picker не пройден) сохраняется — обновление не закрывает picker', async () => {
+    const pickerPending = {
+      ...V7_PAYLOAD,
+      state: { ...V7_PAYLOAD.state, dailyGoalXp: null },
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(pickerPending));
+
+    const { useQuizStore: store } = await import('@/store/quizStore');
+
+    expect(store.getState().dailyGoalXp).toBeNull();
+  });
+
+  it('повторный проход по состоянию v8 ничего не меняет', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(V7_PAYLOAD));
+    const { useQuizStore: store } = await import('@/store/quizStore');
+
+    const v8 = readPersisted();
+    expect(v8.version).toBe(8);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(v8));
+
+    vi.resetModules();
+    const again = await import('@/store/quizStore');
+    expect(again.useQuizStore.getState().dailyGoalXp).toBe(30);
+    expect(again.useQuizStore.getState().streak).toBe(5);
+    expect(again.useQuizStore.getState().totalXp).toBe(50);
+  });
+});
+
 describe('persist migration v5 → v6 (retention, spec 061)', () => {
   beforeEach(() => {
     vi.resetModules();
@@ -52,8 +182,9 @@ describe('persist migration v5 → v6 (retention, spec 061)', () => {
     const { useQuizStore: store } = await import('@/store/quizStore');
     const s = store.getState();
 
-    // Новые поля с дефолтами: цель 20 XP, дневной счётчик пуст.
-    expect(s.dailyGoalXp).toBe(20);
+    // Новые поля с дефолтами: цель 30 XP (XP-механика подняла дефолт с 20),
+    // дневной счётчик пуст.
+    expect(s.dailyGoalXp).toBe(30);
     expect(s.todayXp).toBe(0);
 
     // Прежние поля на месте и не перезаписаны дефолтами. Legacy-поля
@@ -74,16 +205,16 @@ describe('persist migration v5 → v6 (retention, spec 061)', () => {
     expect(s.hasCompletedOnboarding).toBe(true);
   });
 
-  it('пишет состояние под версией 7, включая оба retention-поля', async () => {
+  it('пишет состояние под версией 8, включая оба retention-поля', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V5_PAYLOAD));
     const { useQuizStore: store } = await import('@/store/quizStore');
 
     store.setState({ todayXp: 15 });
 
     const raw = readPersisted();
-    // Версия на запись — текущая (7 с spec 063: paywall добавил trialStartedAt).
-    expect(raw.version).toBe(7);
-    expect(raw.state.dailyGoalXp).toBe(20);
+    // Версия на запись — текущая (8 с XP-механики: todayXpDate + answeredToday).
+    expect(raw.version).toBe(8);
+    expect(raw.state.dailyGoalXp).toBe(30);
     expect(raw.state.todayXp).toBe(15);
     expect(raw.state.onboardingGoal).toBe('rhcsa');
   });
@@ -94,17 +225,17 @@ describe('persist migration v5 → v6 (retention, spec 061)', () => {
     expect(s.todayXp).toBe(0);
   });
 
-  it('миграция v5→v6 идемпотентна: повторный проход не дублирует и не сбрасывает выбор', async () => {
+  it('миграция идемпотентна: повторный проход не дублирует и не сбрасывает выбор', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V5_PAYLOAD));
     const { useQuizStore: store } = await import('@/store/quizStore');
 
-    store.getState().setDailyGoal(50);
-    const v6 = readPersisted();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(v6));
+    store.getState().setDailyGoal(30);
+    const migrated = readPersisted();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
 
     const again = await import('@/store/quizStore');
-    // Состояние уже v6: тот же payload проходит migrate как no-op.
-    expect(again.useQuizStore.getState().dailyGoalXp).toBe(50);
+    // Состояние уже текущей версии: тот же payload проходит migrate как no-op.
+    expect(again.useQuizStore.getState().dailyGoalXp).toBe(30);
     expect(again.useQuizStore.getState().todayXp).toBe(0);
   });
 });
@@ -116,13 +247,13 @@ describe('setDailyGoal (spec 061)', () => {
 
   it('обновляет store и снимает null (picker больше не показывается)', () => {
     useQuizStore.setState({ dailyGoalXp: null });
-    useQuizStore.getState().setDailyGoal(50);
+    useQuizStore.getState().setDailyGoal(30);
 
-    expect(useQuizStore.getState().dailyGoalXp).toBe(50);
+    expect(useQuizStore.getState().dailyGoalXp).toBe(30);
   });
 
   it('принимает любой из трёх пресетов', () => {
-    for (const xp of [10, 20, 50]) {
+    for (const xp of [10, 20, 30]) {
       useQuizStore.getState().setDailyGoal(xp);
       expect(useQuizStore.getState().dailyGoalXp).toBe(xp);
     }
@@ -199,7 +330,7 @@ describe('recordActivity: totalXp + todayXp (spec 061)', () => {
   });
 });
 
-describe('resetTodayXpIfNewDay (spec 061)', () => {
+describe('resetTodayXpIfNewDay', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     localStorage.clear();
@@ -209,58 +340,84 @@ describe('resetTodayXpIfNewDay (spec 061)', () => {
     vi.useRealTimers();
   });
 
-  it('lastActiveDate != today → todayXp = 0', () => {
+  it('todayXpDate != today → todayXp = 0 и маркер снят', () => {
     vi.setSystemTime(new Date('2026-03-11T08:00:00.000Z'));
-    useQuizStore.setState({ lastActiveDate: '2026-03-10', todayXp: 30 });
+    useQuizStore.setState({ todayXpDate: '2026-03-10', lastActiveDate: '2026-03-10', todayXp: 30 });
 
     useQuizStore.getState().resetTodayXpIfNewDay();
 
-    expect(useQuizStore.getState().todayXp).toBe(0);
+    const s = useQuizStore.getState();
+    expect(s.todayXp).toBe(0);
+    expect(s.todayXpDate).toBeNull();
   });
 
-  it('lastActiveDate == today → значение не трогается', () => {
+  it('todayXpDate == today → значение не трогается', () => {
     vi.setSystemTime(new Date('2026-03-10T08:00:00.000Z'));
-    useQuizStore.setState({ lastActiveDate: '2026-03-10', todayXp: 30 });
+    useQuizStore.setState({ todayXpDate: '2026-03-10', lastActiveDate: '2026-03-10', todayXp: 30 });
+
+    useQuizStore.getState().resetTodayXpIfNewDay();
+
+    const s = useQuizStore.getState();
+    expect(s.todayXp).toBe(30);
+    expect(s.todayXpDate).toBe('2026-03-10');
+  });
+
+  it('день считается по todayXpDate, а не по lastActiveDate', () => {
+    // Профиль набрал XP сегодня, но firstAnswerOfDay ещё не было: lastActiveDate
+    // остался вчерашним (XP начислялся в review/exam, `recordActivity` их не
+    // двигает). Прежний признак обнулил бы сегодняшний счётчик.
+    vi.setSystemTime(new Date('2026-03-10T08:00:00.000Z'));
+    useQuizStore.setState({ todayXpDate: '2026-03-10', lastActiveDate: '2026-03-09', todayXp: 30 });
 
     useQuizStore.getState().resetTodayXpIfNewDay();
 
     expect(useQuizStore.getState().todayXp).toBe(30);
   });
 
-  it('lastActiveDate = null (свежий профиль) → todayXp = 0', () => {
+  it('маркера нет (свежий профиль) → не трогается: счётчик уже нулевой', () => {
     vi.setSystemTime(new Date('2026-03-10T08:00:00.000Z'));
-    useQuizStore.setState({ lastActiveDate: null, todayXp: 30 });
+    useQuizStore.setState({ todayXpDate: null, lastActiveDate: null, todayXp: 0 });
 
     useQuizStore.getState().resetTodayXpIfNewDay();
 
-    expect(useQuizStore.getState().todayXp).toBe(0);
+    const s = useQuizStore.getState();
+    expect(s.todayXp).toBe(0);
+    expect(s.todayXpDate).toBeNull();
   });
 
   it('гидратация в новый день обнуляет todayXp автоматически (onRehydrateStorage)', async () => {
     vi.resetModules();
-    // Запись текущей версии со вчерашним днём и накопленным счётчиком: migrate
-    // её не трогает, значит обнулить todayXp обязан onRehydrateStorage.
+    // Запись ПРЕДЫДУЩЕЙ версии со вчерашним днём и накопленным счётчиком:
+    // миграция v7→v8 переносит день из `lastActiveDate` (todayXpDate = вчера),
+    // значит обнулить todayXp обязан onRehydrateStorage.
     const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
     const state = { ...V5_PAYLOAD.state, lastActiveDate: yesterday, dailyGoalXp: 20, todayXp: 30 };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state, version: 6 }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state, version: 7 }));
 
     const { useQuizStore: store } = await import('@/store/quizStore');
 
     expect(store.getState().todayXp).toBe(0);
-    // Остальные поля вчерашней сессии поднялись нетронутыми.
+    // Остальные поля вчерашней сессии поднялись нетронутыми (цель 20 миграция
+    // v7→v8 переводит на новый дефолт 30 — см. отдельный тест ниже).
     expect(store.getState().streak).toBe(5);
-    expect(store.getState().dailyGoalXp).toBe(20);
   });
 
   it('гидратация в тот же день не трогает todayXp', async () => {
     vi.resetModules();
     const today = new Date().toISOString().slice(0, 10);
-    const state = { ...V5_PAYLOAD.state, lastActiveDate: today, dailyGoalXp: 20, todayXp: 30 };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state, version: 6 }));
+    const state = {
+      ...V5_PAYLOAD.state,
+      lastActiveDate: today,
+      dailyGoalXp: 30,
+      todayXp: 30,
+      todayXpDate: today,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state, version: 8 }));
 
     const { useQuizStore: store } = await import('@/store/quizStore');
 
     expect(store.getState().todayXp).toBe(30);
+    expect(store.getState().todayXpDate).toBe(today);
   });
 });
 
@@ -285,12 +442,12 @@ describe('useDailyGoalProgress (spec 061)', () => {
     expect(result.current.met).toBe(true);
   });
 
-  it('null-цель (picker не пройден) читается как дефолт 20 XP, без NaN', () => {
-    useQuizStore.setState({ todayXp: 10, dailyGoalXp: null });
+  it('null-цель (picker не пройден) читается как дефолт 30 XP, без NaN', () => {
+    useQuizStore.setState({ todayXp: 15, dailyGoalXp: null });
 
     const { result } = renderHook(() => useDailyGoalProgress());
 
-    expect(result.current.goalXp).toBe(20);
+    expect(result.current.goalXp).toBe(30);
     expect(result.current.ratio).toBeCloseTo(0.5, 5);
     expect(result.current.met).toBe(false);
   });

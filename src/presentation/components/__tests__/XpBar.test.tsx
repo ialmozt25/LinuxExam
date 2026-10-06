@@ -57,12 +57,12 @@ describe('XpBar — дневная цель (spec 061)', () => {
     expect(screen.getByTestId('xp-bar-daily-label')).toHaveTextContent('25 / 20 XP');
   });
 
-  it('null-цель (picker не пройден) показывает дефолт 20 XP, без NaN', () => {
-    useQuizStore.setState({ todayXp: 10, dailyGoalXp: null });
+  it('null-цель (picker не пройден) показывает дефолт 30 XP, без NaN', () => {
+    useQuizStore.setState({ todayXp: 15, dailyGoalXp: null });
 
     render(<XpBar />);
 
-    expect(screen.getByTestId('xp-bar-daily-label')).toHaveTextContent('10 / 20 XP');
+    expect(screen.getByTestId('xp-bar-daily-label')).toHaveTextContent('15 / 30 XP');
     expect(screen.getByTestId('xp-bar-fill')).toHaveStyle({ width: '50%' });
     expect(screen.getByTestId('xp-bar')).toHaveAttribute('data-xp-color', 'accent');
   });

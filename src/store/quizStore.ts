@@ -23,6 +23,15 @@ import {
   type ExamState,
   type TopicBreakdown,
 } from '@/domain/exam';
+import { DEFAULT_DAILY_GOAL_XP, LEGACY_DEFAULT_DAILY_GOAL_XP } from '@/domain/goal';
+import {
+  applyXpGain,
+  streakMilestoneXp,
+  xpForAnswer,
+  XP_EXAM_COMPLETE,
+  XP_FIRST_ANSWER_OF_DAY,
+  type AnswerStream,
+} from '@/domain/xp';
 
 /**
  * TODO(payments): Replace mock unlockPro with real Stripe / Telegram Stars provider.
@@ -93,21 +102,36 @@ interface QuizState {
 
   /**
    * Дневная цель (spec 061). `null` — цель ещё не подтверждена пользователем
-   * (picker не пройден): миграция v5→v6 всегда выставляет 20, поэтому `null`
-   * остаётся только у профиля, прошедшего онбординг в этой же сессии.
+   * (picker не пройден): миграции всегда выставляют текущий дефолт, поэтому
+   * `null` остаётся только у профиля, прошедшего онбординг в этой же сессии.
    */
   dailyGoalXp: number | null;
   /** Накопленный за сегодня XP к дневной цели; обнуляется при смене даты. */
   todayXp: number;
 
   /**
+   * День (`YYYY-MM-DD`), к которому относится `todayXp`; `null` — накопленного
+   * XP за сегодня нет.
+   *
+   * Отдельный маркер, а не `lastActiveDate`: XP начисляют все три потока
+   * (regular / review / exam), а `lastActiveDate` двигает только первый ответ
+   * дня. По общему признаку день, в котором пользователь набирал XP лишь в
+   * review или на экзамене, не опознавался бы — и сброс «в новый день» стирал бы
+   * счётчик текущего дня при перезагрузке (та же причина, что и у
+   * `todayAnsweredDate`).
+   */
+  todayXpDate: string | null;
+
+  /**
    * Сколько ОТВЕТОВ дано сегодня (задание «счётчик ответов за сегодня», правая
    * часть CTA на Dashboard); обнуляется в полночь.
    *
-   * Отдельное поле, а не `todayXp`: XP растёт на +10 и только раз в сутки
-   * (`recordActivity` возвращается раньше на повторной активности), поэтому 1:1
-   * с ответами он не является. Инкремент — в `recordQuestionStat`, единственной
-   * воронке всех трёх потоков ответов (regular / review / exam).
+   * Отдельное поле, а не `todayXp`: с XP-механикой величины по-прежнему не
+   * совпадают — повторный ответ на вопрос даёт 0 XP (anti-farming), ответ
+   * экзамена не даёт XP вообще (платит завершение прогона), а +10 за первый
+   * ответ дня приходится на один ответ из многих. Инкремент — в
+   * `recordQuestionStat`, единственной воронке всех трёх потоков ответов
+   * (regular / review / exam).
    */
   todayAnswered: number;
   /**
@@ -120,6 +144,18 @@ interface QuizState {
    * стирал бы ответы текущего дня при перезагрузке.
    */
   todayAnsweredDate: string | null;
+
+  /**
+   * Вопросы, на которые сегодня уже был дан ответ (anti-farming). XP за ответ
+   * платит только ПЕРВЫЙ ответ на вопрос за день — повторный даёт 0.
+   *
+   * Список, а не счётчик: важен сам факт «этот qid сегодня уже отвечен», а не
+   * сколько раз. Ведётся в `recordQuestionStat` — единственной воронке, через
+   * которую проходит каждый ответ (regular / review / exam), поэтому порядок
+   * потоков не влияет на начисление. Сбрасывается вместе с `todayAnswered` по
+   * маркеру `todayAnsweredDate`: день у обоих полей один и тот же.
+   */
+  answeredToday: string[];
 
   /**
    * Paywall (spec 063): момент старта 7-дневного trial, мс. `null` — trial не
@@ -179,7 +215,10 @@ interface QuizState {
   recordActivity: () => void;
   /** Дневная цель (spec 061): выставляет выбранный пресет и снимает `null`. */
   setDailyGoal: (xp: number) => void;
-  /** Обнуляет todayXp при первом запуске в новый день (вызов при гидратации). */
+  /**
+   * Обнуляет todayXp и счётчик ответов при первом запуске в новый день
+   * (вызов при гидратации). Оба поля сбрасываются по СВОИМ маркерам.
+   */
   resetTodayXpIfNewDay: () => void;
   /**
    * Paywall (spec 063): стартует 7-дневный trial, если он ещё не начинался.
@@ -189,8 +228,12 @@ interface QuizState {
   startTrial: () => void;
   navigateTo: (screen: Screen) => void;
   answerQuestion: (questionId: string, selectedIndex: number) => void;
-  /** Records one answer into the local per-question statistics. */
-  recordQuestionStat: (questionId: string, isCorrect: boolean) => void;
+  /**
+   * Records one answer into the local per-question statistics И начисляет XP за
+   * ответ (первый ответ на этот вопрос за день). `stream` обязателен: от него
+   * зависит и цена ответа, и то, платит ли поток вообще (экзамен не платит).
+   */
+  recordQuestionStat: (questionId: string, isCorrect: boolean, stream: AnswerStream) => void;
   nextQuestion: () => void;
   previousQuestion: () => void;
   resetProgress: () => void;
@@ -327,8 +370,10 @@ export const useQuizStore = create<QuizState>()(
       totalXp: 0,
       dailyGoalXp: null,
       todayXp: 0,
+      todayXpDate: null,
       todayAnswered: 0,
       todayAnsweredDate: null,
+      answeredToday: [],
       trialStartedAt: null,
       wrongQuestionIds: [],
       questionStats: {},
@@ -414,38 +459,52 @@ export const useQuizStore = create<QuizState>()(
         });
       },
 
+      // Первый ответ дня: +10 (серия) и, если серия дошла до вехи, её бонус.
+      // Вызывается из `recordQuestionStat` — единственной воронки ответов, —
+      // поэтому «первым ответом дня» считается первый ответ в ЛЮБОМ потоке, а
+      // не только в regular, как было до XP-механики.
       recordActivity: () => {
         const today = new Date().toISOString().slice(0, 10);
-        const { lastActiveDate, streak, totalXp, todayXp } = get();
+        const { lastActiveDate, streak } = get();
         if (lastActiveDate === today) return;
         const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        // Веха считается по НОВОМУ значению серии: «каждый раз при достижении»
+        // означает, что сброшенная разрывом и снова дошедшая до 3 серия платит
+        // ещё раз, а не один раз в жизни профиля.
+        const nextStreak = lastActiveDate === yesterday ? streak + 1 : 1;
+        const xp = XP_FIRST_ANSWER_OF_DAY + streakMilestoneXp(nextStreak);
         set({
-          streak: lastActiveDate === yesterday ? streak + 1 : 1,
+          streak: nextStreak,
           lastActiveDate: today,
-          totalXp: totalXp + 10,
-          // spec 061: тот же +10 идёт в дневную цель. Активность после перезапуска
-          // в новый день видит todayXp = 0 (см. resetTodayXpIfNewDay).
-          todayXp: todayXp + 10,
+          ...applyXpGain(get(), xp, today),
         });
       },
 
       setDailyGoal: (xp) => set({ dailyGoalXp: xp }),
 
-      // spec 061: гидратация пришла с прошлой датой — дневной счётчик начинается
-      // заново. Идемпотентно: при lastActiveDate === today состояние не трогается.
+      // Гидратация пришла с прошлой датой — дневные счётчики начинаются заново.
+      // Идемпотентно: при сегодняшних маркерах состояние не трогается.
       //
-      // Счётчик ответов сбрасывается по СВОЕМУ маркеру (`todayAnsweredDate`), а не
-      // по `lastActiveDate`: последний обновляет только `recordActivity` из
-      // regular-потока (см. `answerQuestion`), поэтому день, в котором
-      // пользователь отвечал лишь в review/exam, по нему не опознаётся.
+      // Оба счётчика сбрасываются по СВОИМ маркерам (`todayXpDate` и
+      // `todayAnsweredDate`), а не по `lastActiveDate`: последний обновляет
+      // только `recordActivity` (первый ответ дня), поэтому день, в котором
+      // пользователь отвечал лишь в review или на экзамене, по нему не
+      // опознаётся — и сброс стёр бы сегодняшние значения при перезагрузке.
       resetTodayXpIfNewDay: () => {
         const today = new Date().toISOString().slice(0, 10);
-        const { lastActiveDate, todayXp, todayAnsweredDate } = get();
+        const { todayXpDate, todayAnsweredDate } = get();
         const patch: Partial<QuizState> = {};
-        if (lastActiveDate !== today && todayXp !== 0) patch.todayXp = 0;
+        if (todayXpDate !== null && todayXpDate !== today) {
+          patch.todayXp = 0;
+          patch.todayXpDate = null;
+        }
         if (todayAnsweredDate !== null && todayAnsweredDate !== today) {
           patch.todayAnswered = 0;
           patch.todayAnsweredDate = null;
+          // Anti-farming — часть того же дня, что и счётчик ответов: сброс
+          // «первых за день» обязан идти вместе с ним, иначе после полуночи
+          // повторный ответ на вчерашний вопрос не дал бы XP.
+          patch.answeredToday = [];
         }
         if (Object.keys(patch).length > 0) set(patch);
       },
@@ -460,11 +519,12 @@ export const useQuizStore = create<QuizState>()(
       // Local per-question stats. Kept out of the three answer streams so the
       // streams stay isolated; every answer records through here instead.
       //
-      // Дневной счётчик ответов живёт здесь же: это единственное место, через
-      // которое проходит КАЖДЫЙ ответ — regular (answerQuestion), review
-      // (answerReview) и exam (submitExamAnswer), — поэтому N не зависит от
-      // потока, которым отвечал пользователь.
-      recordQuestionStat: (questionId, isCorrect) => {
+      // Здесь же живёт ВСЯ выдача XP за ответ, и здесь же — дневной счётчик
+      // ответов и anti-farming: это единственное место, через которое проходит
+      // КАЖДЫЙ ответ — regular (answerQuestion), review (answerReview) и exam
+      // (submitExamAnswer), — поэтому ни N, ни XP не зависят от того, каким
+      // потоком отвечал пользователь.
+      recordQuestionStat: (questionId, isCorrect, stream) => {
         const today = new Date().toISOString().slice(0, 10);
         const state = get();
         const prev = state.questionStats[questionId];
@@ -477,11 +537,22 @@ export const useQuizStore = create<QuizState>()(
         // сессия может пережить полночь, и первый ответ нового дня обязан начать
         // счётчик заново, а не продолжить вчерашний.
         const isNewDay = state.todayAnsweredDate !== today;
+        const answeredToday = isNewDay ? [] : state.answeredToday;
+        // Anti-farming: платит только ПЕРВЫЙ ответ на этот вопрос за день.
+        // Второй ответ на тот же вопрос сегодня даёт 0 XP — и в счётчике ответов
+        // он по-прежнему учитывается (это разные величины).
+        const isFirstToday = !answeredToday.includes(questionId);
+        const xp = isFirstToday ? xpForAnswer(stream, isCorrect) : 0;
         set({
           questionStats: { ...state.questionStats, [questionId]: next },
           todayAnsweredDate: today,
           todayAnswered: (isNewDay ? 0 : state.todayAnswered) + 1,
+          answeredToday: isFirstToday ? [...answeredToday, questionId] : answeredToday,
+          ...applyXpGain(state, xp, today),
         });
+        // Первый ответ дня (в любом потоке) — он же шаг серии. Идемпотентно:
+        // повторный вызов внутри того же дня выходит сразу.
+        get().recordActivity();
       },
 
 
@@ -505,7 +576,7 @@ export const useQuizStore = create<QuizState>()(
             ? get().answers.map((a, i) => (i === existingIndex ? record : a))
             : [...get().answers, record];
         set({ answers });
-        get().recordQuestionStat(questionId, isCorrect);
+        get().recordQuestionStat(questionId, isCorrect, 'regular');
 
         // Wrong-answer bookkeeping for review mode. This MUST NOT touch
         // reviewAnswers - the streams stay isolated.
@@ -516,8 +587,9 @@ export const useQuizStore = create<QuizState>()(
           set({ wrongQuestionIds: wrongQuestionIds.filter((id) => id !== questionId) });
         }
         set({ isQuizInProgress: true });
-
-        get().recordActivity();
+        // Серия (+10 за первый ответ дня) начисляется внутри recordQuestionStat:
+        // первым ответом дня считается первый ответ в любом потоке, поэтому
+        // отдельный вызов recordActivity здесь был бы вторым источником истины.
       },
 
       nextQuestion: () => {
@@ -663,7 +735,7 @@ export const useQuizStore = create<QuizState>()(
         }
 
         set(update);
-        get().recordQuestionStat(questionId, isCorrect);
+        get().recordQuestionStat(questionId, isCorrect, 'review');
 
         if (reschedule) {
           get().answerAndReschedule(questionId, isCorrect, selectedIndex);
@@ -776,7 +848,11 @@ export const useQuizStore = create<QuizState>()(
             : [...examSession.answers, answer];
 
         set({ examSession: { ...examSession, answers } });
-        get().recordQuestionStat(questionId, option.correct);
+        // Ответы экзамена не платят XP (платит завершение прогона), но проходят
+        // через общую воронку: они считаются в дневном счётчике ответов и
+        // закрывают anti-farming для этого qid — «первый ответ на вопрос за
+        // день» уже дан, повторный (в review) XP не даст.
+        get().recordQuestionStat(questionId, option.correct, 'exam');
       },
 
       nextExamQuestion: () => {
@@ -793,9 +869,14 @@ export const useQuizStore = create<QuizState>()(
       finishExamSession: (reason = 'manual') => {
         const { examSession } = get();
         if (examSession.status !== 'run') return;
+        const today = new Date().toISOString().slice(0, 10);
+        // XP платит ФАКТ завершения, а не ответы: +10 один раз на прогон.
+        // Гард `status !== 'run'` выше делает начисление идемпотентным — и
+        // таймаут, и ответ на последний вопрос приводят сюда ровно один раз.
         set({
           examSession: { ...examSession, status: 'done', finishReason: reason },
           currentScreen: 'exam-results',
+          ...applyXpGain(get(), XP_EXAM_COMPLETE, today),
         });
       },
 
@@ -878,6 +959,11 @@ export const useQuizStore = create<QuizState>()(
         // что и у `questionStats`, см. выше).
         todayAnswered: state.todayAnswered,
         todayAnsweredDate: state.todayAnsweredDate,
+        // XP-механика — в самый КОНЕЦ: порядок предыдущих 19 полей не меняется.
+        // `todayXpDate` — день дневного счётчика XP (свой маркер, см. поле),
+        // `answeredToday` — «первые за день» ответы для anti-farming.
+        todayXpDate: state.todayXpDate,
+        answeredToday: state.answeredToday,
         // spec 068: legacy-поля инлайн-экзамена (examActive/examStartedAt/
         // examDurationMs/examQuestionIds/examAnswers) удалены из состояния и
         // отсюда. persist.version НЕ менялся: старый persisted-снапшот может
@@ -887,8 +973,10 @@ export const useQuizStore = create<QuizState>()(
         // examSession (spec 054) — НЕ персистится (session-only): иначе после
         // reload пользователь залипал бы на экране незавершённого экзамена.
       }),
-      version: 7,
-      // spec 061: на гидратации дневной счётчик сверяется с календарём.
+      version: 8,
+      // На гидратации оба дневных счётчика сверяются с календарём: todayXp по
+      // своему маркеру (`todayXpDate`), счётчик ответов — по `todayAnsweredDate`
+      // (spec 061).
       onRehydrateStorage: () => (state) => {
         state?.resetTodayXpIfNewDay();
       },
@@ -950,6 +1038,34 @@ export const useQuizStore = create<QuizState>()(
           s = {
             ...s,
             trialStartedAt: existingUser ? Date.now() : null,
+          } as Partial<QuizState>;
+        }
+        if (version < 8) {
+          // v7 → v8 (задание «XP-механика»): XP начал начисляться за ответы
+          // (regular +3/+1, review +2/+1) и за завершённый экзамен (+10), а не
+          // только +10 раз в сутки за активность. Из этого следуют три поля.
+          //
+          // 1. `todayXpDate` — свой маркер дня для `todayXp`. Раньше день
+          //    дневного счётчика определялся по `lastActiveDate`, который
+          //    двигал только regular-поток; теперь XP дают все три потока,
+          //    поэтому маркер нужен отдельный. Старому профилю он ставится по
+          //    прежнему признаку (`lastActiveDate`): накопленный `todayXp`
+          //    читается ровно тем же днём, что и до обновления, и не сгорает.
+          // 2. `answeredToday` — пустой список. У профиля, обновившегося
+          //    посреди дня, «первых за день» ответов нет: anti-farming начинает
+          //    считать с первого ответа после обновления. Восстановить его из
+          //    `questionStats` нельзя — там только `lastAt`, без даты дня в
+          //    форме, пригодной для сверки с календарём.
+          // 3. `dailyGoalXp: 20 → 30` — новый дефолт дневной цели. Миграция
+          //    переписывает РОВНО прежний дефолт: явный выбор 10 XP ею не
+          //    затрагивается, а `null` (picker не пройден) сохраняется —
+          //    иначе обновление молча закрыло бы picker.
+          s = {
+            ...s,
+            todayXpDate: s.lastActiveDate ?? null,
+            answeredToday: [],
+            dailyGoalXp:
+              s.dailyGoalXp === LEGACY_DEFAULT_DAILY_GOAL_XP ? DEFAULT_DAILY_GOAL_XP : s.dailyGoalXp ?? null,
           } as Partial<QuizState>;
         }
         return s;

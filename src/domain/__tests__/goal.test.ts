@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   DAILY_GOAL_OPTIONS,
+  DEFAULT_DAILY_GOAL_XP,
+  LEGACY_DEFAULT_DAILY_GOAL_XP,
   XP_ACCENT_THRESHOLD,
   XP_MARK_THRESHOLD,
   computeDailyProgress,
@@ -13,10 +15,20 @@ import {
   xpBarColor,
 } from '@/domain/goal';
 
-describe('DAILY_GOAL_OPTIONS (spec 061)', () => {
-  it('ровно три пресета 10 / 20 / 50', () => {
-    expect(DAILY_GOAL_OPTIONS).toEqual([10, 20, 50]);
+describe('DAILY_GOAL_OPTIONS (spec 061, пресеты обновлены XP-механикой)', () => {
+  it('ровно три пресета 10 / 20 / 30', () => {
+    expect(DAILY_GOAL_OPTIONS).toEqual([10, 20, 30]);
     expect(DAILY_GOAL_OPTIONS).toHaveLength(3);
+  });
+
+  it('дефолт цели равен верхнему пресету (30 XP)', () => {
+    expect(DEFAULT_DAILY_GOAL_XP).toBe(30);
+    expect(DAILY_GOAL_OPTIONS).toContain(DEFAULT_DAILY_GOAL_XP);
+  });
+
+  it('прежний дефолт (20 XP) сохранён отдельной константой для миграции', () => {
+    expect(LEGACY_DEFAULT_DAILY_GOAL_XP).toBe(20);
+    expect(LEGACY_DEFAULT_DAILY_GOAL_XP).not.toBe(DEFAULT_DAILY_GOAL_XP);
   });
 });
 

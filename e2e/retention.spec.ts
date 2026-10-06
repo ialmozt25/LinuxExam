@@ -6,15 +6,19 @@ import { test, expect, gotoApp, isoDaysAgo, seedRetention, TESTID } from './fixt
  * Все сценарии идут на мобильном viewport 390×844 — целевая аудитория Mini App,
  * и именно там retention-зона обязана влезать в верх экрана.
  *
- * Сиды задают `todayXp` вместе с СЕГОДНЯШНЕЙ `lastActiveDate`: гидратация
- * (`resetTodayXpIfNewDay`) обнуляет дневной счётчик при вчерашней дате, поэтому
- * «сегодняшний прогресс» без сегодняшней даты — противоречивое состояние.
+ * Сиды задают `todayXp` вместе с СЕГОДНЯШНЕЙ `lastActiveDate` (из неё
+ * `seedRetention` выводит маркер дня `todayXpDate`): гидратация
+ * (`resetTodayXpIfNewDay`) обнуляет дневной счётчик по СВОЕМУ маркеру, поэтому
+ * «сегодняшний прогресс» без сегодняшнего дня — противоречивое состояние.
  * Вчерашняя дата используется только там, где ожидается ровно 0 XP.
+ *
+ * Дневная цель — 30 XP (дефолт XP-механики, было 20), верхний пресет —
+ * 30 XP (было 50).
  */
 test.describe('retention UI', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
-  test('seed: streak = 1, вчерашняя активность, todayXp = 0 → badge warning, XpBar 0/20', async ({
+  test('seed: streak = 1, вчерашняя активность, todayXp = 0 → badge warning, XpBar 0/30', async ({
     page,
   }) => {
     await seedRetention(page, {
@@ -32,7 +36,7 @@ test.describe('retention UI', () => {
     // словом серии, согласованным с числом доменным `pluralDays`.
     await expect(badge).toContainText('день подряд');
 
-    await expect(page.getByTestId(TESTID.xpBarDailyLabel)).toHaveText('0 / 20 XP');
+    await expect(page.getByTestId(TESTID.xpBarDailyLabel)).toHaveText('0 / 30 XP');
     // dashboard-ux-2 (проблема 4): при нулевом прогрессе заливка получает
     // минимальную ширину 2px — полоса больше не выглядит пустой.
     await expect(page.getByTestId('xp-bar-fill')).toHaveCSS('width', '2px');
@@ -44,7 +48,7 @@ test.describe('retention UI', () => {
     await page.screenshot({ path: '.project/drafts/061-retention-dashboard.png' });
   });
 
-  test('seed: todayXp = 15 → XpBar 15/20, полоса 75 %, засечка неактивна', async ({ page }) => {
+  test('seed: todayXp = 15 → XpBar 15/30, полоса 50 %, засечка неактивна', async ({ page }) => {
     await seedRetention(page, {
       streak: 1,
       todayXp: 15,
@@ -52,19 +56,19 @@ test.describe('retention UI', () => {
     });
     await gotoApp(page);
 
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('15 / 20 XP');
+    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('15 / 30 XP');
     await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-xp-color', 'accent');
     await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-mark-active', 'false');
 
-    // 75 % от ширины полосы: сравниваем с самой полосой, а не с магическим числом.
+    // 50 % от ширины полосы: сравниваем с самой полосой, а не с магическим числом.
     const track = page.getByTestId('xp-bar-daily');
     const fill = page.getByTestId('xp-bar-fill');
     const [trackBox, fillBox] = await Promise.all([track.boundingBox(), fill.boundingBox()]);
     expect(trackBox).not.toBeNull();
     expect(fillBox).not.toBeNull();
     const ratio = (fillBox?.width ?? 0) / (trackBox?.width ?? 1);
-    expect(ratio).toBeGreaterThan(0.7);
-    expect(ratio).toBeLessThan(0.8);
+    expect(ratio).toBeGreaterThan(0.45);
+    expect(ratio).toBeLessThan(0.55);
 
     // Бейдж в состоянии active: сегодня уже занимались.
     await expect(page.getByTestId(TESTID.streakBadge)).toHaveAttribute(
@@ -73,21 +77,21 @@ test.describe('retention UI', () => {
     );
   });
 
-  test('seed: todayXp = 18 → засечка на 85 % активна', async ({ page }) => {
+  test('seed: todayXp = 27 → засечка на 85 % (90 %) активна', async ({ page }) => {
     await seedRetention(page, {
       streak: 2,
-      todayXp: 18,
+      todayXp: 27,
       lastActiveDate: isoDaysAgo(0),
     });
     await gotoApp(page);
 
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('18 / 20 XP');
+    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('27 / 30 XP');
     await expect(page.getByTestId(TESTID.xpBarMark)).toBeVisible();
     await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-mark-active', 'true');
     await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-xp-color', 'green');
   });
 
-  test('daily goal picker: цель не подтверждена → 3 карточки, выбор скрывает picker', async ({
+  test('daily goal picker: цель не подтверждена → 3 карточки 10/20/30, выбор скрывает picker', async ({
     page,
   }) => {
     await seedRetention(page, {
@@ -102,22 +106,25 @@ test.describe('retention UI', () => {
     await expect(picker).toBeVisible();
     await expect(page.getByTestId('daily-goal-10')).toBeVisible();
     await expect(page.getByTestId('daily-goal-20')).toBeVisible();
-    await expect(page.getByTestId('daily-goal-50')).toBeVisible();
-    // Цель ещё не выбрана, но дефолт уже работает: бар показывает 0 / 20 XP.
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('0 / 20 XP');
+    await expect(page.getByTestId('daily-goal-30')).toBeVisible();
+    // XP-механика: прежний верхний пресет 50 XP убран, и подсказка больше не
+    // обещает «один вопрос = 10 XP».
+    await expect(page.getByTestId('daily-goal-50')).toHaveCount(0);
+    // Цель ещё не выбрана, но дефолт уже работает: бар показывает 0 / 30 XP.
+    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('0 / 30 XP');
 
-    await page.getByTestId('daily-goal-50').click();
+    await page.getByTestId('daily-goal-30').click();
 
     await expect(picker).toHaveCount(0);
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('0 / 50 XP');
+    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('0 / 30 XP');
 
-    // Выбор ушёл в persist (dailyGoalXp: 50, версия 7) — это и есть контракт
+    // Выбор ушёл в persist (dailyGoalXp: 30, версия 8) — это и есть контракт
     // сохранения; восстановление из persist покрыто unit-тестами
     // `daily-goal.test.ts` (в e2e сид-скрипт фикстуры выполняется на каждой
     // навигации и перетёр бы сохранённый выбор — проверять reload здесь нельзя).
     const stored = await page.evaluate(() => window.localStorage.getItem('rhcsa_progress'));
-    expect(stored).toContain('"dailyGoalXp":50');
-    expect(stored).toContain('"version":7');
+    expect(stored).toContain('"dailyGoalXp":30');
+    expect(stored).toContain('"version":8');
   });
 
   test('retention-зона не ломает существующие кнопки Dashboard', async ({ page }) => {

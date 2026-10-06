@@ -130,8 +130,8 @@ test.describe('повторение ошибок', () => {
     expect(answers).toHaveLength(1);
     expect(answers[0]).toEqual(record);
     expect(stored?.state.wrongQuestionIds).toEqual([question.id]);
-    // The first answer of the day earned the streak and the daily XP.
-    expect(stored?.state.totalXp).toBe(10);
+    // Первый ответ дня (+10 серия) и неверный regular-ответ (+1) — таблица XP-механики.
+    expect(stored?.state.totalXp).toBe(11);
     expect(stored?.state.streak).toBe(1);
   });
 

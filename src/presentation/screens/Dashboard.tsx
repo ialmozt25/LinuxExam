@@ -12,6 +12,7 @@ import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
+import { levelFromXp, xpInLevel } from '@/domain/xp';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
 import { Badge, Button, Card } from '@/ui';
@@ -259,8 +260,12 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
   const totalQuestions = getBankTotal();
   const progressPercent = totalQuestions > 0 ? (answered / totalQuestions) * 100 : 0;
-  const level = Math.floor(totalXp / 100) + 1;
-  const xpPercent = totalXp % 100;
+  // Уровень и прогресс внутри него — домен (`src/domain/xp.ts`), а не арифметика
+  // на месте: шкала «100/250/500/800/1200, дальше +400» — контракт XP-механики,
+  // и вторая её копия здесь разошлась бы с той, по которой начисляется XP.
+  const level = levelFromXp(totalXp);
+  const levelProgress = xpInLevel(totalXp);
+  const xpPercent = levelProgress.percent;
 
   return (
     <ScreenContainer>
@@ -283,14 +288,16 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Уровень {level}</span>
           {/* diag-dashboard-fix (симптом 5): полоса показывает XP ВНУТРИ уровня
-              (`totalXp % 100`), а не дневную цель, и в отчёте это читалось как
+              (`xpInLevel`), а не дневную цель, и в отчёте это читалось как
               «Уровень 1 · 10 %» рядом с дневной целью 10/20. Метрика оставлена:
               дневную цель уже показывает XpBar, а вторая дневная полоса была бы
               тем же дублем XP, против которого симптом 6. Неоднозначность снята
-              именем — «Уровень N (XP внутри)», а не «Прогресс уровня». */}
+              именем — «Уровень N (XP внутри)», а не «Прогресс уровня».
+              XP-механика: метрика та же, но уровень теперь считается доменом по
+              шкале 100/250/500/800/1200 (+400), а не `totalXp % 100`. */}
           <span
             role="progressbar"
-            aria-valuenow={xpPercent}
+            aria-valuenow={Math.round(xpPercent)}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-label={`Уровень ${level} (XP внутри)`}

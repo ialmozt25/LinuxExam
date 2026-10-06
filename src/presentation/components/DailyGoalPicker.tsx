@@ -1,12 +1,17 @@
 import { useQuizStore } from '@/store/quizStore';
 import { SPACING } from '@/presentation/theme';
 import { DAILY_GOAL_OPTIONS } from '@/domain/goal';
+import { XP_FIRST_ANSWER_OF_DAY, XP_REGULAR_CORRECT } from '@/domain/xp';
 
-/** Три пресета дневной цели: light / normal / intense. */
+/**
+ * Подписи трёх пресетов дневной цели. Подсказка считает ВОПРОСЫ (не XP): при
+ * таблице начисления +10 даёт первый ответ дня, а верный ответ стоит 3 XP,
+ * поэтому «сверх разминки» остаётся goal − 10 XP.
+ */
 const GOAL_PRESETS: Record<number, { label: string; hint: string }> = {
-  10: { label: '10 XP', hint: 'Легко — один вопрос' },
-  20: { label: '20 XP', hint: 'Обычно — два вопроса' },
-  50: { label: '50 XP', hint: 'Интенсивно — пять вопросов' },
+  10: { label: '10 XP', hint: 'Легко — отметить день' },
+  20: { label: '20 XP', hint: 'Обычно — 3–4 вопроса' },
+  30: { label: '30 XP', hint: 'Интенсивно — 7 вопросов' },
 };
 
 /**
@@ -64,7 +69,7 @@ export function DailyGoalPicker() {
             color: 'var(--text-secondary)',
           }}
         >
-          Цель можно сменить в любой момент. Один вопрос = 10 XP.
+          {`Первый ответ дня — ${XP_FIRST_ANSWER_OF_DAY} XP, верный ответ — ${XP_REGULAR_CORRECT} XP. Цель можно сменить в любой момент.`}
         </p>
 
         {DAILY_GOAL_OPTIONS.map((xp) => {

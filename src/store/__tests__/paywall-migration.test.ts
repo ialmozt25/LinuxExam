@@ -100,10 +100,11 @@ describe('persist migration v6 → v7 (paywall, spec 063)', () => {
     expect(s.isQuizInProgress).toBe(true);
     expect(s.onboardingGoal).toBe('rhcsa');
     expect(s.hasCompletedOnboarding).toBe(true);
-    expect(s.dailyGoalXp).toBe(20);
+    expect(s.dailyGoalXp).toBe(30);
     // todayXp в v6-payload — 10, но гидратация сверяет день: lastActiveDate
     // профиля ('2026-10-01') не сегодняшний, поэтому дневной счётчик обнулён
-    // (`resetTodayXpIfNewDay`, spec 061). Миграция v6→v7 к этому непричастна.
+    // (`resetTodayXpIfNewDay`; маркер `todayXpDate` миграция v7→v8 берёт из
+    // `lastActiveDate`, поэтому день читается ровно как до обновления).
     expect(s.todayXp).toBe(0);
   });
 
@@ -135,27 +136,28 @@ describe('persist migration v6 → v7 (paywall, spec 063)', () => {
     expect(s.isPro).toBe(false);
   });
 
-  it('записывает состояние под версией 7, дневной счётчик ответов — в конце partialize', async () => {
+  it('записывает состояние под версией 8, поля XP-механики — в конце partialize', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V6_PAYLOAD));
     const { useQuizStore } = await import('@/store/quizStore');
 
     useQuizStore.setState({ trialStartedAt: 1_800_000_000_000 });
 
     const raw = readPersisted();
-    expect(raw.version).toBe(7);
+    expect(raw.version).toBe(8);
     expect(raw.state.trialStartedAt).toBe(1_800_000_000_000);
-    // Контракт partialize (spec 063): поле добавлено в КОНЕЦ, порядок
-    // предыдущих полей не изменён. spec 068 убрал из partialize 5 legacy-полей
-    // инлайн-экзамена, поэтому ключей стало 17 (было 22). Задание «счётчик
-    // ответов за сегодня» дописало в КОНЕЦ ещё два поля (`todayAnswered`,
-    // `todayAnsweredDate`) — порядок предыдущих 17 по-прежнему не изменён,
-    // ключей теперь 19.
+    // Контракт partialize: каждое новое поле дописывается в КОНЕЦ, порядок
+    // предыдущих не меняется. spec 068 убрал 5 legacy-полей инлайн-экзамена
+    // (ключей стало 17), «счётчик ответов за сегодня» дописал два
+    // (`todayAnswered`, `todayAnsweredDate`) — стало 19, XP-механика дописала
+    // ещё два (`todayXpDate`, `answeredToday`) — стало 21.
     const stateKeys = Object.keys(raw.state);
-    expect(stateKeys[stateKeys.length - 1]).toBe('todayAnsweredDate');
-    expect(stateKeys[stateKeys.length - 2]).toBe('todayAnswered');
-    expect(stateKeys[stateKeys.length - 3]).toBe('trialStartedAt');
-    expect(stateKeys[stateKeys.length - 4]).toBe('todayXp');
-    expect(stateKeys).toHaveLength(19);
+    expect(stateKeys[stateKeys.length - 1]).toBe('answeredToday');
+    expect(stateKeys[stateKeys.length - 2]).toBe('todayXpDate');
+    expect(stateKeys[stateKeys.length - 3]).toBe('todayAnsweredDate');
+    expect(stateKeys[stateKeys.length - 4]).toBe('todayAnswered');
+    expect(stateKeys[stateKeys.length - 5]).toBe('trialStartedAt');
+    expect(stateKeys[stateKeys.length - 6]).toBe('todayXp');
+    expect(stateKeys).toHaveLength(21);
   });
 
   it('состояние уже v7 проходит migrate как no-op (trial не переставляется)', async () => {

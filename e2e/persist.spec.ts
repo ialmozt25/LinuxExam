@@ -159,8 +159,9 @@ test.describe('persist — частичная запись состояния', 
 
     await answerQuestion(page, 'correct');
     const earned = await readPersisted(page);
-    // The FIRST answer of the calendar day is what grants the daily XP and streak.
-    expect(earned?.state.totalXp).toBe(10);
+    // Первый ответ дня заводит серию (+10), сам верный regular-ответ стоит +3
+    // (таблица XP-механики).
+    expect(earned?.state.totalXp).toBe(13);
     expect(earned?.state.streak).toBe(1);
 
     await page.getByTestId(TESTID.headerHome).click();
@@ -171,7 +172,7 @@ test.describe('persist — частичная запись состояния', 
     await waitForDashboard(page);
 
     const after = await readPersisted(page);
-    expect(after?.state.totalXp).toBe(10);
+    expect(after?.state.totalXp).toBe(13);
     expect(after?.state.streak).toBe(1);
     await expect(page.getByText('Уровень 1')).toBeVisible();
     await expect(page.getByTestId(TESTID.dashboardProgress)).toContainText(`1 из ${TOTAL}`);

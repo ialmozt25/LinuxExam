@@ -11,12 +11,14 @@ import type { Question } from '@/data/models/Question';
  *  - считаются ответы ВСЕХ трёх потоков (regular / review / exam): инкремент
  *    живёт в единственной воронке `recordQuestionStat`, через которую проходит
  *    каждый ответ, поэтому N не зависит от того, каким потоком отвечали;
- *  - `todayXp` для этой роли не годится (и потому не переиспользован): он растёт
- *    на +10 и только раз в сутки — 1:1 с ответами он не является;
+ *  - `todayXp` для этой роли не годится (и потому не переиспользован): с
+ *    XP-механикой величины расходятся ещё сильнее — повторный ответ на вопрос
+ *    даёт 0 XP, ответ экзамена не даёт XP вообще, а +10 за первый ответ дня
+ *    приходится на один ответ из многих;
  *  - день определяется маркером `todayAnsweredDate`, а не `lastActiveDate`:
- *    последний двигает только regular-поток (`answerQuestion` →
- *    `recordActivity`), поэтому день «из одних review» по нему не опознаётся —
- *    и сброс на гидратации стёр бы ответы текущего дня при перезагрузке.
+ *    последний двигает только первый ответ дня, поэтому день «из одних review»
+ *    по нему не опознаётся — и сброс на гидратации стёр бы ответы текущего дня
+ *    при перезагрузке.
  */
 
 const TODAY = '2026-03-10';
@@ -71,8 +73,10 @@ function resetStore() {
     lastActiveDate: null,
     totalXp: 0,
     todayXp: 0,
+    todayXpDate: null,
     todayAnswered: 0,
     todayAnsweredDate: null,
+    answeredToday: [],
     questionStats: {},
     scheduledReviews: {},
     examSession: {
@@ -122,21 +126,23 @@ describe('дневной счётчик ответов (CTA «N из 30 вопр
     const s = useQuizStore.getState();
     expect(s.todayAnswered).toBe(2);
     expect(s.todayAnsweredDate).toBe(TODAY);
-    // Два ответа дали один +10 XP: счётчик ответов и XP — разные величины.
-    expect(s.todayXp).toBe(10);
+    // Два верных ответа — это +3 +3, плюс +10 за первый ответ дня: счётчик
+    // ответов и XP — разные величины (N = 2, XP = 16).
+    expect(s.todayXp).toBe(16);
   });
 
-  it('review: ответ считается, хотя recordActivity его не видит', () => {
+  it('review: ответ считается, хотя firstAnswerOfDay приходит из другого потока', () => {
     useQuizStore.getState().startReviewQuiz(['q1']);
     useQuizStore.getState().answerReview('q1', 0);
 
     const s = useQuizStore.getState();
     expect(s.todayAnswered).toBe(1);
     expect(s.todayAnsweredDate).toBe(TODAY);
-    // review не трогает ни XP, ни lastActiveDate — счётчик ответов обязан жить
-    // независимо от них, иначе он «не увидел» бы целый поток.
-    expect(s.todayXp).toBe(0);
-    expect(s.lastActiveDate).toBeNull();
+    // review платит за ответ (+2 за верный) и, как первый ответ дня, заводит
+    // серию (+10). Счётчик ответов живёт независимо от обеих величин.
+    expect(s.todayXp).toBe(12);
+    expect(s.lastActiveDate).toBe(TODAY);
+    expect(s.streak).toBe(1);
   });
 
   it('exam: ответ считается', () => {
@@ -146,6 +152,15 @@ describe('дневной счётчик ответов (CTA «N из 30 вопр
     const s = useQuizStore.getState();
     expect(s.todayAnswered).toBe(1);
     expect(s.todayAnsweredDate).toBe(TODAY);
+    // За ответы экзамена XP не платят (+10 платит ЗАВЕРШЕНИЕ прогона), но
+    // первый ответ дня в любом потоке заводит серию: 0 + 10 = 10.
+    expect(s.todayXp).toBe(10);
+    // И anti-farming закрыт по этому qid: повторный ответ на q1 сегодня (в
+    // review) XP уже не даст — «первый ответ за день» потрачен.
+    expect(s.answeredToday).toEqual(['q1']);
+    useQuizStore.getState().startReviewQuiz(['q1']);
+    useQuizStore.getState().answerReview('q1', 0);
+    expect(useQuizStore.getState().todayXp).toBe(10);
   });
 
   it('повторный ответ на тот же вопрос считается как ещё один ответ', () => {
@@ -160,8 +175,10 @@ describe('дневной счётчик ответов (CTA «N из 30 вопр
     useQuizStore.setState({
       todayAnswered: 7,
       todayAnsweredDate: YESTERDAY,
+      answeredToday: ['q1'],
       lastActiveDate: YESTERDAY,
       todayXp: 10,
+      todayXpDate: YESTERDAY,
     });
 
     useQuizStore.getState().resetTodayXpIfNewDay();
@@ -169,15 +186,19 @@ describe('дневной счётчик ответов (CTA «N из 30 вопр
     const s = useQuizStore.getState();
     expect(s.todayAnswered).toBe(0);
     expect(s.todayAnsweredDate).toBeNull();
+    expect(s.answeredToday).toEqual([]);
     expect(s.todayXp).toBe(0);
+    expect(s.todayXpDate).toBeNull();
   });
 
   it('тот же день: сброс идемпотентен', () => {
     useQuizStore.setState({
       todayAnswered: 7,
       todayAnsweredDate: TODAY,
+      answeredToday: ['q1'],
       lastActiveDate: TODAY,
       todayXp: 10,
+      todayXpDate: TODAY,
     });
 
     useQuizStore.getState().resetTodayXpIfNewDay();
@@ -185,6 +206,7 @@ describe('дневной счётчик ответов (CTA «N из 30 вопр
     const s = useQuizStore.getState();
     expect(s.todayAnswered).toBe(7);
     expect(s.todayAnsweredDate).toBe(TODAY);
+    expect(s.answeredToday).toEqual(['q1']);
     expect(s.todayXp).toBe(10);
   });
 
