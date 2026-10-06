@@ -7,6 +7,7 @@ import { useTelegramMainButton, useMainButtonAvailable } from '@/hooks/useTelegr
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
 import { FIXED_FOOTER_Z_INDEX } from '@/presentation/components/fixedFooter';
 import { StreakBadge } from '@/presentation/components/StreakBadge';
+import { Tux } from '@/ui/Tux';
 import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { useCanAccessTopic } from '@/store/paywall';
@@ -43,7 +44,7 @@ function openTopic(key: string, hasAccess: boolean) {
 }
 
 /**
- * Основной CTA дашборда («Начать обучение» / «Повторить сегодня» /
+ * Основной CTA дашборда («Начать обучение» / «Продолжить обучение» /
  * «Продолжить изучение»). Вынесен в константу: три состояния должны выглядеть
  * одинаково, иначе одно и то же действие снова разъедется по стилям (spec 065).
  *
@@ -145,7 +146,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // домена (`canAccessTopic`), поэтому 14 тем не подписывают компонент 14 раз.
   const paywallAccess: TopicGate = useCanAccessTopic;
 
-  // FSRS-lite (spec 052): нагрузка для кнопки «Повторить сегодня (N)».
+  // FSRS-lite (spec 052): нагрузка для кнопки входа в занятие.
   // Банк отдаёт store асинхронно (per-topic chunks), поэтому N пересчитывается
   // на каждый его приход — до загрузки банка review-today просто не показывается.
   const bankIds = useQuizStore(useShallow((s) => s.questions.map((question) => question.id)));
@@ -153,7 +154,6 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const scheduledReviews = useQuizStore((s) => s.scheduledReviews);
   const questionStats = useQuizStore((s) => s.questionStats);
   const ensureReviewsInitialized = useQuizStore((s) => s.ensureReviewsInitialized);
-  const getSessionCounts = useQuizStore((s) => s.getSessionCounts);
   const getSessionIds = useQuizStore((s) => s.getSessionIds);
 
   // Одна сессия — до SESSION_LIMIT вопросов, просроченные первыми (spec 065).
@@ -163,10 +163,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
     () => getSessionIds(),
     [getSessionIds, scheduledReviews, bankIds],
   );
-  const counts = useMemo(
-    () => getSessionCounts(),
-    [getSessionCounts, scheduledReviews, bankIds],
-  );
+  // ux-copy-3 (2026-10-07): `counts` (getSessionCounts) жил ровно ради узла
+  // `review-today-remainder` — подсчёт хвоста пула ушёл вместе с ним. Размер
+  // текущей сессии по-прежнему считается ниже (sessionDueIds/sessionNewIds).
 
   // Просроченные из отобранной сессии: порядок внутри сессии уже «сначала самые
   // запущенные», поэтому фильтр сохраняет порядок. Остаток за пределами сессии
@@ -178,10 +177,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const sessionDueIds = sessionIds.filter((id) => dueIdSet.has(id));
   const sessionNewIds = sessionIds.filter((id) => !dueIdSet.has(id));
   // Числа берутся из отобранной сессии, а не из общего пула: при пуле больше
-  // SESSION_LIMIT кнопка обещает ровно то, что откроет.
+  // SESSION_LIMIT сессия обещает ровно то, что откроет.
   const dueCount = sessionDueIds.length;
   const newCount = sessionNewIds.length;
-  const hasPending = counts.dueCount > dueCount || counts.newCount > newCount;
 
   // Профиль без единого ответа: показываем приглашение, а не «повторить».
   // Условие — пустая статистика, а не пустой реестр расписания: реестр
@@ -312,19 +310,25 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </div>
       </div>
 
-      {/* Title block */}
+      {/* Title block. ux-copy-3 (2026-10-07): маскот переехал из streak-бейджа
+          сюда — рядом с названием и ПЕРЕД текстом заголовка (gap = --space-2).
+          Картинка декоративная (alt="" + aria-hidden внутри <Tux>), поэтому
+          доступное имя h1 остаётся «LinuxExam» (его читает ux-regression). */}
       <div style={{ marginTop: 'var(--space-5)' }}>
-        <h1
-          style={{
-            fontSize: 'var(--heading-1)',
-            fontWeight: 700,
-            letterSpacing: 'var(--letter-tight)',
-            margin: 0,
-            color: 'var(--text-primary)',
-          }}
-        >
-          LinuxExam
-        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+          <Tux size={24} />
+          <h1
+            style={{
+              fontSize: 'var(--heading-1)',
+              fontWeight: 700,
+              letterSpacing: 'var(--letter-tight)',
+              margin: 0,
+              color: 'var(--text-primary)',
+            }}
+          >
+            LinuxExam
+          </h1>
+        </div>
         <p
           data-testid="dashboard-subtitle"
           style={{
@@ -403,8 +407,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
       {/* Вход в занятие (spec 065; взаимоисключение ветвей — spec 066).
           У профиля без единого ответа (`hasNoHistory`) повторять нечего, поэтому
-          показывается РОВНО приглашение к обучению — без «Повторить сегодня (30)»
-          и без строки остатка. До spec 066 эти блоки жили отдельными условиями и
+          показывается РОВНО приглашение к обучению — без кнопки повторения
+          («Продолжить обучение», ux-copy-3) и без строки остатка (удалена тем же
+          заданием). До spec 066 эти блоки жили отдельными условиями и
           рендерились рядом с приглашением. Запас всё равно существует:
           `ensureReviewsInitialized` при монтировании проставляет всему банку
           `next = now`, `pickToday` считает весь банк просроченным, а
@@ -431,11 +436,15 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               onClick={() => startReviewQuiz(sessionDueIds, 'today')}
               style={PRIMARY_CTA}
             >
-              {/* Решение B (dashboard-ux-2): счётчик живёт только справа
-                  («N вопр.»), в подписи кнопки числа больше нет — оно
-                  дублировалось дважды в одной строке. */}
-              <span>Повторить сегодня</span>
-              <span style={CTA_COUNTER}>{`${dueCount} вопр.`}</span>
+              {/* ux-copy-3 (2026-10-07): подпись «Повторить сегодня» читалась как
+                  долг перед приложением. Главный текст — «Продолжить обучение»;
+                  правый счётчик сохранён тем же узлом и стилем (CTA_COUNTER),
+                  содержимое заменено на обещание сессии: «15 минут · 30 вопросов»
+                  (SESSION_LIMIT = 30; «15 минут» — тот же формат, что у подписи
+                  «Подготовка к RHCSA за 15 минут в день»). Числа сессии в подписи
+                  больше нет: она не пересчитывается. */}
+              <span>Продолжить обучение</span>
+              <span style={CTA_COUNTER}>15 минут · 30 вопросов</span>
             </Button>
           ) : null}
 
@@ -451,25 +460,13 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             </Button>
           ) : null}
 
-          {/* Хвост пула за одной сессией. Видимого числа здесь больше нет:
-              демотивирующая строка про невыполненный остаток заменена на
-              нейтральное «Следующее повторение: завтра» (задание 2026-10-07).
-              N остаётся контрактом, но не для глаза: его читает
-              e2e/fsrs.spec.ts из `data-fsrs-remaining`, и он по-прежнему
-              означает размер СЛЕДУЮЩЕЙ сессии, а не размер всего хвоста. */}
-          {hasPending && dueCount > 0 ? (
-            <p
-              data-testid="review-today-remainder"
-              data-fsrs-remaining={counts.dueCount - dueCount}
-              style={{
-                margin: `${SPACING.sm} 0 0 0`,
-                fontSize: 'var(--text-xs)',
-                color: 'var(--text-secondary)',
-              }}
-            >
-              Следующее повторение: завтра
-            </p>
-          ) : null}
+          {/* ux-copy-3 (2026-10-07): хвост пула за одной сессией больше не
+              подписывается вовсе. Строка «Следующее повторение: завтра»
+              (UX-фикс 2026-10-07) удалена целиком вместе с узлом
+              `review-today-remainder` и его `data-fsrs-remaining`: обещание
+              «завтра» ничего не сообщало пользователю, а размер хвоста жил в DOM
+              только ради тестов. Фактический размер сессии виден в счётчике
+              прогона (`1 / N`). */}
         </>
       )}
 

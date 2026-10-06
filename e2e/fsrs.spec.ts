@@ -37,55 +37,42 @@ const SESSION_LIMIT = 30;
 const TOPIC = 'file_permissions';
 
 /**
- * Контракт кнопки повторения после dashboard-ux-2: число живёт ТОЛЬКО в правом
- * счётчике («30 вопр.»), в подписи кнопки его больше нет — иначе «30»
- * дублировалось дважды в одной строке.
- */
-const TITLE = /^Повторить сегодня$/;
-/** Правый счётчик кнопки: «30 вопр.». */
-const COUNTER = /(\d+)\s*вопр\./;
-
-/**
- * Остаток пула за пределами одной сессии.
+ * Контракт кнопки входа в занятие после ux-copy-3 (2026-10-07): подпись —
+ * «Продолжить обучение», правый счётчик — фиксированное обещание сессии
+ * «15 минут · 30 вопросов».
  *
- * UI-строка изменена 2026-10-07 (219 демотивировало); N скрыт в
- * data-fsrs-remaining — пользователь цифру не видит, тесты читают атрибут.
+ * Числа сессии в подписи больше нет: N не живёт в DOM, поэтому размер сессии
+ * проверяется по счётчику самого прогона (`counterText` → `1 / 30`), а не по
+ * подписи кнопки. Остатка пула (`data-fsrs-remaining`) в DOM тоже нет —
+ * хвост наблюдается по persist (см. `dueInFuture`).
  */
+const TITLE = /^Продолжить обучение$/;
+const PROMISE = '15 минут · 30 вопросов';
 
-async function reviewTodayCount(page: import('@playwright/test').Page): Promise<number> {
-  const text = (await page.getByTestId(TESTID.reviewToday).innerText()).trim();
+/** Подпись кнопки повторения и обещание сессии — оба узла контракта. */
+async function expectReviewCta(page: import('@playwright/test').Page): Promise<void> {
+  const button = page.getByTestId(TESTID.reviewToday);
   // Подпись — тоже часть контракта: если она поедет, тест обязан упасть здесь,
-  // с понятным сообщением, а не «не разобрать N» где-то дальше.
+  // с понятным сообщением, а не в математике где-то дальше.
+  const text = (await button.innerText()).trim();
   if (!TITLE.test(text.split('\n')[0].trim())) {
     throw new Error(`подпись кнопки повторения изменилась: «${text}»`);
   }
-  const match = COUNTER.exec(text);
-  if (!match) throw new Error(`не удалось разобрать N из «${text}»`);
-  return Number(match[1]);
+  await expect(button).toContainText(PROMISE);
 }
 
 /**
- * Сколько просроченных осталось за пределами текущей сессии.
+ * Сколько записей расписания ушло в будущее (`next > now`).
  *
- * Источник — data-атрибут `data-fsrs-remaining`, а НЕ видимый текст: строка
- * теперь нейтральная («Следующее повторение: завтра»), числа в ней нет.
- * N = 0 рендерится как "0", поэтому пустое значение здесь — признак
- * сломанного атрибута, а не нулевого остатка.
+ * Замена удалённому `data-fsrs-remaining` (ux-copy-3): размер хвоста за одной
+ * сессией больше не рендерится ни числом, ни подписью, поэтому остаток
+ * наблюдается по источнику правды — persist-состоянию, а не по DOM.
  */
-async function reviewRemainder(page: import('@playwright/test').Page): Promise<number> {
-  const raw = await page
-    .getByTestId(TESTID.reviewRemainder)
-    .getAttribute('data-fsrs-remaining');
-  if (raw === null) {
-    throw new Error(
-      `у элемента ${TESTID.reviewRemainder} нет data-fsrs-remaining (UI-строка изменена 2026-10-07)`,
-    );
-  }
-  const value = Number(raw);
-  if (raw.trim() === '' || !Number.isFinite(value)) {
-    throw new Error(`data-fsrs-remaining не число: «${raw}»`);
-  }
-  return value;
+async function dueInFuture(page: import('@playwright/test').Page): Promise<number> {
+  const stored = await readPersisted(page);
+  const reviews = (stored?.state.scheduledReviews ?? {}) as Record<string, { next: number }>;
+  const now = Date.now();
+  return Object.values(reviews).filter((record) => record.next > now).length;
 }
 
 test.describe.serial('FSRS-lite — разделение new / due', () => {
@@ -111,9 +98,9 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
 
     // Дефект до spec 065: свежий профиль видел «Повторить сегодня (253)».
     // Дефект до spec 066: профиль видел приглашение И повторение одновременно —
-    // «Повторить сегодня (30)» плюс строка остатка с числом. Сама строка
-    // с 2026-10-07 нейтральная («Следующее повторение: завтра»), число
-    // живёт в data-fsrs-remaining — см. reviewRemainder().
+    // кнопку повторения плюс строку остатка с числом. Строку удалил ux-copy-3
+    // (2026-10-07) вместе с её узлом `review-today-remainder`; ассерт ниже
+    // фиксирует, что узел больше не рендерится ни на одном профиле.
     await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
     await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать обучение/);
 
@@ -121,7 +108,7 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await expect(page.getByTestId(TESTID.reviewToday)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.continueLearning)).toHaveCount(0);
-    // Ни «Повторить сегодня (30)», ни «Повторить сегодня (253)» не возвращаются.
+    // Кнопка повторения не возвращается ни в одном виде: повторять новичку нечего.
     // Подпись «Продолжить»/«Повторить» проверяется по кнопкам, а не по тексту
     // страницы: «253» законно встречается в прогрессе («0 из 253») и в счётчике
     // темы, поэтому широкий поиск по числу дал бы ложное срабатывание.
@@ -129,7 +116,7 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await expect(page.getByRole('button', { name: /Продолжить обучение|Продолжить изучение/ })).toHaveCount(0);
   });
 
-  test('после первого ответа → «Повторить (N)», приглашение снято (spec 066)', async ({ page }) => {
+  test('после первого ответа → кнопка повторения, приглашение снято (spec 066)', async ({ page }) => {
     await gotoApp(page);
 
     // Профиль ещё свежий: только приглашение.
@@ -145,7 +132,9 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await waitForDashboard(page);
 
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    expect(await reviewTodayCount(page)).toBeGreaterThanOrEqual(1);
+    // Кнопка рендерится только при `dueCount > 0`, то есть «сессия непуста»
+    // доказано самим её появлением: числа сессии подпись больше не несёт.
+    await expectReviewCta(page);
     await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
   });
 
@@ -166,21 +155,21 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
 
   test('ответы в прогоне уменьшают остаток и переживают reload', async ({ page }) => {
     // История нужна: spec 066 не показывает повторение на свежем профиле.
-    // Пул БОЛЬШЕ одной сессии — иначе остатка за её пределами не существует и
-    // строка `review-today-remainder` не рендерится вовсе.
+    // Пул БОЛЬШЕ одной сессии — иначе хвоста за её пределами не существует.
     const pool = 2 * SESSION_LIMIT;
     // `once`: сценарий перезагружает страницу и проверяет, что уменьшенный
     // остаток ПЕРЕЖИЛ reload — сид на каждой навигации затёр бы его.
     await seedHistoryProfile(page, pool, { once: true });
     await gotoApp(page);
 
-    // Пул 60, сессия 30, за её пределами 30.
-    expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
-    // Видимый текст строки — новый контракт: числа в нём больше нет.
-    await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveText(
-      'Следующее повторение: завтра',
-    );
-    expect(await reviewRemainder(page)).toBe(pool - SESSION_LIMIT);
+    // Пул 60, сессия 30. Размер сессии проверяется по счётчику прогона (ниже),
+    // а не по подписи кнопки: числа в ней больше нет (ux-copy-3).
+    await expectReviewCta(page);
+    // Строки остатка больше нет вовсе — узел и его data-атрибут удалены.
+    await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveCount(0);
+    // Хвост наблюдается по persist: сид планирует в будущее весь банк за
+    // пределами пула, то есть `BANK_TOTAL - pool` записей уже в будущем.
+    expect(await dueInFuture(page)).toBe(BANK_TOTAL - pool);
 
     const button = page.getByTestId(TESTID.reviewToday);
     await button.click();
@@ -202,17 +191,16 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await waitForDashboard(page);
 
     // Сессия остаётся ПОЛНОЙ — она набирается из остатка пула, — а уменьшается
-    // именно остаток. Это и есть смысл разделения: «повторить 30 сегодня»,
-    // а не «повторить всё».
+    // именно остаток: к «будущим» добавились ровно два отвеченных вопроса.
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
-    expect(await reviewRemainder(page)).toBe(pool - SESSION_LIMIT - 2);
+    await expectReviewCta(page);
+    expect(await dueInFuture(page)).toBe(BANK_TOTAL - pool + 2);
 
     // И реестр расписания переживает reload.
     await page.reload();
     await waitForDashboard(page);
-    expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
-    expect(await reviewRemainder(page)).toBe(pool - SESSION_LIMIT - 2);
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
+    expect(await dueInFuture(page)).toBe(BANK_TOTAL - pool + 2);
 
     const stored = await readPersisted(page);
     // Текущая версия persist: 6 с spec 061, 7 с spec 063 — spec 065 её не меняет.
@@ -267,16 +255,19 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     expect(await counterText(page)).toBe(`6 / ${SESSION_LIMIT}`);
   });
 
-  test('due-профиль → «Повторить (30)» и «Ещё N» на итогах прогона', async ({ page }) => {
+  test('due-профиль → сессия на 30 и «Ещё N» на итогах прогона', async ({ page }) => {
     // Профиль, у которого просрочен весь банк: 253 в пуле, 30 в одной сессии.
     await seedDueProfile(page);
     await gotoApp(page);
 
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
+    await expectReviewCta(page);
     // Новых вопросов нет: приглашение к обучению не показывается.
     await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
-    expect(await reviewRemainder(page)).toBe(BANK_TOTAL - SESSION_LIMIT);
+    // Весь банк просрочен, в будущем не запланировано ничего, а хвост за одной
+    // сессией (`BANK_TOTAL - SESSION_LIMIT`) в DOM больше не рендерится.
+    await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveCount(0);
+    expect(await dueInFuture(page)).toBe(0);
 
     await page.getByTestId(TESTID.reviewToday).click();
     await waitForQuestion(page);
@@ -331,9 +322,14 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await seedDueProfile(page);
     await gotoApp(page);
 
-    // 253 просроченных в пуле, но каждая сессия — не больше 30.
-    expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
+    // 253 просроченных в пуле, но каждая сессия — не больше 30: длину сессии
+    // читаем из счётчика самого прогона (подпись кнопки числа не несёт).
+    await expectReviewCta(page);
     expect(BANK_TOTAL).toBeGreaterThan(SESSION_LIMIT);
+
+    await page.getByTestId(TESTID.reviewToday).click();
+    await waitForQuestion(page);
+    expect(await counterText(page)).toBe(`1 / ${SESSION_LIMIT}`);
 
     const stored = await readPersisted(page);
     expect(Object.keys(stored?.state.scheduledReviews ?? {})).toHaveLength(BANK_TOTAL);

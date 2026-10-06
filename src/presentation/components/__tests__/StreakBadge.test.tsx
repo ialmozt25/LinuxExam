@@ -17,12 +17,14 @@ describe('StreakBadge (spec 061)', () => {
     });
   });
 
-  it('streak 0 рендерится с мотивирующим сообщением (UI серии больше не скрыт)', () => {
+  it('streak 0 рендерится (UI серии больше не скрыт)', () => {
     render(<StreakBadge />);
 
     expect(screen.getByTestId('streak-badge')).toBeInTheDocument();
     expect(screen.getByText('0')).toBeInTheDocument();
-    expect(screen.getByText('Начните серию!')).toBeInTheDocument();
+    // ux-copy-3 (2026-10-07): под числом — только слово серии (`pluralDays`),
+    // без мотивационной подписи `streakMessage`: 0 → «дней».
+    expect(screen.getByText('дней подряд')).toBeInTheDocument();
   });
 
   it('рендерит число серии с role="status" и aria-label', () => {
@@ -31,7 +33,8 @@ describe('StreakBadge (spec 061)', () => {
     render(<StreakBadge />);
 
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('5 дней подряд')).toBeInTheDocument();
+    // Число больше не дублируется подписью (ux-copy-3): под ним только слово.
+    expect(screen.getByText('дней подряд')).toBeInTheDocument();
     const status = screen.getByRole('status');
     expect(status).toHaveAttribute('aria-label', 'Серия 5 дней');
     // Доступное имя кнопки дублирует статус — тап тоже обязан читаться скринридером.

@@ -28,7 +28,9 @@ test.describe('retention UI', () => {
     await expect(badge).toBeVisible();
     await expect(badge).toHaveAttribute('data-streak-state', 'warning');
     await expect(badge).toContainText('1');
-    await expect(badge).toContainText('День 1 — хорошее начало');
+    // ux-copy-3 (2026-10-07): мотивационная подпись `streakMessage` заменена
+    // словом серии, согласованным с числом доменным `pluralDays`.
+    await expect(badge).toContainText('день подряд');
 
     await expect(page.getByTestId(TESTID.xpBarDailyLabel)).toHaveText('0 / 20 XP');
     // dashboard-ux-2 (проблема 4): при нулевом прогрессе заливка получает

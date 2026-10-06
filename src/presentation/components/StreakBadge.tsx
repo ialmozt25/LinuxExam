@@ -1,8 +1,7 @@
 import { useQuizStore } from '@/store/quizStore';
 import { useStreakState } from '@/store/dailyGoal';
 import { SPACING, LAYOUT } from '@/presentation/theme';
-import { messageColor, pluralDays, stateColor, streakMessage, type StreakColor } from '@/domain/goal';
-import { Tux } from '@/ui/Tux';
+import { messageColor, pluralDays, stateColor, type StreakColor } from '@/domain/goal';
 
 /** Размер бейджа серии (spec 061, К3): квадрат ≈80×80. */
 const BADGE_SIZE = 80;
@@ -14,13 +13,20 @@ const COLOR_VAR: Record<StreakColor, string> = {
 };
 
 /**
- * Streak badge (spec 061). Существующий компонент (31 строка) расширен до
- * retention-вида: маскот Tux + крупное число дней + сообщение серии.
+ * Streak badge (spec 061). Retention-вид: крупное число дней + слово серии.
+ *
+ * ux-copy-3 (2026-10-07): маскот Tux уехал из бейджа в заголовок Dashboard
+ * (`<Tux size={24} />` рядом с «LinuxExam»), а мотивационная подпись
+ * `streakMessage` («День 1 — хорошее начало», «5 дней подряд») заменена словом
+ * серии под числом — «день / дня / дней подряд» через доменный `pluralDays`.
+ * Число больше не дублируется текстом: оно стоит крупно над подписью, подпись
+ * несёт только форму слова. `streakMessage` остаётся в домене (её собственный
+ * контракт и её тесты не тронуты) — бейдж её больше не рендерит.
  *
  * Состояние считается по сегодняшней активности, а не по одной длине серии:
  * active (сегодня занимались) → green, warning (последняя активность вчера) →
  * orange, broken (раньше) → red. `messageColor` остаётся домен-классификацией
- * длины серии.
+ * длины серии и пишется в `data-streak-color`.
  *
  * Тестовый контракт прежний: `role="status"`, `aria-label="Серия N <день|дня|дней>"`
  * (слово согласуется с числом через `pluralDays`, dashboard-ux-2) и число
@@ -33,7 +39,9 @@ export function StreakBadge() {
   const state = useStreakState();
 
   const color = COLOR_VAR[stateColor(state)];
-  const caption = streakMessage(streak);
+  // Слово серии под числом: 1 → «день подряд», 2–4 → «дня подряд»,
+  // 5+ → «дней подряд». Согласование — домен, здесь правило не дублируется.
+  const caption = `${pluralDays(streak)} подряд`;
   // Домен вызывается для полноты контракта (классификация длины серии), но
   // показываемый цвет берётся из сегодняшнего состояния.
   const streakColor = messageColor(streak);
@@ -57,13 +65,14 @@ export function StreakBadge() {
         onClick={() => navigateTo('analytics')}
         style={{
           width: BADGE_SIZE,
-          // min-height, а не height: содержимое (Tux 24px + число 24px + подпись
-          // в 3 строки) даёт ~90px, и фиксированная высота 80px обрезала нижнюю
-          // строку подписи (scrollHeight 84 vs clientHeight 78 — замерено).
-          // 80px остаётся МИНИМУМОМ тап-зоны (spec 067, К3), а не потолком:
-          // при коротком сообщении блок выглядит как раньше, при длинном —
-          // растёт вместо обрезки. Вариант с обрезкой текста (ellipsis /
-          // line-clamp) отклонён: подпись — мотивационное сообщение, а не метка.
+          // min-height, а не height: содержимое (число + слово серии) может
+          // попросить больше 80px, и фиксированная высота обрезала бы нижнюю
+          // строку подписи (историческая регрессия пилота: scrollHeight 84 vs
+          // clientHeight 78). 80px остаётся МИНИМУМОМ тап-зоны (spec 067, К3),
+          // а не потолком: при коротком содержимом блок выглядит как раньше,
+          // при длинном — растёт вместо обрезки. Вариант с обрезкой текста
+          // (ellipsis / line-clamp) отклонён: подпись — часть мотивации, а не
+          // метка (ux-copy-3 сузил её до слова серии, правило оставлено).
           minHeight: BADGE_SIZE,
           display: 'flex',
           flexDirection: 'column',
@@ -83,18 +92,25 @@ export function StreakBadge() {
           fontFamily: 'inherit',
         }}
       >
-        <Tux size={24} />
+        {/* ux-copy-3: цифра — акцент бейджа (font-weight 700, яркий
+            --text-primary, кегль заголовка). Задание называло токен
+            `--heading-lg`; такого токена в tokens.css нет (`--heading-2` 20px,
+            `--heading-1` 28px, `--heading-xl` 40px), а новый токен — правка
+            design-системы вне скоупа задачи, поэтому взят ближайший
+            существующий шаг выше прежнего `--text-xl` (24px). */}
         <span
-          style={{ fontSize: 'var(--text-xl)', fontWeight: 700, lineHeight: 1, color }}
+          style={{
+            fontSize: 'var(--heading-1)',
+            fontWeight: 700,
+            lineHeight: 1,
+            color: 'var(--text-primary)',
+          }}
         >
           {streak}
         </span>
         <span
           style={{
-            fontSize: 10,
-            // spec 081: 1.1 ужимало подпись ниже порога TYPO-002 (lh >= 1.4).
-            // Бейдж 80px, содержимое центрируется: 14px высоты подписи
-            // (10 * 1.4) вместо 11px укладывается в ту же геометрию.
+            fontSize: 'var(--text-sm)',
             lineHeight: 1.4,
             textAlign: 'center',
             color: 'var(--text-secondary)',
