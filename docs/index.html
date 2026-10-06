@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">b4e992d</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after xp-mechanics</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">216f13d</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(xp): per-answer XP, level domain, persist v8 migration</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after tux-outline</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">cb37199</td>
-          <td><span class="ctype ctype--style">style</span></td>
-          <td>style(design): tux drop-shadow outline for dark-theme</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · xp-mechanics | XP за ответы вместо одного +10 в сутки: таблица regular верный +3 / неверный +1, review верный +2 / неверный +1, завершённый exam +10 (за факт, не за ответы), первый ответ дня +10…</li>
-        <li><span class="mono muted">07.10</span> · xp-mechanics | уровни: новый домен src/domain/xp.ts — xpForAnswer, streakMilestoneXp, levelFromXp(t), xpInLevel(t) → {current, needed, percent} (percent 0…100), пороги 100/250/500/800/1200…</li>
-        <li><span class="mono muted">07.10</span> · xp-mechanics | persist bump 7 → 8 + миграция v7→v8: partialize += todayXpDate, answeredToday (в КОНЕЦ…</li>
         <li><span class="mono muted">07.10</span> · xp-mechanics | гейты: typecheck exit 0; test:run 49 файлов / 524 теста passed; e2e 219 passed (4 падения…</li>
         <li><span class="mono muted">07.10</span> · xp-mechanics | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · guard | якорь перезаписан на session-ffad17cc… | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;xp-mechanics&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - xp-mechanics (XP-механика: таблица начисления regular +3/+1, review +2/+1, завершённый exam +10, первый ответ дня +10…</li>
     </ul>
   </details>
 
