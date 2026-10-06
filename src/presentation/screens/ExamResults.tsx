@@ -83,7 +83,7 @@ export default function ExamResults() {
       <div
         data-testid="exam-score"
         style={{
-          fontSize: '40px',
+          fontSize: 'var(--heading-xl)',
           fontWeight: 700,
           marginTop: SPACING.lg,
           color: 'var(--text-primary)',

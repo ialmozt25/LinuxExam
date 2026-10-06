@@ -86,6 +86,58 @@ boundaries:
       pattern: "анимации не на transform/opacity"
       scope: "src/**/*.css"
       fix: "анимировать только transform/opacity"
+    # 12 anti-slop tells дизайн-контура (DESIGN.md → «Do's and Don'ts»,
+    # skill design-guardian). Формулировки — человекочитаемые правила, а не
+    # regex: машинный детектор всех 12 — scripts/fitness/check-slop.mjs,
+    # tell-id совпадает с id ниже без префикса `slop-`.
+    - id: "slop-tech-gradient"
+      pattern: "tech gradient #6366f1/#8b5cf6/#a855f7"
+      scope: "src/**/*.tsx, src/presentation/theme/tokens.css"
+      fix: "accent #1565C0 или нейтральная шкала вместо tech-градиента"
+    - id: "slop-feature-tile-grid"
+      pattern: "3-column feature grid: >=3 Card с icon+h3+p в одном файле"
+      scope: "src/**/*.tsx"
+      fix: "один осмысленный блок вместо сетки плиток"
+    - id: "slop-centered-hero"
+      pattern: "centered hero: text-align center + gradient + одна кнопка"
+      scope: "src/**/*.tsx"
+      fix: "убрать градиент: инструмент, не лендинг"
+    - id: "slop-backdrop-blur"
+      pattern: "backdrop-filter: blur вне modal/popover/toast"
+      scope: "src/**/*.tsx, src/presentation/theme/tokens.css"
+      fix: "blur только у modal/popover/toast"
+    - id: "slop-stat-monument"
+      pattern: "stat monument: font-size >= 48px без label < 14px рядом"
+      scope: "src/**/*.tsx, src/presentation/theme/tokens.css"
+      fix: "дать подпись <14px или уменьшить кегль"
+    - id: "slop-icon-topper"
+      pattern: "icon topper: >=3 секций подряд icon-then-heading"
+      scope: "src/**/*.tsx"
+      fix: "убрать иконку-нашлёпку над заголовком"
+    - id: "slop-diffuse-shadow"
+      pattern: "diffuse shadow: box-shadow с blur > 24px"
+      scope: "src/**/*.tsx, src/presentation/theme/tokens.css"
+      fix: "контурная тень (blur <= 24px) или border-subtle"
+    - id: "slop-emoji-as-icon"
+      pattern: "emoji вместо иконки в feature-блоке"
+      scope: "src/**/*.tsx"
+      fix: "SVG-иконка; emoji допустим только в streak/achievement"
+    - id: "slop-hardcoded-font-size"
+      pattern: "hardcoded font-size в .tsx (fontSize: Npx)"
+      scope: "src/**/*.tsx"
+      fix: "var(--text-*/--heading-*) из tokens.css"
+    - id: "slop-multi-accent"
+      pattern: ">=2 accent в tokens.css"
+      scope: "src/presentation/theme/tokens.css"
+      fix: "accent + accent-strong — одна роль, второй accent не вводить"
+    - id: "slop-default-type-stack"
+      pattern: "default type stack (Inter/Roboto/Arial/Helvetica первым)"
+      scope: "src/**/*.tsx, src/presentation/theme/tokens.css"
+      fix: "system-ui / -apple-system"
+    - id: "slop-token-bypass"
+      pattern: "token bypass: hex в .tsx == значению существующего токена"
+      scope: "src/**/*.tsx"
+      fix: "var(--token) вместо скопированного значения"
 
 # Проверки, которые реально исполняются: npm run fitness.
 fitness:
@@ -109,6 +161,10 @@ fitness:
     cmd: "node scripts/fitness/check-styling.mjs"
     severity: "high"
     script: "scripts/fitness/check-styling.mjs"
+  - id: "check-slop"
+    cmd: "node scripts/fitness/check-slop.mjs"
+    severity: "high"
+    script: "scripts/fitness/check-slop.mjs"
 
 # Политика исключений: единственный разрешённый способ ослабить проверку —
 # запись в allowlist со сроком. Inline-подавления (комментарии-исключения в коде)
@@ -131,6 +187,9 @@ skills:
   - name: "ui-styling-rules"
     file: ".dsh/skills/ui-styling-rules/SKILL.md"
     trigger: "любая правка UI/стилей"
+  - name: "design-guardian"
+    file: ".dsh/skills/design-guardian/SKILL.md"
+    trigger: "любая правка UI"
 
 governance:
   hierarchy: ["Contract", "AGENTS.md", "Skills", "Fitness", "Hooks"]

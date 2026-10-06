@@ -5,17 +5,14 @@
 - `npm run test:run`
 - `npm run test:e2e`
 - `npm run build`
-- `npm run sync:check`
-- `npm run qc`
-- `npm run fitness`
+- `npm run sync:check` · `npm run qc` · `npm run fitness`
 
 ## Стек
 Vite 5, React 18, TypeScript 5.5 (strict), Tailwind 3 + CSS-токены, Zustand 5 (persist), Vitest, Playwright 1.63.
 
 ## Структура
 - `src/domain/` — чистые функции, без React/Zustand
-- `src/presentation/screens/` — экраны
-- `src/presentation/components/` — компоненты экранов
+- `src/presentation/` — `screens/` (экраны), `components/` (компоненты экранов)
 - `src/ui/` — переиспользуемые Badge/Button/Card
 - `src/presentation/theme/tokens.css` — единственный источник цветов
 
@@ -30,6 +27,7 @@ Vite 5, React 18, TypeScript 5.5 (strict), Tailwind 3 + CSS-токены, Zustan
 - string interpolation в `className`
 - `max-width` медиа-запросы (только mobile-first `min-width`)
 - `will-change` превентивно
+- 12 anti-slop tells (см. `scripts/fitness/check-slop.mjs`)
 
 Всегда:
 - общие компоненты — в `src/ui/`
@@ -44,6 +42,8 @@ Vite 5, React 18, TypeScript 5.5 (strict), Tailwind 3 + CSS-токены, Zustan
 
 ## Ссылки
 - `.project/governance/frontend-contract.yaml` — правила (источник истины, конфликт → Contract)
+- `.project/governance/DESIGN.md` — дизайн-контракт (ручки, anti-slop, anti-references)
 - `.dsh/skills/` — процедуры
+- Skill `design-guardian` — Design Read / Build / Review (4 персоны)
 - Правила вёрстки: `.dsh/skills/ui-styling-rules/SKILL.md`
 - `.project/ORCH-RULES.md` — правила оркестрации

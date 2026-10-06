@@ -134,7 +134,7 @@ export default function Analytics() {
             textAlign: 'center',
           }}
         >
-          <div aria-hidden="true" style={{ fontSize: '40px', lineHeight: 1 }}>
+          <div aria-hidden="true" style={{ fontSize: 'var(--heading-xl)', lineHeight: 1 }}>
             📊
           </div>
           <h2
@@ -187,7 +187,7 @@ export default function Analytics() {
           <div data-testid="analytics-readiness" style={{ marginTop: SPACING.lg }}>
             <div
               style={{
-                fontSize: '40px',
+                fontSize: 'var(--heading-xl)',
                 fontWeight: 700,
                 color: 'var(--text-primary)',
                 fontVariantNumeric: 'tabular-nums',
