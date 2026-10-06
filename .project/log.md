@@ -374,3 +374,4 @@
 2026-10-06 | push | authorize push origin main - design-review (design-guardian REVIEW 6 экранов: 5 P1 + 5 P2, tokens +8, dead tokens 27→25); публикует 5614122..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending
 2026-10-07 | design-review-2 | focus styles (WCAG 2.4.7) + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен; check-slop 0 | commit pending
 2026-10-07 | design-review-2 | status UNVERIFIED на телефоне (FASB-001) | commit pending
+2026-10-07 | push | authorize push origin main - design-review-2 (focus styles WCAG 2.4.7 + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен, dead tokens 25→24); публикует 20cc84a..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending
