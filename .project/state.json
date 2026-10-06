@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "d782c8882dedb36f33490fdfe1f2f4706b3e6493",
+  "head": "cb371999f9e31d7c4ec43e321054ae4c6fd43bc1",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,12 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "cb37199",
+      "date": "2026-10-06",
+      "subject": "style(design): tux drop-shadow outline for dark-theme",
+      "type": "style"
+    },
+    {
       "sha": "d782c88",
       "date": "2026-10-06",
       "subject": "chore(state): converge before authorized push",
@@ -1609,12 +1615,6 @@
       "date": "2026-10-06",
       "subject": "style(design-review): top-10 fixes across 6 screens",
       "type": "style"
-    },
-    {
-      "sha": "5614122",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before authorized push",
-      "type": "chore"
     }
   ],
   "roles": [
