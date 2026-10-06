@@ -38,41 +38,67 @@ const TOPIC = 'file_permissions';
 
 /**
  * Контракт кнопки входа в занятие: подпись — «Продолжить обучение», правая
- * часть — «N вопросов», где N — размер СЛЕДУЮЩЕЙ сессии.
+ * часть — дневной счётчик ОТВЕТОВ (`data-testid="cta-counter"`, задание
+ * ux-counter) в трёх состояниях:
  *
- * ux-copy-3 (2026-10-07) сделал правую часть хардкодом обещания («15 минут ·
- * 30 вопросов»); ux-copy-3-fix вернул в неё число: N = min(SESSION_LIMIT,
- * dueCount + newCount) — ровно то, что откроет кнопка. Поэтому N снова читается
- * из DOM, и размер сессии проверяется по подписи, а не только счётчиком прогона.
+ *   N = 0     → «30 вопросов»        (день не начат, обещание дня)
+ *   N = 1..30 → «N из 30 вопросов»   (прогресс дня)
+ *   N > 30    → «✓ N»                (цель взята)
+ *
+ * История подписи: ux-copy-3 (2026-10-07) сделал правую часть хардкодом
+ * обещания («15 минут · 30 вопросов»); ux-copy-3-fix вернул в неё число —
+ * размер СЛЕДУЮЩЕЙ сессии, N = min(SESSION_LIMIT, dueCount + newCount), и тест
+ * читал его регуляркой. Задание ux-counter заменило обещание на дневное:
+ * счётчик считает ответы за календарный день (сброс в полночь). Регулярка ушла
+ * вместе с ним — правая часть читается по своему `data-testid`, а НЕ по форме
+ * строки: на N > 30 в подписи появляется «✓ N» без слова «вопросов».
+ *
+ * Почему прежние ассерты `toBe(SESSION_LIMIT)` в силе: из трёх состояний
+ * обещание дня несут два первых, и цель дня численно совпадает с размером
+ * сессии (оба 30 — `DAILY_ANSWER_GOAL` в Dashboard.tsx и `SESSION_LIMIT` в
+ * src/domain/fsrs.ts). Они читают из подписи именно обещанную цель дня; размер
+ * же сессии, как и раньше, проверяется счётчиком прогона (`counterText`, «1 / 30»).
  *
  * Остатка пула (`data-fsrs-remaining`) в DOM нет — хвост наблюдается по persist
  * (см. `dueInFuture`).
  */
 const TITLE = /^Продолжить обучение$/;
-/** Правая часть кнопки: «N вопросов». */
-const COUNTER = /(\d+)\s*вопросов/;
+/** `data-testid` правой части CTA (Dashboard.tsx, задание ux-counter). */
+const CTA_COUNTER_TESTID = 'cta-counter';
+/** Ключ persist — тот же литерал, что читает `readPersisted` из fixtures.ts. */
+const PERSIST_STORAGE_KEY = 'rhcsa_progress';
+
+/** Текст правой части кнопки ровно как он отрендерен. */
+async function ctaCounterText(page: import('@playwright/test').Page): Promise<string> {
+  return (await page.getByTestId(CTA_COUNTER_TESTID).innerText()).trim();
+}
 
 /**
- * Размер следующей сессии из подписи кнопки.
+ * Обещание кнопки, прочитанное из правой части подписи.
  *
  * Подпись — часть контракта: если она поедет, тест обязан упасть здесь, с
- * понятным сообщением, а не «не разобрать N» где-то дальше.
+ * понятным сообщением, а не «не разобрать N» где-то дальше. Обещание дня несут
+ * первые два состояния — «30 вопросов» и «N из 30 вопросов»; в третьем («✓ N»)
+ * обещания в подписи уже нет, и это ошибка вызова, а не пустое значение.
  */
 async function reviewTodayCount(page: import('@playwright/test').Page): Promise<number> {
   const text = (await page.getByTestId(TESTID.reviewToday).innerText()).trim();
   if (!TITLE.test(text.split('\n')[0].trim())) {
     throw new Error(`подпись кнопки повторения изменилась: «${text}»`);
   }
-  const match = COUNTER.exec(text);
-  if (!match) throw new Error(`не удалось разобрать N из «${text}»`);
-  return Number(match[1]);
+  const counter = await ctaCounterText(page);
+  const within = /из\s+(\d+)/.exec(counter);
+  if (within) return Number(within[1]);
+  const bare = /^(\d+)\s+вопросов$/.exec(counter);
+  if (bare) return Number(bare[1]);
+  throw new Error(`правая часть CTA не обещает дневную цель: «${counter}»`);
 }
 
-/** Кнопка обязана появиться с непустой сессией; возвращает N из подписи. */
+/** Кнопка обязана появиться с непустой сессией; возвращает обещание дня. */
 async function expectReviewCta(page: import('@playwright/test').Page): Promise<number> {
-  const size = await reviewTodayCount(page);
-  expect(size).toBeGreaterThanOrEqual(1);
-  return size;
+  const goal = await reviewTodayCount(page);
+  expect(goal).toBeGreaterThanOrEqual(1);
+  return goal;
 }
 
 /**
@@ -87,6 +113,36 @@ async function dueInFuture(page: import('@playwright/test').Page): Promise<numbe
   const reviews = (stored?.state.scheduledReviews ?? {}) as Record<string, { next: number }>;
   const now = Date.now();
   return Object.values(reviews).filter((record) => record.next > now).length;
+}
+
+/**
+ * Досеивает дневной счётчик ответов в persisted-снимок.
+ *
+ * `seedHistoryProfile` пишет состояние через `emptyPersistedState()`, а полей
+ * `todayAnswered`/`todayAnsweredDate` в его типе нет (правка `e2e/fixtures.ts` вне
+ * разрешённых путей задания), поэтому счётчик дописывается ВТОРЫМ init-скриптом
+ * поверх уже записанного снимка. Порядок init-скриптов и есть контракт: Playwright
+ * выполняет их в порядке регистрации, значит сначала обязан идти сид профиля.
+ *
+ * Дата считается В СТРАНИЦЕ: сравнение с `today` приложения иначе разъезжалось бы
+ * на границе суток. `todayAnsweredDate = today` для гидратации означает «счётчик
+ * уже сегодняшний», поэтому `resetTodayXpIfNewDay` его не обнулит.
+ */
+async function seedDailyAnswered(
+  page: import('@playwright/test').Page,
+  answered: number,
+): Promise<void> {
+  await page.addInitScript(
+    ({ key, seeded }: { key: string; seeded: number }) => {
+      const today = new Date().toISOString().slice(0, 10);
+      const raw = window.localStorage.getItem(key);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as { state?: Record<string, unknown> };
+      parsed.state = { ...(parsed.state ?? {}), todayAnswered: seeded, todayAnsweredDate: today };
+      window.localStorage.setItem(key, JSON.stringify(parsed));
+    },
+    { key: PERSIST_STORAGE_KEY, seeded: answered },
+  );
 }
 
 test.describe.serial('FSRS-lite — разделение new / due', () => {
@@ -146,9 +202,11 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await waitForDashboard(page);
 
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
-    // Кнопка рендерится только при `dueCount > 0`, а её N — размер сессии:
-    // после одного ответа просрочен весь банк, поэтому сессия полная.
+    // Правая часть — счётчик ответов дня: один живой ответ обычного потока уже
+    // поднял N до 1, а обещанная цель дня (численно = SESSION_LIMIT) видна в той
+    // же подписи. Кнопка рендерится только при `dueCount > 0`.
     expect(await expectReviewCta(page)).toBe(SESSION_LIMIT);
+    expect(await ctaCounterText(page)).toBe(`1 из ${SESSION_LIMIT} вопросов`);
     await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
   });
 
@@ -176,8 +234,10 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await seedHistoryProfile(page, pool, { once: true });
     await gotoApp(page);
 
-    // Пул 60, сессия 30: N в подписи — размер сессии, а не размер пула.
+    // Пул 60, сессия 30. Сид даёт N = 0 ответов за сегодня, поэтому правая часть
+    // читается как обещание дня (30), а не как размер пула (60).
     expect(await expectReviewCta(page)).toBe(SESSION_LIMIT);
+    expect(await ctaCounterText(page)).toBe(`${SESSION_LIMIT} вопросов`);
     // Строки остатка больше нет вовсе — узел и его data-атрибут удалены.
     await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveCount(0);
     // Хвост наблюдается по persist: сид планирует в будущее весь банк за
@@ -207,12 +267,20 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     // именно остаток: к «будущим» добавились ровно два отвеченных вопроса.
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
     expect(await expectReviewCta(page)).toBe(SESSION_LIMIT);
+    // Два ответа review-прогона подняли дневной счётчик: review — отдельный
+    // поток, но ответ в нём считается так же (единая воронка `recordQuestionStat`).
+    expect(await ctaCounterText(page)).toBe(`2 из ${SESSION_LIMIT} вопросов`);
     expect(await dueInFuture(page)).toBe(BANK_TOTAL - pool + 2);
 
     // И реестр расписания переживает reload.
     await page.reload();
     await waitForDashboard(page);
     await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
+    // …и дневной счётчик переживает reload тоже: день опознаётся своим маркером
+    // (`todayAnsweredDate`), а не `lastActiveDate` — последний двигает только
+    // regular-поток, поэтому день «из одних review» по нему не опознался бы и
+    // сброс на гидратации стёр бы сегодняшние ответы.
+    expect(await ctaCounterText(page)).toBe(`2 из ${SESSION_LIMIT} вопросов`);
     expect(await dueInFuture(page)).toBe(BANK_TOTAL - pool + 2);
 
     const stored = await readPersisted(page);
@@ -335,9 +403,9 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await seedDueProfile(page);
     await gotoApp(page);
 
-    // 253 просроченных в пуле, но каждая сессия — не больше 30. Обещание
-    // кнопки (N в подписи) обязано совпасть с фактом (счётчик прогона):
-    // ровно это и есть контракт ux-copy-3-fix.
+    // 253 просроченных в пуле, но каждая сессия — не больше 30. Обещание дня из
+    // подписи (30) обязано совпасть с фактом: прогон открывается на 30, и счётчик
+    // прогона показывает «1 / 30».
     const promised = await expectReviewCta(page);
     expect(promised).toBe(SESSION_LIMIT);
     expect(BANK_TOTAL).toBeGreaterThan(SESSION_LIMIT);
@@ -348,5 +416,62 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
 
     const stored = await readPersisted(page);
     expect(Object.keys(stored?.state.scheduledReviews ?? {})).toHaveLength(BANK_TOTAL);
+  });
+
+  /**
+   * Три состояния правой части CTA (задание ux-counter). Порог = 30
+   * (`DAILY_ANSWER_GOAL` в Dashboard.tsx: численно совпадает с SESSION_LIMIT, но
+   * это норма ДНЯ, а не потолок одного прогона).
+   */
+  test('CTA-счётчик, состояние 0: день не начат → «30 вопросов»', async ({ page }) => {
+    // Профиль с историей: счётчик живёт на кнопке повторения, а её spec 066
+    // показывает только непустому профилю.
+    await seedHistoryProfile(page, SESSION_LIMIT);
+    await gotoApp(page);
+
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
+    // Сегодня ответов не было: правая часть — обещание дня, ровно та же строка,
+    // что показывал ux-copy-3-fix (цель дня совпадает с размером сессии).
+    expect(await ctaCounterText(page)).toBe(`${SESSION_LIMIT} вопросов`);
+  });
+
+  test('CTA-счётчик, состояние 1..30: пять живых ответов → «5 из 30 вопросов»', async ({ page }) => {
+    await seedHistoryProfile(page, SESSION_LIMIT);
+    await gotoApp(page);
+
+    // Пять РЕАЛЬНЫХ ответов review-прогона: счётчик кормит `recordQuestionStat`,
+    // единственная воронка всех трёх потоков (regular / review / exam), поэтому
+    // «5» здесь — это пять данных ответов, а не размер сессии и не размер пула.
+    await page.getByTestId(TESTID.reviewToday).click();
+    await waitForQuestion(page);
+    for (let i = 0; i < 5; i++) {
+      await answerQuestion(page, 'correct');
+      await page.getByTestId(TESTID.nextButton).click();
+    }
+    await page.getByTestId(TESTID.headerHome).click();
+    await waitForDashboard(page);
+
+    expect(await ctaCounterText(page)).toBe(`5 из ${SESSION_LIMIT} вопросов`);
+  });
+
+  test('CTA-счётчик, состояние >30: цель взята → «✓ 31»', async ({ page }) => {
+    // 31 живой ответ стоил бы минуты прогона, а проверяется здесь РЕНДЕР третьего
+    // состояния: арифметику счётчика закрывают живые ответы выше (e2e) и
+    // `src/store/__tests__/daily-answer-counter.test.ts` (unit). N приходит из
+    // persist-сида — и ниже отдельно подтверждается, что сид действительно лёг.
+    await seedHistoryProfile(page, SESSION_LIMIT);
+    await seedDailyAnswered(page, SESSION_LIMIT + 1);
+    await gotoApp(page);
+
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
+    const stored = await readPersisted(page);
+    expect(stored?.state.todayAnswered).toBe(SESSION_LIMIT + 1);
+    // Маркер дня тоже лежит: без него гидратация сочла бы счётчик чужим и обнулила.
+    const pageToday = await page.evaluate(() => new Date().toISOString().slice(0, 10));
+    expect(stored?.state.todayAnsweredDate).toBe(pageToday);
+
+    // Цель дня перекрыта: в подписи остаётся только число, слова «вопросов» нет —
+    // ровно поэтому контракт читается по `data-testid`, а не по форме строки.
+    expect(await ctaCounterText(page)).toBe(`✓ ${SESSION_LIMIT + 1}`);
   });
 });

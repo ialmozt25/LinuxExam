@@ -101,6 +101,27 @@ interface QuizState {
   todayXp: number;
 
   /**
+   * Сколько ОТВЕТОВ дано сегодня (задание «счётчик ответов за сегодня», правая
+   * часть CTA на Dashboard); обнуляется в полночь.
+   *
+   * Отдельное поле, а не `todayXp`: XP растёт на +10 и только раз в сутки
+   * (`recordActivity` возвращается раньше на повторной активности), поэтому 1:1
+   * с ответами он не является. Инкремент — в `recordQuestionStat`, единственной
+   * воронке всех трёх потоков ответов (regular / review / exam).
+   */
+  todayAnswered: number;
+  /**
+   * День (`YYYY-MM-DD`), к которому относится `todayAnswered`; `null` — счётчика
+   * нет (профиль ещё не отвечал).
+   *
+   * Отдельный маркер, а не `lastActiveDate`: тот обновляет только
+   * `recordActivity` из regular-потока, поэтому день, в котором пользователь
+   * отвечал лишь в review/exam, по нему не опознать — и сброс «в новый день»
+   * стирал бы ответы текущего дня при перезагрузке.
+   */
+  todayAnsweredDate: string | null;
+
+  /**
    * Paywall (spec 063): момент старта 7-дневного trial, мс. `null` — trial не
    * начинался (кнопка «Попробовать 7 дней бесплатно» не нажата). Дата, а не
    * булев флаг: истечение считается по времени (`isTrialActive` в
@@ -306,6 +327,8 @@ export const useQuizStore = create<QuizState>()(
       totalXp: 0,
       dailyGoalXp: null,
       todayXp: 0,
+      todayAnswered: 0,
+      todayAnsweredDate: null,
       trialStartedAt: null,
       wrongQuestionIds: [],
       questionStats: {},
@@ -410,11 +433,21 @@ export const useQuizStore = create<QuizState>()(
 
       // spec 061: гидратация пришла с прошлой датой — дневной счётчик начинается
       // заново. Идемпотентно: при lastActiveDate === today состояние не трогается.
+      //
+      // Счётчик ответов сбрасывается по СВОЕМУ маркеру (`todayAnsweredDate`), а не
+      // по `lastActiveDate`: последний обновляет только `recordActivity` из
+      // regular-потока (см. `answerQuestion`), поэтому день, в котором
+      // пользователь отвечал лишь в review/exam, по нему не опознаётся.
       resetTodayXpIfNewDay: () => {
         const today = new Date().toISOString().slice(0, 10);
-        if (get().lastActiveDate === today) return;
-        if (get().todayXp === 0) return;
-        set({ todayXp: 0 });
+        const { lastActiveDate, todayXp, todayAnsweredDate } = get();
+        const patch: Partial<QuizState> = {};
+        if (lastActiveDate !== today && todayXp !== 0) patch.todayXp = 0;
+        if (todayAnsweredDate !== null && todayAnsweredDate !== today) {
+          patch.todayAnswered = 0;
+          patch.todayAnsweredDate = null;
+        }
+        if (Object.keys(patch).length > 0) set(patch);
       },
 
       // Paywall (spec 063): trial стартует один раз. Уже стоящая дата не
@@ -426,14 +459,29 @@ export const useQuizStore = create<QuizState>()(
 
       // Local per-question stats. Kept out of the three answer streams so the
       // streams stay isolated; every answer records through here instead.
+      //
+      // Дневной счётчик ответов живёт здесь же: это единственное место, через
+      // которое проходит КАЖДЫЙ ответ — regular (answerQuestion), review
+      // (answerReview) и exam (submitExamAnswer), — поэтому N не зависит от
+      // потока, которым отвечал пользователь.
       recordQuestionStat: (questionId, isCorrect) => {
-        const prev = get().questionStats[questionId];
+        const today = new Date().toISOString().slice(0, 10);
+        const state = get();
+        const prev = state.questionStats[questionId];
         const next: QuestionStat = {
           attempts: (prev?.attempts ?? 0) + 1,
           correct: (prev?.correct ?? 0) + (isCorrect ? 1 : 0),
           lastAt: new Date().toISOString(),
         };
-        set({ questionStats: { ...get().questionStats, [questionId]: next } });
+        // Смена даты проверяется лениво и здесь, а не только на гидратации:
+        // сессия может пережить полночь, и первый ответ нового дня обязан начать
+        // счётчик заново, а не продолжить вчерашний.
+        const isNewDay = state.todayAnsweredDate !== today;
+        set({
+          questionStats: { ...state.questionStats, [questionId]: next },
+          todayAnsweredDate: today,
+          todayAnswered: (isNewDay ? 0 : state.todayAnswered) + 1,
+        });
       },
 
 
@@ -823,6 +871,13 @@ export const useQuizStore = create<QuizState>()(
         todayXp: state.todayXp,
         // Paywall (spec 063) — в самый КОНЕЦ: порядок первых 21 поля не меняется.
         trialStartedAt: state.trialStartedAt,
+        // Дневной счётчик ответов — тоже в КОНЕЦ: порядок предыдущих полей не
+        // меняется. persist.version НЕ поднимается: zustand shallow-merge'ит
+        // снимок поверх initialState, поэтому состояние без этих полей просто
+        // получает `todayAnswered: 0` / `todayAnsweredDate: null` (тот же приём,
+        // что и у `questionStats`, см. выше).
+        todayAnswered: state.todayAnswered,
+        todayAnsweredDate: state.todayAnsweredDate,
         // spec 068: legacy-поля инлайн-экзамена (examActive/examStartedAt/
         // examDurationMs/examQuestionIds/examAnswers) удалены из состояния и
         // отсюда. persist.version НЕ менялся: старый persisted-снапшот может

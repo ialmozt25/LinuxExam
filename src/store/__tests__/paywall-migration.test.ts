@@ -135,7 +135,7 @@ describe('persist migration v6 → v7 (paywall, spec 063)', () => {
     expect(s.isPro).toBe(false);
   });
 
-  it('записывает состояние под версией 7, trialStartedAt — последним полем partialize', async () => {
+  it('записывает состояние под версией 7, дневной счётчик ответов — в конце partialize', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(V6_PAYLOAD));
     const { useQuizStore } = await import('@/store/quizStore');
 
@@ -146,11 +146,16 @@ describe('persist migration v6 → v7 (paywall, spec 063)', () => {
     expect(raw.state.trialStartedAt).toBe(1_800_000_000_000);
     // Контракт partialize (spec 063): поле добавлено в КОНЕЦ, порядок
     // предыдущих полей не изменён. spec 068 убрал из partialize 5 legacy-полей
-    // инлайн-экзамена, поэтому ключей теперь 17 (было 22).
+    // инлайн-экзамена, поэтому ключей стало 17 (было 22). Задание «счётчик
+    // ответов за сегодня» дописало в КОНЕЦ ещё два поля (`todayAnswered`,
+    // `todayAnsweredDate`) — порядок предыдущих 17 по-прежнему не изменён,
+    // ключей теперь 19.
     const stateKeys = Object.keys(raw.state);
-    expect(stateKeys[stateKeys.length - 1]).toBe('trialStartedAt');
-    expect(stateKeys[stateKeys.length - 2]).toBe('todayXp');
-    expect(stateKeys).toHaveLength(17);
+    expect(stateKeys[stateKeys.length - 1]).toBe('todayAnsweredDate');
+    expect(stateKeys[stateKeys.length - 2]).toBe('todayAnswered');
+    expect(stateKeys[stateKeys.length - 3]).toBe('trialStartedAt');
+    expect(stateKeys[stateKeys.length - 4]).toBe('todayXp');
+    expect(stateKeys).toHaveLength(19);
   });
 
   it('состояние уже v7 проходит migrate как no-op (trial не переставляется)', async () => {

@@ -12,7 +12,6 @@ import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
-import { SESSION_LIMIT } from '@/domain/fsrs';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
 import { Badge, Button, Card } from '@/ui';
@@ -61,6 +60,24 @@ const PRIMARY_CTA: React.CSSProperties = {
 
 /** Правая подпись CTA: счётчик вопросов/тем. */
 const CTA_COUNTER: React.CSSProperties = { fontSize: 'var(--text-xs)', fontWeight: 600 };
+
+/**
+ * Дневная цель по ОТВЕТАМ (задание «счётчик ответов за сегодня»). Числом
+ * совпадает с размером сессии (`SESSION_LIMIT`), но смысл другой: это норма дня,
+ * а не потолок одного прогона, поэтому константа независимая.
+ */
+const DAILY_ANSWER_GOAL = 30;
+
+/**
+ * Правая часть CTA — счётчик ответов за сегодня (сброс в полночь):
+ * 0 — день ещё не начат, показывается обещание дня; 1..30 — прогресс дня;
+ * больше 30 — цель взята, остаётся только число.
+ */
+function dailyAnswerLabel(answered: number): string {
+  if (answered <= 0) return `${DAILY_ANSWER_GOAL} вопросов`;
+  if (answered <= DAILY_ANSWER_GOAL) return `${answered} из ${DAILY_ANSWER_GOAL} вопросов`;
+  return `✓ ${answered}`;
+}
 
 /** Вторичный CTA: обводка акцентом, одинаковый для «Exam mode» и «Аналитика». */
 const SECONDARY_CTA: React.CSSProperties = {
@@ -156,6 +173,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const questionStats = useQuizStore((s) => s.questionStats);
   const ensureReviewsInitialized = useQuizStore((s) => s.ensureReviewsInitialized);
   const getSessionIds = useQuizStore((s) => s.getSessionIds);
+  // Дневной счётчик ответов — правая часть CTA (см. `dailyAnswerLabel`).
+  const todayAnswered = useQuizStore((s) => s.todayAnswered);
 
   // Одна сессия — до SESSION_LIMIT вопросов, просроченные первыми (spec 065).
   // Пересчитывается на каждый приход банка (per-topic chunks) и на каждое
@@ -181,15 +200,11 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // SESSION_LIMIT сессия обещает ровно то, что откроет.
   const dueCount = sessionDueIds.length;
   const newCount = sessionNewIds.length;
-  // ux-copy-3-fix (2026-10-07): размер СЛЕДУЮЩЕЙ сессии — для правого счётчика
-  // CTA. Сессию собирает `getSessionIds()` (просроченные по убыванию просрочки,
-  // затем новые, обрезка до SESSION_LIMIT), поэтому N = dueCount + newCount,
-  // клампленный размером сессии. В рантайме `newCount` = 0:
-  // `ensureReviewsInitialized` при монтировании проставляет записи всему банку,
-  // и вопросов «без записи» не остаётся — тогда N равен просроченной части, то
-  // есть ровно тому, что откроет кнопка (проверяется в e2e/fsrs.spec.ts:
-  // «обещание равно факту» — N из подписи против счётчика прогона `1 / N`).
-  const sessionSize = Math.min(SESSION_LIMIT, dueCount + newCount);
+  // ux-copy-3-fix (2026-10-07) считал здесь размер СЛЕДУЮЩЕЙ сессии
+  // (`sessionSize`) — ровно для правой части CTA. Задание «счётчик ответов за
+  // сегодня» заменило её дневным счётчиком ответов, поэтому `sessionSize` больше
+  // не вычисляется: сессию по-прежнему собирает `getSessionIds()` (до
+  // SESSION_LIMIT), а её границы ниже — `dueCount`/`newCount`.
 
   // Профиль без единого ответа: показываем приглашение, а не «повторить».
   // Условие — пустая статистика, а не пустой реестр расписания: реестр
@@ -449,13 +464,16 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               {/* ux-copy-3 (2026-10-07): подпись «Повторить сегодня» читалась как
                   долг перед приложением — главный текст «Продолжить обучение».
                   ux-copy-3-fix (2026-10-07): «15 минут · 30 вопросов» был хардкодом
-                  обещания; правая часть снова показывает реальное число вопросов
-                  следующей сессии (`sessionSize`) и скрывается целиком, если
-                  показывать нечего (N = 0) — тогда кнопка несёт только подпись. */}
+                  обещания; правая часть показывала реальное число вопросов
+                  следующей сессии (`sessionSize`) и скрывалась целиком, если
+                  показывать нечего (N = 0).
+                  Задание «счётчик ответов за сегодня» вернуло правой части смысл
+                  обещания, но дневного: N — это ОТВЕТЫ за сегодня (сброс в
+                  полночь), а не размер следующей сессии. На N = 0 подпись читается
+                  как прежде (цель дня численно равна размеру сессии = 30), дальше —
+                  «N из 30». Скрывать больше нечего: счётчик есть всегда. */}
               <span>Продолжить обучение</span>
-              {sessionSize > 0 ? (
-                <span style={CTA_COUNTER}>{`${sessionSize} вопросов`}</span>
-              ) : null}
+              <span style={CTA_COUNTER} data-testid="cta-counter">{dailyAnswerLabel(todayAnswered)}</span>
             </Button>
           ) : null}
 
