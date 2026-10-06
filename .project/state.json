@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f3636a8c39e66885eb00c4129c377aea2e953633",
+  "head": "847f18862e3ec06a301d6f3b75dbdb9a0dc2c474",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-06 | findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | commit pending",
-    "2026-10-06 | push | authorize push origin main - ui-styling-rules; публикует 4e121f8..<push-tip> | commit pending",
     "2026-10-06 | dashboard-fix | streak minHeight 80 (badge 80→100, overflow 6→0) + spacing литералы→var(--space-*) (dead tokens 30→27 побочно) + e2e verticalClipping (mutation ловит регресс) | commit pending",
     "2026-10-06 | dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | commit pending",
     "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-06 | dashboard-ux | retention: badge variant unified (77 синих → 0), CTA dedupe (resume secondary), XpBar border (0% fill), top-progress label, XP-дубли v1 (удалён retention-goal-line), «БЕСПЛАТНО» (a); fitness +4 правила | commit pending",
     "2026-10-06 | dashboard-ux | 2 baseline PNG обновлены (dashboard-mobile/desktop, сдвиг y≈307); status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | commit pending",
-    "2026-10-06 | push | authorize push origin main - dashboard-ux (badge/CTA/empty-state + fitness + baseline); публикует 7c7b9ec..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push (вариант A); при регресс — git revert | commit pending"
+    "2026-10-06 | push | authorize push origin main - dashboard-ux (badge/CTA/empty-state + fitness + baseline); публикует 7c7b9ec..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push (вариант A); при регресс — git revert | commit pending",
+    "2026-10-06 | dashboard-ux-2 | плюрализация день/дня/дней, убран дубль «30», удалены замки (доступ по клику), XpBar min-fill; тесты fsrs/retention приведены к новым контрактам | commit pending",
+    "2026-10-06 | dashboard-ux-2 | status UNVERIFIED на телефоне (FASB-001) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "847f188",
+      "date": "2026-10-06",
+      "subject": "fix(dashboard): pluralization + dedupe + remove locks + xp min-fill",
+      "type": "fix"
+    },
+    {
+      "sha": "b228d25",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "f3636a8",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "f51e449",
       "date": "2026-10-04",
       "subject": "chore(state): converge after push (2)",
-      "type": "chore"
-    },
-    {
-      "sha": "fee00ce",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push b15103c..dfbb312",
-      "type": "chore"
-    },
-    {
-      "sha": "b2e8de6",
-      "date": "2026-10-04",
-      "subject": "chore(log): push done b15103c..dfbb312",
       "type": "chore"
     }
   ],
