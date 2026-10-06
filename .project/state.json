@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "f98d4f95bd0ce454fad43e716315a307e9e659d4",
+  "head": "a8077169f536d47d1112a4254c74647285999bb1",
   "specs": [
     {
       "id": "022",
@@ -1483,19 +1483,31 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | ux-copy-3 | производные правки вне allowed-списка (вынуждены гейтами 2/3, не расширение скоупа): e2e/retention.spec.ts — ассерт старой подписи бейджа («День 1 — хорошее начало» → «день подряд»); e2e/ux-regression.spec.ts — tuxLeaves считается по документу (Tux уехал из бейджа в заголовок, инвариант «маскот ровно один» сохранён); src/presentation/components/__tests__/StreakBadge.test.tsx — подпись streakMessage → pluralDays | commit pending",
-    "2026-10-06 | guard | якорь перезаписан на session-39a0cb49… | commit pending",
-    "2026-10-07 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана \"ux-copy-3\", предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false, has_env=true; было session-3e098ef6-d78c-474f-8270-8912e648ce9d → стало session-39a0cb49-e731-4c4e-9edb-3c7848c58f21; guard spec 049 пускает эту сессию | commit pending",
     "2026-10-07 | push | authorize push origin main - ux-copy-3 (CTA «Продолжить обучение · 15 минут · 30 вопросов» вместо «Повторить сегодня»; Tux из streak-бейджа в заголовок Dashboard, gap var(--space-2); streak — цифра 28px/700/--text-primary + pluralDays «день/дня/дней подряд» 14px/--text-secondary; строка «Следующее повторение: завтра» удалена вместе с узлом review-today-remainder и data-fsrs-remaining; fsrs.spec.ts переведён на persist/константы; производные: retention.spec.ts, ux-regression.spec.ts, StreakBadge.test.tsx); публикует e75637b..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | ux-copy-3-fix | CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds(): «Продолжить обучение · N вопросов», при N = 0 правая часть скрыта целиком; сессии идут одна за другой, N пересчитывается после каждой | commit pending",
     "2026-10-07 | ux-copy-3-fix | streak-рамка: цвет состояния (--success/--warning/--danger) → единый --color-accent-strong (#1565C0) в light/dark, mobile/desktop, dev/prod; токена --color-accent в tokens.css нет, --accent отклонён (Telegram-aware) | commit pending",
     "2026-10-07 | ux-copy-3-fix | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-07 | push | authorize push origin main - ux-copy-3-fix (CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds(), «Продолжить обучение · N вопросов», при N = 0 правая часть скрыта целиком; streak-рамка: цвет состояния (--success/--warning/--danger, у success/danger разные значения в light и dark) → единый --color-accent-strong, проверено computed style в dev (light×dark × mobile×desktop × active/warning/broken = 6 замеров, одно значение) и в проде после деплоя; baseline dashboard-mobile + dashboard-desktop перегенерированы, visual-regression 19 passed); публикует aefd20f..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | ux-counter | Правая часть CTA Dashboard («Продолжить обучение») — дневной счётчик ОТВЕТОВ за сегодня вместо размера сессии: 0 → «30 вопросов», 1..30 → «N из 30 вопросов», >30 → «✓ N», сброс в полночь; DAILY_ANSWER_GOAL = 30 и data-testid=\"cta-counter\" в Dashboard.tsx (A2: только атрибут, текст не менялся), мёртвый sessionSize удалён; в quizStore — todayAnswered + маркер дня todayAnsweredDate (инкремент в recordQuestionStat, единая воронка regular/review/exam; ленивый ролловер через полночь; persist.version не менялся, оба поля в конце partialize); e2e/fsrs.spec.ts читает контракт по testid вместо regex + 3 state-теста (0 / 5 живых / 31 из сида); baseline ×2 не менялись — на N = 0 отрисована та же строка «30 вопросов» | commit pending",
-    "2026-10-07 | ux-counter | status UNVERIFIED на телефоне (FASB-001) | commit pending"
+    "2026-10-07 | ux-counter | status UNVERIFIED на телефоне (FASB-001) | commit pending",
+    "2026-10-07 | guard | якорь перезаписан на session-e79a0dbc… | commit pending",
+    "2026-10-07 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана \"ux-counter\", предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false, has_env=true; было session-39a0cb49-e731-4c4e-9edb-3c7848c58f21 → стало session-e79a0dbc-47af-4a6d-a4bc-9ae7010f5721; guard spec 049 пускает эту сессию | commit pending",
+    "2026-10-07 | push | authorize push origin main - ux-counter (правая часть CTA Dashboard «Продолжить обучение» — дневной счётчик ОТВЕТОВ за сегодня: 0 → «30 вопросов», 1..30 → «N из 30 вопросов», >30 → «✓ N», сброс в полночь; DAILY_ANSWER_GOAL = 30, data-testid=\"cta-counter\"; в quizStore todayAnswered + маркер дня todayAnsweredDate (инкремент в recordQuestionStat — единая воронка regular/review/exam, ленивый ролловер через полночь, сброс в resetTodayXpIfNewDay по своему маркеру, persist.version не менялся); e2e/fsrs.spec.ts читает контракт по testid вместо regex + 3 state-теста (0 / «5 из 30 вопросов» на пяти живых ответах / «✓ 31» из persist-сида); baseline ×2 НЕ менялись — в состоянии снимка dashboard (N = 0) отрисовывается та же строка «30 вопросов», visual-regression 19 passed на неизменённых baseline; публикует 30debfa90f61ec928615c43940d0ad4ed01edf19..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "a807716",
+      "date": "2026-10-07",
+      "subject": "chore(log): trail for push ux-counter",
+      "type": "chore"
+    },
+    {
+      "sha": "6ce944e",
+      "date": "2026-10-07",
+      "subject": "chore(state): converge after ux-counter",
+      "type": "chore"
+    },
     {
       "sha": "f98d4f9",
       "date": "2026-10-07",
@@ -1602,18 +1614,6 @@
       "sha": "dd0bb57",
       "date": "2026-10-06",
       "subject": "chore(state): converge after tux-color",
-      "type": "chore"
-    },
-    {
-      "sha": "042352b",
-      "date": "2026-10-06",
-      "subject": "fix(design): colored tux, remove dark-theme invert",
-      "type": "fix"
-    },
-    {
-      "sha": "2ecdc70",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
