@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">6ce944e</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after ux-counter</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">f98d4f9</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(ux): CTA daily-answer counter with three states</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>fix(design): colored tux, remove dark-theme invert</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">2ecdc70</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · ux-copy-3-fix | streak-рамка: цвет состояния (--success/--warning/--danger) → единый --color-accent-strong (#1565C0) в light/dark, mobile/desktop, dev/prod; токена --color-accent в tokens.css нет…</li>
-        <li><span class="mono muted">07.10</span> · ux-copy-3-fix | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - ux-copy-3-fix (CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds()…</li>
         <li><span class="mono muted">07.10</span> · ux-counter | Правая часть CTA Dashboard («Продолжить обучение») — дневной счётчик ОТВЕТОВ за сегодня вместо размера сессии: 0 → «30 вопросов», 1..30 → «N из 30 вопросов», &gt;30 → «✓ N»…</li>
         <li><span class="mono muted">07.10</span> · ux-counter | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · guard | якорь перезаписан на session-e79a0dbc… | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;ux-counter&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - ux-counter (правая часть CTA Dashboard «Продолжить обучение» — дневной счётчик ОТВЕТОВ за сегодня: 0 → «30 вопросов», 1..30 → «N из 30 вопросов», &gt;30 → «✓ N»…</li>
     </ul>
   </details>
 
