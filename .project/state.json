@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "ac800efddae7594da4c696debe8d7316068e6dbc",
+  "head": "7deaa909536a4d1408e9d2ffab32abf3bc83c0b7",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-06 | dashboard-ux | 2 baseline PNG обновлены (dashboard-mobile/desktop, сдвиг y≈307); status UNVERIFIED на телефоне (FASB-001) | commit pending",
-    "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | commit pending",
     "2026-10-06 | push | authorize push origin main - dashboard-ux (badge/CTA/empty-state + fitness + baseline); публикует 7c7b9ec..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push (вариант A); при регресс — git revert | commit pending",
     "2026-10-06 | dashboard-ux-2 | плюрализация день/дня/дней, убран дубль «30», удалены замки (доступ по клику), XpBar min-fill; тесты fsrs/retention приведены к новым контрактам | commit pending",
     "2026-10-06 | dashboard-ux-2 | status UNVERIFIED на телефоне (FASB-001) | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-06 | design-guardian | скилл 3 режима (read/build/review) + DESIGN.md (12 anti-slop tells, ручки 4/2/6) + check-slop.mjs (12 проверок, уважает allowlist); fix 3 hardcoded font-size | commit pending",
     "2026-10-06 | design-guardian | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД): match=false, has_env=true; было session-1791068b-9a33-4185-9df1-1714ecb4aba8 → стало session-528f8756-9330-4d27-a504-17580b916591 | commit pending",
-    "2026-10-06 | push | authorize push origin main - design-guardian (DESIGN.md + skill 3 режима + check-slop × allowlist + font-size token fix); публикует 8c9d517..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending"
+    "2026-10-06 | push | authorize push origin main - design-guardian (DESIGN.md + skill 3 режима + check-slop × allowlist + font-size token fix); публикует 8c9d517..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending",
+    "2026-10-06 | design-review | design-guardian REVIEW по 6 экранам (Dashboard, Question, ExamRun, Results, ExamResults, Analytics; Quiz.tsx в репо НЕТ — слот закрыт read-only ревью ExamRun): применено 5 P1 + 5 P2 — неопределённый var(--bg-secondary) → var(--bg-surface) в Analytics; rgba-литералы вариантов → color-mix(--success/--danger); устаревший accent #2196F3 в свечении → color-mix(--accent); чип варианта белым 10% → var(--text-primary) 10%; width-анимация → transform/scaleX (3 трека); числовые fontSize 48/12 → токены; letterSpacing → токены; геометрия треков/чипа → 8 новых токенов; emoji → lucide SVG; границы вторичных CTA; dead tokens 27→25, check-slop 0 | commit pending",
+    "2026-10-06 | design-review | status UNVERIFIED на телефоне (FASB-001) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "7deaa90",
+      "date": "2026-10-06",
+      "subject": "style(design-review): top-10 fixes across 6 screens",
+      "type": "style"
+    },
+    {
+      "sha": "5614122",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "ac800ef",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "fdc2b65",
       "date": "2026-10-06",
       "subject": "chore(state): converge after ui-styling-rules",
-      "type": "chore"
-    },
-    {
-      "sha": "e1754f1",
-      "date": "2026-10-06",
-      "subject": "feat(factory): ui-styling-rules skill + check-styling fitness",
-      "type": "feat"
-    },
-    {
-      "sha": "4e121f8",
-      "date": "2026-10-05",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
