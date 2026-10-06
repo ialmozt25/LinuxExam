@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">51</div>
+      <div class="pulse-tile__value">53</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -351,7 +351,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 51 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 53 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -454,6 +454,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">7c7b9ec</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
         <tr>
           <td class="mono">28ac44a</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore: remove a11y-report from tracked (artifact)</td>
           <td class="mono muted">2026-10-04</td>
         </tr>
-        <tr>
-          <td class="mono">e820d90</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after push-block (2)</td>
-          <td class="mono muted">2026-10-04</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,36 +592,36 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">134 ч (~5.6 дн)</td>
+          <td class="muted">135 ч (~5.6 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">181 ч (~7.5 дн)</td>
+          <td class="muted">183 ч (~7.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-03T08:58:02Z</td>
           <td class="mono">9</td>
-          <td class="muted">62 ч (~2.6 дн)</td>
+          <td class="muted">64 ч (~2.7 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">134 ч (~5.6 дн)</td>
+          <td class="muted">135 ч (~5.6 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">71 ч (~3.0 дн)</td>
-          <td><span class="chip chip--done">🟢 свежая</span></td>
+          <td class="muted">73 ч (~3.0 дн)</td>
+          <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr><!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">06.10</span> · push | authorize push origin main - ui-styling-rules; публикует 4e121f8..&lt;push-tip&gt; | ещё не закоммичено</li>
-        <li><span class="mono muted">06.10</span> · dashboard-fix | streak minHeight 80 (badge 80→100, overflow 6→0) + spacing литералы→var(--space-*) (dead tokens 30→27 побочно) + e2e verticalClipping (mutation ловит регресс) | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | ещё не закоммичено</li>
         <li><span class="mono muted">06.10</span> · push | authorize push origin main - dashboard-fix (retention minHeight + spacing tokens + vertical-clipping e2e); публикует c938856..&lt;push-tip&gt;; VERIFIED на телефоне…</li>
+        <li><span class="mono muted">06.10</span> · dashboard-ux | retention: badge variant unified (77 синих → 0), CTA dedupe (resume secondary), XpBar border (0% fill), top-progress label, XP-дубли v1 (удалён retention-goal-line)…</li>
+        <li><span class="mono muted">06.10</span> · dashboard-ux | 2 baseline PNG обновлены (dashboard-mobile/desktop, сдвиг y≈307); status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
     </ul>
   </details>
 
@@ -665,8 +665,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 77</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 77</div>
+    <summary>Тревоги · записей: 79</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 79</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -971,6 +971,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">06.10 | risk | AGENTS.md 49/50 строк</div>
           <div class="entry__body muted">Лимит достигнут: следующая правка потребует сжатия существующих пунктов. План: при расширении контура — ревизия 5 пунктов на слияние. [observed 2026-10-06]</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">06.10 | debt | baseline PNG dashboard-* не обновлялись</div>
+          <div class="entry__body muted">Badge-variant fix (77 синих → 0) не сдвинул baseline PNG (маска/фон совпали). При следующем fix retention — проверить необходимость --update-snapshots=all. [observed 2026-10-06]</div>
+        </div>
+        <div class="entry">
+          <div class="entry__title">06.10 | correction | предыдущая запись «baseline PNG dashboard-* не обновлялись» устарела после STOP-1 v1: удаление retention-goal-line сдвинуло раскладку (~27px), обновление 2 PNG стало необходимым. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-06]</div>
         </div>
   </details>
 

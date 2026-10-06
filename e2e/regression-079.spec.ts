@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { test, expect, TOPICS, gotoApp, seedHistoryProfile, TESTID } from './fixtures';
+import { test, expect, gotoApp, seedHistoryProfile, TESTID } from './fixtures';
 
 /**
  * Регрессия контраста (spec 079): 4 элемента, которые падали в `npm run check`
@@ -30,12 +30,17 @@ const TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa'];
 test.setTimeout(120_000);
 
 /**
- * Селекторы целей. Первые три — точные пары из baseline прогона 2026-10-04
- * (`2.59`, `3.10`, `3.12`, `3.96`); четвёртая цель спеки — подсказка
- * `topic-first-cta` (`4.14`).
+ * Селекторы целей. Пары из baseline прогона 2026-10-04 (`2.59`, `3.10`, `3.12`,
+ * `3.96`); четвёртая цель спеки — подсказка `topic-first-cta` (`4.14`).
+ *
+ * `paywall-badge-free` выбыл: §14 (diag-dashboard-fix, STOP-2 a) убрал плашку
+ * «Бесплатно» у бесплатных тем, поэтому прежней цели больше не существует. Её
+ * место в контрасте занимает новая роль доступа — тонкий замок платной темы,
+ * нарисованный приглушённым `--text-secondary`: §14 требует «приглушённый
+ * цвет», то есть мерить надо именно его.
  */
 const TOPIC_CTA = '[data-testid="topic-first-cta"]';
-const TOPIC_BADGE_FREE = `[data-testid="topic-${TOPICS[0].key}"] [data-testid="paywall-badge-free"]`;
+const TOPIC_BADGE_LOCK = '[data-testid="paywall-badge-lock"]';
 const EXAM_SUBMIT = '[data-testid="exam-submit"]';
 const EXAM_START = '[data-testid="exam-start"]';
 const BACK_TO_DASHBOARD = '[data-testid="back-to-dashboard"]';
@@ -62,17 +67,20 @@ function report(results: Awaited<ReturnType<ReturnType<typeof contrast>['analyze
 test.describe('regression 079: контраст ≥ 4.5:1', () => {
   test.use({ colorScheme: 'light' });
 
-  test('paywall-badge-free — бейдж «Бесплатно» на бейдж-плашке #EAEAEA', async ({ page }) => {
+  test('paywall-badge-lock — тонкий замок платной темы вместо плашки «Бесплатно» (§14)', async ({
+    page,
+  }) => {
     await seedHistoryProfile(page, 30);
     await gotoApp(page);
 
-    const badge = page.locator(TOPIC_BADGE_FREE).first();
+    const badge = page.locator(TOPIC_BADGE_LOCK).first();
     await expect(badge).toBeVisible();
-    // Стейт-гард: элемент на светлой плашке, а не «повезло с фоном».
-    await expect(badge).toHaveCSS('background-color', 'rgb(234, 234, 234)');
+    // Стейт-гард: это именно тонкий замок (прозрачный фон), а не плашка темы —
+    // иначе прогон мерил бы контраст не того элемента.
+    await expect(badge).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
 
-    const results = await contrast(page).include(TOPIC_BADGE_FREE).analyze();
-    expect(report(results), `paywall-badge-free: ${report(results)}`).toBe('');
+    const results = await contrast(page).include(TOPIC_BADGE_LOCK).analyze();
+    expect(report(results), `paywall-badge-lock: ${report(results)}`).toBe('');
   });
 
   test('topic-first-cta — подсказка «начните с этой» на той же плашке', async ({ page }) => {

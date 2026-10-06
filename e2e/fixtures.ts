@@ -172,7 +172,9 @@ export const DYNAMIC_MASK_SELECTORS: readonly string[] = [
   '[data-testid="exam-timer"]',
   '[data-testid="streak-badge"]',
   '[data-testid="xp-bar"]',
-  '[data-testid="retention-goal-line"]',
+  // `retention-goal-line` убран вместе с самим узлом (diag-dashboard-fix,
+  // STOP-1 v1): маска на несуществующий элемент маскирует пустоту и только
+  // вводит в заблуждение при чтении baseline.
   '[data-testid*="timer"]',
 ];
 
@@ -643,6 +645,8 @@ export const TESTID = {
   // темы попадал бы в этот счётчик.
   paywallBadgePro: 'paywall-badge-pro',
   paywallBadgeFree: 'paywall-badge-free',
+  /** §14 (diag-dashboard-fix): тонкий замок платной темы, к которой есть доступ. */
+  paywallBadgeLock: 'paywall-badge-lock',
 
   // UX-фикс 2026-10-04: выход из Analytics переехал в общий AppHeader.
   analyticsBack: 'analytics-back',

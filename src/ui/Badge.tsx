@@ -1,15 +1,20 @@
 import type { CSSProperties, ReactNode } from 'react';
 
 /**
- * `free | pro | locked` — три роли доступа (Contract). `hint` — четвёртая
- * presentation-роль: подсказка «начните с этой» (spec 065, К5.2) жила тем же
- * каркасом, но с цветом роли успеха; без неё пришлось бы держать в экране
- * копию стилей, ровно от чего уходим.
+ * `free | pro | locked | restricted | hint` — четыре роли доступа (Contract) плюс
+ * `hint`. `hint` — presentation-роль подсказки «начните с этой» (spec 065, К5.2):
+ * она жила тем же каркасом, но с цветом роли успеха; без неё пришлось бы держать
+ * в экране копию стилей, ровно от чего уходим.
+ *
+ * `restricted` (diag-dashboard-fix, handoff §14) — платная тема, к которой у
+ * профиля ЕСТЬ доступ (Pro/trial): вместо плашки «БЕСПЛАТНО» синим рисуется
+ * тонкий приглушённый замок. Роль отличается от `locked` не цветом, а
+ * каркасом: у `restricted` нет ни плашки, ни рамки, ни tap-зоны.
  */
-export type BadgeVariant = 'free' | 'pro' | 'locked' | 'hint';
+export type BadgeVariant = 'free' | 'pro' | 'locked' | 'restricted' | 'hint';
 
 export interface BadgeProps {
-  /** Роль бейджа: «Бесплатно» / «PRO» / «Скоро». */
+  /** Роль бейджа: «Бесплатно» / «PRO» / «Скоро» / замок платной темы. */
   variant: BadgeVariant;
   /** Содержимое бейджа (обычно одно слово или короткая подсказка). */
   children: ReactNode;
@@ -50,13 +55,37 @@ const VARIANT_STYLE: Record<BadgeVariant, CSSProperties> = {
   free: { color: 'var(--text-secondary)' },
   pro: { color: 'var(--color-accent-strong)' },
   locked: { color: 'var(--color-accent-strong)' },
+  restricted: { color: 'var(--text-secondary)' },
   hint: { color: 'var(--color-success-strong)' },
+};
+
+/**
+ * Каркас по роли: по умолчанию — плашка из FRAME. `restricted` — «тонкий
+ * замок» §14: прозрачный фон, без рамки и отступов, обычная насыщенность.
+ * `--text-secondary` на `--bg-surface` (белый) — 8.9:1, на плашке `--bg-elevated`
+ * — 6.9:1, то есть приглушённый, но не ниже AA.
+ */
+const VARIANT_FRAME: Partial<Record<BadgeVariant, CSSProperties>> = {
+  restricted: {
+    background: 'transparent',
+    border: 'none',
+    minHeight: 0,
+    padding: 0,
+    fontWeight: 400,
+    fontSize: 'var(--text-sm)',
+  },
 };
 
 /** Переиспользуемый бейдж. Чистая presentation: ни стора, ни домена, ни переходов. */
 export function Badge({ variant, children, testId, style }: BadgeProps) {
   return (
-    <span data-testid={testId} style={{ ...FRAME, ...VARIANT_STYLE[variant], ...style }}>
+    <span
+      data-testid={testId}
+      // Роль в DOM: e2e проверяет одним computed-style, что один и тот же
+      // variant нигде не покрашен двумя цветами (diag-dashboard-fix).
+      data-variant={variant}
+      style={{ ...FRAME, ...VARIANT_STYLE[variant], ...VARIANT_FRAME[variant], ...style }}
+    >
       {children}
     </span>
   );

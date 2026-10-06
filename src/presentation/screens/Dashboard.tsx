@@ -9,12 +9,12 @@ import { FIXED_FOOTER_Z_INDEX } from '@/presentation/components/fixedFooter';
 import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
-import { useDailyGoalProgress } from '@/store/dailyGoal';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
 import { Badge, Button, Card } from '@/ui';
+import type { BadgeVariant } from '@/ui';
 import type { ResolvedTheme } from '@/utils/theme';
 
 interface Props {
@@ -99,6 +99,25 @@ const LOCKED_BADGE: React.CSSProperties = {
   textTransform: 'uppercase',
   letterSpacing: 'var(--letter-wide, 0.5px)',
 };
+
+/**
+ * Бейдж доступа в строке темы. Подпись и `variant` выводятся из ОДНОГО
+ * предиката: до фикса подпись считалась по `isFree || allowed` («Бесплатно» и
+ * для платной темы с доступом), а variant — по `isFree` (`pro`, синий), поэтому
+ * одно и то же слово рисовалось двумя цветами (diag-dashboard-fix, симптом 1).
+ *
+ * Роли (§14, решение капитана STOP-2 (a)): бесплатная тема — БЕЗ бейджа вообще
+ * («Бесплатно» убрано из строки); платная с доступом — тонкий приглушённый замок
+ * (`restricted`, testid `paywall-badge-lock`); платная без доступа — прежняя
+ * плашка «PRO» (`pro`, `paywall-badge-pro`: это отдельный контракт spec 063, по
+ * тексту «PRO» платную строку находят `e2e/screens.ts` и `ux-screenshots.tmp`);
+ * тема со статусом `planned` — «Скоро» (`locked`).
+ */
+interface TopicBadge {
+  testid?: string;
+  label: string;
+  variant: BadgeVariant;
+}
 
 export default function Dashboard({ theme, onToggleTheme }: Props) {
   // Counts come from the bank manifest (≈260 B) rather than from the loaded bank:
@@ -193,10 +212,11 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // `useFixedFooterPadding`/`--fixed-footer-h` здесь не нужны.
   const mainButtonReady = useMainButtonAvailable();
 
-  // Retention (spec 061): дневная цель уже посчитана селектором вне стора.
-  const daily = useDailyGoalProgress();
-
-
+  // XP-дубли (diag-dashboard-fix, решение капитана STOP-1 v1): узел
+  // `retention-goal-line` («Цель: X / Y XP») удалён — дневную цель уже
+  // показывает подпись XpBar, третья копия тех же чисел была дублем.
+  // Вместе с узлом ушёл и селектор `useDailyGoalProgress`: он был нужен только
+  // ему, а незанятый импорт держал бы ложную зависимость от dailyGoal.
   useTelegramMainButton('Продолжить', () => navigateTo('question'));
 
   // Reset scroll when the dashboard mounts.
@@ -232,12 +252,18 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             остаются только уровень и полоса прогресса (UX-фикс). */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Уровень {level}</span>
+          {/* diag-dashboard-fix (симптом 5): полоса показывает XP ВНУТРИ уровня
+              (`totalXp % 100`), а не дневную цель, и в отчёте это читалось как
+              «Уровень 1 · 10 %» рядом с дневной целью 10/20. Метрика оставлена:
+              дневную цель уже показывает XpBar, а вторая дневная полоса была бы
+              тем же дублем XP, против которого симптом 6. Неоднозначность снята
+              именем — «Уровень N (XP внутри)», а не «Прогресс уровня». */}
           <span
             role="progressbar"
             aria-valuenow={xpPercent}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label="Прогресс уровня"
+            aria-label={`Уровень ${level} (XP внутри)`}
             style={{
               display: 'inline-block',
               width: '40px',
@@ -317,16 +343,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         <StreakBadge />
         <XpBar />
       </div>
-      <div
-        data-testid="retention-goal-line"
-        style={{
-          marginTop: 'var(--space-2)',
-          fontSize: 'var(--text-sm)',
-          color: 'var(--text-secondary)',
-        }}
-      >
-        {`Цель: ${daily.todayXp} / ${daily.goalXp} XP`}
-      </div>
+      {/* diag-dashboard-fix (STOP-1 v1): узел `retention-goal-line`
+          («Цель: X / Y XP») удалён по решению капитана — дневную цель уже
+          показывает подпись XpBar («X / Y XP»), третий узел с теми же числами
+          был дублем XP (симптом 6). */}
 
       {/* Progress */}
       <div id="dashboard-progress" data-testid="dashboard-progress" style={{ marginTop: 'var(--space-5)' }}>
@@ -524,11 +544,15 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           // для неё не считается, бейджа нет.
           const isFree = isFreeTopic(topic.key);
           const allowed = !isAvailable || paywallAccess(topic.key);
-          const badge = !isAvailable
+          // §14 (STOP-2 a): free-тема — без плашки, платная с доступом — тонкий
+          // замок, платная без доступа — прежняя плашка «PRO».
+          const badge: TopicBadge | null = !isAvailable
             ? null
-            : isFree || allowed
-              ? { testid: 'paywall-badge-free', label: 'Бесплатно' }
-              : { testid: 'paywall-badge-pro', label: 'PRO' };
+            : isFree
+              ? null
+              : allowed
+                ? { testid: 'paywall-badge-lock', label: '🔒', variant: 'restricted' }
+                : { testid: 'paywall-badge-pro', label: 'PRO', variant: 'pro' };
 
           const rowStyle = {
             display: 'flex' as const,
@@ -612,11 +636,13 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   maxWidth: '45%',
                 }}
               >
+                {/* diag-dashboard-fix: `LOCKED_BADGE` (капс + разрядка) — только
+                    для плашек; у тонкого замка §14 ни капса, ни разрядки нет. */}
                 {badge !== null && (
                   <Badge
-                    variant={isFree ? 'free' : 'pro'}
+                    variant={badge.variant}
                     testId={badge.testid}
-                    style={LOCKED_BADGE}
+                    style={badge.variant === 'restricted' ? undefined : LOCKED_BADGE}
                   >
                     {badge.label}
                   </Badge>
@@ -693,15 +719,24 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               {`Вопрос ${currentIndex + 1} из ${totalQuestions}`}
             </div>
           </div>
+          {/* diag-dashboard-fix (симптом 3): баннер и нижний футер показывали ДВЕ
+              primary-CTA с одинаковой подписью «Продолжить», когда прогон не
+              закончен и нативный MainButton недоступен. Кнопка баннера переведена
+              в secondary: обработчик (`resumeQuiz`) и подпись прежние — их пинят
+              e2e-контракты (paywall.spec.ts:84 кликает именно её, а фикстура
+              `resumeSeededRun` используется 7 спеками), а primary на экране
+              остаётся одна — нижняя `dashboard-continue`.
+              Вариант «баннер без CTA» отклонён по той же причине: `resume-button`
+              — публичный data-testid вне разрешённого списка правок. */}
           <Button
-            variant="primary"
+            variant="secondary"
             testId="resume-button"
             onClick={resumeQuiz}
             style={{
               width: 'auto',
               padding: 'var(--space-2) var(--space-3)',
               marginTop: 0,
-              borderRadius: 'var(--btn-primary-radius)',
+              borderRadius: 'var(--btn-secondary-radius)',
               fontSize: 'var(--text-xs)',
             }}
           >

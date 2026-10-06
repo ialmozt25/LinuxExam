@@ -257,14 +257,37 @@ test.describe('пейволл — контентный (3 Free / 11 Paid)', () =
     await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
   });
 
-  test('бейджи: Paid-темы помечены PRO, Free-темы — «Бесплатно»', async ({ page }) => {
+  test('бейджи: Free-темы без плашки, Paid-темы без доступа — «PRO» (§14)', async ({ page }) => {
     await seedNoAccess(page);
     await gotoApp(page);
 
+    // Структурные контракты прежние, изменилось только значение free-бейджа:
+    // §14 убрал плашку «Бесплатно» у бесплатных тем, поэтому их 0, а не 3.
     await expect(page.getByTestId(TESTID.paywallBadgePro)).toHaveCount(11);
-    await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(3);
-    await expect(topicButton(page, TOPIC)).toContainText('Бесплатно');
+    await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(0);
+    // Замок — роль платной темы С доступом; у профиля без Pro и trial-а таких нет.
+    await expect(page.getByTestId(TESTID.paywallBadgeLock)).toHaveCount(0);
+
+    // Текстовый assert «Бесплатно» снят вместе с самой плашкой (§14). «PRO»
+    // остался: по этому тексту платную строку находят `e2e/screens.ts` (openPaywall)
+    // и `e2e/ux-screenshots.tmp.spec.ts`, оба — вне разрешённого списка правок.
+    await expect(topicButton(page, TOPIC)).not.toContainText('Бесплатно');
     await expect(topicButton(page, PAID_TOPIC)).toContainText('PRO');
+  });
+
+  test('бейджи: у профиля с доступом Free-темы без плашки, Paid-темы — замок 🔒 (§14)', async ({
+    page,
+  }) => {
+    // Профиль авто-фикстуры: `isPro: false`, но trial активен (миграция v6 → v7),
+    // поэтому платные темы открыты — ровно тот случай, где до фикса рисовалось
+    // «БЕСПЛАТНО» синим (diag-dashboard-fix, симптом 1).
+    await gotoApp(page);
+
+    await expect(page.getByTestId(TESTID.paywallBadgeLock)).toHaveCount(11);
+    await expect(page.getByTestId(TESTID.paywallBadgePro)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(0);
+    await expect(topicButton(page, TOPIC)).not.toContainText('Бесплатно');
+    await expect(topicButton(page, PAID_TOPIC)).toContainText('🔒');
   });
 });
 

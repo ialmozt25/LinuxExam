@@ -1,4 +1,4 @@
-import { test, expect, blockAnalytics, gotoApp, readPersisted, seedRetention, TESTID, TOPICS } from './fixtures';
+import { test, expect, blockAnalytics, gotoApp, readPersisted, seedHistoryProfile, seedRetention, TESTID, TOPICS } from './fixtures';
 
 /**
  * Mobile layout (spec 067).
@@ -271,6 +271,94 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
     expect(bar.trackWidth).toBeGreaterThan(0);
     expect(bar.trackHeight).toBeGreaterThan(0);
     expect(bar.fillWidth).toBe(0);
+  });
+
+  test('Dashboard: один variant — один цвет бейджа (computed-style)', async ({ page }) => {
+    // diag-dashboard-fix, симптомы 1–2. Роль бейджа доступа обязана быть
+    // различимой И одинаковой: у `restricted` — тонкий замок платной темы.
+    // Дефект был в том, что подпись считалась по `isFree || allowed`, а variant —
+    // по `isFree`: одна и та же надпись «БЕСПЛАТНО» рисовалась серым (`free`) и
+    // синим (`pro`).
+    //
+    // §14 (STOP-2 a): у бесплатных тем плашки нет вообще, поэтому `free`-бейджей
+    // на экране 0; у платных тем с доступом (`seedRetention` = Pro + активный
+    // trial) — 11 замков, а плашек «PRO» не остаётся вовсе.
+    await seedRetention(page, { streak: 1, todayXp: 0 });
+    await gotoApp(page);
+
+    const bad = await page.evaluate(() => {
+      const byVariant = new Map<string, { styles: string[]; testid: string | null }>();
+      for (const node of Array.from(document.querySelectorAll('[data-variant]'))) {
+        const el = node as HTMLElement;
+        const cs = getComputedStyle(el);
+        const variant = el.getAttribute('data-variant') ?? '';
+        const style = `${cs.backgroundColor} / ${cs.color}`;
+        const seen = byVariant.get(variant) ?? { styles: [], testid: el.getAttribute('data-testid') };
+        if (!seen.styles.includes(style)) seen.styles.push(style);
+        byVariant.set(variant, seen);
+      }
+      return Array.from(byVariant.entries())
+        .filter(([, value]) => value.styles.length > 1)
+        .map(([variant, value]) => ({ variant, styles: value.styles, testid: value.testid }));
+    });
+
+    expect(
+      bad,
+      `один variant покрашен разными цветами: ${JSON.stringify(bad)}`,
+    ).toEqual([]);
+
+    // Не вакуумная проверка: роль замка реально отрисована в этом профиле.
+    await expect(page.locator('[data-variant="restricted"]')).toHaveCount(11);
+    // §14: у бесплатных тем нет ни плашки «Бесплатно», ни плашки «PRO».
+    await expect(page.locator('[data-variant="free"]')).toHaveCount(0);
+    await expect(page.locator('[data-variant="pro"]')).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.paywallBadgeLock)).toHaveCount(11);
+  });
+
+  test('Dashboard: одна primary-CTA «Продолжить» при незавершённом прогоне', async ({ page }) => {
+    // diag-dashboard-fix, симптом 3: resume-баннер и нижний sticky-футер
+    // показывали ДВЕ primary-кнопки с одинаковой подписью «Продолжить». Здесь
+    // профиль с историей и незавершённым регулярным прогоном — состояние, в
+    // котором рендерятся оба блока.
+    await seedHistoryProfile(page, 30, {
+      overrides: { isQuizInProgress: true, currentIndex: 3, reviewQuestionIds: null },
+    });
+    await gotoApp(page);
+
+    await expect(page.getByTestId(TESTID.resumeBanner)).toBeVisible();
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
+
+    const probe = await page.evaluate(() => {
+      // Роль `--btn-primary-bg` резолвится через каскад временным узлом:
+      // getPropertyValue('--accent') вернул бы саму var()-цепочку.
+      const probeNode = document.createElement('span');
+      probeNode.style.background = 'var(--btn-primary-bg)';
+      document.body.appendChild(probeNode);
+      const primaryBg = getComputedStyle(probeNode).backgroundColor;
+      probeNode.remove();
+
+      const hits: { testid: string | null; text: string; bg: string }[] = [];
+      for (const node of Array.from(document.querySelectorAll('button'))) {
+        const el = node as HTMLButtonElement;
+        const box = el.getBoundingClientRect();
+        if (box.width === 0 || box.height === 0) continue;
+        const cs = getComputedStyle(el);
+        if (cs.backgroundColor !== primaryBg) continue;
+        hits.push({
+          testid: el.getAttribute('data-testid'),
+          text: (el.textContent ?? '').replace(/\s+/g, ' ').trim(),
+          bg: cs.backgroundColor,
+        });
+      }
+      return { primaryBg, hits };
+    });
+
+    const continuePrimaries = probe.hits.filter((hit) => hit.text === 'Продолжить');
+    expect(
+      continuePrimaries.map((hit) => hit.testid),
+      `primary-CTA «Продолжить» на экране: ${JSON.stringify(probe.hits)} (accent ${probe.primaryBg})`,
+    ).toEqual([TESTID.dashboardContinue]);
   });
 
   test('Dashboard: подсказка «начните с этой» под названием темы, не в ряду чипа', async ({ page }) => {

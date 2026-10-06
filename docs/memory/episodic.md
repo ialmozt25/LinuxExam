@@ -298,3 +298,10 @@ Retention-зона Dashboard: 5 mobile-регрессий пилота 28da265 �
 Побочно dead tokens 30→27. Отложены: симптом 2 (empty card), 3 (top-progress metric), 4 (XP-дублирование) — ждут решения капитана.
 Baseline 2/19 PNG обновлены (y=330 сдвиг из-за роста badge).
 Статус: UNVERIFIED на телефоне (FASB-001). Push не выполнялся.
+
+## 2026-10-06 | dashboard-ux
+Retention: 5 из 6 симптомов закрыто (badge variant unified, CTA dedupe, XpBar border, top-progress label, variants); XP-дубли → v1 (retention-goal-line удалён); «БЕСПЛАТНО» → (a) (free без плашки, paid 🔒; allowlist расширен на paywall.spec.ts + regression-079.spec.ts + fixtures.ts).
+Fitness +4 правила (Badge-variant, 2×primary, dup-intent, token-bypass). e2e: computed-style Badge free/locked.
+2 baseline PNG обновлены (сдвиг раскладки после удаления узла).
+Гейты: typecheck 0, test:run 452, build 0, test:e2e ≥219, fitness 4/5 OK (dead-tokens 27 advisory).
+Статус: UNVERIFIED на телефоне (FASB-001). Push не выполнялся.

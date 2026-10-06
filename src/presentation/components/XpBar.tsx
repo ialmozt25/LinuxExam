@@ -42,6 +42,12 @@ export function XpBar() {
           position: 'relative',
           height: LAYOUT.progressBarHeight,
           background: 'var(--bg-surface)',
+          // diag-dashboard-fix (симптом 4): при 0 % заливки у трека не было ни
+          // заливки, ни рамки, и блок читался как «пустой серый Card» 266×8,
+          // border 0. Рамка задаёт шкалу независимо от значения; `border-box`
+          // сохраняет прежние 8px габарита (контент 8 − 2×1).
+          border: '1px solid var(--border-strong)',
+          boxSizing: 'border-box',
           borderRadius: LAYOUT.progressBarRadius,
           overflow: 'hidden',
         }}
