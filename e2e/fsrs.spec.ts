@@ -45,8 +45,12 @@ const TITLE = /^Повторить сегодня$/;
 /** Правый счётчик кнопки: «30 вопр.». */
 const COUNTER = /(\d+)\s*вопр\./;
 
-/** Остаток пула за пределами одной сессии: «Осталось повторить: 223». */
-const REMAINDER = /Осталось повторить:\s*(\d+)/;
+/**
+ * Остаток пула за пределами одной сессии.
+ *
+ * UI-строка изменена 2026-10-07 (219 демотивировало); N скрыт в
+ * data-fsrs-remaining — пользователь цифру не видит, тесты читают атрибут.
+ */
 
 async function reviewTodayCount(page: import('@playwright/test').Page): Promise<number> {
   const text = (await page.getByTestId(TESTID.reviewToday).innerText()).trim();
@@ -60,12 +64,28 @@ async function reviewTodayCount(page: import('@playwright/test').Page): Promise<
   return Number(match[1]);
 }
 
-/** Сколько просроченных осталось за пределами текущей сессии. */
+/**
+ * Сколько просроченных осталось за пределами текущей сессии.
+ *
+ * Источник — data-атрибут `data-fsrs-remaining`, а НЕ видимый текст: строка
+ * теперь нейтральная («Следующее повторение: завтра»), числа в ней нет.
+ * N = 0 рендерится как "0", поэтому пустое значение здесь — признак
+ * сломанного атрибута, а не нулевого остатка.
+ */
 async function reviewRemainder(page: import('@playwright/test').Page): Promise<number> {
-  const text = (await page.getByTestId(TESTID.reviewRemainder).innerText()).trim();
-  const match = REMAINDER.exec(text);
-  if (!match) throw new Error(`не удалось разобрать остаток из «${text}»`);
-  return Number(match[1]);
+  const raw = await page
+    .getByTestId(TESTID.reviewRemainder)
+    .getAttribute('data-fsrs-remaining');
+  if (raw === null) {
+    throw new Error(
+      `у элемента ${TESTID.reviewRemainder} нет data-fsrs-remaining (UI-строка изменена 2026-10-07)`,
+    );
+  }
+  const value = Number(raw);
+  if (raw.trim() === '' || !Number.isFinite(value)) {
+    throw new Error(`data-fsrs-remaining не число: «${raw}»`);
+  }
+  return value;
 }
 
 test.describe.serial('FSRS-lite — разделение new / due', () => {
@@ -91,7 +111,9 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
 
     // Дефект до spec 065: свежий профиль видел «Повторить сегодня (253)».
     // Дефект до spec 066: профиль видел приглашение И повторение одновременно —
-    // «Повторить сегодня (30)» плюс «Осталось повторить: 223».
+    // «Повторить сегодня (30)» плюс строка остатка с числом. Сама строка
+    // с 2026-10-07 нейтральная («Следующее повторение: завтра»), число
+    // живёт в data-fsrs-remaining — см. reviewRemainder().
     await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
     await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать обучение/);
 
@@ -154,6 +176,10 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
 
     // Пул 60, сессия 30, за её пределами 30.
     expect(await reviewTodayCount(page)).toBe(SESSION_LIMIT);
+    // Видимый текст строки — новый контракт: числа в нём больше нет.
+    await expect(page.getByTestId(TESTID.reviewRemainder)).toHaveText(
+      'Следующее повторение: завтра',
+    );
     expect(await reviewRemainder(page)).toBe(pool - SESSION_LIMIT);
 
     const button = page.getByTestId(TESTID.reviewToday);

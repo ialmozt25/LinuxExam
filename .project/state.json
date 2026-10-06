@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "cb371999f9e31d7c4ec43e321054ae4c6fd43bc1",
+  "head": "0cae50e0f4dea0a32f15b853a0ee6c78a404ae6d",
   "specs": [
     {
       "id": "022",
@@ -1483,19 +1483,31 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2, ux-regression regression guard); публикует 2333ee4..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending",
-    "2026-10-07 | tux-fix | root cause: src=\"/tux.svg\" давал 404 на /LinuxExam/ subpath (Vite base); fix через import.meta.env.BASE_URL | commit pending",
-    "2026-10-07 | tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | commit pending",
     "2026-10-07 | push | authorize push origin main - tux-fix (base-path fix: src через import.meta.env.BASE_URL — прод отдавал 404 на https://ialmozt25.github.io/tux.svg, файл лежал на /LinuxExam/tux.svg; + запись в procedural.md); публикует 0343486..<push-tip>; регресс → git revert | commit pending",
     "2026-10-07 | tux-color | BW+invert → цветной Tux; invert-правило удалено | commit pending",
     "2026-10-07 | tux-color | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана \"tux-color\", C8): match=false, has_env=true; было session-84941ded-bda5-4fdd-a71e-7e4418863e2e → стало session-635d557c-011a-4654-912e-9c6e05b78306; guard spec 049 пускает эту сессию | commit pending",
     "2026-10-07 | push | authorize push origin main - tux-color (BW+invert → цветной Tux: public/tux.svg из garrett/Tux main/tux.svg + svgo --multipass + viewBox; invert-правило удалено из src/index.css; baseline dashboard ×2 обновлён); публикует 042352b..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | tux-outline | Tux на тёмной сливался; fix: filter drop-shadow (alpha, не bounding box) — светлый ореол по контуру; outline/box-shadow отклонены (прямоугольник) | commit pending",
-    "2026-10-07 | tux-outline | status UNVERIFIED на телефоне (FASB-001) | commit pending"
+    "2026-10-07 | tux-outline | status UNVERIFIED на телефоне (FASB-001) | commit pending",
+    "2026-10-07 | push | authorize push origin main - tux-outline (цветной Tux сливался с тёмной темой; fix: filter drop-shadow по alpha-каналу, 1px — light rgba(0,0,0,0.5) / dark rgba(255,255,255,0.5), src/index.css + правило «Image outline» в DESIGN.md, ref make-interfaces-feel-better §11; outline/box-shadow отклонены — прямоугольник по bounding box; baseline не менялись: Tux под маской streak-badge и снимок light); публикует cb37199..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
+    "2026-10-07 | ux-copy | «Осталось повторять: N» → «Следующее повторение: завтра»; N в data-fsrs-remaining; fsrs.spec.ts читает атрибут | commit pending",
+    "2026-10-07 | ux-copy | status UNVERIFIED на телефоне (FASB-001) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0cae50e",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
+    {
+      "sha": "06db92a",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge after tux-outline",
+      "type": "chore"
+    },
     {
       "sha": "cb37199",
       "date": "2026-10-06",
@@ -1603,18 +1615,6 @@
       "date": "2026-10-06",
       "subject": "chore(log): trail for push design-review",
       "type": "chore"
-    },
-    {
-      "sha": "1483315",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge after design-review",
-      "type": "chore"
-    },
-    {
-      "sha": "7deaa90",
-      "date": "2026-10-06",
-      "subject": "style(design-review): top-10 fixes across 6 screens",
-      "type": "style"
     }
   ],
   "roles": [

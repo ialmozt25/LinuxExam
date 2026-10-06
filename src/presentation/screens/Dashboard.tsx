@@ -451,17 +451,23 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             </Button>
           ) : null}
 
-          {/* Остаток за пределами одной сессии: N в подписи — размер следующей. */}
+          {/* Хвост пула за одной сессией. Видимого числа здесь больше нет:
+              демотивирующая строка про невыполненный остаток заменена на
+              нейтральное «Следующее повторение: завтра» (задание 2026-10-07).
+              N остаётся контрактом, но не для глаза: его читает
+              e2e/fsrs.spec.ts из `data-fsrs-remaining`, и он по-прежнему
+              означает размер СЛЕДУЮЩЕЙ сессии, а не размер всего хвоста. */}
           {hasPending && dueCount > 0 ? (
             <p
               data-testid="review-today-remainder"
+              data-fsrs-remaining={counts.dueCount - dueCount}
               style={{
                 margin: `${SPACING.sm} 0 0 0`,
                 fontSize: 'var(--text-xs)',
                 color: 'var(--text-secondary)',
               }}
             >
-              {`Осталось повторить: ${counts.dueCount - dueCount}`}
+              Следующее повторение: завтра
             </p>
           ) : null}
         </>

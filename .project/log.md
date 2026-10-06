@@ -389,3 +389,5 @@
 2026-10-07 | tux-outline | Tux на тёмной сливался; fix: filter drop-shadow (alpha, не bounding box) — светлый ореол по контуру; outline/box-shadow отклонены (прямоугольник) | commit pending
 2026-10-07 | tux-outline | status UNVERIFIED на телефоне (FASB-001) | commit pending
 2026-10-07 | push | authorize push origin main - tux-outline (цветной Tux сливался с тёмной темой; fix: filter drop-shadow по alpha-каналу, 1px — light rgba(0,0,0,0.5) / dark rgba(255,255,255,0.5), src/index.css + правило «Image outline» в DESIGN.md, ref make-interfaces-feel-better §11; outline/box-shadow отклонены — прямоугольник по bounding box; baseline не менялись: Tux под маской streak-badge и снимок light); публикует cb37199..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending
+2026-10-07 | ux-copy | «Осталось повторять: N» → «Следующее повторение: завтра»; N в data-fsrs-remaining; fsrs.spec.ts читает атрибут | commit pending
+2026-10-07 | ux-copy | status UNVERIFIED на телефоне (FASB-001) | commit pending
