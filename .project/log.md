@@ -378,3 +378,4 @@
 2026-10-07 | tux-streak | 🔥 → Tux (garrett/Tux, CC0, BW); asset public/tux.svg; baseline dashboard обновлён | commit pending
 2026-10-07 | tux-streak | status UNVERIFIED на телефоне (FASB-001) | commit pending
 2026-10-06 | guard | якорь перезаписан на session-84941ded… | commit pending
+2026-10-07 | push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2, ux-regression regression guard); публикует 2333ee4..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending
