@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">dd0bb57</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after tux-color</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
+        <tr>
           <td class="mono">042352b</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(design): colored tux, remove dark-theme invert</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(log): trail for push design-guardian</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">43a5623</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after design-guardian</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,7 +592,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">140 ч (~5.8 дн)</td>
+          <td class="muted">141 ч (~5.9 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -613,7 +613,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">140 ч (~5.8 дн)</td>
+          <td class="muted">141 ч (~5.9 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr>
         <tr>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · tux-fix | root cause: src=&quot;/tux.svg&quot; давал 404 на /LinuxExam/ subpath (Vite base); fix через import.meta.env.BASE_URL | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | ещё не закоммичено</li>
         <li><span class="mono muted">07.10</span> · push | authorize push origin main - tux-fix (base-path fix: src через import.meta.env.BASE_URL — прод отдавал 404 на https://ialmozt25.github.io/tux.svg…</li>
         <li><span class="mono muted">07.10</span> · tux-color | BW+invert → цветной Tux; invert-правило удалено | ещё не закоммичено</li>
         <li><span class="mono muted">07.10</span> · tux-color | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
+        <li><span class="mono muted">06.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;tux-color&quot;, C8): match=false…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - tux-color (BW+invert → цветной Tux: public/tux.svg из garrett/Tux main/tux.svg + svgo --multipass + viewBox; invert-правило удалено из src/index.css; baseline dashb…</li>
     </ul>
   </details>
 
