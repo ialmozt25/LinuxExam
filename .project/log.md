@@ -381,3 +381,4 @@
 2026-10-07 | push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2, ux-regression regression guard); публикует 2333ee4..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending
 2026-10-07 | tux-fix | root cause: src="/tux.svg" давал 404 на /LinuxExam/ subpath (Vite base); fix через import.meta.env.BASE_URL | commit pending
 2026-10-07 | tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | commit pending
+2026-10-07 | push | authorize push origin main - tux-fix (base-path fix: src через import.meta.env.BASE_URL — прод отдавал 404 на https://ialmozt25.github.io/tux.svg, файл лежал на /LinuxExam/tux.svg; + запись в procedural.md); публикует 0343486..<push-tip>; регресс → git revert | commit pending
