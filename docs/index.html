@@ -455,6 +455,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">1d6942d</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after ux-copy-3-fix</td>
+          <td class="mono muted">2026-10-06</td>
+        </tr>
+        <tr>
           <td class="mono">543fc8f</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(ux): CTA variable N, unify streak border, update dashboard baseline</td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>fix(design): tux asset path respects vite base</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">070967c</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;ux-copy-3&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
         <li><span class="mono muted">07.10</span> · push | authorize push origin main - ux-copy-3 (CTA «Продолжить обучение · 15 минут · 30 вопросов» вместо «Повторить сегодня»; Tux из streak-бейджа в заголовок Dashboard, gap var(--space-2); streak…</li>
         <li><span class="mono muted">07.10</span> · ux-copy-3-fix | CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds(): «Продолжить обучение · N вопросов»…</li>
         <li><span class="mono muted">07.10</span> · ux-copy-3-fix | streak-рамка: цвет состояния (--success/--warning/--danger) → единый --color-accent-strong (#1565C0) в light/dark, mobile/desktop, dev/prod; токена --color-accent в tokens.css нет…</li>
         <li><span class="mono muted">07.10</span> · ux-copy-3-fix | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - ux-copy-3-fix (CTA: хардкод «15 минут · 30 вопросов» → динамический N = min(SESSION_LIMIT, dueCount + newCount) из getSessionIds()…</li>
     </ul>
   </details>
 
