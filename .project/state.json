@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "28ac44a27fe975b9e515fbe897b96b3b087292a4",
+  "head": "079c2941bec364b27be841992e434754a0eeda5a",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-05 | pilot-dashboard | контур проверен end-to-end: Contract → AGENTS → Skills → Fitness → pre-commit; VERIFIED на телефоне — за капитаном | commit pending",
-    "2026-10-05 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД по команде капитана \"Push authorized (rule 10). Один push. ОВЕРРАЙД SETUP §4: якорь разрешено перезаписать на текущую сессию — прецедент log.md:344\"); guard spec 049 пускает эту сессию | commit pending",
     "2026-10-05 | push | authorize push origin main - factory-rebuild + pilot-dashboard; публикует dfbb312..<push-tip> | commit pending",
     "2026-10-06 | ui-styling-rules | skill 12 разделов (best practices 2026) + check-styling.mjs (5-я fitness, blocking в pre-commit); contract SSOT синхронизирован (fitness=5, forbidden_patterns=11, skills=4); AGENTS.md 49/50 | commit pending",
     "2026-10-06 | findings | F1 закрыт (contract.fitness=5); F6 закрыт (pre-commit = boundaries + colors + styling); F2 (3 паттерна без детекторов) — долг; F3 AGENTS на границе | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-06 | dashboard-fix | streak minHeight 80 (badge 80→100, overflow 6→0) + spacing литералы→var(--space-*) (dead tokens 30→27 побочно) + e2e verticalClipping (mutation ловит регресс) | commit pending",
     "2026-10-06 | dashboard-fix | status UNVERIFIED на телефоне (FASB-001) до push; 2 baseline PNG обновлены (dashboard-mobile/desktop); 2 предсуществующих modified вне scope | commit pending",
     "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | commit pending",
-    "2026-10-06 | push | authorize push origin main - dashboard-fix (retention minHeight + spacing tokens + vertical-clipping e2e); публикует c938856..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push (вариант A 2026-10-06); при регрессе — git revert | commit pending"
+    "2026-10-06 | push | authorize push origin main - dashboard-fix (retention minHeight + spacing tokens + vertical-clipping e2e); публикует c938856..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push (вариант A 2026-10-06); при регрессе — git revert | commit pending",
+    "2026-10-06 | dashboard-ux | retention: badge variant unified (77 синих → 0), CTA dedupe (resume secondary), XpBar border (0% fill), top-progress label, XP-дубли v1 (удалён retention-goal-line), «БЕСПЛАТНО» (a); fitness +4 правила | commit pending",
+    "2026-10-06 | dashboard-ux | 2 baseline PNG обновлены (dashboard-mobile/desktop, сдвиг y≈307); status UNVERIFIED на телефоне (FASB-001) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "079c294",
+      "date": "2026-10-06",
+      "subject": "fix(dashboard): retention UX - badge/CTA/empty-state + fitness rules + baseline",
+      "type": "fix"
+    },
+    {
+      "sha": "7c7b9ec",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "28ac44a",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "5b32a0b",
       "date": "2026-10-04",
       "subject": "chore(log): trail for push b15103c",
-      "type": "chore"
-    },
-    {
-      "sha": "42eab74",
-      "date": "2026-10-04",
-      "subject": "chore: remove a11y-report from tracked (artifact)",
-      "type": "chore"
-    },
-    {
-      "sha": "e820d90",
-      "date": "2026-10-04",
-      "subject": "chore(state): converge after push-block (2)",
       "type": "chore"
     }
   ],
