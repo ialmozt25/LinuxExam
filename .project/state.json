@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "0343486ed80dc38bd23ef967e7db681c88ae7afa",
+  "head": "b34a8907811b67140c8efe7798ab590c9abe0151",
   "specs": [
     {
       "id": "022",
@@ -1483,7 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-06 | push | authorize push origin main - design-review (design-guardian REVIEW 6 экранов: 5 P1 + 5 P2, tokens +8, dead tokens 27→25); публикует 5614122..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending",
     "2026-10-07 | design-review-2 | focus styles (WCAG 2.4.7) + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен; check-slop 0 | commit pending",
     "2026-10-07 | design-review-2 | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-07 | push | authorize push origin main - design-review-2 (focus styles WCAG 2.4.7 + backlog: ExamRun accent/чип/токен, Analytics .mono, ExamResults токен, Badge minHeight токен, dead tokens 25→24); публикует 20cc84a..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending",
@@ -1492,10 +1491,23 @@
     "2026-10-06 | guard | якорь перезаписан на session-84941ded… | commit pending",
     "2026-10-07 | push | authorize push origin main - tux-streak (эмодзи 🔥 → маскот Tux: public/tux.svg + viewBox, src/ui/Tux.tsx, dark-invert, baseline dashboard ×2, ux-regression regression guard); публикует 2333ee4..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push; регресс → git revert | commit pending",
     "2026-10-07 | tux-fix | root cause: src=\"/tux.svg\" давал 404 на /LinuxExam/ subpath (Vite base); fix через import.meta.env.BASE_URL | commit pending",
-    "2026-10-07 | tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | commit pending"
+    "2026-10-07 | tux-fix | integration gate не поймал: Playwright dev-server на localhost:5173 без base, прод на /LinuxExam/ с base | commit pending",
+    "2026-10-07 | push | authorize push origin main - tux-fix (base-path fix: src через import.meta.env.BASE_URL — прод отдавал 404 на https://ialmozt25.github.io/tux.svg, файл лежал на /LinuxExam/tux.svg; + запись в procedural.md); публикует 0343486..<push-tip>; регресс → git revert | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "b34a890",
+      "date": "2026-10-06",
+      "subject": "chore(log): trail for push tux-fix",
+      "type": "chore"
+    },
+    {
+      "sha": "1a73e73",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge after tux-fix",
+      "type": "chore"
+    },
     {
       "sha": "0343486",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "8c9d517",
       "date": "2026-10-06",
       "subject": "chore(state): converge before authorized push",
-      "type": "chore"
-    },
-    {
-      "sha": "24e9cf9",
-      "date": "2026-10-06",
-      "subject": "chore(log): trail for push dashboard-ux-2",
-      "type": "chore"
-    },
-    {
-      "sha": "0aaa1f8",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge after dashboard-ux-2",
       "type": "chore"
     }
   ],
