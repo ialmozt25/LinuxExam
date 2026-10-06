@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { test, expect, gotoApp, seedHistoryProfile, TESTID } from './fixtures';
+import { test, expect, gotoApp, seedHistoryProfile, seedNoAccess, TESTID } from './fixtures';
 
 /**
  * Регрессия контраста (spec 079): 4 элемента, которые падали в `npm run check`
@@ -33,14 +33,12 @@ test.setTimeout(120_000);
  * Селекторы целей. Пары из baseline прогона 2026-10-04 (`2.59`, `3.10`, `3.12`,
  * `3.96`); четвёртая цель спеки — подсказка `topic-first-cta` (`4.14`).
  *
- * `paywall-badge-free` выбыл: §14 (diag-dashboard-fix, STOP-2 a) убрал плашку
- * «Бесплатно» у бесплатных тем, поэтому прежней цели больше не существует. Её
- * место в контрасте занимает новая роль доступа — тонкий замок платной темы,
- * нарисованный приглушённым `--text-secondary`: §14 требует «приглушённый
- * цвет», то есть мерить надо именно его.
+ * `paywall-badge-free` выбыл вместе с плашкой «Бесплатно» (§14), а сменивший его
+ * замок 🔒 удалён решением C (dashboard-ux-2). Единственный оставшийся бейдж
+ * доступа — плашка «PRO» у платной темы БЕЗ Pro/trial-а; её контраст и мерится.
  */
 const TOPIC_CTA = '[data-testid="topic-first-cta"]';
-const TOPIC_BADGE_LOCK = '[data-testid="paywall-badge-lock"]';
+const TOPIC_BADGE_PRO = '[data-testid="paywall-badge-pro"]';
 const EXAM_SUBMIT = '[data-testid="exam-submit"]';
 const EXAM_START = '[data-testid="exam-start"]';
 const BACK_TO_DASHBOARD = '[data-testid="back-to-dashboard"]';
@@ -67,20 +65,20 @@ function report(results: Awaited<ReturnType<ReturnType<typeof contrast>['analyze
 test.describe('regression 079: контраст ≥ 4.5:1', () => {
   test.use({ colorScheme: 'light' });
 
-  test('paywall-badge-lock — тонкий замок платной темы вместо плашки «Бесплатно» (§14)', async ({
-    page,
-  }) => {
-    await seedHistoryProfile(page, 30);
+  test('paywall-badge-pro — плашка «PRO» на бейдж-плашке #EAEAEA', async ({ page }) => {
+    // Профиль без Pro и без trial-а: платные темы помечены плашкой «PRO».
+    // Замок 🔒, стоявший здесь после §14, удалён решением C (dashboard-ux-2),
+    // поэтому контраст-гейт бейджа доступа меряет единственную оставшуюся плашку.
+    await seedNoAccess(page);
     await gotoApp(page);
 
-    const badge = page.locator(TOPIC_BADGE_LOCK).first();
+    const badge = page.locator(TOPIC_BADGE_PRO).first();
     await expect(badge).toBeVisible();
-    // Стейт-гард: это именно тонкий замок (прозрачный фон), а не плашка темы —
-    // иначе прогон мерил бы контраст не того элемента.
-    await expect(badge).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    // Стейт-гард: элемент на светлой плашке, а не «повезло с фоном».
+    await expect(badge).toHaveCSS('background-color', 'rgb(234, 234, 234)');
 
-    const results = await contrast(page).include(TOPIC_BADGE_LOCK).analyze();
-    expect(report(results), `paywall-badge-lock: ${report(results)}`).toBe('');
+    const results = await contrast(page).include(TOPIC_BADGE_PRO).analyze();
+    expect(report(results), `paywall-badge-pro: ${report(results)}`).toBe('');
   });
 
   test('topic-first-cta — подсказка «начните с этой» на той же плашке', async ({ page }) => {

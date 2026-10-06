@@ -36,15 +36,26 @@ const SESSION_LIMIT = 30;
 /** Тема для проверки итогов прогона: та же, что в results.spec.ts. */
 const TOPIC = 'file_permissions';
 
-/** Заголовок кнопки повторения: «Повторить сегодня (30)». */
-const TITLE = /^Повторить сегодня \((\d+)\)$/;
+/**
+ * Контракт кнопки повторения после dashboard-ux-2: число живёт ТОЛЬКО в правом
+ * счётчике («30 вопр.»), в подписи кнопки его больше нет — иначе «30»
+ * дублировалось дважды в одной строке.
+ */
+const TITLE = /^Повторить сегодня$/;
+/** Правый счётчик кнопки: «30 вопр.». */
+const COUNTER = /(\d+)\s*вопр\./;
 
 /** Остаток пула за пределами одной сессии: «Осталось повторить: 223». */
 const REMAINDER = /Осталось повторить:\s*(\d+)/;
 
 async function reviewTodayCount(page: import('@playwright/test').Page): Promise<number> {
   const text = (await page.getByTestId(TESTID.reviewToday).innerText()).trim();
-  const match = TITLE.exec(text.split('\n')[0].trim());
+  // Подпись — тоже часть контракта: если она поедет, тест обязан упасть здесь,
+  // с понятным сообщением, а не «не разобрать N» где-то дальше.
+  if (!TITLE.test(text.split('\n')[0].trim())) {
+    throw new Error(`подпись кнопки повторения изменилась: «${text}»`);
+  }
+  const match = COUNTER.exec(text);
   if (!match) throw new Error(`не удалось разобрать N из «${text}»`);
   return Number(match[1]);
 }

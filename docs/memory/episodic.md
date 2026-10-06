@@ -305,3 +305,11 @@ Fitness +4 правила (Badge-variant, 2×primary, dup-intent, token-bypass).
 2 baseline PNG обновлены (сдвиг раскладки после удаления узла).
 Гейты: typecheck 0, test:run 452, build 0, test:e2e ≥219, fitness 4/5 OK (dead-tokens 27 advisory).
 Статус: UNVERIFIED на телефоне (FASB-001). Push не выполнялся.
+
+## 2026-10-06 | dashboard-ux-2
+Плюрализация: `pluralDays()` в `goal.ts` (1 → «день», 2–4 → «дня», 11–19 и 5–20 → «дней», 21 → «день», 22 → «дня», 31 → «день»); `streakMessage` и оба `aria-label` StreakBadge согласуют слово с числом. Тесты: 10 кейсов + 5 интеграционных в `goal.test.ts` (unit 463).
+Дубль «30»: подпись кнопки — «Повторить сегодня», число осталось только в правом счётчике «30 вопр.»; `e2e/fsrs.spec.ts` приведён к новому контракту (`TITLE = /^Повторить сегодня$/` + `COUNTER = /(\d+)\s*вопр\./`).
+Замки 🔒 удалены из строк темы (решение C): доступ платной темы определяется кликом, строка с доступом идентична free-строке; `regression-079` перевёл контраст-гейт на плашку «PRO», `fixtures.ts` — без lock-testid, `mobile-layout` — без computed-style замка.
+XpBar: min-fill 2px при 0 % (рамка трека сохранена); `e2e/retention.spec.ts:34` приведён к `2px`.
+Гейты: typecheck 0, test:run 463, build 0, test:e2e 219 passed, fitness 4/5 OK (dead-tokens 27 advisory).
+Статус: UNVERIFIED на телефоне (FASB-001). Push не выполнялся.

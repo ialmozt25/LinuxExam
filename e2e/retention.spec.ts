@@ -31,7 +31,9 @@ test.describe('retention UI', () => {
     await expect(badge).toContainText('День 1 — хорошее начало');
 
     await expect(page.getByTestId(TESTID.xpBarDailyLabel)).toHaveText('0 / 20 XP');
-    await expect(page.getByTestId('xp-bar-fill')).toHaveCSS('width', '0px');
+    // dashboard-ux-2 (проблема 4): при нулевом прогрессе заливка получает
+    // минимальную ширину 2px — полоса больше не выглядит пустой.
+    await expect(page.getByTestId('xp-bar-fill')).toHaveCSS('width', '2px');
     await expect(page.getByTestId(TESTID.xpBar)).toHaveAttribute('data-mark-active', 'false');
 
     await expect(page.getByTestId(TESTID.dashboardRetention)).toBeVisible();

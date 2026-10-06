@@ -645,8 +645,10 @@ export const TESTID = {
   // темы попадал бы в этот счётчик.
   paywallBadgePro: 'paywall-badge-pro',
   paywallBadgeFree: 'paywall-badge-free',
-  /** §14 (diag-dashboard-fix): тонкий замок платной темы, к которой есть доступ. */
-  paywallBadgeLock: 'paywall-badge-lock',
+  // `paywall-badge-lock` (замок 🔒) удалён вместе с самим элементом строки темы
+  // (решение C, dashboard-ux-2): доступ платной темы определяется кликом,
+  // бейджа у неё нет. Спеки, которым нужен «замков нет», используют сырой
+  // селектор — так удаление testid'а видно в их диффе.
 
   // UX-фикс 2026-10-04: выход из Analytics переехал в общий AppHeader.
   analyticsBack: 'analytics-back',

@@ -106,12 +106,14 @@ const LOCKED_BADGE: React.CSSProperties = {
  * для платной темы с доступом), а variant — по `isFree` (`pro`, синий), поэтому
  * одно и то же слово рисовалось двумя цветами (diag-dashboard-fix, симптом 1).
  *
- * Роли (§14, решение капитана STOP-2 (a)): бесплатная тема — БЕЗ бейджа вообще
- * («Бесплатно» убрано из строки); платная с доступом — тонкий приглушённый замок
- * (`restricted`, testid `paywall-badge-lock`); платная без доступа — прежняя
- * плашка «PRO» (`pro`, `paywall-badge-pro`: это отдельный контракт spec 063, по
- * тексту «PRO» платную строку находят `e2e/screens.ts` и `ux-screenshots.tmp`);
- * тема со статусом `planned` — «Скоро» (`locked`).
+ * Роли: бесплатная тема — БЕЗ бейджа; платная тема С доступом — тоже БЕЗ бейджа
+ * (решение C, dashboard-ux-2: замок 🔒 убран из строки, доступ по клику);
+ * платная БЕЗ доступа — плашка «PRO» (`pro`, `paywall-badge-pro`: отдельный
+ * контракт spec 063, по тексту «PRO» платную строку находят `e2e/screens.ts` и
+ * `ux-screenshots.tmp`); тема со статусом `planned` — «Скоро» (`locked`).
+ *
+ * Строка платной темы с доступом визуально идентична free-строке — это и есть
+ * требование решения C.
  */
 interface TopicBadge {
   testid?: string;
@@ -420,7 +422,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               onClick={() => startReviewQuiz(sessionDueIds, 'today')}
               style={PRIMARY_CTA}
             >
-              <span>{`Повторить сегодня (${dueCount})`}</span>
+              {/* Решение B (dashboard-ux-2): счётчик живёт только справа
+                  («N вопр.»), в подписи кнопки числа больше нет — оно
+                  дублировалось дважды в одной строке. */}
+              <span>Повторить сегодня</span>
               <span style={CTA_COUNTER}>{`${dueCount} вопр.`}</span>
             </Button>
           ) : null}
@@ -544,15 +549,13 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           // для неё не считается, бейджа нет.
           const isFree = isFreeTopic(topic.key);
           const allowed = !isAvailable || paywallAccess(topic.key);
-          // §14 (STOP-2 a): free-тема — без плашки, платная с доступом — тонкий
-          // замок, платная без доступа — прежняя плашка «PRO».
-          const badge: TopicBadge | null = !isAvailable
-            ? null
-            : isFree
+          // Решение C (dashboard-ux-2): замок 🔒 у платной темы убран — доступ
+          // определяется кликом (free / Pro / активный trial). Бейдж остаётся
+          // только у платной темы БЕЗ доступа: «PRO» — это её paywall-метка.
+          const badge: TopicBadge | null =
+            !isAvailable || isFree || allowed
               ? null
-              : allowed
-                ? { testid: 'paywall-badge-lock', label: '🔒', variant: 'restricted' }
-                : { testid: 'paywall-badge-pro', label: 'PRO', variant: 'pro' };
+              : { testid: 'paywall-badge-pro', label: 'PRO', variant: 'pro' };
 
           const rowStyle = {
             display: 'flex' as const,
@@ -636,14 +639,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   maxWidth: '45%',
                 }}
               >
-                {/* diag-dashboard-fix: `LOCKED_BADGE` (капс + разрядка) — только
-                    для плашек; у тонкого замка §14 ни капса, ни разрядки нет. */}
+                {/* `LOCKED_BADGE` (капс + разрядка) — только для плашки «PRO»:
+                    после решения C это единственный бейдж в строке темы. */}
                 {badge !== null && (
-                  <Badge
-                    variant={badge.variant}
-                    testId={badge.testid}
-                    style={badge.variant === 'restricted' ? undefined : LOCKED_BADGE}
-                  >
+                  <Badge variant={badge.variant} testId={badge.testid} style={LOCKED_BADGE}>
                     {badge.label}
                   </Badge>
                 )}

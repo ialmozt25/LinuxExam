@@ -30,6 +30,12 @@ const TOPIC = 'file_permissions';
 const FREE_LIMIT = 5;
 /** Платная тема (spec 063): не входит в FREE_TOPICS. */
 const PAID_TOPIC = 'networking';
+/**
+ * Замок платной темы 🔒. Решение C (dashboard-ux-2) удалило элемент из строки
+ * темы, поэтому testid ушёл из `TESTID` — сырой селектор оставлен здесь, чтобы
+ * assert «замков больше нет» читался прямо в спеке.
+ */
+const LOCK_BADGE = '[data-testid="paywall-badge-lock"]';
 
 /** Answers `count` questions of the regular stream, ending ON question `count`. */
 async function reachFreeLimit(page: import('@playwright/test').Page) {
@@ -257,37 +263,36 @@ test.describe('пейволл — контентный (3 Free / 11 Paid)', () =
     await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: 10000 });
   });
 
-  test('бейджи: Free-темы без плашки, Paid-темы без доступа — «PRO» (§14)', async ({ page }) => {
+  test('бейджи: Free-темы без плашки, Paid-темы без доступа — «PRO»', async ({ page }) => {
     await seedNoAccess(page);
     await gotoApp(page);
 
-    // Структурные контракты прежние, изменилось только значение free-бейджа:
-    // §14 убрал плашку «Бесплатно» у бесплатных тем, поэтому их 0, а не 3.
+    // Структурные контракты прежние: платных без доступа 11, free-бейджей нет.
     await expect(page.getByTestId(TESTID.paywallBadgePro)).toHaveCount(11);
     await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(0);
-    // Замок — роль платной темы С доступом; у профиля без Pro и trial-а таких нет.
-    await expect(page.getByTestId(TESTID.paywallBadgeLock)).toHaveCount(0);
+    // Замков 🔒 нет нигде (решение C, dashboard-ux-2): доступ определяется кликом.
+    await expect(page.locator(LOCK_BADGE)).toHaveCount(0);
 
-    // Текстовый assert «Бесплатно» снят вместе с самой плашкой (§14). «PRO»
-    // остался: по этому тексту платную строку находят `e2e/screens.ts` (openPaywall)
-    // и `e2e/ux-screenshots.tmp.spec.ts`, оба — вне разрешённого списка правок.
+    // Текстовый assert «Бесплатно» снят вместе с самой плашкой. «PRO» остался:
+    // по этому тексту платную строку находят `e2e/screens.ts` (openPaywall) и
+    // `e2e/ux-screenshots.tmp.spec.ts`, оба — вне разрешённого списка правок.
     await expect(topicButton(page, TOPIC)).not.toContainText('Бесплатно');
     await expect(topicButton(page, PAID_TOPIC)).toContainText('PRO');
   });
 
-  test('бейджи: у профиля с доступом Free-темы без плашки, Paid-темы — замок 🔒 (§14)', async ({
+  test('бейджи: у профиля с доступом ни Free-, ни Paid-темы не помечены (решение C)', async ({
     page,
   }) => {
     // Профиль авто-фикстуры: `isPro: false`, но trial активен (миграция v6 → v7),
-    // поэтому платные темы открыты — ровно тот случай, где до фикса рисовалось
-    // «БЕСПЛАТНО» синим (diag-dashboard-fix, симптом 1).
+    // поэтому платные темы открыты. До решения C здесь рисовался замок 🔒 —
+    // строка платной темы с доступом теперь визуально идентична free-строке.
     await gotoApp(page);
 
-    await expect(page.getByTestId(TESTID.paywallBadgeLock)).toHaveCount(11);
+    await expect(page.locator(LOCK_BADGE)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.paywallBadgePro)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(0);
     await expect(topicButton(page, TOPIC)).not.toContainText('Бесплатно');
-    await expect(topicButton(page, PAID_TOPIC)).toContainText('🔒');
+    await expect(topicButton(page, PAID_TOPIC)).not.toContainText('🔒');
   });
 });
 

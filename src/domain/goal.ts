@@ -55,8 +55,27 @@ export function xpBarColor(ratio: number): 'gray' | 'accent' | 'green' {
 }
 
 /**
+ * Форма слова «день» для числа (dashboard-ux-2, A2): 1 → «день», 2–4 → «дня»,
+ * 5–20 → «дней», 21 → «день», 22–24 → «дня», 25–30 → «дней», 31 → «день».
+ *
+ * Подростковый диапазон 11–19 — исключение (`abs` считается по модулю 100,
+ * поэтому и 111–114 → «дней»), отсюда проверка `abs`, а не `last`.
+ */
+export function pluralDays(n: number): string {
+  const abs = Math.abs(Math.floor(Number.isFinite(n) ? n : 0)) % 100;
+  const last = abs % 10;
+  if (abs >= 11 && abs <= 19) return 'дней';
+  if (last >= 2 && last <= 4) return 'дня';
+  if (last === 1) return 'день';
+  return 'дней';
+}
+
+/**
  * Текст серии. Гарантия контракта: для любого входа возвращается НЕПУСТАЯ
  * строка — отрицательные значения (которых стор не создаёт) приравнены к нулю.
+ *
+ * Слово «день» согласуется с числом через `pluralDays`: до dashboard-ux-2 здесь
+ * стояло жёсткое «дней», и серия из 2–4 дней давала «2 дней подряд».
  */
 export function streakMessage(streak: number): string {
   const days = Number.isFinite(streak) ? Math.max(0, Math.floor(streak)) : 0;
@@ -64,7 +83,7 @@ export function streakMessage(streak: number): string {
   if (days === 1) return 'День 1 — хорошее начало';
   if (days === 30) return 'Месяц!';
   if (days >= 100) return 'Легенда';
-  return `${days} дней подряд`;
+  return `${days} ${pluralDays(days)} подряд`;
 }
 
 /** Цветовое состояние сообщения серии: active / warning / broken. */

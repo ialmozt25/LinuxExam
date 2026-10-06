@@ -58,6 +58,11 @@ export function XpBar() {
             width: `${percent}%`,
             height: '100%',
             background: fillColor,
+            // dashboard-ux-2 (проблема 4): при 0 % заливки полоса выглядела
+            // пустой — минимальная ширина 2px показывает, что шкала живая.
+            // Габарит трека при этом не меняется: min-width меньше контентной
+            // ширины, поэтому на 8px-треке видна ровно 2px-полоска.
+            minWidth: 2,
             borderRadius: LAYOUT.progressBarRadius,
             transition: 'width 0.3s ease',
           }}

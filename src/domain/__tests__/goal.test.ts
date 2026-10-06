@@ -5,6 +5,7 @@ import {
   XP_MARK_THRESHOLD,
   computeDailyProgress,
   messageColor,
+  pluralDays,
   shiftIsoDate,
   stateColor,
   streakMessage,
@@ -64,6 +65,48 @@ describe('computeDailyProgress', () => {
   });
 });
 
+describe('pluralDays (плюрализация серии, dashboard-ux-2)', () => {
+  it('1 → день', () => {
+    expect(pluralDays(1)).toBe('день');
+  });
+
+  it('2 → дня', () => {
+    expect(pluralDays(2)).toBe('дня');
+  });
+
+  it('4 → дня', () => {
+    expect(pluralDays(4)).toBe('дня');
+  });
+
+  it('5 → дней', () => {
+    expect(pluralDays(5)).toBe('дней');
+  });
+
+  it('11 → дней (подростковый диапазон важнее последней цифры)', () => {
+    expect(pluralDays(11)).toBe('дней');
+  });
+
+  it('14 → дней (подростковый диапазон)', () => {
+    expect(pluralDays(14)).toBe('дней');
+  });
+
+  it('21 → день', () => {
+    expect(pluralDays(21)).toBe('день');
+  });
+
+  it('22 → дня', () => {
+    expect(pluralDays(22)).toBe('дня');
+  });
+
+  it('25 → дней', () => {
+    expect(pluralDays(25)).toBe('дней');
+  });
+
+  it('31 → день', () => {
+    expect(pluralDays(31)).toBe('день');
+  });
+});
+
 describe('streakMessage', () => {
   it('непуста для 0, 1, 5, 30, 100', () => {
     for (const streak of [0, 1, 5, 30, 100]) {
@@ -85,6 +128,14 @@ describe('streakMessage', () => {
     for (let streak = 0; streak <= 120; streak++) {
       expect(streakMessage(streak).length).toBeGreaterThan(0);
     }
+  });
+
+  it('слово «день» согласовано с числом (dashboard-ux-2)', () => {
+    expect(streakMessage(2)).toBe('2 дня подряд');
+    expect(streakMessage(4)).toBe('4 дня подряд');
+    expect(streakMessage(11)).toBe('11 дней подряд');
+    expect(streakMessage(21)).toBe('21 день подряд');
+    expect(streakMessage(22)).toBe('22 дня подряд');
   });
 
   it('отрицательный вход трактуется как 0 (защита от битого персиста)', () => {

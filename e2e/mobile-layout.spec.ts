@@ -247,8 +247,9 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
   });
 
   test('Dashboard: xp-bar с нулевой заливкой не обрезан и имеет тап-зону трека', async ({ page }) => {
-    // 0 % fill: заливка имеет нулевую ширину, проверяем, что трек не «схлопывается»
-    // и ничего не обрезано по вертикали.
+    // 0 % прогресса: заливка получает минимальную ширину (dashboard-ux-2,
+    // проблема 4 — пустая полоса читалась как «ничего не происходит»),
+    // проверяем, что трек не «схлопывается» и ничего не обрезано по вертикали.
     await seedRetention(page, { streak: 1, todayXp: 0 });
     await gotoApp(page);
 
@@ -270,19 +271,20 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
     });
     expect(bar.trackWidth).toBeGreaterThan(0);
     expect(bar.trackHeight).toBeGreaterThan(0);
-    expect(bar.fillWidth).toBe(0);
+    // min-fill 2px: ноль прогресса больше не рисует пустую полосу.
+    expect(bar.fillWidth).toBe(2);
+    expect(bar.fillWidth).toBeLessThan(bar.trackWidth);
   });
 
   test('Dashboard: один variant — один цвет бейджа (computed-style)', async ({ page }) => {
-    // diag-dashboard-fix, симптомы 1–2. Роль бейджа доступа обязана быть
-    // различимой И одинаковой: у `restricted` — тонкий замок платной темы.
-    // Дефект был в том, что подпись считалась по `isFree || allowed`, а variant —
-    // по `isFree`: одна и та же надпись «БЕСПЛАТНО» рисовалась серым (`free`) и
-    // синим (`pro`).
+    // diag-dashboard-fix, симптомы 1–2 + решение C (dashboard-ux-2). Роль бейджа
+    // доступа обязана быть одинаковой: дефект был в том, что подпись считалась по
+    // `isFree || allowed`, а variant — по `isFree`, и одна и та же надпись
+    // «БЕСПЛАТНО» рисовалась серым (`free`) и синим (`pro`).
     //
-    // §14 (STOP-2 a): у бесплатных тем плашки нет вообще, поэтому `free`-бейджей
-    // на экране 0; у платных тем с доступом (`seedRetention` = Pro + активный
-    // trial) — 11 замков, а плашек «PRO» не остаётся вовсе.
+    // Решение C: замки 🔒 убраны из строк, поэтому у профиля с доступом
+    // (`seedRetention` = Pro + активный trial) бейджей доступа нет вообще —
+    // строка платной темы визуально идентична free-строке.
     await seedRetention(page, { streak: 1, todayXp: 0 });
     await gotoApp(page);
 
@@ -307,13 +309,15 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
       `один variant покрашен разными цветами: ${JSON.stringify(bad)}`,
     ).toEqual([]);
 
-    // Не вакуумная проверка: роль замка реально отрисована в этом профиле.
-    await expect(page.locator('[data-variant="restricted"]')).toHaveCount(11);
-    // §14: у бесплатных тем нет ни плашки «Бесплатно», ни плашки «PRO».
+    // Решение C: ни замка, ни плашек доступа у профиля с доступом. Плашка «PRO»
+    // остаётся только у платной темы БЕЗ доступа (проверяется в paywall.spec.ts).
+    await expect(page.locator('[data-testid="paywall-badge-lock"]')).toHaveCount(0);
+    await expect(page.locator('[data-variant="restricted"]')).toHaveCount(0);
     await expect(page.locator('[data-variant="free"]')).toHaveCount(0);
     await expect(page.locator('[data-variant="pro"]')).toHaveCount(0);
     await expect(page.getByTestId(TESTID.paywallBadgeFree)).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.paywallBadgeLock)).toHaveCount(11);
+    // Оставшийся бейдж экрана — подсказка «начните с этой» (она была и раньше).
+    await expect(page.locator('[data-variant="hint"]')).toHaveCount(1);
   });
 
   test('Dashboard: одна primary-CTA «Продолжить» при незавершённом прогоне', async ({ page }) => {

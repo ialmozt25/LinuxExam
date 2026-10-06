@@ -362,3 +362,5 @@
 2026-10-06 | dashboard-ux | 2 baseline PNG обновлены (dashboard-mobile/desktop, сдвиг y≈307); status UNVERIFIED на телефоне (FASB-001) | commit pending
 2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД); guard spec 049 пускает эту сессию | commit pending
 2026-10-06 | push | authorize push origin main - dashboard-ux (badge/CTA/empty-state + fitness + baseline); публикует 7c7b9ec..<push-tip>; VERIFIED на телефоне — ПОСЛЕ push (вариант A); при регресс — git revert | commit pending
+2026-10-06 | dashboard-ux-2 | плюрализация день/дня/дней, убран дубль «30», удалены замки (доступ по клику), XpBar min-fill; тесты fsrs/retention приведены к новым контрактам | commit pending
+2026-10-06 | dashboard-ux-2 | status UNVERIFIED на телефоне (FASB-001) | commit pending

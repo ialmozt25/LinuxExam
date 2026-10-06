@@ -1,7 +1,7 @@
 import { useQuizStore } from '@/store/quizStore';
 import { useStreakState } from '@/store/dailyGoal';
 import { SPACING, LAYOUT } from '@/presentation/theme';
-import { messageColor, stateColor, streakMessage, type StreakColor } from '@/domain/goal';
+import { messageColor, pluralDays, stateColor, streakMessage, type StreakColor } from '@/domain/goal';
 
 /** Размер бейджа серии (spec 061, К3): квадрат ≈80×80. */
 const BADGE_SIZE = 80;
@@ -21,7 +21,8 @@ const COLOR_VAR: Record<StreakColor, string> = {
  * orange, broken (раньше) → red. `messageColor` остаётся домен-классификацией
  * длины серии.
  *
- * Тестовый контракт прежний: `role="status"`, `aria-label="Серия N дней"` и число
+ * Тестовый контракт прежний: `role="status"`, `aria-label="Серия N <день|дня|дней>"`
+ * (слово согласуется с числом через `pluralDays`, dashboard-ux-2) и число
  * отдельным текстовым узлом.
  */
 export function StreakBadge() {
@@ -39,10 +40,11 @@ export function StreakBadge() {
   return (
     // `role="status"` живёт на обёртке, а не на кнопке: axe запрещает
     // `role="status"` на `<button>` (aria-allowed-role), а тестовый контракт
-    // «role="status" + aria-label "Серия N дней"» сохранён.
+    // «role="status" + aria-label "Серия N дней"» сохранён (слово согласуется
+    // с числом: 1 → «день», 2 → «дня», 5 → «дней»).
     <div
       role="status"
-      aria-label={`Серия ${streak} дней`}
+      aria-label={`Серия ${streak} ${pluralDays(streak)}`}
       style={{ flexShrink: 0 }}
     >
       <button
@@ -50,7 +52,7 @@ export function StreakBadge() {
         data-testid="streak-badge"
         data-streak-state={state}
         data-streak-color={streakColor}
-        aria-label={`Серия ${streak} дней`}
+        aria-label={`Серия ${streak} ${pluralDays(streak)}`}
         onClick={() => navigateTo('analytics')}
         style={{
           width: BADGE_SIZE,
