@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "3cc7b5db669f24c5ec6c55c840924c87c866a6d9",
+  "head": "467bad07368a5df4a5cd70985380ecc0ee5d424f",
   "specs": [
     {
       "id": "022",
@@ -1483,19 +1483,31 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | tux-color | status UNVERIFIED на телефоне (FASB-001) | commit pending",
-    "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана \"tux-color\", C8): match=false, has_env=true; было session-84941ded-bda5-4fdd-a71e-7e4418863e2e → стало session-635d557c-011a-4654-912e-9c6e05b78306; guard spec 049 пускает эту сессию | commit pending",
-    "2026-10-07 | push | authorize push origin main - tux-color (BW+invert → цветной Tux: public/tux.svg из garrett/Tux main/tux.svg + svgo --multipass + viewBox; invert-правило удалено из src/index.css; baseline dashboard ×2 обновлён); публикует 042352b..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | tux-outline | Tux на тёмной сливался; fix: filter drop-shadow (alpha, не bounding box) — светлый ореол по контуру; outline/box-shadow отклонены (прямоугольник) | commit pending",
     "2026-10-07 | tux-outline | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-07 | push | authorize push origin main - tux-outline (цветной Tux сливался с тёмной темой; fix: filter drop-shadow по alpha-каналу, 1px — light rgba(0,0,0,0.5) / dark rgba(255,255,255,0.5), src/index.css + правило «Image outline» в DESIGN.md, ref make-interfaces-feel-better §11; outline/box-shadow отклонены — прямоугольник по bounding box; baseline не менялись: Tux под маской streak-badge и снимок light); публикует cb37199..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | ux-copy | «Осталось повторять: N» → «Следующее повторение: завтра»; N в data-fsrs-remaining; fsrs.spec.ts читает атрибут | commit pending",
     "2026-10-07 | ux-copy | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-06 | guard | якорь перезаписан на session-3e098ef6… | commit pending",
-    "2026-10-07 | push | authorize push origin main - ux-copy (видимая строка «Осталось повторить: N» → «Следующее повторение: завтра», N вынесен в data-fsrs-remaining и читается e2e/fsrs.spec.ts из атрибута, а не из текста; baseline dashboard не менялись — строка остатка в снимок визуальной регрессии не попадает, пул сида равен SESSION_LIMIT); публикует 0cae50e..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending"
+    "2026-10-07 | push | authorize push origin main - ux-copy (видимая строка «Осталось повторить: N» → «Следующее повторение: завтра», N вынесен в data-fsrs-remaining и читается e2e/fsrs.spec.ts из атрибута, а не из текста; baseline dashboard не менялись — строка остатка в снимок визуальной регрессии не попадает, пул сида равен SESSION_LIMIT); публикует 0cae50e..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
+    "2026-10-07 | ux-copy-3 | CTA «Продолжить обучение · 15 минут · 30 вопросов», Tux в header, streak — цифра жирно + pluralDays мелко, «Следующее повторение» удалено; fsrs.spec.ts обновлён | commit pending",
+    "2026-10-07 | ux-copy-3 | status UNVERIFIED на телефоне (FASB-001) | commit pending",
+    "2026-10-07 | ux-copy-3 | производные правки вне allowed-списка (вынуждены гейтами 2/3, не расширение скоупа): e2e/retention.spec.ts — ассерт старой подписи бейджа («День 1 — хорошее начало» → «день подряд»); e2e/ux-regression.spec.ts — tuxLeaves считается по документу (Tux уехал из бейджа в заголовок, инвариант «маскот ровно один» сохранён); src/presentation/components/__tests__/StreakBadge.test.tsx — подпись streakMessage → pluralDays | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "467bad0",
+      "date": "2026-10-06",
+      "subject": "fix(ux): CTA 15 min, Tux in header, remove next-review hint",
+      "type": "fix"
+    },
+    {
+      "sha": "e75637b",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "3cc7b5d",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "070f7e1",
       "date": "2026-10-06",
       "subject": "chore(state): converge before authorized push",
-      "type": "chore"
-    },
-    {
-      "sha": "0659844",
-      "date": "2026-10-06",
-      "subject": "chore(log): trail for push design-review-2",
-      "type": "chore"
-    },
-    {
-      "sha": "661fe45",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge after design-review-2",
       "type": "chore"
     }
   ],
