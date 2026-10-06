@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "5dd3be05ba3a39f9d830d5eb9b53e3421a883afb",
+  "head": "3cc7b5db669f24c5ec6c55c840924c87c866a6d9",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | push | authorize push origin main - tux-fix (base-path fix: src через import.meta.env.BASE_URL — прод отдавал 404 на https://ialmozt25.github.io/tux.svg, файл лежал на /LinuxExam/tux.svg; + запись в procedural.md); публикует 0343486..<push-tip>; регресс → git revert | commit pending",
-    "2026-10-07 | tux-color | BW+invert → цветной Tux; invert-правило удалено | commit pending",
     "2026-10-07 | tux-color | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-06 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана \"tux-color\", C8): match=false, has_env=true; было session-84941ded-bda5-4fdd-a71e-7e4418863e2e → стало session-635d557c-011a-4654-912e-9c6e05b78306; guard spec 049 пускает эту сессию | commit pending",
     "2026-10-07 | push | authorize push origin main - tux-color (BW+invert → цветной Tux: public/tux.svg из garrett/Tux main/tux.svg + svgo --multipass + viewBox; invert-правило удалено из src/index.css; baseline dashboard ×2 обновлён); публикует 042352b..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
@@ -1492,10 +1490,24 @@
     "2026-10-07 | tux-outline | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-07 | push | authorize push origin main - tux-outline (цветной Tux сливался с тёмной темой; fix: filter drop-shadow по alpha-каналу, 1px — light rgba(0,0,0,0.5) / dark rgba(255,255,255,0.5), src/index.css + правило «Image outline» в DESIGN.md, ref make-interfaces-feel-better §11; outline/box-shadow отклонены — прямоугольник по bounding box; baseline не менялись: Tux под маской streak-badge и снимок light); публикует cb37199..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | ux-copy | «Осталось повторять: N» → «Следующее повторение: завтра»; N в data-fsrs-remaining; fsrs.spec.ts читает атрибут | commit pending",
-    "2026-10-07 | ux-copy | status UNVERIFIED на телефоне (FASB-001) | commit pending"
+    "2026-10-07 | ux-copy | status UNVERIFIED на телефоне (FASB-001) | commit pending",
+    "2026-10-06 | guard | якорь перезаписан на session-3e098ef6… | commit pending",
+    "2026-10-07 | push | authorize push origin main - ux-copy (видимая строка «Осталось повторить: N» → «Следующее повторение: завтра», N вынесен в data-fsrs-remaining и читается e2e/fsrs.spec.ts из атрибута, а не из текста; baseline dashboard не менялись — строка остатка в снимок визуальной регрессии не попадает, пул сида равен SESSION_LIMIT); публикует 0cae50e..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "3cc7b5d",
+      "date": "2026-10-06",
+      "subject": "chore(log): trail for push ux-copy",
+      "type": "chore"
+    },
+    {
+      "sha": "66f2763",
+      "date": "2026-10-06",
+      "subject": "chore(state): converge after ux-copy",
+      "type": "chore"
+    },
     {
       "sha": "5dd3be0",
       "date": "2026-10-06",
@@ -1602,18 +1614,6 @@
       "sha": "661fe45",
       "date": "2026-10-06",
       "subject": "chore(state): converge after design-review-2",
-      "type": "chore"
-    },
-    {
-      "sha": "236c113",
-      "date": "2026-10-06",
-      "subject": "style(design-review-2): focus styles + ExamRun/Analytics/Badge token fixes",
-      "type": "style"
-    },
-    {
-      "sha": "20cc84a",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before push",
       "type": "chore"
     }
   ],
