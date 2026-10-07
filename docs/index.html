@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 8f74113</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 78ba06c</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">78ba06c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push desktop-audit-fix</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
+          <td class="mono">1418b27</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after desktop-audit-fix</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">8f74113</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(desktop): аудит 1024–1920 — сетка в 2 колонки, тёмный акцент-текст, одно действие 448px</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">094110d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push xp-levels</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
-        <tr>
-          <td class="mono">3114e7b</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after xp-levels</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · dashboard-desktop | дизайн-ревью design-guardian: 4 независимых прохода отдельными субагентами (только чтение; скриншотов нет — находки по коду и замерам).…</li>
-        <li><span class="mono muted">07.10</span> · dashboard-desktop | дизайн-ревью — что УЧТЕНО правкой (до коммита): (1) навигация повторяет гейты экрана: в Fresh User Mode «Темы»/«Exam»/«Аналитика» недоступны…</li>
-        <li><span class="mono muted">07.10</span> · dashboard-desktop | инцидент гейта 3 (зафиксирован, чтобы не выглядел сам собой разрешившимся): правка по ревью — `sr-only`-подпись «скоро» в пункте «Настройки»…</li>
-        <li><span class="mono muted">07.10</span> · dashboard-desktop | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп (окно &gt;1024px) → сайдбар слева 240px, контент 1248px по центру, темы в 3 колонки…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - dashboard-desktop (десктопный layout: сайдбар 240px + колонка контента max-width 1248px + сетка тем в 3 колонки на &gt;1024px; новый `src/presentation/components/Sideb…</li>
+        <li><span class="mono muted">07.10</span> · desktop-audit-fix | НЕ ПРИМЕНЕНО осознанно: (1) сайдбар только на Dashboard — `App.tsx` запрещён, известный долг из отчёта 9be3442 (на 6 из 7 экранов нет ни навигации…</li>
+        <li><span class="mono muted">07.10</span> · desktop-audit-fix | `--theme-surface-1/2` увеличили `no-dead-tokens` на 2 (21 → 23 из 89): чекер считает токен живым только при упоминании ВНЕ `tokens.css`…</li>
+        <li><span class="mono muted">07.10</span> · desktop-audit-fix | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
+        <li><span class="mono muted">07.10</span> · desktop-audit-fix | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп &gt;1024px → сайдбар, контент 1248px…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - desktop-audit-fix (аудит десктопного layout после 9be3442 и фикс P0/P1: сетка тем от `lg` — 2 колонки, третья от `xl`…</li>
     </ul>
   </details>
 
