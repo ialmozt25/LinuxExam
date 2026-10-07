@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 4ab1463</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на f5704fb</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">f5704fb</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push demo-removal</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
+          <td class="mono">f22f0b9</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after demo-removal</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">4ab1463</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(onboarding): удалён демо-квиз — fresh user попадает сразу на Dashboard</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">a807716</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push ux-counter</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
-        <tr>
-          <td class="mono">6ce944e</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after ux-counter</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · fresh-dashboard | гейт 4 — расхождение с ожиданием задания, разобранное, а не заявленное.…</li>
-        <li><span class="mono muted">07.10</span> · fresh-dashboard | производные правки: e2e/onboarding.spec.ts (новые тексты Hero, отсутствие 4 скрытых узлов и дисклеймера, 4 li в блоке возможностей…</li>
-        <li><span class="mono muted">07.10</span> · fresh-dashboard | no-dead-tokens (advisory, severity medium; в blocking-гейт pre-commit НЕ входит): 23 мёртвых токена из 85 — предсуществующее состояние, проверено stash-прогоном на HEAD (те же 23).…</li>
-        <li><span class="mono muted">07.10</span> · fresh-dashboard | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) свежий профиль → Dashboard с Hero («Начните путь к RHCSA · 253 вопроса · 14 тем · по официальным objec…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - fresh-dashboard (продающий Fresh Dashboard: Hero с конкретикой вместо шести нулей на первом экране и блок «Внутри вас ждет»…</li>
+        <li><span class="mono muted">07.10</span> · demo-removal | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
+        <li><span class="mono muted">07.10</span> · demo-removal | гейт 4: `git status --short e2e/` = 4 строки (3 правленых спека + 1 удалённый PNG `onboarding-demo-mobile-win32.png`), PNG = 1 — это ожидание D1.…</li>
+        <li><span class="mono muted">07.10</span> · demo-removal | STOP-условие «Fresh mode сломан» проверено автоматически, а не на глаз: переписанный `e2e/onboarding.spec.ts` идёт по проекту stand-dev (живой dev-сервер) и падает…</li>
+        <li><span class="mono muted">07.10</span> · demo-removal | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) сброс localStorage → прод → сразу Fresh Dashboard (без демо); 2) тап «Начать первый вопрос →» → сразу Q1;…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - demo-removal (удаление демо-квиза: онбординг-экрана в приложении больше нет — свежий профиль открывает Dashboard в Fresh User Mode сразу…</li>
     </ul>
   </details>
 
