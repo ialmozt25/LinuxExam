@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 11b5709</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 2ce95ae</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">2ce95ae</td>
+          <td><span class="ctype ctype--fix">fix</span></td>
+          <td>fix(dashboard): редизайн верхней части — единый header, карточка прогресса, полоса банка</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
+          <td class="mono">31fd5d3</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
           <td class="mono">11b5709</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): trail for push dashboard-sticky-footer-removal</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after fresh-dashboard</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">0c5a3d6</td>
-          <td><span class="ctype ctype--feat">feat</span></td>
-          <td>feat(dashboard): продающий Fresh Dashboard — Hero с конкретикой вместо шести нулей</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
-        <tr>
-          <td class="mono">40d07c7</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,35 +592,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">180 ч (~7.5 дн)</td>
+          <td class="muted">181 ч (~7.5 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">227 ч (~9.5 дн)</td>
+          <td class="muted">228 ч (~9.5 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-06T05:08:54Z</td>
           <td class="mono">10</td>
-          <td class="muted">41 ч (~1.7 дн)</td>
+          <td class="muted">42 ч (~1.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">180 ч (~7.5 дн)</td>
+          <td class="muted">181 ч (~7.5 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">118 ч (~4.9 дн)</td>
+          <td class="muted">119 ч (~5.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | ВЫНУЖДЕННАЯ ГЕЙТОМ правка (прецедент ux-copy-3, журнал событий:398): удаление футера уронило гейт 2 на двух unit-тестах ВНЕ allowed…</li>
         <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | DESIGN.md → Components: «**Одна primary CTA на экран.** Sticky-футер допустим только на экранах с длинным переменным контентом (Question, ExamRun)…</li>
         <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
         <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) Dashboard fresh mode — только верхняя CTA «Начать обучение», внизу пусто (в TMA…</li>
         <li><span class="mono muted">07.10</span> · push | authorize push origin main - dashboard-sticky-footer-removal (на Dashboard убран sticky-футер с primary-кнопкой «Продолжить»: блок 1217–1285 Dashboard.tsx удалён целиком вместе с мёртвыми импор…</li>
+        <li><span class="mono muted">08.10</span> · guard | якорь перезаписан на session-1940db23… | ещё не закоммичено</li>
     </ul>
   </details>
 

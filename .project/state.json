@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "11b57094c4921cc0bff58e93ce7ca30a0bc2a67c",
+  "head": "2ce95ae0ce9cb52a79dc61feff361be22ab9f967",
   "specs": [
     {
       "id": "022",
@@ -1483,7 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | desktop-audit-fix | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп >1024px → сайдбар, контент 1248px, карточки не обрезаны; 2) ширина 1024–1246px → карточки в 2 колонки (замер: 344px, обрезок 0); 3) мобильный → без сайдбара, как раньше. Дополнительно стоит глянуть: 1280–1339px (остаточные 6 обрезок описаний, полоса 3 колонок по `xl`), тёмную тему (активный пункт и счётчик теперь 6.11:1), ширину главного действия (448px везде, включая sticky-футер), 1920 (симметричные 216/216). Скриншоты для приёмки: `.project/drafts/desktop-audit/dashboard-{1024,1280,1440,1920}[-dark|-full][-after].png`. Регресс → `git revert` | commit 8f74113",
     "2026-10-07 | push | authorize push origin main - desktop-audit-fix (аудит десктопного layout после 9be3442 и фикс P0/P1: сетка тем от `lg` — 2 колонки, третья от `xl`, поэтому при 1024 карточка 344px и 0 обрезанных узлов вместо 23; текстовая роль акцента `--text-accent` снимает 3.23:1 в тёмной теме (active nav и счётчик «N вопр.» теперь 6.11:1), заливки не тронуты; уровни яркости переведены в каскад `[data-theme-source]`, поэтому в Telegram карточки следуют клиентской палитре; главное действие экрана приведено к одной мере 448px — sticky-CTA футера и Hero-CTA Fresh User Mode ограничены `lg:max-w-md`, полоса футера и контракты spec 076/fsrs/dashboard не тронуты; оболочка центрируется парой 240+1248 (`lg:max-w-[1488px]` — при 1920 216/216 вместо 16/216), `lg:flex-1` чинит обрыв `border-r` в Fresh mode; sticky-навигация получила офсет верхнего паддинга; активный пункт и hover получили некрасочные признаки (WCAG 1.4.1/1.4.11); колонка контента стала `<main>`; остаточное 1280–1339px (6 обрезок описаний) измерено и оставлено решением капитана; осознанно не применены brand-дубль и язык пунктов (конфликт с A2), снятие акцента со счётчика (мобильный baseline), границы 3:1 и палитра C1, а также оси тем/viewport 1024 в гейтах и правки в `index.css`/`src/ui`/`Results`/`StreakBadge` — файлы вне разрешённого списка); авторизация — предусловие задания «Per-command авторизация: git push origin main разрешён один раз» и шаг цепочки «push --dry-run → push → rev-parse/sync:check»; публикует 9be3442..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-07 | anchor | pre-flight `npm run anchor:refresh -- --dry`: anchor=session-86bbbf6d-6e72-44 env=session-86bbbf6d-6e72-44 match=true → ОВЕРРАЙД SETUP §4 НЕ применялся (якорь уже указывает на эту сессию), guard-строка не добавлялась | commit pending",
     "2026-10-07 | dashboard-sticky-footer | убрать sticky-футер «Продолжить» на Dashboard (трек fix, прямое задание, вариант 1 — полное удаление, один push). Удалён блок 1217–1285 `src/presentation/screens/Dashboard.tsx` целиком: комментарий про spec 072/076 F3, `{!mainButtonReady && !isFreshUser && (<div style={{position:'sticky', bottom:0, zIndex: FIXED_FOOTER_Z_INDEX, …}}>` с `<Button variant=\"primary\" testId=\"dashboard-continue\">Продолжить</Button>` и хвостовой комментарий про распорку; вместо них — комментарий-надгробие. Вместе с блоком ушли ставшие мёртвыми импорт `FIXED_FOOTER_Z_INDEX`, `const mainButtonReady = useMainButtonAvailable()` + импорт хука, селектор `startRegularQuiz` и импорт `SPACING, LAYOUT`. Обновлён комментарий resume-баннера (был «primary остаётся одна — нижняя `dashboard-continue`» → «primary ровно один — верхняя CTA»). НЕ тронуто: `useTelegramMainButton('Продолжить', …, !isFreshUser)` (в Telegram нативная MainButton как раньше — это и предусматривает FASB-001 «внизу пусто (или нативная MainButton в TMA)»), `fixedFooter.ts`, Question/ExamRun/ExamResults/Paywall. Итог: на Dashboard ровно одна primary-CTA сверху, в веб-режиме низ экрана пуст | commit 560ca80",
@@ -1492,10 +1491,23 @@
     "2026-10-07 | dashboard-sticky-footer | DESIGN.md → Components: «**Одна primary CTA на экран.** Sticky-футер допустим только на экранах с длинным переменным контентом (Question, ExamRun), где CTA легко уезжает за фолд. На Dashboard — нет.» + пояснение: дубль primary (верхняя CTA + sticky-футер `dashboard-continue`, снятый этим фиксом) — нарушение; возобновление незавершённого прогона на Dashboard даёт вторичная кнопка resume-баннера, а в Telegram низ экрана занимает нативная MainButton | commit 560ca80",
     "2026-10-07 | dashboard-sticky-footer | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run` — 50 файлов / 526 тестов passed (после вынужденной правки двух unit-тестов); 3) `npx playwright test e2e/mobile-layout.spec.ts e2e/retention.spec.ts` — 18 passed; 4) `visual-regression --grep \"dashboard\" --update-snapshots=all` — 2 passed, `git status --short e2e/` = ровно 2 PNG (`dashboard-mobile-win32.png` + `dashboard-desktop-win32.png` — мобильный снимок меняется законно: футер был виден в кадре); 5) `npx playwright test visual-regression.spec.ts` — 16 passed; 6) `npm run build` exit 0. СВЕРХ списка гейтов: 9 переписанных спеков — 74 passed (единственный флак `results.spec.ts` проходит 7/7 в изоляции: провал был на холодном старте dev-сервера, в `waitForFeedback`), `browser-mode.spec.ts` 5/5 после перезапуска залипшего dev-сервера (ошибка `wss://localhost:undefined` — артефакт сервера, поднятого в прошлой сессии, не регресс правки), `layout-smoke.spec.ts` 40 passed | commit 560ca80",
     "2026-10-07 | dashboard-sticky-footer | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) Dashboard fresh mode — только верхняя CTA «Начать обучение», внизу пусто (в TMA — нативная MainButton); 2) Dashboard обычный — только «Продолжить обучение · N из 30», внизу пусто; 3) экран Question — sticky-футер «Следующий вопрос» работает как раньше. Косвенные подтверждения из гейтов: `question-*` baseline не изменился (рецепт переведён на resume-баннер с тем же `navigateTo('question')`), `mobile-layout` + `retention` 18 passed, `visual-regression` 16 passed. Регресс → `git revert` | commit 560ca80",
-    "2026-10-07 | push | authorize push origin main - dashboard-sticky-footer-removal (на Dashboard убран sticky-футер с primary-кнопкой «Продолжить»: блок 1217–1285 Dashboard.tsx удалён целиком вместе с мёртвыми импортами/селекторами, на экране осталась ровно одна primary-CTA сверху, в веб-режиме низ пуст, а в Telegram низ по-прежнему занимает нативная MainButton — `useTelegramMainButton` не тронут; правило «одна primary CTA на экран» закреплено в DESIGN.md → Components; вход в прогон в 13 e2e-файлах переведён на верхнюю CTA, а тесты ОБЫЧНОГО потока (persist/xp-mechanics/paywall/question-flow/fsrs) — на кнопку resume-баннера, потому что верхняя CTA стартует review-прогон с другой таблицей XP и обходом лимита бесплатных вопросов; baseline `question-*` не изменился, обновлены два dashboard-снимка (mobile+desktop); вынужденные правки по одной строке в двух unit-тестах вне исходного allowed согласованы капитаном на STOP-точке гейта 2 (прецедент ux-copy-3); гейты 1–6 зелёные, сверх списка 9 переписанных спеков 74 passed, layout-smoke 40 passed); авторизация — предусловие задания «Per-command авторизация: git push origin main разрешён один раз» и шаг цепочки «push --dry-run → push → rev-parse/sync:check»; публикует e902dec..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending"
+    "2026-10-07 | push | authorize push origin main - dashboard-sticky-footer-removal (на Dashboard убран sticky-футер с primary-кнопкой «Продолжить»: блок 1217–1285 Dashboard.tsx удалён целиком вместе с мёртвыми импортами/селекторами, на экране осталась ровно одна primary-CTA сверху, в веб-режиме низ пуст, а в Telegram низ по-прежнему занимает нативная MainButton — `useTelegramMainButton` не тронут; правило «одна primary CTA на экран» закреплено в DESIGN.md → Components; вход в прогон в 13 e2e-файлах переведён на верхнюю CTA, а тесты ОБЫЧНОГО потока (persist/xp-mechanics/paywall/question-flow/fsrs) — на кнопку resume-баннера, потому что верхняя CTA стартует review-прогон с другой таблицей XP и обходом лимита бесплатных вопросов; baseline `question-*` не изменился, обновлены два dashboard-снимка (mobile+desktop); вынужденные правки по одной строке в двух unit-тестах вне исходного allowed согласованы капитаном на STOP-точке гейта 2 (прецедент ux-copy-3); гейты 1–6 зелёные, сверх списка 9 переписанных спеков 74 passed, layout-smoke 40 passed); авторизация — предусловие задания «Per-command авторизация: git push origin main разрешён один раз» и шаг цепочки «push --dry-run → push → rev-parse/sync:check»; публикует e902dec..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
+    "2026-10-08 | guard | якорь перезаписан на session-1940db23… | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "2ce95ae",
+      "date": "2026-10-08",
+      "subject": "fix(dashboard): редизайн верхней части — единый header, карточка прогресса, полоса банка",
+      "type": "fix"
+    },
+    {
+      "sha": "31fd5d3",
+      "date": "2026-10-08",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "11b5709",
       "date": "2026-10-08",
@@ -1602,18 +1614,6 @@
       "sha": "4c3a969",
       "date": "2026-10-07",
       "subject": "chore(state): converge after fresh-dashboard",
-      "type": "chore"
-    },
-    {
-      "sha": "0c5a3d6",
-      "date": "2026-10-07",
-      "subject": "feat(dashboard): продающий Fresh Dashboard — Hero с конкретикой вместо шести нулей",
-      "type": "feat"
-    },
-    {
-      "sha": "40d07c7",
-      "date": "2026-10-07",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
