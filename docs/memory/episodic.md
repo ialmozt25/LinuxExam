@@ -561,3 +561,19 @@ EOL: правленные `.ts`/`.md` — LF (`git ls-files --eol` → `i/lf w/l
 **Артефакты:** правки `src/presentation/screens/Dashboard.tsx`, `src/presentation/components/Sidebar.tsx`, `src/presentation/theme/tokens.css`; перегенерирован `e2e/visual-regression.spec.ts-snapshots/dashboard-desktop-win32.png`; новый `.project/drafts/_desktop-audit.mjs` + `desktop-audit/report.json` и `report-after.json` (скриншоты — локально, PNG в репо не коммитятся).
 
 **Статус: UNVERIFIED на телефоне (FASB-001)** — за капитаном ПОСЛЕ push: десктоп >1024px → сайдбар, контент 1248px, карточки не обрезаны; 1024–1246px → 2 колонки; мобильный → без сайдбара. Регресс → `git revert`.
+
+### Убран sticky-футер на Dashboard (dashboard-sticky-footer-removal, 2026-10-07)
+
+**Что сделано.** Прямое задание капитана (трек fix, один push), вариант 1 — полное удаление. На Dashboard было ДВЕ primary-CTA: верхняя («Начать обучение» / «Продолжить обучение») и sticky-футер «Продолжить» (`dashboard-continue`) — in-app фолбэк на случай, когда нативная Telegram MainButton не готова. В браузере они дублировали друг друга, что нарушало «одна primary CTA на экран». Блок 1217–1285 `Dashboard.tsx` удалён целиком вместе с мёртвыми импортами (`FIXED_FOOTER_Z_INDEX`, `useMainButtonAvailable`) и селектором `startRegularQuiz`; `useTelegramMainButton`, `fixedFooter.ts` и четыре экрана с футерами (Question/ExamRun/ExamResults/Paywall) не тронуты.
+
+**Правило.** `DESIGN.md` → Components: «Одна primary CTA на экран. Sticky-футер допустим только на экранах с длинным переменным контентом (Question, ExamRun), где CTA легко уезжает за фолд. На Dashboard — нет.»
+
+**Приёмка — почему это не ломает вход в занятие.** Верхняя CTA — единственный вход в занятие; «вернуться к незавершённому прогону» даёт вторичная кнопка resume-баннера (она и раньше была публичным путём 072); в Telegram низ экрана занимает нативная MainButton. E2E: вход переведён на верхнюю CTA в 13 файлах, а тесты, которые проверяют именно ОБЫЧНЫЙ поток (лимит бесплатных вопросов, XP-таблица +10/+3, расписание FSRS, persist прогона), — на resume-баннер, потому что верхняя CTA стартует review-прогон с другой таблицей XP и с обходом лимита. Baseline `question-*` при этом не изменился: кнопка баннера делает ровно то же, что делал футер (`navigateTo('question')`) — это доказано зелёным гейтом 5 без обновления снимков вопроса.
+
+**Вынужденная гейтом правка.** Гейт 2 упал на двух unit-тестах вне allowed (`Dashboard.cta.test.tsx`, `Dashboard.fresh.test.tsx` — списки testid содержали `dashboard-continue`). Исполнитель остановился и доложил; капитан расширил allowed и предписал убрать по одной строке в каждом файле (остальное не менять) и записать это в `log.md` как вынужденное гейтом (прецедент ux-copy-3, log.md:398).
+
+**Гейты (лид, лично, финальная форма кода).** 1) `npm run typecheck` exit 0. 2) `npm run test:run` — 50 файлов / 526 тестов passed. 3) `mobile-layout + retention` — 18 passed. 4) `visual-regression --grep "dashboard" --update-snapshots=all` — 2 passed, `git status --short e2e/` = ровно 2 PNG (mobile + desktop). 5) `npx playwright test visual-regression.spec.ts` — 16 passed. 6) `npm run build` exit 0. Сверх списка: 9 переписанных спеков 74 passed, `layout-smoke` 40 passed, `browser-mode` 5/5 после перезапуска залипшего dev-сервера.
+
+**Артефакты:** правки `src/presentation/screens/Dashboard.tsx`, `.project/governance/DESIGN.md`, 13 e2e-файлов, 2 unit-теста (вынужденно), перегенерированы `dashboard-mobile-win32.png` и `dashboard-desktop-win32.png`.
+
+**Статус: UNVERIFIED на телефоне (FASB-001)** — за капитаном ПОСЛЕ push: fresh — только верхняя CTA, внизу пусто (в TMA — нативная MainButton); обычный — только «Продолжить обучение · N из 30», внизу пусто; Question — sticky-футер «Следующий вопрос» как раньше. Регресс → `git revert`.
