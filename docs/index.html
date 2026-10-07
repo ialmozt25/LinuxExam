@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 2ce95ae</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 7709830</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">7709830</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push dashboard-header-redesign</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
+          <td class="mono">f3fa8de</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after dashboard-header-redesign</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
           <td class="mono">2ce95ae</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(dashboard): редизайн верхней части — единый header, карточка прогресса, полоса банка</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">eb72668</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push fresh-dashboard</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
-        <tr>
-          <td class="mono">4c3a969</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after fresh-dashboard</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | DESIGN.md → Components: «**Одна primary CTA на экран.** Sticky-футер допустим только на экранах с длинным переменным контентом (Question, ExamRun)…</li>
-        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
-        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) Dashboard fresh mode — только верхняя CTA «Начать обучение», внизу пусто (в TMA…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - dashboard-sticky-footer-removal (на Dashboard убран sticky-футер с primary-кнопкой «Продолжить»: блок 1217–1285 Dashboard.tsx удалён целиком вместе с мёртвыми импор…</li>
-        <li><span class="mono muted">08.10</span> · guard | якорь перезаписан на session-1940db23… | ещё не закоммичено</li>
+        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
+        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | СВЕРХ списка гейтов: `dashboard.spec` + `onboarding.spec` + `ux-regression.spec` + `persist.spec` + `browser-mode.spec` + `question-flow.spec` + `quiz-flow.spec`…</li>
+        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | ВЫНУЖДЕННАЯ ГЕЙТОМ правка (прецеденты dashboard-sticky-footer 2026-10-07 и ux-copy-3, журнал событий:398): гейт 2 упал на двух unit-файлах ВНЕ исходного allowed…</li>
+        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) fresh → карточка (пустой круг, «Начни серию сегодня»), полоса «0 из 253»…</li>
+        <li><span class="mono muted">08.10</span> · push | authorize push origin main - dashboard-header-redesign (редизайн верхней части Dashboard: узкая полоска уровня снята…</li>
     </ul>
   </details>
 
