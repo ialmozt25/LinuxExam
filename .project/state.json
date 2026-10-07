@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "eb726682687c5871e24765706bc1ef957e3c7bf2",
+  "head": "4ab146377dc8f1faff2cdfaf8ac1811444765add",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "4ab1463",
+      "date": "2026-10-07",
+      "subject": "feat(onboarding): удалён демо-квиз — fresh user попадает сразу на Dashboard",
+      "type": "feat"
+    },
+    {
+      "sha": "3268f6a",
+      "date": "2026-10-07",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
+    {
       "sha": "eb72668",
       "date": "2026-10-07",
       "subject": "chore(log): trail for push fresh-dashboard",
@@ -1602,18 +1614,6 @@
       "sha": "6ce944e",
       "date": "2026-10-07",
       "subject": "chore(state): converge after ux-counter",
-      "type": "chore"
-    },
-    {
-      "sha": "f98d4f9",
-      "date": "2026-10-07",
-      "subject": "fix(ux): CTA daily-answer counter with three states",
-      "type": "fix"
-    },
-    {
-      "sha": "30debfa",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
