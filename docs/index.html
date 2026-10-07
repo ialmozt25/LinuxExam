@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 560ca80</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 11b5709</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">11b5709</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push dashboard-sticky-footer-removal</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
+          <td class="mono">4aa5bbe</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after dashboard-sticky-footer-removal</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
           <td class="mono">560ca80</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(dashboard): убрать sticky-футер «Продолжить» — одна primary CTA на экран</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">07f00a0</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push onboarding-simplify</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
-        <tr>
-          <td class="mono">cb1e69c</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after onboarding-simplify</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -606,7 +606,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-06T05:08:54Z</td>
           <td class="mono">10</td>
-          <td class="muted">40 ч (~1.7 дн)</td>
+          <td class="muted">41 ч (~1.7 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · desktop-audit-fix | НЕ ПРИМЕНЕНО осознанно: (1) сайдбар только на Dashboard — `App.tsx` запрещён, известный долг из отчёта 9be3442 (на 6 из 7 экранов нет ни навигации…</li>
-        <li><span class="mono muted">07.10</span> · desktop-audit-fix | `--theme-surface-1/2` увеличили `no-dead-tokens` на 2 (21 → 23 из 89): чекер считает токен живым только при упоминании ВНЕ `tokens.css`…</li>
-        <li><span class="mono muted">07.10</span> · desktop-audit-fix | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
-        <li><span class="mono muted">07.10</span> · desktop-audit-fix | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп &gt;1024px → сайдбар, контент 1248px…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - desktop-audit-fix (аудит десктопного layout после 9be3442 и фикс P0/P1: сетка тем от `lg` — 2 колонки, третья от `xl`…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | ВЫНУЖДЕННАЯ ГЕЙТОМ правка (прецедент ux-copy-3, журнал событий:398): удаление футера уронило гейт 2 на двух unit-тестах ВНЕ allowed…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | DESIGN.md → Components: «**Одна primary CTA на экран.** Sticky-футер допустим только на экранах с длинным переменным контентом (Question, ExamRun)…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-sticky-footer | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) Dashboard fresh mode — только верхняя CTA «Начать обучение», внизу пусто (в TMA…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - dashboard-sticky-footer-removal (на Dashboard убран sticky-футер с primary-кнопкой «Продолжить»: блок 1217–1285 Dashboard.tsx удалён целиком вместе с мёртвыми импор…</li>
     </ul>
   </details>
 
