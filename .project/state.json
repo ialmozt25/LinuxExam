@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "07f00a02f67df37331311260a8c87f8a9eda506a",
+  "head": "0c5a3d6607a10fe9c0afe995f26643de3c9d9dea",
   "specs": [
     {
       "id": "022",
@@ -1483,7 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | onboarding-simplify | упрощение онбординга: 4 экрана → 1. Экраны «зачем вам LinuxExam» (OnboardingGoal.tsx) и «Готово · N из 3» (OnboardingResult.tsx) удалены вместе с доменными ONBOARDING_GOALS/OnboardingGoal/computeDemoResult/DemoResult и session-каналом демо-ответов (setDemoAnswers/useDemoAnswers/clearDemoAnswers); Screen: 11 → 9 значений, App.tsx уводит свежий профиль СРАЗУ на 'onboarding-demo'; pickDemoQuestions берёт фиксированный DEMO_SEED = 'onboarding' (детерминизм сохранён, подборка одна и та же у всех). Демо-квиз: инлайн-celebration после каждого ответа (галочка/крестик + demoAnswerFeedback → «Отлично!» / «Запомни — так тоже бывает», role=\"status\", data-correct), ответ фиксируется первым кликом; финальный шаг — кнопка «Начать обучение →» вместо экрана «Готово»: она вызывает completeOnboarding + navigateTo('dashboard') | commit pending",
     "2026-10-07 | onboarding-simplify | Fresh User Mode: Dashboard показывает только нужное до первого ответа. Условие — hasCompletedOnboarding && !hasAnyAnswers, где «есть ответы» = непустая questionStats (та же метрика, что у гейта useNeedsOnboarding; recon подтвердил поле). Показывается: level-strip (Новичок · 0/50 до Ученика), header Tux+LinuxExam, заглушка серии «Начни серию сегодня» (streak-badge показывал бы «0 дней»), прогресс «0 из 253», ОДНА CTA «Начать обучение» + «14 тем». Скрыто: exam-mode, analytics-mode, review-wrong, dashboard-topics (Программа RHCSA), streak-badge, sticky-футер dashboard-continue и нативный MainButton — вторая primary-CTA против контракта «одна большая кнопка». CTA режима СТАРТУЕТ занятие (startReviewQuiz(sessionIds, 'today')), а не скроллит к списку тем, которого в режиме нет | commit pending",
     "2026-10-07 | onboarding-simplify | стейт-контур: экран аналитики с пустым состоянием стал недостижим из UI (пустая статистика ⟹ либо онбординг, либо fresh mode, где analytics-mode скрыт) — следствие задания, не дефект правки; логика селектора покрыта src/domain/__tests__/analytics.test.ts. Найден и закрыт дефект правил хуков: первая версия оборачивала блок тем в {!isFreshUser && (...)}, а useCanAccessTopic вызывается внутри TOPICS.map, поэтому число хуков компонента зависело от режима и переключение без размонтирования падало с «Rendered more hooks than during the previous render» (дефект поймал новый Dashboard.fresh.test.tsx, а не глазомер). Исправлено выносом списка тем в собственный компонент RhcsaProgramme в том же файле; useCanAccessTopic остался в контуре paywall, src/store/paywall.ts не правился | commit pending",
     "2026-10-07 | onboarding-simplify | persist bump НЕ делался: структура снимка не менялась, используется существующий флаг hasCompletedOnboarding, миграция не добавлялась — старые пользователи не затронуты. Легаси-поле onboardingGoal и экшен setOnboardingGoal оставлены частью persist-контракта (их пинит src/store/__tests__/onboarding-migration.test.ts:180-187), текущий поток их не пишет. Единственное новое поведение записи — completeOnboarding пишет dailyGoalXp = DEFAULT_DAILY_GOAL_XP (30): условие показа DailyGoalPicker — hasCompletedOnboarding && dailyGoalXp === null, поэтому пикер не всплывает четвёртым шагом онбординга; сам компонент и его монтирование в Dashboard не тронуты. Дефолт 30 XP уже был (xp-mechanics) — правки не потребовалось | commit pending",
@@ -1492,10 +1491,23 @@
     "2026-10-07 | onboarding-simplify | гейты (лид, лично, на финальной форме кода): 1) typecheck exit 0; 2) test:run — 52 файла / 545 тестов passed (новые OnboardingDemo.test.tsx — 5, Dashboard.fresh.test.tsx — 4; onboarding.test.ts переписан — 14); 3) playwright e2e/onboarding*.spec.ts + e2e/fsrs.spec.ts + e2e/retention.spec.ts + e2e/mobile-layout.spec.ts + e2e/persist.spec.ts — 39 passed, exit 0; 4) visual-regression --update-snapshots=all — 17 passed, exit 0; 5) visual-regression — 17 passed, exit 0; 6) build exit 0; дополнительно check-styling 0 нарушений | commit pending",
     "2026-10-07 | onboarding-simplify | гейт 4 по букве и по существу: git status --short e2e/ = 10 строк (7 правленых спеков + 3 PNG); PNG ровно 3 — это в ожидании задания 2-6, перегенерировано: 2 удалённых baseline'а удалённых экранов (onboarding-goal/onboarding-result) и 1 перегенерированный (onboarding-demo — подборка демо изменилась: seed был goalId 'rhcsa' удалённого экрана цели, стал DEMO_SEED 'onboarding'). Прогон --update-snapshots=all перезаписал ещё 6 PNG на экранах, которых правка коснуться не может (question, exam-run, analytics — по два viewport): это побайтовый дрейф в пределах допуска (maxDiffPixelRatio 0.01). Проверено, а не предположено: файлы восстановлены из HEAD и прогон ВЕРИФИКАЦИИ (гейт 5) дал 17 passed — то есть committed-состояние соответствует baseline'ам. Итог по гейту: 2 удаления + 1 изменение = 3 PNG, в ожидании 2-6 | commit pending",
     "2026-10-07 | onboarding-simplify | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: свежий профиль → сразу демо-квиз (без экрана цели), после каждого ответа inline-фидбек, после 3-го ответа «Начать обучение →» → Dashboard fresh mode (одна CTA, без Exam/Аналитики/Программы/серии); ответ на первый вопрос в regular → полный Dashboard с CTA «Продолжить обучение»; reload не возвращает fresh mode. При регрессе — git revert | commit pending",
-    "2026-10-07 | push | authorize push origin main - onboarding-simplify (упрощение онбординга: 4 экрана → 1 — экраны «выбор цели» и «Готово · N из 3» удалены вместе с их доменом и session-каналом демо-ответов, Screen 11 → 9, App уводит свежий профиль СРАЗУ на демо-квиз; демо-квиз с inline-celebration после каждого ответа (галочка/крестик + «Отлично!» / «Запомни — так тоже бывает») и финальной кнопкой «Начать обучение →»; DailyGoalPicker из потока убран не удалением компонента, а через completeOnboarding → dailyGoalXp = 30; Fresh User Mode на Dashboard по hasCompletedOnboarding && пустая questionStats — одна CTA «Начать обучение» + «14 тем», заглушка серии «Начни серию сегодня», прогресс «0 из 253», скрыты exam-mode/analytics-mode/review-wrong/dashboard-topics/streak-badge/dashboard-continue и нативный MainButton, CTA стартует занятие; список тем вынесен в компонент RhcsaProgramme — снят дефект правил хуков «Rendered more hooks»; persist.version не менялся, легаси onboardingGoal/setOnboardingGoal сохранены; тесты — onboarding.test.ts переписан под новый домен, новые OnboardingDemo.test.tsx (5) и Dashboard.fresh.test.tsx (4), производные правки e2e/fixtures.ts, e2e/screens.ts, e2e/dashboard.spec.ts, e2e/analytics.spec.ts, e2e/regression-071.spec.ts, baseline onboarding-demo перегенерирован + 2 baseline удалённых экранов удалены); авторизация — предусловие задания «Push-авторизация (правило 10) — в этом задании» и шаг цепочки «push --dry-run → push → rev-parse/sync:check»; публикует b86ddb2..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending"
+    "2026-10-07 | push | authorize push origin main - onboarding-simplify (упрощение онбординга: 4 экрана → 1 — экраны «выбор цели» и «Готово · N из 3» удалены вместе с их доменом и session-каналом демо-ответов, Screen 11 → 9, App уводит свежий профиль СРАЗУ на демо-квиз; демо-квиз с inline-celebration после каждого ответа (галочка/крестик + «Отлично!» / «Запомни — так тоже бывает») и финальной кнопкой «Начать обучение →»; DailyGoalPicker из потока убран не удалением компонента, а через completeOnboarding → dailyGoalXp = 30; Fresh User Mode на Dashboard по hasCompletedOnboarding && пустая questionStats — одна CTA «Начать обучение» + «14 тем», заглушка серии «Начни серию сегодня», прогресс «0 из 253», скрыты exam-mode/analytics-mode/review-wrong/dashboard-topics/streak-badge/dashboard-continue и нативный MainButton, CTA стартует занятие; список тем вынесен в компонент RhcsaProgramme — снят дефект правил хуков «Rendered more hooks»; persist.version не менялся, легаси onboardingGoal/setOnboardingGoal сохранены; тесты — onboarding.test.ts переписан под новый домен, новые OnboardingDemo.test.tsx (5) и Dashboard.fresh.test.tsx (4), производные правки e2e/fixtures.ts, e2e/screens.ts, e2e/dashboard.spec.ts, e2e/analytics.spec.ts, e2e/regression-071.spec.ts, baseline onboarding-demo перегенерирован + 2 baseline удалённых экранов удалены); авторизация — предусловие задания «Push-авторизация (правило 10) — в этом задании» и шаг цепочки «push --dry-run → push → rev-parse/sync:check»; публикует b86ddb2..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
+    "2026-10-07 | guard | якорь перезаписан на session-d18d09e8… | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "0c5a3d6",
+      "date": "2026-10-07",
+      "subject": "feat(dashboard): продающий Fresh Dashboard — Hero с конкретикой вместо шести нулей",
+      "type": "feat"
+    },
+    {
+      "sha": "40d07c7",
+      "date": "2026-10-07",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "07f00a0",
       "date": "2026-10-07",
@@ -1602,18 +1614,6 @@
       "sha": "1d6942d",
       "date": "2026-10-06",
       "subject": "chore(state): converge after ux-copy-3-fix",
-      "type": "chore"
-    },
-    {
-      "sha": "543fc8f",
-      "date": "2026-10-06",
-      "subject": "fix(ux): CTA variable N, unify streak border, update dashboard baseline",
-      "type": "fix"
-    },
-    {
-      "sha": "aefd20f",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
