@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  LEVEL_STEP,
-  LEVEL_THRESHOLDS,
+  LEVELS,
   STREAK_MILESTONES,
   XP_EXAM_COMPLETE,
   XP_FIRST_ANSWER_OF_DAY,
@@ -11,10 +10,10 @@ import {
   XP_REVIEW_WRONG,
   applyXpGain,
   levelFromXp,
+  nextLevel,
   streakMilestoneXp,
   xpForAnswer,
   xpInLevel,
-  xpThresholdForLevel,
   type AnswerStream,
 } from '@/domain/xp';
 
@@ -86,87 +85,158 @@ describe('streakMilestoneXp — вехи серии', () => {
   });
 });
 
-describe('levelFromXp / xpThresholdForLevel — шкала уровней', () => {
-  it('пороги 100 / 250 / 500 / 800 / 1200, дальше +400', () => {
-    expect(LEVEL_THRESHOLDS).toEqual([100, 250, 500, 800, 1200]);
-    expect(LEVEL_STEP).toBe(400);
-    expect(xpThresholdForLevel(1)).toBe(0);
-    expect(xpThresholdForLevel(2)).toBe(100);
-    expect(xpThresholdForLevel(3)).toBe(250);
-    expect(xpThresholdForLevel(4)).toBe(500);
-    expect(xpThresholdForLevel(5)).toBe(800);
-    expect(xpThresholdForLevel(6)).toBe(1200);
-    expect(xpThresholdForLevel(7)).toBe(1600);
-    expect(xpThresholdForLevel(8)).toBe(2000);
-    expect(xpThresholdForLevel(9)).toBe(2400);
+describe('LEVELS — именованная лестница уровней', () => {
+  it('семь ступеней RHCSA с порогами 0/50/150/350/700/1200/2000', () => {
+    expect(LEVELS.map((level) => level.name)).toEqual([
+      'Новичок',
+      'Ученик',
+      'Практик',
+      'Специалист',
+      'Эксперт',
+      'Мастер',
+      'Гранд-мастер',
+    ]);
+    expect(LEVELS.map((level) => level.minXp)).toEqual([0, 50, 150, 350, 700, 1200, 2000]);
+    expect(LEVELS.map((level) => level.nameGenitive)).toEqual([
+      'Новичка',
+      'Ученика',
+      'Практика',
+      'Специалиста',
+      'Эксперта',
+      'Мастера',
+      'Гранд-мастера',
+    ]);
   });
 
-  it('уровень меняется ровно на пороге и не меняется на пороге − 1', () => {
-    const thresholds: Array<[number, number]> = [
-      [100, 2],
-      [250, 3],
-      [500, 4],
-      [800, 5],
-      [1200, 6],
-      [1600, 7],
-    ];
-    for (const [xp, level] of thresholds) {
-      expect(levelFromXp(xp - 1)).toBe(level - 1);
-      expect(levelFromXp(xp)).toBe(level);
+  it('кривая «быстро на старте»: каждый следующий шаг дороже предыдущего', () => {
+    const steps = LEVELS.slice(1).map((level, index) => level.minXp - LEVELS[index].minXp);
+    expect(steps).toEqual([50, 100, 200, 350, 500, 800]);
+    for (let index = 1; index < steps.length; index += 1) {
+      expect(steps[index]).toBeGreaterThan(steps[index - 1]);
     }
   });
+});
 
-  it('0 XP → уровень 1; уровень не убывает с ростом XP', () => {
-    expect(levelFromXp(0)).toBe(1);
+describe('levelFromXp — номер и имя уровня по накопленному XP', () => {
+  it('границы 49/50/149/150/1999/2000 переключают уровень ровно на пороге', () => {
+    expect(levelFromXp(49)).toEqual({ number: 1, name: 'Новичок' });
+    expect(levelFromXp(50)).toEqual({ number: 2, name: 'Ученик' });
+    expect(levelFromXp(149)).toEqual({ number: 2, name: 'Ученик' });
+    expect(levelFromXp(150)).toEqual({ number: 3, name: 'Практик' });
+    expect(levelFromXp(1999)).toEqual({ number: 6, name: 'Мастер' });
+    expect(levelFromXp(2000)).toEqual({ number: 7, name: 'Гранд-мастер' });
+  });
+
+  it('каждая ступень достижима: порог − 1 — предыдущая, порог — эта', () => {
+    LEVELS.forEach((level, index) => {
+      if (index === 0) return;
+      expect(levelFromXp(level.minXp - 1).number).toBe(index);
+      expect(levelFromXp(level.minXp)).toEqual({ number: index + 1, name: level.name });
+    });
+  });
+
+  it('выше Гранд-мастера лестница конечна: уровень не растёт', () => {
+    expect(levelFromXp(50_000)).toEqual(levelFromXp(2000));
+    expect(levelFromXp(50_000).number).toBe(LEVELS.length);
+  });
+
+  it('0 XP → Новичок: свежий профиль', () => {
+    expect(levelFromXp(0)).toEqual({ number: 1, name: 'Новичок' });
+  });
+
+  it('уровень не убывает с ростом XP', () => {
     let prev = 0;
     for (let xp = 0; xp <= 2500; xp += 7) {
-      const level = levelFromXp(xp);
+      const level = levelFromXp(xp).number;
       expect(level).toBeGreaterThanOrEqual(prev);
       prev = level;
     }
   });
 
   it('битый вход не ломает шкалу (NaN, отрицательное, дробное)', () => {
-    expect(levelFromXp(Number.NaN)).toBe(1);
-    expect(levelFromXp(-500)).toBe(1);
-    expect(levelFromXp(99.9)).toBe(1);
-    expect(levelFromXp(100.5)).toBe(2);
+    expect(levelFromXp(Number.NaN)).toEqual({ number: 1, name: 'Новичок' });
+    expect(levelFromXp(-500)).toEqual({ number: 1, name: 'Новичок' });
+    expect(levelFromXp(49.9)).toEqual({ number: 1, name: 'Новичок' });
+    expect(levelFromXp(50.5)).toEqual({ number: 2, name: 'Ученик' });
+  });
+});
+
+describe('nextLevel — подпись «до следующего»', () => {
+  it('называет следующую ступень на каждой, кроме верхней', () => {
+    expect(nextLevel(0)?.name).toBe('Ученик');
+    expect(nextLevel(49)?.name).toBe('Ученик');
+    expect(nextLevel(50)?.name).toBe('Практик');
+    expect(nextLevel(1199)?.name).toBe('Мастер');
+    expect(nextLevel(1200)?.name).toBe('Гранд-мастер');
+  });
+
+  it('имя идёт в родительном падеже — «до Ученика», а не «до Ученик»', () => {
+    expect(nextLevel(0)?.nameGenitive).toBe('Ученика');
+    expect(nextLevel(50)?.nameGenitive).toBe('Практика');
+    expect(nextLevel(1999)?.nameGenitive).toBe('Гранд-мастера');
+  });
+
+  it('у каждой ступени форма родительного падежа отличается от имени', () => {
+    for (const level of LEVELS) {
+      expect(level.nameGenitive.length).toBeGreaterThan(0);
+      expect(level.nameGenitive).not.toBe(level.name);
+    }
+  });
+
+  it('Гранд-мастер без next: null', () => {
+    expect(nextLevel(1999)?.name).toBe('Гранд-мастер');
+    expect(nextLevel(2000)).toBeNull();
+    expect(nextLevel(99_999)).toBeNull();
+    expect(nextLevel(Number.NaN)?.name).toBe('Ученик');
   });
 });
 
 describe('xpInLevel — прогресс внутри уровня', () => {
-  it('внутри первого уровня current/needed — это XP / 100', () => {
-    expect(xpInLevel(0)).toEqual({ current: 0, needed: 100, percent: 0 });
-    expect(xpInLevel(40)).toEqual({ current: 40, needed: 100, percent: 40 });
+  it('внутри первого уровня current/needed — это XP / 50', () => {
+    expect(xpInLevel(0)).toEqual({ current: 0, needed: 50, percent: 0 });
+    expect(xpInLevel(25)).toEqual({ current: 25, needed: 50, percent: 50 });
+    expect(xpInLevel(49)).toEqual({ current: 49, needed: 50, percent: 98 });
   });
 
   it('на уровне 2 «нужно» — это шаг уровня, а не абсолютный порог', () => {
-    // 100…249: шаг 150 (250 − 100).
-    expect(xpInLevel(100)).toEqual({ current: 0, needed: 150, percent: 0 });
-    expect(xpInLevel(175)).toEqual({ current: 75, needed: 150, percent: 50 });
-    expect(xpInLevel(249)).toEqual({ current: 149, needed: 150, percent: (149 / 150) * 100 });
+    // 50…149: шаг 100 (150 − 50).
+    expect(xpInLevel(50)).toEqual({ current: 0, needed: 100, percent: 0 });
+    expect(xpInLevel(100)).toEqual({ current: 50, needed: 100, percent: 50 });
+    expect(xpInLevel(149)).toEqual({ current: 99, needed: 100, percent: 99 });
   });
 
-  it('на верхнем пороге списка уровень переключается и счёт начинается заново', () => {
-    expect(xpInLevel(1200)).toEqual({ current: 0, needed: 400, percent: 0 });
-    expect(xpInLevel(1400)).toEqual({ current: 200, needed: 400, percent: 50 });
+  it('на пороге 150 уровень переключается и счёт начинается заново (шаг 200)', () => {
+    expect(xpInLevel(150)).toEqual({ current: 0, needed: 200, percent: 0 });
+    expect(xpInLevel(250)).toEqual({ current: 100, needed: 200, percent: 50 });
   });
 
-  it('инварианты на всей шкале: current < needed, percent ∈ [0, 100], без NaN', () => {
-    for (let xp = 0; xp <= 3000; xp += 13) {
-      const { current, needed, percent } = xpInLevel(xp);
-      expect(needed).toBeGreaterThan(0);
-      expect(current).toBeGreaterThanOrEqual(0);
-      expect(current).toBeLessThan(needed);
-      expect(percent).toBeGreaterThanOrEqual(0);
-      expect(percent).toBeLessThan(100);
-      expect(Number.isNaN(percent)).toBe(false);
+  it('предпоследняя ступень: 1999 — это 799 / 800 XP до Гранд-мастера', () => {
+    expect(xpInLevel(1999)).toEqual({ current: 799, needed: 800, percent: (799 / 800) * 100 });
+  });
+
+  it('Гранд-мастер: needed === null и percent === 100 — следующего уровня нет', () => {
+    expect(xpInLevel(2000)).toEqual({ current: 0, needed: null, percent: 100 });
+    expect(xpInLevel(2500)).toEqual({ current: 500, needed: null, percent: 100 });
+  });
+
+  it('инварианты ниже верхнего уровня: 0 ≤ current < needed, percent ∈ [0, 100), без NaN', () => {
+    for (let xp = 0; xp < 2000; xp += 13) {
+      const progress = xpInLevel(xp);
+      expect(progress.needed).not.toBeNull();
+      if (progress.needed === null) {
+        throw new Error(`ниже 2000 XP уровень не терминальный, а needed === null (${xp})`);
+      }
+      expect(progress.current).toBeGreaterThanOrEqual(0);
+      expect(progress.current).toBeLessThan(progress.needed);
+      expect(progress.percent).toBeGreaterThanOrEqual(0);
+      expect(progress.percent).toBeLessThan(100);
+      expect(Number.isNaN(progress.percent)).toBe(false);
     }
   });
 
   it('битый вход не даёт NaN и отрицательных значений', () => {
-    expect(xpInLevel(Number.NaN)).toEqual({ current: 0, needed: 100, percent: 0 });
-    expect(xpInLevel(-40)).toEqual({ current: 0, needed: 100, percent: 0 });
+    expect(xpInLevel(Number.NaN)).toEqual({ current: 0, needed: 50, percent: 0 });
+    expect(xpInLevel(-40)).toEqual({ current: 0, needed: 50, percent: 0 });
   });
 });
 

@@ -26,11 +26,14 @@ import {
 import { DEFAULT_DAILY_GOAL_XP, LEGACY_DEFAULT_DAILY_GOAL_XP } from '@/domain/goal';
 import {
   applyXpGain,
+  levelFromXp,
   streakMilestoneXp,
   xpForAnswer,
   XP_EXAM_COMPLETE,
   XP_FIRST_ANSWER_OF_DAY,
   type AnswerStream,
+  type XpPatch,
+  type XpState,
 } from '@/domain/xp';
 
 /**
@@ -88,6 +91,20 @@ export interface QuestionStat {
   lastAt: string;
 }
 
+/**
+ * Празднование нового уровня («Ты теперь {toName}!»). Несёт только имя уровня,
+ * а не весь объект: UI показывает имя и ничего больше.
+ *
+ * Session-only — в `partialize` НЕ попадает: после reload профиль уже стоит на
+ * своём уровне, и праздновать переход заново нечего. Это и есть требование
+ * «toast не повторяется после перезагрузки» — не флаг «показан», а отсутствие
+ * поля в персисте.
+ */
+export interface LevelUpNotice {
+  /** Имя уровня, на который перешёл профиль (`LEVELS[].name`). */
+  toName: string;
+}
+
 interface QuizState {
   questions: Question[];
   currentIndex: number;
@@ -99,6 +116,14 @@ interface QuizState {
   streak: number;
   lastActiveDate: string | null;
   totalXp: number;
+
+  /**
+   * Переход на новый уровень, который UI ещё не показал. `null` — праздновать
+   * нечего. Session-only (в `partialize` не попадает): см. `LevelUpNotice`.
+   * Ставится ТОЛЬКО на росте номера уровня, поэтому перескок через несколько
+   * ступеней сразу даёт ровно одно уведомление — о конечном уровне.
+   */
+  pendingLevelUp: LevelUpNotice | null;
 
   /**
    * Дневная цель (spec 061). `null` — цель ещё не подтверждена пользователем
@@ -213,6 +238,12 @@ interface QuizState {
    */
   normalizeAnswersAgainstBank: () => void;
   recordActivity: () => void;
+  /**
+   * Гасит уведомление о новом уровне после показа. Отдельный экшен, а не
+   * `set` из UI: поле session-only и меняется только из этой пары
+   * (`xpGainWithLevelUp` ставит, `clearPendingLevelUp` снимает).
+   */
+  clearPendingLevelUp: () => void;
   /** Дневная цель (spec 061): выставляет выбранный пресет и снимает `null`. */
   setDailyGoal: (xp: number) => void;
   /**
@@ -355,6 +386,30 @@ const shuffleCopy = <T>(items: readonly T[]): T[] => {
   return shuffled;
 };
 
+/**
+ * Начисление XP вместе с детектом перехода на новый уровень.
+ *
+ * Единственная точка, где XP попадает в стор. До неё `applyXpGain` вызывался в
+ * трёх местах (ответ, первый ответ дня с бонусом серии, завершение экзамена), и
+ * проверка «уровень вырос?» в каждом из них разошлась бы: достаточно забыть одну
+ * ветку, и часть начислений молча не праздновалась бы.
+ *
+ * Сравниваются НОМЕРА уровней, а не «стало ровно на один больше»: один ответ
+ * может перевести через ступень сразу (бонус серии), и это по-прежнему ровно
+ * один переход. Начисление, не поднявшее уровень, НЕ гасит ещё не показанное
+ * уведомление — `pendingLevelUp` перезаписывается только на росте.
+ */
+const xpGainWithLevelUp = (
+  state: XpState,
+  amount: number,
+  today: string,
+): XpPatch & { pendingLevelUp?: LevelUpNotice } => {
+  const patch = applyXpGain(state, amount, today);
+  const to = levelFromXp(patch.totalXp);
+  const from = levelFromXp(state.totalXp);
+  return to.number > from.number ? { ...patch, pendingLevelUp: { toName: to.name } } : patch;
+};
+
 export const useQuizStore = create<QuizState>()(
   persist(
     (set, get) => ({
@@ -368,6 +423,7 @@ export const useQuizStore = create<QuizState>()(
       streak: 0,
       lastActiveDate: null,
       totalXp: 0,
+      pendingLevelUp: null,
       dailyGoalXp: null,
       todayXp: 0,
       todayXpDate: null,
@@ -476,9 +532,14 @@ export const useQuizStore = create<QuizState>()(
         set({
           streak: nextStreak,
           lastActiveDate: today,
-          ...applyXpGain(get(), xp, today),
+          ...xpGainWithLevelUp(get(), xp, today),
         });
       },
+
+      // Уведомление о новом уровне — session-only: гасится после показа на
+      // Dashboard (см. `pendingLevelUp`). Отдельный экшен держит пару
+      // «поставить/снять» в одном файле, рядом с тем, кто её ставит.
+      clearPendingLevelUp: () => set({ pendingLevelUp: null }),
 
       setDailyGoal: (xp) => set({ dailyGoalXp: xp }),
 
@@ -548,7 +609,7 @@ export const useQuizStore = create<QuizState>()(
           todayAnsweredDate: today,
           todayAnswered: (isNewDay ? 0 : state.todayAnswered) + 1,
           answeredToday: isFirstToday ? [...answeredToday, questionId] : answeredToday,
-          ...applyXpGain(state, xp, today),
+          ...xpGainWithLevelUp(state, xp, today),
         });
         // Первый ответ дня (в любом потоке) — он же шаг серии. Идемпотентно:
         // повторный вызов внутри того же дня выходит сразу.
@@ -876,7 +937,7 @@ export const useQuizStore = create<QuizState>()(
         set({
           examSession: { ...examSession, status: 'done', finishReason: reason },
           currentScreen: 'exam-results',
-          ...applyXpGain(get(), XP_EXAM_COMPLETE, today),
+          ...xpGainWithLevelUp(get(), XP_EXAM_COMPLETE, today),
         });
       },
 
@@ -972,6 +1033,11 @@ export const useQuizStore = create<QuizState>()(
         // examLastResult (session-only) удалён вместе с экраном-сводкой.
         // examSession (spec 054) — НЕ персистится (session-only): иначе после
         // reload пользователь залипал бы на экране незавершённого экзамена.
+        // pendingLevelUp (уровень вырос) — тоже НЕ персистится и по той же
+        // причине, только с обратным знаком: после reload профиль уже стоит на
+        // своём уровне, и праздновать переход заново нечего. Именно это даёт
+        // «toast не повторяется» — не флаг «показан», а отсутствие поля в
+        // снимке. persist.version НЕ менялся: поле добавляется, не переименовывается.
       }),
       version: 8,
       // На гидратации оба дневных счётчика сверяются с календарём: todayXp по

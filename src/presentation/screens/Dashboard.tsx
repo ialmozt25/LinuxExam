@@ -12,7 +12,7 @@ import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
-import { levelFromXp, xpInLevel } from '@/domain/xp';
+import { levelFromXp, nextLevel, xpInLevel } from '@/domain/xp';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
 import { Badge, Button, Card } from '@/ui';
@@ -68,6 +68,13 @@ const CTA_COUNTER: React.CSSProperties = { fontSize: 'var(--text-xs)', fontWeigh
  * а не потолок одного прогона, поэтому константа независимая.
  */
 const DAILY_ANSWER_GOAL = 30;
+
+/**
+ * Сколько держится уведомление «Ты теперь {уровень}!». Время, а не «до первого
+ * действия»: событие приходит с экрана вопроса, и мгновенный сброс стёр бы его
+ * раньше, чем пользователь вернётся на Dashboard.
+ */
+const LEVEL_UP_TOAST_MS = 5000;
 
 /**
  * Правая часть CTA — счётчик ответов за сегодня (сброс в полночь):
@@ -152,6 +159,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const streak = useQuizStore((s) => s.streak);
   const totalXp = useQuizStore((s) => s.totalXp);
+  // Празднование нового уровня — runtime-состояние стора: в персист НЕ
+  // попадает, поэтому после reload оно пустое и toast не повторяется.
+  const pendingLevelUp = useQuizStore((s) => s.pendingLevelUp);
+  const clearPendingLevelUp = useQuizStore((s) => s.clearPendingLevelUp);
   const isQuizInProgress = useQuizStore((s) => s.isQuizInProgress);
   const currentIndex = useQuizStore((s) => s.currentIndex);
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
@@ -257,15 +268,32 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
     el.scrollTop = 0;
   }, []);
 
+  // Показ «Ты теперь {уровень}!»: уведомление живёт, пока его видно, и гасится
+  // из стора — иначе оно всплывало бы при каждом заходе на Dashboard. Таймер
+  // снимается при размонтировании: уведомление дождётся следующего визита, а не
+  // пропадёт вместе с экраном (событие приходит с экрана вопроса).
+  useEffect(() => {
+    if (pendingLevelUp === null) return;
+    const id = window.setTimeout(() => clearPendingLevelUp(), LEVEL_UP_TOAST_MS);
+    return () => window.clearTimeout(id);
+  }, [pendingLevelUp, clearPendingLevelUp]);
+
 
   const totalQuestions = getBankTotal();
   const progressPercent = totalQuestions > 0 ? (answered / totalQuestions) * 100 : 0;
   // Уровень и прогресс внутри него — домен (`src/domain/xp.ts`), а не арифметика
-  // на месте: шкала «100/250/500/800/1200, дальше +400» — контракт XP-механики,
-  // и вторая её копия здесь разошлась бы с той, по которой начисляется XP.
+  // на месте: лестница «Новичок → … → Гранд-мастер» (0/50/150/350/700/1200/2000)
+  // — контракт XP-механики, и вторая её копия здесь разошлась бы с той, по
+  // которой начисляется XP. Подпись уровня — ИМЯ, а не номер: «Новичок» читается
+  // без расшифровки, а «Уровень 4» — нет.
   const level = levelFromXp(totalXp);
   const levelProgress = xpInLevel(totalXp);
   const xpPercent = levelProgress.percent;
+  // «До следующего» существует только ниже верхней ступени: у Гранд-мастера
+  // `needed === null` и следующей ступени нет — числа показывать не от чего.
+  // Фраза берёт РОДИТЕЛЬНЫЙ падеж имени (`nextLevelStep.nameGenitive`): «до
+  // Ученика», а не «до Ученик».
+  const nextLevelStep = nextLevel(totalXp);
 
   return (
     <ScreenContainer>
@@ -286,21 +314,22 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             где есть число, состояние и мотивирующее сообщение. В status-strip
             остаются только уровень и полоса прогресса (UX-фикс). */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Уровень {level}</span>
+          <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{level.name}</span>
           {/* diag-dashboard-fix (симптом 5): полоса показывает XP ВНУТРИ уровня
               (`xpInLevel`), а не дневную цель, и в отчёте это читалось как
               «Уровень 1 · 10 %» рядом с дневной целью 10/20. Метрика оставлена:
               дневную цель уже показывает XpBar, а вторая дневная полоса была бы
               тем же дублем XP, против которого симптом 6. Неоднозначность снята
-              именем — «Уровень N (XP внутри)», а не «Прогресс уровня».
-              XP-механика: метрика та же, но уровень теперь считается доменом по
-              шкале 100/250/500/800/1200 (+400), а не `totalXp % 100`. */}
+              ИМЕНЕМ уровня, а не номером: «Новичок» рядом с «49 / 50 XP до
+              Ученика» читается без расшифровки, а «Уровень 4» — нет.
+              XP-механика: метрика та же, но уровень считается доменом по
+              именованной лестнице (`LEVELS`), а не `totalXp % 100`. */}
           <span
             role="progressbar"
             aria-valuenow={Math.round(xpPercent)}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label={`Уровень ${level} (XP внутри)`}
+            aria-label={`Уровень ${level.name}, XP внутри ${Math.round(xpPercent)}%`}
             style={{
               display: 'inline-block',
               width: 'var(--track-width-sm)',
@@ -322,6 +351,17 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               }}
             />
           </span>
+          {/* B3: числа «сколько осталось» — мелко и только когда следующий
+              уровень существует. На Гранд-мастере текста нет вообще: полоса
+              стоит на 100 %, и «до следующего» обещало бы то, чего нет. */}
+          {levelProgress.needed !== null && nextLevelStep !== null ? (
+            <span
+              data-testid="level-next"
+              style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}
+            >
+              {`${levelProgress.current} / ${levelProgress.needed} XP до ${nextLevelStep.nameGenitive}`}
+            </span>
+          ) : null}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <Button
@@ -341,6 +381,29 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           </Button>
         </div>
       </div>
+
+      {/* Празднование нового уровня: показывается ровно один раз — пока
+          `pendingLevelUp` не пуст. Стиль — существующая карточка
+          (`Card variant="plain"`, как у resume-баннера): новых UI-примитивов не
+          заводим. `role="status"` объявляет переход скринридеру, не забирая
+          фокус. */}
+      {pendingLevelUp !== null ? (
+        <Card
+          variant="plain"
+          testId="level-up-toast"
+          style={{
+            border: 'none',
+            marginTop: 'var(--space-4)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)',
+          }}
+        >
+          <span role="status" style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>
+            {`Ты теперь ${pendingLevelUp.toName}!`}
+          </span>
+        </Card>
+      ) : null}
 
       {/* Title block. ux-copy-3 (2026-10-07): маскот переехал из streak-бейджа
           сюда — рядом с названием и ПЕРЕД текстом заголовка (gap = --space-2).

@@ -261,7 +261,10 @@ test.describe('UX-регрессии — выход и дубль серии', (
     expect(counts.streakNumberLeaves).toBe(1);
     // Главное утверждение по жалобе: в status-strip серии больше нет.
     expect(counts.statusStripFlame).toBe(false);
-    expect(counts.statusStripText).toContain('Уровень');
+    // Именованная лестница: в status-strip теперь ИМЯ уровня («Новичок» при
+    // 0 XP), а не «Уровень N». Утверждение то же по смыслу — уровень вместе с
+    // переключателем темы остался в status-strip, когда оттуда убрали flame.
+    expect(counts.statusStripText).toContain('Новичок');
 
     // Уровень и переключатель темы из status-strip не пропали вместе с flame.
     await expect(page.getByTestId(TESTID.topicToggle)).toBeVisible();

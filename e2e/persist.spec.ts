@@ -166,7 +166,10 @@ test.describe('persist — частичная запись состояния', 
 
     await page.getByTestId(TESTID.headerHome).click();
     await waitForDashboard(page);
-    await expect(page.getByText('Уровень 1')).toBeVisible();
+    // Уровень подписан ИМЕНЕМ, а не номером: 13 XP — это «Новичок»
+    // (лестница LEVELS: Новичок 0…49, Ученик с 50). Прежняя подпись
+    // «Уровень 1» удалена вместе с номерной шкалой.
+    await expect(page.getByText('Новичок')).toBeVisible();
 
     await page.reload();
     await waitForDashboard(page);
@@ -174,7 +177,7 @@ test.describe('persist — частичная запись состояния', 
     const after = await readPersisted(page);
     expect(after?.state.totalXp).toBe(13);
     expect(after?.state.streak).toBe(1);
-    await expect(page.getByText('Уровень 1')).toBeVisible();
+    await expect(page.getByText('Новичок')).toBeVisible();
     await expect(page.getByTestId(TESTID.dashboardProgress)).toContainText(`1 из ${TOTAL}`);
   });
 });

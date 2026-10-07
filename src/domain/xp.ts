@@ -46,15 +46,45 @@ export const STREAK_MILESTONES: Readonly<Record<number, number>> = {
   30: 200,
 };
 
-/**
- * Пороги уровней: XP, необходимый, чтобы ВОЙТИ в уровень 2, 3, 4, 5 и 6.
- * Уровень 1 — от 0 XP. Дальше шаг постоянный (`LEVEL_STEP`), поэтому список
- * конечен: 6-й уровень открывается на 1200, 7-й — на 1600, 8-й — на 2000.
- */
-export const LEVEL_THRESHOLDS: readonly number[] = [100, 250, 500, 800, 1200];
+/** Одна ступень лестницы: имя уровня и XP, с которого он начинается. */
+export interface LevelStep {
+  /** Имя уровня для UI: `Уровень {name}`, «Ты теперь {name}!». */
+  name: string;
+  /**
+   * То же имя в РОДИТЕЛЬНОМ падеже: «N / M XP до {nameGenitive}». Отдельного
+   * поля требует русский, а не UI: «до Ученик» неверно, и собрать падеж из
+   * имени нельзя. Падеж известен заранее ровно один — родительный (единственная
+   * фраза, где имя стоит после «до»), поэтому таблица и есть его источник.
+   */
+  nameGenitive: string;
+  /** XP, с которого уровень начинается (включительно). */
+  minXp: number;
+}
 
-/** Шаг уровней после последнего порога из `LEVEL_THRESHOLDS`. */
-export const LEVEL_STEP = 400;
+/**
+ * Лестница уровней RHCSA: имя + XP, с которого уровень начинается.
+ *
+ * Кривая намеренно «быстрая на старте»: шаги 50 → 100 → 200 → 350 → 500 → 800.
+ * Первый уровень закрывается за пару ответов (прогресс виден сразу), а
+ * Гранд-мастер — длинная цель: 2000 XP суммарно.
+ *
+ * Последний уровень ТЕРМИНАЛЬНЫЙ: следующего порога не существует, поэтому у
+ * него `needed === null` (см. `xpInLevel`). Конечность — часть контракта:
+ * прежняя шкала росла бесконечно (100/250/500/800/1200, дальше +400), и уровень
+ * было нечем назвать.
+ *
+ * Список — единственный источник и порогов, и имён: UI читает имя отсюда, а не
+ * собирает подпись на месте (иначе вторая копия лестницы разошлась бы с этой).
+ */
+export const LEVELS: readonly LevelStep[] = [
+  { name: 'Новичок', nameGenitive: 'Новичка', minXp: 0 },
+  { name: 'Ученик', nameGenitive: 'Ученика', minXp: 50 },
+  { name: 'Практик', nameGenitive: 'Практика', minXp: 150 },
+  { name: 'Специалист', nameGenitive: 'Специалиста', minXp: 350 },
+  { name: 'Эксперт', nameGenitive: 'Эксперта', minXp: 700 },
+  { name: 'Мастер', nameGenitive: 'Мастера', minXp: 1200 },
+  { name: 'Гранд-мастер', nameGenitive: 'Гранд-мастера', minXp: 2000 },
+];
 
 /**
  * Поток ответа. `exam` присутствует намеренно: экзамен — единственная воронка,
@@ -67,9 +97,13 @@ export type AnswerStream = 'regular' | 'review' | 'exam';
 export interface LevelProgress {
   /** Сколько XP набрано внутри текущего уровня (от 0). */
   current: number;
-  /** Сколько XP нужно, чтобы закрыть текущий уровень целиком. */
-  needed: number;
-  /** `current / needed` в процентах, 0…100. */
+  /**
+   * Сколько XP нужно, чтобы закрыть текущий уровень целиком; `null` — уровня
+   * больше нет (Гранд-мастер): следующего порога не существует, и числового
+   * «сколько осталось» тоже нет. UI обязан проверять `needed !== null`.
+   */
+  needed: number | null;
+  /** `current / needed` в процентах, 0…100; на верхнем уровне — 100. */
   percent: number;
 }
 
@@ -90,46 +124,68 @@ export function streakMilestoneXp(streak: number): number {
   return STREAK_MILESTONES[nonNegativeInt(streak)] ?? 0;
 }
 
-/**
- * XP, с которого НАЧИНАЕТСЯ уровень `level` (уровень 1 — с 0 XP).
- * Уровни 2…6 заданы списком `LEVEL_THRESHOLDS`, дальше шаг постоянный.
- */
-export function xpThresholdForLevel(level: number): number {
-  const target = Math.max(1, nonNegativeInt(level));
-  if (target <= 1) return 0;
-  const index = target - 2;
-  if (index < LEVEL_THRESHOLDS.length) return LEVEL_THRESHOLDS[index];
-  const last = LEVEL_THRESHOLDS[LEVEL_THRESHOLDS.length - 1];
-  return last + (target - (LEVEL_THRESHOLDS.length + 1)) * LEVEL_STEP;
+/** Уровень, в котором находится профиль: номер (1…7) и имя для UI. */
+export interface Level {
+  /** Номер уровня, 1…7 (индекс в `LEVELS` + 1). */
+  number: number;
+  /** Имя уровня из `LEVELS`. */
+  name: string;
+}
+
+/** Индекс текущей ступени в `LEVELS` (0…`LEVELS.length − 1`) по накопленному XP. */
+function levelIndexForXp(xp: number): number {
+  let index = 0;
+  for (let next = 1; next < LEVELS.length; next += 1) {
+    if (xp < LEVELS[next].minXp) break;
+    index = next;
+  }
+  return index;
 }
 
 /**
- * Уровень по накопленному XP: 0…99 → 1, 100…249 → 2, 250…499 → 3, 500…799 → 4,
- * 800…1199 → 5, 1200…1599 → 6, дальше каждые 400 XP.
+ * Уровень по накопленному XP: 0…49 → Новичок, 50…149 → Ученик, 150…349 →
+ * Практик, 350…699 → Специалист, 700…1199 → Эксперт, 1200…1999 → Мастер,
+ * 2000+ → Гранд-мастер (дальше не растёт — лестница конечна).
+ *
+ * На входе — ЛЮБОЕ значение (в том числе отрицательное или NaN от битого
+ * персиста): всё, что ниже первого порога, читается как «Новичок».
  */
-export function levelFromXp(totalXp: number): number {
-  const xp = nonNegativeInt(totalXp);
-  let level = 1;
-  while (xp >= xpThresholdForLevel(level + 1)) level += 1;
-  return level;
+export function levelFromXp(totalXp: number): Level {
+  const index = levelIndexForXp(nonNegativeInt(totalXp));
+  return { number: index + 1, name: LEVELS[index].name };
 }
 
 /**
  * Прогресс внутри текущего уровня. На входе — ЛЮБОЕ значение (в том числе
  * отрицательное или NaN от битого персиста): выход всегда согласован
- * (`current <= needed`, `percent` в 0…100), без NaN и деления на ноль.
+ * (`current >= 0`, `percent` в 0…100), без NaN и деления на ноль.
+ *
+ * На верхнем уровне (`needed === null`) `percent === 100`: следующего порога
+ * нет, и полоса показывает «пройдено», а не «сколько до следующего».
  */
 export function xpInLevel(totalXp: number): LevelProgress {
   const xp = nonNegativeInt(totalXp);
-  const level = levelFromXp(xp);
-  const start = xpThresholdForLevel(level);
-  const needed = xpThresholdForLevel(level + 1) - start;
+  const index = levelIndexForXp(xp);
+  const start = LEVELS[index].minXp;
   const current = xp - start;
+  const next = LEVELS[index + 1];
+  if (next === undefined) return { current, needed: null, percent: 100 };
+  const needed = next.minXp - start;
   return {
     current,
     needed,
-    percent: needed > 0 ? Math.min(100, (current / needed) * 100) : 0,
+    percent: Math.min(100, (current / needed) * 100),
   };
+}
+
+/**
+ * Следующая ступень лестницы или `null` на верхнем уровне (Гранд-мастер).
+ * Отдельная функция, а не поле в `Level`: подпись «до следующего» нужна только
+ * прогрессу, а сам уровень про следующую ступень ничего не утверждает.
+ */
+export function nextLevel(totalXp: number): LevelStep | null {
+  const next = LEVELS[levelIndexForXp(nonNegativeInt(totalXp)) + 1];
+  return next === undefined ? null : next;
 }
 
 /** Состояние, к которому применяется начисление: ровно три персистируемых поля. */
