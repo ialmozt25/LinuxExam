@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 15a07e4</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 2c12e37</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">2c12e37</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push dashboard-desktop</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
+          <td class="mono">40b4f0c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after dashboard-desktop</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">15a07e4</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(layout): десктопный layout — сайдбар 240px, колонка 1248px и сетка тем в 3 колонки</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">9779695</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push xp-mechanics</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
-        <tr>
-          <td class="mono">b4e992d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after xp-mechanics</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · demo-removal | STOP-условие «Fresh mode сломан» проверено автоматически, а не на глаз: переписанный `e2e/onboarding.spec.ts` идёт по проекту stand-dev (живой dev-сервер) и падает…</li>
-        <li><span class="mono muted">07.10</span> · demo-removal | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) сброс localStorage → прод → сразу Fresh Dashboard (без демо); 2) тап «Начать первый вопрос →» → сразу Q1;…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - demo-removal (удаление демо-квиза: онбординг-экрана в приложении больше нет — свежий профиль открывает Dashboard в Fresh User Mode сразу…</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь перезаписан на session-86bbbf6d… | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;dashboard-desktop&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-desktop | дизайн-ревью design-guardian: 4 независимых прохода отдельными субагентами (только чтение; скриншотов нет — находки по коду и замерам).…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-desktop | дизайн-ревью — что УЧТЕНО правкой (до коммита): (1) навигация повторяет гейты экрана: в Fresh User Mode «Темы»/«Exam»/«Аналитика» недоступны…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-desktop | инцидент гейта 3 (зафиксирован, чтобы не выглядел сам собой разрешившимся): правка по ревью — `sr-only`-подпись «скоро» в пункте «Настройки»…</li>
+        <li><span class="mono muted">07.10</span> · dashboard-desktop | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп (окно &gt;1024px) → сайдбар слева 240px, контент 1248px по центру, темы в 3 колонки…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - dashboard-desktop (десктопный layout: сайдбар 240px + колонка контента max-width 1248px + сетка тем в 3 колонки на &gt;1024px; новый `src/presentation/components/Sideb…</li>
     </ul>
   </details>
 
