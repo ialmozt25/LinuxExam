@@ -5,7 +5,6 @@ import {
   seedOnboarding,
   seedStateOnce,
   waitForDashboard,
-  waitForOnboardingDemo,
   waitForQuestion,
   answerQuestion,
   TESTID,
@@ -14,79 +13,72 @@ import {
 } from './fixtures';
 
 /**
- * Онбординг (spec 060, упрощён): демо-квиз → Dashboard в Fresh User Mode.
+ * Первый запуск после удаления онбординга (задание «удалить демо-квиз»).
  *
- * Было четыре экрана (выбор цели → демо → «Готово · 1 из 3» → daily goal picker).
- * Стало: один демо-квиз с inline-фидбеком после каждого ответа и финальной
- * кнопкой «Начать обучение →». Экраны цели и итога удалены; пикер дневной цели
- * больше не часть потока (`completeOnboarding` фиксирует дефолт 30 XP).
+ * Было: fresh user → редирект на демо-квиз (3 вопроса «Вопрос N из 3») →
+ * «Начать обучение» → Dashboard в Fresh User Mode.
+ * Стало: fresh user попадает СРАЗУ на Dashboard в Fresh User Mode. Ни демо-экрана,
+ * ни редиректа, ни Screen-значения `'onboarding-demo'` в приложении больше нет,
+ * поэтому «трех демо-вопросов» не существует ни при каком состоянии хранилища.
+ *
+ * Профиль сеется `seedOnboarding(page, false)` — это репозиторный «свежий профиль»
+ * (онбординг не отмечен, статистика пуста). Буквально пустой `localStorage` под
+ * авто-фикстурой недостижим by design: её сид — инлайн-скрипт в самом документе,
+ * он выполняется ПОСЛЕ init-скриптов спека и досыпает профиль, если ключа нет
+ * (`e2e/fixtures.ts`, `onboardingSeedScript`). На контракт это не влияет: с
+ * удалённым демо онбординг-экран не рендерится НИ ИЗ ОДНОГО состояния хранилища,
+ * и это здесь проверяется явно — по узлу и по текстам.
  *
  * Viewport 390×844 — мобильный, потому что именно там целевая аудитория Mini App.
  */
 const TOTAL = TOPIC_INDEX.total;
 
-test.describe('онбординг', () => {
+/** Селектор удалённого экрана: сырой, чтобы исчезновение узла было видно и после
+ * удаления его `data-testid` из карты `TESTID` (e2e/fixtures.ts). */
+const DEMO_SCREEN = '[data-testid="onboarding-demo"]';
+
+test.describe('первый запуск: онбординга больше нет', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
-  test('первый запуск: демо-квиз с inline-фидбеком → Dashboard в fresh mode', async ({ page }) => {
+  test('свежий профиль → сразу Dashboard fresh mode, ни одного demo-узла', async ({ page }) => {
     await blockAnalytics(page);
     await seedOnboarding(page, false);
     await page.goto('/');
 
-    // Один экран вместо четырёх: сразу демо-квиз, без экрана выбора цели.
-    await waitForOnboardingDemo(page);
-
-    for (let i = 1; i <= 3; i++) {
-      await expect(page.getByTestId(TESTID.onboardingDemoProgress)).toHaveText(`Вопрос ${i} из 3`);
-      // Фидбека до ответа нет, а экрана «Готово · N из 3» не существует вовсе.
-      await expect(page.getByTestId('onboarding-feedback')).toHaveCount(0);
-      await expect(page.getByTestId('onboarding-result')).toHaveCount(0);
-
-      await page.getByTestId('onboarding-option-0').click();
-
-      // Inline celebration появляется сразу после ответа.
-      const feedback = page.getByTestId('onboarding-feedback');
-      await expect(feedback).toBeVisible();
-      await expect(feedback).toHaveAttribute('data-correct', /true|false/);
-      await expect(page.getByTestId('onboarding-feedback-text')).toHaveText(
-        /Отлично!|Запомни — так тоже бывает/,
-      );
-
-      // Последний шаг — финальная кнопка «Начать обучение →» вместо «Готово».
-      const next = page.getByTestId(TESTID.onboardingDemoNext);
-      await expect(next).toHaveText(i === 3 ? 'Начать обучение →' : 'Дальше');
-      await next.click();
-    }
-
-    // Fresh User Mode: Hero с конкретикой и одна CTA — без нулей и юртекстов.
+    // Экран один — Dashboard. Демо-квиза нет ни по узлу, ни по его текстам.
     await waitForDashboard(page);
+    await expect(page.locator(DEMO_SCREEN)).toHaveCount(0);
+    await expect(page.getByTestId('onboarding-demo-progress')).toHaveCount(0);
+    await expect(page.getByText('Вопрос 1 из 3')).toHaveCount(0);
+    await expect(page.getByText('Запомни — так тоже бывает')).toHaveCount(0);
+    await expect(page.getByText('Отлично!')).toHaveCount(0);
+
+    // Fresh User Mode на месте: Hero с числами банка и единственная CTA.
     await expect(
       page.getByRole('heading', { level: 2, name: 'Начните путь к RHCSA' })
     ).toBeVisible();
-    // Числа подзаголовка берутся из живого банка и реестра тем: банк растёт, и
-    // литерал молча разошёлся бы с реальностью.
     await expect(page.getByTestId('dashboard-hero-subtitle')).toHaveText(
       new RegExp(`^${TOTAL} вопрос\\S* · ${TOPICS.length} тем\\S* · по официальным objectives$`)
     );
     await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать первый вопрос/);
-    // «Внутри вас ждет» — 4 возможности иконками SVG (эмодзи запрещены контрактом).
     await expect(page.getByTestId('dashboard-features').locator('li')).toHaveCount(4);
 
-    await expect(page.getByTestId('exam-mode')).toHaveCount(0);
-    await expect(page.getByTestId('analytics-mode')).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.dashboardTopics)).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.streakBadge)).toHaveCount(0);
-    // Нулей прежнего первого экрана больше нет: заглушка серии, «0 / 30 XP»,
-    // «0 из 253» и «0 %» полосы уровня (level-strip остаётся по заданию — A1).
-    await expect(page.getByTestId('streak-placeholder')).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.dashboardRetention)).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.xpBar)).toHaveCount(0);
+    // ...и ни одного узла обычного режима: до первого ответа их прячет сам режим.
     await expect(page.getByTestId(TESTID.dashboardProgress)).toHaveCount(0);
-    // Юридический текст на первом экране скрыт; в продукте он остаётся — у
-    // обычного Dashboard (контракт `e2e/dashboard.spec.ts`).
-    await expect(page.locator('[data-disclaimer="legal"]')).toHaveCount(0);
-    // Пикер дневной цели не всплывает четвёртым шагом.
-    await expect(page.getByTestId(TESTID.dailyGoalPicker)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.dashboardRetention)).toHaveCount(0);
+  });
+
+  test('тап по CTA ведёт сразу в Q1 обычного прогона, а не в демо', async ({ page }) => {
+    await blockAnalytics(page);
+    await seedOnboarding(page, false);
+    await page.goto('/');
+    await waitForDashboard(page);
+
+    await page.getByTestId(TESTID.startLearning).click();
+
+    await waitForQuestion(page);
+    await expect(page.locator(DEMO_SCREEN)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.questionProgress)).toBeVisible();
   });
 
   test('первый ответ снимает fresh mode; reload его не возвращает', async ({ page }) => {
@@ -99,11 +91,6 @@ test.describe('онбординг', () => {
     });
     await page.goto('/');
 
-    await waitForOnboardingDemo(page);
-    for (let i = 0; i < 3; i++) {
-      await page.getByTestId('onboarding-option-0').click();
-      await page.getByTestId(TESTID.onboardingDemoNext).click();
-    }
     await waitForDashboard(page);
     await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
 
@@ -116,28 +103,15 @@ test.describe('онбординг', () => {
 
     await expect(page.getByTestId('analytics-mode')).toBeVisible();
     await expect(page.getByTestId(TESTID.dashboardTopics)).toBeVisible();
-    // Первый ответ снимает и Hero, и блок возможностей: это принадлежность
-    // fresh mode, а не постоянная часть экрана.
+    // Hero и «Внутри вас ждет» — принадлежность fresh mode, а не экрана вообще.
     await expect(page.getByTestId('dashboard-hero')).toHaveCount(0);
     await expect(page.getByTestId('dashboard-features')).toHaveCount(0);
-    await expect(page.getByTestId('streak-placeholder')).toHaveCount(0);
 
-    // Reload не возвращает fresh mode: прохождение отмечено, статистика непуста.
+    // Reload не возвращает fresh mode и уж тем более не возвращает демо.
     await page.reload();
     await waitForDashboard(page);
-    await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
+    await expect(page.getByTestId('dashboard-hero')).toHaveCount(0);
     await expect(page.getByTestId('analytics-mode')).toBeVisible();
-    await expect(page.getByTestId(TESTID.onboardingDemo)).toHaveCount(0);
-  });
-
-  test('профиль, уже проходивший онбординг, демо-квиз не видит', async ({ page }) => {
-    await blockAnalytics(page);
-    await seedOnboarding(page, true);
-    await page.goto('/');
-
-    await waitForDashboard(page);
-    await expect(page.getByTestId(TESTID.onboardingDemo)).toHaveCount(0);
-    // Это Fresh User Mode, а не полный Dashboard.
-    await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
+    await expect(page.locator(DEMO_SCREEN)).toHaveCount(0);
   });
 });

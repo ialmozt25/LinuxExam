@@ -53,8 +53,7 @@ export type Screen =
   | 'exam-run'
   | 'exam-results'
   | 'analytics'
-  | 'paywall'
-  | 'onboarding-demo';
+  | 'paywall';
 
 /**
  * Прогон Exam mode (spec 054): пресеты 30/60/90, порог 70 %, разбор по темам.

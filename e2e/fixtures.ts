@@ -442,15 +442,12 @@ export async function seedWrongRegularAnswer(page: Page, question: BankQuestion)
 }
 
 /**
- * Seeds the ONBOARDING condition (spec 060).
+ * Сеет профиль БЕЗ единого ответа — состояние Fresh User Mode.
  *
- * `complete: false` — свежий профиль: прохождение не отмечено и статистики нет,
- * поэтому гейт `useNeedsOnboarding` обязан показать онбординг (единственный его
- * экран — демо-квиз).
- * `complete: true` — тот же профиль с отмеченным прохождением: онбординг не
- * показывается, приложение стартует на Dashboard. Это ровно состояние Fresh User
- * Mode (`hasCompletedOnboarding && questionStats` пуста), поэтому сценарии
- * fresh-дашборда сеются именно так.
+ * Онбординг-экрана в приложении больше нет (задание «удалить демо-квиз»), поэтому
+ * ОБА варианта дают один и тот же экран: свежий профиль стартует сразу на
+ * Dashboard. `complete` теперь влияет только на флаг `hasCompletedOnboarding`
+ * в persist — его пинят сценарии миграции, а экран от флага не зависит.
  */
 export async function seedOnboarding(page: Page, complete: boolean): Promise<void> {
   const state = emptyPersistedState();
@@ -458,11 +455,6 @@ export async function seedOnboarding(page: Page, complete: boolean): Promise<voi
   state.onboardingGoal = null;
   state.questionStats = {};
   await seedState(page, state);
-}
-
-/** Waits for the ONLY onboarding screen — the demo quiz. */
-export async function waitForOnboardingDemo(page: Page): Promise<void> {
-  await expect(page.getByTestId(TESTID.onboardingDemo)).toBeVisible({ timeout: 15000 });
 }
 
 /**
@@ -731,14 +723,9 @@ export const TESTID = {
   // exam-leave) удалена вместе с экраном. Новый экзамен (spec 054) использует
   // собственные testid в ExamSetup/ExamRun/ExamResults.
 
-  // Онбординг: экраны «выбор цели» и «Готово · N из 3» удалены (упрощение
-  // онбординга), поэтому их testid'ы (onboarding-goal / onboarding-result /
-  // onboarding-result-score / onboarding-start) здесь больше не объявлены.
-  // Живой набор — только демо-квиз: `onboarding-feedback` в спеках читается
-  // сырой строкой, как и подсказки экранов, у которых есть один потребитель.
-  onboardingDemo: 'onboarding-demo',
-  onboardingDemoProgress: 'onboarding-demo-progress',
-  onboardingDemoNext: 'onboarding-demo-next',
+  // Онбординга в приложении больше нет: экраны «выбор цели», демо-квиз и
+  // «Готово · N из 3» удалены поочерёдно (задание «удалить демо-квиз»), поэтому
+  // ни один onboarding-* testid здесь не объявлен.
 
   dashboardRetention: 'dashboard-retention',
   streakBadge: 'streak-badge',

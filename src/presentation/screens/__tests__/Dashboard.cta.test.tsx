@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Dashboard from '@/presentation/screens/Dashboard';
@@ -7,17 +7,22 @@ import { useQuizStore } from '@/store/quizStore';
 /**
  * Вход в занятие на Dashboard (spec 065, К2.3).
  *
- * Кнопка выбирается по состоянию профиля: нет ни одного ответа → приглашение к
- * обучению; есть просроченные → «Повторить сегодня»; остались только новые →
- * «Продолжить изучение».
+ * Кнопка выбирается по состоянию профиля: НЕТ НИ ОДНОГО ОТВЕТА → Fresh User Mode
+ * с Hero и единственной CTA «Начать первый вопрос →»; есть просроченные →
+ * «Повторить сегодня»; остались только новые → «Продолжить изучение».
+ *
+ * Условие режима — `isFreshUser = hasNoHistory` (задание «удалить демо-квиз»: флаг
+ * `hasCompletedOnboarding` из условия убран, потому что выставлялся только на
+ * удалённом демо-экране). Поэтому профиль с пустой `questionStats` в этом файле —
+ * ВСЕГДА fresh mode, а ветка `hasNoHistory && !isFreshUser` (подпись «Начать
+ * обучение» со скроллом к списку тем) недостижима: её контракт здесь больше не
+ * проверяется — списка тем в режиме нет вовсе.
  *
  * Про «Повторить сегодня» на свежем профиле: `ensureReviewsInitialized` при
- * монтировании расставляет всему банку `next = now`, то есть свежий профиль
- * ЧЕСТНО имеет 30 просроченных — ровно столько, сколько помещается в одну
- * сессию (SESSION_LIMIT). Поэтому приглашение и повторение соседствуют, а не
- * исключают друг друга; исключает их пустая `questionStats` только для
- * подписи: «Повторить 253» больше не появляется ни при каком профиле, потому
- * что N считается по отобранной сессии, а не по всему банку.
+ * монтировании расставляет всему банку `next = now`, то есть свежий профиль ЧЕСТНО
+ * имеет 30 просроченных — ровно столько, сколько помещается в одну сессию
+ * (SESSION_LIMIT). Но повторение новичку не предлагается вовсе: ветки CTA
+ * взаимоисключающие, и fresh mode показывает только Hero.
  *
  * Ветка «только новые» недостижима в рантайме из-за того же до-наполнения
  * (см. «Открытые вопросы» спеки), поэтому она проверяется здесь, где состояние
@@ -67,33 +72,44 @@ describe('Dashboard — вход в занятие (spec 065)', () => {
     if (typeof localStorage !== 'undefined') localStorage.clear();
   });
 
-  it('профиль без единого ответа → только «Начать обучение», без веток повторения (spec 066)', async () => {
+  it('профиль без единого ответа → Hero и ОДНА CTA, без веток повторения (spec 066)', async () => {
     renderDashboard();
     await flushInitialization();
 
+    // Fresh User Mode: Hero с ценностью вместо нулей.
+    expect(screen.getByTestId('dashboard-hero')).toBeTruthy();
+    expect(screen.getByTestId('dashboard-features')).toBeTruthy();
+
     const start = screen.getByTestId('start-learning');
-    expect(start.textContent).toContain('Начать обучение');
+    expect(start.textContent).toContain('Начать первый вопрос');
+    // Счётчик тем у Hero не показывается — он ушёл в подзаголовок.
+    expect(start.textContent).not.toMatch(/\d+ тем/);
 
     // spec 066: ветки взаимоисключающие. Реестр расписания к этому моменту уже
     // наполнен всем банком (`ensureReviewsInitialized`), но повторять новичку
-    // нечего — приглашение показывается ОДНО, без «Повторить» и остатка пула.
+    // нечего — CTA показывается ОДНА, без «Повторить» и остатка пула.
     expect(screen.queryByTestId('review-today')).toBeNull();
     expect(screen.queryByTestId('review-today-remainder')).toBeNull();
     expect(screen.queryByTestId('continue-learning')).toBeNull();
+    // Список тем в режиме скрыт: прежняя ветка «Начать обучение» скроллила именно
+    // к нему, и после B1 (`isFreshUser = hasNoHistory`) она недостижима.
+    expect(screen.queryByTestId('dashboard-topics')).toBeNull();
   });
 
-  it('клик по «Начать обучение» скроллит к списку тем', async () => {
+  it('клик по CTA в fresh mode стартует занятие, а не скроллит к темам', async () => {
     const user = userEvent.setup();
     renderDashboard();
-
-    const topics = screen.getByTestId('dashboard-topics');
-    // jsdom не реализует scrollIntoView — подменяем и проверяем сам вызов.
-    const scrollIntoView = vi.fn();
-    topics.scrollIntoView = scrollIntoView;
+    await flushInitialization();
 
     await user.click(screen.getByTestId('start-learning'));
 
-    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    // Прежний контракт этой кнопки (scrollIntoView к `dashboard-topics`)
+    // принадлежал ветке профиля БЕЗ пройденного онбординга; демо удалено, ветка
+    // недостижима, поэтому CTA всегда стартует review-сессию дня.
+    const state = useQuizStore.getState();
+    expect(state.currentScreen).toBe('question');
+    expect(state.reviewKind).toBe('today');
+    expect(state.reviewQuestionIds?.length).toBeGreaterThan(0);
   });
 
   it('просроченные идут первыми в сессии: прогон стартует с самого запущенного', async () => {
@@ -163,7 +179,13 @@ describe('Dashboard — вход в занятие (spec 065)', () => {
     expect(screen.queryByTestId('start-learning')).toBeNull();
   });
 
-  it('сохранённые testid дашборда на месте', () => {
+  it('сохранённые testid дашборда на месте (профиль с историей)', () => {
+    // Узлы обычного режима живут только вне fresh mode, поэтому профиль сеется
+    // непустой статистикой — иначе проверялся бы Hero, а не они.
+    const bank = useQuizStore.getState().questions;
+    useQuizStore.setState({
+      questionStats: { [bank[0].id]: { attempts: 1, correct: 1, lastAt: '2026-10-04' } },
+    });
     renderDashboard();
 
     // spec 068: legacy `start-exam` («Режим экзамена (20 вопросов, 30 минут)»)

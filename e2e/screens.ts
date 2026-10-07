@@ -1,17 +1,14 @@
 import type { Page } from '@playwright/test';
 import {
   expect,
-  blockAnalytics,
   gotoApp,
   liveRecord,
   readBank,
   resumeSeededRun,
   seedHistoryProfile,
   seedNoAccess,
-  seedOnboarding,
   seedState,
   TOPIC_QUESTIONS,
-  waitForOnboardingDemo,
   waitForQuestion,
   TESTID,
   type BankQuestion,
@@ -179,19 +176,12 @@ async function openPaywall(page: Page): Promise<void> {
   await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: ANCHOR_TIMEOUT });
 }
 
-async function openOnboardingDemo(page: Page): Promise<void> {
-  await blockAnalytics(page);
-  await seedOnboarding(page, false);
-  await page.goto('/');
-  await waitForOnboardingDemo(page);
-}
-
 /**
- * Все 9 значений `Screen` (`src/store/quizStore.ts`): 8 «рабочих» экранов на
- * двух viewport'ах + 1 онбординг-экран (демо-квиз) только на мобильном — это
- * витрина Telegram Mini App, на десктопе её не показывают целевой аудитории.
- * Экраны «выбор цели» и «Готово · N из 3» удалены упрощением онбординга, поэтому
- * их baseline'ы больше не снимаются.
+ * Все 8 значений `Screen` (`src/store/quizStore.ts`): по экрану на каждый
+ * viewport (390×844 mobile, 1440×900 desktop). Онбординг-экрана в списке больше
+ * нет — задание «удалить демо-квиз» убрало последний из них, и свежий профиль
+ * попадает сразу на Dashboard, поэтому первый экран приложения описывает
+ * baseline `dashboard-*`.
  */
 export const SCREENS: readonly ScreenCase[] = [
   { name: 'dashboard', viewports: ['mobile', 'desktop'], open: openDashboard },
@@ -202,5 +192,4 @@ export const SCREENS: readonly ScreenCase[] = [
   { name: 'exam-results', viewports: ['mobile', 'desktop'], open: openExamResults },
   { name: 'analytics', viewports: ['mobile', 'desktop'], open: openAnalytics },
   { name: 'paywall', viewports: ['mobile', 'desktop'], open: openPaywall },
-  { name: 'onboarding-demo', viewports: ['mobile'], open: openOnboardingDemo },
 ];

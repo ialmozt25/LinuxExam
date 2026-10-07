@@ -6,8 +6,10 @@ import { useQuizStore } from '@/store/quizStore';
 /**
  * Fresh User Mode: продающий первый экран (задание «Fresh Dashboard»).
  *
- * Условие режима — `hasCompletedOnboarding && !hasAnyAnswers`, где «есть ответы»
- * это непустая `questionStats` (та же метрика, что у гейта `useNeedsOnboarding`).
+ * Условие режима — `isFreshUser = hasNoHistory`, то есть пустая `questionStats`:
+ * это ровно состояние первого запуска. Флаг `hasCompletedOnboarding` из условия
+ * УБРАН заданием «удалить демо-квиз»: выставлялся он только на удалённом
+ * демо-экране, поэтому оставленный флаг сделал бы режим недостижимым навсегда.
  * Показывается: level-strip, header Tux+LinuxExam, Hero («Начните путь к RHCSA»,
  * числа банка и реестра, одна большая CTA старта) и блок «Внутри вас ждет»
  * (4 возможности, SVG-иконки). Скрыто: Exam mode, аналитика, повтор ошибок,
@@ -18,8 +20,8 @@ import { useQuizStore } from '@/store/quizStore';
  * оставленная осознанно, — level-strip «Новичок · 0 / 50 XP до Ученика» (A1
  * задания: «верхняя панель без изменений»).
  *
- * Проверяется именно пара состояний: «до первого ответа» и «после него» —
- * граница режима, а не разметка по отдельности.
+ * Проверяется пара состояний — «до первого ответа» и «после него» — плюс
+ * независимость режима от флага онбординга.
  */
 
 /** Ждёт, пока эффект монтирования Dashboard наполнит реестр расписания. */
@@ -48,9 +50,10 @@ async function resetStore() {
     totalXp: 0,
     isPro: true,
     onboardingGoal: null,
-    // Онбординг пройден (кнопка «Начать обучение →» демо-квиза)…
+    // Флаг онбординга в условии режима больше не участвует (демо удалено), но
+    // остаётся частью persist-контракта — держим его как у обычного профиля.
     hasCompletedOnboarding: true,
-    // …и дневная цель уже зафиксирована дефолтом: пикера в потоке нет.
+    // Дневная цель уже зафиксирована дефолтом: пикера в потоке нет.
     dailyGoalXp: 30,
   });
 }
@@ -175,22 +178,24 @@ describe('Dashboard — Fresh User Mode', () => {
     expect(screen.getByTestId('review-today').textContent).toContain('Продолжить обучение');
   });
 
-  it('онбординг не пройден → режим выключен (ветка выбора темы сохранена)', async () => {
+  it('режим не зависит от флага онбординга: флаг осиротел вместе с демо', async () => {
     act(() => {
       useQuizStore.setState({ hasCompletedOnboarding: false });
     });
     renderDashboard();
     await flushInitialization();
 
-    // Ветка профиля без пройденного онбординга: приглашение СКРОЛЛИТ к темам,
-    // поэтому список тем и Exam mode на месте.
-    expect(screen.getByTestId('start-learning')).toBeTruthy();
-    // Подпись и счётчик у этой ветки прежние: Hero — принадлежность fresh mode.
-    expect(screen.getByTestId('start-learning').textContent).toContain('Начать обучение');
-    expect(screen.getByTestId('start-learning').textContent).toMatch(/\d+ тем/);
-    expect(screen.queryByTestId('dashboard-hero')).toBeNull();
-    expect(screen.queryByTestId('dashboard-features')).toBeNull();
-    expect(screen.getByTestId('dashboard-topics')).toBeTruthy();
-    expect(screen.getByTestId('exam-mode')).toBeTruthy();
+    // Единственный источник режима — пустая `questionStats`. Раньше
+    // `hasCompletedOnboarding` был вторым слагаемым условия, но выставлялся он
+    // только на демо-экране: после его удаления оставленный флаг сделал бы Fresh
+    // User Mode недостижимым. Поэтому профиль без ответов обязан видеть Hero и при
+    // `hasCompletedOnboarding: false` — иначе первый запуск показывал бы полный
+    // Dashboard вместо Hero.
+    expect(screen.getByTestId('dashboard-hero')).toBeTruthy();
+    expect(screen.getByTestId('dashboard-features')).toBeTruthy();
+    expect(screen.getByTestId('start-learning').textContent).toContain('Начать первый вопрос');
+    // Ветка «Начать обучение» со скроллом к темам недостижима: списка тем нет.
+    expect(screen.queryByTestId('dashboard-topics')).toBeNull();
+    expect(screen.queryByTestId('exam-mode')).toBeNull();
   });
 });

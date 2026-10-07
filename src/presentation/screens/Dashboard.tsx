@@ -482,18 +482,23 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // до-наполняется при монтировании (ensureReviewsInitialized НИЖЕ) и на свежем
   // профиле выглядит так же полным, как у активного пользователя.
   const hasNoHistory = Object.keys(questionStats).length === 0;
-  const hasCompletedOnboarding = useQuizStore((s) => s.hasCompletedOnboarding);
 
-  // Fresh User Mode: онбординг пройден, но ответов ещё нет — ровно то состояние, в
-  // котором пользователь выходит из демо-квиза. Dashboard показывает только нужное
-  // (уровень, заголовок, заглушка серии, прогресс, ОДНА CTA) и прячет Exam mode,
-  // аналитику, повтор ошибок и программу RHCSA: до первого ответа этот выбор —
-  // шум, а единственное осмысленное действие одно — начать обучение.
+  // Fresh User Mode: ответов ещё нет — это и есть первый запуск приложения.
+  // Dashboard показывает только нужное (level-strip, Hero, «Внутри вас ждет»,
+  // ОДНА CTA) и прячет Exam mode, аналитику, повтор ошибок и программу RHCSA: до
+  // первого ответа этот выбор — шум, а единственное осмысленное действие одно.
   //
-  // Источник «есть ли ответы» — та же `questionStats`, что и в гейте
-  // `useNeedsOnboarding`: статистика накапливается во ВСЕХ потоках (regular,
-  // review, exam), поэтому первый же ответ в любом из них выключает режим.
-  const isFreshUser = hasCompletedOnboarding && hasNoHistory;
+  // Флаг `hasCompletedOnboarding` из условия УБРАН (задание «удалить демо-квиз»):
+  // единственным местом, где он выставлялся в `true`, был `completeOnboarding()` на
+  // удалённом демо-экране, поэтому оставленный флаг сделал бы режим недостижимым
+  // навсегда — fresh-профиль видел бы полный Dashboard вместо Hero. Сам флаг и
+  // экшен в persist/сторе сохранены: их пинят `onboarding-migration.test.ts`
+  // и `paywall-migration.test.ts`.
+  //
+  // Источник «есть ли ответы» — та же `questionStats`, что и раньше: статистика
+  // накапливается во ВСЕХ потоках (regular, review, exam), поэтому первый же ответ
+  // в любом из них выключает режим.
+  const isFreshUser = hasNoHistory;
 
   // «Начать обучение» ведёт не в прогон, а к списку тем: это ветка профиля,
   // который ещё НЕ проходил онбординг (в ней список тем виден). У Fresh User Mode
@@ -808,7 +813,14 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           testId `start-learning` сохранён намеренно: это контракт «единственный
           вход в занятие до первого ответа», и его пинят вне allowed-списка
           `e2e/analytics.spec.ts` и `e2e/regression-071.spec.ts` (им важен testId,
-          а не подпись). */}
+          а не подпись).
+
+          ИЗВЕСТНЫЙ ДОЛГ (решение капитана на STOP-точке — оставить как есть):
+          подветка `hasNoHistory && !isFreshUser` (подпись «Начать обучение» со
+          счётчиком тем, onClick = scrollToTopics) после уборки демо НЕДОСТИЖИМА —
+          isFreshUser теперь тождественно равен hasNoHistory.
+          // unreachable после removal of demo (B1: isFreshUser ≡ hasNoHistory).
+          // Убрать вместе со scrollToTopics/topicsRef/RhcsaProgramme.topicsRef отдельной задачей. */}
       {hasNoHistory ? (
         <>
           {/* Hero (только Fresh User Mode). Возвращающемуся профилю не рендерится:
