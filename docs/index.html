@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 977efda</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 094110d</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">094110d</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push xp-levels</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
+          <td class="mono">3114e7b</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after xp-levels</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">977efda</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(xp): именованные уровни RHCSA + кривая «быстро на старте» + toast перехода</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">3cc7b5d</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push ux-copy</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
-        <tr>
-          <td class="mono">66f2763</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after ux-copy</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -606,7 +606,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-06T05:08:54Z</td>
           <td class="mono">10</td>
-          <td class="muted">19 ч</td>
+          <td class="muted">20 ч</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
@@ -620,7 +620,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">96 ч (~4.0 дн)</td>
+          <td class="muted">97 ч (~4.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · xp-levels | производные правки вне allowed-списка (вынуждены гейтами, не расширение скоупа — прецедент ux-copy-3, журнал событий:398): e2e/persist.spec.ts…</li>
-        <li><span class="mono muted">07.10</span> · xp-levels | гейты: typecheck exit 0; test:run 50 файлов / 537 тестов passed; retention + mobile-layout 18 passed; visual-regression 19 passed (после обновления 2 baseline); build exit 0; правленые per…</li>
         <li><span class="mono muted">07.10</span> · xp-levels | гейт 4 по букве: git status --short e2e/ = 4 строки (2 PNG + 2 правленых спека из производных правок выше), а не 2 PNG; по существу перегенерация затронула РОВНО 2 файла…</li>
         <li><span class="mono muted">07.10</span> · xp-levels | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
         <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;xp-levels&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
+        <li><span class="mono muted">07.10</span> · xp-levels | гейт 4 принят капитаном как PASS по существу: git status --short e2e/ даёт 4 строки (2 PNG + 2 правленых спека — производные от изменения текста уровня)…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - xp-levels (именованные уровни RHCSA вместо номерной шкалы: LEVELS Новичок 0 / Ученик 50 / Практик 150 / Специалист 350 / Эксперт 700 / Мастер 1200 / Гранд-мастер 20…</li>
     </ul>
   </details>
 
