@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "2c12e37e1484238f13ee8321e79917af348d095e",
+  "head": "8f74113ac6ddc7274c709b6d9b2acd11a9fe6c28",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "8f74113",
+      "date": "2026-10-07",
+      "subject": "fix(desktop): аудит 1024–1920 — сетка в 2 колонки, тёмный акцент-текст, одно действие 448px",
+      "type": "fix"
+    },
+    {
+      "sha": "9be3442",
+      "date": "2026-10-07",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
+    {
       "sha": "2c12e37",
       "date": "2026-10-07",
       "subject": "chore(log): trail for push dashboard-desktop",
@@ -1602,18 +1614,6 @@
       "sha": "3114e7b",
       "date": "2026-10-07",
       "subject": "chore(state): converge after xp-levels",
-      "type": "chore"
-    },
-    {
-      "sha": "977efda",
-      "date": "2026-10-07",
-      "subject": "feat(xp): именованные уровни RHCSA + кривая «быстро на старте» + toast перехода",
-      "type": "feat"
-    },
-    {
-      "sha": "ff77fcc",
-      "date": "2026-10-07",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
