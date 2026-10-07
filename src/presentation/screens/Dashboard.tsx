@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, type RefObject } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { BarChart3, ClipboardList, Flame, MoonStar, Sun } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
@@ -153,6 +153,218 @@ interface TopicBadge {
   variant: BadgeVariant;
 }
 
+/**
+ * RHCSA-программа: информационный список тем банка. Строки не интерактивны как
+ * навигация — клик по доступной теме запускает её прогон (`openTopic`), у
+ * платной темы без доступа поднимается paywall.
+ *
+ * Отдельный компонент, а не блок внутри Dashboard, потому что список рендерится
+ * УСЛОВНО (Fresh User Mode его не показывает), а внутри строки вызывается
+ * paywall-хук `useCanAccessTopic`. Число хуков внутри одного компонента обязано
+ * быть постоянным: условный блок с хуком в `.map` ломал бы правила хуков при
+ * переключении режима без размонтирования («Rendered more hooks than during the
+ * previous render»). Внутри этого компонента `TOPICS` статичен, поэтому набор
+ * хуков одинаков на каждом его рендере.
+ */
+function RhcsaProgramme({
+  topicsRef,
+}: {
+  /** Анкер списка: цель скролла CTA «Начать обучение» в ветке без онбординга. */
+  topicsRef: RefObject<HTMLDivElement>;
+}) {
+  // Paywall (spec 063): подписка на примитивы `isPro`/`trialStartedAt`.
+  const paywallAccess: TopicGate = useCanAccessTopic;
+
+  return (
+    <div
+      id="dashboard-topics"
+      data-testid="dashboard-topics"
+      ref={topicsRef}
+      style={{ marginTop: 'var(--space-6)' }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          marginBottom: 'var(--space-3)',
+        }}
+      >
+        <span
+          style={{
+            fontSize: 'var(--text-xs)',
+            textTransform: 'uppercase',
+            letterSpacing: 'var(--letter-wide)',
+            color: 'var(--text-secondary)',
+            fontWeight: 600,
+          }}
+        >
+          Программа RHCSA
+        </span>
+        <span
+          style={{
+            fontSize: 'var(--text-xs)',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          {`${AVAILABLE_TOPICS.length} из ${TOPICS.length} тем`}
+        </span>
+      </div>
+
+      {TOPICS.map((topic) => {
+        const count = getTopicCount(topic.key);
+        const isAvailable = topic.status === 'available';
+        const Icon = topic.Icon;
+        // spec 063: Free-темы открыты всем, Paid-темы — только Pro или активным
+        // trial-ом. Тема со статусом «Скоро» остаётся неинтерактивной: доступ
+        // для неё не считается, бейджа нет.
+        const isFree = isFreeTopic(topic.key);
+        const allowed = !isAvailable || paywallAccess(topic.key);
+        // Решение C (dashboard-ux-2): замок 🔒 у платной темы убран — доступ
+        // определяется кликом (free / Pro / активный trial). Бейдж остаётся
+        // только у платной темы БЕЗ доступа: «PRO» — это её paywall-метка.
+        const badge: TopicBadge | null =
+          !isAvailable || isFree || allowed
+            ? null
+            : { testid: 'paywall-badge-pro', label: 'PRO', variant: 'pro' };
+
+        const rowStyle = {
+          display: 'flex' as const,
+          alignItems: 'center' as const,
+          gap: 'var(--space-3)',
+          padding: 'var(--space-3)',
+          marginBottom: 'var(--space-2)',
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: 'var(--radius-md)',
+          opacity: isAvailable ? 1 : 0.55,
+          width: '100%' as const,
+          textAlign: 'left' as const,
+          fontFamily: 'inherit',
+          color: 'inherit',
+        };
+
+        const inner = (
+          <>
+            <Icon
+              size={20}
+              color={isAvailable ? 'var(--accent)' : 'var(--text-secondary)'}
+              aria-hidden="true"
+            />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {/* Название и подсказка (spec 067): подсказка идёт СРАЗУ за
+                  названием в отдельной колонке, а не в общем ряду с чипом
+                  вопросов. `flexWrap: wrap` роняет её на свою строку, когда
+                  места не хватает (390px + длинное название темы), вместо
+                  того чтобы распирать карточку по горизонтали. */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-1) var(--space-2)',
+                  flexWrap: 'wrap',
+                  minWidth: 0,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 'var(--text-sm)',
+                    fontWeight: 600,
+                    color: 'var(--text-primary)',
+                    minWidth: 0,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {topic.title}
+                </div>
+                {topic.key === FIRST_FREE_TOPIC && (
+                  <Badge variant="hint" testId="topic-first-cta">
+                    начните с этой
+                  </Badge>
+                )}
+              </div>
+              <div
+                style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-secondary)',
+                  marginTop: 'var(--space-1)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {topic.description}
+              </div>
+            </div>
+            {/* Правая колонка: чип доступа и счётчик. `flexWrap` — чтобы на узком
+                экране они переносились вниз, а не выдавливали название. */}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                gap: 'var(--space-1)',
+                flexShrink: 0,
+                maxWidth: '45%',
+              }}
+            >
+              {/* `LOCKED_BADGE` (капс + разрядка) — только для плашки «PRO»:
+                  после решения C это единственный бейдж в строке темы. */}
+              {badge !== null && (
+                <Badge variant={badge.variant} testId={badge.testid} style={LOCKED_BADGE}>
+                  {badge.label}
+                </Badge>
+              )}
+              {isAvailable ? (
+                <span
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    fontWeight: 600,
+                    // spec 079: 12px на белом — 3.12:1 при пороге 4.5:1 →
+                    // тёмный оттенок акцента (5.75:1).
+                    color: 'var(--color-accent-strong)',
+                    flexShrink: 0,
+                  }}
+                >
+                  {count} вопр.
+                </span>
+              ) : (
+                <Badge variant="locked" style={LOCKED_BADGE}>
+                  Скоро
+                </Badge>
+              )}
+            </div>
+          </>
+        );
+
+        if (isAvailable) {
+          return (
+            <Card
+              key={topic.key}
+              variant="plain"
+              as="button"
+              testId={`topic-${topic.key}`}
+              onClick={() => openTopic(topic.key, allowed)}
+              ariaLabel={`Начать тему: ${topic.title}`}
+              style={rowStyle}
+            >
+              {inner}
+            </Card>
+          );
+        }
+
+        return (
+          <Card key={topic.key} variant="plain" style={rowStyle}>
+            {inner}
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Dashboard({ theme, onToggleTheme }: Props) {
   // Counts come from the bank manifest (≈260 B) rather than from the loaded bank:
   // the Dashboard must show real numbers before the topic chunks arrive.
@@ -170,11 +382,6 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const startRegularQuiz = useQuizStore((s) => s.startRegularQuiz);
   const wrongQuestionIds = useQuizStore((s) => s.wrongQuestionIds);
   const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
-
-  // Paywall (spec 063). Один хук на компонент: он подписан на `isPro` и
-  // `trialStartedAt`, а сам ответ про конкретную тему считает чистая функция
-  // домена (`canAccessTopic`), поэтому 14 тем не подписывают компонент 14 раз.
-  const paywallAccess: TopicGate = useCanAccessTopic;
 
   // FSRS-lite (spec 052): нагрузка для кнопки входа в занятие.
   // Банк отдаёт store асинхронно (per-topic chunks), поэтому N пересчитывается
@@ -223,9 +430,22 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // до-наполняется при монтировании (ensureReviewsInitialized НИЖЕ) и на свежем
   // профиле выглядит так же полным, как у активного пользователя.
   const hasNoHistory = Object.keys(questionStats).length === 0;
+  const hasCompletedOnboarding = useQuizStore((s) => s.hasCompletedOnboarding);
 
-  // «Начать обучение» ведёт не в прогон, а к списку тем: на свежем профиле
-  // пользователю сначала нужен выбор темы, а не первый вопрос подряд.
+  // Fresh User Mode: онбординг пройден, но ответов ещё нет — ровно то состояние, в
+  // котором пользователь выходит из демо-квиза. Dashboard показывает только нужное
+  // (уровень, заголовок, заглушка серии, прогресс, ОДНА CTA) и прячет Exam mode,
+  // аналитику, повтор ошибок и программу RHCSA: до первого ответа этот выбор —
+  // шум, а единственное осмысленное действие одно — начать обучение.
+  //
+  // Источник «есть ли ответы» — та же `questionStats`, что и в гейте
+  // `useNeedsOnboarding`: статистика накапливается во ВСЕХ потоках (regular,
+  // review, exam), поэтому первый же ответ в любом из них выключает режим.
+  const isFreshUser = hasCompletedOnboarding && hasNoHistory;
+
+  // «Начать обучение» ведёт не в прогон, а к списку тем: это ветка профиля,
+  // который ещё НЕ проходил онбординг (в ней список тем виден). У Fresh User Mode
+  // список тем скрыт, поэтому его CTA стартует занятие напрямую — см. ниже.
   const topicsRef = useRef<HTMLDivElement | null>(null);
   const scrollToTopics = () => {
     topicsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -259,7 +479,11 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // показывает подпись XpBar, третья копия тех же чисел была дублем.
   // Вместе с узлом ушёл и селектор `useDailyGoalProgress`: он был нужен только
   // ему, а незанятый импорт держал бы ложную зависимость от dailyGoal.
-  useTelegramMainButton('Продолжить', () => navigateTo('question'));
+  // Нативный MainButton доступен только в Telegram и показывал бы «Продолжить»
+  // даже в Fresh User Mode — то есть вторую primary-CTA против контракта «одна
+  // большая кнопка до первого ответа». Там он скрыт: роль единственной CTA берёт
+  // in-app `start-learning` в потоке.
+  useTelegramMainButton('Продолжить', () => navigateTo('question'), true, !isFreshUser);
 
   // Reset scroll when the dashboard mounts.
   useEffect(() => {
@@ -448,7 +672,30 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           marginTop: 'var(--space-5)',
         }}
       >
-        <StreakBadge />
+        {isFreshUser ? (
+          // Заглушка вместо StreakBadge: у профиля без ответов бейдж показал бы
+          // «0 дней» — число, которое читается как неудача. До первого ответа
+          // серия ещё не начата, поэтому вместо нуля — приглашение.
+          <div
+            data-testid="streak-placeholder"
+            style={{
+              padding: 'var(--space-2) var(--space-3)',
+              minHeight: 44,
+              display: 'flex',
+              alignItems: 'center',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-md)',
+              color: 'var(--text-secondary)',
+              fontSize: 'var(--text-sm)',
+              fontWeight: 600,
+            }}
+          >
+            Начни серию сегодня
+          </div>
+        ) : (
+          <StreakBadge />
+        )}
         <XpBar />
       </div>
       {/* diag-dashboard-fix (STOP-1 v1): узел `retention-goal-line`
@@ -501,22 +748,22 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       </div>
 
       {/* Вход в занятие (spec 065; взаимоисключение ветвей — spec 066).
-          У профиля без единого ответа (`hasNoHistory`) повторять нечего, поэтому
-          показывается РОВНО приглашение к обучению — без кнопки повторения
-          («Продолжить обучение», ux-copy-3) и без строки остатка (удалена тем же
-          заданием). До spec 066 эти блоки жили отдельными условиями и
-          рендерились рядом с приглашением. Запас всё равно существует:
-          `ensureReviewsInitialized` при монтировании проставляет всему банку
-          `next = now`, `pickToday` считает весь банк просроченным, а
-          `getSessionIds()` обрезает его до SESSION_LIMIT = 30. Для профиля
-          С историей поведение прежнее: просроченные — повторение; остались только
-          новые — продолжение. Прогон идёт review-стримом, поэтому бесплатный
-          лимит не расходуется. */}
+          Две ветки, порядок важен:
+          1. Профиль без единого ответа (`hasNoHistory`) — приглашение к обучению.
+             Кнопка ОДНА, а обработчик зависит от режима: в Fresh User Mode
+             (`isFreshUser` — онбординг пройден, ответов нет) список тем скрыт,
+             поэтому CTA СТАРТУЕТ занятие (review-сессия дня), а в ветке без
+             пройденного онбординга скроллит к списку тем — он там виден.
+             В рантайме вторая ветка недостижима (App уводит такой профиль на
+             демо-квиз), но её контракт пинит юнит-тест `Dashboard.cta.test.tsx`.
+          2. Профиль с историей: просроченные — повторение; остались только новые —
+             продолжение. Прогон идёт review-стримом, поэтому бесплатный лимит не
+             расходуется. */}
       {hasNoHistory ? (
         <Button
           variant="primary"
           testId="start-learning"
-          onClick={scrollToTopics}
+          onClick={isFreshUser ? () => startReviewQuiz(sessionIds, 'today') : scrollToTopics}
           style={PRIMARY_CTA}
         >
           <span>Начать обучение</span>
@@ -572,32 +819,45 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
       {/* Exam mode (spec 054) — единственный экзамен в приложении (spec 068):
           отдельный поток из трёх экранов (настройка → прогон → итоги) с пресетами
           30/60/90 и разбором по темам. Историческая кнопка «Режим экзамена
-          (20 вопросов, 30 минут)» удалена вместе с инлайн-режимом. */}
-      <Button
-        variant="secondary"
-        testId="exam-mode"
-        onClick={() => navigateTo('exam-setup')}
-        style={SECONDARY_CTA}
-      >
-        <ClipboardList size={18} aria-hidden="true" />
-        <span>Exam mode — 30/60/90 вопросов с разбором</span>
-      </Button>
+          (20 вопросов, 30 минут)» удалена вместе с инлайн-режимом.
 
-      {/* Analytics (spec 058): «персональный тренер» — radar по 14 темам,
-          готовность, слабые зоны и тренд за 7 дней. Данные уже в persist
-          (questionStats), поэтому экран ничего не дозагружает. */}
-      <Button
-        variant="secondary"
-        testId="analytics-mode"
-        onClick={() => navigateTo('analytics')}
-        style={SECONDARY_CTA}
-      >
-        <BarChart3 size={18} aria-hidden="true" />
-        <span>Аналитика — готовность, слабые темы, тренд</span>
-      </Button>
+          В Fresh User Mode скрыт: экзамен на 30–90 вопросов — не первый шаг для
+          профиля без единого ответа. */}
+      {!isFreshUser && (
+        <>
+          <Button
+            variant="secondary"
+            testId="exam-mode"
+            onClick={() => navigateTo('exam-setup')}
+            style={SECONDARY_CTA}
+          >
+            <ClipboardList size={18} aria-hidden="true" />
+            <span>Exam mode — 30/60/90 вопросов с разбором</span>
+          </Button>
 
-      {/* «Повторить ошибки» — resumed from the regular stream's wrong answers */}
-      {wrongQuestionIds.length > 0 && (
+          {/* Analytics (spec 058): «персональный тренер» — radar по 14 темам,
+              готовность, слабые зоны и тренд за 7 дней. Данные уже в persist
+              (questionStats), поэтому экран ничего не дозагружает.
+
+              В Fresh User Mode скрыта: аналитика по ПУСТОЙ статистике — пустые
+              состояния вместо ответа «где я слаб». */}
+          <Button
+            variant="secondary"
+            testId="analytics-mode"
+            onClick={() => navigateTo('analytics')}
+            style={SECONDARY_CTA}
+          >
+            <BarChart3 size={18} aria-hidden="true" />
+            <span>Аналитика — готовность, слабые темы, тренд</span>
+          </Button>
+        </>
+      )}
+
+      {/* «Повторить ошибки» — resumed from the regular stream's wrong answers.
+          В Fresh User Mode ошибок ещё нет по определению, но узел скрыт явно:
+          список «нужного» в этом режиме закрыт, и полагаться на пустоту ошибок
+          вместо явного условия — хрупко. */}
+      {!isFreshUser && wrongQuestionIds.length > 0 && (
         <Button
           variant="primary"
           testId="review-wrong"
@@ -617,193 +877,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
         </Button>
       )}
 
-      {/* RHCSA Roadmap - informational only, topics are NOT interactive */}
-      <div
-        id="dashboard-topics"
-        data-testid="dashboard-topics"
-        ref={topicsRef}
-        style={{ marginTop: 'var(--space-6)' }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-            marginBottom: 'var(--space-3)',
-          }}
-        >
-          <span
-            style={{
-              fontSize: 'var(--text-xs)',
-              textTransform: 'uppercase',
-              letterSpacing: 'var(--letter-wide)',
-              color: 'var(--text-secondary)',
-              fontWeight: 600,
-            }}
-          >
-            Программа RHCSA
-          </span>
-          <span
-            style={{
-              fontSize: 'var(--text-xs)',
-              color: 'var(--text-secondary)',
-            }}
-          >
-            {`${AVAILABLE_TOPICS.length} из ${TOPICS.length} тем`}
-          </span>
-        </div>
-
-        {TOPICS.map((topic) => {
-          const count = getTopicCount(topic.key);
-          const isAvailable = topic.status === 'available';
-          const Icon = topic.Icon;
-          // spec 063: Free-темы открыты всем, Paid-темы — только Pro или активным
-          // trial-ом. Тема со статусом «Скоро» остаётся неинтерактивной: доступ
-          // для неё не считается, бейджа нет.
-          const isFree = isFreeTopic(topic.key);
-          const allowed = !isAvailable || paywallAccess(topic.key);
-          // Решение C (dashboard-ux-2): замок 🔒 у платной темы убран — доступ
-          // определяется кликом (free / Pro / активный trial). Бейдж остаётся
-          // только у платной темы БЕЗ доступа: «PRO» — это её paywall-метка.
-          const badge: TopicBadge | null =
-            !isAvailable || isFree || allowed
-              ? null
-              : { testid: 'paywall-badge-pro', label: 'PRO', variant: 'pro' };
-
-          const rowStyle = {
-            display: 'flex' as const,
-            alignItems: 'center' as const,
-            gap: 'var(--space-3)',
-            padding: 'var(--space-3)',
-            marginBottom: 'var(--space-2)',
-            background: 'var(--bg-surface)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-md)',
-            opacity: isAvailable ? 1 : 0.55,
-            width: '100%' as const,
-            textAlign: 'left' as const,
-            fontFamily: 'inherit',
-            color: 'inherit',
-          };
-
-          const inner = (
-            <>
-              <Icon
-                size={20}
-                color={isAvailable ? 'var(--accent)' : 'var(--text-secondary)'}
-                aria-hidden="true"
-              />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                {/* Название и подсказка (spec 067): подсказка идёт СРАЗУ за
-                    названием в отдельной колонке, а не в общем ряду с чипом
-                    вопросов. `flexWrap: wrap` роняет её на свою строку, когда
-                    места не хватает (390px + длинное название темы), вместо
-                    того чтобы распирать карточку по горизонтали. */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-1) var(--space-2)',
-                    flexWrap: 'wrap',
-                    minWidth: 0,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: 'var(--text-sm)',
-                      fontWeight: 600,
-                      color: 'var(--text-primary)',
-                      minWidth: 0,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {topic.title}
-                  </div>
-                  {topic.key === FIRST_FREE_TOPIC && (
-                    <Badge variant="hint" testId="topic-first-cta">
-                      начните с этой
-                    </Badge>
-                  )}
-                </div>
-                <div
-                  style={{
-                    fontSize: 'var(--text-xs)',
-                    color: 'var(--text-secondary)',
-                    marginTop: 'var(--space-1)',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {topic.description}
-                </div>
-              </div>
-              {/* Правая колонка: чип доступа и счётчик. `flexWrap` — чтобы на узком
-                  экране они переносились вниз, а не выдавливали название. */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-end',
-                  gap: 'var(--space-1)',
-                  flexShrink: 0,
-                  maxWidth: '45%',
-                }}
-              >
-                {/* `LOCKED_BADGE` (капс + разрядка) — только для плашки «PRO»:
-                    после решения C это единственный бейдж в строке темы. */}
-                {badge !== null && (
-                  <Badge variant={badge.variant} testId={badge.testid} style={LOCKED_BADGE}>
-                    {badge.label}
-                  </Badge>
-                )}
-                {isAvailable ? (
-                  <span
-                    style={{
-                      fontSize: 'var(--text-xs)',
-                      fontWeight: 600,
-                      // spec 079: 12px на белом — 3.12:1 при пороге 4.5:1 →
-                      // тёмный оттенок акцента (5.75:1).
-                      color: 'var(--color-accent-strong)',
-                      flexShrink: 0,
-                    }}
-                  >
-                    {count} вопр.
-                  </span>
-                ) : (
-                  <Badge variant="locked" style={LOCKED_BADGE}>
-                    Скоро
-                  </Badge>
-                )}
-              </div>
-            </>
-          );
-
-          if (isAvailable) {
-            return (
-              <Card
-                key={topic.key}
-                variant="plain"
-                as="button"
-                testId={`topic-${topic.key}`}
-                onClick={() => openTopic(topic.key, allowed)}
-                ariaLabel={`Начать тему: ${topic.title}`}
-                style={rowStyle}
-              >
-                {inner}
-              </Card>
-            );
-          }
-
-          return (
-            <Card key={topic.key} variant="plain" style={rowStyle}>
-              {inner}
-            </Card>
-          );
-        })}
-      </div>
+      {/* RHCSA-программа. В Fresh User Mode скрыта: до первого ответа список из
+          14 тем — выбор без основания (пользователь ещё не знает, где слаб), а
+          единственная CTA режима ведёт в занятие напрямую, а не к списку. */}
+      {!isFreshUser && <RhcsaProgramme topicsRef={topicsRef} />}
       {/* Resume banner - unfinished regular quiz only */}
       {isQuizInProgress && !reviewQuestionIds ? (
         <Card
@@ -876,7 +953,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           `mainButtonReady === false` и in-app футер рендерится). Sticky-элемент
           в потоке и распорки не требует.
         */}
-      {!mainButtonReady && (
+      {!mainButtonReady && !isFreshUser && (
         <div
           style={{
             position: 'sticky',

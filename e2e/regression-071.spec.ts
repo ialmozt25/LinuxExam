@@ -246,28 +246,25 @@ test.describe.serial('spec 071 — регрессии P1/P2/P3 (390×844)', () =
     expect(errors).toEqual([]);
   });
 
-  test('P3: Analytics — пустой профиль рендерит приглашение, метрики скрыты, ошибок нет', async ({
+  test('P3: пустой профиль → Fresh User Mode без входа в аналитику, ошибок нет', async ({
     page,
   }) => {
     const errors = collectErrors(page);
     await blockAnalytics(page);
-    await seedState(page, emptyPersistedState());
+    await seedState(page, { answers: [], currentIndex: 0, questionStats: {} });
     await page.goto('/');
-    await expect(page.getByTestId('analytics-mode')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
+      timeout: 15000,
+    });
 
-    await page.getByTestId('analytics-mode').click();
-    await expect(page.getByTestId('analytics')).toBeVisible({ timeout: 15000 });
-
-    await expect(page.getByTestId('analytics-empty')).toBeVisible();
-    await expect(page.getByTestId('analytics-readiness')).toHaveCount(0);
-    await expect(page.getByTestId('analytics-radar')).toHaveCount(0);
-    // Карточка «Слабые темы» на пустом профиле показывает темы с нулевой
-    // готовностью (наблюдаемое поведение `weakTopics` для пустой статистики:
-    // «Развёртывание систем 0%» и т. д.), поэтому проверяется её наличие и
-    // отсутствие NaN — заявленный в spec 058 контракт «пустой профиль не даёт NaN».
-    await expect(page.getByTestId('analytics-weak')).toBeVisible();
-    await expect(page.getByTestId('analytics-weak')).not.toContainText('NaN');
-    await expect(page.getByTestId('analytics-trend-delta')).toContainText('нет базы для сравнения');
+    // Упрощение онбординга: пустая статистика теперь Fresh User Mode, и аналитика
+    // из UI недостижима (кнопка скрыта). Прежний контракт «пустой профиль рендерит
+    // приглашение аналитики без NaN» проверялся на экране, до которого из этого
+    // состояния больше не дойти; здесь остаётся регресс рендера — страница не
+    // падает и не пишет в консоль.
+    await expect(page.getByTestId('analytics-mode')).toHaveCount(0);
+    await expect(page.getByTestId('analytics')).toHaveCount(0);
+    await expect(page.getByTestId('start-learning')).toBeVisible();
 
     console.log('P3_ERRORS=' + JSON.stringify(errors));
     expect(errors).toEqual([]);

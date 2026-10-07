@@ -1,45 +1,27 @@
 import type { Question } from '@/data/models/Question';
 
 /**
- * Онбординг (spec 060) — чистые функции домена.
+ * Онбординг — чистые функции домена.
  *
- * Ничего не знает ни о store, ни о React: вход — банк и seed-строка, выход —
- * детерминированные вопросы и текст результата. Экранная обвязка живёт в
- * `src/presentation/screens/Onboarding*.tsx`.
+ * Ничего не знает ни о store, ни о React: вход — банк, выход — детерминированные
+ * вопросы и текст inline-фидбека. Экранная обвязка живёт в
+ * `src/presentation/screens/OnboardingDemo.tsx`.
  *
  * Детерминизм — не украшение: подборка вопросов обязана совпадать между рендерами,
  * reload'ами и тестами, поэтому `Math.random` здесь запрещён. Seed задаётся
- * строкой (`goalId`), то есть одна и та же цель всегда даёт одни и те же 3 вопроса.
+ * строковой константой (`DEMO_SEED`). До упрощения онбординга seed'ом была
+ * выбранная цель (`goalId` удалённого экрана цели), поэтому строка сохранена
+ * дословно: подборка остаётся воспроизводимой, просто одна и та же у всех.
  */
-
-/** Цель подготовки, выбранная на первом экране онбординга. */
-export interface OnboardingGoal {
-  readonly id: string;
-  readonly label: string;
-  readonly description: string;
-}
-
-/** Три цели активации. Порядок — порядок показа карточек. */
-export const ONBOARDING_GOALS: readonly OnboardingGoal[] = [
-  {
-    id: 'rhcsa',
-    label: 'Сдать RHCSA',
-    description: 'Готовлюсь к экзамену RHCSA с нуля или после перерыва',
-  },
-  {
-    id: 'refresh',
-    label: 'Освежить знания',
-    description: 'Практикую Linux, чтобы не терять форму',
-  },
-  {
-    id: 'interview',
-    label: 'Пройти собеседование',
-    description: 'Разбираю темы, которые спрашивают на интервью',
-  },
-];
 
 /** Сколько вопросов показывает демо-квиз. */
 export const DEMO_QUESTION_COUNT = 3;
+
+/**
+ * Seed демо-подборки. Легаси-значение цели «onboarding» (см. комментарий модуля):
+ * менять его нельзя без перегенерации baseline'ов, смысла в смене нет.
+ */
+export const DEMO_SEED = 'onboarding';
 
 /**
  * FNV-1a хэш строки. Отдельная копия, а не импорт из `quizService`: домен
@@ -85,7 +67,7 @@ function demoIndices(size: number, seed: string, n: number): number[] {
 }
 
 /**
- * Вопросы демо-квиза. Тот же `seed` на том же банке → те же qid.
+ * Вопросы демо-квиза. Тот же банк → те же qid (seed фиксирован, см. `DEMO_SEED`).
  *
  * Вход не мутируется. Если вопросов в банке меньше `n` (в том числе 0) —
  * возвращается весь банк в исходном порядке: показывать меньше вопросов лучше,
@@ -93,57 +75,21 @@ function demoIndices(size: number, seed: string, n: number): number[] {
  */
 export function pickDemoQuestions(
   bank: readonly Question[],
-  seed: string,
   n: number = DEMO_QUESTION_COUNT,
 ): Question[] {
   if (bank.length <= n) return [...bank];
-  return demoIndices(bank.length, seed, n).map((i) => bank[i]);
-}
-
-/** Итог демо-квиза: счёт и персональное сообщение. */
-export interface DemoResult {
-  readonly correct: number;
-  readonly total: number;
-  readonly message: string;
+  return demoIndices(bank.length, DEMO_SEED, n).map((i) => bank[i]);
 }
 
 /**
- * Итог по ответам демо-квиза. Границы 0/3 … 3/3 покрыты явно; пустой прогон
- * (банк не загрузился) даёт 0/0 и fallback-сообщение, а не NaN.
- *
- * `total` — число ОТВЕТОВ, а не длина банка: демо-квиз линейный и без фидбека,
- * поэтому итог считается ровно по тому, что пользователь успел ответить.
+ * Inline celebration демо-квиза: вердикт показывается СРАЗУ после ответа, а не
+ * экраном-итогом (он удалён вместе с экраном «Готово · N из 3»). Тексты живут в
+ * домене, а не в разметке: это контракт, который пинят и unit-, и e2e-тесты.
  */
-export function computeDemoResult(
-  answers: readonly { isCorrect: boolean }[],
-): DemoResult {
-  const total = answers.length;
-  const correct = answers.filter((a) => a.isCorrect).length;
+export const DEMO_FEEDBACK_CORRECT = 'Отлично!';
+export const DEMO_FEEDBACK_WRONG = 'Запомни — так тоже бывает';
 
-  if (total === 0) {
-    return {
-      correct,
-      total,
-      message: 'Вопросы ещё загружаются — начните тренировку на главном экране.',
-    };
-  }
-  if (correct === total) {
-    return {
-      correct,
-      total,
-      message: `Отличное начало: ${correct} из ${total}. Осталось закрепить темпом.`,
-    };
-  }
-  if (correct === 0) {
-    return {
-      correct,
-      total,
-      message: 'Это нормально: объяснения к каждому вопросу — в основном режиме.',
-    };
-  }
-  return {
-    correct,
-    total,
-    message: 'Хорошая база: разбор ошибок покажет, где теряются баллы.',
-  };
+/** Текст inline celebration по вердикту ответа. */
+export function demoAnswerFeedback(isCorrect: boolean): string {
+  return isCorrect ? DEMO_FEEDBACK_CORRECT : DEMO_FEEDBACK_WRONG;
 }

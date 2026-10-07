@@ -61,7 +61,7 @@ test.describe('дашборд', () => {
     await expect(topicButton(page, TOPICS[0].key).getByTestId('topic-first-cta')).toBeVisible();
   });
 
-  test('opens on a clean profile: no progress, exam entry point, legal disclaimer', async ({
+  test('opens on a profile without progress: repeat CTA, exam entry point, legal disclaimer', async ({
     page,
   }) => {
     await gotoApp(page);
@@ -81,10 +81,16 @@ test.describe('дашборд', () => {
     await expect(page.getByTestId(TESTID.resumeBanner)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.reviewWrong)).toHaveCount(0);
 
-    // spec 065 (К2.3/К5.4): свежий профиль приглашает учиться, а не повторять.
+    // spec 065 (К2.3/К5.4): профиль без истории приглашает учиться, а не повторять.
     // «Повторить сегодня (253)» — дефект до spec 065, поэтому N проверяется
     // отдельно в fsrs.spec.ts.
-    await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать обучение/);
+    //
+    // Упрощение онбординга: базовый профиль авто-фикстуры моделирует пользователя
+    // С историей (одна запись в `questionStats`), поэтому здесь `hasNoHistory`
+    // ложно и рендерится ветка повторения. Fresh User Mode (онбординг пройден,
+    // статистика пуста), где показывается именно `start-learning`, — контракт
+    // `e2e/onboarding.spec.ts`.
+    await expect(page.getByTestId(TESTID.reviewToday)).toHaveText(/Продолжить обучение/);
   });
 });
 

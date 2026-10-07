@@ -26,11 +26,11 @@ const Analytics = lazy(() => import('@/presentation/screens/Analytics'));
 // чтобы его можно было смонтировать напрямую; штатный вход по-прежнему из
 // Question.tsx по флагу isPaywallVisible.
 const Paywall = lazy(() => import('@/presentation/screens/Paywall'));
-// Онбординг (spec 060): цель → демо-квиз → результат. Показывается только новому
+// Онбординг (spec 060, упрощён): ОДИН экран — демо-квиз. Экраны «зачем вам
+// LinuxExam» (выбор цели) и «Готово · N из 3» удалены: фидбек по каждому ответу
+// пришёл инлайн на сам квиз, а итог больше не нужен. Показывается только новому
 // пользователю — гейт useNeedsOnboarding (пустая статистика + незавершённый онбординг).
-const OnboardingGoal = lazy(() => import('@/presentation/screens/OnboardingGoal'));
 const OnboardingDemo = lazy(() => import('@/presentation/screens/OnboardingDemo'));
-const OnboardingResult = lazy(() => import('@/presentation/screens/OnboardingResult'));
 
 function Loading() {
   return (
@@ -66,12 +66,12 @@ function App() {
   }, [loadQuestions]);
 
   // Онбординг-гейт (spec 060): новый пользователь стартует на 'dashboard', поэтому
-  // единственная точка входа — перенаправление с него. Эффект намеренно не
-  // перебивает уже выбранный экран: 'question' после reload, 'paywall' и прочие
-  // потоки остаются нетронутыми.
+  // единственная точка входа — перенаправление с него СРАЗУ на демо-квиз (раньше
+  // первым был экран выбора цели). Эффект намеренно не перебивает уже выбранный
+  // экран: 'question' после reload, 'paywall' и прочие потоки остаются нетронутыми.
   useEffect(() => {
     if (needsOnboarding && currentScreen === 'dashboard') {
-      navigateTo('onboarding-goal');
+      navigateTo('onboarding-demo');
     }
   }, [needsOnboarding, currentScreen, navigateTo]);
 
@@ -98,12 +98,8 @@ function App() {
       <Analytics />
     ) : currentScreen === 'paywall' ? (
       <Paywall />
-    ) : currentScreen === 'onboarding-goal' ? (
-      <OnboardingGoal />
     ) : currentScreen === 'onboarding-demo' ? (
       <OnboardingDemo />
-    ) : currentScreen === 'onboarding-result' ? (
-      <OnboardingResult />
     ) : (
       <Dashboard theme={resolved} onToggleTheme={toggle} />
     );

@@ -11,7 +11,7 @@ import {
   seedOnboarding,
   seedState,
   TOPIC_QUESTIONS,
-  waitForOnboardingGoal,
+  waitForOnboardingDemo,
   waitForQuestion,
   TESTID,
   type BankQuestion,
@@ -179,34 +179,19 @@ async function openPaywall(page: Page): Promise<void> {
   await expect(page.getByTestId(TESTID.paywall)).toBeVisible({ timeout: ANCHOR_TIMEOUT });
 }
 
-async function openOnboardingGoal(page: Page): Promise<void> {
+async function openOnboardingDemo(page: Page): Promise<void> {
   await blockAnalytics(page);
   await seedOnboarding(page, false);
   await page.goto('/');
-  await waitForOnboardingGoal(page);
-}
-
-async function openOnboardingDemo(page: Page): Promise<void> {
-  await openOnboardingGoal(page);
-  await page.getByTestId(`${TESTID.onboardingGoal}-rhcsa`).click();
-  await expect(page.getByTestId(TESTID.onboardingDemo)).toBeVisible({ timeout: ANCHOR_TIMEOUT });
-}
-
-async function openOnboardingResult(page: Page): Promise<void> {
-  await openOnboardingDemo(page);
-  // Демо-подборка фиксирована банком (`pickDemoQuestions`), три вопроса —
-  // контракт экрана (см. `e2e/onboarding.spec.ts`).
-  for (let i = 0; i < 3; i++) {
-    await page.getByTestId('onboarding-option-0').click();
-    await page.getByTestId(TESTID.onboardingDemoNext).click();
-  }
-  await expect(page.getByTestId(TESTID.onboardingResult)).toBeVisible({ timeout: ANCHOR_TIMEOUT });
+  await waitForOnboardingDemo(page);
 }
 
 /**
- * Все 11 значений `Screen` (`src/store/quizStore.ts`): 8 «рабочих» экранов на
- * двух viewport'ах + 3 онбординг-экрана только на мобильном — это витрина
- * Telegram Mini App, на десктопе её не показывают целевой аудитории.
+ * Все 9 значений `Screen` (`src/store/quizStore.ts`): 8 «рабочих» экранов на
+ * двух viewport'ах + 1 онбординг-экран (демо-квиз) только на мобильном — это
+ * витрина Telegram Mini App, на десктопе её не показывают целевой аудитории.
+ * Экраны «выбор цели» и «Готово · N из 3» удалены упрощением онбординга, поэтому
+ * их baseline'ы больше не снимаются.
  */
 export const SCREENS: readonly ScreenCase[] = [
   { name: 'dashboard', viewports: ['mobile', 'desktop'], open: openDashboard },
@@ -217,7 +202,5 @@ export const SCREENS: readonly ScreenCase[] = [
   { name: 'exam-results', viewports: ['mobile', 'desktop'], open: openExamResults },
   { name: 'analytics', viewports: ['mobile', 'desktop'], open: openAnalytics },
   { name: 'paywall', viewports: ['mobile', 'desktop'], open: openPaywall },
-  { name: 'onboarding-goal', viewports: ['mobile'], open: openOnboardingGoal },
   { name: 'onboarding-demo', viewports: ['mobile'], open: openOnboardingDemo },
-  { name: 'onboarding-result', viewports: ['mobile'], open: openOnboardingResult },
 ];

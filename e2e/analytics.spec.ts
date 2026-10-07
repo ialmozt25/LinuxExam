@@ -56,7 +56,7 @@ test.describe.serial('Analytics — экран «персональный тре
     await blockAnalytics(page);
   });
 
-  test('пустой профиль: приглашение начать, без готовности и радара', async ({ page }) => {
+  test('пустой профиль: Fresh User Mode на Dashboard, входа в аналитику нет', async ({ page }) => {
     await seedState(page, {
       answers: [],
       currentIndex: 0,
@@ -64,28 +64,14 @@ test.describe.serial('Analytics — экран «персональный тре
     } as Partial<PersistedQuizState>);
 
     await gotoApp(page);
-    await page.getByTestId('analytics-mode').click();
 
-    await expect(page.getByTestId('analytics')).toBeVisible({ timeout: 15000 });
-
-    // spec 065 (К5.1): пустой профиль показывает приглашение, а не «Готовность
-    // 0 %» и радар из нулей.
-    const empty = page.getByTestId('analytics-empty');
-    await expect(empty).toBeVisible();
-    await expect(empty).toContainText('Начните свой путь к RHCSA');
-    await expect(empty).toContainText('Пройдите первый тест, чтобы увидеть прогресс');
-    await expect(page.getByTestId('analytics-start')).toHaveText('Начать тренировку');
-
-    // Метрики и радар скрыты, пока ответов нет.
-    await expect(page.getByTestId('analytics-readiness')).toHaveCount(0);
-    await expect(page.getByTestId('analytics-radar')).toHaveCount(0);
-    await expect(page.getByText('Готовность 0%')).toHaveCount(0);
-
-    // Кнопка ведёт на Dashboard — оттуда начинается первый тест.
-    await page.getByTestId('analytics-start').click();
-    await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
-      timeout: 15000,
-    });
+    // Упрощение онбординга: пустая статистика означает Fresh User Mode («до
+    // первого ответа»), а он прячет аналитику вместе с Exam mode и программой
+    // RHCSA. Поэтому экран аналитики с пустым состоянием из UI недостижим, и
+    // проверяется именно это следствие режима.
+    await expect(page.getByTestId('analytics-mode')).toHaveCount(0);
+    await expect(page.getByTestId('analytics')).toHaveCount(0);
+    await expect(page.getByTestId('start-learning')).toBeVisible();
   });
 
   test('частично заполненный профиль: готовность из банка, слабые темы, тренд без NaN', async ({

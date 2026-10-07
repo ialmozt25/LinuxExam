@@ -54,9 +54,7 @@ export type Screen =
   | 'exam-results'
   | 'analytics'
   | 'paywall'
-  | 'onboarding-goal'
-  | 'onboarding-demo'
-  | 'onboarding-result';
+  | 'onboarding-demo';
 
 /**
  * Прогон Exam mode (spec 054): пресеты 30/60/90, порог 70 %, разбор по темам.
@@ -222,6 +220,11 @@ interface QuizState {
   // Онбординг (spec 060). Оба поля персистятся: `hasCompletedOnboarding`
   // удерживает факт прохождения между сессиями, `onboardingGoal` — выбранную
   // цель. Дефолт `false` обязателен: см. `useNeedsOnboarding`.
+  //
+  // `onboardingGoal` — ЛЕГАСИ: экран выбора цели удалён (упрощение онбординга),
+  // поэтому текущий поток его не пишет и он всегда `null`. Поле оставлено частью
+  // persist-контракта: удаление поля меняло бы структуру снимка, а bump версии в
+  // этом задании не делался.
   onboardingGoal: string | null;
   hasCompletedOnboarding: boolean;
 
@@ -734,10 +737,18 @@ export const useQuizStore = create<QuizState>()(
       resumeQuiz: () => set({ currentScreen: 'question' }),
 
       // Онбординг (spec 060). Три экшена, все — про два персистируемых поля;
-      // сам поток (какой экран показать) живёт в App.tsx и в экранах.
+      // сам поток (какой экран показать) живёт в App.tsx и в экране демо-квиза.
+      // `setOnboardingGoal` — легаси удалённого экрана цели (см. поле); поток его
+      // больше не вызывает, но контракт стора сохранён.
       setOnboardingGoal: (goalId) => set({ onboardingGoal: goalId }),
 
-      completeOnboarding: () => set({ hasCompletedOnboarding: true }),
+      // Онбординг заканчивается на демо-квизе: дневная цель фиксируется дефолтом
+      // СРАЗУ, а не отдельным экраном-пикером. Иначе `dailyGoalXp` остался бы
+      // `null`, и DailyGoalPicker всплыл бы поверх Dashboard четвёртым шагом
+      // онбординга — ровно то, что задание убирает. Сам компонент пикера не
+      // тронут: он по-прежнему показывает настройку, пока цель не подтверждена.
+      completeOnboarding: () =>
+        set({ hasCompletedOnboarding: true, dailyGoalXp: DEFAULT_DAILY_GOAL_XP }),
 
       resetOnboarding: () => set({ onboardingGoal: null, hasCompletedOnboarding: false }),
 

@@ -9,6 +9,7 @@ import {
   seedDueProfile,
   seedExhaustedProfile,
   seedHistoryProfile,
+  seedOnboarding,
   seedTopicRun,
   topicSize,
   waitForDashboard,
@@ -24,8 +25,8 @@ import {
  * Пул разбит надвое: `new` (записи в реестре расписания нет) и `due`
  * (`next <= now`). Одна сессия — до `SESSION_LIMIT = 30` вопросов, просроченные
  * первыми. Поэтому на Dashboard больше НЕ появляется «Повторить сегодня (253)»:
- * N считается по отобранной сессии, а свежий профиль видит приглашение
- * «Начать обучение».
+ * N считается по отобранной сессии, а профиль без ответов (Fresh User Mode)
+ * видит приглашение «Начать обучение».
  *
  * Живой банк — 253 вопроса (`src/data/questions/_order.json`).
  */
@@ -163,7 +164,11 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     });
   });
 
-  test('свежий профиль → только «Начать обучение», без «Повторить» (spec 066)', async ({ page }) => {
+  test('профиль без ответов → только «Начать обучение», без «Повторить» (spec 066)', async ({ page }) => {
+    // Fresh User Mode: онбординг пройден, статистика пуста. Базовый профиль
+    // авто-фикстуры теперь моделирует пользователя С историей, поэтому состояние
+    // «до первого ответа» сеется явно.
+    await seedOnboarding(page, true);
     await gotoApp(page);
 
     // Дефект до spec 065: свежий профиль видел «Повторить сегодня (253)».
@@ -187,15 +192,18 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
   });
 
   test('после первого ответа → кнопка повторения, приглашение снято (spec 066)', async ({ page }) => {
+    await seedOnboarding(page, true);
     await gotoApp(page);
 
-    // Профиль ещё свежий: только приглашение.
+    // Профиль ещё без ответов: только приглашение.
     await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
     await expect(page.getByTestId(TESTID.reviewToday)).toHaveCount(0);
 
-    // Один ответ в обычном потоке: `recordQuestionStat` делает статистику
-    // непустой, поэтому признак «свежести» снимается сам.
-    await page.getByTestId(TESTID.dashboardContinue).click();
+    // Один ответ: `recordQuestionStat` делает статистику непустой, поэтому признак
+    // «свежести» снимается сам. В Fresh User Mode `dashboard-continue` скрыт
+    // (контракт «одна CTA до первого ответа»), поэтому вход в занятие — сама
+    // кнопка «Начать обучение»: она стартует сессию дня.
+    await page.getByTestId(TESTID.startLearning).click();
     await waitForQuestion(page);
     await answerQuestion(page, 'correct');
     await page.getByTestId(TESTID.headerHome).click();
@@ -210,19 +218,20 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
   });
 
-  test('«Начать обучение» ведёт к списку тем, а не в прогон', async ({ page }) => {
+  test('«Начать обучение» в Fresh User Mode стартует занятие', async ({ page }) => {
+    await seedOnboarding(page, true);
     await gotoApp(page);
 
-    await page.getByTestId(TESTID.startLearning).click();
+    // Список тем в этом режиме скрыт (до первого ответа 14 тем — выбор без
+    // основания), поэтому CTA ведёт в прогон. Прежний контракт «CTA скроллит к
+    // списку тем» принадлежал ветке профиля БЕЗ пройденного онбординга: в рантайме
+    // она недостижима (App уводит такой профиль на демо-квиз), и её пинит
+    // юнит-тест `Dashboard.cta.test.tsx`.
+    await expect(page.getByTestId(TESTID.dashboardTopics)).toHaveCount(0);
 
-    // Прогон не открылся: экран вопроса не появился.
-    await expect(page.getByTestId(TESTID.questionText)).toHaveCount(0);
-    // Список тем достижим и доступен как цель скролла.
-    await expect(page.getByTestId(TESTID.dashboardTopics)).toBeAttached();
-    // И тема запускается оттуда же.
-    const topic = page.locator('[data-testid^="topic-"]').first();
-    await topic.click();
+    await page.getByTestId(TESTID.startLearning).click();
     await waitForQuestion(page);
+    expect(await counterText(page)).toMatch(/^1 \/ \d+$/);
   });
 
   test('ответы в прогоне уменьшают остаток и переживают reload', async ({ page }) => {

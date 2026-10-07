@@ -239,12 +239,21 @@ export interface PersistedQuizState {
 }
 
 /**
- * A pristine stored profile; every field is present so nothing is merged in.
+ * Базовый persisted-профиль: все поля присутствуют, поэтому ничего не домешивается.
  *
- * `hasCompletedOnboarding: true` НАМЕРЕННО: онбординг (spec 060) показывается
- * только когда `hasCompletedOnboarding === false` И `questionStats` пуст — то есть
- * ровно на свежем профиле. Сид, который не хочет проходить онбординг, обязан
- * отметить прохождение; сценарии самого онбординга переопределяют флаг явно.
+ * `hasCompletedOnboarding: true` НАМЕРЕННО: онбординг показывается только когда
+ * `hasCompletedOnboarding === false` И `questionStats` пуст — то есть ровно на
+ * свежем профиле. Сид, который не хочет проходить онбординг, обязан отметить
+ * прохождение; сценарии самого онбординга переопределяют флаг явно.
+ *
+ * `questionStats` НЕПУСТА тоже намеренно (упрощение онбординга): тот же признак
+ * «пустая статистика» включает теперь Fresh User Mode — минимальный Dashboard «до
+ * первого ответа». Базовый профиль играет роль пользователя, который продуктом УЖЕ
+ * пользовался (именно его и собирает авто-фикстура), поэтому одна запись в
+ * статистике — модель реальности, а не поблажка тестам: без неё КАЖДЫЙ сценарий,
+ * просто открывающий `/`, получал бы fresh-дашборд. `answers` при этом остаётся
+ * пустым, поэтому прогресс «0 из 253» — прежний контракт чистого профиля.
+ * Профиль в состоянии Fresh User Mode сеется `seedOnboarding(page, true)`.
  */
 export function emptyPersistedState(): PersistedQuizState {
   return {
@@ -255,7 +264,9 @@ export function emptyPersistedState(): PersistedQuizState {
     lastActiveDate: null,
     totalXp: 0,
     wrongQuestionIds: [],
-    questionStats: {},
+    // Один живой вопрос банка = «пользователь уже отвечал». id берётся из
+    // манифеста (`BANK_ORDER`), а не хардкодится: банк растёт батчами.
+    questionStats: { [BANK_ORDER[0]]: { attempts: 1, correct: 1, lastAt: isoDaysAgo(0) } },
     scheduledReviews: {},
     reviewQuestionIds: null,
     reviewAnswers: [],
@@ -434,10 +445,12 @@ export async function seedWrongRegularAnswer(page: Page, question: BankQuestion)
  * Seeds the ONBOARDING condition (spec 060).
  *
  * `complete: false` — свежий профиль: прохождение не отмечено и статистики нет,
- * поэтому гейт `useNeedsOnboarding` обязан показать онбординг.
+ * поэтому гейт `useNeedsOnboarding` обязан показать онбординг (единственный его
+ * экран — демо-квиз).
  * `complete: true` — тот же профиль с отмеченным прохождением: онбординг не
- * показывается, приложение стартует на Dashboard (`emptyPersistedState` уже
- * выставляет флаг, здесь он задаётся явно, чтобы сценарий читался сам).
+ * показывается, приложение стартует на Dashboard. Это ровно состояние Fresh User
+ * Mode (`hasCompletedOnboarding && questionStats` пуста), поэтому сценарии
+ * fresh-дашборда сеются именно так.
  */
 export async function seedOnboarding(page: Page, complete: boolean): Promise<void> {
   const state = emptyPersistedState();
@@ -447,16 +460,16 @@ export async function seedOnboarding(page: Page, complete: boolean): Promise<voi
   await seedState(page, state);
 }
 
-/** Waits for the first onboarding screen (goal picker). */
-export async function waitForOnboardingGoal(page: Page): Promise<void> {
-  await expect(page.getByTestId(TESTID.onboardingGoal)).toBeVisible({ timeout: 15000 });
+/** Waits for the ONLY onboarding screen — the demo quiz. */
+export async function waitForOnboardingDemo(page: Page): Promise<void> {
+  await expect(page.getByTestId(TESTID.onboardingDemo)).toBeVisible({ timeout: 15000 });
 }
 
 /**
  * Сеет retention-условие (spec 061): streak / XP серии и дневную цель.
  *
  * `hasCompletedOnboarding: true` берётся из `emptyPersistedState()` — иначе гейт
- * онбординга увёл бы с Dashboard на экран цели. `dailyGoalXp` по умолчанию `30`
+ * онбординга увёл бы с Dashboard на демо-квиз. `dailyGoalXp` по умолчанию `30`
  * (текущий дефолт, как у обычного профиля); `null` сеется только сценариями
  * самого picker-а. `lastActiveDate` не задаётся: сценарии, которым он важен,
  * пишут его явно (иначе `onRehydrateStorage` обнулил бы `todayXp` при вчерашней
@@ -718,13 +731,14 @@ export const TESTID = {
   // exam-leave) удалена вместе с экраном. Новый экзамен (spec 054) использует
   // собственные testid в ExamSetup/ExamRun/ExamResults.
 
-  onboardingGoal: 'onboarding-goal',
+  // Онбординг: экраны «выбор цели» и «Готово · N из 3» удалены (упрощение
+  // онбординга), поэтому их testid'ы (onboarding-goal / onboarding-result /
+  // onboarding-result-score / onboarding-start) здесь больше не объявлены.
+  // Живой набор — только демо-квиз: `onboarding-feedback` в спеках читается
+  // сырой строкой, как и подсказки экранов, у которых есть один потребитель.
   onboardingDemo: 'onboarding-demo',
   onboardingDemoProgress: 'onboarding-demo-progress',
   onboardingDemoNext: 'onboarding-demo-next',
-  onboardingResult: 'onboarding-result',
-  onboardingResultScore: 'onboarding-result-score',
-  onboardingStart: 'onboarding-start',
 
   dashboardRetention: 'dashboard-retention',
   streakBadge: 'streak-badge',
