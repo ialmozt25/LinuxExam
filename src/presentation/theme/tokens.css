@@ -28,6 +28,14 @@
   --border-subtle: rgba(255,255,255,0.06);
   --border-strong: rgba(255,255,255,0.12);
 
+  /* Уровни яркости (задание «десктопный layout», C1): пара поверхностей для
+     десктопного слоя — активный пункт сайдбара, карточки тем, elevated-слой
+     (dropdown/модалки). Значения пары — из задания; она НЕ единственная:
+     светлая пара задаётся в блоке темы ниже, иначе светлая тема получила бы
+     тёмную поверхность. Ровно так же решены --bg-* (см. блоки [data-theme]). */
+  --surface-1: #111318;
+  --surface-2: #181b22;
+
   /* Spacing */
   /* --space-0-5 — дискретный шаг 2px: нужен для мелких подписей (например
      отступа строки позиции в resume-banner). Шкала 4..32 не меняется. */
@@ -175,6 +183,12 @@
   --theme-bg-surface: #FFFFFF;
   --theme-bg-elevated: #EAEAEA;
 
+  /* Surface levels (C): светлая пара — существующие роли поверхностей, а не
+     новая палитра: карточка на белом, приподнятая плашка на #F5F5F5. Десктопный
+     слой поэтому не темнит светлую тему, а hover-шаг 1→2 остаётся видимым. */
+  --surface-1: #FFFFFF;
+  --surface-2: #EAEAEA;
+
   /* Text — not pure black, softer on eyes; passes WCAG AA */
   --theme-text-primary: #1B1F23;
   --theme-text-secondary: #4A4A4A;
@@ -196,6 +210,12 @@
   --theme-bg-primary: #1E1E1E;
   --theme-bg-surface: #2D2D2D;
   --theme-bg-elevated: #252525;
+
+  /* Surface levels (C): пара из задания. Оба уровня темнее --bg-primary
+     (#1E1E1E) намеренно: поверхность «утоплена» относительно фона, а hover-шаг
+     1→2 (#111318 → #181b22) читается как подсветка. */
+  --surface-1: #111318;
+  --surface-2: #181b22;
 
   --theme-text-primary: #FFFFFF;
   --theme-text-secondary: #B0B0B0;

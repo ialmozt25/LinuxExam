@@ -11,6 +11,7 @@ import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { Tux } from '@/ui/Tux';
 import { XpBar } from '@/presentation/components/XpBar';
 import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
+import { Sidebar, type SidebarNavId } from '@/presentation/components/Sidebar';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
 import { levelFromXp, nextLevel, xpInLevel } from '@/domain/xp';
@@ -227,14 +228,22 @@ function RhcsaProgramme({
   // Paywall (spec 063): подписка на примитивы `isPro`/`trialStartedAt`.
   const paywallAccess: TopicGate = useCanAccessTopic;
 
+  /* B2 (сетка тем): классы — только от `lg`. Безусловные `grid grid-cols-1
+     gap-4` из задания сменили бы отступ строк на мобильном (там 1 колонка и
+     `--space-2`, а `gap-4` дал бы 16+8), а мобильный layout менять нельзя
+     (задание: «Мобильный и планшетный layout НЕ меняются»). Ниже 1024px узел
+     остаётся прежним блочным контейнером. */
   return (
     <div
       id="dashboard-topics"
       data-testid="dashboard-topics"
       ref={topicsRef}
+      className="lg:grid lg:grid-cols-3 lg:gap-4 lg:items-start"
       style={{ marginTop: 'var(--space-6)' }}
     >
+      {/* Шапка списка — не карточка: в сетке тем занимает всю строку. */}
       <div
+        className="lg:col-span-3"
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -280,20 +289,35 @@ function RhcsaProgramme({
             ? null
             : { testid: 'paywall-badge-pro', label: 'PRO', variant: 'pro' };
 
+        // Строка темы. Поверхность и hover живут на ОБЁРТКЕ (классы C3/D1):
+        // `Card` задаёт фон inline-стилем, а inline-стиль перебил бы и класс
+        // уровня яркости, и `:hover` (hover в inline-стиле запрещён Contract).
+        // Поэтому фон карточки здесь — `transparent`, а поверхность рисует
+        // обёртка с тем же радиусом.
         const rowStyle = {
           display: 'flex' as const,
           alignItems: 'center' as const,
           gap: 'var(--space-3)',
           padding: 'var(--space-3)',
-          marginBottom: 'var(--space-2)',
-          background: 'var(--bg-surface)',
+          background: 'transparent',
           border: '1px solid var(--border-subtle)',
           borderRadius: 'var(--radius-md)',
-          opacity: isAvailable ? 1 : 0.55,
           width: '100%' as const,
           textAlign: 'left' as const,
           fontFamily: 'inherit',
           color: 'inherit',
+        };
+
+        // Обёртка строки: уровень яркости и приглушение недоступной темы.
+        // `opacity` переехала с карточки на обёртку вместе с фоном: иначе
+        // приглушались бы текст и рамка, а поверхность осталась бы полной
+        // яркости — регресс вида «Скоро» на мобильном. Отступ между строками —
+        // классами (`mb-[var(--space-2)] lg:mb-0`): в сетке ритм задаёт `gap`, и
+        // лишние 8px сделали бы вертикальный шаг (24px) в полтора раза больше
+        // горизонтального (16px).
+        const rowSurfaceStyle = {
+          borderRadius: 'var(--radius-md)',
+          ...(isAvailable ? {} : { opacity: 0.55 }),
         };
 
         const inner = (
@@ -393,24 +417,35 @@ function RhcsaProgramme({
 
         if (isAvailable) {
           return (
-            <Card
+            <div
               key={topic.key}
-              variant="plain"
-              as="button"
-              testId={`topic-${topic.key}`}
-              onClick={() => openTopic(topic.key, allowed)}
-              ariaLabel={`Начать тему: ${topic.title}`}
-              style={rowStyle}
+              className="bg-[color:var(--surface-1)] lg:hover:bg-[color:var(--surface-2)] transition-colors mb-[var(--space-2)] lg:mb-0"
+              style={rowSurfaceStyle}
             >
-              {inner}
-            </Card>
+              <Card
+                variant="plain"
+                as="button"
+                testId={`topic-${topic.key}`}
+                onClick={() => openTopic(topic.key, allowed)}
+                ariaLabel={`Начать тему: ${topic.title}`}
+                style={rowStyle}
+              >
+                {inner}
+              </Card>
+            </div>
           );
         }
 
         return (
-          <Card key={topic.key} variant="plain" style={rowStyle}>
-            {inner}
-          </Card>
+          <div
+            key={topic.key}
+            className="bg-[color:var(--surface-1)] mb-[var(--space-2)] lg:mb-0"
+            style={rowSurfaceStyle}
+          >
+            <Card variant="plain" style={rowStyle}>
+              {inner}
+            </Card>
+          </div>
         );
       })}
     </div>
@@ -508,6 +543,36 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
     topicsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  /**
+   * Навигация десктопного сайдбара (задание «десктопный layout», блок A).
+   *
+   * Каждый пункт ведёт на СУЩЕСТВУЮЩЕЕ место продукта: `dashboard` — возврат к
+   * началу скролл-контейнера (`#root` — он скроллер приложения, тот же узел, что
+   * сбрасывает эффект ниже), `topics` — штатный анкер списка тем, `exam` и
+   * `analytics` — существующие экраны через `navigateTo`. Пункт «Настройки»
+   * экрана не имеет (`Screen` в `quizStore` не содержит `settings`), поэтому его
+   * и не обрабатывает: сайдбар помечает такой пункт неинтерактивным.
+   */
+  const handleSidebarNav = (id: SidebarNavId) => {
+    if (id === 'dashboard') {
+      const el =
+        document.getElementById('root') ?? document.scrollingElement ?? document.documentElement;
+      el.scrollTop = 0;
+      return;
+    }
+    if (id === 'topics') {
+      scrollToTopics();
+      return;
+    }
+    if (id === 'exam') {
+      navigateTo('exam-setup');
+      return;
+    }
+    if (id === 'analytics') {
+      navigateTo('analytics');
+    }
+  };
+
   // Реестр расписания до-наполняется «пора сейчас» ровно один раз на банк:
   // экшен идемпотентен и возвращает тот же объект, когда заполнять нечего.
   useEffect(() => {
@@ -578,582 +643,630 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
   return (
     <ScreenContainer>
-      {/* Status strip */}
-      <div
-        id="status-strip"
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingBottom: 'var(--space-2)',
-          borderBottom: '1px solid var(--border-subtle)',
-          fontSize: 'var(--text-sm)',
-          color: 'var(--text-secondary)',
-        }}
-      >
-        {/* Серия (streak) НЕ дублируется здесь: она живёт в StreakBadge ниже,
-            где есть число, состояние и мотивирующее сообщение. В status-strip
-            остаются только уровень и полоса прогресса (UX-фикс). */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{level.name}</span>
-          {/* diag-dashboard-fix (симптом 5): полоса показывает XP ВНУТРИ уровня
-              (`xpInLevel`), а не дневную цель, и в отчёте это читалось как
-              «Уровень 1 · 10 %» рядом с дневной целью 10/20. Метрика оставлена:
-              дневную цель уже показывает XpBar, а вторая дневная полоса была бы
-              тем же дублем XP, против которого симптом 6. Неоднозначность снята
-              ИМЕНЕМ уровня, а не номером: «Новичок» рядом с «49 / 50 XP до
-              Ученика» читается без расшифровки, а «Уровень 4» — нет.
-              XP-механика: метрика та же, но уровень считается доменом по
-              именованной лестнице (`LEVELS`), а не `totalXp % 100`. */}
-          <span
-            role="progressbar"
-            aria-valuenow={Math.round(xpPercent)}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label={`Уровень ${level.name}, XP внутри ${Math.round(xpPercent)}%`}
-            style={{
-              display: 'inline-block',
-              width: 'var(--track-width-sm)',
-              height: 'var(--track-height)',
-              background: 'var(--bg-surface)',
-              borderRadius: 'var(--track-radius)',
-              overflow: 'hidden',
-            }}
-          >
-            <span
-              style={{
-                display: 'block',
-                width: '100%',
-                height: '100%',
-                background: 'var(--accent)',
-                transform: `scaleX(${xpPercent / 100})`,
-                transformOrigin: 'left',
-                transition: 'transform var(--duration-normal) ease',
-              }}
-            />
-          </span>
-          {/* B3: числа «сколько осталось» — мелко и только когда следующий
-              уровень существует. На Гранд-мастере текста нет вообще: полоса
-              стоит на 100 %, и «до следующего» обещало бы то, чего нет. */}
-          {levelProgress.needed !== null && nextLevelStep !== null ? (
-            <span
-              data-testid="level-next"
-              style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}
-            >
-              {`${levelProgress.current} / ${levelProgress.needed} XP до ${nextLevelStep.nameGenitive}`}
-            </span>
-          ) : null}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <Button
-            variant="ghost"
-            testId="theme-toggle"
-            onClick={onToggleTheme}
-            ariaLabel={
-              theme === 'light' ? 'Переключить на тёмную' : 'Переключить на светлую'
-            }
-            style={{ cursor: 'pointer' }}
-          >
-            {theme === 'light' ? (
-              <Sun size={20} color="var(--text-secondary)" aria-hidden="true" />
-            ) : (
-              <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
-            )}
-          </Button>
-        </div>
-      </div>
-
-      {/* Празднование нового уровня: показывается ровно один раз — пока
-          `pendingLevelUp` не пуст. Стиль — существующая карточка
-          (`Card variant="plain"`, как у resume-баннера): новых UI-примитивов не
-          заводим. `role="status"` объявляет переход скринридеру, не забирая
-          фокус. */}
-      {pendingLevelUp !== null ? (
-        <Card
-          variant="plain"
-          testId="level-up-toast"
-          style={{
-            border: 'none',
-            marginTop: 'var(--space-4)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--space-2)',
-          }}
-        >
-          <span role="status" style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>
-            {`Ты теперь ${pendingLevelUp.toName}!`}
-          </span>
-        </Card>
-      ) : null}
-
-      {/* Title block. ux-copy-3 (2026-10-07): маскот переехал из streak-бейджа
-          сюда — рядом с названием и ПЕРЕД текстом заголовка (gap = --space-2).
-          Картинка декоративная (alt="" + aria-hidden внутри <Tux>), поэтому
-          доступное имя h1 остаётся «LinuxExam» (его читает ux-regression). */}
-      <div style={{ marginTop: 'var(--space-5)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <Tux size={24} />
-          <h1
-            style={{
-              fontSize: 'var(--heading-1)',
-              fontWeight: 700,
-              letterSpacing: 'var(--letter-tight)',
-              margin: 0,
-              color: 'var(--text-primary)',
-            }}
-          >
-            LinuxExam
-          </h1>
-        </div>
-        <p
-          data-testid="dashboard-subtitle"
-          style={{
-            fontSize: 'var(--body)',
-            color: 'var(--text-secondary)',
-            margin: 'var(--space-2) 0 0 0',
-          }}
-        >
-          Подготовка к RHCSA за 15 минут в день
-        </p>
-      </div>
-
-      {/* Retention-зона (spec 061): streak badge + XP bar с дневной целью рядом.
-          В Fresh User Mode зоны нет ЦЕЛИКОМ (задание «продающий Fresh Dashboard»):
-          у профиля без единого ответа оба узла показывали нули — бейдж «0 дней» и
-          полоса «0 / 30 XP». Прежняя заглушка «Начни серию сегодня» закрывала
-          только первый из двух нулей, поэтому ушла вместе с зоной. Возвращается
-          сама после первого ответа: условие — та же `questionStats`, что и у всего
-          режима. */}
-      {!isFreshUser && (
+      {/* Десктопный слой (A/B): сайдбар слева, колонка контента — не шире
+          1248px и по центру. Классы — только от `lg`: ниже 1024px обёртка
+          становится обычным блоком (`lg:flex` не действует), поэтому мобильная
+          и планшетная вёрстка — это ТЕ ЖЕ узлы с прежней геометрией (A5).
+          Безусловные `max-w-[1248px] mx-auto px-6 w-full` из B1 добавили бы 24px
+          к паддингу `ScreenContainer` (там уже `--space-4` + safe-area) и сдвинули
+          бы мобильный layout, который задание запрещает менять. */}
+      <div className="lg:flex" style={{ width: '100%', minWidth: 0 }}>
+        {/* Гейты навигации повторяют гейты экрана: в Fresh User Mode список тем
+            скрыт, а Exam/Аналитика намеренно не предлагаются первым шагом, и
+            пункт не должен вести туда, куда поток не ведёт. «Настройки»
+            недоступны всегда — экрана `settings` в продукте нет. */}
+        <Sidebar
+          active="dashboard"
+          onNavigate={handleSidebarNav}
+          disabled={isFreshUser ? ['topics', 'exam', 'analytics'] : []}
+        />
         <div
-          id="dashboard-retention"
-          data-testid="dashboard-retention"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--space-3)',
-            marginTop: 'var(--space-5)',
-          }}
+          className="lg:max-w-[1248px] lg:mx-auto lg:px-6"
+          style={{ display: 'flex', flexDirection: 'column', width: '100%', minWidth: 0 }}
         >
-          <StreakBadge />
-          <XpBar />
-        </div>
-      )}
-      {/* diag-dashboard-fix (STOP-1 v1): узел `retention-goal-line`
-          («Цель: X / Y XP») удалён по решению капитана — дневную цель уже
-          показывает подпись XpBar («X / Y XP»), третий узел с теми же числами
-          был дублем XP (симптом 6). */}
-
-      {/* Progress. В Fresh User Mode скрыт: «0 из 253» — ноль, который новому
-          пользователю ничего не сообщает (число вопросов уже есть в Hero, но как
-          обещание, а не как «ты не сделал ничего из»). Скрыт условно, а не
-          удалён: у возвращающегося профиля полоса остаётся его прогрессом. */}
-      {!isFreshUser && (
-        <div id="dashboard-progress" data-testid="dashboard-progress" style={{ marginTop: 'var(--space-5)' }}>
+          {/* Status strip */}
           <div
+            id="status-strip"
             style={{
               display: 'flex',
               justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingBottom: 'var(--space-2)',
+              borderBottom: '1px solid var(--border-subtle)',
               fontSize: 'var(--text-sm)',
-              textTransform: 'uppercase',
-              letterSpacing: 'var(--letter-wide)',
               color: 'var(--text-secondary)',
             }}
           >
-            <span>Прогресс</span>
-            <span>
-              {answered} из {totalQuestions}
-            </span>
-          </div>
-          <div
-            role="progressbar"
-            aria-valuenow={progressPercent}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label="Прогресс теста"
-            style={{
-              marginTop: 'var(--space-2)',
-              height: 'var(--track-height)',
-              background: 'var(--bg-surface)',
-              borderRadius: 'var(--track-radius)',
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                background: 'var(--accent)',
-                transform: `scaleX(${progressPercent / 100})`,
-                transformOrigin: 'left',
-                transition: 'transform var(--duration-normal) ease',
-              }}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Вход в занятие (spec 065; взаимоисключение ветвей — spec 066).
-          Две ветки, порядок важен:
-          1. Профиль без единого ответа (`hasNoHistory`) — приглашение к обучению.
-             Кнопка ОДНА, а обработчик зависит от режима: в Fresh User Mode
-             (`isFreshUser` — онбординг пройден, ответов нет) список тем скрыт,
-             поэтому CTA СТАРТУЕТ занятие (review-сессия дня), а в ветке без
-             пройденного онбординга скроллит к списку тем — он там виден.
-             В рантайме вторая ветка недостижима (App уводит такой профиль на
-             демо-квиз), но её контракт пинит юнит-тест `Dashboard.cta.test.tsx`.
-          2. Профиль с историей: просроченные — повторение; остались только новые —
-             продолжение. Прогон идёт review-стримом, поэтому бесплатный лимит не
-             расходуется.
-
-          Продающий Fresh Dashboard (задание): в ветке 1 свежий профиль получает
-          Hero с ценностью вместо шести нулей, но кнопка остаётся ОДНА и общая для
-          обеих подветок — две primary-кнопки в одном блоке рендера это ровно
-          находка `duplicate-primary` из `scripts/fitness/check-styling.mjs`.
-          testId `start-learning` сохранён намеренно: это контракт «единственный
-          вход в занятие до первого ответа», и его пинят вне allowed-списка
-          `e2e/analytics.spec.ts` и `e2e/regression-071.spec.ts` (им важен testId,
-          а не подпись).
-
-          ИЗВЕСТНЫЙ ДОЛГ (решение капитана на STOP-точке — оставить как есть):
-          подветка `hasNoHistory && !isFreshUser` (подпись «Начать обучение» со
-          счётчиком тем, onClick = scrollToTopics) после уборки демо НЕДОСТИЖИМА —
-          isFreshUser теперь тождественно равен hasNoHistory.
-          // unreachable после removal of demo (B1: isFreshUser ≡ hasNoHistory).
-          // Убрать вместе со scrollToTopics/topicsRef/RhcsaProgramme.topicsRef отдельной задачей. */}
-      {hasNoHistory ? (
-        <>
-          {/* Hero (только Fresh User Mode). Возвращающемуся профилю не рендерится:
-              у него ниже ветка «Продолжить обучение» с реальными числами. */}
-          {isFreshUser && (
-            <div data-testid="dashboard-hero" style={{ marginTop: 'var(--space-6)' }}>
-              <h2 style={HERO_TITLE}>Начните путь к RHCSA</h2>
-              <p
-                data-testid="dashboard-hero-subtitle"
+            {/* Серия (streak) НЕ дублируется здесь: она живёт в StreakBadge ниже,
+                где есть число, состояние и мотивирующее сообщение. В status-strip
+                остаются только уровень и полоса прогресса (UX-фикс). */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{level.name}</span>
+              {/* diag-dashboard-fix (симптом 5): полоса показывает XP ВНУТРИ уровня
+                  (`xpInLevel`), а не дневную цель, и в отчёте это читалось как
+                  «Уровень 1 · 10 %» рядом с дневной целью 10/20. Метрика оставлена:
+                  дневную цель уже показывает XpBar, а вторая дневная полоса была бы
+                  тем же дублем XP, против которого симптом 6. Неоднозначность снята
+                  ИМЕНЕМ уровня, а не номером: «Новичок» рядом с «49 / 50 XP до
+                  Ученика» читается без расшифровки, а «Уровень 4» — нет.
+                  XP-механика: метрика та же, но уровень считается доменом по
+                  именованной лестнице (`LEVELS`), а не `totalXp % 100`. */}
+              <span
+                role="progressbar"
+                aria-valuenow={Math.round(xpPercent)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`Уровень ${level.name}, XP внутри ${Math.round(xpPercent)}%`}
                 style={{
-                  fontSize: 'var(--text-sm)',
-                  color: 'var(--text-secondary)',
-                  margin: 'var(--space-2) 0 0 0',
+                  display: 'inline-block',
+                  width: 'var(--track-width-sm)',
+                  height: 'var(--track-height)',
+                  background: 'var(--bg-surface)',
+                  borderRadius: 'var(--track-radius)',
+                  overflow: 'hidden',
                 }}
               >
-                {`${totalQuestions} ${pluralizeQuestions(totalQuestions)} · ${topicCountLabel(TOPICS.length)} · по официальным objectives`}
-              </p>
+                <span
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    background: 'var(--accent)',
+                    transform: `scaleX(${xpPercent / 100})`,
+                    transformOrigin: 'left',
+                    transition: 'transform var(--duration-normal) ease',
+                  }}
+                />
+              </span>
+              {/* B3: числа «сколько осталось» — мелко и только когда следующий
+                  уровень существует. На Гранд-мастере текста нет вообще: полоса
+                  стоит на 100 %, и «до следующего» обещало бы то, чего нет. */}
+              {levelProgress.needed !== null && nextLevelStep !== null ? (
+                <span
+                  data-testid="level-next"
+                  style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}
+                >
+                  {`${levelProgress.current} / ${levelProgress.needed} XP до ${nextLevelStep.nameGenitive}`}
+                </span>
+              ) : null}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Button
+                variant="ghost"
+                testId="theme-toggle"
+                onClick={onToggleTheme}
+                ariaLabel={
+                  theme === 'light' ? 'Переключить на тёмную' : 'Переключить на светлую'
+                }
+                style={{ cursor: 'pointer' }}
+              >
+                {theme === 'light' ? (
+                  <Sun size={20} color="var(--text-secondary)" aria-hidden="true" />
+                ) : (
+                  <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
+                )}
+              </Button>
+            </div>
+          </div>
+
+          {/* Празднование нового уровня: показывается ровно один раз — пока
+              `pendingLevelUp` не пуст. Стиль — существующая карточка
+              (`Card variant="plain"`, как у resume-баннера): новых UI-примитивов не
+              заводим. `role="status"` объявляет переход скринридеру, не забирая
+              фокус. */}
+          {pendingLevelUp !== null ? (
+            <Card
+              variant="plain"
+              testId="level-up-toast"
+              style={{
+                border: 'none',
+                marginTop: 'var(--space-4)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+              }}
+            >
+              <span role="status" style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>
+                {`Ты теперь ${pendingLevelUp.toName}!`}
+              </span>
+            </Card>
+          ) : null}
+
+          {/* Title block. ux-copy-3 (2026-10-07): маскот переехал из streak-бейджа
+              сюда — рядом с названием и ПЕРЕД текстом заголовка (gap = --space-2).
+              Картинка декоративная (alt="" + aria-hidden внутри <Tux>), поэтому
+              доступное имя h1 остаётся «LinuxExam» (его читает ux-regression). */}
+          <div style={{ marginTop: 'var(--space-5)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Tux size={24} />
+              <h1
+                style={{
+                  fontSize: 'var(--heading-1)',
+                  fontWeight: 700,
+                  letterSpacing: 'var(--letter-tight)',
+                  margin: 0,
+                  color: 'var(--text-primary)',
+                }}
+              >
+                LinuxExam
+              </h1>
+            </div>
+            <p
+              data-testid="dashboard-subtitle"
+              style={{
+                fontSize: 'var(--body)',
+                color: 'var(--text-secondary)',
+                margin: 'var(--space-2) 0 0 0',
+              }}
+            >
+              Подготовка к RHCSA за 15 минут в день
+            </p>
+          </div>
+
+          {/* Retention-зона (spec 061): streak badge + XP bar с дневной целью рядом.
+              В Fresh User Mode зоны нет ЦЕЛИКОМ (задание «продающий Fresh Dashboard»):
+              у профиля без единого ответа оба узла показывали нули — бейдж «0 дней» и
+              полоса «0 / 30 XP». Прежняя заглушка «Начни серию сегодня» закрывала
+              только первый из двух нулей, поэтому ушла вместе с зоной. Возвращается
+              сама после первого ответа: условие — та же `questionStats`, что и у всего
+              режима. */}
+          {!isFreshUser && (
+            <div
+              id="dashboard-retention"
+              data-testid="dashboard-retention"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-3)',
+                marginTop: 'var(--space-5)',
+              }}
+            >
+              <StreakBadge />
+              <XpBar />
             </div>
           )}
-          <Button
-            variant="primary"
-            testId="start-learning"
-            onClick={isFreshUser ? () => startReviewQuiz(sessionIds, 'today') : scrollToTopics}
-            style={isFreshUser ? HERO_CTA : PRIMARY_CTA}
-          >
-            {isFreshUser ? (
-              <span>Начать первый вопрос →</span>
-            ) : (
-              <>
-                <span>Начать обучение</span>
-                <span style={CTA_COUNTER}>{`${TOPICS.length} тем`}</span>
-              </>
-            )}
-          </Button>
-          {/* «Внутри вас ждет» — тоже только Fresh User Mode: возвращающемуся
-              профилю эти механики уже знакомы, их несут Exam mode, аналитика и
-              StreakBadge ниже, а список из четырёх пунктов продавал бы купившему. */}
-          {isFreshUser && (
-            <div data-testid="dashboard-features" style={{ marginTop: 'var(--space-5)' }}>
+          {/* diag-dashboard-fix (STOP-1 v1): узел `retention-goal-line`
+              («Цель: X / Y XP») удалён по решению капитана — дневную цель уже
+              показывает подпись XpBar («X / Y XP»), третий узел с теми же числами
+              был дублем XP (симптом 6). */}
+
+          {/* Progress. В Fresh User Mode скрыт: «0 из 253» — ноль, который новому
+              пользователю ничего не сообщает (число вопросов уже есть в Hero, но как
+              обещание, а не как «ты не сделал ничего из»). Скрыт условно, а не
+              удалён: у возвращающегося профиля полоса остаётся его прогрессом. */}
+          {!isFreshUser && (
+            <div id="dashboard-progress" data-testid="dashboard-progress" style={{ marginTop: 'var(--space-5)' }}>
               <div
                 style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
                   fontSize: 'var(--text-sm)',
                   textTransform: 'uppercase',
                   letterSpacing: 'var(--letter-wide)',
                   color: 'var(--text-secondary)',
                 }}
               >
-                Внутри вас ждет
+                <span>Прогресс</span>
+                <span>
+                  {answered} из {totalQuestions}
+                </span>
               </div>
-              <ul
+              <div
+                role="progressbar"
+                aria-valuenow={progressPercent}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Прогресс теста"
                 style={{
-                  listStyle: 'none',
-                  margin: 'var(--space-2) 0 0 0',
-                  padding: 0,
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                  gap: 'var(--space-2) var(--space-3)',
+                  marginTop: 'var(--space-2)',
+                  height: 'var(--track-height)',
+                  background: 'var(--bg-surface)',
+                  borderRadius: 'var(--track-radius)',
+                  overflow: 'hidden',
                 }}
               >
-                {FRESH_FEATURES.map(({ Icon, label }) => (
-                  <li
-                    key={label}
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'var(--accent)',
+                    transform: `scaleX(${progressPercent / 100})`,
+                    transformOrigin: 'left',
+                    transition: 'transform var(--duration-normal) ease',
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Вход в занятие (spec 065; взаимоисключение ветвей — spec 066).
+              Две ветки, порядок важен:
+              1. Профиль без единого ответа (`hasNoHistory`) — приглашение к обучению.
+                 Кнопка ОДНА, а обработчик зависит от режима: в Fresh User Mode
+                 (`isFreshUser` — онбординг пройден, ответов нет) список тем скрыт,
+                 поэтому CTA СТАРТУЕТ занятие (review-сессия дня), а в ветке без
+                 пройденного онбординга скроллит к списку тем — он там виден.
+                 В рантайме вторая ветка недостижима (App уводит такой профиль на
+                 демо-квиз), но её контракт пинит юнит-тест `Dashboard.cta.test.tsx`.
+              2. Профиль с историей: просроченные — повторение; остались только новые —
+                 продолжение. Прогон идёт review-стримом, поэтому бесплатный лимит не
+                 расходуется.
+
+              Продающий Fresh Dashboard (задание): в ветке 1 свежий профиль получает
+              Hero с ценностью вместо шести нулей, но кнопка остаётся ОДНА и общая для
+              обеих подветок — две primary-кнопки в одном блоке рендера это ровно
+              находка `duplicate-primary` из `scripts/fitness/check-styling.mjs`.
+              testId `start-learning` сохранён намеренно: это контракт «единственный
+              вход в занятие до первого ответа», и его пинят вне allowed-списка
+              `e2e/analytics.spec.ts` и `e2e/regression-071.spec.ts` (им важен testId,
+              а не подпись).
+
+              ИЗВЕСТНЫЙ ДОЛГ (решение капитана на STOP-точке — оставить как есть):
+              подветка `hasNoHistory && !isFreshUser` (подпись «Начать обучение» со
+              счётчиком тем, onClick = scrollToTopics) после уборки демо НЕДОСТИЖИМА —
+              isFreshUser теперь тождественно равен hasNoHistory.
+              // unreachable после removal of demo (B1: isFreshUser ≡ hasNoHistory).
+              // Убрать вместе со scrollToTopics/topicsRef/RhcsaProgramme.topicsRef отдельной задачей. */}
+          {hasNoHistory ? (
+            <>
+              {/* Hero (только Fresh User Mode). Возвращающемуся профилю не рендерится:
+                  у него ниже ветка «Продолжить обучение» с реальными числами. */}
+              {isFreshUser && (
+                <div data-testid="dashboard-hero" style={{ marginTop: 'var(--space-6)' }}>
+                  <h2 style={HERO_TITLE}>Начните путь к RHCSA</h2>
+                  <p
+                    data-testid="dashboard-hero-subtitle"
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 'var(--space-2)',
                       fontSize: 'var(--text-sm)',
+                      color: 'var(--text-secondary)',
+                      margin: 'var(--space-2) 0 0 0',
+                    }}
+                  >
+                    {`${totalQuestions} ${pluralizeQuestions(totalQuestions)} · ${topicCountLabel(TOPICS.length)} · по официальным objectives`}
+                  </p>
+                </div>
+              )}
+              <Button
+                variant="primary"
+                testId="start-learning"
+                onClick={isFreshUser ? () => startReviewQuiz(sessionIds, 'today') : scrollToTopics}
+                style={isFreshUser ? HERO_CTA : PRIMARY_CTA}
+              >
+                {isFreshUser ? (
+                  <span>Начать первый вопрос →</span>
+                ) : (
+                  <>
+                    <span>Начать обучение</span>
+                    <span style={CTA_COUNTER}>{`${TOPICS.length} тем`}</span>
+                  </>
+                )}
+              </Button>
+              {/* «Внутри вас ждет» — тоже только Fresh User Mode: возвращающемуся
+                  профилю эти механики уже знакомы, их несут Exam mode, аналитика и
+                  StreakBadge ниже, а список из четырёх пунктов продавал бы купившему. */}
+              {isFreshUser && (
+                <div data-testid="dashboard-features" style={{ marginTop: 'var(--space-5)' }}>
+                  <div
+                    style={{
+                      fontSize: 'var(--text-sm)',
+                      textTransform: 'uppercase',
+                      letterSpacing: 'var(--letter-wide)',
                       color: 'var(--text-secondary)',
                     }}
                   >
-                    <Icon size={16} aria-hidden="true" />
-                    <span>{label}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    Внутри вас ждет
+                  </div>
+                  <ul
+                    style={{
+                      listStyle: 'none',
+                      margin: 'var(--space-2) 0 0 0',
+                      padding: 0,
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                      gap: 'var(--space-2) var(--space-3)',
+                    }}
+                  >
+                    {FRESH_FEATURES.map(({ Icon, label }) => (
+                      <li
+                        key={label}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 'var(--space-2)',
+                          fontSize: 'var(--text-sm)',
+                          color: 'var(--text-secondary)',
+                        }}
+                      >
+                        <Icon size={16} aria-hidden="true" />
+                        <span>{label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {dueCount > 0 ? (
+                /* B3: на десктопе CTA не растягивается на всю колонку 1248px —
+                   иначе primary-кнопка читается как полоса. Ниже `lg` обёртка
+                   блочная и не меняет ни ширину, ни отступы кнопки. */
+                <div className="lg:max-w-md">
+                  <Button
+                    variant="primary"
+                    testId="review-today"
+                    onClick={() => startReviewQuiz(sessionDueIds, 'today')}
+                    style={PRIMARY_CTA}
+                  >
+                    {/* ux-copy-3 (2026-10-07): подпись «Повторить сегодня» читалась как
+                        долг перед приложением — главный текст «Продолжить обучение».
+                        ux-copy-3-fix (2026-10-07): «15 минут · 30 вопросов» был хардкодом
+                        обещания; правая часть показывала реальное число вопросов
+                        следующей сессии (`sessionSize`) и скрывалась целиком, если
+                        показывать нечего (N = 0).
+                        Задание «счётчик ответов за сегодня» вернуло правой части смысл
+                        обещания, но дневного: N — это ОТВЕТЫ за сегодня (сброс в
+                        полночь), а не размер следующей сессии. На N = 0 подпись читается
+                        как прежде (цель дня численно равна размеру сессии = 30), дальше —
+                        «N из 30». Скрывать больше нечего: счётчик есть всегда. */}
+                    <span>Продолжить обучение</span>
+                    <span style={CTA_COUNTER} data-testid="cta-counter">{dailyAnswerLabel(todayAnswered)}</span>
+                  </Button>
+                </div>
+              ) : null}
+
+              {newCount > 0 && dueCount === 0 ? (
+                /* B3: на десктопе CTA не растягивается на всю колонку 1248px —
+                   иначе primary-кнопка читается как полоса. Ниже `lg` обёртка
+                   блочная и не меняет ни ширину, ни отступы кнопки. */
+                <div className="lg:max-w-md">
+                  <Button
+                    variant="primary"
+                    testId="continue-learning"
+                    onClick={() => startReviewQuiz(sessionNewIds, 'today')}
+                    style={PRIMARY_CTA}
+                  >
+                    <span>{`Продолжить изучение (${newCount})`}</span>
+                    <span style={CTA_COUNTER}>{`${newCount} вопр.`}</span>
+                  </Button>
+                </div>
+              ) : null}
+
+              {/* ux-copy-3 (2026-10-07): хвост пула за одной сессией больше не
+                  подписывается вовсе. Строка «Следующее повторение: завтра»
+                  (UX-фикс 2026-10-07) удалена целиком вместе с узлом
+                  `review-today-remainder` и его `data-fsrs-remaining`: обещание
+                  «завтра» ничего не сообщало пользователю, а размер хвоста жил в DOM
+                  только ради тестов. Фактический размер сессии виден в счётчике
+                  прогона (`1 / N`). */}
+            </>
           )}
-        </>
-      ) : (
-        <>
-          {dueCount > 0 ? (
-            <Button
-              variant="primary"
-              testId="review-today"
-              onClick={() => startReviewQuiz(sessionDueIds, 'today')}
-              style={PRIMARY_CTA}
-            >
-              {/* ux-copy-3 (2026-10-07): подпись «Повторить сегодня» читалась как
-                  долг перед приложением — главный текст «Продолжить обучение».
-                  ux-copy-3-fix (2026-10-07): «15 минут · 30 вопросов» был хардкодом
-                  обещания; правая часть показывала реальное число вопросов
-                  следующей сессии (`sessionSize`) и скрывалась целиком, если
-                  показывать нечего (N = 0).
-                  Задание «счётчик ответов за сегодня» вернуло правой части смысл
-                  обещания, но дневного: N — это ОТВЕТЫ за сегодня (сброс в
-                  полночь), а не размер следующей сессии. На N = 0 подпись читается
-                  как прежде (цель дня численно равна размеру сессии = 30), дальше —
-                  «N из 30». Скрывать больше нечего: счётчик есть всегда. */}
-              <span>Продолжить обучение</span>
-              <span style={CTA_COUNTER} data-testid="cta-counter">{dailyAnswerLabel(todayAnswered)}</span>
-            </Button>
-          ) : null}
 
-          {newCount > 0 && dueCount === 0 ? (
-            <Button
-              variant="primary"
-              testId="continue-learning"
-              onClick={() => startReviewQuiz(sessionNewIds, 'today')}
-              style={PRIMARY_CTA}
-            >
-              <span>{`Продолжить изучение (${newCount})`}</span>
-              <span style={CTA_COUNTER}>{`${newCount} вопр.`}</span>
-            </Button>
-          ) : null}
+          {/* Exam mode (spec 054) — единственный экзамен в приложении (spec 068):
+              отдельный поток из трёх экранов (настройка → прогон → итоги) с пресетами
+              30/60/90 и разбором по темам. Историческая кнопка «Режим экзамена
+              (20 вопросов, 30 минут)» удалена вместе с инлайн-режимом.
 
-          {/* ux-copy-3 (2026-10-07): хвост пула за одной сессией больше не
-              подписывается вовсе. Строка «Следующее повторение: завтра»
-              (UX-фикс 2026-10-07) удалена целиком вместе с узлом
-              `review-today-remainder` и его `data-fsrs-remaining`: обещание
-              «завтра» ничего не сообщало пользователю, а размер хвоста жил в DOM
-              только ради тестов. Фактический размер сессии виден в счётчике
-              прогона (`1 / N`). */}
-        </>
-      )}
+              В Fresh User Mode скрыт: экзамен на 30–90 вопросов — не первый шаг для
+              профиля без единого ответа. */}
+          {!isFreshUser && (
+            <>
+              {/* B3 (продолжение): ширина действия задаётся одним местом — иначе главная
+                  CTA (448px) оказалась бы у́же второстепенных кнопок во всю колонку 1120px.
+              */}
+              <div className="lg:max-w-md">
+                <Button
+                  variant="secondary"
+                  testId="exam-mode"
+                  onClick={() => navigateTo('exam-setup')}
+                  style={SECONDARY_CTA}
+                >
+                  <ClipboardList size={18} aria-hidden="true" />
+                  <span>Exam mode — 30/60/90 вопросов с разбором</span>
+                </Button>
+              </div>
 
-      {/* Exam mode (spec 054) — единственный экзамен в приложении (spec 068):
-          отдельный поток из трёх экранов (настройка → прогон → итоги) с пресетами
-          30/60/90 и разбором по темам. Историческая кнопка «Режим экзамена
-          (20 вопросов, 30 минут)» удалена вместе с инлайн-режимом.
+              {/* Analytics (spec 058): «персональный тренер» — radar по 14 темам,
+                  готовность, слабые зоны и тренд за 7 дней. Данные уже в persist
+                  (questionStats), поэтому экран ничего не дозагружает.
 
-          В Fresh User Mode скрыт: экзамен на 30–90 вопросов — не первый шаг для
-          профиля без единого ответа. */}
-      {!isFreshUser && (
-        <>
-          <Button
-            variant="secondary"
-            testId="exam-mode"
-            onClick={() => navigateTo('exam-setup')}
-            style={SECONDARY_CTA}
-          >
-            <ClipboardList size={18} aria-hidden="true" />
-            <span>Exam mode — 30/60/90 вопросов с разбором</span>
-          </Button>
+                  В Fresh User Mode скрыта: аналитика по ПУСТОЙ статистике — пустые
+                  состояния вместо ответа «где я слаб». */}
+              {/* B3 (продолжение): ширина действия задаётся одним местом — иначе главная
+                  CTA (448px) оказалась бы у́же второстепенных кнопок во всю колонку 1120px.
+              */}
+              <div className="lg:max-w-md">
+                <Button
+                  variant="secondary"
+                  testId="analytics-mode"
+                  onClick={() => navigateTo('analytics')}
+                  style={SECONDARY_CTA}
+                >
+                  <BarChart3 size={18} aria-hidden="true" />
+                  <span>Аналитика — готовность, слабые темы, тренд</span>
+                </Button>
+              </div>
+            </>
+          )}
 
-          {/* Analytics (spec 058): «персональный тренер» — radar по 14 темам,
-              готовность, слабые зоны и тренд за 7 дней. Данные уже в persist
-              (questionStats), поэтому экран ничего не дозагружает.
+          {/* «Повторить ошибки» — resumed from the regular stream's wrong answers.
+              В Fresh User Mode ошибок ещё нет по определению, но узел скрыт явно:
+              список «нужного» в этом режиме закрыт, и полагаться на пустоту ошибок
+              вместо явного условия — хрупко. */}
+          {!isFreshUser && wrongQuestionIds.length > 0 && (
+              /* B3 (продолжение): ширина действия задаётся одним местом — иначе главная
+                 CTA (448px) оказалась бы у́же второстепенных кнопок во всю колонку 1120px.
+              */
+              <div className="lg:max-w-md">
+                <Button
+                  variant="primary"
+                  testId="review-wrong"
+                  onClick={() => startReviewQuiz(wrongQuestionIds)}
+                  style={REVIEW_WRONG_BUTTON}
+                >
+                  <span>Повторить ошибки</span>
+                  <span
+                    style={{
+                      fontSize: 'var(--text-sm)',
+                      color: 'var(--color-danger-strong)',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {wrongQuestionIds.length} вопр.
+                  </span>
+                </Button>
+              </div>
+          )}
 
-              В Fresh User Mode скрыта: аналитика по ПУСТОЙ статистике — пустые
-              состояния вместо ответа «где я слаб». */}
-          <Button
-            variant="secondary"
-            testId="analytics-mode"
-            onClick={() => navigateTo('analytics')}
-            style={SECONDARY_CTA}
-          >
-            <BarChart3 size={18} aria-hidden="true" />
-            <span>Аналитика — готовность, слабые темы, тренд</span>
-          </Button>
-        </>
-      )}
-
-      {/* «Повторить ошибки» — resumed from the regular stream's wrong answers.
-          В Fresh User Mode ошибок ещё нет по определению, но узел скрыт явно:
-          список «нужного» в этом режиме закрыт, и полагаться на пустоту ошибок
-          вместо явного условия — хрупко. */}
-      {!isFreshUser && wrongQuestionIds.length > 0 && (
-        <Button
-          variant="primary"
-          testId="review-wrong"
-          onClick={() => startReviewQuiz(wrongQuestionIds)}
-          style={REVIEW_WRONG_BUTTON}
-        >
-          <span>Повторить ошибки</span>
-          <span
-            style={{
-              fontSize: 'var(--text-sm)',
-              color: 'var(--color-danger-strong)',
-              fontWeight: 600,
-            }}
-          >
-            {wrongQuestionIds.length} вопр.
-          </span>
-        </Button>
-      )}
-
-      {/* RHCSA-программа. В Fresh User Mode скрыта: до первого ответа список из
-          14 тем — выбор без основания (пользователь ещё не знает, где слаб), а
-          единственная CTA режима ведёт в занятие напрямую, а не к списку. */}
-      {!isFreshUser && <RhcsaProgramme topicsRef={topicsRef} />}
-      {/* Resume banner - unfinished regular quiz only */}
-      {isQuizInProgress && !reviewQuestionIds ? (
-        <Card
-          variant="plain"
-          testId="resume-banner"
-          style={{
-            border: 'none',
-            marginTop: 'var(--space-4)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 'var(--space-3)',
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>Тест не завершён</div>
-            <div
-              data-testid="resume-position"
+          {/* RHCSA-программа. В Fresh User Mode скрыта: до первого ответа список из
+              14 тем — выбор без основания (пользователь ещё не знает, где слаб), а
+              единственная CTA режима ведёт в занятие напрямую, а не к списку. */}
+          {!isFreshUser && <RhcsaProgramme topicsRef={topicsRef} />}
+          {/* Resume banner - unfinished regular quiz only */}
+          {isQuizInProgress && !reviewQuestionIds ? (
+            <Card
+              variant="plain"
+              testId="resume-banner"
               style={{
-                fontSize: 'var(--text-xs)',
-                color: 'var(--text-secondary)',
-                marginTop: 'var(--space-0-5)',
+                border: 'none',
+                marginTop: 'var(--space-4)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 'var(--space-3)',
               }}
             >
-              {`Вопрос ${currentIndex + 1} из ${totalQuestions}`}
+              <div>
+                <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>Тест не завершён</div>
+                <div
+                  data-testid="resume-position"
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    color: 'var(--text-secondary)',
+                    marginTop: 'var(--space-0-5)',
+                  }}
+                >
+                  {`Вопрос ${currentIndex + 1} из ${totalQuestions}`}
+                </div>
+              </div>
+              {/* diag-dashboard-fix (симптом 3): баннер и нижний футер показывали ДВЕ
+                  primary-CTA с одинаковой подписью «Продолжить», когда прогон не
+                  закончен и нативный MainButton недоступен. Кнопка баннера переведена
+                  в secondary: обработчик (`resumeQuiz`) и подпись прежние — их пинят
+                  e2e-контракты (paywall.spec.ts:84 кликает именно её, а фикстура
+                  `resumeSeededRun` используется 7 спеками), а primary на экране
+                  остаётся одна — нижняя `dashboard-continue`.
+                  Вариант «баннер без CTA» отклонён по той же причине: `resume-button`
+                  — публичный data-testid вне разрешённого списка правок. */}
+              <Button
+                variant="secondary"
+                testId="resume-button"
+                onClick={resumeQuiz}
+                style={{
+                  width: 'auto',
+                  padding: 'var(--space-2) var(--space-3)',
+                  marginTop: 0,
+                  borderRadius: 'var(--btn-secondary-radius)',
+                  fontSize: 'var(--text-xs)',
+                }}
+              >
+                Продолжить
+              </Button>
+            </Card>
+          ) : null}
+
+          {/* Вход в регулярный поток вне Telegram и когда нативный MainButton
+              недоступен (spec 072). НЕ переименовывается в start-learning и НЕ
+              удаляется: это отдельный контракт (browser-mode.spec проверяет его текст
+              «Продолжить»), а start-learning — приглашение для профиля без единого
+              ответа (выше).
+
+              spec 076 F3: CTA переведён в **sticky**-футер (`position: sticky`,
+              `bottom: 0`). Кнопка стоит после всего контента дашборда, поэтому в
+              потоке она оказывалась на y=1904…2027 — вне вьюпорта на всех 5 размерах
+              сетки 075 (`dashboard-continue` ниже сгиба, 5 случаев). `sticky`
+              считается от вьюпорта (при `#root` высотой 640–915 px и контенте ~2030 px
+              элемент удерживается у нижней кромки уже на `scrollTop = 0`) и при этом
+              остаётся В ПОТОКЕ. Именно поэтому здесь sticky, а не `fixed`, как в
+              Question/ExamRun/Paywall: `fixed` выведен из потока и требует распорку
+              `fixed-footer-spacer`, а её отсутствие в Telegram-ветке — контракт spec
+              071 (`regression-071.spec.ts:353`: `spacer → 0`; в этой ветке
+              `mainButtonReady === false` и in-app футер рендерится). Sticky-элемент
+              в потоке и распорки не требует.
+            */}
+          {!mainButtonReady && !isFreshUser && (
+            <div
+              style={{
+                position: 'sticky',
+                bottom: 0,
+                zIndex: FIXED_FOOTER_Z_INDEX,
+                marginTop: SPACING.xl,
+                paddingTop: SPACING.sm,
+                paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
+                background: 'var(--bg-primary)',
+                borderTop: '1px solid var(--border-subtle)',
+              }}
+            >
+              <Button
+                variant="primary"
+                testId="dashboard-continue"
+                onClick={() => {
+                  if (reviewQuestionIds) {
+                    startRegularQuiz();
+                  }
+                  navigateTo('question');
+                }}
+                style={{
+                  // spec 079: тёмный `--text-primary` на акцентной заливке — 2.88:1.
+                  // Роль «текст на акцентной кнопке» = белый (tokens.css, в Button).
+                  padding: SPACING.md,
+                  borderRadius: LAYOUT.buttonRadius,
+                  marginTop: 0,
+                  fontSize: 'var(--body)',
+                }}
+              >
+                Продолжить
+              </Button>
             </div>
-          </div>
-          {/* diag-dashboard-fix (симптом 3): баннер и нижний футер показывали ДВЕ
-              primary-CTA с одинаковой подписью «Продолжить», когда прогон не
-              закончен и нативный MainButton недоступен. Кнопка баннера переведена
-              в secondary: обработчик (`resumeQuiz`) и подпись прежние — их пинят
-              e2e-контракты (paywall.spec.ts:84 кликает именно её, а фикстура
-              `resumeSeededRun` используется 7 спеками), а primary на экране
-              остаётся одна — нижняя `dashboard-continue`.
-              Вариант «баннер без CTA» отклонён по той же причине: `resume-button`
-              — публичный data-testid вне разрешённого списка правок. */}
-          <Button
-            variant="secondary"
-            testId="resume-button"
-            onClick={resumeQuiz}
-            style={{
-              width: 'auto',
-              padding: 'var(--space-2) var(--space-3)',
-              marginTop: 0,
-              borderRadius: 'var(--btn-secondary-radius)',
-              fontSize: 'var(--text-xs)',
-            }}
-          >
-            Продолжить
-          </Button>
-        </Card>
-      ) : null}
+          )}
 
-      {/* Вход в регулярный поток вне Telegram и когда нативный MainButton
-          недоступен (spec 072). НЕ переименовывается в start-learning и НЕ
-          удаляется: это отдельный контракт (browser-mode.spec проверяет его текст
-          «Продолжить»), а start-learning — приглашение для профиля без единого
-          ответа (выше).
+          {/* Распорки под футер здесь НЕТ намеренно (spec 076 F3): sticky-футер
+              остаётся в потоке, поэтому ничего не перекрывает и распорка не нужна —
+              в отличие от `fixed` в Question/ExamRun/Paywall. Наличие
+              `fixed-footer-spacer` в Telegram-ветке запрещено контрактом spec 071. */}
 
-          spec 076 F3: CTA переведён в **sticky**-футер (`position: sticky`,
-          `bottom: 0`). Кнопка стоит после всего контента дашборда, поэтому в
-          потоке она оказывалась на y=1904…2027 — вне вьюпорта на всех 5 размерах
-          сетки 075 (`dashboard-continue` ниже сгиба, 5 случаев). `sticky`
-          считается от вьюпорта (при `#root` высотой 640–915 px и контенте ~2030 px
-          элемент удерживается у нижней кромки уже на `scrollTop = 0`) и при этом
-          остаётся В ПОТОКЕ. Именно поэтому здесь sticky, а не `fixed`, как в
-          Question/ExamRun/Paywall: `fixed` выведен из потока и требует распорку
-          `fixed-footer-spacer`, а её отсутствие в Telegram-ветке — контракт spec
-          071 (`regression-071.spec.ts:353`: `spacer → 0`; в этой ветке
-          `mainButtonReady === false` и in-app футер рендерится). Sticky-элемент
-          в потоке и распорки не требует.
-        */}
-      {!mainButtonReady && !isFreshUser && (
-        <div
-          style={{
-            position: 'sticky',
-            bottom: 0,
-            zIndex: FIXED_FOOTER_Z_INDEX,
-            marginTop: SPACING.xl,
-            paddingTop: SPACING.sm,
-            paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
-            background: 'var(--bg-primary)',
-            borderTop: '1px solid var(--border-subtle)',
-          }}
-        >
-          <Button
-            variant="primary"
-            testId="dashboard-continue"
-            onClick={() => {
-              if (reviewQuestionIds) {
-                startRegularQuiz();
-              }
-              navigateTo('question');
-            }}
-            style={{
-              // spec 079: тёмный `--text-primary` на акцентной заливке — 2.88:1.
-              // Роль «текст на акцентной кнопке» = белый (tokens.css, в Button).
-              padding: SPACING.md,
-              borderRadius: LAYOUT.buttonRadius,
-              marginTop: 0,
-              fontSize: 'var(--body)',
-            }}
-          >
-            Продолжить
-          </Button>
+          {/* Legal disclaimer — trademark safety (independent trainer notice).
+              В Fresh User Mode скрыт: задание требует «никаких юридических текстов на
+              первом экране», и юридический текст там действительно не продаёт.
+              Из продукта НЕ удалён: экрана Settings/About пока не существует
+              (`Screen` — 9 значений, legal-экрана среди них нет), а уведомление о
+              торговых марках нужно продукту, а не только первому экрану. Поэтому оно
+              остаётся у возвращающегося профиля и переедет на отдельный экран, когда
+              тот появится (решение капитана на STOP-точке, B1 в полном виде не
+              выполнялся). */}
+          {/* TODO: move to Settings when screen exists */}
+          {!isFreshUser && (
+            <div
+              data-disclaimer="legal"
+              style={{
+                marginTop: 'var(--space-6)',
+                paddingTop: 'var(--space-3)',
+                borderTop: '1px solid var(--border-subtle)',
+                fontSize: 'var(--text-xs)',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.5,
+              }}
+            >
+              LinuxExam — независимый тренажёр. Не аффилирован с Red Hat, Inc. и CompTIA.
+              RHCSA® — торговая марка Red Hat, Inc. CompTIA® и Linux+® — торговые марки CompTIA.
+              Вопросы оригинальные, основаны на публично доступных exam objectives.
+            </div>
+          )}
+
+          {/* Показывается ровно один раз: после онбординга и до подтверждения цели. */}
+          <DailyGoalPicker />
         </div>
-      )}
-
-      {/* Распорки под футер здесь НЕТ намеренно (spec 076 F3): sticky-футер
-          остаётся в потоке, поэтому ничего не перекрывает и распорка не нужна —
-          в отличие от `fixed` в Question/ExamRun/Paywall. Наличие
-          `fixed-footer-spacer` в Telegram-ветке запрещено контрактом spec 071. */}
-
-      {/* Legal disclaimer — trademark safety (independent trainer notice).
-          В Fresh User Mode скрыт: задание требует «никаких юридических текстов на
-          первом экране», и юридический текст там действительно не продаёт.
-          Из продукта НЕ удалён: экрана Settings/About пока не существует
-          (`Screen` — 9 значений, legal-экрана среди них нет), а уведомление о
-          торговых марках нужно продукту, а не только первому экрану. Поэтому оно
-          остаётся у возвращающегося профиля и переедет на отдельный экран, когда
-          тот появится (решение капитана на STOP-точке, B1 в полном виде не
-          выполнялся). */}
-      {/* TODO: move to Settings when screen exists */}
-      {!isFreshUser && (
-        <div
-          data-disclaimer="legal"
-          style={{
-            marginTop: 'var(--space-6)',
-            paddingTop: 'var(--space-3)',
-            borderTop: '1px solid var(--border-subtle)',
-            fontSize: 'var(--text-xs)',
-            color: 'var(--text-secondary)',
-            lineHeight: 1.5,
-          }}
-        >
-          LinuxExam — независимый тренажёр. Не аффилирован с Red Hat, Inc. и CompTIA.
-          RHCSA® — торговая марка Red Hat, Inc. CompTIA® и Linux+® — торговые марки CompTIA.
-          Вопросы оригинальные, основаны на публично доступных exam objectives.
-        </div>
-      )}
-
-      {/* Показывается ровно один раз: после онбординга и до подтверждения цели. */}
-      <DailyGoalPicker />
-</ScreenContainer>
+      </div>
+    </ScreenContainer>
   );
 }
