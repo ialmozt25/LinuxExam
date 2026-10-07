@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 9779695</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 977efda</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">977efda</td>
+          <td><span class="ctype ctype--feat">feat</span></td>
+          <td>feat(xp): именованные уровни RHCSA + кривая «быстро на старте» + toast перехода</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
+          <td class="mono">ff77fcc</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">9779695</td>
           <td><span class="ctype ctype--chore">chore</span></td>
           <td>chore(log): trail for push xp-mechanics</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge after ux-copy</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">5dd3be0</td>
-          <td><span class="ctype ctype--fix">fix</span></td>
-          <td>fix(ux): replace demotivating backlog string</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
-        <tr>
-          <td class="mono">0cae50e</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,14 +592,14 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">158 ч (~6.6 дн)</td>
+          <td class="muted">159 ч (~6.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">205 ч (~8.5 дн)</td>
+          <td class="muted">206 ч (~8.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
@@ -613,7 +613,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">158 ч (~6.6 дн)</td>
+          <td class="muted">159 ч (~6.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · xp-mechanics | гейты: typecheck exit 0; test:run 49 файлов / 524 теста passed; e2e 219 passed (4 падения…</li>
-        <li><span class="mono muted">07.10</span> · xp-mechanics | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь перезаписан на session-ffad17cc… | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;xp-mechanics&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - xp-mechanics (XP-механика: таблица начисления regular +3/+1, review +2/+1, завершённый exam +10, первый ответ дня +10…</li>
+        <li><span class="mono muted">07.10</span> · xp-levels | производные правки вне allowed-списка (вынуждены гейтами, не расширение скоупа — прецедент ux-copy-3, журнал событий:398): e2e/persist.spec.ts…</li>
+        <li><span class="mono muted">07.10</span> · xp-levels | гейты: typecheck exit 0; test:run 50 файлов / 537 тестов passed; retention + mobile-layout 18 passed; visual-regression 19 passed (после обновления 2 baseline); build exit 0; правленые per…</li>
+        <li><span class="mono muted">07.10</span> · xp-levels | гейт 4 по букве: git status --short e2e/ = 4 строки (2 PNG + 2 правленых спека из производных правок выше), а не 2 PNG; по существу перегенерация затронула РОВНО 2 файла…</li>
+        <li><span class="mono muted">07.10</span> · xp-levels | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;xp-levels&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
     </ul>
   </details>
 
