@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "78ba06cb0c6623581eb3fcbe01df464d8e200cb8",
+  "head": "560ca800849e6709eaec5df3448d3b3f490e1923",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "560ca80",
+      "date": "2026-10-08",
+      "subject": "fix(dashboard): убрать sticky-футер «Продолжить» — одна primary CTA на экран",
+      "type": "fix"
+    },
+    {
+      "sha": "e902dec",
+      "date": "2026-10-07",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
+    {
       "sha": "78ba06c",
       "date": "2026-10-07",
       "subject": "chore(log): trail for push desktop-audit-fix",
@@ -1602,18 +1614,6 @@
       "sha": "cb1e69c",
       "date": "2026-10-07",
       "subject": "chore(state): converge after onboarding-simplify",
-      "type": "chore"
-    },
-    {
-      "sha": "8ae12d5",
-      "date": "2026-10-07",
-      "subject": "feat(onboarding): 4 экрана → 1 — демо-квиз с inline-фидбеком и Fresh User Mode на Dashboard",
-      "type": "feat"
-    },
-    {
-      "sha": "b86ddb2",
-      "date": "2026-10-07",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
