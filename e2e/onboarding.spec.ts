@@ -10,6 +10,7 @@ import {
   answerQuestion,
   TESTID,
   TOPIC_INDEX,
+  TOPICS,
 } from './fixtures';
 
 /**
@@ -57,15 +58,33 @@ test.describe('онбординг', () => {
       await next.click();
     }
 
-    // Fresh User Mode: одна CTA, без Exam/аналитики/программы/пикера цели.
+    // Fresh User Mode: Hero с конкретикой и одна CTA — без нулей и юртекстов.
     await waitForDashboard(page);
-    await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать обучение/);
+    await expect(
+      page.getByRole('heading', { level: 2, name: 'Начните путь к RHCSA' })
+    ).toBeVisible();
+    // Числа подзаголовка берутся из живого банка и реестра тем: банк растёт, и
+    // литерал молча разошёлся бы с реальностью.
+    await expect(page.getByTestId('dashboard-hero-subtitle')).toHaveText(
+      new RegExp(`^${TOTAL} вопрос\\S* · ${TOPICS.length} тем\\S* · по официальным objectives$`)
+    );
+    await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать первый вопрос/);
+    // «Внутри вас ждет» — 4 возможности иконками SVG (эмодзи запрещены контрактом).
+    await expect(page.getByTestId('dashboard-features').locator('li')).toHaveCount(4);
+
     await expect(page.getByTestId('exam-mode')).toHaveCount(0);
     await expect(page.getByTestId('analytics-mode')).toHaveCount(0);
     await expect(page.getByTestId(TESTID.dashboardTopics)).toHaveCount(0);
     await expect(page.getByTestId(TESTID.streakBadge)).toHaveCount(0);
-    await expect(page.getByTestId('streak-placeholder')).toHaveText('Начни серию сегодня');
-    await expect(page.getByTestId(TESTID.dashboardProgress)).toContainText(`0 из ${TOTAL}`);
+    // Нулей прежнего первого экрана больше нет: заглушка серии, «0 / 30 XP»,
+    // «0 из 253» и «0 %» полосы уровня (level-strip остаётся по заданию — A1).
+    await expect(page.getByTestId('streak-placeholder')).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.dashboardRetention)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.xpBar)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.dashboardProgress)).toHaveCount(0);
+    // Юридический текст на первом экране скрыт; в продукте он остаётся — у
+    // обычного Dashboard (контракт `e2e/dashboard.spec.ts`).
+    await expect(page.locator('[data-disclaimer="legal"]')).toHaveCount(0);
     // Пикер дневной цели не всплывает четвёртым шагом.
     await expect(page.getByTestId(TESTID.dailyGoalPicker)).toHaveCount(0);
   });
@@ -97,6 +116,10 @@ test.describe('онбординг', () => {
 
     await expect(page.getByTestId('analytics-mode')).toBeVisible();
     await expect(page.getByTestId(TESTID.dashboardTopics)).toBeVisible();
+    // Первый ответ снимает и Hero, и блок возможностей: это принадлежность
+    // fresh mode, а не постоянная часть экрана.
+    await expect(page.getByTestId('dashboard-hero')).toHaveCount(0);
+    await expect(page.getByTestId('dashboard-features')).toHaveCount(0);
     await expect(page.getByTestId('streak-placeholder')).toHaveCount(0);
 
     // Reload не возвращает fresh mode: прохождение отмечено, статистика непуста.

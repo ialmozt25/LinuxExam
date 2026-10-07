@@ -26,7 +26,7 @@ import {
  * (`next <= now`). Одна сессия — до `SESSION_LIMIT = 30` вопросов, просроченные
  * первыми. Поэтому на Dashboard больше НЕ появляется «Повторить сегодня (253)»:
  * N считается по отобранной сессии, а профиль без ответов (Fresh User Mode)
- * видит приглашение «Начать обучение».
+ * видит единственную CTA Hero — «Начать первый вопрос →».
  *
  * Живой банк — 253 вопроса (`src/data/questions/_order.json`).
  */
@@ -177,7 +177,7 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     // (2026-10-07) вместе с её узлом `review-today-remainder`; ассерт ниже
     // фиксирует, что узел больше не рендерится ни на одном профиле.
     await expect(page.getByTestId(TESTID.startLearning)).toBeVisible();
-    await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать обучение/);
+    await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать первый вопрос/);
 
     // Ветки CTA взаимоисключающие: повторять новичку нечего.
     await expect(page.getByTestId(TESTID.reviewToday)).toHaveCount(0);
@@ -185,8 +185,8 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await expect(page.getByTestId(TESTID.continueLearning)).toHaveCount(0);
     // Кнопка повторения не возвращается ни в одном виде: повторять новичку нечего.
     // Подпись «Продолжить»/«Повторить» проверяется по кнопкам, а не по тексту
-    // страницы: «253» законно встречается в прогрессе («0 из 253») и в счётчике
-    // темы, поэтому широкий поиск по числу дал бы ложное срабатывание.
+    // страницы: число банка законно встречается в подзаголовке Hero («253 вопроса»)
+    // и в счётчике темы, поэтому широкий поиск по числу дал бы ложное срабатывание.
     await expect(page.getByRole('button', { name: /Повторить/ })).toHaveCount(0);
     await expect(page.getByRole('button', { name: /Продолжить обучение|Продолжить изучение/ })).toHaveCount(0);
   });
@@ -218,7 +218,7 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await expect(page.getByTestId(TESTID.startLearning)).toHaveCount(0);
   });
 
-  test('«Начать обучение» в Fresh User Mode стартует занятие', async ({ page }) => {
+  test('«Начать первый вопрос» в Fresh User Mode стартует занятие', async ({ page }) => {
     await seedOnboarding(page, true);
     await gotoApp(page);
 

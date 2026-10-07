@@ -4,12 +4,19 @@ import Dashboard from '@/presentation/screens/Dashboard';
 import { useQuizStore } from '@/store/quizStore';
 
 /**
- * Fresh User Mode (упрощение онбординга).
+ * Fresh User Mode: продающий первый экран (задание «Fresh Dashboard»).
  *
  * Условие режима — `hasCompletedOnboarding && !hasAnyAnswers`, где «есть ответы»
  * это непустая `questionStats` (та же метрика, что у гейта `useNeedsOnboarding`).
- * Показывается только нужное до первого ответа; Exam mode, аналитика, повтор
- * ошибок и программа RHCSA скрыты, серия заменена заглушкой, CTA — одна.
+ * Показывается: level-strip, header Tux+LinuxExam, Hero («Начните путь к RHCSA»,
+ * числа банка и реестра, одна большая CTA старта) и блок «Внутри вас ждет»
+ * (4 возможности, SVG-иконки). Скрыто: Exam mode, аналитика, повтор ошибок,
+ * программа RHCSA, retention-зона (бейдж серии и «0 / 30 XP»), прогресс
+ * «0 из 253», дисклеймер Red Hat и нативный MainButton.
+ *
+ * Нулей и юридических текстов на первом экране нет. Единственная строка с нулём,
+ * оставленная осознанно, — level-strip «Новичок · 0 / 50 XP до Ученика» (A1
+ * задания: «верхняя панель без изменений»).
  *
  * Проверяется именно пара состояний: «до первого ответа» и «после него» —
  * граница режима, а не разметка по отдельности.
@@ -71,14 +78,30 @@ describe('Dashboard — Fresh User Mode', () => {
     if (typeof localStorage !== 'undefined') localStorage.clear();
   });
 
-  it('до первого ответа: одна CTA «Начать обучение», программа и Exam скрыты', async () => {
+  it('до первого ответа: Hero с конкретикой и ОДНА CTA, программа и Exam скрыты', async () => {
     renderDashboard();
     await flushInitialization();
 
+    // Hero: заголовок, подзаголовок с числами банка и реестра, одна большая CTA.
+    expect(screen.getByTestId('dashboard-hero')).toBeTruthy();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Начните путь к RHCSA' })
+    ).toBeTruthy();
+    expect(screen.getByTestId('dashboard-hero-subtitle').textContent).toMatch(
+      /^\d+ вопрос\S* · \d+ тем\S* · по официальным objectives$/
+    );
+
     const start = screen.getByTestId('start-learning');
-    expect(start.textContent).toContain('Начать обучение');
-    // Счётчик справа — число тем реестра, а не прогресс пользователя.
-    expect(start.textContent).toMatch(/\d+ тем/);
+    expect(start.textContent).toContain('Начать первый вопрос');
+    // Счётчика тем у Hero нет: «14 тем» переехало в подзаголовок как обещание,
+    // а не как правая подпись кнопки.
+    expect(start.textContent).not.toMatch(/\d+ тем/);
+
+    // «Внутри вас ждет»: ровно 4 возможности, иконки — SVG (эмодзи запрещены
+    // контрактом, tell `slop-emoji-as-icon`).
+    const features = screen.getByTestId('dashboard-features');
+    expect(features.querySelectorAll('li')).toHaveLength(4);
+    expect(features.querySelectorAll('svg')).toHaveLength(4);
 
     for (const hidden of [
       'exam-mode',
@@ -96,14 +119,28 @@ describe('Dashboard — Fresh User Mode', () => {
     expect(screen.queryByTestId('daily-goal-picker')).toBeNull();
   });
 
-  it('серия заменена заглушкой, прогресс и уровень на месте', async () => {
+  it('нулей и юртекстов нет: серия, дневной XP, прогресс и дисклеймер скрыты', async () => {
     renderDashboard();
     await flushInitialization();
 
-    expect(screen.getByTestId('streak-placeholder').textContent).toBe('Начни серию сегодня');
-    expect(screen.getByTestId('dashboard-progress').textContent).toContain('0 из');
+    // Узлы, показывавшие ноль: заглушка серии, бейдж серии («0 дней»), дневная
+    // полоса XP («0 / 30 XP») вместе со всей retention-зоной и прогресс банка
+    // («0 из 253»).
+    for (const hidden of [
+      'streak-placeholder',
+      'streak-badge',
+      'dashboard-retention',
+      'xp-bar',
+      'dashboard-progress',
+    ]) {
+      expect(screen.queryByTestId(hidden), `в fresh mode не должно быть ${hidden}`).toBeNull();
+    }
+    // Дисклеймер опознаётся атрибутом, а не testid: он остаётся в продукте для
+    // возвращающегося профиля и скрыт только здесь (решение капитана на STOP-точке).
+    expect(document.querySelector('[data-disclaimer="legal"]')).toBeNull();
+
     // Уровень «Новичок» и «0 / 50 XP до Ученика» — та же полоса, что у обычного
-    // профиля: режим скрывает блоки, а не переизобретает status-strip.
+    // профиля: режим скрывает блоки-нули, а не переизобретает status-strip.
     expect(screen.getByText('Новичок')).toBeTruthy();
     expect(screen.getByText(/0 \/ 50 XP до Ученика/)).toBeTruthy();
   });
@@ -121,12 +158,19 @@ describe('Dashboard — Fresh User Mode', () => {
       'analytics-mode',
       'dashboard-topics',
       'streak-badge',
+      'dashboard-retention',
+      'dashboard-progress',
       'dashboard-continue',
     ]) {
       expect(screen.getByTestId(visible), `после ответа должен вернуться ${visible}`).toBeTruthy();
     }
     expect(screen.queryByTestId('streak-placeholder')).toBeNull();
     expect(screen.queryByTestId('start-learning')).toBeNull();
+    // Hero и «Внутри вас ждет» — принадлежность fresh mode, а не экрана вообще.
+    expect(screen.queryByTestId('dashboard-hero')).toBeNull();
+    expect(screen.queryByTestId('dashboard-features')).toBeNull();
+    // Дисклеймер возвращается вместе с обычным Dashboard.
+    expect(document.querySelector('[data-disclaimer="legal"]')).toBeTruthy();
     // CTA профиля с историей — «Продолжить обучение».
     expect(screen.getByTestId('review-today').textContent).toContain('Продолжить обучение');
   });
@@ -141,6 +185,11 @@ describe('Dashboard — Fresh User Mode', () => {
     // Ветка профиля без пройденного онбординга: приглашение СКРОЛЛИТ к темам,
     // поэтому список тем и Exam mode на месте.
     expect(screen.getByTestId('start-learning')).toBeTruthy();
+    // Подпись и счётчик у этой ветки прежние: Hero — принадлежность fresh mode.
+    expect(screen.getByTestId('start-learning').textContent).toContain('Начать обучение');
+    expect(screen.getByTestId('start-learning').textContent).toMatch(/\d+ тем/);
+    expect(screen.queryByTestId('dashboard-hero')).toBeNull();
+    expect(screen.queryByTestId('dashboard-features')).toBeNull();
     expect(screen.getByTestId('dashboard-topics')).toBeTruthy();
     expect(screen.getByTestId('exam-mode')).toBeTruthy();
   });
