@@ -17,6 +17,7 @@ import {
   readPersisted,
   PERSIST_VERSION,
   TESTID,
+  resumeSeededRun,
 } from './fixtures';
 
 /**
@@ -200,9 +201,8 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     await expect(page.getByTestId(TESTID.reviewToday)).toHaveCount(0);
 
     // Один ответ: `recordQuestionStat` делает статистику непустой, поэтому признак
-    // «свежести» снимается сам. В Fresh User Mode `dashboard-continue` скрыт
-    // (контракт «одна CTA до первого ответа»), поэтому вход в занятие — сама
-    // кнопка «Начать обучение»: она стартует сессию дня.
+    // «свежести» снимается сам. Вход в занятие — верхняя CTA «Начать обучение»
+    // (in-app футер «Продолжить» удалён фиксом 2026-10-07: одна primary на экран).
     await page.getByTestId(TESTID.startLearning).click();
     await waitForQuestion(page);
     await answerQuestion(page, 'correct');
@@ -304,13 +304,15 @@ test.describe.serial('FSRS-lite — разделение new / due', () => {
     // N: `answers`/`wrongQuestionIds` сида должны совпадать с реально
     // отвеченным вопросом потока, иначе живой вопрос №1 окажется уже отвеченным
     // и его варианты будут `disabled`.
-    await seedDueProfile(page);
+    // Обычный прогон на первом вопросе банка: in-app футер «Продолжить» снят
+    // фиксом 2026-10-07, поэтому вход — resume-баннер (верхняя CTA стартует
+    // review-прогон, а он расписание как раз пересчитывает).
+    await seedDueProfile(page, { isQuizInProgress: true, currentIndex: 0 });
     await gotoApp(page);
 
     const before = Object.keys((await readPersisted(page))?.state.scheduledReviews ?? {}).length;
 
-    await page.getByTestId(TESTID.dashboardContinue).click();
-    await waitForQuestion(page);
+    await resumeSeededRun(page);
     await answerQuestion(page, 'wrong');
     await page.getByTestId(TESTID.headerHome).click();
     await waitForDashboard(page);

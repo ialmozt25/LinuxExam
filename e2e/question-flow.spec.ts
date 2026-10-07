@@ -12,6 +12,8 @@ import {
   findQuestionByText,
   waitForDashboard,
   TESTID,
+  resumeSeededRun,
+  seedState,
 } from './fixtures';
 
 /**
@@ -169,10 +171,20 @@ test.describe('поток вопроса', () => {
   });
 
   test('the free-question gate raises the paywall at the sixth question', async ({ page }) => {
+    // Лимит бесплатных вопросов живёт только в ОБЫЧНОМ потоке (`canAccessQuestion`
+    // для review пропускается), а in-app футер «Продолжить» снят фиксом
+    // 2026-10-07: вход — resume-баннер незавершённого обычного прогона.
+    // `isPro: false` + `trialStartedAt: null` обязательны: `emptyPersistedState()`
+    // моделирует Pro-профиль, с которым гейт не срабатывает.
+    await seedState(page, {
+      isQuizInProgress: true,
+      currentIndex: 0,
+      reviewQuestionIds: null,
+      isPro: false,
+      trialStartedAt: null,
+    });
     await gotoApp(page);
-
-    await page.getByTestId(TESTID.dashboardContinue).click();
-    await waitForQuestion(page);
+    await resumeSeededRun(page);
     await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(/^1\s*\/\s*\d+$/);
 
     const seen: string[] = [];
@@ -203,7 +215,9 @@ test.describe('навигация с экрана вопроса', () => {
 
     await page.getByTestId(TESTID.headerHome).click();
     await waitForDashboard(page);
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
+    // Один primary-вход — верхняя CTA; in-app футер «Продолжить» удалён (2026-10-07).
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toHaveCount(0);
   });
 
   test('the resume banner is not offered while a topic run is unfinished', async ({ page }) => {
@@ -223,10 +237,11 @@ test.describe('навигация с экрана вопроса', () => {
   });
 
   test('«Продолжить» resumes the regular stream at the first question', async ({ page }) => {
+    // «Продолжить» здесь — кнопка resume-баннера: после снятия in-app футера
+    // (фикс 2026-10-07) это единственный вход в ОБЫЧНЫЙ поток, и он вторичен.
+    await seedState(page, { isQuizInProgress: true, currentIndex: 0, reviewQuestionIds: null });
     await gotoApp(page);
-
-    await page.getByTestId(TESTID.dashboardContinue).click();
-    await waitForQuestion(page);
+    await resumeSeededRun(page);
 
     await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(/^1\s*\/\s*\d+$/);
     await expect(page.getByTestId(TESTID.headerBack)).toHaveCount(0);

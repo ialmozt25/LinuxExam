@@ -320,18 +320,20 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
     await expect(page.locator('[data-variant="hint"]')).toHaveCount(1);
   });
 
-  test('Dashboard: одна primary-CTA «Продолжить» при незавершённом прогоне', async ({ page }) => {
-    // diag-dashboard-fix, симптом 3: resume-баннер и нижний sticky-футер
-    // показывали ДВЕ primary-кнопки с одинаковой подписью «Продолжить». Здесь
-    // профиль с историей и незавершённым регулярным прогоном — состояние, в
-    // котором рендерятся оба блока.
+  test('Dashboard: один primary-вход — верхняя CTA, in-app футера нет', async ({ page }) => {
+    // diag-dashboard-fix, симптом 3: resume-баннер и нижний sticky-футер показывали
+    // ДВЕ primary-кнопки с подписью «Продолжить». Футер удалён фиксом 2026-10-07
+    // (DESIGN.md → Components: одна primary CTA на экран, sticky-футер допустим
+    // только на Question/ExamRun). Здесь профиль с историей и незавершённым
+    // регулярным прогоном: на экране ровно одна primary — верхняя CTA, а вход
+    // «вернуться к прогону» даёт ВТОРИЧНАЯ кнопка resume-баннера.
     await seedHistoryProfile(page, 30, {
       overrides: { isQuizInProgress: true, currentIndex: 3, reviewQuestionIds: null },
     });
     await gotoApp(page);
 
     await expect(page.getByTestId(TESTID.resumeBanner)).toBeVisible();
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toHaveCount(0);
 
     const probe = await page.evaluate(() => {
       // Роль `--btn-primary-bg` резолвится через каскад временным узлом:
@@ -362,7 +364,12 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
     expect(
       continuePrimaries.map((hit) => hit.testid),
       `primary-CTA «Продолжить» на экране: ${JSON.stringify(probe.hits)} (accent ${probe.primaryBg})`,
-    ).toEqual([TESTID.dashboardContinue]);
+    ).toEqual([]);
+    // Нижнего футера в DOM нет, а единственный primary-ВХОД в занятие — верхняя
+    // CTA (primary «Повторить ошибки» в этом состоянии — свой контракт, он не
+    // является входом в занятие).
+    expect(probe.hits.map((hit) => hit.testid)).toContain(TESTID.reviewToday);
+    expect(probe.hits.map((hit) => hit.testid)).not.toContain(TESTID.dashboardContinue);
   });
 
   test('Dashboard: подсказка «начните с этой» под названием темы, не в ряду чипа', async ({ page }) => {
@@ -410,7 +417,8 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
 
     // Регулярный поток: открываем первый вопрос и отвечаем.
     await gotoApp(page);
-    await page.getByTestId(TESTID.dashboardContinue).click();
+    // Вход в занятие — верхняя CTA: in-app футер «Продолжить» снят (фикс 2026-10-07).
+    await page.getByTestId(TESTID.reviewToday).click();
     await expect(page.getByTestId(TESTID.questionText)).toBeVisible({ timeout: 15000 });
 
     const options = page.locator('[data-testid^="option-"]');
@@ -448,7 +456,8 @@ test.describe('desktop 1440x900 — раскладка не сломана (spec
   test('Quiz: кнопка внизу, контент не перекрыт', async ({ page }) => {
     await blockAnalytics(page);
     await gotoApp(page);
-    await page.getByTestId(TESTID.dashboardContinue).click();
+    // Вход в занятие — верхняя CTA (in-app футер «Продолжить» снят 2026-10-07).
+    await page.getByTestId(TESTID.reviewToday).click();
     await expect(page.getByTestId(TESTID.questionText)).toBeVisible({ timeout: 15000 });
 
     const options = page.locator('[data-testid^="option-"]');

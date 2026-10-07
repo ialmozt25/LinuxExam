@@ -101,9 +101,15 @@ async function openDashboard(page: Page): Promise<void> {
 
 /** Экран вопроса ПОСЛЕ ответа: именно это состояние ломалось в 067/070/071. */
 async function openAnsweredQuestion(page: Page): Promise<void> {
-  await seedState(page, { answers: [], currentIndex: 0, isQuizInProgress: false });
+  // `isQuizInProgress: true` — незавершённый ОБЫЧНЫЙ прогон: in-app футер
+  // «Продолжить» снят (фикс 2026-10-07), а кнопка resume-баннера делает ровно то,
+  // что делал он (`navigateTo('question')`), поэтому вопрос и его разметка те же —
+  // иначе baseline `question-*` уехал бы вместе с потоком (review стартует другую
+  // сессию и рисует в шапке «Назад»). Сид не fresh (`emptyPersistedState` кладёт
+  // одну запись в статистику), поэтому верхняя CTA здесь — «Продолжить обучение».
+  await seedState(page, { answers: [], currentIndex: 0, isQuizInProgress: true });
   await gotoApp(page);
-  await page.getByTestId(TESTID.dashboardContinue).click();
+  await resumeSeededRun(page);
   await waitForQuestion(page);
   await page.locator('[data-testid^="option-"]').first().click();
   await expect(page.getByTestId(TESTID.explanationVerdict)).toBeVisible({ timeout: 10_000 });

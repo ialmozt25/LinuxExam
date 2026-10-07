@@ -11,11 +11,13 @@ import {
   regularQuestions,
   resumeSeededRun,
   seedState,
+  seedStateOnce,
   emptyPersistedState,
   liveRecord,
   TESTID,
   PERSIST_VERSION,
   PERSIST_KEYS,
+  isoDaysAgo,
 } from './fixtures';
 
 /**
@@ -73,8 +75,12 @@ test.describe('persist — обычный прогон', () => {
   });
 
   test('a reload keeps the regular run resumable and the review list intact', async ({ page }) => {
+    // ОБЫЧНЫЙ (не review) прогон: in-app футер «Продолжить» снят фиксом 2026-10-07,
+    // а верхняя CTA стартует review-прогон, который пишет в `reviewAnswers`.
+    // Поэтому вход — resume-баннер незавершённого ОБЫЧНОГО прогона.
+    await seedUnfinishedRegularRun(page);
     await gotoApp(page);
-    await page.getByTestId(TESTID.dashboardContinue).click();
+    await resumeSeededRun(page);
     await expect(page.getByTestId(TESTID.questionText)).toBeVisible({ timeout: 15000 });
 
     await answerQuestion(page, 'wrong');
@@ -101,7 +107,8 @@ test.describe('persist — обычный прогон', () => {
 test.describe('persist — частичная запись состояния', () => {
   test('partialize keeps the quiz state and drops the session-only fields', async ({ page }) => {
     await gotoApp(page);
-    await page.getByTestId(TESTID.dashboardContinue).click();
+    // Ключи partialize от потока не зависят: вход — верхняя CTA (футер снят 2026-10-07).
+    await page.getByTestId(TESTID.reviewToday).click();
     await expect(page.getByTestId(TESTID.questionText)).toBeVisible({ timeout: 15000 });
     await answerQuestion(page, 'correct');
 
@@ -149,8 +156,11 @@ test.describe('persist — частичная запись состояния', 
   });
 
   test('a reload on the dashboard keeps the streak and XP earned in the run', async ({ page }) => {
+    // Как и выше: обычный прогон открывается resume-баннером, иначе ответ ушёл бы
+    // в review-поток, у которого своя таблица XP.
+    await seedUnfinishedRegularRun(page);
     await gotoApp(page);
-    await page.getByTestId(TESTID.dashboardContinue).click();
+    await resumeSeededRun(page);
     await expect(page.getByTestId(TESTID.questionText)).toBeVisible({ timeout: 15000 });
 
     const before = await readPersisted(page);
@@ -222,3 +232,22 @@ test.describe('persist — экзамен', () => {
     await expect(page.getByTestId('exam-mode')).toBeVisible();
   });
 });
+
+/**
+ * Незавершённый ОБЫЧНЫЙ прогон + непустая статистика (иначе Dashboard рендерит
+ * Fresh User Mode без прогресса). In-app футер «Продолжить» снят фиксом
+ * 2026-10-07: вход в обычный поток даёт resume-баннер, а верхняя CTA стартует
+ * review-прогон. Первый вопрос банка оставлен неотвеченным — сценарии отвечают
+ * именно на него.
+ */
+async function seedUnfinishedRegularRun(page: import('@playwright/test').Page): Promise<void> {
+  const seeded = emptyPersistedState();
+  seeded.isQuizInProgress = true;
+  seeded.currentIndex = 0;
+  const other = regularQuestionAt(5);
+  seeded.questionStats = { [other.id]: { attempts: 1, correct: 0, lastAt: isoDaysAgo(0) } };
+  // `seedStateOnce`, а не `seedState`: сид — это `addInitScript` и выполняется на
+  // КАЖДОЙ навигации, поэтому на `page.reload()` он затирал бы состояние,
+  // накопленное прогоном (ровно этой ловушкой помечен `seedState` в fixtures.ts).
+  await seedStateOnce(page, seeded);
+}

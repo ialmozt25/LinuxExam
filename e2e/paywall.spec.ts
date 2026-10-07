@@ -11,6 +11,8 @@ import {
   readPersisted,
   seedNoAccess,
   TESTID,
+  resumeSeededRun,
+  seedState,
 } from './fixtures';
 
 /**
@@ -39,8 +41,20 @@ const LOCK_BADGE = '[data-testid="paywall-badge-lock"]';
 
 /** Answers `count` questions of the regular stream, ending ON question `count`. */
 async function reachFreeLimit(page: import('@playwright/test').Page) {
-  await page.getByTestId(TESTID.dashboardContinue).click();
-  await waitForQuestion(page);
+  // Лимит бесплатных вопросов живёт только в ОБЫЧНОМ потоке (`canAccessQuestion`
+  // для review пропускается), а in-app футер «Продолжить» снят фиксом 2026-10-07:
+  // вход — resume-баннер незавершённого обычного прогона (публичный путь 072).
+  // `isPro: false` и `trialStartedAt: null` обязательны: `emptyPersistedState()`
+  // моделирует Pro-профиль (trial от миграции v6→v7), а с ним гейт не срабатывает.
+  await seedState(page, {
+    isQuizInProgress: true,
+    currentIndex: 0,
+    reviewQuestionIds: null,
+    isPro: false,
+    trialStartedAt: null,
+  });
+  await gotoApp(page);
+  await resumeSeededRun(page);
   await expect(page.getByTestId(TESTID.headerCenter)).toHaveText(/^1\s*\/\s*\d+$/);
 
   for (let i = 1; i < FREE_LIMIT; i++) {

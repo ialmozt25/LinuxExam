@@ -3,10 +3,8 @@ import { useShallow } from 'zustand/react/shallow';
 import { BarChart3, BrainCircuit, ClipboardList, Flame, MoonStar, Sun, Target, Trophy } from 'lucide-react';
 import { useQuizStore } from '@/store/quizStore';
 import { pluralizeQuestions } from '@/utils/pluralize';
-import { SPACING, LAYOUT } from '@/presentation/theme';
-import { useTelegramMainButton, useMainButtonAvailable } from '@/hooks/useTelegramMainButton';
+import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
-import { FIXED_FOOTER_Z_INDEX } from '@/presentation/components/fixedFooter';
 import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { Tux } from '@/ui/Tux';
 import { XpBar } from '@/presentation/components/XpBar';
@@ -486,7 +484,6 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const currentIndex = useQuizStore((s) => s.currentIndex);
   const reviewQuestionIds = useQuizStore((s) => s.reviewQuestionIds);
   const resumeQuiz = useQuizStore((s) => s.resumeQuiz);
-  const startRegularQuiz = useQuizStore((s) => s.startRegularQuiz);
   const wrongQuestionIds = useQuizStore((s) => s.wrongQuestionIds);
   const startReviewQuiz = useQuizStore((s) => s.startReviewQuiz);
 
@@ -610,11 +607,11 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
     })
   );
 
-  // spec 072: CTA не должен исчезать, если нативный MainButton недоступен —
-  // тогда роль кнопки берёт in-app фолбэк (тот же контракт, что в Question.tsx).
-  // spec 076 F3: футер CTA — sticky (в потоке), поэтому высота не измеряется и
-  // `useFixedFooterPadding`/`--fixed-footer-h` здесь не нужны.
-  const mainButtonReady = useMainButtonAvailable();
+  // spec 072: in-app фолбэк CTA (sticky-футер `dashboard-continue`) удалён
+  // заданием «убрать sticky-футер на Dashboard» — в браузере низ экрана пуст, а в
+  // Telegram низ занимает нативная MainButton (hook ниже, не тронут). Поэтому
+  // `useMainButtonAvailable()` здесь больше не нужен: высота футера не измерялась
+  // и раньше (spec 076 F3), распорка не заводилась по контракту spec 071.
 
   // XP-дубли (diag-dashboard-fix, решение капитана STOP-1 v1): узел
   // `retention-goal-line` («Цель: X / Y XP») удалён — дневную цель уже
@@ -1193,10 +1190,12 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   закончен и нативный MainButton недоступен. Кнопка баннера переведена
                   в secondary: обработчик (`resumeQuiz`) и подпись прежние — их пинят
                   e2e-контракты (paywall.spec.ts:84 кликает именно её, а фикстура
-                  `resumeSeededRun` используется 7 спеками), а primary на экране
-                  остаётся одна — нижняя `dashboard-continue`.
+                  `resumeSeededRun` используется 7 спеками). Нижний футер
+                  (`dashboard-continue`) удалён заданием «убрать sticky-футер», поэтому
+                  primary на экране ровно один — верхняя CTA, а эта кнопка остаётся
+                  единственным входом «вернуться к незавершённому прогону».
                   Вариант «баннер без CTA» отклонён по той же причине: `resume-button`
-                  — публичный data-testid вне разрешённого списка правок. */}
+                  — публичный data-testid. */}
               <Button
                 variant="secondary"
                 testId="resume-button"
@@ -1214,75 +1213,15 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             </Card>
           ) : null}
 
-          {/* Вход в регулярный поток вне Telegram и когда нативный MainButton
-              недоступен (spec 072). НЕ переименовывается в start-learning и НЕ
-              удаляется: это отдельный контракт (browser-mode.spec проверяет его текст
-              «Продолжить»), а start-learning — приглашение для профиля без единого
-              ответа (выше).
-
-              spec 076 F3: CTA переведён в **sticky**-футер (`position: sticky`,
-              `bottom: 0`). Кнопка стоит после всего контента дашборда, поэтому в
-              потоке она оказывалась на y=1904…2027 — вне вьюпорта на всех 5 размерах
-              сетки 075 (`dashboard-continue` ниже сгиба, 5 случаев). `sticky`
-              считается от вьюпорта (при `#root` высотой 640–915 px и контенте ~2030 px
-              элемент удерживается у нижней кромки уже на `scrollTop = 0`) и при этом
-              остаётся В ПОТОКЕ. Именно поэтому здесь sticky, а не `fixed`, как в
-              Question/ExamRun/Paywall: `fixed` выведен из потока и требует распорку
-              `fixed-footer-spacer`, а её отсутствие в Telegram-ветке — контракт spec
-              071 (`regression-071.spec.ts:353`: `spacer → 0`; в этой ветке
-              `mainButtonReady === false` и in-app футер рендерится). Sticky-элемент
-              в потоке и распорки не требует.
-            */}
-          {!mainButtonReady && !isFreshUser && (
-            <div
-              style={{
-                position: 'sticky',
-                bottom: 0,
-                zIndex: FIXED_FOOTER_Z_INDEX,
-                marginTop: SPACING.xl,
-                paddingTop: SPACING.sm,
-                paddingBottom: 'calc(var(--space-2) + env(safe-area-inset-bottom, 0px))',
-                background: 'var(--bg-primary)',
-                borderTop: '1px solid var(--border-subtle)',
-              }}
-            >
-              {/* Полоса футера остаётся во всю колонку (фон + borderTop), а сама
-                  кнопка ограничена той же мерой 448px, что и действия потока:
-                  до этого футер отдавал кнопке 704/1120/1200px, то есть главное
-                  действие экрана было в 1.6–2.7 раза шире второстепенных, против
-                  собственного правила B3 («иначе главная CTA оказалась бы у́же
-                  второстепенных кнопок во всю колонку»). Ширина — единственное,
-                  что можно менять: вариант и текст «Продолжить» запинены spec 076
-                  F3 и `e2e/mobile-layout.spec.ts`. */}
-              <div className="lg:max-w-md">
-                <Button
-                  variant="primary"
-                  testId="dashboard-continue"
-                  onClick={() => {
-                    if (reviewQuestionIds) {
-                      startRegularQuiz();
-                    }
-                    navigateTo('question');
-                  }}
-                  style={{
-                    // spec 079: тёмный `--text-primary` на акцентной заливке — 2.88:1.
-                    // Роль «текст на акцентной кнопке» = белый (tokens.css, в Button).
-                    padding: SPACING.md,
-                    borderRadius: LAYOUT.buttonRadius,
-                    marginTop: 0,
-                    fontSize: 'var(--body)',
-                  }}
-                >
-                  Продолжить
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {/* Распорки под футер здесь НЕТ намеренно (spec 076 F3): sticky-футер
-              остаётся в потоке, поэтому ничего не перекрывает и распорка не нужна —
-              в отличие от `fixed` в Question/ExamRun/Paywall. Наличие
-              `fixed-footer-spacer` в Telegram-ветке запрещено контрактом spec 071. */}
+          {/* Вход в регулярный поток вне Telegram (spec 072) жил здесь: sticky-футер
+              с primary-кнопкой «Продолжить» (`dashboard-continue`). Удалён целиком
+              (задание «убрать sticky-футер на Dashboard»): в браузере он дублировал
+              верхнюю CTA и нарушал «одна primary на экран» (DESIGN.md → Components).
+              Вход в занятие теперь один — верхняя CTA (`start-learning` /
+              `review-today` / `continue-learning`), возобновление незавершённого
+              прогона — вторичная кнопка resume-баннера (`resume-button`), а в
+              Telegram низ экрана по-прежнему занимает нативная MainButton
+              (`useTelegramMainButton` ниже — не тронут). */}
 
           {/* Legal disclaimer — trademark safety (independent trainer notice).
               В Fresh User Mode скрыт: задание требует «никаких юридических текстов на

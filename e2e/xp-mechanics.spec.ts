@@ -12,6 +12,7 @@ import {
   answerQuestion,
   isoDaysAgo,
   TESTID,
+  resumeSeededRun,
 } from './fixtures';
 
 /**
@@ -31,11 +32,18 @@ const TOPIC = 'file_permissions';
 test.describe('XP-механика — начисление за ответ', () => {
   test('первый верный ответ дня: +10 за серию и +3 за ответ', async ({ page }) => {
     const openQuestion = regularQuestionAt(0);
-    await seedState(page, emptyPersistedState());
+    const seeded = emptyPersistedState();
+    // Обычный прогон (не review): in-app футер «Продолжить» снят фиксом 2026-10-07,
+    // поэтому незавершённый прогон открывается resume-баннером — только в обычном
+    // потоке XP считается по таблице +10/+3. Статистика непуста, чтобы Dashboard
+    // показывал обычную ветку.
+    seeded.isQuizInProgress = true;
+    seeded.questionStats = {
+      [regularQuestionAt(5).id]: { attempts: 1, correct: 0, lastAt: isoDaysAgo(0) },
+    };
+    await seedState(page, seeded);
     await gotoApp(page);
-
-    await page.getByTestId(TESTID.dashboardContinue).click();
-    await waitForQuestion(page);
+    await resumeSeededRun(page);
     await answerQuestion(page, 'correct');
 
     const stored = await readPersisted(page);
@@ -62,11 +70,11 @@ test.describe('XP-механика — начисление за ответ', ()
     seeded.totalXp = 10;
     seeded.todayXp = 10;
     seeded.todayXpDate = isoDaysAgo(0);
+    seeded.isQuizInProgress = true;
+    seeded.currentIndex = 0;
     await seedState(page, seeded);
     await gotoApp(page);
-
-    await page.getByTestId(TESTID.dashboardContinue).click();
-    await waitForQuestion(page);
+    await resumeSeededRun(page);
     await answerQuestion(page, 'correct');
 
     const stored = await readPersisted(page);

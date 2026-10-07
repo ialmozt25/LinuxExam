@@ -40,10 +40,12 @@ test.describe('режим браузера', () => {
     await expect(page.getByTestId(TESTID.headerBack)).toBeVisible();
     await expect(page.getByTestId(TESTID.headerHome)).toBeVisible();
 
-    // Dashboard: the large in-app «Продолжить» exists outside Telegram.
+    // Dashboard: единственный primary-вход — верхняя CTA. In-app футер
+    // «Продолжить» удалён фиксом 2026-10-07 (DESIGN.md → Components), поэтому в
+    // браузере низ экрана пуст: нативная MainButton доступна только в Telegram.
     await page.getByTestId(TESTID.headerHome).click();
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible({ timeout: 15000 });
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toHaveText('Продолжить');
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toHaveCount(0);
   });
 
   test('the theme toggle is a browser control, not a Telegram theme reader', async ({ page }) => {
@@ -76,7 +78,7 @@ test.describe('режим браузера', () => {
     await answerQuestion(page, 'correct');
 
     await page.getByTestId(TESTID.headerHome).click();
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible({ timeout: 15000 });
     // A topic answer lives on the review stream, so the regular counter stays at 0
     // while the topic row keeps its live counter.
     await expect(page.getByTestId(TESTID.dashboardProgress)).toContainText('0 из 253');

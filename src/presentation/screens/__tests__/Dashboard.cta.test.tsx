@@ -190,7 +190,7 @@ describe('Dashboard — вход в занятие (spec 065)', () => {
 
     // spec 068: legacy `start-exam` («Режим экзамена (20 вопросов, 30 минут)»)
     // удалён; вход в единственный экзамен — `exam-mode`.
-    for (const id of ['exam-mode', 'analytics-mode', 'dashboard-continue']) {
+    for (const id of ['exam-mode', 'analytics-mode']) {
       expect(screen.getByTestId(id), `пропал data-testid=${id}`).toBeTruthy();
     }
     expect(screen.queryByTestId('start-exam')).toBeNull();

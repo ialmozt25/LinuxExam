@@ -91,7 +91,9 @@ test.describe('результаты прогона темы', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'LinuxExam' })).toBeVisible({
       timeout: 10000,
     });
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
+    // Dashboard вернулся, а in-app футера «Продолжить» в нём больше нет
+    // (фикс 2026-10-07: одна primary CTA на экран).
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toHaveCount(0);
   });
 
   test('a wrong last answer lowers the accuracy instead of reporting an empty run', async ({

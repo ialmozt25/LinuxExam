@@ -163,7 +163,6 @@ describe('Dashboard — Fresh User Mode', () => {
       'streak-badge',
       'dashboard-retention',
       'dashboard-progress',
-      'dashboard-continue',
     ]) {
       expect(screen.getByTestId(visible), `после ответа должен вернуться ${visible}`).toBeTruthy();
     }

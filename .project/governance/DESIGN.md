@@ -67,6 +67,13 @@ Atoms живут в `src/ui/`. Варианты отделены от состо
 (primary/secondary/ghost), state — это hover/focus/disabled/loading. Composition через
 `children`, не через проп-флаги. Компонент читает токены, hex в `.tsx` запрещён.
 
+**Одна primary CTA на экран.** Sticky-футер допустим только на экранах с длинным
+переменным контентом (Question, ExamRun), где CTA легко уезжает за фолд. На Dashboard —
+нет. Дубль primary (например, верхняя CTA и sticky-футер `dashboard-continue`, снятый
+в фиксе 2026-10-07) — нарушение: пользователь видит две равные главные кнопки.
+Возобновление незавершённого прогона на Dashboard даёт вторичная кнопка resume-баннера,
+а в Telegram низ экрана занимает нативная MainButton.
+
 **Tux the Penguin — mascot.** Original Larry Ewing (GIMP 1996); vector Garrett LeSage
 (Inkscape); refinement IFo Hancroft. CC0 via github.com/garrett/Tux. Signature moment
 в streak badge.

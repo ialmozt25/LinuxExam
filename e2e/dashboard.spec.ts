@@ -75,7 +75,10 @@ test.describe('дашборд', () => {
       'Exam mode — 30/60/90 вопросов с разбором'
     );
     await expect(page.getByTestId('start-exam')).toHaveCount(0);
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible();
+    // Один primary на экран (DESIGN.md → Components): вход в занятие — верхняя
+    // CTA, in-app футер «Продолжить» удалён фиксом 2026-10-07.
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible();
+    await expect(page.getByTestId(TESTID.dashboardContinue)).toHaveCount(0);
     await expect(page.locator('[data-disclaimer="legal"]')).toContainText('независимый тренажёр');
     // A clean profile offers no resume banner and nothing to repeat.
     await expect(page.getByTestId(TESTID.resumeBanner)).toHaveCount(0);
@@ -125,7 +128,7 @@ test.describe('G2 — темы', () => {
 
     // Back to the topics and into a DIFFERENT topic: the counter must restart.
     await page.getByTestId(TESTID.headerHome).click();
-    await expect(page.getByTestId(TESTID.dashboardContinue)).toBeVisible({ timeout: 10000 });
+    await expect(page.getByTestId(TESTID.reviewToday)).toBeVisible({ timeout: 10000 });
 
     await topicButton(page, secondSlug).click();
     await waitForQuestion(page);
