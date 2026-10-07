@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на 8ae12d5</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 07f00a0</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">07f00a0</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push onboarding-simplify</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
+          <td class="mono">cb1e69c</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after onboarding-simplify</td>
+          <td class="mono muted">2026-10-07</td>
+        </tr>
+        <tr>
           <td class="mono">8ae12d5</td>
           <td><span class="ctype ctype--feat">feat</span></td>
           <td>feat(onboarding): 4 экрана → 1 — демо-квиз с inline-фидбеком и Fresh User Mode на Dashboard</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-06</td>
         </tr>
-        <tr>
-          <td class="mono">ab42c30</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push ux-copy-3</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
-        <tr>
-          <td class="mono">d6334e1</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after ux-copy-3</td>
-          <td class="mono muted">2026-10-06</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">07.10</span> · xp-levels | status UNVERIFIED на телефоне (FASB-001) | ещё не закоммичено</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана &quot;xp-levels&quot;, предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false…</li>
-        <li><span class="mono muted">07.10</span> · xp-levels | гейт 4 принят капитаном как PASS по существу: git status --short e2e/ даёт 4 строки (2 PNG + 2 правленых спека — производные от изменения текста уровня)…</li>
-        <li><span class="mono muted">07.10</span> · push | authorize push origin main - xp-levels (именованные уровни RHCSA вместо номерной шкалы: LEVELS Новичок 0 / Ученик 50 / Практик 150 / Специалист 350 / Эксперт 700 / Мастер 1200 / Гранд-мастер 20…</li>
-        <li><span class="mono muted">07.10</span> · guard | якорь перезаписан на session-6608ed0a… | ещё не закоммичено</li>
+        <li><span class="mono muted">07.10</span> · onboarding-simplify | styling-rules (pre-commit hook): duplicate-primary — две ветки CTA с testId=&quot;start-learning&quot; в одном блоке рендера.…</li>
+        <li><span class="mono muted">07.10</span> · onboarding-simplify | гейты (лид, лично, на финальной форме кода): 1) typecheck exit 0; 2) test:run — 52 файла / 545 тестов passed (новые OnboardingDemo.test.tsx — 5, Dashboard.fresh.test.tsx…</li>
+        <li><span class="mono muted">07.10</span> · onboarding-simplify | гейт 4 по букве и по существу: git status --short e2e/ = 10 строк (7 правленых спеков + 3 PNG); PNG ровно 3 — это в ожидании задания 2-6…</li>
+        <li><span class="mono muted">07.10</span> · onboarding-simplify | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: свежий профиль → сразу демо-квиз (без экрана цели), после каждого ответа inline-фидбек…</li>
+        <li><span class="mono muted">07.10</span> · push | authorize push origin main - onboarding-simplify (упрощение онбординга: 4 экрана → 1 — экраны «выбор цели» и «Готово · N из 3» удалены вместе с их доменом и session-каналом демо-ответов…</li>
     </ul>
   </details>
 
