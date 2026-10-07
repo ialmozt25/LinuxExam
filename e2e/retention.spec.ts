@@ -1,10 +1,19 @@
 import { test, expect, gotoApp, isoDaysAgo, seedRetention, TESTID } from './fixtures';
 
 /**
- * Retention UI (spec 061): streak badge + XP bar + daily goal.
+ * Retention UI на Dashboard (spec 061 → задание «редизайн верхней части Dashboard»).
+ *
+ * Было: streak badge + дневная полоса XP + пикер дневной цели тремя отдельными
+ * узлами. Стало (решения капитана 2026-10-08): одна карточка прогресса
+ * `dashboard-progress-card` — круговой уровень, серия (число + склонённое слово из
+ * домена) и XP до следующей ступени — плюс единственная полоса банка
+ * `dashboard-progress` (она теперь показывается всем профилям, включая свежий).
+ * StreakBadge/XpBar/DailyGoalPicker в Dashboard больше не рендерятся (B5), поэтому
+ * ни одного из их `data-testid` на экране нет; собственные контракты этих
+ * компонентов остаются в их unit-тестах.
  *
  * Все сценарии идут на мобильном viewport 390×844 — целевая аудитория Mini App,
- * и именно там retention-зона обязана влезать в верх экрана.
+ * и именно там карточка обязана влезать в верх экрана.
  *
  * Сиды задают `todayXp` вместе с СЕГОДНЯШНЕЙ `lastActiveDate` (из неё
  * `seedRetention` выводит маркер дня `todayXpDate`): гидратация
@@ -12,13 +21,13 @@ import { test, expect, gotoApp, isoDaysAgo, seedRetention, TESTID } from './fixt
  * «сегодняшний прогресс» без сегодняшнего дня — противоречивое состояние.
  * Вчерашняя дата используется только там, где ожидается ровно 0 XP.
  *
- * Дневная цель — 30 XP (дефолт XP-механики, было 20), верхний пресет —
- * 30 XP (было 50).
+ * `seedRetention` выводит `totalXp = streak × 10`, поэтому уровень и процент кольца
+ * считаются от серии: streak 1 → 10 XP внутри «Новичка» (0…50), то есть 20 %.
  */
-test.describe('retention UI', () => {
+test.describe('retention UI — карточка прогресса', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
-  test('seed: streak = 1, вчерашняя активность, todayXp = 0 → badge warning, XpBar 0/30', async ({
+  test('seed: streak = 1, вчерашняя активность, todayXp = 0 → «1 день подряд», «0 XP сегодня», кольцо 20 %', async ({
     page,
   }) => {
     await seedRetention(page, {
@@ -28,27 +37,40 @@ test.describe('retention UI', () => {
     });
     await gotoApp(page);
 
-    const badge = page.getByTestId(TESTID.streakBadge);
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveAttribute('data-streak-state', 'warning');
-    await expect(badge).toContainText('1');
-    // ux-copy-3 (2026-10-07): мотивационная подпись `streakMessage` заменена
-    // словом серии, согласованным с числом доменным `pluralDays`.
-    await expect(badge).toContainText('день подряд');
+    const card = page.getByTestId('dashboard-progress-card');
+    await expect(card).toHaveCount(1);
+    await expect(card).toBeVisible();
 
-    await expect(page.getByTestId(TESTID.xpBarDailyLabel)).toHaveText('0 / 30 XP');
-    // dashboard-ux-2 (проблема 4): при нулевом прогрессе заливка получает
-    // минимальную ширину 2px — полоса больше не выглядит пустой.
-    await expect(page.getByTestId('xp-bar-fill')).toHaveCSS('width', '2px');
-    await expect(page.getByTestId(TESTID.xpBar)).toHaveAttribute('data-mark-active', 'false');
+    // Серия: число рендерится напрямую из `streak`, слово согласует доменный
+    // `pluralDays` (прежняя мотивационная подпись `streakMessage` не вернулась).
+    const streak = page.getByTestId('dashboard-streak');
+    await expect(streak).toBeVisible();
+    await expect(streak).toContainText('1');
+    await expect(streak).toContainText('день подряд');
 
-    await expect(page.getByTestId(TESTID.dashboardRetention)).toBeVisible();
+    // Дневной счётчик XP — единственный потребитель `todayXp` после снятия XpBar.
+    await expect(page.getByTestId('dashboard-today-xp')).toHaveText('0 XP сегодня');
+
+    // Уровень: имя, остаток до ступени и машинно-читаемый процент кольца.
+    await expect(card).toContainText('Новичок');
+    await expect(page.getByTestId('level-next')).toHaveText('10 / 50 XP до Ученика');
+    await expect(page.getByRole('progressbar', { name: /Уровень Новичок/ })).toHaveAttribute(
+      'aria-valuenow',
+      '20'
+    );
+
+    // Снятые узлы не вернулись ни одним тестидом.
+    await expect(page.getByTestId(TESTID.streakBadge)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.xpBar)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.dashboardRetention)).toHaveCount(0);
 
     // Превью для приёмки (DOD type=ui): верхняя зона Dashboard на 390×844.
     await page.screenshot({ path: '.project/drafts/061-retention-dashboard.png' });
   });
 
-  test('seed: todayXp = 15 → XpBar 15/30, полоса 50 %, засечка неактивна', async ({ page }) => {
+  test('seed: todayXp = 15 → «15 XP сегодня», кольцо по xpInLevel(totalXp), серия active', async ({
+    page,
+  }) => {
     await seedRetention(page, {
       streak: 1,
       todayXp: 15,
@@ -56,28 +78,20 @@ test.describe('retention UI', () => {
     });
     await gotoApp(page);
 
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('15 / 30 XP');
-    await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-xp-color', 'accent');
-    await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-mark-active', 'false');
-
-    // 50 % от ширины полосы: сравниваем с самой полосой, а не с магическим числом.
-    const track = page.getByTestId('xp-bar-daily');
-    const fill = page.getByTestId('xp-bar-fill');
-    const [trackBox, fillBox] = await Promise.all([track.boundingBox(), fill.boundingBox()]);
-    expect(trackBox).not.toBeNull();
-    expect(fillBox).not.toBeNull();
-    const ratio = (fillBox?.width ?? 0) / (trackBox?.width ?? 1);
-    expect(ratio).toBeGreaterThan(0.45);
-    expect(ratio).toBeLessThan(0.55);
-
-    // Бейдж в состоянии active: сегодня уже занимались.
-    await expect(page.getByTestId(TESTID.streakBadge)).toHaveAttribute(
-      'data-streak-state',
-      'active',
+    await expect(page.getByTestId('dashboard-today-xp')).toHaveText('15 XP сегодня');
+    await expect(page.getByTestId('dashboard-streak')).toContainText('день подряд');
+    // Кольцо показывает XP ВНУТРИ уровня (10 из 50), а не дневную цель: у серии 1
+    // `seedRetention` даёт totalXp = 10, то есть 20 %.
+    await expect(page.getByRole('progressbar', { name: /Уровень Новичок/ })).toHaveAttribute(
+      'aria-valuenow',
+      '20'
     );
+    // Полоса банка — отдельный прогресс и отдельная роль.
+    await expect(page.getByTestId(TESTID.dashboardProgress)).toBeVisible();
+    await expect(page.getByTestId(TESTID.dashboardProgress)).toContainText('из');
   });
 
-  test('seed: todayXp = 27 → засечка на 85 % (90 %) активна', async ({ page }) => {
+  test('seed: streak = 2, todayXp = 27 → «2 дня подряд», кольцо 40 %', async ({ page }) => {
     await seedRetention(page, {
       streak: 2,
       todayXp: 27,
@@ -85,15 +99,23 @@ test.describe('retention UI', () => {
     });
     await gotoApp(page);
 
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('27 / 30 XP');
-    await expect(page.getByTestId(TESTID.xpBarMark)).toBeVisible();
-    await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-mark-active', 'true');
-    await expect(page.getByTestId('xp-bar')).toHaveAttribute('data-xp-color', 'green');
+    await expect(page.getByTestId('dashboard-today-xp')).toHaveText('27 XP сегодня');
+    await expect(page.getByTestId('dashboard-streak')).toContainText('2 дня подряд');
+    // totalXp = 20 → 20 из 50 внутри «Новичка» = 40 %.
+    await expect(page.getByRole('progressbar', { name: /Уровень Новичок/ })).toHaveAttribute(
+      'aria-valuenow',
+      '40'
+    );
+    await expect(page.getByTestId('level-next')).toHaveText('20 / 50 XP до Ученика');
   });
 
-  test('daily goal picker: цель не подтверждена → 3 карточки 10/20/30, выбор скрывает picker', async ({
+  test('daily goal picker: цель не подтверждена, но пикера на Dashboard больше нет', async ({
     page,
   }) => {
+    // Сид оставляет цель неподтверждённой (`dailyGoalXp: null`) — ровно то
+    // состояние, в котором пикер всплывал «после онбординга и до подтверждения».
+    // Заданием B5 он снят с экрана: дневную цель больше не выбирают на Dashboard,
+    // а дневной счётчик показывает карточка.
     await seedRetention(page, {
       streak: 0,
       todayXp: 0,
@@ -102,32 +124,18 @@ test.describe('retention UI', () => {
     });
     await gotoApp(page);
 
-    const picker = page.getByTestId(TESTID.dailyGoalPicker);
-    await expect(picker).toBeVisible();
-    await expect(page.getByTestId('daily-goal-10')).toBeVisible();
-    await expect(page.getByTestId('daily-goal-20')).toBeVisible();
-    await expect(page.getByTestId('daily-goal-30')).toBeVisible();
-    // XP-механика: прежний верхний пресет 50 XP убран, и подсказка больше не
-    // обещает «один вопрос = 10 XP».
-    await expect(page.getByTestId('daily-goal-50')).toHaveCount(0);
-    // Цель ещё не выбрана, но дефолт уже работает: бар показывает 0 / 30 XP.
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('0 / 30 XP');
-
-    await page.getByTestId('daily-goal-30').click();
-
-    await expect(picker).toHaveCount(0);
-    await expect(page.getByTestId('xp-bar-daily-label')).toHaveText('0 / 30 XP');
-
-    // Выбор ушёл в persist (dailyGoalXp: 30, версия 8) — это и есть контракт
-    // сохранения; восстановление из persist покрыто unit-тестами
-    // `daily-goal.test.ts` (в e2e сид-скрипт фикстуры выполняется на каждой
-    // навигации и перетёр бы сохранённый выбор — проверять reload здесь нельзя).
-    const stored = await page.evaluate(() => window.localStorage.getItem('rhcsa_progress'));
-    expect(stored).toContain('"dailyGoalXp":30');
-    expect(stored).toContain('"version":8');
+    await expect(page.getByTestId(TESTID.dailyGoalPicker)).toHaveCount(0);
+    await expect(page.getByTestId(TESTID.xpBarDailyLabel)).toHaveCount(0);
+    await expect(page.getByTestId('dashboard-today-xp')).toHaveText('0 XP сегодня');
+    // Нулевая серия — приглашение, а не «0 дней»; кольцо пустое (0 %).
+    await expect(page.getByTestId('dashboard-streak')).toHaveText('Начни серию сегодня');
+    await expect(page.getByRole('progressbar', { name: /Уровень Новичок/ })).toHaveAttribute(
+      'aria-valuenow',
+      '0'
+    );
   });
 
-  test('retention-зона не ломает существующие кнопки Dashboard', async ({ page }) => {
+  test('карточка не ломает существующие кнопки Dashboard', async ({ page }) => {
     await seedRetention(page, {
       streak: 3,
       todayXp: 10,
@@ -137,10 +145,15 @@ test.describe('retention UI', () => {
 
     await expect(page.getByTestId('exam-mode')).toBeVisible();
     await expect(page.getByTestId('analytics-mode')).toBeVisible();
+    await expect(page.getByTestId('dashboard-progress-card')).toBeVisible();
     await expect(page.getByTestId('dashboard-progress')).toBeVisible();
   });
 
-  test('тап по streak badge ведёт на аналитику', async ({ page }) => {
+  test('карточка информационна: тап по серии не уводит с Dashboard', async ({ page }) => {
+    // Прежний вход «тап по streak badge → аналитика» ушёл вместе с бейджем (B3/B5):
+    // серия стала числом внутри карточки, а вход в аналитику остался один —
+    // кнопка `analytics-mode` (проверяется тестом выше). Здесь пинится именно
+    // отсутствие скрытой навигации на информационном узле.
     await seedRetention(page, {
       streak: 4,
       todayXp: 10,
@@ -148,8 +161,9 @@ test.describe('retention UI', () => {
     });
     await gotoApp(page);
 
-    await page.getByTestId(TESTID.streakBadge).click();
+    await page.getByTestId('dashboard-streak').click();
 
-    await expect(page.getByTestId('analytics')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByTestId(TESTID.dashboardSubtitle)).toBeVisible();
+    await expect(page.getByTestId('analytics')).toHaveCount(0);
   });
 });

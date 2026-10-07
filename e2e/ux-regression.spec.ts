@@ -65,36 +65,58 @@ function regularIndex(questionId: string): number {
  *     помечен `aria-hidden` намеренно (декор), поэтому так выкидывался искомый
  *     элемент.
  *
- * Корректный критерий — узел без дочерних ЭЛЕМЕНТОВ, чей собственный текст
- * состоит из 🔥 или из числа серии. Обёртки (`role="status"`, `#status-strip`,
- * `<body>`) в счёт не попадают.
+ * Корректный критерий — СОБСТВЕННЫЙ текст узла (прямые текстовые дети, без текста
+ * потомков): он не считает предков и не теряет узел, у которого рядом с текстом
+ * стоит дочерний ЭЛЕМЕНТ (в строке серии это `<Tux>`). Обёртки (`role="progressbar"`,
+ * карточка, `<body>`) в счёт не попадают.
+ *
+ * Маскоты с 2026-10-08 считаются ПО МЕСТУ, а не «сколько всего в документе»:
+ * задание «редизайн верхней части Dashboard» предписывает три вхождения (header —
+ * A1, центр кольца — B2, строка серии — B3), а рейл сайдбара несёт собственный
+ * логотип (`Sidebar`, класс `hidden lg:flex`: в DOM он есть на любом viewport).
+ * Поэтому прежнее «ровно один маскот на экран» заменено точным контрактом:
+ * 1 в header, 2 в карточке, и ничего сверх рейла.
  */
-async function streakVisuals(page: import('@playwright/test').Page, streak: number) {
-  return page.evaluate((value) => {
+async function streakVisuals(page: import('@playwright/test').Page) {
+  return page.evaluate(() => {
     const isVisible = (node: Element): boolean => {
       const style = window.getComputedStyle(node);
       if (style.display === 'none' || style.visibility === 'hidden') return false;
       return node.getClientRects().length > 0;
     };
 
-    const leaves = Array.from(document.querySelectorAll('body *')).filter(
-      (node) => node.childElementCount === 0 && isVisible(node)
-    );
-    const own = (node: Element) => (node.textContent ?? '').trim();
+    const nodes = Array.from(document.querySelectorAll('body *')).filter(isVisible);
+    const ownText = (node: Element): string =>
+      Array.from(node.childNodes)
+        .filter((child) => child.nodeType === 3)
+        .map((child) => child.textContent ?? '')
+        .join(' ')
+        .trim();
 
-    const statusStrip = document.getElementById('status-strip');
+    const card = document.querySelector('[data-testid="dashboard-progress-card"]');
+    const mascots = Array.from(document.querySelectorAll('[data-testid="tux"]'));
     return {
-      flameLeaves: leaves.filter((node) => own(node) === '🔥').length,
-      // tux-streak (2026-10-07): эмодзи заменён на <Tux>; ux-copy-3
-      // (2026-10-07) перенёс маскота из бейджа в заголовок Dashboard.
-      // Маскот по-прежнему ровно один на экран, поэтому счёт идёт по
-      // документу: картинки в текстовые листья не попадают.
-      tuxLeaves: document.querySelectorAll('[data-testid="tux"]').length,
-      streakNumberLeaves: leaves.filter((node) => own(node) === String(value)).length,
-      statusStripFlame: (statusStrip?.textContent ?? '').includes('🔥'),
-      statusStripText: (statusStrip?.textContent ?? '').replace(/\s+/g, ' ').trim(),
+      flameNodes: nodes.filter((node) => ownText(node) === '🔥').length,
+      tuxInHeader: document.querySelectorAll('#dashboard-header [data-testid="tux"]').length,
+      tuxInCard: document.querySelectorAll(
+        '[data-testid="dashboard-progress-card"] [data-testid="tux"]'
+      ).length,
+      // Всё, что вне header и карточки: единственный законный остаток — логотип
+      // рейла, поэтому лишний маскот на самой карточке виден сразу.
+      tuxOutsideCard: mascots.filter(
+        (node) =>
+          node.closest('#dashboard-header') === null &&
+          node.closest('[data-testid="dashboard-progress-card"]') === null
+      ).length,
+      // Серия — одна фраза «N дней подряд» (число и слово рендерятся одним текстовым
+      // узлом): метрика ловит именно ПОВТОР серии на экране.
+      streakPhraseNodes: nodes.filter((node) =>
+        /^\d+\s+(день|дня|дней) подряд$/.test(ownText(node))
+      ).length,
+      cardFlame: (card?.textContent ?? '').includes('🔥'),
+      cardText: (card?.textContent ?? '').replace(/\s+/g, ' ').trim(),
     };
-  }, streak);
+  });
 }
 
 test.describe('UX-регрессии — мобильный 390x844', () => {
@@ -244,29 +266,29 @@ test.describe('UX-регрессии — выход и дубль серии', (
     await seedState(page, seeded);
     await gotoApp(page);
 
-    await expect(page.getByTestId(TESTID.streakBadge)).toHaveCount(1);
-    await expect(page.getByTestId(TESTID.streakBadge)).toHaveAttribute(
-      'data-streak-state',
-      'active'
-    );
+    // Серия живёт в карточке прогресса (задание «редизайн верхней части Dashboard»,
+    // B3): StreakBadge как компонент снят, число рендерится напрямую из стора.
+    await expect(page.getByTestId('dashboard-progress-card')).toHaveCount(1);
+    await expect(page.getByTestId('dashboard-streak')).toHaveCount(1);
+    await expect(page.getByTestId('dashboard-streak')).toContainText('дней подряд');
 
-    const counts = await streakVisuals(page, 7);
+    const counts = await streakVisuals(page);
     console.log('UX_REGRESSION_DASHBOARD_STREAK=' + JSON.stringify(counts));
 
     // 🔥 удалён 2026-10-07, заменён на Tux; 0 = намерение, не баг.
-    expect(counts.flameLeaves).toBe(0);
-    // Маскот (Tux) на Dashboard ровно один — с ux-copy-3 он в заголовке,
-    // а не в бейдже; число серии — ровно одно (в бейдже).
-    expect(counts.tuxLeaves).toBe(1);
-    expect(counts.streakNumberLeaves).toBe(1);
-    // Главное утверждение по жалобе: в status-strip серии больше нет.
-    expect(counts.statusStripFlame).toBe(false);
-    // Именованная лестница: в status-strip теперь ИМЯ уровня («Новичок» при
-    // 0 XP), а не «Уровень N». Утверждение то же по смыслу — уровень вместе с
-    // переключателем темы остался в status-strip, когда оттуда убрали flame.
-    expect(counts.statusStripText).toContain('Новичок');
+    expect(counts.flameNodes).toBe(0);
+    // Маскоты: ровно по заданию — один в header (A1), два в карточке (B2 кольцо,
+    // B3 строка серии); сверх них допустим только логотип рейла сайдбара.
+    expect(counts.tuxInHeader).toBe(1);
+    expect(counts.tuxInCard).toBe(2);
+    expect(counts.tuxOutsideCard).toBeLessThanOrEqual(1);
+    // Серия — ровно одна фраза «N дней подряд»: дубль серии ловится этой метрикой.
+    expect(counts.streakPhraseNodes).toBe(1);
+    // Карточка: имя уровня на месте, огонька в ней нет.
+    expect(counts.cardFlame).toBe(false);
+    expect(counts.cardText).toContain('Новичок');
 
-    // Уровень и переключатель темы из status-strip не пропали вместе с flame.
+    // Переключатель темы переехал из status-strip в header и остался на экране.
     await expect(page.getByTestId(TESTID.topicToggle)).toBeVisible();
   });
 });

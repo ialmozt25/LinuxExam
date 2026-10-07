@@ -37,6 +37,17 @@
   --surface-1: #111318;
   --surface-2: #181b22;
 
+  /* Карточка прогресса Dashboard (задание «редизайн верхней части Dashboard», E2)
+     — ЛОКАЛЬНАЯ роль поверхности, а не переопределение существующих: `--surface-1/2`
+     несут сайдбар, карточки тем и hover-шаг и остаются как есть. Карточка обязана
+     отделяться от фона страницы порогом 1.5:1, а пара `--surface-1` на фоне даёт
+     1.09:1 (light) и 1.11:1 (dark) — ниже порога. Решение капитана (2026-10-08):
+     светлая карточка остаётся белой (= `--surface-1`), контраст поднимает только
+     тёмная тема. Здесь — фолбэк на случай, когда `data-theme-source` не выставлен;
+     рабочие значения приходят из `--theme-surface-progress` (блоки тем) через
+     блоки `[data-theme-source]` ниже. */
+  --surface-progress: #FFFFFF;
+
   /* Текстовая роль акцента: в светлой теме — сам примитив, в тёмной
      переопределяется на его светлый оттенок (см. блок `[data-theme="dark"]`). */
   --text-accent: var(--color-accent-strong);
@@ -195,6 +206,12 @@
      поэтому здесь — только `--theme-*` значения. */
   --theme-surface-1: #FFFFFF;
   --theme-surface-2: #EAEAEA;
+  /* Карточка прогресса: решение капитана (2026-10-08) — в светлой теме карточка
+     остаётся БЕЛОЙ (как `--surface-1`, 1.09:1 на фоне #F5F5F5): тональный шаг
+     делается в тёмной теме, а светло-серая карточка читалась бы как «выключенная».
+     Локальная роль введена ради тёмной темы и остаётся отдельной от `--surface-1`,
+     чтобы значения тем не разъехались. */
+  --theme-surface-progress: #FFFFFF;
 
   /* Text — not pure black, softer on eyes; passes WCAG AA */
   --theme-text-primary: #1B1F23;
@@ -224,6 +241,12 @@
      в блоках `[data-theme-source]` ниже. */
   --theme-surface-1: #111318;
   --theme-surface-2: #181b22;
+  /* Карточка прогресса: на фоне #1E1E1E поверхность #111318 давала 1.11:1, а порог
+     задания — 1.5:1. #3C4048 даёт 1.60:1 и сохраняет cool-shift тёмной темы
+     (соседние поверхности — #111318/#181b22). Побочный эффект зафиксирован в
+     отчёте: акцентное кольцо `--color-accent-strong` на этой поверхности имеет
+     1.81:1 вместо 3.23:1 на `--surface-1` — см. log.md. */
+  --theme-surface-progress: #3C4048;
 
   /* Текстовая роль акцента (аудит 2026-10-07): примитив `--color-accent-strong`
      как ТЕКСТ на тёмной поверхности давал 3.23:1 (active nav и счётчик «N вопр.»
@@ -269,6 +292,11 @@
      Telegram (переменных --tg-theme-* нет) пара совпадает с темой экрана. */
   --surface-1: var(--tg-theme-secondary-bg-color, var(--theme-surface-1));
   --surface-2: var(--tg-theme-bg-color, var(--theme-surface-2));
+  /* Карточка прогресса следует клиентской палитре, как и остальные поверхности:
+     в Telegram её уровень — это secondary-bg клиента (иначе локальный серый спорол
+     бы с клиентской темой); вне Telegram переменных --tg-theme-* нет, и роль
+     совпадает с темой экрана. */
+  --surface-progress: var(--tg-theme-secondary-bg-color, var(--theme-surface-progress));
   --text-primary: var(--tg-theme-text-color, var(--theme-text-primary));
   --text-secondary: var(--tg-theme-hint-color, var(--theme-text-secondary));
   --border-subtle: var(--theme-border-subtle);
@@ -286,6 +314,7 @@
   --bg-elevated: var(--theme-bg-elevated);
   --surface-1: var(--theme-surface-1);
   --surface-2: var(--theme-surface-2);
+  --surface-progress: var(--theme-surface-progress);
   --text-primary: var(--theme-text-primary);
   --text-secondary: var(--theme-text-secondary);
   --border-subtle: var(--theme-border-subtle);

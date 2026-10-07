@@ -5,14 +5,12 @@ import { useQuizStore } from '@/store/quizStore';
 import { pluralizeQuestions } from '@/utils/pluralize';
 import { useTelegramMainButton } from '@/hooks/useTelegramMainButton';
 import { ScreenContainer } from '@/presentation/components/ScreenContainer';
-import { StreakBadge } from '@/presentation/components/StreakBadge';
 import { Tux } from '@/ui/Tux';
-import { XpBar } from '@/presentation/components/XpBar';
-import { DailyGoalPicker } from '@/presentation/components/DailyGoalPicker';
 import { Sidebar, type SidebarNavId } from '@/presentation/components/Sidebar';
 import { useCanAccessTopic } from '@/store/paywall';
 import { isFreeTopic } from '@/domain/paywall';
 import { levelFromXp, nextLevel, xpInLevel } from '@/domain/xp';
+import { pluralDays } from '@/domain/goal';
 import { TOPICS, AVAILABLE_TOPICS } from '@/data/topics';
 import { getBankTotal, getTopicCount } from '@/data/questions';
 import { Badge, Button, Card } from '@/ui';
@@ -98,6 +96,16 @@ const FRESH_FEATURES = [
   { Icon: Target, label: 'Exam Mode (30/60/90)' },
   { Icon: Trophy, label: 'XP и уровни' },
 ] as const;
+
+/**
+ * Кольцо прогресса уровня (карточка прогресса, B2 задания «редизайн верхней части
+ * Dashboard»): SVG 64×64, strokeWidth 4, радиус 28 — дуга вписана в квадрат с
+ * зазором 2px. Длина окружности считается один раз, а `strokeDashoffset` для
+ * процента `p` — `C × (1 − p / 100)`: при 0 % виден только трек, при 100 % кольцо
+ * замкнуто.
+ */
+const LEVEL_RING_RADIUS = 28;
+const LEVEL_RING_CIRCUMFERENCE = 2 * Math.PI * LEVEL_RING_RADIUS;
 
 /**
  * «14 тем» / «2 темы» / «1 тема». Число берётся из реестра тем, а не литералом:
@@ -476,6 +484,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const navigateTo = useQuizStore((s) => s.navigateTo);
   const streak = useQuizStore((s) => s.streak);
   const totalXp = useQuizStore((s) => s.totalXp);
+  // Дневной счётчик XP — теперь его показывает карточка прогресса (B4): после
+  // снятия XpBar это единственный потребитель поля на экране.
+  const todayXp = useQuizStore((s) => s.todayXp);
   // Празднование нового уровня — runtime-состояние стора: в персист НЕ
   // попадает, поэтому после reload оно пустое и toast не повторяется.
   const pendingLevelUp = useQuizStore((s) => s.pendingLevelUp);
@@ -536,7 +547,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   const hasNoHistory = Object.keys(questionStats).length === 0;
 
   // Fresh User Mode: ответов ещё нет — это и есть первый запуск приложения.
-  // Dashboard показывает только нужное (level-strip, Hero, «Внутри вас ждет»,
+  // Dashboard показывает только нужное (header, карточка прогресса, Hero,
+  // «Внутри вас ждет»,
   // ОДНА CTA) и прячет Exam mode, аналитику, повтор ошибок и программу RHCSA: до
   // первого ответа этот выбор — шум, а единственное осмысленное действие одно.
   //
@@ -618,6 +630,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   // показывает подпись XpBar, третья копия тех же чисел была дублем.
   // Вместе с узлом ушёл и селектор `useDailyGoalProgress`: он был нужен только
   // ему, а незанятый импорт держал бы ложную зависимость от dailyGoal.
+  // Задание «редизайн верхней части Dashboard» (B5) сняло и сам XpBar: дневная
+  // цель на Dashboard больше не рендерится, дневной XP остался строкой карточки
+  // прогресса (`dashboard-today-xp`), а уровень и серия — там же.
   // Нативный MainButton доступен только в Telegram и показывал бы «Продолжить»
   // даже в Fresh User Mode — то есть вторую primary-CTA против контракта «одна
   // большая кнопка до первого ответа». Там он скрыт: роль единственной CTA берёт
@@ -694,89 +709,59 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           className="lg:max-w-[1248px] lg:px-6"
           style={{ display: 'flex', flexDirection: 'column', width: '100%', minWidth: 0 }}
         >
-          {/* Status strip */}
+          {/* Единый header (задание «редизайн верхней части Dashboard», A): одна
+              строка — слева маскот 32px и название продукта, справа существующий
+              переключатель темы. Узкая полоска уровня (status-strip)
+              удалена: её уровень переехал в карточку прогресса ниже, а переключатель
+              темы — в эту строку. */}
           <div
-            id="status-strip"
+            id="dashboard-header"
             style={{
               display: 'flex',
-              justifyContent: 'space-between',
               alignItems: 'center',
-              paddingBottom: 'var(--space-2)',
-              borderBottom: '1px solid var(--border-subtle)',
-              fontSize: 'var(--text-sm)',
-              color: 'var(--text-secondary)',
+              justifyContent: 'space-between',
+              gap: 'var(--space-3)',
+              minWidth: 0,
             }}
           >
-            {/* Серия (streak) НЕ дублируется здесь: она живёт в StreakBadge ниже,
-                где есть число, состояние и мотивирующее сообщение. В status-strip
-                остаются только уровень и полоса прогресса (UX-фикс). */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{level.name}</span>
-              {/* diag-dashboard-fix (симптом 5): полоса показывает XP ВНУТРИ уровня
-                  (`xpInLevel`), а не дневную цель, и в отчёте это читалось как
-                  «Уровень 1 · 10 %» рядом с дневной целью 10/20. Метрика оставлена:
-                  дневную цель уже показывает XpBar, а вторая дневная полоса была бы
-                  тем же дублем XP, против которого симптом 6. Неоднозначность снята
-                  ИМЕНЕМ уровня, а не номером: «Новичок» рядом с «49 / 50 XP до
-                  Ученика» читается без расшифровки, а «Уровень 4» — нет.
-                  XP-механика: метрика та же, но уровень считается доменом по
-                  именованной лестнице (`LEVELS`), а не `totalXp % 100`. */}
-              <span
-                role="progressbar"
-                aria-valuenow={Math.round(xpPercent)}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label={`Уровень ${level.name}, XP внутри ${Math.round(xpPercent)}%`}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+                minWidth: 0,
+              }}
+            >
+              <Tux size={32} />
+              {/* h1 на экране ровно один — название продукта; остальные заголовки
+                  ему подчинены (Hero Fresh User Mode — h2). */}
+              <h1
                 style={{
-                  display: 'inline-block',
-                  width: 'var(--track-width-sm)',
-                  height: 'var(--track-height)',
-                  background: 'var(--bg-surface)',
-                  borderRadius: 'var(--track-radius)',
-                  overflow: 'hidden',
+                  fontSize: 'var(--heading-1)',
+                  fontWeight: 700,
+                  letterSpacing: 'var(--letter-tight)',
+                  margin: 0,
+                  color: 'var(--text-primary)',
                 }}
               >
-                <span
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    height: '100%',
-                    background: 'var(--accent)',
-                    transform: `scaleX(${xpPercent / 100})`,
-                    transformOrigin: 'left',
-                    transition: 'transform var(--duration-normal) ease',
-                  }}
-                />
-              </span>
-              {/* B3: числа «сколько осталось» — мелко и только когда следующий
-                  уровень существует. На Гранд-мастере текста нет вообще: полоса
-                  стоит на 100 %, и «до следующего» обещало бы то, чего нет. */}
-              {levelProgress.needed !== null && nextLevelStep !== null ? (
-                <span
-                  data-testid="level-next"
-                  style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}
-                >
-                  {`${levelProgress.current} / ${levelProgress.needed} XP до ${nextLevelStep.nameGenitive}`}
-                </span>
-              ) : null}
+                LinuxExam
+              </h1>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <Button
-                variant="ghost"
-                testId="theme-toggle"
-                onClick={onToggleTheme}
-                ariaLabel={
-                  theme === 'light' ? 'Переключить на тёмную' : 'Переключить на светлую'
-                }
-                style={{ cursor: 'pointer' }}
-              >
-                {theme === 'light' ? (
-                  <Sun size={20} color="var(--text-secondary)" aria-hidden="true" />
-                ) : (
-                  <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
-                )}
-              </Button>
-            </div>
+            <Button
+              variant="ghost"
+              testId="theme-toggle"
+              onClick={onToggleTheme}
+              ariaLabel={
+                theme === 'light' ? 'Переключить на тёмную' : 'Переключить на светлую'
+              }
+              style={{ cursor: 'pointer' }}
+            >
+              {theme === 'light' ? (
+                <Sun size={20} color="var(--text-secondary)" aria-hidden="true" />
+              ) : (
+                <MoonStar size={20} color="var(--text-secondary)" aria-hidden="true" />
+              )}
+            </Button>
           </div>
 
           {/* Празднование нового уровня: показывается ровно один раз — пока
@@ -802,112 +787,248 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             </Card>
           ) : null}
 
-          {/* Title block. ux-copy-3 (2026-10-07): маскот переехал из streak-бейджа
-              сюда — рядом с названием и ПЕРЕД текстом заголовка (gap = --space-2).
-              Картинка декоративная (alt="" + aria-hidden внутри <Tux>), поэтому
-              доступное имя h1 остаётся «LinuxExam» (его читает ux-regression). */}
-          <div style={{ marginTop: 'var(--space-5)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <Tux size={24} />
-              <h1
+          {/* Подзаголовок продукта остаётся отдельной строкой под header'ом:
+              маскот и название переехали в его строку (A1), а ценность продукта
+              строкой ниже сохранена — её пинят e2e-контракты (dashboard.spec,
+              visual-regression). */}
+          <p
+            data-testid="dashboard-subtitle"
+            style={{
+              fontSize: 'var(--body)',
+              color: 'var(--text-secondary)',
+              margin: 'var(--space-2) 0 0 0',
+            }}
+          >
+            Подготовка к RHCSA за 15 минут в день
+          </p>
+
+          {/* Карточка прогресса (задание «редизайн верхней части Dashboard», B):
+              заменяет и status-strip, и retention-зону (StreakBadge + XpBar). Одна
+              поверхность на всю ширину: слева круговой уровень, справа серия и XP.
+              Данные — существующие поля стора (`totalXp`, `xpInLevel`, `streak`,
+              `todayXp`), новых полей нет. Рендерится ВСЕГДА, включая Fresh User
+              Mode: при нулевой серии подпись «Начни серию сегодня» (STOP-условие
+              задания — свежий профиль обязан видеть карточку), а прежняя заглушка
+              серии возвращается сюда же вместо отдельного бейджа. Поверхность —
+              локальная роль `--surface-progress` (E2): `--surface-1` давал 1.09:1
+              (light) и 1.11:1 (dark) на фоне страницы при пороге 1.5:1. */}
+          <div
+            data-testid="dashboard-progress-card"
+            className="bg-[color:var(--surface-progress)] border border-[color:var(--border-subtle)]"
+            style={{
+              marginTop: 'var(--space-5)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-4)',
+              padding: 'var(--space-4)',
+              borderRadius: 'var(--radius-md)',
+            }}
+          >
+            {/* Круговой уровень (B2): SVG 64×64, strokeWidth 4, трек —
+                `--border-subtle`, дуга — текстовая роль акцента `--text-accent`.
+                Решение капитана (2026-10-08): в светлой теме это тот же
+                `--color-accent-strong` (5.75:1 на белой карточке), в тёмной —
+                его светлый оттенок того же акцента (3.42:1 на `--surface-progress`
+                против 1.81:1 у примитива: на поднятой поверхности примитив
+                уходил ниже барьера 3:1 из DESIGN.md). Роль `progressbar` и
+                aria-label («Уровень <имя>, XP внутри N%») те же, что были у линейной
+                полосы: имя уровня и проценты остаются машинно-читаемыми. */}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+                flexShrink: 0,
+              }}
+            >
+              <span
+                role="progressbar"
+                aria-valuenow={Math.round(xpPercent)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`Уровень ${level.name}, XP внутри ${Math.round(xpPercent)}%`}
                 style={{
-                  fontSize: 'var(--heading-1)',
-                  fontWeight: 700,
-                  letterSpacing: 'var(--letter-tight)',
-                  margin: 0,
+                  position: 'relative',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 64,
+                  height: 64,
+                }}
+              >
+                <svg
+                  width={64}
+                  height={64}
+                  viewBox="0 0 64 64"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', top: 0, left: 0 }}
+                >
+                  <circle
+                    cx={32}
+                    cy={32}
+                    r={LEVEL_RING_RADIUS}
+                    fill="none"
+                    stroke="var(--border-subtle)"
+                    strokeWidth={4}
+                  />
+                  <circle
+                    cx={32}
+                    cy={32}
+                    r={LEVEL_RING_RADIUS}
+                    fill="none"
+                    stroke="var(--text-accent)"
+                    strokeWidth={4}
+                    strokeLinecap="round"
+                    strokeDasharray={LEVEL_RING_CIRCUMFERENCE}
+                    strokeDashoffset={
+                      LEVEL_RING_CIRCUMFERENCE *
+                      (1 - Math.min(100, Math.max(0, xpPercent)) / 100)
+                    }
+                    transform="rotate(-90 32 32)"
+                  />
+                </svg>
+                <Tux size={32} />
+              </span>
+              <span
+                style={{
+                  fontSize: 'var(--text-sm)',
+                  fontWeight: 600,
                   color: 'var(--text-primary)',
                 }}
               >
-                LinuxExam
-              </h1>
+                {level.name}
+              </span>
             </div>
-            <p
-              data-testid="dashboard-subtitle"
-              style={{
-                fontSize: 'var(--body)',
-                color: 'var(--text-secondary)',
-                margin: 'var(--space-2) 0 0 0',
-              }}
-            >
-              Подготовка к RHCSA за 15 минут в день
-            </p>
-          </div>
 
-          {/* Retention-зона (spec 061): streak badge + XP bar с дневной целью рядом.
-              В Fresh User Mode зоны нет ЦЕЛИКОМ (задание «продающий Fresh Dashboard»):
-              у профиля без единого ответа оба узла показывали нули — бейдж «0 дней» и
-              полоса «0 / 30 XP». Прежняя заглушка «Начни серию сегодня» закрывала
-              только первый из двух нулей, поэтому ушла вместе с зоной. Возвращается
-              сама после первого ответа: условие — та же `questionStats`, что и у всего
-              режима. */}
-          {!isFreshUser && (
+            {/* Серия и XP (B3): число рендерится напрямую из `streak` — StreakBadge
+                как компонент в Dashboard не импортируется, а склонение слова берёт
+                доменный `pluralDays` («1 день», «3 дня», «5 дней»). Ноль серии —
+                приглашение, а не «0 дней». Старые узлы (`streak-badge`,
+                `dashboard-retention`) удалены вместе с зоной: контракт карточки —
+                `dashboard-progress-card` / `dashboard-streak` / `level-next`. */}
             <div
-              id="dashboard-retention"
-              data-testid="dashboard-retention"
               style={{
                 display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-3)',
-                marginTop: 'var(--space-5)',
+                flexDirection: 'column',
+                gap: 'var(--space-1)',
+                minWidth: 0,
               }}
             >
-              <StreakBadge />
-              <XpBar />
-            </div>
-          )}
-          {/* diag-dashboard-fix (STOP-1 v1): узел `retention-goal-line`
-              («Цель: X / Y XP») удалён по решению капитана — дневную цель уже
-              показывает подпись XpBar («X / Y XP»), третий узел с теми же числами
-              был дублем XP (симптом 6). */}
-
-          {/* Progress. В Fresh User Mode скрыт: «0 из 253» — ноль, который новому
-              пользователю ничего не сообщает (число вопросов уже есть в Hero, но как
-              обещание, а не как «ты не сделал ничего из»). Скрыт условно, а не
-              удалён: у возвращающегося профиля полоса остаётся его прогрессом. */}
-          {!isFreshUser && (
-            <div id="dashboard-progress" data-testid="dashboard-progress" style={{ marginTop: 'var(--space-5)' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  fontSize: 'var(--text-sm)',
-                  textTransform: 'uppercase',
-                  letterSpacing: 'var(--letter-wide)',
-                  color: 'var(--text-secondary)',
-                }}
-              >
-                <span>Прогресс</span>
-                <span>
-                  {answered} из {totalQuestions}
-                </span>
-              </div>
-              <div
-                role="progressbar"
-                aria-valuenow={progressPercent}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label="Прогресс теста"
-                style={{
-                  marginTop: 'var(--space-2)',
-                  height: 'var(--track-height)',
-                  background: 'var(--bg-surface)',
-                  borderRadius: 'var(--track-radius)',
-                  overflow: 'hidden',
-                }}
-              >
-                <div
+              {streak > 0 ? (
+                <span
+                  data-testid="dashboard-streak"
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    background: 'var(--accent)',
-                    transform: `scaleX(${progressPercent / 100})`,
-                    transformOrigin: 'left',
-                    transition: 'transform var(--duration-normal) ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-2)',
+                    fontSize: 'var(--body)',
+                    fontWeight: 600,
+                    color: 'var(--text-primary)',
                   }}
-                />
-              </div>
+                >
+                  <Tux size={24} />
+                  {/* Число и слово — одной строкой: «7 дней подряд» читается
+                      скринридером и копируется как фраза, а не как «7дней подряд»
+                      (раздельные inline-узлы склеиваются в textContent без пробела). */}
+                  {`${streak} ${pluralDays(streak)} подряд`}
+                </span>
+              ) : (
+                <span
+                  data-testid="dashboard-streak"
+                  style={{
+                    fontSize: 'var(--body)',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  Начни серию сегодня
+                </span>
+              )}
+              {/* Микро-строка «сколько осталось» — только когда следующая ступень
+                  существует: на Гранд-мастере кольцо стоит на 100 %, и обещание
+                  следующего уровня было бы ложным. */}
+              {levelProgress.needed !== null && nextLevelStep !== null ? (
+                <span
+                  data-testid="level-next"
+                  style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}
+                >
+                  {`${levelProgress.current} / ${levelProgress.needed} XP до ${nextLevelStep.nameGenitive}`}
+                </span>
+              ) : null}
+              {/* Дневной XP (B4): после снятия XpBar это единственный потребитель
+                  `todayXp` в UI — сам счётчик остаётся и не пропадает вместе с
+                  дневной полосой. */}
+              <span
+                data-testid="dashboard-today-xp"
+                style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}
+              >
+                {`${todayXp} XP сегодня`}
+              </span>
             </div>
-          )}
+          </div>
+
+          {/* Прогресс банка (C1): вместо прежнего блока — одна полоса: заголовок
+              «Всего изучено» слева, значение справа, accent-полоса под ними. Второго
+              блока нет. Показывается ВСЕМ профилям, включая Fresh User Mode (решение
+              капитана, 2026-10-08): «0 из 253» — часть нового единства верхней части
+              экрана (карточка + полоса + одна CTA), а не «ноль, который новому
+              пользователю ничего не сообщает». `data-testid` и текст «N из M»
+              остаются контрактом e2e (`onboarding`, `persist`, `browser-mode`,
+              `question-flow`). */}
+          <div
+            id="dashboard-progress"
+            data-testid="dashboard-progress"
+            className="bg-[color:var(--surface-progress)] border border-[color:var(--border-subtle)]"
+            style={{
+              marginTop: 'var(--space-5)',
+              padding: 'var(--space-4)',
+              borderRadius: 'var(--radius-md)',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'baseline',
+                gap: 'var(--space-3)',
+                fontSize: 'var(--text-sm)',
+                textTransform: 'uppercase',
+                letterSpacing: 'var(--letter-wide)',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              <span>Всего изучено</span>
+              <span>
+                {answered} из {totalQuestions}
+              </span>
+            </div>
+            <div
+              role="progressbar"
+              aria-valuenow={progressPercent}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label="Прогресс теста"
+              style={{
+                marginTop: 'var(--space-2)',
+                height: 'var(--track-height)',
+                background: 'var(--bg-surface)',
+                borderRadius: 'var(--track-radius)',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  background: 'var(--accent)',
+                  transform: `scaleX(${progressPercent / 100})`,
+                  transformOrigin: 'left',
+                  transition: 'transform var(--duration-normal) ease',
+                }}
+              />
+            </div>
+          </div>
 
           {/* Вход в занятие (spec 065; взаимоисключение ветвей — spec 066).
               Две ветки, порядок важен:
@@ -979,7 +1100,8 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               </div>
               {/* «Внутри вас ждет» — тоже только Fresh User Mode: возвращающемуся
                   профилю эти механики уже знакомы, их несут Exam mode, аналитика и
-                  StreakBadge ниже, а список из четырёх пунктов продавал бы купившему. */}
+                  карточка прогресса выше, а список из четырёх пунктов продавал бы
+                  купившему. */}
               {isFreshUser && (
                 <div data-testid="dashboard-features" style={{ marginTop: 'var(--space-5)' }}>
                   <div
@@ -1251,8 +1373,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             </div>
           )}
 
-          {/* Показывается ровно один раз: после онбординга и до подтверждения цели. */}
-          <DailyGoalPicker />
+          {/* DailyGoalPicker здесь больше не рендерится (B5): дневная полоса ушла
+              вместе с ним, а дневной счётчик XP показывает карточка прогресса
+              (`dashboard-today-xp`). Сам компонент и поле `dailyGoalXp` не удалены —
+              их пинят собственные unit-тесты и persist-контракт (версия 8). */}
         </main>
       </div>
     </ScreenContainer>

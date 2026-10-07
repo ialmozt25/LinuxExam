@@ -63,8 +63,11 @@ test.describe('первый запуск: онбординга больше не
     await expect(page.getByTestId(TESTID.startLearning)).toHaveText(/Начать первый вопрос/);
     await expect(page.getByTestId('dashboard-features').locator('li')).toHaveCount(4);
 
-    // ...и ни одного узла обычного режима: до первого ответа их прячет сам режим.
-    await expect(page.getByTestId(TESTID.dashboardProgress)).toHaveCount(0);
+    // ...и ни одного узла СТАРОЙ retention-зоны: до первого ответа её больше нет
+    // вовсе (StreakBadge/XpBar сняты заданием «редизайн верхней части Dashboard»).
+    // Полоса банка — наоборот, показывается и здесь: решением капитана (2026-10-08)
+    // «0 из 253» стало частью нового единства (карточка + полоса + одна CTA).
+    await expect(page.getByTestId(TESTID.dashboardProgress)).toHaveCount(1);
     await expect(page.getByTestId(TESTID.dashboardRetention)).toHaveCount(0);
   });
 

@@ -194,6 +194,11 @@ describe('Dashboard — вход в занятие (spec 065)', () => {
       expect(screen.getByTestId(id), `пропал data-testid=${id}`).toBeTruthy();
     }
     expect(screen.queryByTestId('start-exam')).toBeNull();
-    expect(screen.getByTestId('streak-badge')).toBeTruthy();
+    // Задание «редизайн верхней части Dashboard» (B): retention-зона снята вместе
+    // со StreakBadge/XpBar — серию и XP несёт карточка прогресса, и она видна на
+    // профиле с историей. Правка вынуждена гейтом 2 (allowed расширен капитаном,
+    // прецедент dashboard-sticky-footer 2026-10-07): удалить из списка было нельзя —
+    // список пинит «сохранённые testid дашборда».
+    expect(screen.getByTestId('dashboard-progress-card')).toBeTruthy();
   });
 });

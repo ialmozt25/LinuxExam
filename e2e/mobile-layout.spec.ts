@@ -194,21 +194,22 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
     }
   });
 
-  test('Dashboard: контент не обрезан по вертикали (streak, xp-bar, карточки, строки тем)', async ({
+  test('Dashboard: контент не обрезан по вертикали (карточка прогресса, полоса банка, карточки, строки тем)', async ({
     page,
   }) => {
     await gotoApp(page);
 
-    // Быстрый профиль: streak 0 → подпись серии короткая. Длинную подпись
-    // («День N — хорошее начало» в 3 строки) сеет отдельный тест ниже.
+    // Быстрый профиль: streak 0 → строка серии короткая («Начни серию сегодня»).
+    // Карточка прогресса и полоса банка показываются и ему (решение капитана
+    // 2026-10-08), поэтому обе зоны входят в проверку клиппинга.
     const clipped = await verticalClipping(page, [
-      '[data-testid="streak-badge"]',
-      '[data-testid="xp-bar-daily"]',
-      '[data-testid="xp-bar"]',
-      '[data-testid="xp-bar-daily-label"]',
+      '[data-testid="dashboard-progress-card"]',
+      '[data-testid="dashboard-streak"]',
+      '[data-testid="level-next"]',
+      '[data-testid="dashboard-today-xp"]',
+      '[data-testid="dashboard-progress"]',
       '[data-testid="topic-essential_tools"]',
       '[data-testid="topic-first-cta"]',
-      '[data-testid="daily-goal-picker"]',
     ]);
 
     expect(
@@ -217,52 +218,51 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
     ).toEqual([]);
   });
 
-  test('Dashboard: длинная подпись серии не обрезается (регрессия пилота)', async ({ page }) => {
-    // streak 1 → самая ДЛИННАЯ подпись контракта: `streakMessage(1)` =
-    // «День 1 — хорошее начало» (domain/goal.ts). При внутренней ширине 70px
-    // (80 − 2×4 padding − 2×1 border) она ломается на 3 строки, и до фикса
-    // бейдж был ровно 80px по `height` при контенте ~90px — нижняя строка
-    // подписи обрезалась. `streak 30` («Месяц!») этой регрессии не ловит:
-    // подпись в одну строку, замерено 78 = 78.
-    await seedRetention(page, { streak: 1, todayXp: 0 });
-    await gotoApp(page);
-
-    const clipped = await verticalClipping(page, ['[data-testid="streak-badge"]']);
-    expect(clipped, `подпись серии обрезана: ${JSON.stringify(clipped)}`).toEqual([]);
-
-    // Геометрия: 80px остаётся минимумом тап-зоны, а не потолком.
-    const badge = await page.evaluate(() => {
-      const el = document.querySelector('[data-testid="streak-badge"]') as HTMLElement;
-      const box = el.getBoundingClientRect();
-      return {
-        height: Math.round(box.height),
-        width: Math.round(box.width),
-        scrollHeight: el.scrollHeight,
-        clientHeight: el.clientHeight,
-      };
-    });
-    expect(badge.scrollHeight).toBeLessThanOrEqual(badge.clientHeight + CLIP_TOLERANCE);
-    expect(badge.width).toBeGreaterThanOrEqual(MIN_BADGE_TAP);
-    expect(badge.height).toBeGreaterThanOrEqual(MIN_BADGE_TAP);
-  });
-
-  test('Dashboard: xp-bar с нулевой заливкой не обрезан и имеет тап-зону трека', async ({ page }) => {
-    // 0 % прогресса: заливка получает минимальную ширину (dashboard-ux-2,
-    // проблема 4 — пустая полоса читалась как «ничего не происходит»),
-    // проверяем, что трек не «схлопывается» и ничего не обрезано по вертикали.
+  test('Dashboard: карточка прогресса не обрезана, кольцо уровня имеет размер 64×64 (B2)', async ({
+    page,
+  }) => {
+    // Прежняя регрессия пилота — обрезанная 3-строчная подпись серии — ушла вместе
+    // с `streakMessage` (домен больше не рендерит мотивационную подпись), но
+    // карточка осталась самой плотной зоной экрана: серия, LEVEL-NEXT и дневной XP
+    // стоят в одной колонке рядом с кольцом. Клиппинг проверяем на них.
     await seedRetention(page, { streak: 1, todayXp: 0 });
     await gotoApp(page);
 
     const clipped = await verticalClipping(page, [
-      '[data-testid="xp-bar-daily"]',
-      '[data-testid="xp-bar"]',
-      '[data-testid="xp-bar-daily-label"]',
+      '[data-testid="dashboard-progress-card"]',
+      '[data-testid="dashboard-streak"]',
+      '[data-testid="level-next"]',
+      '[data-testid="dashboard-today-xp"]',
     ]);
-    expect(clipped, `xp-bar обрезан: ${JSON.stringify(clipped)}`).toEqual([]);
+    expect(clipped, `карточка прогресса обрезана: ${JSON.stringify(clipped)}`).toEqual([]);
+
+    // Геометрия кольца: 64×64 из задания (B2), а не 0×0 в свёрнутом flex-контейнере.
+    const ring = await page.getByRole('progressbar', { name: /Уровень/ }).boundingBox();
+    expect(ring).not.toBeNull();
+    expect(Math.round(ring?.width ?? 0)).toBe(64);
+    expect(Math.round(ring?.height ?? 0)).toBe(64);
+  });
+
+  test('Dashboard: полоса банка видна при нулевом прогрессе и не обрезана', async ({ page }) => {
+    // Было: дневная полоса XP с нулевой заливкой получала минимальную ширину 2px
+    // (dashboard-ux-2, проблема 4 — пустая полоса читалась как «ничего не
+    // происходит»). Дневная полоса снята заданием B5; её место заняла полоса банка,
+    // которая теперь видна и профилю без прогресса (решение капитана 2026-10-08) —
+    // значит «пустая полоса» снова встречается, и трек обязан оставаться видимым.
+    await seedRetention(page, { streak: 1, todayXp: 0 });
+    await gotoApp(page);
+
+    const clipped = await verticalClipping(page, [
+      '[data-testid="dashboard-progress"]',
+      '[data-testid="dashboard-progress-card"]',
+    ]);
+    expect(clipped, `карточка/полоса обрезаны: ${JSON.stringify(clipped)}`).toEqual([]);
 
     const bar = await page.evaluate(() => {
-      const track = document.querySelector('[data-testid="xp-bar-daily"]') as HTMLElement;
-      const fill = document.querySelector('[data-testid="xp-bar-fill"]') as HTMLElement;
+      const track = document.querySelector(
+        '[data-testid="dashboard-progress"] [role="progressbar"]',
+      ) as HTMLElement;
+      const fill = track.firstElementChild as HTMLElement;
       return {
         trackHeight: Math.round(track.getBoundingClientRect().height),
         trackWidth: Math.round(track.getBoundingClientRect().width),
@@ -271,8 +271,8 @@ test.describe('mobile 390x844 — контракт высоты и раскла�
     });
     expect(bar.trackWidth).toBeGreaterThan(0);
     expect(bar.trackHeight).toBeGreaterThan(0);
-    // min-fill 2px: ноль прогресса больше не рисует пустую полосу.
-    expect(bar.fillWidth).toBe(2);
+    // Ноль прогресса рисует пустой трек, а не «схлопнутый» блок.
+    expect(bar.fillWidth).toBe(0);
     expect(bar.fillWidth).toBeLessThan(bar.trackWidth);
   });
 
