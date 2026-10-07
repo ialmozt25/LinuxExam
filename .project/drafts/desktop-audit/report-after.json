@@ -1,0 +1,2100 @@
+{
+  "generatedAt": "2026-10-07T11:42:05.770Z",
+  "baseUrl": "https://localhost:5173",
+  "seed": "seedHistoryProfile(page, 30) — как в e2e/screens.ts openDashboard (visual-regression)",
+  "phase": "after-fix (-after)",
+  "viewports": [
+    {
+      "name": "1024x768",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "name": "1280x800",
+      "width": 1280,
+      "height": 800
+    },
+    {
+      "name": "1440x900",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "1920x1080",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "rows": [
+    {
+      "viewport": "1024x768",
+      "width": 1024,
+      "height": 768,
+      "theme": "light",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1024-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 0,
+      "truncatedSample": [],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 752,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "344px 344px",
+      "cardWidth": 344,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=5.75",
+        "inactive nav=8.13",
+        "CTA text=5.75",
+        "streak text=16.58",
+        "level-strip=8.13",
+        "card title=16.58",
+        "card description=8.86",
+        "card counter=5.75"
+      ],
+      "tokens": {
+        "bgPrimary": "#F5F5F5",
+        "bgSurface": "#FFFFFF",
+        "surface1": "#FFFFFF",
+        "surface2": "#EAEAEA",
+        "textPrimary": "#1B1F23",
+        "textSecondary": "#4A4A4A",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1024,
+        "documentScrollWidth": 1024,
+        "theme": "light",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#F5F5F5",
+          "bgSurface": "#FFFFFF",
+          "surface1": "#FFFFFF",
+          "surface2": "#EAEAEA",
+          "textPrimary": "#1B1F23",
+          "textSecondary": "#4A4A4A",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 16,
+            "y": 16,
+            "w": 240,
+            "h": 1417,
+            "right": 256,
+            "bottom": 1433
+          },
+          "sidebarStickyInner": {
+            "x": 16,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 255,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 256,
+            "y": 16,
+            "w": 752,
+            "h": 1417,
+            "right": 1008,
+            "bottom": 1433
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 280,
+            "y": 16,
+            "w": 704,
+            "h": 53,
+            "right": 984,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 280,
+              "y": 611,
+              "w": 704,
+              "h": 636,
+              "right": 984,
+              "bottom": 1247
+            },
+            "display": "grid",
+            "columns": "344px 344px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 280,
+            "y": 657,
+            "w": 344,
+            "h": 80,
+            "right": 624,
+            "bottom": 737
+          },
+          "firstCard": {
+            "x": 280,
+            "y": 657,
+            "w": 344,
+            "h": 80,
+            "right": 624,
+            "bottom": 737
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(0, 0, 0, 0.15)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(255, 255, 255)"
+          },
+          "cta": {
+            "x": 280,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 728,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 280,
+            "y": 704,
+            "w": 448,
+            "h": 56,
+            "right": 728,
+            "bottom": 760
+          },
+          "streak": {
+            "x": 280,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 360,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(74, 74, 74)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(27, 31, 35)",
+            "bg": "rgb(245, 245, 245)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [],
+        "truncatedTotal": 0,
+        "overflows": []
+      }
+    },
+    {
+      "viewport": "1024x768",
+      "width": 1024,
+      "height": 768,
+      "theme": "dark",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1024-dark-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 0,
+      "truncatedSample": [],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 752,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "344px 344px",
+      "cardWidth": 344,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=6.11",
+        "inactive nav=7.69",
+        "CTA text=5.75",
+        "streak text=13.77",
+        "level-strip=7.69",
+        "card title=18.58",
+        "card description=8.57",
+        "card counter=6.11"
+      ],
+      "tokens": {
+        "bgPrimary": "#1E1E1E",
+        "bgSurface": "#2D2D2D",
+        "surface1": "#111318",
+        "surface2": "#181b22",
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "#B0B0B0",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1024,
+        "documentScrollWidth": 1024,
+        "theme": "dark",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#1E1E1E",
+          "bgSurface": "#2D2D2D",
+          "surface1": "#111318",
+          "surface2": "#181b22",
+          "textPrimary": "#FFFFFF",
+          "textSecondary": "#B0B0B0",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 16,
+            "y": 16,
+            "w": 240,
+            "h": 1417,
+            "right": 256,
+            "bottom": 1433
+          },
+          "sidebarStickyInner": {
+            "x": 16,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 255,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 256,
+            "y": 16,
+            "w": 752,
+            "h": 1417,
+            "right": 1008,
+            "bottom": 1433
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 280,
+            "y": 16,
+            "w": 704,
+            "h": 53,
+            "right": 984,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 280,
+              "y": 611,
+              "w": 704,
+              "h": 636,
+              "right": 984,
+              "bottom": 1247
+            },
+            "display": "grid",
+            "columns": "344px 344px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 280,
+            "y": 657,
+            "w": 344,
+            "h": 80,
+            "right": 624,
+            "bottom": 737
+          },
+          "firstCard": {
+            "x": 280,
+            "y": 657,
+            "w": 344,
+            "h": 80,
+            "right": 624,
+            "bottom": 737
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(255, 255, 255, 0.06)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(17, 19, 24)"
+          },
+          "cta": {
+            "x": 280,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 728,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 280,
+            "y": 704,
+            "w": 448,
+            "h": 56,
+            "right": 728,
+            "bottom": 760
+          },
+          "streak": {
+            "x": 280,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 360,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(176, 176, 176)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(30, 30, 30)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(45, 45, 45)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [],
+        "truncatedTotal": 0,
+        "overflows": []
+      }
+    },
+    {
+      "viewport": "1280x800",
+      "width": 1280,
+      "height": 800,
+      "theme": "light",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1280-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 6,
+      "truncatedSample": [
+        {
+          "row": "topic-file_permissions",
+          "text": "chmod, chown, ACL, umask, special bits",
+          "scrollWidth": 208,
+          "clientWidth": 193,
+          "overflow": 15
+        },
+        {
+          "row": "topic-text_files",
+          "text": "sed, awk, cut, sort, uniq, tr, wc, head/tail",
+          "scrollWidth": 210,
+          "clientWidth": 193,
+          "overflow": 17
+        },
+        {
+          "row": "topic-shell_scripts",
+          "text": "if, loops, args, command substitution",
+          "scrollWidth": 195,
+          "clientWidth": 193,
+          "overflow": 2
+        },
+        {
+          "row": "topic-local_storage",
+          "text": "partitions, LVM, mount by UUID, swap",
+          "scrollWidth": 201,
+          "clientWidth": 194,
+          "overflow": 7
+        },
+        {
+          "row": "topic-networking",
+          "text": "nmcli, hostname, /etc/hosts, firewalld",
+          "scrollWidth": 197,
+          "clientWidth": 194,
+          "overflow": 3
+        }
+      ],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 1008,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "309.328px 309.328px 309.344px",
+      "cardWidth": 309,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=5.75",
+        "inactive nav=8.13",
+        "CTA text=5.75",
+        "streak text=16.58",
+        "level-strip=8.13",
+        "card title=16.58",
+        "card description=8.86",
+        "card counter=5.75"
+      ],
+      "tokens": {
+        "bgPrimary": "#F5F5F5",
+        "bgSurface": "#FFFFFF",
+        "surface1": "#FFFFFF",
+        "surface2": "#EAEAEA",
+        "textPrimary": "#1B1F23",
+        "textSecondary": "#4A4A4A",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1280,
+        "documentScrollWidth": 1280,
+        "theme": "light",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#F5F5F5",
+          "bgSurface": "#FFFFFF",
+          "surface1": "#FFFFFF",
+          "surface2": "#EAEAEA",
+          "textPrimary": "#1B1F23",
+          "textSecondary": "#4A4A4A",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 16,
+            "y": 16,
+            "w": 240,
+            "h": 1272,
+            "right": 256,
+            "bottom": 1288
+          },
+          "sidebarStickyInner": {
+            "x": 16,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 255,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 256,
+            "y": 16,
+            "w": 1008,
+            "h": 1272,
+            "right": 1264,
+            "bottom": 1288
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 280,
+            "y": 16,
+            "w": 960,
+            "h": 53,
+            "right": 1240,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 280,
+              "y": 611,
+              "w": 960,
+              "h": 491,
+              "right": 1240,
+              "bottom": 1102
+            },
+            "display": "grid",
+            "columns": "309.328px 309.328px 309.344px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 280,
+            "y": 657,
+            "w": 309,
+            "h": 105,
+            "right": 589,
+            "bottom": 762
+          },
+          "firstCard": {
+            "x": 280,
+            "y": 657,
+            "w": 309,
+            "h": 105,
+            "right": 589,
+            "bottom": 762
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(0, 0, 0, 0.15)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(255, 255, 255)"
+          },
+          "cta": {
+            "x": 280,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 728,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 280,
+            "y": 736,
+            "w": 448,
+            "h": 56,
+            "right": 728,
+            "bottom": 792
+          },
+          "streak": {
+            "x": 280,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 360,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(74, 74, 74)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(27, 31, 35)",
+            "bg": "rgb(245, 245, 245)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [
+          {
+            "row": "topic-file_permissions",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "scrollWidth": 208,
+            "clientWidth": 193,
+            "overflow": 15
+          },
+          {
+            "row": "topic-text_files",
+            "text": "sed, awk, cut, sort, uniq, tr, wc, head/tail",
+            "scrollWidth": 210,
+            "clientWidth": 193,
+            "overflow": 17
+          },
+          {
+            "row": "topic-shell_scripts",
+            "text": "if, loops, args, command substitution",
+            "scrollWidth": 195,
+            "clientWidth": 193,
+            "overflow": 2
+          },
+          {
+            "row": "topic-local_storage",
+            "text": "partitions, LVM, mount by UUID, swap",
+            "scrollWidth": 201,
+            "clientWidth": 194,
+            "overflow": 7
+          },
+          {
+            "row": "topic-networking",
+            "text": "nmcli, hostname, /etc/hosts, firewalld",
+            "scrollWidth": 197,
+            "clientWidth": 194,
+            "overflow": 3
+          },
+          {
+            "row": "topic-users_groups",
+            "text": "useradd, usermod, sudo, /etc/passwd",
+            "scrollWidth": 197,
+            "clientWidth": 192,
+            "overflow": 5
+          }
+        ],
+        "truncatedTotal": 6,
+        "overflows": []
+      }
+    },
+    {
+      "viewport": "1280x800",
+      "width": 1280,
+      "height": 800,
+      "theme": "dark",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1280-dark-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 6,
+      "truncatedSample": [
+        {
+          "row": "topic-file_permissions",
+          "text": "chmod, chown, ACL, umask, special bits",
+          "scrollWidth": 208,
+          "clientWidth": 193,
+          "overflow": 15
+        },
+        {
+          "row": "topic-text_files",
+          "text": "sed, awk, cut, sort, uniq, tr, wc, head/tail",
+          "scrollWidth": 210,
+          "clientWidth": 193,
+          "overflow": 17
+        },
+        {
+          "row": "topic-shell_scripts",
+          "text": "if, loops, args, command substitution",
+          "scrollWidth": 195,
+          "clientWidth": 193,
+          "overflow": 2
+        },
+        {
+          "row": "topic-local_storage",
+          "text": "partitions, LVM, mount by UUID, swap",
+          "scrollWidth": 201,
+          "clientWidth": 194,
+          "overflow": 7
+        },
+        {
+          "row": "topic-networking",
+          "text": "nmcli, hostname, /etc/hosts, firewalld",
+          "scrollWidth": 197,
+          "clientWidth": 194,
+          "overflow": 3
+        }
+      ],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 1008,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "309.328px 309.328px 309.344px",
+      "cardWidth": 309,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=6.11",
+        "inactive nav=7.69",
+        "CTA text=5.75",
+        "streak text=13.77",
+        "level-strip=7.69",
+        "card title=18.58",
+        "card description=8.57",
+        "card counter=6.11"
+      ],
+      "tokens": {
+        "bgPrimary": "#1E1E1E",
+        "bgSurface": "#2D2D2D",
+        "surface1": "#111318",
+        "surface2": "#181b22",
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "#B0B0B0",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1280,
+        "documentScrollWidth": 1280,
+        "theme": "dark",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#1E1E1E",
+          "bgSurface": "#2D2D2D",
+          "surface1": "#111318",
+          "surface2": "#181b22",
+          "textPrimary": "#FFFFFF",
+          "textSecondary": "#B0B0B0",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 16,
+            "y": 16,
+            "w": 240,
+            "h": 1272,
+            "right": 256,
+            "bottom": 1288
+          },
+          "sidebarStickyInner": {
+            "x": 16,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 255,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 256,
+            "y": 16,
+            "w": 1008,
+            "h": 1272,
+            "right": 1264,
+            "bottom": 1288
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 280,
+            "y": 16,
+            "w": 960,
+            "h": 53,
+            "right": 1240,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 280,
+              "y": 611,
+              "w": 960,
+              "h": 491,
+              "right": 1240,
+              "bottom": 1102
+            },
+            "display": "grid",
+            "columns": "309.328px 309.328px 309.344px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 280,
+            "y": 657,
+            "w": 309,
+            "h": 105,
+            "right": 589,
+            "bottom": 762
+          },
+          "firstCard": {
+            "x": 280,
+            "y": 657,
+            "w": 309,
+            "h": 105,
+            "right": 589,
+            "bottom": 762
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(255, 255, 255, 0.06)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(17, 19, 24)"
+          },
+          "cta": {
+            "x": 280,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 728,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 280,
+            "y": 736,
+            "w": 448,
+            "h": 56,
+            "right": 728,
+            "bottom": 792
+          },
+          "streak": {
+            "x": 280,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 360,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(176, 176, 176)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(30, 30, 30)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(45, 45, 45)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [
+          {
+            "row": "topic-file_permissions",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "scrollWidth": 208,
+            "clientWidth": 193,
+            "overflow": 15
+          },
+          {
+            "row": "topic-text_files",
+            "text": "sed, awk, cut, sort, uniq, tr, wc, head/tail",
+            "scrollWidth": 210,
+            "clientWidth": 193,
+            "overflow": 17
+          },
+          {
+            "row": "topic-shell_scripts",
+            "text": "if, loops, args, command substitution",
+            "scrollWidth": 195,
+            "clientWidth": 193,
+            "overflow": 2
+          },
+          {
+            "row": "topic-local_storage",
+            "text": "partitions, LVM, mount by UUID, swap",
+            "scrollWidth": 201,
+            "clientWidth": 194,
+            "overflow": 7
+          },
+          {
+            "row": "topic-networking",
+            "text": "nmcli, hostname, /etc/hosts, firewalld",
+            "scrollWidth": 197,
+            "clientWidth": 194,
+            "overflow": 3
+          },
+          {
+            "row": "topic-users_groups",
+            "text": "useradd, usermod, sudo, /etc/passwd",
+            "scrollWidth": 197,
+            "clientWidth": 192,
+            "overflow": 5
+          }
+        ],
+        "truncatedTotal": 6,
+        "overflows": []
+      }
+    },
+    {
+      "viewport": "1440x900",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1440-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 0,
+      "truncatedSample": [],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 1168,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "362.656px 362.672px 362.656px",
+      "cardWidth": 363,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=5.75",
+        "inactive nav=8.13",
+        "CTA text=5.75",
+        "streak text=16.58",
+        "level-strip=8.13",
+        "card title=16.58",
+        "card description=8.86",
+        "card counter=5.75"
+      ],
+      "tokens": {
+        "bgPrimary": "#F5F5F5",
+        "bgSurface": "#FFFFFF",
+        "surface1": "#FFFFFF",
+        "surface2": "#EAEAEA",
+        "textPrimary": "#1B1F23",
+        "textSecondary": "#4A4A4A",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1440,
+        "documentScrollWidth": 1440,
+        "theme": "light",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#F5F5F5",
+          "bgSurface": "#FFFFFF",
+          "surface1": "#FFFFFF",
+          "surface2": "#EAEAEA",
+          "textPrimary": "#1B1F23",
+          "textSecondary": "#4A4A4A",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 16,
+            "y": 16,
+            "w": 240,
+            "h": 1247,
+            "right": 256,
+            "bottom": 1263
+          },
+          "sidebarStickyInner": {
+            "x": 16,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 255,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 256,
+            "y": 16,
+            "w": 1168,
+            "h": 1247,
+            "right": 1424,
+            "bottom": 1263
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 280,
+            "y": 16,
+            "w": 1120,
+            "h": 53,
+            "right": 1400,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 280,
+              "y": 611,
+              "w": 1120,
+              "h": 466,
+              "right": 1400,
+              "bottom": 1077
+            },
+            "display": "grid",
+            "columns": "362.656px 362.672px 362.656px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 280,
+            "y": 657,
+            "w": 363,
+            "h": 80,
+            "right": 643,
+            "bottom": 737
+          },
+          "firstCard": {
+            "x": 280,
+            "y": 657,
+            "w": 363,
+            "h": 80,
+            "right": 643,
+            "bottom": 737
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(0, 0, 0, 0.15)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(255, 255, 255)"
+          },
+          "cta": {
+            "x": 280,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 728,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 280,
+            "y": 836,
+            "w": 448,
+            "h": 56,
+            "right": 728,
+            "bottom": 892
+          },
+          "streak": {
+            "x": 280,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 360,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(74, 74, 74)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(27, 31, 35)",
+            "bg": "rgb(245, 245, 245)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [],
+        "truncatedTotal": 0,
+        "overflows": []
+      }
+    },
+    {
+      "viewport": "1440x900",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1440-dark-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 0,
+      "truncatedSample": [],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 1168,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "362.656px 362.672px 362.656px",
+      "cardWidth": 363,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=6.11",
+        "inactive nav=7.69",
+        "CTA text=5.75",
+        "streak text=13.77",
+        "level-strip=7.69",
+        "card title=18.58",
+        "card description=8.57",
+        "card counter=6.11"
+      ],
+      "tokens": {
+        "bgPrimary": "#1E1E1E",
+        "bgSurface": "#2D2D2D",
+        "surface1": "#111318",
+        "surface2": "#181b22",
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "#B0B0B0",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1440,
+        "documentScrollWidth": 1440,
+        "theme": "dark",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#1E1E1E",
+          "bgSurface": "#2D2D2D",
+          "surface1": "#111318",
+          "surface2": "#181b22",
+          "textPrimary": "#FFFFFF",
+          "textSecondary": "#B0B0B0",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 16,
+            "y": 16,
+            "w": 240,
+            "h": 1247,
+            "right": 256,
+            "bottom": 1263
+          },
+          "sidebarStickyInner": {
+            "x": 16,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 255,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 256,
+            "y": 16,
+            "w": 1168,
+            "h": 1247,
+            "right": 1424,
+            "bottom": 1263
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 280,
+            "y": 16,
+            "w": 1120,
+            "h": 53,
+            "right": 1400,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 280,
+              "y": 611,
+              "w": 1120,
+              "h": 466,
+              "right": 1400,
+              "bottom": 1077
+            },
+            "display": "grid",
+            "columns": "362.656px 362.672px 362.656px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 280,
+            "y": 657,
+            "w": 363,
+            "h": 80,
+            "right": 643,
+            "bottom": 737
+          },
+          "firstCard": {
+            "x": 280,
+            "y": 657,
+            "w": 363,
+            "h": 80,
+            "right": 643,
+            "bottom": 737
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(255, 255, 255, 0.06)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(17, 19, 24)"
+          },
+          "cta": {
+            "x": 280,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 728,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 280,
+            "y": 836,
+            "w": 448,
+            "h": 56,
+            "right": 728,
+            "bottom": 892
+          },
+          "streak": {
+            "x": 280,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 360,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(176, 176, 176)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(30, 30, 30)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(45, 45, 45)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [],
+        "truncatedTotal": 0,
+        "overflows": []
+      }
+    },
+    {
+      "viewport": "1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "theme": "light",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1920-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 0,
+      "truncatedSample": [],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 1248,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "389.328px 389.328px 389.344px",
+      "cardWidth": 389,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=5.75",
+        "inactive nav=8.13",
+        "CTA text=5.75",
+        "streak text=16.58",
+        "level-strip=8.13",
+        "card title=16.58",
+        "card description=8.86",
+        "card counter=5.75"
+      ],
+      "tokens": {
+        "bgPrimary": "#F5F5F5",
+        "bgSurface": "#FFFFFF",
+        "surface1": "#FFFFFF",
+        "surface2": "#EAEAEA",
+        "textPrimary": "#1B1F23",
+        "textSecondary": "#4A4A4A",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1920,
+        "documentScrollWidth": 1920,
+        "theme": "light",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#F5F5F5",
+          "bgSurface": "#FFFFFF",
+          "surface1": "#FFFFFF",
+          "surface2": "#EAEAEA",
+          "textPrimary": "#1B1F23",
+          "textSecondary": "#4A4A4A",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 216,
+            "y": 16,
+            "w": 240,
+            "h": 1247,
+            "right": 456,
+            "bottom": 1263
+          },
+          "sidebarStickyInner": {
+            "x": 216,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 455,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 456,
+            "y": 16,
+            "w": 1248,
+            "h": 1247,
+            "right": 1704,
+            "bottom": 1263
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 480,
+            "y": 16,
+            "w": 1200,
+            "h": 53,
+            "right": 1680,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 480,
+              "y": 611,
+              "w": 1200,
+              "h": 466,
+              "right": 1680,
+              "bottom": 1077
+            },
+            "display": "grid",
+            "columns": "389.328px 389.328px 389.344px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 480,
+            "y": 657,
+            "w": 389,
+            "h": 80,
+            "right": 869,
+            "bottom": 737
+          },
+          "firstCard": {
+            "x": 480,
+            "y": 657,
+            "w": 389,
+            "h": 80,
+            "right": 869,
+            "bottom": 737
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(0, 0, 0, 0.15)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(255, 255, 255)"
+          },
+          "cta": {
+            "x": 480,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 928,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 480,
+            "y": 1016,
+            "w": 448,
+            "h": 56,
+            "right": 928,
+            "bottom": 1072
+          },
+          "streak": {
+            "x": 480,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 560,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(74, 74, 74)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(27, 31, 35)",
+            "bg": "rgb(245, 245, 245)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(245, 245, 245)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(27, 31, 35)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(74, 74, 74)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(21, 101, 192)",
+            "bg": "rgb(255, 255, 255)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [],
+        "truncatedTotal": 0,
+        "overflows": []
+      }
+    },
+    {
+      "viewport": "1920x1080",
+      "width": 1920,
+      "height": 1080,
+      "theme": "dark",
+      "screenshot": "C:/Users/Alexey Udotov/LinuxExam/.project/drafts/desktop-audit/dashboard-1920-dark-after.png",
+      "overflows": 0,
+      "overflowSample": [],
+      "truncatedTotal": 0,
+      "truncatedSample": [],
+      "sidebarVisible": true,
+      "sidebarWidth": 240,
+      "mainColumnWidth": 1248,
+      "mainColumnMaxWidth": "1248px",
+      "gridColumns": "389.328px 389.328px 389.344px",
+      "cardWidth": 389,
+      "ctaWidth": 448,
+      "footerCtaWidth": 448,
+      "contrastFailing": [],
+      "contrast": [
+        "active nav=6.11",
+        "inactive nav=7.69",
+        "CTA text=5.75",
+        "streak text=13.77",
+        "level-strip=7.69",
+        "card title=18.58",
+        "card description=8.57",
+        "card counter=6.11"
+      ],
+      "tokens": {
+        "bgPrimary": "#1E1E1E",
+        "bgSurface": "#2D2D2D",
+        "surface1": "#111318",
+        "surface2": "#181b22",
+        "textPrimary": "#FFFFFF",
+        "textSecondary": "#B0B0B0",
+        "accentStrong": "#1565C0"
+      },
+      "measured": {
+        "viewportWidth": 1920,
+        "documentScrollWidth": 1920,
+        "theme": "dark",
+        "themeSource": "inherit",
+        "tokens": {
+          "bgPrimary": "#1E1E1E",
+          "bgSurface": "#2D2D2D",
+          "surface1": "#111318",
+          "surface2": "#181b22",
+          "textPrimary": "#FFFFFF",
+          "textSecondary": "#B0B0B0",
+          "accentStrong": "#1565C0"
+        },
+        "geometry": {
+          "sidebar": {
+            "x": 216,
+            "y": 16,
+            "w": 240,
+            "h": 1247,
+            "right": 456,
+            "bottom": 1263
+          },
+          "sidebarStickyInner": {
+            "x": 216,
+            "y": 16,
+            "w": 239,
+            "h": 337,
+            "right": 455,
+            "bottom": 353
+          },
+          "mainColumn": {
+            "x": 456,
+            "y": 16,
+            "w": 1248,
+            "h": 1247,
+            "right": 1704,
+            "bottom": 1263
+          },
+          "mainColumnMaxWidth": "1248px",
+          "mainColumnPaddingLeft": "24px",
+          "statusStrip": {
+            "x": 480,
+            "y": 16,
+            "w": 1200,
+            "h": 53,
+            "right": 1680,
+            "bottom": 69
+          },
+          "topicsGrid": {
+            "box": {
+              "x": 480,
+              "y": 611,
+              "w": 1200,
+              "h": 466,
+              "right": 1680,
+              "bottom": 1077
+            },
+            "display": "grid",
+            "columns": "389.328px 389.328px 389.344px",
+            "gap": "16px"
+          },
+          "firstCardWrapper": {
+            "x": 480,
+            "y": 657,
+            "w": 389,
+            "h": 80,
+            "right": 869,
+            "bottom": 737
+          },
+          "firstCard": {
+            "x": 480,
+            "y": 657,
+            "w": 389,
+            "h": 80,
+            "right": 869,
+            "bottom": 737
+          },
+          "cardBorderBox": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "border": "rgba(255, 255, 255, 0.06)",
+            "radius": "12px"
+          },
+          "cardWrapperStyles": {
+            "bg": "rgb(17, 19, 24)"
+          },
+          "cta": {
+            "x": 480,
+            "y": 345,
+            "w": 448,
+            "h": 45,
+            "right": 928,
+            "bottom": 390
+          },
+          "footerCta": {
+            "x": 480,
+            "y": 1016,
+            "w": 448,
+            "h": 56,
+            "right": 928,
+            "bottom": 1072
+          },
+          "streak": {
+            "x": 480,
+            "y": 191,
+            "w": 80,
+            "h": 81,
+            "right": 560,
+            "bottom": 272
+          },
+          "topicRows": 14
+        },
+        "styles": {
+          "sidebarActive": {
+            "color": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "opacity": "1"
+          },
+          "inactiveNav": {
+            "color": "rgb(176, 176, 176)"
+          },
+          "cta": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)"
+          },
+          "body": {
+            "color": "rgb(255, 255, 255)",
+            "bg": "rgb(30, 30, 30)"
+          }
+        },
+        "contrastPairs": [
+          {
+            "name": "active nav",
+            "text": "Dashboard",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "700"
+          },
+          {
+            "name": "inactive nav",
+            "text": "Аналитика",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "CTA text",
+            "text": "Продолжить обучение30 вопросов",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(21, 101, 192)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "streak text",
+            "text": "0дней подряд",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(45, 45, 45)",
+            "fontPx": 16,
+            "fontWeight": "400"
+          },
+          {
+            "name": "level-strip",
+            "text": "Новичок",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(30, 30, 30)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card title",
+            "text": "Права доступа",
+            "fg": "rgb(255, 255, 255)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 14,
+            "fontWeight": "600"
+          },
+          {
+            "name": "card description",
+            "text": "chmod, chown, ACL, umask, special bits",
+            "fg": "rgb(176, 176, 176)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "400"
+          },
+          {
+            "name": "card counter",
+            "text": "19 вопр.",
+            "fg": "rgb(89, 151, 222)",
+            "bg": "rgb(17, 19, 24)",
+            "fontPx": 12,
+            "fontWeight": "600"
+          }
+        ],
+        "truncated": [],
+        "truncatedTotal": 0,
+        "overflows": []
+      }
+    }
+  ]
+}

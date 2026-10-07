@@ -93,8 +93,14 @@ const NAV_BUTTON: CSSProperties = {
 /** Общие классы пункта навигации: неактивный стиль (цвет из A3) + состояния. */
 const ITEM_BASE =
   'text-[color:var(--text-secondary)] disabled:opacity-45 disabled:cursor-not-allowed enabled:cursor-pointer';
+/**
+ * Активный пункт. Роль `--text-accent`, а не примитив `--color-accent-strong`:
+ * примитив как текст на `--surface-1` в тёмной теме давал 3.23:1 (аудит
+ * `desktop-audit/report.json`), роль в светлой теме равна ему (5.75:1), в тёмной —
+ * светлому оттенку того же акцента (6.11:1). Заливки не затронуты.
+ */
 const ITEM_ACTIVE =
-  'text-[color:var(--color-accent-strong)] bg-[color:var(--surface-1)] disabled:opacity-45 disabled:cursor-not-allowed enabled:cursor-pointer';
+  'text-[color:var(--text-accent)] bg-[color:var(--surface-1)] disabled:opacity-45 disabled:cursor-not-allowed enabled:cursor-pointer';
 
 export interface SidebarProps {
   /** Активный пункт. Сайдбар рендерит Dashboard, поэтому по умолчанию — он. */
@@ -118,14 +124,18 @@ export function Sidebar({ active = 'dashboard', onNavigate, disabled = [] }: Sid
   return (
     <aside
       data-testid="sidebar"
+      aria-label="Боковая панель"
       className="hidden lg:flex lg:flex-col w-60 shrink-0 border-r border-[color:var(--border-subtle)]"
     >
-      {/* Навигация залипает у верхней кромки скролл-контейнера (`#root`), а сам
-          `aside` тянется на всю высоту колонки: `border-r` поэтому идёт во всю
-          высоту, а пункты не уезжают из вьюпорта на длинной странице. */}
+      {/* Навигация залипает в скролл-контейнере (`#root`), а сам `aside` тянется
+          на всю высоту колонки: `border-r` поэтому идёт во всю высоту, а пункты не
+          уезжают из вьюпорта на длинной странице. Offset залипания равен верхнему
+          паддингу `ScreenContainer` (`--space-4` + safe-area), иначе при скролле
+          рейл уезжал на 16px выше колонки контента и упирался в самую кромку. */}
       <div
-        className="lg:sticky lg:top-0"
+        className="lg:sticky"
         style={{
+          top: 'calc(var(--space-4) + var(--safe-top))',
           display: 'flex',
           flexDirection: 'column',
           gap: 'var(--space-5)',
@@ -168,7 +178,21 @@ export function Sidebar({ active = 'dashboard', onNavigate, disabled = [] }: Sid
                     title={hasDestination ? undefined : 'Экран настроек появится позже'}
                     onClick={clickable ? () => onNavigate(id) : undefined}
                     className={isActive ? ITEM_ACTIVE : ITEM_BASE}
-                    style={NAV_BUTTON}
+                    /* Активное состояние не должно читаться ТОЛЬКО цветом
+                       (WCAG 1.4.1): фон-плашка даёт всего 1.11:1 к фону рейла, а
+                       сам цвет текста — 6.11:1. Поэтому у активного пункта ещё и
+                       некрасочный признак — полоса 2px слева ролью акцента — плюс
+                       вес 700 (иерархия весом, а не цветом, DESIGN.md).
+                       Инлайн-стиль: `NAV_BUTTON.fontWeight = 600` перебил бы класс. */
+                    style={
+                      isActive
+                        ? {
+                            ...NAV_BUTTON,
+                            fontWeight: 700,
+                            boxShadow: 'inset 2px 0 0 var(--text-accent)',
+                          }
+                        : NAV_BUTTON
+                    }
                   >
                     <Icon size={18} aria-hidden="true" />
                     <span>{label}</span>

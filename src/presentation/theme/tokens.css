@@ -30,11 +30,16 @@
 
   /* Уровни яркости (задание «десктопный layout», C1): пара поверхностей для
      десктопного слоя — активный пункт сайдбара, карточки тем, elevated-слой
-     (dropdown/модалки). Значения пары — из задания; она НЕ единственная:
-     светлая пара задаётся в блоке темы ниже, иначе светлая тема получила бы
-     тёмную поверхность. Ровно так же решены --bg-* (см. блоки [data-theme]). */
+     (dropdown/модалки). Здесь — только фолбэк на случай, когда
+     `data-theme-source` не выставлен; рабочие значения приходят из
+     `--theme-surface-*` (блоки тем) через блоки `[data-theme-source]` ниже —
+     ровно как решены `--bg-*`. */
   --surface-1: #111318;
   --surface-2: #181b22;
+
+  /* Текстовая роль акцента: в светлой теме — сам примитив, в тёмной
+     переопределяется на его светлый оттенок (см. блок `[data-theme="dark"]`). */
+  --text-accent: var(--color-accent-strong);
 
   /* Spacing */
   /* --space-0-5 — дискретный шаг 2px: нужен для мелких подписей (например
@@ -185,9 +190,11 @@
 
   /* Surface levels (C): светлая пара — существующие роли поверхностей, а не
      новая палитра: карточка на белом, приподнятая плашка на #F5F5F5. Десктопный
-     слой поэтому не темнит светлую тему, а hover-шаг 1→2 остаётся видимым. */
-  --surface-1: #FFFFFF;
-  --surface-2: #EAEAEA;
+     слой поэтому не темнит светлую тему, а hover-шаг 1→2 остаётся видимым.
+     Итоговая роль `--surface-*` резолвится в блоках `[data-theme-source]` ниже,
+     поэтому здесь — только `--theme-*` значения. */
+  --theme-surface-1: #FFFFFF;
+  --theme-surface-2: #EAEAEA;
 
   /* Text — not pure black, softer on eyes; passes WCAG AA */
   --theme-text-primary: #1B1F23;
@@ -213,9 +220,22 @@
 
   /* Surface levels (C): пара из задания. Оба уровня темнее --bg-primary
      (#1E1E1E) намеренно: поверхность «утоплена» относительно фона, а hover-шаг
-     1→2 (#111318 → #181b22) читается как подсветка. */
-  --surface-1: #111318;
-  --surface-2: #181b22;
+     1→2 (#111318 → #181b22) читается как подсветка. Роль `--surface-*` резолвится
+     в блоках `[data-theme-source]` ниже. */
+  --theme-surface-1: #111318;
+  --theme-surface-2: #181b22;
+
+  /* Текстовая роль акцента (аудит 2026-10-07): примитив `--color-accent-strong`
+     как ТЕКСТ на тёмной поверхности давал 3.23:1 (active nav и счётчик «N вопр.»
+     на `--surface-1` #111318) при пороге AA 4.5:1. #5997DE — светлый оттенок ТОЙ
+     ЖЕ синей роли (hue 212°, как у #1565C0): 6.11:1 на `--surface-1`, 5.67 на
+     `--surface-2`, 5.48 на `--bg-primary`, 5.04 на `--bg-elevated`, 4.53 на
+     `--bg-surface` — то есть роль проходит на ВСЕХ тёмных поверхностях и годится
+     для долгов тёмной темы (Badge 2.67:1 на `--bg-elevated`, Results 2.40:1 на
+     `--bg-surface`), где вариант #4791EA дал бы 4.27:1 < 4.5. Заливки
+     по-прежнему берут `--accent`/`--color-accent-strong` (белый текст на #1565C0
+     = 5.75:1), поэтому это роль одного акцента, а не второй accent. */
+  --text-accent: #5997DE;
 
   --theme-text-primary: #FFFFFF;
   --theme-text-secondary: #B0B0B0;
@@ -242,6 +262,13 @@
   --bg-primary: var(--tg-theme-bg-color, var(--theme-bg-primary));
   --bg-surface: var(--tg-theme-secondary-bg-color, var(--theme-bg-surface));
   --bg-elevated: var(--tg-theme-secondary-bg-color, var(--theme-bg-elevated));
+  /* Уровни яркости следуют клиентской палитре, как и остальные поверхности:
+     карточка — на secondary-bg (уровень «карточки»), hover-шаг — на bg-color,
+     иначе в Telegram оба уровня схлопнулись бы в один (--bg-surface и
+     --bg-elevated там уже один и тот же tg-var) и подсветка исчезла бы. Вне
+     Telegram (переменных --tg-theme-* нет) пара совпадает с темой экрана. */
+  --surface-1: var(--tg-theme-secondary-bg-color, var(--theme-surface-1));
+  --surface-2: var(--tg-theme-bg-color, var(--theme-surface-2));
   --text-primary: var(--tg-theme-text-color, var(--theme-text-primary));
   --text-secondary: var(--tg-theme-hint-color, var(--theme-text-secondary));
   --border-subtle: var(--theme-border-subtle);
@@ -257,6 +284,8 @@
   --bg-primary: var(--theme-bg-primary);
   --bg-surface: var(--theme-bg-surface);
   --bg-elevated: var(--theme-bg-elevated);
+  --surface-1: var(--theme-surface-1);
+  --surface-2: var(--theme-surface-2);
   --text-primary: var(--theme-text-primary);
   --text-secondary: var(--theme-text-secondary);
   --border-subtle: var(--theme-border-subtle);

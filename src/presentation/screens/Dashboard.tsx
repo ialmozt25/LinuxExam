@@ -232,18 +232,24 @@ function RhcsaProgramme({
      gap-4` из задания сменили бы отступ строк на мобильном (там 1 колонка и
      `--space-2`, а `gap-4` дал бы 16+8), а мобильный layout менять нельзя
      (задание: «Мобильный и планшетный layout НЕ меняются»). Ниже 1024px узел
-     остаётся прежним блочным контейнером. */
+     остаётся прежним блочным контейнером.
+     Число колонок — по аудиту (`desktop-audit/report.json`): три колонки при 1024
+     давали карточку 224px и текстовую колонку 108px, где обрезались 9 названий
+     тем из 14 и ВСЕ 14 описаний (23 узла); при 1440/1920 обрезок нет. Поэтому от
+     `lg` — две колонки (при 1024 карточка 344px, текстовая колонка ≈216px, как у
+     363px-карточки на 1440), а третья возвращается от `xl` (1280). */
   return (
     <div
       id="dashboard-topics"
       data-testid="dashboard-topics"
       ref={topicsRef}
-      className="lg:grid lg:grid-cols-3 lg:gap-4 lg:items-start"
+      className="lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-4 lg:items-start"
       style={{ marginTop: 'var(--space-6)' }}
     >
-      {/* Шапка списка — не карточка: в сетке тем занимает всю строку. */}
+      {/* Шапка списка — не карточка: в сетке тем занимает всю строку при любом
+          числе колонок (2 на lg, 3 на xl). */}
       <div
-        className="lg:col-span-3"
+        className="lg:col-span-full"
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -399,8 +405,11 @@ function RhcsaProgramme({
                     fontSize: 'var(--text-xs)',
                     fontWeight: 600,
                     // spec 079: 12px на белом — 3.12:1 при пороге 4.5:1 →
-                    // тёмный оттенок акцента (5.75:1).
-                    color: 'var(--color-accent-strong)',
+                    // тёмный оттенок акцента (5.75:1). Аудит 2026-10-07: на
+                    // тёмной поверхности тот же примитив давал 3.23:1, поэтому
+                    // здесь текстовая РОЛЬ акцента (light — сам примитив,
+                    // dark — его светлый оттенок, 6.11:1 на `--surface-1`).
+                    color: 'var(--text-accent)',
                     flexShrink: 0,
                   }}
                 >
@@ -419,7 +428,18 @@ function RhcsaProgramme({
           return (
             <div
               key={topic.key}
-              className="bg-[color:var(--surface-1)] lg:hover:bg-[color:var(--surface-2)] transition-colors mb-[var(--space-2)] lg:mb-0"
+              /* Hover: к заливке (`--surface-1` → `--surface-2`, тон-шаг всего
+                 1.08:1 в тёмной теме) добавлен некрасочный признак — 1px-контур
+                 роли акцента (6.11:1 на поверхности). Состояние hover не может
+                 жить только в тоне: WCAG 1.4.11 требует 3:1, а тон на тёмной
+                 поверхности до 3:1 не дотягивается. */
+              className="bg-[color:var(--surface-1)] lg:hover:bg-[color:var(--surface-2)] lg:hover:ring-1 lg:hover:ring-[color:var(--text-accent)] transition-colors mb-[var(--space-2)] lg:mb-0"
+              /* Название и описание темы обрезаются ellipsis (в полосе
+                 1280–1339px описание ещё режется), а мышь обрезанный текст не
+                 вернёт: `title` даёт подсказку. На обёртке, а не на `Card`:
+                 `Card` не принимает произвольные атрибуты, а `src/ui/**` в этой
+                 задаче править нельзя. */
+              title={topic.title}
               style={rowSurfaceStyle}
             >
               <Card
@@ -644,13 +664,23 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
   return (
     <ScreenContainer>
       {/* Десктопный слой (A/B): сайдбар слева, колонка контента — не шире
-          1248px и по центру. Классы — только от `lg`: ниже 1024px обёртка
-          становится обычным блоком (`lg:flex` не действует), поэтому мобильная
-          и планшетная вёрстка — это ТЕ ЖЕ узлы с прежней геометрией (A5).
-          Безусловные `max-w-[1248px] mx-auto px-6 w-full` из B1 добавили бы 24px
-          к паддингу `ScreenContainer` (там уже `--space-4` + safe-area) и сдвинули
-          бы мобильный layout, который задание запрещает менять. */}
-      <div className="lg:flex" style={{ width: '100%', minWidth: 0 }}>
+          1248px. Классы — только от `lg`: ниже 1024px обёртка становится обычным
+          блоком (`lg:flex` не действует), поэтому мобильная и планшетная вёрстка —
+          это ТЕ ЖЕ узлы с прежней геометрией (A5). Безусловные
+          `max-w-[1248px] mx-auto px-6 w-full` из B1 добавили бы 24px к паддингу
+          `ScreenContainer` (там уже `--space-4` + safe-area) и сдвинули бы
+          мобильный layout, который задание запрещает менять.
+          Центрируется ПАРА (рейл + колонка), а не одна колонка: `lg:max-w-[1488px]`
+          = 240 + 1248, поэтому при 1920 отступы 216/216 (аудит 9be3442 показывал
+          16 слева против 216 справа — 200px мёртвой полосы между рейлом и
+          контентом). При 1440 доступно 1408 < 1488 — cap не действует, базлайн не
+          плывёт. `lg:flex-1` тянет слой на всю высоту `ScreenContainer`: иначе в
+          Fresh User Mode (короткий контент) `border-r` рейла обрывался на середине
+          экрана. */}
+      <div
+        className="lg:flex lg:flex-1 lg:max-w-[1488px] lg:mx-auto"
+        style={{ width: '100%', minWidth: 0 }}
+      >
         {/* Гейты навигации повторяют гейты экрана: в Fresh User Mode список тем
             скрыт, а Exam/Аналитика намеренно не предлагаются первым шагом, и
             пункт не должен вести туда, куда поток не ведёт. «Настройки»
@@ -660,8 +690,11 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
           onNavigate={handleSidebarNav}
           disabled={isFreshUser ? ['topics', 'exam', 'analytics'] : []}
         />
-        <div
-          className="lg:max-w-[1248px] lg:mx-auto lg:px-6"
+        {/* Колонка контента — ориентир `main`: в проекте не было ни одного
+            `main`/`role="main"`, поэтому навигация по лендмаркам была
+            асимметричной (`aside` без пары). Рейл остаётся СНАРУЖИ. */}
+        <main
+          className="lg:max-w-[1248px] lg:px-6"
           style={{ display: 'flex', flexDirection: 'column', width: '100%', minWidth: 0 }}
         >
           {/* Status strip */}
@@ -926,21 +959,27 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                   </p>
                 </div>
               )}
-              <Button
-                variant="primary"
-                testId="start-learning"
-                onClick={isFreshUser ? () => startReviewQuiz(sessionIds, 'today') : scrollToTopics}
-                style={isFreshUser ? HERO_CTA : PRIMARY_CTA}
-              >
-                {isFreshUser ? (
-                  <span>Начать первый вопрос →</span>
-                ) : (
-                  <>
-                    <span>Начать обучение</span>
-                    <span style={CTA_COUNTER}>{`${TOPICS.length} тем`}</span>
-                  </>
-                )}
-              </Button>
+              {/* B3: та же мера ширины, что у CTA потока ниже — правило «primary
+                  не растягивается на всю колонку» (B3) относится и к Hero-кнопке
+                  Fresh User Mode: на 1440/1920 она занимала 704/1200px. Обёртка
+                  блочная ниже `lg`, поэтому мобильный Hero не меняется. */}
+              <div className="lg:max-w-md">
+                <Button
+                  variant="primary"
+                  testId="start-learning"
+                  onClick={isFreshUser ? () => startReviewQuiz(sessionIds, 'today') : scrollToTopics}
+                  style={isFreshUser ? HERO_CTA : PRIMARY_CTA}
+                >
+                  {isFreshUser ? (
+                    <span>Начать первый вопрос →</span>
+                  ) : (
+                    <>
+                      <span>Начать обучение</span>
+                      <span style={CTA_COUNTER}>{`${TOPICS.length} тем`}</span>
+                    </>
+                  )}
+                </Button>
+              </div>
               {/* «Внутри вас ждет» — тоже только Fresh User Mode: возвращающемуся
                   профилю эти механики уже знакомы, их несут Exam mode, аналитика и
                   StreakBadge ниже, а список из четырёх пунктов продавал бы купившему. */}
@@ -1207,26 +1246,36 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                 borderTop: '1px solid var(--border-subtle)',
               }}
             >
-              <Button
-                variant="primary"
-                testId="dashboard-continue"
-                onClick={() => {
-                  if (reviewQuestionIds) {
-                    startRegularQuiz();
-                  }
-                  navigateTo('question');
-                }}
-                style={{
-                  // spec 079: тёмный `--text-primary` на акцентной заливке — 2.88:1.
-                  // Роль «текст на акцентной кнопке» = белый (tokens.css, в Button).
-                  padding: SPACING.md,
-                  borderRadius: LAYOUT.buttonRadius,
-                  marginTop: 0,
-                  fontSize: 'var(--body)',
-                }}
-              >
-                Продолжить
-              </Button>
+              {/* Полоса футера остаётся во всю колонку (фон + borderTop), а сама
+                  кнопка ограничена той же мерой 448px, что и действия потока:
+                  до этого футер отдавал кнопке 704/1120/1200px, то есть главное
+                  действие экрана было в 1.6–2.7 раза шире второстепенных, против
+                  собственного правила B3 («иначе главная CTA оказалась бы у́же
+                  второстепенных кнопок во всю колонку»). Ширина — единственное,
+                  что можно менять: вариант и текст «Продолжить» запинены spec 076
+                  F3 и `e2e/mobile-layout.spec.ts`. */}
+              <div className="lg:max-w-md">
+                <Button
+                  variant="primary"
+                  testId="dashboard-continue"
+                  onClick={() => {
+                    if (reviewQuestionIds) {
+                      startRegularQuiz();
+                    }
+                    navigateTo('question');
+                  }}
+                  style={{
+                    // spec 079: тёмный `--text-primary` на акцентной заливке — 2.88:1.
+                    // Роль «текст на акцентной кнопке» = белый (tokens.css, в Button).
+                    padding: SPACING.md,
+                    borderRadius: LAYOUT.buttonRadius,
+                    marginTop: 0,
+                    fontSize: 'var(--body)',
+                  }}
+                >
+                  Продолжить
+                </Button>
+              </div>
             </div>
           )}
 
@@ -1265,7 +1314,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
           {/* Показывается ровно один раз: после онбординга и до подтверждения цели. */}
           <DailyGoalPicker />
-        </div>
+        </main>
       </div>
     </ScreenContainer>
   );
