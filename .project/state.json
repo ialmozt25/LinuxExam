@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "094110dcd77145f99dd92bbe3d97487266b4cbdc",
+  "head": "8ae12d537a08c38cfdcd15d06cac911bf0a20b4c",
   "specs": [
     {
       "id": "022",
@@ -1483,7 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-07 | xp-levels | Dashboard status-strip: «Уровень N» → ИМЯ уровня; подпись «{current} / {needed} XP до {nameGenitive}» — родительный падеж отдельным полем LevelStep.nameGenitive, потому что «до Ученик» по-русски неверно, а собрать падеж из имени нельзя (телефонная приёмка задания задаёт именно «0/50 XP до Ученика»); aria-label «Уровень {name}, XP внутри {percent}%»; у Гранд-мастера текста «до следующего» нет и полоса стоит на 100 % | commit pending",
     "2026-10-07 | xp-levels | празднование перехода: LevelUpNotice {toName} в сторе, session-only (вне partialize — после reload профиль уже стоит на своём уровне, поэтому «toast не повторяется» обеспечено отсутствием поля в снимке, а не флагом «показан»); начисление сведено в ЕДИНУЮ точку xpGainWithLevelUp вместо трёх разрозненных applyXpGain (recordActivity / recordQuestionStat / finishExamSession) — сравниваются НОМЕРА уровней, поэтому перескок через ступень даёт ровно одно уведомление; в Dashboard.tsx — Card variant=\"plain\" (testId level-up-toast, role=\"status\") с гашением через 5 с; persist.version не менялся | commit pending",
     "2026-10-07 | xp-levels | тесты: src/domain/__tests__/xp.test.ts переписан под S-кривую (границы 49/50/149/150/1999/2000, имена, падеж, Гранд-мастер без next) — 34 теста; новый src/presentation/screens/__tests__/Dashboard.levelup.test.tsx (6 тестов: имя + подпись + aria-label на 0/50/1999/2000 XP, показ и гашение toast); baseline dashboard-mobile/desktop перегенерированы (2 PNG) | commit pending",
     "2026-10-07 | xp-levels | производные правки вне allowed-списка (вынуждены гейтами, не расширение скоупа — прецедент ux-copy-3, log.md:398): e2e/persist.spec.ts — getByText('Уровень 1') → getByText('Новичок') в двух местах; e2e/ux-regression.spec.ts — statusStripText toContain('Уровень') → toContain('Новичок'). Причина: recon показал, что разрешённые заданием e2e-файлы (retention.spec.ts, mobile-layout.spec.ts) текст уровня НЕ пинят, а пинят его именно эти два | commit pending",
@@ -1492,10 +1491,23 @@
     "2026-10-07 | xp-levels | status UNVERIFIED на телефоне (FASB-001) | commit pending",
     "2026-10-07 | guard | якорь .project/.captain-session-id перезаписан (SETUP §4, ОВЕРРАЙД — задание капитана \"xp-levels\", предусловие «ОВЕРРАЙД SETUP §4 якоря — если match=false»): match=false, has_env=true; было session-ffad17cc-20d0-49a0-b1c9-9cf2ea31ad0e → стало session-215ac6df-675f-497a-9eba-2e4aa08c46d3; guard spec 049 пускает эту сессию | commit pending",
     "2026-10-07 | xp-levels | гейт 4 принят капитаном как PASS по существу: git status --short e2e/ даёт 4 строки (2 PNG + 2 правленых спека — производные от изменения текста уровня), а не «2 PNG»; перегенерация затронула ровно 2 файла, оба dashboard-*. Отклонение внесено allowed-списком задания (там перечислены retention.spec.ts и mobile-layout.spec.ts, которые текст уровня не пинят), а не расширением скоупа исполнителем | commit pending",
-    "2026-10-07 | push | authorize push origin main - xp-levels (именованные уровни RHCSA вместо номерной шкалы: LEVELS Новичок 0 / Ученик 50 / Практик 150 / Специалист 350 / Эксперт 700 / Мастер 1200 / Гранд-мастер 2000, шаги 50/100/200/350/500/800; levelFromXp(t) → {number 1..7, name}, xpInLevel(t) → {current, needed|null, percent}, nextLevel(t) → LevelStep|null, легаси LEVEL_THRESHOLDS/LEVEL_STEP/xpThresholdForLevel удалены; Dashboard status-strip — имя уровня вместо «Уровень N», подпись «{current} / {needed} XP до {nameGenitive}» (родительный падеж — отдельное поле ступени), aria-label «Уровень {name}, XP внутри {percent}%», у Гранд-мастера «до следующего» нет и полоса 100 %; празднование перехода — pendingLevelUp {toName} session-only вне partialize + единая точка начисления xpGainWithLevelUp вместо трёх разрозненных applyXpGain, карточка level-up-toast с role=status и гашением через 5 с; persist.version не менялся; тесты — xp.test.ts переписан под S-кривую, новый Dashboard.levelup.test.tsx, производные правки e2e/persist.spec.ts + e2e/ux-regression.spec.ts, baseline dashboard-mobile/desktop ×2); авторизовано командой капитана в чате (ответ на STOP-точку: «Да, авторизую push origin main»; гейт 4 — «Принять как PASS по существу»); публикует ff77fcc..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: свежий профиль → «Новичок» и «0 / 50 XP до Ученика», 17 верных ответов (≈50 XP) → toast «Ты теперь Ученик!», после reload имя уровня сохранилось и toast НЕ повторяется; при регрессе git revert | commit pending"
+    "2026-10-07 | push | authorize push origin main - xp-levels (именованные уровни RHCSA вместо номерной шкалы: LEVELS Новичок 0 / Ученик 50 / Практик 150 / Специалист 350 / Эксперт 700 / Мастер 1200 / Гранд-мастер 2000, шаги 50/100/200/350/500/800; levelFromXp(t) → {number 1..7, name}, xpInLevel(t) → {current, needed|null, percent}, nextLevel(t) → LevelStep|null, легаси LEVEL_THRESHOLDS/LEVEL_STEP/xpThresholdForLevel удалены; Dashboard status-strip — имя уровня вместо «Уровень N», подпись «{current} / {needed} XP до {nameGenitive}» (родительный падеж — отдельное поле ступени), aria-label «Уровень {name}, XP внутри {percent}%», у Гранд-мастера «до следующего» нет и полоса 100 %; празднование перехода — pendingLevelUp {toName} session-only вне partialize + единая точка начисления xpGainWithLevelUp вместо трёх разрозненных applyXpGain, карточка level-up-toast с role=status и гашением через 5 с; persist.version не менялся; тесты — xp.test.ts переписан под S-кривую, новый Dashboard.levelup.test.tsx, производные правки e2e/persist.spec.ts + e2e/ux-regression.spec.ts, baseline dashboard-mobile/desktop ×2); авторизовано командой капитана в чате (ответ на STOP-точку: «Да, авторизую push origin main»; гейт 4 — «Принять как PASS по существу»); публикует ff77fcc..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: свежий профиль → «Новичок» и «0 / 50 XP до Ученика», 17 верных ответов (≈50 XP) → toast «Ты теперь Ученик!», после reload имя уровня сохранилось и toast НЕ повторяется; при регрессе git revert | commit pending",
+    "2026-10-07 | guard | якорь перезаписан на session-6608ed0a… | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "8ae12d5",
+      "date": "2026-10-07",
+      "subject": "feat(onboarding): 4 экрана → 1 — демо-квиз с inline-фидбеком и Fresh User Mode на Dashboard",
+      "type": "feat"
+    },
+    {
+      "sha": "b86ddb2",
+      "date": "2026-10-07",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
     {
       "sha": "094110d",
       "date": "2026-10-07",
@@ -1602,18 +1614,6 @@
       "sha": "d6334e1",
       "date": "2026-10-06",
       "subject": "chore(state): converge after ux-copy-3",
-      "type": "chore"
-    },
-    {
-      "sha": "467bad0",
-      "date": "2026-10-06",
-      "subject": "fix(ux): CTA 15 min, Tux in header, remove next-review hint",
-      "type": "fix"
-    },
-    {
-      "sha": "e75637b",
-      "date": "2026-10-06",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
