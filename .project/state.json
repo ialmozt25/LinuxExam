@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "39deb7aba4bfaca29cd282d0a7b4e373ef57ea19",
+  "head": "84f6460c5fe05ded8055f3e3e60a70257a637b77",
   "specs": [
     {
       "id": "022",
@@ -1483,8 +1483,6 @@
     }
   ],
   "log_tail": [
-    "2026-10-08 | dashboard-header-redesign | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) fresh → карточка (пустой круг, «Начни серию сегодня»), полоса «0 из 253», одна CTA; 2) 5 ответов → streak 1, круг заполнен, «5 из 253»; 3) тёмная тема → дуга видна (3.42:1); 4) мобильный без обрезок, тап-цели ≥ 44px. Регресс → `git revert` | commit 2ce95ae",
-    "2026-10-08 | push | authorize push origin main - dashboard-header-redesign (редизайн верхней части Dashboard: узкая полоска уровня снята, единый header `Tux 32` + `LinuxExam` + существующий переключатель темы; карточка прогресса с круговым уровнем 64×64, серией из стора и XP до ступени заменила status-strip и retention-зону StreakBadge+XpBar; одна полоса банка «Всего изучено N из M» видна и свежему профилю; CTA не менялась; локальный токен `--surface-progress` поднимает тёмную карточку с 1.11:1 до 1.60:1, дуга кольца переведена на `--text-accent` (в тёмной 3.42:1 вместо 1.81:1), существующие `--surface-1/2` не тронуты; `no-dead-tokens` +2 из-за нового слоя `--theme-surface-progress`; вынужденные правки в двух unit-тестах и одном e2e вне исходного allowed согласованы капитаном на STOP-точке гейта 2; гейты 1–6 зелёные, сверх списка 49 passed при одном предсуществующем падении `quiz-flow` «full quiz journey» — доказано stash'ем до-изменённого кода); авторизация — «Per-command авторизация выдана» в продолжении задания от 2026-10-08 и предусловие «git push origin main разрешён один раз»; публикует 31fd5d3..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
     "2026-10-08 | dashboard-desktop-noise | ПРИМЕНЁННЫЕ ПРАВКИ (все — в разрешённых файлах: `Dashboard.tsx` + один baseline): (A) Tux в контенте Dashboard скрыт от `lg` во всех трёх местах (`lg:hidden`: header, центр кольца, строка серии), на месте маскота в строке серии — SVG-иконка `Flame` 18px (`--text-secondary`), поэтому серия остаётся «иконка + текст», как требует A; aria-label кольца «Уровень <имя>, XP внутри N%» не тронут; (B) карточки RHCSA единой высоты: сетка `lg:items-stretch`, обёртка-поверхность `lg:flex lg:flex-col lg:h-full`, `Card` получил `height: 100%` в `rowStyle` (у `src/ui/Card` нет пропа `className`), описание уже усечено (`truncate`-эквивалент в его стилях — B3 выполнено без правки), подсказка «начните с этой» от `lg` вынута из потока (`lg:absolute lg:top-2 lg:right-2` в колонке названия с `lg:relative`); (C) полоса банка при нулевом прогрессе скрыта на десктопе (`lg:hidden` через тернарный `className`, без интерполяции строки) и блок получает `minHeight: 48`; (D) «Повторить ошибки» смягчено: контур `--border-subtle` и подложка `--bg-surface` вместо `--danger`, красный остался только на счётчике (`--color-danger-strong`); (E) `lg:max-w-[1248px]` снят с внутренней колонки. Ниже `lg` ВСЕ правки не действуют: мобильный рендер не меняется (см. замеры ниже) — иначе поехал бы baseline `dashboard-mobile`, а гейт 4 требует ровно один обновлённый PNG | commit c2fb311",
     "2026-10-08 | dashboard-desktop-noise | ЗАМЕРЫ внешним пробником (node + playwright, файл вне репозитория, 1920×1080 / 1440×900 / 390×844, профиль с историей): Tux — до: видимых 4 (рейл + header + кольцо + серия), после: видимых 1 (только рейл) при `tuxTotal` 4 в DOM (узлы скрыты CSS, а не удалены — поэтому `ux-regression` со счётом по DOM остаётся зелёным); карточки RHCSA — `cardHeights` до [80, 69×13], после [69×14] (единственная причина разницы — высота подсказки 32px против строки названия); подсказка vs счётчик «N вопр.» — пересечение ox=0 до и после (абсолютная позиция выбрана внутри колонки названия, а не в правом верхнем углу карточки: угол накрыл бы счётчик — 780..885 против 810..856); полоса банка при 0 % — блок 67 → 55px, трек 1166×4 → 0×0; мобильный 390×844 — ВСЕ числа идентичны прежним (main 358, header 44, кольцо 64, блок банка 67 с треком 324×4, карточки [80, 69×13], подсказка 166/105×32, колонка названия 61/242×54) | commit c2fb311",
     "2026-10-08 | dashboard-desktop-noise | E — no-op, вынесено в отчёт капитану: снятый `lg:max-w-[1248px]` был равен «внешний cap 1488 − рейл 240», поэтому ширина `main` до и после одна и та же — 1248px при 1920 и 1168px при 1440 (замер пробником). Контент УЖЕ занимает весь остаток внешнего контейнера; чтобы он стал шире, нужно поднять сам `lg:max-w-[1488px]` (например, до 1728 = 240 + 1488, тогда контент 1488 и отступы 96/96 вместо 216/216) — это меняет решение задачи desktop-audit «центрируется пара 240+1248», поэтому без решения капитана не делалось. Пункт телефонной проверки «контент шире» по букве E не выполняется | commit c2fb311",
@@ -1492,10 +1490,24 @@
     "2026-10-08 | dashboard-desktop-noise | СВЕРХ списка гейтов: `npm run fitness` 5/6 (`no-dead-tokens` 25 — без изменений, новых токенов не вводилось; блокирующие `no-hex-in-tsx`/`styling-rules`/`boundaries-guard` чистые) и 59 passed в `dashboard`/`onboarding`/`ux-regression`/`persist`/`regression-079`/`fsrs`/`results`/`question-flow`/`browser-mode`; метрика `ux-regression`: `tuxInHeader` 1, `tuxInCard` 2 (счёт по DOM, а не по видимости — поэтому скрытые CSS узлы её не ломают), `streakPhraseNodes` 1. Известный предсуществующий долг `quiz-flow` «full quiz journey» (доказан stash'ем в прошлой задаче) в этом прогоне не перепроверялся — файл вне allowed | commit c2fb311",
     "2026-10-08 | dashboard-desktop-noise | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп >1440px — Tux только в рейле (в header/кольце/серии нет), кольцо без маскота, серия «иконка + 1 день подряд», карточки RHCSA одной высоты; 2) «ВСЕГО ИЗУЧЕНО» при 0 % — компактная полоса без бара; 3) «Повторить ошибки» (если есть ошибки) — нейтральный контур, красный только на счётчике; 4) МОБИЛЬНЫЙ — без изменений (все правки со скоупом `lg`); 5) пункт «контент шире» по букве E не изменился — нужно отдельное решение по внешнему cap. Регресс → `git revert` | commit c2fb311",
     "2026-10-08 | push | authorize push origin main - dashboard-desktop-noise (десктопный Dashboard: маскот Tux убран из контента — header, центр кольца и строка серии скрыты от `lg`, в серии осталась иконка `Flame` + текст; карточки RHCSA выровнены по высоте (`lg:items-stretch` + `lg:h-full` на поверхности + подсказка «начните с этой» вынута из потока на десктопе — замер 80→69px, все 14 карточек 69px); полоса банка при нулевом прогрессе на десктопе не рисуется, блок компактнее (67→55px); «Повторить ошибки» смягчено — контур `--border-subtle`, подложка `--bg-surface`, красный только на счётчике (контраст 5.29 → 6.54:1); снят внутренний cap колонки `lg:max-w-[1248px]` (замер: no-op — 1248 при 1920, потому что внешний cap 1488 минус рейл 240; фактическое расширение требует решения по внешнему cap); ниже `lg` не меняется ничего, baseline `dashboard-mobile` не сдвинулся, обновлён ровно один PNG; гейты 1–6 зелёные, сверх списка 59 passed, fitness 5/6 без изменений); авторизация — предусловие задания «Per-command авторизация: git push origin main разрешён один раз» и шаг цепочки «push --dry-run → push → rev-parse/sync:check»; публикует d14b451..<push-tip>; один push; статус UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push, регресс → git revert | commit pending",
-    "2026-10-08 | guard | якорь перезаписан на session-1d5da7c0… | commit pending"
+    "2026-10-08 | guard | якорь перезаписан на session-1d5da7c0… | commit pending",
+    "2026-10-08 | hygiene-fix | Долги #51/#24/#62/#28 закрыты в объёме задания (трек fix, прямое задание, один push). A: `docs/memory/alerts.md` — 92 U+FFFD → 0 на 4 участках (2 восстановлены как windows-1251: «Сверщик не запускался 8/9 дней»; 2 были литеральными `EF BF BD` → `[corrupted: original lost 2026-10-08]`); 5 записей `[f4-watchdog]` удалены в одну сводную (вставлена на месте первой, 2026-10-03); 15 неактуальных записей закрыты `[closed 2026-10-08: invalid]` по текстовым якорям заголовков (11 имени + все 4 `[f4-checker]`); bytes 60400 → 60494, BOM нет, CR 0, EOL `i/lf w/lf`, временный `.project/drafts/_recode-alerts.mjs` создан и удалён. B: `.gitignore` — `/.agent-teams/retired-members.json`, `/_x-*.mjs`, `/_probe*.mjs`, `/_spec076-*.mjs`; untracked 197 → 185, `git status --short` 201 → 195 (−6 ≥ 5); литеральные паттерны задания (`/_x-.mjs`, `/_probe.mjs`, `.agent-teams/*/retired-members.json`) не матчили ничего (−2) и заменены решением капитана; `.project/drafts/**` не игнорировался. C: `.project/sync.mjs` — блок «Решения» обёрнут VOLATILE, один hunk 1831–1843 (только `readRecentLog`); проверка: `sync:check` = 0 после правки `log.md` и = 0 после её отката (до правки было 2), log.md восстановлен байт-в-байт. D: `close-spec.mjs` — вызовов `spawnSync` с `shell:true` нет; единственный `shell:true` (`spawn` для `npm.cmd`) оставлен с комментарием по D2; DEP0190 в apply-пути сохраняется → **#22 остаётся открытым** (решение капитана — скоуп не расширять). Проход `boundaries-guard` открыт решением капитана: Contract `boundaries.exceptions` для `.project/sync.mjs` (approved captain 2026-10-08, expires 2026-11-08) + чтение `exceptions` в `scripts/fitness/check-boundaries.mjs`; проверено 3 кейсами (активное → 0, несовпадение пути → 1, `expires` в прошлом → 1). Гейты: typecheck 0, test:run 50 файлов/526, playwright mobile-layout 12 passed, sync 0, sync:check 0, close-spec 999 --dry-run exit 3 (DEP0190 0), build 0; fitness 5/6 (`no-dead-tokens` 25 — без изменений) | commit 39deb7a",
+    "2026-10-08 | push | authorize push origin main - hygiene-fix (per-command авторизация: предусловие задания «Per-command авторизация: git push origin main разрешён один раз» + «Продолжай … → push»; публикует 24be403..<push-tip>; один push; UI не менялся, статус UNVERIFIED на телефоне (FASB-001) — проверить, что Dashboard открывается, регресс → git revert) | commit pending"
   ],
   "schema_version": 2,
   "commits": [
+    {
+      "sha": "84f6460",
+      "date": "2026-10-08",
+      "subject": "chore(log): trail for hygiene-fix (guard-строка якоря + запись цикла + push-авторизация)",
+      "type": "chore"
+    },
+    {
+      "sha": "70f7124",
+      "date": "2026-10-08",
+      "subject": "chore(state): converge after hygiene-fix",
+      "type": "chore"
+    },
     {
       "sha": "39deb7a",
       "date": "2026-10-08",
@@ -1602,18 +1614,6 @@
       "sha": "9be3442",
       "date": "2026-10-07",
       "subject": "chore(state): converge before authorized push",
-      "type": "chore"
-    },
-    {
-      "sha": "2c12e37",
-      "date": "2026-10-07",
-      "subject": "chore(log): trail for push dashboard-desktop",
-      "type": "chore"
-    },
-    {
-      "sha": "40b4f0c",
-      "date": "2026-10-07",
-      "subject": "chore(state): converge after dashboard-desktop",
       "type": "chore"
     }
   ],
