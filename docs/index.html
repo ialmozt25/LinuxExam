@@ -149,7 +149,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <div class="pulse-tile__note">спеки в preview</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Долги</div>
-      <div class="pulse-tile__value">57</div>
+      <div class="pulse-tile__value">45</div>
       <div class="pulse-tile__note">старейшая 28.09</div>
     </div>
     <div class="pulse-tile"><div class="pulse-tile__label">Пользователи</div>
@@ -351,7 +351,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
     </div>
     <div class="subline muted">План · Центр v1.1 🔵 (C2 · Реализация в sync.mjs + фикс багов) · закрыто: F0–F5, D0–D4</div>
-    <div class="subline muted">Тревоги · открытых: 57 · старейшая: 28.09</div>
+    <div class="subline muted">Тревоги · открытых: 45 · старейшая: 28.09</div>
   </section>
 
   <details class="collapsible specs" id="specs">
@@ -454,6 +454,12 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       </thead>
       <tbody>
 <!--volatile:start-->
+        <tr>
+          <td class="mono">24be403</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge before authorized push</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
         <tr>
           <td class="mono">18c4f1e</td>
           <td><span class="ctype ctype--chore">chore</span></td>
@@ -568,12 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>feat(layout): десктопный layout — сайдбар 240px, колонка 1248px и сетка тем в 3 колонки</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">625a4c6</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge before authorized push</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -592,35 +592,35 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td class="mono">episodic</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">28</td>
-          <td class="muted">182 ч (~7.6 дн)</td>
+          <td class="muted">183 ч (~7.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">semantic</td>
           <td class="mono muted">2026-09-28T10:26:00Z</td>
           <td class="mono">10</td>
-          <td class="muted">230 ч (~9.6 дн)</td>
+          <td class="muted">231 ч (~9.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">procedural</td>
           <td class="mono muted">2026-10-06T05:08:54Z</td>
           <td class="mono">10</td>
-          <td class="muted">43 ч (~1.8 дн)</td>
+          <td class="muted">44 ч (~1.8 дн)</td>
           <td><span class="chip chip--done">🟢 свежая</span></td>
         </tr>
         <tr>
           <td class="mono">working</td>
           <td class="mono muted">2026-09-30T09:43:58Z</td>
           <td class="mono">8</td>
-          <td class="muted">182 ч (~7.6 дн)</td>
+          <td class="muted">183 ч (~7.6 дн)</td>
           <td><span class="chip chip--rejected">🔴 холодная</span></td>
         </tr>
         <tr>
           <td class="mono">alerts</td>
           <td class="mono muted">2026-10-03T00:00:00Z</td>
           <td class="mono">65</td>
-          <td class="muted">120 ч (~5.0 дн)</td>
+          <td class="muted">121 ч (~5.0 дн)</td>
           <td><span class="chip chip--in_progress">🟡 стареет</span></td>
         </tr><!--volatile:end-->
       </tbody>
@@ -630,11 +630,13 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | E — no-op, вынесено в отчёт капитану: снятый `lg:max-w-[1248px]` был равен «внешний cap 1488 − рейл 240», поэтому ширина `main` до и после одна и та же…</li>
+<!--volatile:start-->
         <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
         <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | СВЕРХ списка гейтов: `npm run fitness` 5/6 (`no-dead-tokens` 25 — без изменений…</li>
         <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп &gt;1440px — Tux только в рейле (в header/кольце/серии нет), кольцо без маскота…</li>
         <li><span class="mono muted">08.10</span> · push | authorize push origin main - dashboard-desktop-noise (десктопный Dashboard: маскот Tux убран из контента — header, центр кольца и строка серии скрыты от `lg`…</li>
+        <li><span class="mono muted">08.10</span> · guard | якорь перезаписан на session-1d5da7c0… | ещё не закоммичено</li>
+<!--volatile:end-->
     </ul>
   </details>
 
@@ -665,8 +667,8 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   </details>
 
   <details class="collapsible alerts" id="alerts">
-    <summary>Тревоги · записей: 83</summary>
-    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 83</div>
+    <summary>Тревоги · записей: 79</summary>
+    <div class="muted">Источник: <code>docs/memory/alerts.md</code> · записей: 79</div>
         <div class="entry">
           <div class="entry__title">28.09 | renderAgentTeamCard не обёрнут VOLATILE</div>
           <div class="entry__body muted">генератор центра:884-918 (секция «Пульс агентов») рендерит</div>
@@ -916,7 +918,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">03.10 | lesson | live-тест auto-approve A (spec 052) подтверждён</div>
-          <div class="entry__body muted">3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B). [observed 2026-10-03]</div>
+          <div class="entry__body muted">3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B).…</div>
         </div>
         <div class="entry">
           <div class="entry__title">03.10 | defect | FSRS-lite: кривая повторений 1,3,3,7,7,14 ≠ 1,3,7,14,30,60</div>
@@ -927,8 +929,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__body muted">episodic.md (закрытие 049) ссылается на converge 4eecdc9, tip main — 98bc700.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">02.10 | [f4-watchdog] [повреждено: UTF-8 loss, U+FFFD; найдено 2026-10-03]</div>
-          <div class="entry__body muted">[observed 2026-10-03]</div>
+          <div class="entry__title">03.10 | [f4-watchdog] 5 записей удалены — mojibake, оригиналы потеряны</div>
         </div>
         <div class="entry">
           <div class="entry__title">03.10 | tech debt | Topic union: 3 темы при 14 в банке</div>
@@ -947,9 +948,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__body muted">Причина (подтверждена на устройстве): try/catch в src/hooks/useTelegramMainButton.ts:28-35</div>
         </div>
         <div class="entry">
-          <div class="entry__title">04.10 | [f4-watchdog] ������� �� ���������� 6 ����</div>
-        </div>
-        <div class="entry">
           <div class="entry__title">05.10 | tech debt | 32 dead tokens (advisory)</div>
           <div class="entry__body muted">no-dead-tokens 32/74 (severity medium, вне pre-commit gate). Объявлены в tokens.css, не используются в src/**. Чистка — отдельной задачей. [observed 2026-10-05]</div>
         </div>
@@ -962,9 +960,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <div class="entry__body muted">Enforcement фактически через .githooks/pre-commit (fallback). hooks.json оставлен как гипотеза. [observed 2026-10-05]</div>
         </div>
         <div class="entry">
-          <div class="entry__title">05.10 | [f4-watchdog] ������� �� ���������� 7 ����</div>
-        </div>
-        <div class="entry">
           <div class="entry__title">06.10 | tech debt | 3 паттерна styling-rules без детекторов</div>
           <div class="entry__body muted">Правила декларированы, но fitness не ловит: &quot;фиксированные height&quot;, &quot;will-change превентивно&quot;, &quot;анимации не на transform/opacity&quot;.…</div>
         </div>
@@ -974,10 +969,10 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         </div>
         <div class="entry">
           <div class="entry__title">06.10 | debt | baseline PNG dashboard-* не обновлялись</div>
-          <div class="entry__body muted">Badge-variant fix (77 синих → 0) не сдвинул baseline PNG (маска/фон совпали). При следующем fix retention — проверить необходимость --update-snapshots=all. [observed 2026-10-06]</div>
+          <div class="entry__body muted">Badge-variant fix (77 синих → 0) не сдвинул baseline PNG (маска/фон совпали). При следующем fix retention — проверить необходимость --update-snapshots=all.…</div>
         </div>
         <div class="entry">
-          <div class="entry__title">06.10 | correction | предыдущая запись «baseline PNG dashboard-* не обновлялись» устарела после STOP-1 v1: удаление retention-goal-line сдвинуло раскладку (~27px), обновление 2 PNG стало необходимым. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-06]</div>
+          <div class="entry__title">06.10 | correction | предыдущая запись «baseline PNG dashboard-* не обновлялись» устарела после STOP-1 v1: удаление retention-goal-line сдвинуло раскладку (~27px), обновление 2 PNG стало необходимым. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-06] [closed 2026-10-08: invalid]</div>
         </div>
         <div class="entry">
           <div class="entry__title">06.10 | a11y | в src/ нет ни одного правила :focus-visible</div>
@@ -986,12 +981,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
         <div class="entry">
           <div class="entry__title">07.10 | correction | alert a11y/focus-visible закрыт (design-review-2)</div>
           <div class="entry__body muted">Запись «в src/ нет ни одного правила :focus-visible» устарела: A1 добавил правила :focus-visible в src/index.css (outline: 2px solid var(--color-accent-strong)…</div>
-        </div>
-        <div class="entry">
-          <div class="entry__title">06.10 | [f4-watchdog] ������� �� ���������� 8 ����</div>
-        </div>
-        <div class="entry">
-          <div class="entry__title">07.10 | [f4-watchdog] ������� �� ���������� 9 ����</div>
         </div>
   </details>
 

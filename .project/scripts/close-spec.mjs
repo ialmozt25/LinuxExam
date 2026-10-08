@@ -909,6 +909,7 @@ async function runProcess(command, args, root) {
   return new Promise((resolve) => {
     let child;
     try {
+      // shell:true необходим для .cmd/.bat на Windows
       child = spawn(bin, args, { cwd: root, windowsHide: true, shell: isWin && command === 'npm' });
     } catch (error) {
       resolve({ status: -1, stdout: '', stderr: error instanceof Error ? error.message : String(error) });

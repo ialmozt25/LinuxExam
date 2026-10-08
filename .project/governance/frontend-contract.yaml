@@ -31,13 +31,22 @@ commands:
 
 boundaries:
   # Префиксы путей (workspace-relative). check-boundaries.mjs сверяет с ними
-  # `git diff --name-only HEAD`.
+  # staged-пути (`git diff --cached --name-only --diff-filter=ACMRT`).
   forbidden_paths:
     - "src/data/**"
     - "tools/**"
     - ".project/sync.mjs"
     - "backend/**"
     - ".project/specs/**"
+  # Исключения из forbidden_paths: путь разрешён к коммиту в рамках одной задачи.
+  # Читает scripts/fitness/check-boundaries.mjs тем же zero-deps-сканером.
+  # `expires` — граница действия (YYYY-MM-DD): после неё guard исключение НЕ
+  # применяет и путь снова блокируется (продление — решение капитана).
+  exceptions:
+    - path: ".project/sync.mjs"
+      reason: "fix/hygiene 2026-10-08 (#28): VOLATILE-обёртка блока «Решения», только readRecentLog"
+      approved: "captain 2026-10-08"
+      expires: "2026-11-08"
   # Нарушения, которые ищут check-colors.mjs / check-components.mjs.
   forbidden_patterns:
     - id: "hex-in-tsx"

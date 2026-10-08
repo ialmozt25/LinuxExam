@@ -1831,12 +1831,13 @@ function renderCenter(ctx) {
    * Самоссылочный участок: см. VOLATILE выше. Обёрнут маркерами, чтобы `--check`
    * не требовал лишнего коммита из-за появления в списке самого коммита sync. */
   // C2d: «Решения» — последние записи log.md (источник append-only, читаем).
+  // log.md — источник manual-правок; VOLATILE исключает drift после каждой правки журнала
   const recentLog = readRecentLog(5);
-  const decisionRows = recentLog.length === 0
+  const decisionRows = `${VOLATILE.start}\n${recentLog.length === 0
     ? '        <li class="muted">Журнал пуст.</li>'
     : recentLog
       .map((d) => `        <li><span class="mono muted">${esc(shortDate(d.date))}</span> · ${esc(humanizeText(trimToSentence(d.text, 200)))}</li>`)
-      .join('\n');
+      .join('\n')}\n${VOLATILE.end}`;
 
   const commitRows = (commits || []).length === 0
     ? '        <tr><td colspan="4" class="muted">Нет данных git log.</td></tr>'

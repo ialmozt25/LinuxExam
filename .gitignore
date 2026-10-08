@@ -79,3 +79,11 @@ backend/**/.env
 # spec 081: a11y-report.json - артефакт прогона axe (перегенерируется npm run test:e2e),
 # не источник. Был закоммичен по ошибке в 47bb571, убран из индекса этой правкой.
 .project/drafts/a11y-report.json
+
+# agent-teams плагинные артефакты
+/.agent-teams/retired-members.json
+
+# временные probe-скрипты
+/_x-*.mjs
+/_probe*.mjs
+/_spec076-*.mjs

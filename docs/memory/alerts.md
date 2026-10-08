@@ -15,7 +15,7 @@ exit 2. Кандидат: volatile-маркеры или игнор. [closed 202
 
 ## 2026-09-28 | D5-порядок в шаблонах промптов
 `sync:check` до коммита всегда exit 2. Правильный порядок:
-A/B → F1 → D2/D3 → D4/D5/D6 → H. Кандидат: procedural.md. [observed 2026-10-03]
+A/B → F1 → D2/D3 → D4/D5/D6 → H. Кандидат: procedural.md. [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-28 | rule2-exception cumulative
 F5.0b — второй случай `rule2-exception` (после spec 023 в F4.3). Если паттерн повторится — пересмотреть правило 2 (возможно, embedded approve — норма, а не исключение). Кандидат в F5.3 или в ORCH-RULES-правку. [closed 2026-10-03: rule 2 / F5.0a]
@@ -58,14 +58,14 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 3. **OK.** Все файлы, упомянутые в ЧАСТИ 4 как созданные, на месте: `docs/FACTORY-PLAN.md`; `docs/memory/{episodic,semantic,procedural,working,alerts}.md`; `docs/memory/trends.jsonl`; `tools/check-episodic.mjs`; `.githooks/pre-commit`; `docs/dashboard/state.json`; `.agent-teams/linuxexam-f3-smoke/team.json`. Файлы незакрытой F5 (`templates/factory/`, `docs/FACTORY-USAGE.md`) отсутствуют — фаза `pending`, это ожидаемо.
 4. **НЕ ПРОВЕРЕНО.** `npm run sync:check` → exit 1, `sync: FAIL — spawnSync git EPERM` (sandbox блокирует piped stdio у `spawnSync git`). Эскалация `danger-full-access` для повторного прогона отклонена: канал approve недоступен. Результат гейта не подтверждён ни в плюс, ни в минус.
 
-**Итог:** 1 фактическое расхождение (п.1) + 1 непроверяемый пункт (п.4, sandbox). Правок не вносилось, кроме этой записи; `entries_count` в meta-комментарии ниже оставлен как был (правка вне задания). [observed 2026-10-03]
+**Итог:** 1 фактическое расхождение (п.1) + 1 непроверяемый пункт (п.4, sandbox). Правок не вносилось, кроме этой записи; `entries_count` в meta-комментарии ниже оставлен как был (правка вне задания). [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-28 | [f4-checker] результат
 Сверка 4 пунктов. **все проверки OK.**
 1. **OK.** `state.head` = `70263107e8019b8d2c557d64188ddeea3f864a5a`; `git log -1` = `05895a96f620d5068a3a64ea466ab72d5e32326e` («feat(keepers): F4.2a-ii — keepers scripts + plan v2.13»). Отставание ровно 1 коммит — допустимо (самоссылка spec 009, следствие amend).
 2. **OK.** Все фазы `status: done` из YAML-шапки (`F0`, `F1`, `F2`, `F3`) имеют запись в `docs/memory/episodic.md`; `npm run check:episodic` → `OK F0 / OK F1 / OK F2 / OK F3`, exit 0.
 3. **OK.** Файлы ЧАСТИ 4, упомянутые как созданные, на месте: `docs/FACTORY-PLAN.md`; `docs/memory/{episodic,semantic,procedural,working,alerts}.md`; `docs/memory/trends.jsonl`; `.project/sync.mjs`; `.githooks/pre-commit`; `docs/index.html`; `docs/dashboard/state.json`; `.agent-teams/linuxexam-f3-smoke/team.json`; `.project/scripts/keepers/{checker.ps1,cleaner.ps1,watchdog.ps1,run-headless.mjs}`. Отсутствуют только `templates/factory/` и `docs/FACTORY-USAGE.md` — фаза F5 `pending`, это ожидаемо.
-4. **OK.** Отставание `state.head` от HEAD ровно 1 коммит — в допуске. `sync:check` не вызывался (sandbox блокирует `spawnSync git`). [observed 2026-10-03]
+4. **OK.** Отставание `state.head` от HEAD ровно 1 коммит — в допуске. `sync:check` не вызывался (sandbox блокирует `spawnSync git`). [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-28 | [f4-checker] результат
 Сверка 4 пунктов. **все проверки OK.**
@@ -74,7 +74,7 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 3. **OK.** Файлы ЧАСТИ 4, упомянутые как созданные, на месте: `docs/FACTORY-PLAN.md`; `docs/memory/{episodic,semantic,procedural,working,alerts}.md`; `docs/memory/trends.jsonl`; `tools/check-episodic.mjs`; `.project/sync.mjs`; `.githooks/pre-commit`; `docs/index.html`; `docs/dashboard/state.json`; `.agent-teams/linuxexam-f3-smoke/team.json`; `.project/scripts/keepers/{checker.ps1,cleaner.ps1,watchdog.ps1,run-headless.mjs}`. Отсутствуют только `templates/factory/` и `docs/FACTORY-USAGE.md` — фаза F5 `pending`, ожидаемо.
 4. **OK.** Отставание `state.head` от HEAD ровно 1 коммит — в допуске. `sync:check` не вызывался (sandbox блокирует `spawnSync git`).
 
-**Итог:** расхождений нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания). [observed 2026-10-03]
+**Итог:** расхождений нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания). [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-28 | [f4-checker] результат
 Сверка 4 пунктов. **все проверки OK.**
@@ -85,7 +85,7 @@ GitHub: 1 critical, 23 high, 24 moderate, 4 low на default branch. Не сле
 
 **Итог:** расхождений по 4 пунктам нет; правок не вносилось, кроме этой записи (`entries_count` в meta ниже не трогал — вне задания).
 
-*Вне 4 пунктов (наблюдение, не расхождение задания):* шапка плана и `state.plan` держат `F5` как `pending` `0/4`, тогда как CHANGELOG v2.20 и git (`923b427`) фиксируют F5.1a/F5.1b сделанными, а `current_step` = F5.2 — прогресс фазы в машиночитаемых полях отстаёт от факта. [observed 2026-10-03]
+*Вне 4 пунктов (наблюдение, не расхождение задания):* шапка плана и `state.plan` держат `F5` как `pending` `0/4`, тогда как CHANGELOG v2.20 и git (`923b427`) фиксируют F5.1a/F5.1b сделанными, а `current_step` = F5.2 — прогресс фазы в машиночитаемых полях отстаёт от факта. [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-28 | C2a-3 (inSync) отложен
 `inSync: true` в `renderCenter` (строка `const centerHtml = renderCenter({ ...ctxBase, state: nextState, inSync: true })` в `main()`) остаётся: banner всегда «синхронизировано». Правильный фикс — переиспользовать логику `sync:check` (сравнить сгенерированное с `git show HEAD`) — 30–40 строк + возможный рефакторинг `renderCenter`. Дрейф виден в реальном `sync:check`. Фикс — в C2-close или отдельным подшагом. [closed 2026-10-03: spec-029]
@@ -106,7 +106,7 @@ Handoff показывал «статус неизвестен» против ф
 Критерий 1 spec 029 («нет прокрутки на 1440×900») выполнен впритык: 30 видимых строк до первого `<details>`. Любое добавление в первый экран сломает критерий. Отслеживать при будущих правках head/progress/ddn. [observed 2026-10-03]
 
 ## 2026-09-29 | observation | preview-спек нет (на 29.09.2026)
-Плитка «Требует решения» (spec 029, уровень 1) показывает число спек в статусе `preview`. На 29.09.2026: preview 0; approved 6, done 14, rejected 4, draft 3. Плитка всегда «—». Дизайн-сигнал на будущее, не баг. [observed 2026-10-03]
+Плитка «Требует решения» (spec 029, уровень 1) показывает число спек в статусе `preview`. На 29.09.2026: preview 0; approved 6, done 14, rejected 4, draft 3. Плитка всегда «—». Дизайн-сигнал на будущее, не баг. [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-29 | process gap | Тревоги-счётчик: семантика
 openAlerts() считает «открытые = записи без `[closed`». На 29.09.2026 (до добавления этой записи): 17 «открытых», из них 3 — записи-продолжения агентских реплик ([f4-checker] результат и правило 13). Реальных ~14. Кандидат: уточнить правило в openAlerts() — игнорировать записи с `[f*-checker]` / чисто-агентские заголовки.
@@ -130,7 +130,7 @@ Spec 029 (override от 29.09) описывала плитку с 4 уровня
 Плитка `pulseTiles()` переименована: label «Состояние» → «Свежесть данных», значения уровней `FRESHNESS_LEVELS` → Свежие / Подустарели / Устарели / Критически старые, null-ветка → «Нет данных». Причина: имя обещало здоровье проекта («Всё работает»), а сигнал показывал возраст источников (git-время `state.json` + mtime `.heartbeat`). Правка только внутри `pulseTiles()`; `contentSansIndicator`, `isCenterInSync`, `getFreshnessTime`, VOLATILE-маркеры и соседние плитки не тронуты. Остаток (осознанно, вне границ правки): `contentSansIndicator` хранит regex по старому label «Состояние» — после переименования он не матчит, вырезание плитки полностью обеспечено VOLATILE-обёрткой. Санкционировано капитаном 29.09.2026. [accepted 2026-10-03]
 
 ## 2026-09-29 | MAS | Решения зафиксированы в DECISIONS.md
-Требование DEV-PLAN D0 (запись выбора оркестратора) выполнено с опозданием. Зафиксированы: (1) оркестратор = dsh-agent-teams; (2) C-фаза соло; (3) Swarm закрыт; (4) MAS для RHCSA-diff и C2a-4; (5) Marketing MAS — spec 031.
+Требование DEV-PLAN D0 (запись выбора оркестратора) выполнено с опозданием. Зафиксированы: (1) оркестратор = dsh-agent-teams; (2) C-фаза соло; (3) Swarm закрыт; (4) MAS для RHCSA-diff и C2a-4; (5) Marketing MAS — spec 031. [closed 2026-10-08: invalid]
 
 ## 2026-09-29 | defect | AnswerRecord.selectedIndex позиционный — ломается при reorder
 Запись {questionId: 'pm_001', selectedIndex: 0, isCorrect: true} (сделана до коммита 3bc8470) при текущих данных указывает на неправильный вариант. Симптом: два зелёных в режиме «Продолжить». Fix: optionText + миграция v2→v3 + отложенная нормализация из loadQuestions (банк async — в migrate недоступен); несовместимые записи drop. Commit ca62109f45abc29bd7218f62ad78df5f6a487b25. [closed 2026-10-03: optionText v2-v3]
@@ -160,7 +160,7 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 Запись `[f4-cleaner] предложение` (alerts.md стр. 156–157, `[closed 2026-09-30: кандидатов нет]`) попала в коммит `2539526` (MAS-прогон spec 032) между чтением файла и `git add` — параллельный writer. Запись безвредна, само-закрыта, гейты не затронуты. `entries_count` в meta не инкрементирован. При spec 033b — учесть в whitelist spec-gate. [observed 2026-10-03]
 
 ## 2026-09-30 | MAS | t0 (Step 0) закрыт вручную — цикл автономии технически замкнут
-Живой smoke `run-spec.mjs 013 --workspace . --timeout-ms 600000` → exit 0, 105716 ms, `team.json` создан в `.agent-teams/spec-013-local-aliases/` (staged, 3 члена, 3 задачи). API key `DEEPSEEK_API_KEY` в env; профиль `mas` собран (dsh-tier-router, @nanmicoder/dsh-agent-teams). Отчёт — `.project/scripts/RUN-SPEC-LIVE.md`. Модель в headless остановилась на «present plan, end turn for review» — правильное поведение. Spec 034 → done (7/7). Остаток: `run-spec.mjs` не передаёт spec в изолированный workspace (fix — spec 035). [observed 2026-10-03]
+Живой smoke `run-spec.mjs 013 --workspace . --timeout-ms 600000` → exit 0, 105716 ms, `team.json` создан в `.agent-teams/spec-013-local-aliases/` (staged, 3 члена, 3 задачи). API key `DEEPSEEK_API_KEY` в env; профиль `mas` собран (dsh-tier-router, @nanmicoder/dsh-agent-teams). Отчёт — `.project/scripts/RUN-SPEC-LIVE.md`. Модель в headless остановилась на «present plan, end turn for review» — правильное поведение. Spec 034 → done (7/7). Остаток: `run-spec.mjs` не передаёт spec в изолированный workspace (fix — spec 035). [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-30 | process gap | DEEPSEEK_API_KEY не наследуется harness-процессом
 Живой прогон `run-spec.mjs` требует явного re-export User-переменной в PowerShell-сессии: `$env:DEEPSEEK_API_KEY = [Environment]::GetEnvironmentVariable('DEEPSEEK_API_KEY','User')`. Иначе DSH headless-профиль `mas` получает пустой ключ и выдаёт ложный `ROUTE_FAILED … no API key`. Воспроизведено: spec-034 (t5, builder и reviewer) и spec-035 (t3, независимо). Кандидат: preflight-проверка в `run-spec.mjs` — при отсутствии `$env:DEEPSEEK_API_KEY` подтягивать из User-scope (Windows) или явно требовать. Spec 036 (fix) или follow-up.
@@ -174,7 +174,7 @@ QC-1 (medium, вне scope spec 031): `e2e/quiz-flow.spec.ts` (стр. 405–411
 Лог apply (spec 038): «converge-коммит ec6f72e вписан в docs/memory/episodic.md (докоммичен amend'ом)». Правило 8 (история не переписывается) применяется к ручным операциям; здесь amend делается инструментом внутри commit-chain. Прецедент: следующий close может переписать видимую историю. Кандидат в spec-fix: заменить amend на отдельный commits-append или на sed-in-place до первого коммита. Финализированный ec6f72e в git log не виден. Строки в close-spec.mjs: 1310, 1313–1316 (`runGitWrite(root, ['commit', '--amend', '--no-edit', '--only', '--', ...touched])`). Публикация безопасна постфактум: amend не был запущен, пока предыдущий коммит оставался неопубликованным (`origin/main` = `cd1e82f` до push). Риск — для будущего close в состоянии «предыдущий коммит уже опубликован»: `--amend` перепишет видимую историю. Статус: ОТКРЫТ. [observed 2026-10-03]
 
 ## 2026-09-30 | observation | commit: в spec 038 указывает на feat до body-fix
-frontmatter spec 038: commit: 78c0eaf. Финальный текст спеки (adopt флагов --json/--repo-root + критерий 7) живёт в 9e6f97d. Гейты sync:check/R5 не сравнивают содержимое — зазор не ловится. Сознательно принято капитаном 2026-09-30. Кандидат: close-spec.mjs при записи commit: должен брать последний коммит, содержащий файл спеки (git log -1 --format=%H -- <spec>). [observed 2026-10-03]
+frontmatter spec 038: commit: 78c0eaf. Финальный текст спеки (adopt флагов --json/--repo-root + критерий 7) живёт в 9e6f97d. Гейты sync:check/R5 не сравнивают содержимое — зазор не ловится. Сознательно принято капитаном 2026-09-30. Кандидат: close-spec.mjs при записи commit: должен брать последний коммит, содержащий файл спеки (git log -1 --format=%H -- <spec>). [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-09-30 | tech debt | DEP0190 warning в close-spec.mjs
 При apply в stderr: «DeprecationWarning: [DEP0190] Passing args to a child process with shell option true…». Не блокирует. Кандидат: убрать shell: true в вызовах spawnSync, где аргументы уже массив. [observed 2026-10-03]
@@ -199,7 +199,7 @@ mtime + relative time + untracked .agent-teams в docs/index.html).
 3) орфан-критерии 8, 9 (traceability);
 4) метрика delta ≥ +20 недостижима (baseline 85).
 Кандидат в spec-041 (пилот на batch 6): проверить, ловит ли
-spec-enrich эти дефекты до MAS. [observed 2026-10-03]
+spec-enrich эти дефекты до MAS. [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-10-01 | accepted-risk | severity: medium | source: F1 | spec 042 критерий 6: escape `<`,`>`,`&` оставлен, HTML-разметка не поддерживается (безопасность — нет инъекции); решение капитана 2026-10-01, notify.mjs не правился
 [accepted 2026-10-03]
@@ -264,7 +264,7 @@ Fix: фикстуры по живым id + длина темы из банка. 
 
 ## 2026-10-03 | lesson | live-тест auto-approve A (spec 052) подтверждён
 
-3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B). [observed 2026-10-03]
+3 прогона: A не пропустил спеку с hard-fail — правильное поведение. Score 96 при 4 hard-fail. Дальше — Часть 2 (MAS + auto-approve B). [observed 2026-10-03] [closed 2026-10-08: invalid]
 
 ## 2026-10-03 | defect | FSRS-lite: кривая повторений 1,3,3,7,7,14 ≠ 1,3,7,14,30,60
 Формула stability*=1.5 + index=floor(log2(stability)) даёт дубли (3,3 и 7,7);
@@ -276,8 +276,7 @@ INITIAL_DIFFICULTY=0.3 — из промпта.
 
 `episodic.md` (закрытие 049) ссылается на converge `4eecdc9`, tip `main` — `98bc700`. `git cat-file -t 4eecdc9` = commit, `git branch --contains 4eecdc9` = пусто → dangling от `git commit --amend` в `close-spec.mjs` (alert 2026-09-30). `episodic.md` не переписываем (правило 8). Ghost не в `main`, push не блокирует. [closed 2026-10-03: spec-049]
 
-## 2026-10-02 | [f4-watchdog] [повреждено: UTF-8 loss, U+FFFD; найдено 2026-10-03]
-[observed 2026-10-03]
+## 2026-10-03 | [f4-watchdog] 5 записей удалены — mojibake, оригиналы потеряны
 
 ## 2026-10-03 | tech debt | Topic union: 3 темы при 14 в банке
 `src/data/models/Question.ts: Topic union` — 3 темы при 14 в банке; рантайм ок, типизация разбора сломается на 11.
@@ -337,8 +336,6 @@ spec-072 — VERIFIED на устройстве (Telegram, TMA): «Следую�
 работает после ответа; фикс `c569de4`, push `bbd25c0..3547d28`]
 
 <!-- meta updated: 2026-10-04T00:00:00Z entries_count: 66 -->
-## 2026-10-04 | [f4-watchdog] ������� �� ���������� 6 ����
-
 ## 2026-10-05 | tech debt | 32 dead tokens (advisory)
 no-dead-tokens 32/74 (severity medium, вне pre-commit gate). Объявлены в tokens.css, не используются в src/**. Чистка — отдельной задачей. [observed 2026-10-05]
 
@@ -347,8 +344,6 @@ no-dead-tokens 32/74 (severity medium, вне pre-commit gate). Объявлен
 
 ## 2026-10-05 | hypothesis | .dsh/hooks.json формат DSH не подтверждён
 Enforcement фактически через .githooks/pre-commit (fallback). hooks.json оставлен как гипотеза. [observed 2026-10-05]
-## 2026-10-05 | [f4-watchdog] ������� �� ���������� 7 ����
-
 ## 2026-10-06 | tech debt | 3 паттерна styling-rules без детекторов
 Правила декларированы, но fitness не ловит: "фиксированные height", "will-change превентивно", "анимации не на transform/opacity". Причина: regex даёт ложные срабатывания (иконки, декоративные элементы, motion@13). Кандидат: AST-парсер или allowlist. Вне pre-commit gate. [observed 2026-10-06]
 
@@ -356,12 +351,12 @@ Enforcement фактически через .githooks/pre-commit (fallback). hoo
 Лимит достигнут: следующая правка потребует сжатия существующих пунктов. План: при расширении контура — ревизия 5 пунктов на слияние. [observed 2026-10-06]
 
 ## 2026-10-06 | debt | baseline PNG dashboard-* не обновлялись
-Badge-variant fix (77 синих → 0) не сдвинул baseline PNG (маска/фон совпали). При следующем fix retention — проверить необходимость --update-snapshots=all. [observed 2026-10-06]
+Badge-variant fix (77 синих → 0) не сдвинул baseline PNG (маска/фон совпали). При следующем fix retention — проверить необходимость --update-snapshots=all. [observed 2026-10-06] [closed 2026-10-08: invalid]
 
-## 2026-10-06 | correction | предыдущая запись «baseline PNG dashboard-* не обновлялись» устарела после STOP-1 v1: удаление retention-goal-line сдвинуло раскладку (~27px), обновление 2 PNG стало необходимым. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-06]
+## 2026-10-06 | correction | предыдущая запись «baseline PNG dashboard-* не обновлялись» устарела после STOP-1 v1: удаление retention-goal-line сдвинуло раскладку (~27px), обновление 2 PNG стало необходимым. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-06] [closed 2026-10-08: invalid]
 
 ## 2026-10-06 | a11y | в src/ нет ни одного правила :focus-visible
-Design-review 6 экранов: grep по src/** (css+tsx) не нашёл ни `:focus`, ни `:focus-visible`, ни `outline` — клавиатурный фокус держится только на UA-обводке браузера (WCAG 2.4.7 дефолтом формально выполняется, но в тёмной теме обводка браузера непредсказуема по контрасту на --bg-elevated). Фикс требует глобального правила, а `src/index.css` вне разрешённого списка правок — отдельное задание. [observed 2026-10-06]
+Design-review 6 экранов: grep по src/** (css+tsx) не нашёл ни `:focus`, ни `:focus-visible`, ни `outline` — клавиатурный фокус держится только на UA-обводке браузера (WCAG 2.4.7 дефолтом формально выполняется, но в тёмной теме обводка браузера непредсказуема по контрасту на --bg-elevated). Фикс требует глобального правила, а `src/index.css` вне разрешённого списка правок — отдельное задание. [observed 2026-10-06] [closed 2026-10-08: invalid]
 
 ## 2026-10-07 | correction | alert a11y/focus-visible закрыт (design-review-2)
-Запись «в src/ нет ни одного правила :focus-visible» устарела: A1 добавил правила `:focus-visible` в `src/index.css` (`outline: 2px solid var(--color-accent-strong)`, offset 2px) плюс группу для button/a/[role=button]/input/[tabindex]; затронутых baseline PNG не оказалось, обновлений скриншотов не потребовалось. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-07]
+Запись «в src/ нет ни одного правила :focus-visible» устарела: A1 добавил правила `:focus-visible` в `src/index.css` (`outline: 2px solid var(--color-accent-strong)`, offset 2px) плюс группу для button/a/[role=button]/input/[tabindex]; затронутых baseline PNG не оказалось, обновлений скриншотов не потребовалось. Правило 8: не переписываю, корректирую этой записью. [observed 2026-10-07] [closed 2026-10-08: invalid]
