@@ -339,7 +339,7 @@
       "message": "chore(state): converge after consistency-lastsync"
     }
   ],
-  "head": "7709830087b863e6a207bf7383afebac2c912ca0",
+  "head": "c2fb311ac248398443774b2eec1e4d0cf016f941",
   "specs": [
     {
       "id": "022",
@@ -1497,6 +1497,18 @@
   "schema_version": 2,
   "commits": [
     {
+      "sha": "c2fb311",
+      "date": "2026-10-08",
+      "subject": "fix(dashboard): десктоп — Tux только в рейле, карточки RHCSA одной высоты, компактная полоса банка",
+      "type": "fix"
+    },
+    {
+      "sha": "d14b451",
+      "date": "2026-10-08",
+      "subject": "chore(state): converge before authorized push",
+      "type": "chore"
+    },
+    {
       "sha": "7709830",
       "date": "2026-10-08",
       "subject": "chore(log): trail for push dashboard-header-redesign",
@@ -1602,18 +1614,6 @@
       "sha": "f22f0b9",
       "date": "2026-10-07",
       "subject": "chore(state): converge after demo-removal",
-      "type": "chore"
-    },
-    {
-      "sha": "4ab1463",
-      "date": "2026-10-07",
-      "subject": "feat(onboarding): удалён демо-квиз — fresh user попадает сразу на Dashboard",
-      "type": "feat"
-    },
-    {
-      "sha": "3268f6a",
-      "date": "2026-10-07",
-      "subject": "chore(state): converge before authorized push",
       "type": "chore"
     }
   ],
