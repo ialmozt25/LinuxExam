@@ -155,14 +155,16 @@ const SECONDARY_CTA: React.CSSProperties = {
 };
 
 /**
- * «Повторить ошибки»: красная подложка и рамка. Подложка — 10% от роли
- * `--danger` через color-mix (литерал `rgba(244,67,54,0.1)` дублировал RGB
- * токена и разъехался бы при его смене); мета-подпись берёт тёмную роль
- * `--color-danger-strong` (spec 079).
+ * «Повторить ошибки» (задание «Dashboard desktop — визуальный шум», D):
+ * смягчено — красный остаётся ТОЛЬКО на счётчике ошибок (роль
+ * `--color-danger-strong` в самом CTA), а карточка кнопки стала нейтральной:
+ * подложка — поверхность, контур — `--border-subtle`. Прежняя красная рамка
+ * (`--danger`) и 10-процентная красная подложка читались как «аварийная кнопка»
+ * рядом со спокойной верхней CTA.
  */
 const REVIEW_WRONG_BUTTON: React.CSSProperties = {
-  background: 'color-mix(in srgb, var(--danger) 10%, transparent)',
-  border: '1px solid var(--danger)',
+  background: 'var(--bg-surface)',
+  border: '1px solid var(--border-subtle)',
   color: 'var(--text-primary)',
   display: 'flex',
   justifyContent: 'space-between',
@@ -243,13 +245,17 @@ function RhcsaProgramme({
      давали карточку 224px и текстовую колонку 108px, где обрезались 9 названий
      тем из 14 и ВСЕ 14 описаний (23 узла); при 1440/1920 обрезок нет. Поэтому от
      `lg` — две колонки (при 1024 карточка 344px, текстовая колонка ≈216px, как у
-     363px-карточки на 1440), а третья возвращается от `xl` (1280). */
+     363px-карточки на 1440), а третья возвращается от `xl` (1280).
+
+     Задание «Dashboard desktop — визуальный шум» (B1): `lg:items-start` заменён на
+     `lg:items-stretch` — карточки одной строки сетки выравниваются по её высоте
+     (самая высокая задаёт остальным), а не висят каждая по своему контенту. */
   return (
     <div
       id="dashboard-topics"
       data-testid="dashboard-topics"
       ref={topicsRef}
-      className="lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-4 lg:items-start"
+      className="lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-4 lg:items-stretch"
       style={{ marginTop: 'var(--space-6)' }}
     >
       {/* Шапка списка — не карточка: в сетке тем занимает всю строку при любом
@@ -315,6 +321,11 @@ function RhcsaProgramme({
           border: '1px solid var(--border-subtle)',
           borderRadius: 'var(--radius-md)',
           width: '100%' as const,
+          // B2 задания: карточка заполняет высоту обёртки-ячейки (её растягивает
+          // `lg:items-stretch`), поэтому содержимое строки центрируется по вертикали
+          // в выровненной карточке. Ниже `lg` обёртка высоты не задаёт — процентная
+          // высота считается от `auto` и ничего не меняет (мобильный layout тот же).
+          height: '100%' as const,
           textAlign: 'left' as const,
           fontFamily: 'inherit',
           color: 'inherit',
@@ -339,7 +350,7 @@ function RhcsaProgramme({
               color={isAvailable ? 'var(--accent)' : 'var(--text-secondary)'}
               aria-hidden="true"
             />
-            <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="lg:relative" style={{ flex: 1, minWidth: 0 }}>
               {/* Название и подсказка (spec 067): подсказка идёт СРАЗУ за
                   названием в отдельной колонке, а не в общем ряду с чипом
                   вопросов. `flexWrap: wrap` роняет её на свою строку, когда
@@ -368,9 +379,17 @@ function RhcsaProgramme({
                   {topic.title}
                 </div>
                 {topic.key === FIRST_FREE_TOPIC && (
-                  <Badge variant="hint" testId="topic-first-cta">
-                    начните с этой
-                  </Badge>
+                  /* B4 задания: от `lg` подсказка вынута из потока строки
+                     (`lg:absolute` в правом верхнем углу колонки названия) — её
+                     высота (32px) больше строки названия и делала первую карточку
+                     выше остальных (замер: 80px против 69px). Ниже `lg` узел
+                     остаётся в потоке: мобильный контракт требует подсказку в левой
+                     половине строки, и его пинит `e2e/mobile-layout.spec.ts`. */
+                  <span className="lg:absolute lg:top-2 lg:right-2">
+                    <Badge variant="hint" testId="topic-first-cta">
+                      начните с этой
+                    </Badge>
+                  </span>
                 )}
               </div>
               <div
@@ -439,7 +458,7 @@ function RhcsaProgramme({
                  роли акцента (6.11:1 на поверхности). Состояние hover не может
                  жить только в тоне: WCAG 1.4.11 требует 3:1, а тон на тёмной
                  поверхности до 3:1 не дотягивается. */
-              className="bg-[color:var(--surface-1)] lg:hover:bg-[color:var(--surface-2)] lg:hover:ring-1 lg:hover:ring-[color:var(--text-accent)] transition-colors mb-[var(--space-2)] lg:mb-0"
+              className="bg-[color:var(--surface-1)] lg:hover:bg-[color:var(--surface-2)] lg:hover:ring-1 lg:hover:ring-[color:var(--text-accent)] transition-colors mb-[var(--space-2)] lg:mb-0 lg:flex lg:flex-col lg:h-full"
               /* Название и описание темы обрезаются ellipsis (в полосе
                  1280–1339px описание ещё режется), а мышь обрезанный текст не
                  вернёт: `title` даёт подсказку. На обёртке, а не на `Card`:
@@ -465,7 +484,7 @@ function RhcsaProgramme({
         return (
           <div
             key={topic.key}
-            className="bg-[color:var(--surface-1)] mb-[var(--space-2)] lg:mb-0"
+            className="bg-[color:var(--surface-1)] mb-[var(--space-2)] lg:mb-0 lg:flex lg:flex-col lg:h-full"
             style={rowSurfaceStyle}
           >
             <Card variant="plain" style={rowStyle}>
@@ -675,20 +694,24 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
 
   return (
     <ScreenContainer>
-      {/* Десктопный слой (A/B): сайдбар слева, колонка контента — не шире
-          1248px. Классы — только от `lg`: ниже 1024px обёртка становится обычным
-          блоком (`lg:flex` не действует), поэтому мобильная и планшетная вёрстка —
-          это ТЕ ЖЕ узлы с прежней геометрией (A5). Безусловные
+      {/* Десктопный слой (A/B): сайдбар слева, колонка контента занимает остаток
+          внешнего контейнера. Классы — только от `lg`: ниже 1024px обёртка
+          становится обычным блоком (`lg:flex` не действует), поэтому мобильная и
+          планшетная вёрстка — это ТЕ ЖЕ узлы с прежней геометрией (A5). Безусловные
           `max-w-[1248px] mx-auto px-6 w-full` из B1 добавили бы 24px к паддингу
           `ScreenContainer` (там уже `--space-4` + safe-area) и сдвинули бы
           мобильный layout, который задание запрещает менять.
-          Центрируется ПАРА (рейл + колонка), а не одна колонка: `lg:max-w-[1488px]`
-          = 240 + 1248, поэтому при 1920 отступы 216/216 (аудит 9be3442 показывал
-          16 слева против 216 справа — 200px мёртвой полосы между рейлом и
-          контентом). При 1440 доступно 1408 < 1488 — cap не действует, базлайн не
-          плывёт. `lg:flex-1` тянет слой на всю высоту `ScreenContainer`: иначе в
-          Fresh User Mode (короткий контент) `border-r` рейла обрывался на середине
-          экрана. */}
+          Центрируется ПАРА (рейл + колонка): `lg:max-w-[1488px]` = 240 + 1248,
+          поэтому при 1920 отступы 216/216 (аудит 9be3442 показывал 16 слева против
+          216 справа — 200px мёртвой полосы между рейлом и контентом).
+          Задание «Dashboard desktop — визуальный шум» (E): собственный cap колонки
+          `lg:max-w-[1248px]` снят — колонка берёт весь остаток внешнего контейнера.
+          Замер (пробник вне репозитория): ширина `main` при 1920 и 1440 до и после
+          одна и та же (1248 и 1168) — снятый cap был равен «1488 − 240» и потому
+          не ограничивал ничего. Фактическое расширение контента требует поднять сам
+          внешний cap (решение капитана — см. отчёт). `lg:flex-1` тянет слой на всю
+          высоту `ScreenContainer`: иначе в Fresh User Mode (короткий контент)
+          `border-r` рейла обрывался на середине экрана. */}
       <div
         className="lg:flex lg:flex-1 lg:max-w-[1488px] lg:mx-auto"
         style={{ width: '100%', minWidth: 0 }}
@@ -706,7 +729,7 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
             `main`/`role="main"`, поэтому навигация по лендмаркам была
             асимметричной (`aside` без пары). Рейл остаётся СНАРУЖИ. */}
         <main
-          className="lg:max-w-[1248px] lg:px-6"
+          className="lg:px-6"
           style={{ display: 'flex', flexDirection: 'column', width: '100%', minWidth: 0 }}
         >
           {/* Единый header (задание «редизайн верхней части Dashboard», A): одна
@@ -732,7 +755,12 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                 minWidth: 0,
               }}
             >
-              <Tux size={32} />
+              {/* Маскот — только в рейле сайдбара (A задания «Dashboard desktop —
+                  визуальный шум»): в контенте Dashboard он скрыт от `lg`, где и
+                  наблюдался трижды в радиусе 300px. Ниже `lg` узел остаётся в DOM и
+                  виден — мобильный layout не меняется (иначе поехал бы baseline
+                  `dashboard-mobile`, а гейты требуют ровно один обновлённый PNG). */}
+              <Tux size={32} className="lg:hidden" />
               {/* h1 на экране ровно один — название продукта; остальные заголовки
                   ему подчинены (Hero Fresh User Mode — h2). */}
               <h1
@@ -888,7 +916,9 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                     transform="rotate(-90 32 32)"
                   />
                 </svg>
-                <Tux size={32} />
+                {/* Кольцо на десктопе без маскота (A): прогресс несут дуга и её
+                    aria-label, а картинка внутри дублировала маскот рейла. */}
+                <Tux size={32} className="lg:hidden" />
               </span>
               <span
                 style={{
@@ -927,7 +957,16 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
                     color: 'var(--text-primary)',
                   }}
                 >
-                  <Tux size={24} />
+                  {/* Иконка серии (A): от `lg` маскот уходит из контента, его место
+                      занимает лёгкая SVG-иконка того же смысла; ниже `lg` маскот
+                      остаётся — мобильный layout не меняется. */}
+                  <Tux size={24} className="lg:hidden" />
+                  <Flame
+                    size={18}
+                    className="hidden lg:block"
+                    color="var(--text-secondary)"
+                    aria-hidden="true"
+                  />
                   {/* Число и слово — одной строкой: «7 дней подряд» читается
                       скринридером и копируется как фраза, а не как «7дней подряд»
                       (раздельные inline-узлы склеиваются в textContent без пробела). */}
@@ -984,6 +1023,12 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               marginTop: 'var(--space-5)',
               padding: 'var(--space-4)',
               borderRadius: 'var(--radius-md)',
+              // C задания: при нулевом прогрессе блок компактнее. Пол задан inline,
+              // а не классом: при нуле бар на десктопе скрыт, и высоту блока
+              // определяет заголовок с паддингами (~51px) — 48px лишь фиксируют
+              // минимум. Ниже `lg` бар рисуется всегда (мобильный layout не
+              // меняется), поэтому там минимум — no-op: 67px > 48px.
+              ...(progressPercent === 0 ? { minHeight: 48 } : {}),
             }}
           >
             <div
@@ -1009,6 +1054,10 @@ export default function Dashboard({ theme, onToggleTheme }: Props) {
               aria-valuemin={0}
               aria-valuemax={100}
               aria-label="Прогресс теста"
+              /* C задания: при нулевом прогрессе полоса не несёт информации и на
+                 десктопе не рисуется; ниже `lg` узел остаётся — его читает
+                 `e2e/mobile-layout.spec.ts` (контракт мобильного трека). */
+              className={progressPercent === 0 ? 'lg:hidden' : undefined}
               style={{
                 marginTop: 'var(--space-2)',
                 height: 'var(--track-height)',
