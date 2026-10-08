@@ -132,7 +132,7 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
     <h1>Центр разработки</h1>
     <div class="head__row">
       <span class="muted">LinuxExam · состояние проекта собирается автоматически</span>
-      <!--volatile:start--><span class="mono">на c2fb311</span><!--volatile:end-->
+      <!--volatile:start--><span class="mono">на 18c4f1e</span><!--volatile:end-->
     </div>
     <div class="pulse">
 <!--volatile:start-->
@@ -455,6 +455,18 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
       <tbody>
 <!--volatile:start-->
         <tr>
+          <td class="mono">18c4f1e</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(log): trail for push dashboard-desktop-noise</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
+          <td class="mono">eb9de60</td>
+          <td><span class="ctype ctype--chore">chore</span></td>
+          <td>chore(state): converge after dashboard-desktop-noise</td>
+          <td class="mono muted">2026-10-08</td>
+        </tr>
+        <tr>
           <td class="mono">c2fb311</td>
           <td><span class="ctype ctype--fix">fix</span></td>
           <td>fix(dashboard): десктоп — Tux только в рейле, карточки RHCSA одной высоты, компактная полоса банка</td>
@@ -562,18 +574,6 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
           <td>chore(state): converge before authorized push</td>
           <td class="mono muted">2026-10-07</td>
         </tr>
-        <tr>
-          <td class="mono">f5704fb</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(log): trail for push demo-removal</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
-        <tr>
-          <td class="mono">f22f0b9</td>
-          <td><span class="ctype ctype--chore">chore</span></td>
-          <td>chore(state): converge after demo-removal</td>
-          <td class="mono muted">2026-10-07</td>
-        </tr>
 <!--volatile:end-->
       </tbody>
     </table>
@@ -630,11 +630,11 @@ details.collapsible[open] > summary { margin-bottom: 12px; }
   <details class="collapsible decisions" id="decisions">
     <summary>Решения · последних 5</summary>
     <ul class="log">
-        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
-        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | СВЕРХ списка гейтов: `dashboard.spec` + `onboarding.spec` + `ux-regression.spec` + `persist.spec` + `browser-mode.spec` + `question-flow.spec` + `quiz-flow.spec`…</li>
-        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | ВЫНУЖДЕННАЯ ГЕЙТОМ правка (прецеденты dashboard-sticky-footer 2026-10-07 и ux-copy-3, журнал событий:398): гейт 2 упал на двух unit-файлах ВНЕ исходного allowed…</li>
-        <li><span class="mono muted">08.10</span> · dashboard-header-redesign | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) fresh → карточка (пустой круг, «Начни серию сегодня»), полоса «0 из 253»…</li>
-        <li><span class="mono muted">08.10</span> · push | authorize push origin main - dashboard-header-redesign (редизайн верхней части Dashboard: узкая полоска уровня снята…</li>
+        <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | E — no-op, вынесено в отчёт капитану: снятый `lg:max-w-[1248px]` был равен «внешний cap 1488 − рейл 240», поэтому ширина `main` до и после одна и та же…</li>
+        <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | гейты (лид, лично, на финальной форме кода): 1) `npm run typecheck` exit 0; 2) `npm run test:run`…</li>
+        <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | СВЕРХ списка гейтов: `npm run fitness` 5/6 (`no-dead-tokens` 25 — без изменений…</li>
+        <li><span class="mono muted">08.10</span> · dashboard-desktop-noise | status UNVERIFIED на телефоне (FASB-001) — проверка за капитаном ПОСЛЕ push: 1) десктоп &gt;1440px — Tux только в рейле (в header/кольце/серии нет), кольцо без маскота…</li>
+        <li><span class="mono muted">08.10</span> · push | authorize push origin main - dashboard-desktop-noise (десктопный Dashboard: маскот Tux убран из контента — header, центр кольца и строка серии скрыты от `lg`…</li>
     </ul>
   </details>
 
